@@ -1,0 +1,120 @@
+!OSF/Motif: "@(#)motifblang.uil	3.1 90/03/30"
+!*******************************************************************************
+!*******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  (c) Copyright 1989, DIGITAL EQUIPMENT CORPORATION, MAYNARD, MASS.
+!*  ALL RIGHTS RESERVED
+!*
+!*       THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS
+!*
+!*       OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* DEC is a registered trademark of Digital Equipment Corporation
+!* DIGITAL is a registered trademark of Digital Equipment Corporation
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!*******************************************************************************
+!*******************************************************************************
+module MotifBurger_french_literals
+        version = 'v1.1'
+        names = case_sensitive
+
+value
+
+        k_motifburger_title             : exported compound_string("Motifburger - Commandes");
+        k_nyi_label_text		: exported compound_string("Ne pas encore rialiser");
+        k_file_label_text		: exported compound_string("Fichier");
+            k_quit_label_text		: exported compound_string("Quitter");
+        k_quit_text			: exported compound_string("Quitter");
+        k_edit_label_text		: exported compound_string("Edition");
+            k_cut_dot_label_text	: exported compound_string("Couper");
+            k_copy_dot_label_text	: exported compound_string("Copier");
+            k_paste_dot_label_text	: exported compound_string("Coller");
+            k_clear_dot_label_text	: exported compound_string("Effacer tout");
+            k_select_all_label_text	: exported compound_string("Silectionner tout");
+        k_order_label_text		: exported compound_string("Commande");
+            k_show_controls_label_text	: exported compound_string("Voir codes...");
+            k_cancel_order_label_text	: exported compound_string("Annuler commande");
+            k_submit_order_label_text	: exported compound_string("Transmettre commande");
+            k_create_order_label_text   : exported compound_string("Commence...");
+            k_dismiss_order_label_text	: exported compound_string("Termini...");
+         k_hamburgers_label_text	: exported compound_string("Hamburgers");
+            k_rare_label_text		: exported compound_string("Saignant");
+            k_medium_label_text		: exported compound_string("A point");
+            k_well_done_label_text	: exported compound_string("Trhs cuit");
+            k_ketchup_label_text	: exported compound_string("Ketchup");
+            k_mustard_label_text	: exported compound_string("Moutarde");
+            k_onion_label_text		: exported compound_string("Oignons");
+            k_mayonnaise_label_text	: exported compound_string("Mayonnaise");
+            k_pickle_label_text		: exported compound_string("Cornichons");
+            k_quantity_label_text	: exported compound_string("Quantiti");
+        k_fries_label_text		: exported compound_string("Frites");
+            k_size_label_text		: exported compound_string("Taille");
+            k_tiny_label_text		: exported compound_string("Minuscule");
+            k_small_label_text		: exported compound_string("Petit");
+	    k_medium_fries_label_text	: exported compound_string("A point");
+	    k_large_label_text		: exported compound_string("Gros");
+            k_huge_label_text		: exported compound_string("Enorme");
+        k_drinks_label_text		: exported compound_string("Boissons");
+            k_0_label_text		: exported '0';
+            k_apple_juice_text		: exported compound_string("Jus de pomme");
+            k_drink_list_text		: exported 
+                    string_table ("Jus de pomme", "Jus d'orange", 
+                                  "Jus de raisin", "Cola", "Punch", 
+                                  "Root beer", "Eau", "Ginger Ale",
+                                  "Lait", "Cafi", "Thi");
+            k_drink_list_select		: exported string_table("Jus de pomme");
+            k_u_label_text		: exported compound_string("U");
+            k_d_label_text		: exported compound_string("D");
+        k_apply_label_text		: exported compound_string("Appliquer");
+        k_reset_label_text		: exported compound_string("Remise ` 0");
+        k_cancel_label_text		: exported compound_string("Annulation");
+        k_dismiss_label_text		: exported compound_string("Termini");
+	k_quit_accelerator_text		: exported compound_string("Ctrl/z");
+	k_ketchup_accelerator_text	: exported compound_string("Ctrl/k");
+
+! string direction value required since the Hebrew font is not left to right
+value
+    k_string_direction	: exported XmSTRING_DIRECTION_L_TO_R;
+
+! scroll bar placement value required for compatability with right to left apps
+value
+    k_scroll_bar_placement : exported XmBOTTOM_RIGHT;
+
+! substitute another font name if this font is not available on your system
+value
+  k_ascii_font: font('-ADOBE-Times-Medium-R-Normal--12-120-75-75-P-64-ISO8859-1');
+  k_button_font: font('-ADOBE-Courier-Bold-R-Normal--14-140-75-75-M-90-ISO8859-1');
+
+!  k_ascii_font: font('variable');
+!  k_button_font: font('variable');
+
+  k_font_table : exported font_table (iso_latin1 = k_ascii_font);
+  k_button_font_table : exported font_table (iso_latin1 = k_button_font);
+  k_mnemonic_charset : exported 'ISO8859-1';
+
+!value
+!
+!	menonic name			ASCII		Keyboard Symbol
+!	----------------------		-------		---------------
+	k_file_mnemonic			: exported keysym("F"); 	! "F"
+	k_quit_mnemonic			: exported keysym("Q"); 	! "Q"
+	k_edit_mnemonic			: exported keysym("E"); 	! "E"
+	k_order_mnemonic		: exported keysym("C");		! "O"
+	k_rare_mnemonic			: exported keysym("S");		! "R"
+	k_medium_mnemonic		: exported keysym("p");		! "M" 
+	k_ketchup_mnemonic		: exported keysym("K");		! "K"
+
+end module;

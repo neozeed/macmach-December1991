@@ -1,0 +1,52 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmActivateWMProtocol 3X "" "" "" ""
+.SH NAME
+\fBXmActivateWMProtocol \(em A VendorShell convenience interface 
+that activates a protocol.\fP
+.iX "XmActivateWMProtocol
+.iX "VendorShell functions" "XmActivateWMProtocol"
+.iX "protocols"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmActivateWMProtocol (\fIshell, protocol\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIprotocol\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmActivateWMProtocol\fP is a convenience interface.  
+It calls \fBXmActivateProtocol\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.sp 1
+.IP "\fIshell\fP" .75i
+Specifies the widget with which the protocol property is associated.
+.IP "\fIprotocol\fP" .75i
+Specifies the protocol \fBAtom\fP (or an \fBint\fR type cast to \fBAtom\fP).
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBVendorShell(3X)\fP, \fBXmActivateProtocol(3X)\fP, and 
+\fBXmInternAtom(3X)\fP.
+.sp 1

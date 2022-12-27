@@ -1,0 +1,1779 @@
+!************************************************************
+!*                                                         **
+!*                                                         **
+!*   (c) Copyright, 1989 Open Software Foundation, Inc.    **
+!*   All Rights Reserved                                   **
+!*                                                         **
+!*   Author: Michael K. Yee                                **
+!*   Date: August 21, 1989                                 **
+!*                                                         **
+!*                                                         **
+!***********************************************************/
+!
+
+module sample 
+    version = 'v1.1'
+    names = case_sensitive
+    objects = {
+	XmSeparator = gadget;
+	XmLabel = gadget;
+	XmPushButton = gadget;
+	XmToggleButton = gadget;
+	}
+
+
+procedure
+    create_callback(integer);
+    quit_button_activate();
+    foo_activate();
+    zippy_null();
+
+value
+!
+! WIDGET DEF
+!
+	K_scale_widget          : 1;
+	K_drawnbutton_widget    : 2;
+	K_togglebutton_widget   : 3;
+	K_vtext1_widget         : 4;
+	K_vtext2_widget         : 5;
+	K_popup_menu_widget     : 6;
+!
+! WIDGET LOCATIONS
+!
+    fudge : 2;
+    dialog_fudge : 2;
+!
+! TEXT LOCATION FOR MIT FONTS
+!
+    main_width  : 1025;
+    main_height : 817;
+    work_width  : 545;
+    work_height : 500;
+    title_x : 400;
+    title_y : 25;
+    subtitle_x : title_x - 60;
+    subtitle_y : title_y + 30;
+    dont_panic_x : 35;
+    dont_panic_y : 20;
+    radioactive_x : 10;
+    radioactive_y : 650;
+    radioactive_height : 100;
+    radioactive_width : 220;
+    radioactive_title_x : radioactive_x;
+    radioactive_title_y : radioactive_y - 35;
+
+    table_origin_x : 10;
+    table_origin_y : 95;
+
+    element_height : 100;
+    element_width : 150;
+
+    element_vert_sep : 10;
+    element_horiz_sep : 10;
+
+    centre_box_x : table_origin_x + (element_width * 2) + fudge;
+    centre_box_y : table_origin_y + (element_height * 2) + fudge;
+    centre_box_width : 395;
+    centre_box_height : 300 - fudge;
+
+    legend_x : centre_box_x + (centre_box_width/2) - 70;
+    legend_y : centre_box_y - 160;
+
+    heading_fudge_x : element_width / 2;
+    heading_fudge_y : 25;
+!!
+!! ADOBE FONTS
+!!
+   dialog_font :
+        font('-adobe-helvetica-bold-r-normal--12-*-*-*-*-*-*-*');
+   subtitle_font :
+        font('-adobe-new century schoolbook-bold-r-normal--14-*-*-*-*-*-*-*');
+   heading_font :
+        font('-adobe-new century schoolbook-bold-r-normal--14-*-*-*-*-*-*-*');
+   fixed_font :
+        font('fixed');
+   var_font :
+        font('variable');
+   hel_bold_font :
+        font('-adobe-helvetica-bold-r-normal--12-*-*-*-*-*-*-*');
+   hel_bold_font14 :
+        font('-adobe-helvetica-bold-r-normal--14-*-*-*-*-*-*-*');
+   newcenturyschlbk_roman14 :
+        font('-adobe-new century schoolbook-medium-r-normal--14-*-*-*-*-*-*-*');
+   newcenturyschlbk_roman12 :
+        font('-adobe-new century schoolbook-medium-r-normal--12-*-*-*-*-*-*-*');
+   newcenturyschlbk_bold14 :
+        font('-adobe-new century schoolbook-bold-r-normal--14-*-*-*-*-*-*-*');
+   newcenturyschlbk_bold24 :
+        font('-adobe-new century schoolbook-bold-r-normal--24-*-*-*-*-*-*-*');
+   times_bold_font :
+        font('-adobe-times-bold-r-normal--24-*-*-*-*-*-*-*');
+
+!    subtitle_font : font('variable');
+!    heading_font  : font('variable');
+!
+! MIT FONTS
+!
+!    dialog_font : font('fixed');
+!    var_font : font('variable');
+!    hel_bold_font : font('variable');
+!    hel_bold_font14 : font('variable');
+!    newcenturyschlbk_roman14 : font('variable');
+!    newcenturyschlbk_roman12 : font('variable');
+!    newcenturyschlbk_bold14 : font('variable');
+!    newcenturyschlbk_bold24 : font('vbee-36');
+!    times_bold_font : font('vmic-25');
+!
+! Japanese FONTS
+!
+    kanji_14 : font( '*-140-*-JISX0208.1983-1' );
+    roman_14 : font( '*-140-*-JISX0201.1976-0' );
+
+!
+! Japanese Font Table Creation.
+!   Meantime, we use iso_latin1 as KANJI CHARACTER.
+!
+    japanese_14_table : font_table( iso_latin1 = kanji_14, 
+				    jis_katakana = roman_14 );
+!
+! COLORS and ICONS
+!
+value black  : color('black',foreground);
+value white  : color('LightGray',background);
+
+value motif_colors : color_table(black = 'x',white=' ');
+value motif_icon : icon(color_table = motif_colors,
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'       x x x x x x x x x x x     x x x x x x x x x x x  ',
+'        x x x x x x x x x x       x x x x x x x x x x   ',
+'      x                      x  x                      x',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x xxxxxxxxxxxxxxxxxx xx   x x x x x x x x x x  xx',
+'      x  xxxxxxxxxxxxxxxxxx xx  x   x x x x x x x x x xx',
+'       x                     x   x                     x',
+'      x  xxxxxxxxxxxxxxxxxx     x  xxxxxxxxxxxxxxxxxx   ',
+'        xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'                                                        ',
+'                                                        ',
+'       x x x x x x x x x x x     x x x x x x x x x x x  ',
+'        x x x x x x x x x x       x x x x x x x x x x   ',
+'      x                      x  x                      x',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x x x x x x x x x x  xx   x xxxxxxxxxxxxxxxxxx xx',
+'      x   x x x x x x x x x xx  x  xxxxxxxxxxxxxxxxxx xx',
+'       x                     x   x                     x',
+'      x  xxxxxxxxxxxxxxxxxx     x  xxxxxxxxxxxxxxxxxx   ',
+'        xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'                                                        ');
+
+value my_colors : color_table(black = 'o',white='.',white=' ');
+value my_picture : icon(color_table = my_colors,
+'                                              ',
+' ............................................ ',
+' ..........oo....................oo.......... ',
+' .........oooo..................oooo......... ',
+' ........oooooo................oooooo........ ',
+' .......oo....oo..............oo....oo....... ',
+' ......oo......oo............oo......oo...... ',
+' .....oo........oo..........oo........oo..... ',
+' ....oo..........oo........oo..........oo.... ',
+' ...oo............oo......oo............oo... ',
+' ..oo..............oo....oo..............oo.. ',
+' .oo................oo..oo................oo. ',
+' oooooooooooooooooooooooooooooooooooooooooooo ',
+' oooooooooooooooooooooooooooooooooooooooooooo ',
+' .........oooo..................oooo......... ',
+' .........oooo..................oooo......... ',
+' .........oooo..................oooo......... ',
+' .........oooo..................oooo......... ',
+' .........oooo..................oooo......... ',
+' ............................................ ',
+' ............................................ ',
+' ............................................ ',
+' ............................................ ',
+' ..................oooooooo.................. ',
+' ..................oooooooo.................. ',
+' ............................................ ',
+' ............................................ ',
+' ............................................ ',
+' ...........oo..................oo........... ',
+' ............oo................oo............ ',
+' .............oooooooooooooooooo............. ',
+' ..............oooooooooooooooo.............. ',
+' ............................................ ',
+' ............................................ ',
+' ............................................ ',
+'                                              ');
+
+
+list atomic_number_args : arguments {
+	XmNfontList = japanese_14_table;
+	XmNrightAttachment = XmATTACH_FORM;
+	XmNtopAttachment = XmATTACH_FORM;
+	XmNshadowThickness = 1;
+};
+
+list element_name_args : arguments {
+	XmNfontList = japanese_14_table;
+	XmNshadowThickness = 1;
+	XmNleftAttachment = XmATTACH_FORM;
+	XmNrightAttachment = XmATTACH_FORM;
+	XmNbottomAttachment = XmATTACH_FORM;
+	XmNalignment = XmALIGNMENT_CENTER;
+};
+
+list dialog_args : arguments {
+	XmNmarginWidth = 3;
+	XmNmarginHeight = 3;
+	XmNbuttonFontList = japanese_14_table;
+	XmNlabelFontList = japanese_14_table;
+	XmNtextFontList = japanese_14_table;
+	XmNshadowThickness = 1;
+	XmNcancelLabelString = #iso_latin1"取消";
+	XmNokLabelString = #iso_latin1"確認";
+	XmNhelpLabelString = #iso_latin1"ヘルプ";
+	
+};
+
+list menus_args : arguments {
+	XmNfontList = japanese_14_table;
+};
+
+!! Main
+!
+object
+    periodic_table_main : XmMainWindow {
+	arguments {
+	    XmNx = 10;
+	    XmNy = 10;
+	    XmNwidth = main_width;
+	    XmNheight = main_height;
+	    XmNscrollingPolicy = XmAUTOMATIC;
+	};
+	controls {
+		XmMenuBar	menu_bar_1;
+		XmBulletinBoard	my_work_area;
+	};
+    };
+
+object
+    my_work_area : XmBulletinBoard {
+        arguments {
+	XmNwidth = work_width;
+	XmNheight = work_height;
+	XmNborderWidth = 2;
+	XmNlabelFontList = japanese_14_table;
+        };
+	controls {
+		XmLabel		title_1;
+		XmLabel		title_2;
+
+		XmLabel		heading_0;
+		XmLabel		heading_1;
+		XmLabel		heading_2;
+		XmLabel		heading_center;
+		XmLabel		heading_3;
+		XmLabel		heading_4;
+
+		XmLabel		heading_legend;
+		XmLabel		legend_arrow_1;
+		XmLabel		legend_arrow_2;
+		XmLabel		legend_arrow_3;
+		XmLabel		legend_text_1;
+		XmLabel		legend_text_2;
+		XmLabel		legend_text_3;
+		XmFrame		frame_legend;
+
+		XmFrame		frame_11;
+		XmFrame		frame_12;
+		XmFrame		frame_13;
+		XmFrame		frame_14;
+		XmFrame		frame_15;
+
+		XmFrame		frame_22;
+		XmFrame		frame_23;
+		XmFrame		frame_24;
+		XmFrame		frame_25;
+
+		XmFrame		frame_file_selection;
+
+		XmFrame		frame_33;
+		XmFrame		frame_34;
+		XmFrame		frame_35;
+
+		XmFrame		frame_42;
+		XmFrame		frame_43;
+		XmFrame		frame_44;
+
+		XmFrame		frame_dialog_1;
+		XmFrame		frame_dialog_2;
+		XmFrame		frame_dialog_3;
+		XmFrame		frame_dialog_4;
+		XmFrame		frame_dialog_5;
+	};
+};
+
+object
+    title_version: XmLabel {
+	arguments {
+	XmNx = 718;
+	XmNy = 62;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"Ｖ０．９";
+	};
+    };
+
+object
+    title_1: XmLabel {
+	arguments {
+	XmNx = title_x;
+	XmNy = title_y;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"Ｍｏｔｉｆ　ウィジェットの周期表";
+	};
+    };
+
+object
+    title_2: XmLabel {
+	arguments {
+	XmNx = subtitle_x;
+	XmNy = subtitle_y;
+	XmNfontList = subtitle_font;
+	XmNlabelString = "Open Software Foundation, Inc. - August 1990";
+	};
+    };
+
+object
+    heading_0: XmLabel {
+	arguments {
+	XmNx = radioactive_title_x;
+	XmNy = radioactive_title_y;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = compound_string( #iso_latin1"ダイアログ",
+					  separate=true ) &
+			 compound_string( #iso_latin1"ボックス" );
+	XmNalignment = XmALIGNMENT_END;	
+	};
+    };
+
+
+!! LEGEND
+!
+object
+    heading_legend: XmLabel {
+	arguments {
+	XmNx = legend_x - 55;
+	XmNy = legend_y + 15;
+	XmNfontList = japanese_14_table;
+	XmNlabelString =  compound_string(#iso_latin1"表",separate=true ) &
+			  compound_string(#iso_latin1"の",separate=true ) &
+			  compound_string(#iso_latin1"意",separate=true ) &
+			  compound_string(#iso_latin1"味" );
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    legend_text_1: XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 18;
+	XmNy = legend_y + 3;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"アトム番号";
+	};
+    };
+
+object
+    legend_text_2: XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 18;
+	XmNy = legend_y + 33;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"実際のウィジェット";
+	};
+    };
+
+object
+    legend_text_3: XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 18;
+	XmNy = legend_y + 73;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"ウィジェット名";
+	};
+    };
+
+object
+    legend_arrow_1 : XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 5;
+	XmNy = legend_y + 5;
+	XmNfontList = var_font;
+	XmNlabelString = "_";
+	};
+    };
+
+object
+    legend_arrow_2 : XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 5;
+	XmNy = legend_y + 35;
+	XmNfontList = var_font;
+	XmNlabelString = "_";
+	};
+    };
+
+object
+    legend_arrow_3 : XmLabel {
+	arguments {
+	XmNx = legend_x + element_width + 5;
+	XmNy = legend_y + 75;
+	XmNfontList = var_font;
+	XmNlabelString = "_";
+	};
+    };
+
+object
+    frame_legend: XmFrame {
+	arguments {
+	XmNx = legend_x;
+	XmNy = legend_y;
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height - fudge;
+	        };
+		controls {
+		    XmSeparator	separator_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"セパレータ";
+			};
+		    };
+		};
+	    };
+	};
+    };
+
+!! COLUMN ONE
+!
+object
+    heading_1: XmLabel {
+	arguments {
+	XmNx = table_origin_x + heading_fudge_x;
+	XmNy = table_origin_y - heading_fudge_y;
+	XmNfontList = heading_font;
+	XmNlabelString = "Ia";
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    frame_11: XmFrame {
+	arguments {
+	XmNx = table_origin_x;
+	XmNy = table_origin_y;
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height - fudge;
+	        };
+		controls {
+		    XmSeparator	separator_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"セパレータ";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+!%%%%%%%%%%
+object
+    frame_12: XmFrame {
+	arguments {
+	XmNx = table_origin_x;
+	XmNy = table_origin_y + (element_height * 1);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmArrowButton	arrow_button_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"２";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"矢印ボタン";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+!%%%%%%%%%%
+object
+    frame_13: XmFrame {
+	arguments {
+	XmNx = table_origin_x;
+	XmNy = table_origin_y + (element_height * 2);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmPushButton	push_button_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"３";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"プッシュ・ボタン";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+!%%%%%%%%%%
+object
+    frame_14: XmFrame {
+	arguments {
+	XmNx = table_origin_x;
+	XmNy = table_origin_y + (element_height * 3);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmToggleButton	toggle_button_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"４";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"トグル・ボタン";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_15: XmFrame {
+	arguments {
+	XmNx = table_origin_x;
+	XmNy = table_origin_y + (element_height * 4);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmLabel	label_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"５";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"ラベル";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+
+!! COLUMN TWO
+!
+object
+    heading_2: XmLabel {
+	arguments {
+	XmNx = table_origin_x + (element_width * 1) + heading_fudge_x;
+	XmNy = table_origin_y  + (element_height * 1) - heading_fudge_y;
+	XmNfontList = heading_font;
+	XmNlabelString = "IIa";
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    frame_22: XmFrame {
+	arguments {
+	XmNx = table_origin_x + (element_width * 1);
+	XmNy = table_origin_y + (element_height * 1);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNbuttonFontList = japanese_14_table;
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmOptionMenu	option_menu_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"６";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    XmNleftOffset = 2;
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"オプション・メニュー";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_23: XmFrame {
+	arguments {
+	XmNx = table_origin_x + (element_width * 1);
+	XmNy = table_origin_y + (element_height * 2);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmScale	scale_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"７";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    XmNleftOffset = 2;
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"スケール";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_24: XmFrame {
+	arguments {
+	XmNx = table_origin_x + (element_width * 1);
+	XmNy = table_origin_y + (element_height * 3);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmRadioBox	radio_box_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"８";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    XmNleftOffset = 2;
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"ラジオ・ボックス";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_25: XmFrame {
+	arguments {
+	XmNx = table_origin_x + (element_width * 1);
+	XmNy = table_origin_y + (element_height * 4);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmText	text_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"９";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    XmNleftOffset = 2;
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"テキスト編集";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+!! COLUMN THREE
+!
+object
+    heading_3: XmLabel {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + heading_fudge_x - 5;
+	XmNy = table_origin_y + (element_height * 2) + fudge - heading_fudge_y;
+	XmNfontList = heading_font;
+	XmNlabelString = "IVa";
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    frame_33: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + fudge;
+	XmNy = table_origin_y + (element_height * 2) + fudge;
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width - fudge;
+		XmNheight = element_height - fudge;
+	        };
+		controls {
+		    XmScrollBar	scrollbar_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１１";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"スクロール・バー";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_34: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + fudge;
+	XmNy = table_origin_y + (element_height * 3);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width - fudge;
+		XmNheight = element_height - fudge;
+	        };
+		controls {
+		    XmFrame {
+			arguments {
+			    XmNx = element_width / 7;
+			    XmNy = 9;
+			};
+			controls {
+			    XmScrolledList list_box_1;
+			};
+		    };
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１２";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"スクロール・リスト";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_35: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + fudge;
+	XmNy = table_origin_y + (element_height * 4);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width * 2;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmFrame {
+			arguments {
+			    XmNy = 1;
+			    XmNx = ( element_width * 2 - 90 ) / 4;
+			};
+			controls {
+			    XmPanedWindow paned_window_1;
+			};
+		    };
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１６";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"パン・ウインドウ";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+!! COLUMN FOUR
+!
+object
+    heading_4: XmLabel {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + element_width + heading_fudge_x;
+	XmNy = table_origin_y + (element_height * 1) - heading_fudge_y;
+	XmNfontList = heading_font;
+	XmNlabelString = "Va";
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    frame_42: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + element_width + fudge;
+	XmNy = table_origin_y + (element_height * 1);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmFrame popup_menu_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１３";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"ポップアップメニュー";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_43: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + element_width + fudge;
+	XmNy = table_origin_y + (element_height * 2);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmFrame draw_area_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１４";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"描画エリア";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+object
+    frame_44: XmFrame {
+	arguments {
+	XmNx = centre_box_x + centre_box_width + element_width + fudge;
+	XmNy = table_origin_y + (element_height * 3);
+	};
+	controls {
+	    XmForm {
+	        arguments {
+		XmNwidth = element_width;
+		XmNheight = element_height;
+	        };
+		controls {
+		    XmDrawnButton drawn_button_1;
+		    XmLabel {
+			arguments {
+			    arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１５";
+			};
+		    };
+		    XmPushButton {
+			arguments {
+			    XmNbottomOffset = 2;
+			    arguments element_name_args;
+			    XmNlabelString = #iso_latin1"描画ボタン";
+			};
+		    };
+		};
+	    };
+	};
+};
+
+
+!! CENTRE FILE SELECTION
+!
+object
+    heading_center: XmLabel {
+	arguments {
+	XmNx = centre_box_x + (centre_box_width/2);
+	XmNy = centre_box_y - heading_fudge_y;
+	XmNfontList = heading_font;
+	XmNlabelString = "IIIb";
+	XmNalignment = XmALIGNMENT_CENTER;
+	};
+    };
+
+object
+    frame_file_selection: XmFrame {
+	arguments {
+	XmNx = centre_box_x;
+	XmNy = centre_box_y;
+	XmNmarginWidth = 0;
+	XmNmarginHeight = 0;
+	};
+	controls {
+	    XmForm {
+		arguments {
+		    XmNwidth = centre_box_width;
+		    XmNheight = centre_box_height;
+		XmNresizePolicy = XmRESIZE_NONE;
+	    	};
+		controls {
+	    	XmFrame	file_selection_box_1;
+		XmLabel {
+		    arguments {
+			arguments atomic_number_args;
+			    XmNlabelString = #iso_latin1"１０";
+		    };
+		};
+!
+! Delete the Push Button of File Selection Box because of size limitations
+!
+		XmPushButton {
+		    arguments {
+			arguments element_name_args;
+			    XmNlabelString = #iso_latin1"ファイル選択";
+		    };
+		};
+	    };
+	};
+    };
+};
+
+!! DIALOGS
+!
+object
+    frame_dialog_1: XmFrame {
+	arguments {
+	XmNx = radioactive_x;
+	XmNy = radioactive_y;
+	};
+	controls {
+	XmMessageBox	message_box_1;
+	};
+};
+
+object
+    frame_dialog_2: XmFrame {
+	arguments {
+	XmNx = radioactive_x + (radioactive_width - dialog_fudge) * 1;
+	XmNy = radioactive_y;
+	};
+	controls {
+	XmMessageBox	message_box_2;
+	};
+};
+
+object
+    frame_dialog_3: XmFrame {
+	arguments {
+	XmNx = radioactive_x + (radioactive_width - dialog_fudge) * 2;
+	XmNy = radioactive_y;
+	};
+	controls {
+	XmMessageBox	message_box_4;
+	};
+};
+
+object
+    frame_dialog_4: XmFrame {
+	arguments {
+	XmNx = radioactive_x + (radioactive_width - dialog_fudge) * 3;
+	XmNy = radioactive_y;
+	};
+	controls {
+	XmMessageBox	message_box_5;
+	};
+};
+
+object
+    frame_dialog_5: XmFrame {
+	arguments {
+	XmNx = radioactive_x + (radioactive_width - dialog_fudge) * 4;
+	XmNy = radioactive_y;
+	};
+	controls {
+	XmMessageBox	message_box_6;
+	};
+};
+
+object
+    open_dialog: XmQuestionDialog {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string(#iso_latin1"ここで何を",separate=true) &
+			       compound_string(#iso_latin1"捜していますか" );
+        };
+};
+
+!%% Display Widgets
+!%%
+object
+    separator_1 : XmSeparator {
+	arguments {
+	XmNwidth = 80;
+	XmNx = ( element_width - 80 ) / 2;
+	XmNy = 40;
+	XmNorientation = XmHORIZONTAL;
+	XmNshadowThickness = 4;
+	};
+    };
+
+object
+    arrow_button_1 : XmArrowButton {
+	arguments {
+	XmNx = ( element_width - 50 )/ 2;
+	XmNy = 20;
+	XmNwidth = 50;
+	XmNheight = 50;
+	XmNarrowDirection = 0;
+	};
+    };
+
+object
+    toggle_button_1 : XmToggleButton {
+	arguments {
+	XmNx = ( element_width - 70 ) / 2;
+	XmNy = 30;
+	XmNwidth = 70;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"明かり";
+	XmNshadowThickness = 1;
+	};
+	callbacks {
+            MrmNcreateCallback = procedure create_callback (K_togglebutton_widget);
+	};
+    };
+
+object
+    push_button_1 : XmPushButton {
+	arguments {
+	XmNx = ( element_width - 62 ) / 2;
+	XmNy = 15;
+	XmNwidth = 62;
+	XmNheight = 50;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = compound_string(#iso_latin1"ビルの",separate=true ) &
+			 compound_string(#iso_latin1"爆破");
+	};
+    };
+
+object
+    drawn_button_1 : XmDrawnButton {
+	arguments {
+	XmNx = ( element_width - 62 )/ 2;
+	XmNy = 10;
+	XmNmarginWidth = 0;
+	XmNmarginHeight = 0;
+	XmNwidth = 62;
+	XmNheight = 62;
+	XmNshadowThickness = 2;
+	XmNbackgroundPixmap = motif_icon;
+	XmNpushButtonEnabled = true;
+	};
+	callbacks {
+	    XmNactivateCallback = procedure foo_activate ();
+            MrmNcreateCallback = procedure create_callback (K_drawnbutton_widget);
+	};
+    };
+
+object
+    label_1 : XmLabel {
+	arguments {
+	XmNx = dont_panic_x;
+	XmNy = dont_panic_y;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = compound_string(#iso_latin1"パニックに",
+					 separate=true ) &
+			 compound_string(#iso_latin1"ならないで" );
+	};
+    };
+
+object
+    scrollbar_1 : XmScrollBar {
+	arguments {
+	XmNx = ( element_width - 100 ) / 2;
+	XmNy = 35;
+	XmNwidth = 100;
+	XmNorientation = XmHORIZONTAL;
+	XmNvalue = 20;
+	};
+    };
+
+object    text_1 : XmText {
+        arguments {
+	XmNx = element_width / 4;
+	XmNy = 25;
+	XmNcolumns = 10;
+	XmNrows = 2;
+        XmNvalue = 'helloworld';
+	XmNresizeWidth = false;
+	XmNresizeHeight = false;
+	XmNeditMode = 0;
+        };
+    };
+
+object
+    draw_area_1 : XmFrame {
+        arguments {
+	    XmNx = (( element_width - 75 ) / 2) + 7;
+	    XmNy = 20;
+	    XmNwidth = 75;
+	    XmNheight = 45;
+	    XmNshadowThickness = 2;
+	};
+	controls {
+	    XmLabel {
+		arguments {
+		XmNmarginWidth = 2;
+		XmNmarginHeight = 2;
+		XmNlabelType = XmPIXMAP;
+		XmNlabelPixmap = my_picture;
+		};
+	    };
+	};
+    };
+
+object
+    popup_menu_1 : XmFrame {
+        arguments {
+	    XmNx = 7;
+	    XmNy = 22;
+	    XmNshadowThickness = 2;
+	};
+	controls {
+	    XmLabel {
+		arguments {
+		XmNfontList = japanese_14_table;
+		XmNlabelString = compound_string(#iso_latin1"ポップアップ",
+						 separate=true ) &
+				 compound_string(#iso_latin1"メニューにはＭＢ３",
+						 separate=true ) &
+				 compound_string(#iso_latin1"を押してください" );
+		};
+	    };
+	};
+	callbacks {
+       	    MrmNcreateCallback = procedure create_callback (K_popup_menu_widget);
+	};
+    };
+	
+object
+    paned_window_1 : XmPanedWindow {
+        arguments {
+	};
+	controls {
+	    XmText	paned_text_1;
+	    XmText	paned_text_2;
+	};
+    };
+
+object
+    paned_text_1 : XmText {
+        arguments {
+	XmNcolumns = 24;
+	XmNrows = 1;
+        XmNvalue = 'OPEN Software Foundation';
+	XmNresizeWidth = false;
+	XmNresizeHeight = false;
+	XmNeditMode = 0;
+        };
+	callbacks {
+            MrmNcreateCallback = procedure create_callback (K_vtext1_widget);
+	};
+    };
+
+object
+    paned_text_2 : XmText {
+        arguments {
+	XmNcolumns = 24;
+	XmNrows = 1;
+        XmNvalue = 'Motif Version 1.1';
+	XmNresizeWidth = false;
+	XmNresizeHeight = false;
+	XmNeditMode = 0;
+        };
+	callbacks {
+            MrmNcreateCallback = procedure create_callback (K_vtext2_widget);
+	};
+    };
+
+!%% Container Widgets
+!%%
+object
+    scale_1 : XmScale {
+        arguments {
+	XmNx = ( element_width - 100 ) / 2;
+	XmNy = 25;
+	XmNwidth = 100;
+!	XmNheight = 50;
+	XmNfontList = hel_bold_font;
+        XmNborderWidth = 0;
+        XmNvalue = 42;
+        XmNmaximum = 42;
+        XmNminimum = 0;
+        XmNshowValue = true;
+        XmNorientation = XmHORIZONTAL;
+	XmNprocessingDirection = XmMAX_ON_RIGHT;
+        };
+	callbacks {
+            MrmNcreateCallback = procedure create_callback (K_scale_widget);
+	};
+    };
+
+object
+    radio_box_1 : XmRadioBox {
+        arguments {
+	XmNx = element_width / 4;
+	XmNy = 15;
+	XmNspacing = 1;
+	XmNmarginHeight = 0;
+	XmNmarginWidth = 0;
+        };
+        controls {
+	XmToggleButton	radio_button_1;
+	XmToggleButton	radio_button_2;
+	XmToggleButton	radio_button_3;
+        };
+    };
+    radio_button_1 : XmToggleButton {
+	arguments {
+	XmNmarginHeight = 0;
+	XmNmarginWidth = 0;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"ラジオ放送";
+	XmNset = true;
+	};
+    };
+    radio_button_2 : XmToggleButton {
+	arguments {
+	XmNmarginHeight = 0;
+	XmNmarginWidth = 0;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"ＦＭ放送";
+	};
+    };
+    radio_button_3 : XmToggleButton {
+	arguments {
+	XmNmarginHeight = 0;
+	XmNmarginWidth = 0;
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"短波放送";
+	};
+    };
+
+!%% Dialog Widgets
+!%%
+object
+    message_box_1 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string(#iso_latin1"エラーです。",
+					       separate=true ) &
+			       compound_string(#iso_latin1"気を確かに" );
+	    XmNdialogType = XmDIALOG_ERROR;
+        };
+    };
+object
+    message_box_2 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string(#iso_latin1"情報は",
+					       separate=true ) &
+			       compound_string(#iso_latin1"力です。" );
+	    XmNdialogType = XmDIALOG_INFORMATION;
+        };
+    };
+object
+    message_box_3 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string( #iso_latin1"スウエーデン語の",
+						separate=true ) &
+			       compound_string( #iso_latin1"メッセージ" );
+	    XmNdialogType = XmDIALOG_MESSAGE;
+        };
+    };
+object
+    message_box_4 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string( #iso_latin1"手をあげて質問",
+						separate=true )&
+			       compound_string( #iso_latin1"してください。" );
+	    XmNdialogType = XmDIALOG_QUESTION;
+        };
+    };
+object
+    message_box_5 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string( #iso_latin1"警告，警告",
+						separate=true ) &
+			       compound_string( #iso_latin1"危険です。" );
+	    XmNdialogType = XmDIALOG_WARNING;
+        };
+    };
+object
+    message_box_6 : XmMessageBox {
+        arguments {
+	    arguments dialog_args;
+	    XmNmessageString = compound_string( #iso_latin1"処理中です。",
+						separate=true ) &
+			       compound_string( #iso_latin1"お待ちください" );
+	    XmNdialogType = XmDIALOG_WORKING;
+        };
+    };
+
+object
+    command_1 : XmCommand {
+        arguments {
+	XmNwidth = 150;
+	XmNheight = 80;
+	XmNhistoryVisibleItemCount = 1;
+        };
+    };
+
+object
+    file_selection_box_1 : XmFrame {
+        arguments {
+	XmNx = 7;
+	XmNy = 1;
+	};
+	controls {
+	XmFileSelectionBox {
+	    arguments {
+		XmNresizePolicy = XmRESIZE_NONE;
+		XmNwidth = 350;
+		XmNlistVisibleItemCount = 2;
+		XmNlabelFontList = japanese_14_table;
+		XmNfilterLabelString = #iso_latin1"ファイル選択条件";
+		XmNdirListLabelString = #iso_latin1"ディレクトリ";
+		XmNfileListLabelString = #iso_latin1"ファイル";
+		XmNselectionLabelString = #iso_latin1"選択";
+		XmNlistLabelString = #iso_latin1"ファイル";
+		XmNbuttonFontList = japanese_14_table;
+		XmNcancelLabelString = #iso_latin1"取消";
+		XmNokLabelString = #iso_latin1"確認";
+		XmNhelpLabelString = #iso_latin1"ヘルプ";
+		XmNapplyLabelString = #iso_latin1"フィルタ";
+	    };
+	};
+        };
+    };
+
+!%% Menu Widgets
+!%%
+object
+    option_menu_1 : XmOptionMenu {
+        arguments {
+	XmNx = element_width / 4;
+	XmNy = 30;
+	XmNlabelString = #iso_latin1"色：";
+	XmNshadowThickness = 1;
+        XmNmenuHistory = XmPushButton option_button_1;
+        };
+        controls {
+            XmPulldownMenu options_pulldown;
+        };
+    };
+
+object
+    options_pulldown : XmPulldownMenu {
+        controls {
+            XmPushButton option_button_1;
+            XmPushButton option_button_2;
+            XmPushButton option_button_3;
+        };
+    };
+
+object
+    option_button_1 : XmPushButton {
+	arguments {
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"青";
+	};
+    };
+object
+    option_button_2 : XmPushButton {
+	arguments {
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"緑";
+	};
+    };
+object
+    option_button_3 : XmPushButton {
+	arguments {
+	XmNfontList = japanese_14_table;
+	XmNlabelString = #iso_latin1"赤";
+	};
+    };
+
+object list_box_1 : XmScrolledList {
+	arguments {
+!		XmNwidth = 80;
+		XmNfontList = kanji_14;
+		XmNitems = string_table("フーバー","もぐもぐ","ラムダ","コーク");
+		XmNitemCount = 4;
+		XmNvisibleItemCount = 3;
+	};
+};
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 
+object
+    menu_bar_1 : XmMenuBar {
+	    arguments {
+		XmNmenuHelpWidget = XmCascadeButton Help;
+	    };
+	    controls {
+            XmCascadeButton File;
+            XmCascadeButton Edit;
+            XmCascadeButton Help;
+            };
+        };
+
+object
+    File : XmCascadeButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"ファイル";
+	};
+        controls {
+            XmPulldownMenu   sample_pulldown_1;
+            };
+        };
+
+object
+    Edit : XmCascadeButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"編集";
+	};
+        controls {
+            XmPulldownMenu   sample_pulldown_2;
+            };
+        };
+
+object
+    Help : XmCascadeButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"ヘルプ";
+	};
+        controls {
+            XmPulldownMenu   sample_pulldown_3;
+            };
+        };
+
+object
+    sample_pulldown_1 : XmPulldownMenu {
+        controls {
+            XmPushButton sample_push_button_1;
+            XmPushButton sample_push_button_2;
+	    XmCascadeButton	About;
+	    XmSeparator {};
+	    XmPushButton Quit;
+            };
+        };
+
+object
+    sample_pulldown_2 : XmPulldownMenu {
+        controls {
+            XmPushButton s_push_button_1;
+            XmPushButton s_push_button_2;
+            XmPushButton s_push_button_3;
+	    XmCascadeButton	morestuff;
+            };
+        };
+
+object
+    sample_pulldown_3 : XmPulldownMenu {
+        controls {
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"概要";
+		    };
+		};
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"バインディング";
+		    };
+		};
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"入門";
+		    };
+		};
+            };
+        };
+
+object
+   About : XmCascadeButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"特記事項";
+	};
+	controls {
+		XmPulldownMenu About_1;
+		};
+	};
+object
+   morestuff : XmCascadeButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"おまけ";
+	};
+	controls {
+		XmPulldownMenu pulldown_2;
+		};
+	};
+
+object
+    About_1 : XmPulldownMenu {
+	controls {
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"Ｍｏｔｉｆ　周期表　Ｖ１．１";
+		    };
+		};
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"Ｍｉｃｈａｅｌ　Ｋ．Ｙｅｅ　作成";
+		    };
+		};
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = #iso_latin1"平成２年８月";
+		    };
+		};
+	    };
+	};
+
+object
+    pulldown_2 : XmPulldownMenu {
+	controls {
+		XmPushButton {
+		arguments {
+			arguments menus_args;
+			XmNlabelString = compound_string(#iso_latin1"みなさん",
+						separate=true )&
+					 compound_string(#iso_latin1"ありがとう" );
+		    };
+		};
+	    };
+	};
+
+object
+    sample_push_button_1 : XmPushButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"新しい";
+        };
+    };
+
+object
+    sample_push_button_2 : XmPushButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"Ｏｐｅｎ　Ｓｏｆｔｗａｒｅ";
+        };
+	controls {
+	};
+    };
+object
+    s_push_button_1 : XmPushButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"カット";
+        };
+    };
+
+object
+    s_push_button_2 : XmPushButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"コピー";
+        };
+    };
+
+object
+    s_push_button_3 : XmPushButton {
+	arguments {
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"ペースト";
+        };
+    };
+
+object
+    Quit : XmPushButton {
+	arguments { 
+		arguments menus_args;
+		XmNlabelString = #iso_latin1"終了";
+	};
+	callbacks { 
+	    XmNactivateCallback = procedure quit_button_activate();
+	};
+    };
+
+end module;

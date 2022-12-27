@@ -1,0 +1,61 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	vmsearch.man,v $
+.\" Revision 2.3  91/03/19  12:33:09  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:33:31  rpd
+.\" 	Created.
+.\" 	[90/06/18            rpd]
+.\" 
+.TH VMSEARCH 1 6/18/90
+.CM 4
+.SH NAME
+vmsearch \- search a task's address space for a word
+.SH SYNOPSIS
+\fBvmsearch\fP [\fB-host\fP machine] taskid value
+.SH DESCRIPTION
+\fIvmsearch(1)\fR searches a task's address space for words
+of memory containing a given value, and displays the addresses
+of those words.
+The \fItaskid\fP argument, a MachID, specifies the task.
+The \fIvalue\fP argument is a hexadecimal number
+specifying the value to search for.
+.PP
+\fIvmsearch\fR displays the addresses it finds in hexadecimal,
+one per line.
+.PP
+\fIvmsearch\fR must run as root or a member of group kmem
+to gain access to the target task.
+.PP
+\fIvmsearch\fP interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.SH "SEE ALSO"
+ms(1), vminfo(1), vmread(1), machid(1)

@@ -1,0 +1,133 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchSetValues 3X
+.SH NAME
+\fBMrmFetchSetValues\fP \- Fetches the values to be set from 
+literals stored in UID files.
+.iX "MrmFetchSetValues"
+.iX "uil functions" "MrmFetchSetValues"
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchSetValues"
+.NX R "MrmFetchSetValues" "definition"
+.BI "Cardinal MrmFetchSetValues(" "hierarchy_id" ","
+.IB "widget" ","
+.IB "args" ","
+.IB "num_args" ")"
+.in +5n
+.br
+.BI "MrmHierarchy " "hierarchy_id" ";"
+.br
+.BI "Widget " "widget" ";"
+.br
+.BI "ArgList " "args" ";"
+.br
+.BI "Cardinal " "num_args" ";"
+.in -5n
+.SH DESCRIPTION
+The
+\fBMrmFetchSetValues\fP
+function
+is similar to
+\fBXtSetValues\fP,
+except that the values to be set are defined by the UIL named
+values that are stored in the UID hierarchy.
+.NX R "MrmFetchSetValues" "description"
+\fBMrmFetchSetValues\fP
+fetches the values to be set from literals stored in UID files.
+.sp
+.ne 2i
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the UID hierarchy that contains the
+specified literal. The \fIhierarchy_id\fP
+was returned in a previous call to \fBMrmOpenHierarchy\fP.
+.IP \fIwidget\fP 1.5i
+Specifies the widget that is modified.
+.IP \fIargs\fP 1.5i
+Specifies an argument list that identifies the widget arguments to be
+modified as well as the index (UIL name) of the literal that
+defines the value for that argument.
+The name part of each argument (args[n].name) must begin with the string 
+\fBXmN\fP followed by the name that uniquely identifies this attribute tag.
+For example, \fBXmNwidth\fP
+is the attribute name associated with the core argument \fIwidth\fP.
+The value part (args[n].value) must be a string
+that gives the index (UIL name) of the literal.
+You must define all literals in UIL as exported values.
+.IP \fInum_args\fP 1.5i
+Specifies the number of entries in \fIargs\fP.
+.br
+.ne 7
+.PP
+This function
+sets the values
+on a widget, evaluating the
+values as public literal resource references resolvable from
+a UID hierarchy. 
+Each literal is fetched from the hierarchy, and
+its value is modified and converted as required. 
+This value is
+then placed in the argument list and used as the actual value for an
+\fBXtSetValues\fP
+call. 
+\fBMrmFetchSetValues\fP
+allows a widget to be modified
+after creation using UID file values exactly as is done for
+creation
+values in 
+\fBMrmFetchWidget\fP.
+.PP
+As in 
+\fBMrmFetchWidget\fP,
+each argument whose value can be evaluated
+from
+the UID hierarchy is set in the widget. 
+Values that are not
+found
+or values in which conversion errors occur are not modified.
+.PP
+Each entry in the argument list identifies an argument to be modified
+in the widget. 
+The name part identifies the tag, which begins with 
+\fBXmN\fP.
+The value part must be a string
+whose value is the index of
+the literal. 
+Thus, the following code would modify the label resource of the widget
+to have the value of the literal accessed by the index
+OK_button_label in the hierarchy:
+.EX
+args[n].name = XmNlabel;
+args[n].value = "OK_button_label";
+.EE
+.sp
+.ne 3i
+.SH "RETURN VALUE"
+.NX R "MrmSUCCESS"
+.NX R "MrmPARTIAL_SUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 1.5i
+The function executed successfully.
+.IP \fBMrmPARTIAL_SUCCESS\fP
+At least one literal was successfully fetched.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+\fBXtSetValues(3X)\fP

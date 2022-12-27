@@ -1,0 +1,1518 @@
+
+
+
+
+
+
+
+
+
+                XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111
+                         RRRReeeelllleeeeaaaasssseeee 4444
+                       RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss
+
+
+                         Jim Fulton
+
+                        X Consortium
+            MIT Laboratory for Computer Science
+
+
+                          _A_B_S_T_R_A_C_T
+
+          The X Window System is a  portable,  network-
+     transparent  window system originally developed at
+     MIT.  It can be used on a wide variety  of  raster
+     display  devices,  ranging  from from simple mono-
+     chrome frame buffers to deep, true color  graphics
+     processors.   This  document describes contents of
+     the fourth public release of X,  Version  11  from
+     MIT and how it has changed from previous releases.
+
+
+
+_1.  _O_v_e_r_v_i_e_w
+
+This is the fourth release of the X Window  System,  Version
+11 from MIT.  Substantial progress has been made in optimiz-
+ing the  sample  server,  window  manager,  and  programming
+libraries.   In  addition,  major  improvements  to the user
+interface of several of the key applications (in particular,
+_x_m_h,  _t_w_m,  _x_m_a_n,  and  _x_t_e_r_m) should make release noticably
+nicer to use.  Sample implementations  of  the  various  new
+Consortium  Standards  are  included  as  well  as prototype
+implementations of several efforts currently under  develop-
+ment.   No incompatible changes have been made to either the
+core Protocol or to the _X_l_i_b programming  library.   The  _X_t
+_I_n_t_r_i_n_s_i_c_s  should  be  source  compatible with the previous
+release.  Changes have been made to the _X_a_w widget set,  but
+a configuration option for providing backwards compatibility
+interfaces is available.
+
+Several new sets of fonts have been added: a new fixed width
+family  of  fonts,  a Kanji and Kana font, the Lucida family
+from Bigelow & Holmes and Sun Microsystems, a terminal  emu-
+lator  font  from  Digital  Equipment  Corporation,  and 100
+dots-per-inch (dpi) versions of all 75dpi fonts.
+_________________________
+_X _W_i_n_d_o_w _S_y_s_t_e_m is a trademark of MIT.
+
+Copyright 8c9 1989  by  the  Massachusetts  Institute  of
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 2222 ----
+
+
+This release contains two types of software:  that which  is
+supported  by  the staff of the X Consortium and which forms
+the core of the X Window System, and  that  which  has  been
+contributed  by the user community and is provided as a pub-
+lic service without support from MIT.  The core distribution
+also  contains  public  implementations  of certain software
+management utilities that may not be available on all  plat-
+forms (such as _p_a_t_c_h and a _c_p_p that can handle large numbers
+of symbols) as well as the tools that are used  to  build  X
+software.
+
+The servers, libraries, and applications  provided  in  this
+release  are  _s_a_m_p_l_e  rather than _r_e_f_e_r_e_n_c_e implementations.
+The X Consortium standardizes specifications, not particular
+instances  of  code.   In  particular, the document _X _W_i_n_d_o_w
+_S_y_s_t_e_m _P_r_o_t_o_c_o_l, _V_e_r_s_i_o_n _1_1 is the final authority  on  what
+is  and  is  not  part of the core X Window System protocol.
+For additional information,  see  the  _X_S_t_a_n_d_a_r_d_s(_1)  manual
+page.
+
+Since the last release, the X Consortium has  made  signifi-
+cant     additions     to    the    Xlib    standard    (see
+_m_i_t/_d_o_c/_X_l_i_b/_R_4_X_l_i_b._t_b_l._m_s) and to the X Toolkit  Intrinsics
+standard,  and  has approved the following specifications as
+new standards:
+
+     _I_n_t_e_r-_C_l_i_e_n_t _C_o_m_m_u_n_i_c_a_t_i_o_n_s _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l
+          The Inter-Client Communications Conventions Manual
+          (ICCCM,   whose  specification  may  be  found  in
+          _m_i_t/_d_o_c/_I_C_C_C_M/_i_c_c_c_m._t_b_l._m_s) establishes a  set  of
+          conventions that allow clients to cooperate in the
+          areas of selections, cut buffers,  window  manage-
+          ment, session management, and resources.  Program-
+          ming interfaces have been added to both  _X_l_i_b  and
+_________________________
+Technology.
+
+Permission to use, copy, modify, distribute,  and  sell
+this  software and its documentation for any purpose is
+hereby granted without fee,  provided  that  the  above
+copyright  notice  appear  in  all copies and that both
+that copyright notice and this permission notice appear
+in  supporting  documentation,  and  that  the  name of
+M.I.T.  not  be  used  in  advertising   or   publicity
+pertaining  to  distribution  of  the  software without
+specific, written prior permission.   M.I.T.  makes  no
+representations  about the suitability of this software
+for any  purpose.   It  is  provided  "as  is"  without
+express or implied warranty.
+
+This software is not subject  to  any  license  of  the
+American  Telephone  and  Telegraph  Company  or of the
+Regents of the University of California.
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 3333 ----
+
+
+          the _X_t _I_n_t_r_i_n_s_i_c_s to simplify the task of  writing
+          compliant   applications.   The  core  _t_w_m  window
+          manager, as  well  as  the  user-contributed  _g_w_m,
+          _o_l_w_m, and _t_e_k_w_m window managers, is intended to be
+          be compliant.
+
+     _X_1_1 _N_o_n-_r_e_c_t_a_n_g_u_l_a_r _W_i_n_d_o_w _S_h_a_p_e _E_x_t_e_n_s_i_o_n
+          The SHAPE extension (whose  specification  may  be
+          found   in  _m_i_t/_d_o_c/_e_x_t_e_n_s_i_o_n_s/_s_h_a_p_e._m_s)  provides
+          non-rectangular, disjoint windows.  Samples of its
+          use  may  be  found in the _X_a_w CCCCoooommmmmmmmaaaannnndddd and MMMMaaaaiiiillllbbbbooooxxxx
+          widgets, in the _t_w_m window  manager,  and  in  the
+          _o_c_l_o_c_k and _x_e_y_e_s clients.
+
+     _X _D_i_s_p_l_a_y _M_a_n_a_g_e_r _C_o_n_t_r_o_l _P_r_o_t_o_c_o_l
+          The X Display  Manager  Control  Protocol  (XDMCP)
+          (whose    specification    may    be    found   in
+          _m_i_t/_d_o_c/_X_D_M_C_P/_x_d_m_c_p._m_s) is a datagram-based proto-
+          col  for  managing remote displays (particularly X
+          terminals) in a network.  Implementations  of  the
+          various  elements  of the protocol are provided in
+          the sample server and the _x_d_m display manager.
+
+     _C_o_m_p_o_u_n_d _T_e_x_t _E_n_c_o_d_i_n_g
+          Compound Text (whose specification may be found in
+          _m_i_t/_d_o_c/_C_T_E_X_T/_c_t_e_x_t._t_b_l._m_s) is an interchange for-
+          mat  for  multiple  character  set  data  such  as
+          multi-lingual  text.  It is based on ISO standards
+          for  encoding  and  combining  characters  and  is
+          intended  to  be  used  in the following contexts:
+          inter-client communication using selections,  win-
+          dow properties, and resources.  Routines for pars-
+          ing   Compound    Text    may    be    found    in
+          _m_i_t/_l_i_b/_X_m_u/_X_c_t._c.
+
+     _X _L_o_g_i_c_a_l _F_o_n_t _D_e_s_c_r_i_p_t_i_o_n _C_o_n_v_e_n_t_i_o_n_s
+          The X Logical Font Description Conventions  (XLFD,
+          whose    specification    may    be    found    in
+          _m_i_t/_d_o_c/_X_L_F_D/_x_l_f_d._t_b_l._m_s) are a set of  guidelines
+          for  naming  fonts  and  font properties such that
+          fonts can be uniquely named and queried in a  con-
+          sistent  manner  by applications.  All of the text
+          fonts in the core  distribution  follow  the  XLFD
+          conventions.   In  addition, the new _x_f_o_n_t_s_e_l pro-
+          gram can be used to view  and  select  fonts  that
+          have XLFD names.
+
+This release been built on the following operating  systems:
+Ultrix  3.1  (both  VAX  and  RISC), SunOS 4.0.3, HP-UX 6.5,
+Domain/OS 10.1, A/UX 1.1, AIX RT-2.2 and PS/2-1.1,  AOS-4.3,
+UTEK  4.0,  NEWS-OS  3.2,  UNICOS  5.0.1, and UNIX System V,
+Release 3.2 (AT&T 6386 WGS).  It should work  correctly,  or
+with  a  minor amount of work, on a variety of other systems
+as well.  Before building the release, see the _R_E_A_D_M_E  files
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 4444 ----
+
+
+in   _m_i_t/_c_o_n_f_i_g/  and  _m_i_t/_s_e_r_v_e_r/_d_d_x/*/,  for  any  special
+instructions.
+
+_2.  _B_u_i_l_d_i_n_g _t_h_e _R_e_l_e_a_s_e
+
+The software in this release is divided into  two  distribu-
+tions:  one  for  the _c_o_r_e software that is supported by the
+staff of the X Consortium (located  in  the  directory  tree
+./_m_i_t/),  and  one  for _u_s_e_r-_c_o_n_t_r_i_b_u_t_e_d software containing
+everything else (located in the directory tree  ./_c_o_n_t_r_i_b/).
+Great  pains  have  been taken to make the core distribution
+easy to reconfigure, build and install on a  wide  range  of
+platforms.   The user-contributed distribution, on the other
+hand, has not been compiled or tested by the staff of the  X
+Consortium  and  will  require  building  by hand.  With the
+addition of function prototypes in the Xlib  include  files,
+it is virtually certain that some user-contributed will fail
+to compile under picky compilers (such as _h_c).
+
+Almost all _M_a_k_e_f_i_l_e_s in  the  core  software  are  generated
+automatically  by  a utility called _i_m_a_k_e.  The program com-
+bines machine-independent descriptions  (called  _I_m_a_k_e_f_i_l_e_s)
+of targets to be built with machine-dependent sets of param-
+eters.   Initial  versions  of  all  of  the  _M_a_k_e_f_i_l_e_s  are
+included  for  those  sites that cannot use _i_m_a_k_e (they will
+undoubtedly require patching for specific  machines).   How-
+ever,  on  many  systems, X should build correctly right off
+the tape.  For the user-contributed  distribution,  and  for
+your own applications, the _x_m_k_m_f script in _m_i_t/_u_t_i_l/_s_c_r_i_p_t_s/
+can be used to build a _M_a_k_e_f_i_l_e from an _I_m_a_k_e_f_i_l_e  once  the
+core has been built and installed.
+
+
+_2._1.  _I_n_s_t_a_l_l_a_t_i_o_n _S_u_m_m_a_r_y
+
+To load and install this release of the X Window System, you
+
+
+
+_________________________
+|= Ultrix and VAX are trademarks  of  Digital  Equipment
+Corporation;  SunOS is a trademark of Sun Microsystems,
+Inc.; HP-UX and Domain are trademarks of  the  Hewlett-
+Packard  Company;  PostScript  is  a trademark of Adobe
+Systems, Inc.; A/UX is a trademark of  Apple  Computer;
+UNICOS is a trademark of Cray Research; AIX and AOS are
+trademarks of the IBM Corporation; UNIX is a registered
+trademark  of  AT&T  Bell  Laboratories; OPEN LOOK is a
+trademark of AT&T; Times, Helvetica,  and  New  Century
+Schoolbook   are  registered  trademarks  of  Linotype;
+Lucida is a registered trademark of Bigelow  &  Holmes;
+and  Charter  is  a  registered trademark of Bitstream,
+Inc.
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 5555 ----
+
+
+will need to:
+
+1.   Finish reading these Release Notes.
+
+2.   Create a directory into which you will read the distri-
+     bution    tapes    (usually    named   something   like
+     /_u_s_r/_l_o_c_a_l/_s_r_c/_X or /_s_r_c/_R_4/).  You will  need  roughly
+     50  megabytes  to  hold  the core software and up to 90
+     megabytes for the user-contributed software.  Note that
+     compiling  will  require  anywhere from 50 to 110% more
+     disk space, depending on your machine  (e.g.  RISC  vs.
+     CISC and whether or not you have shared libraries).
+
+3.   Unload the core tape into the directory created in step
+     #2.   Since the user-contributed software must be built
+     by hand, you may wait and load it in  later.   Each  of
+     the  tapes  contains  one  (very  large)  UNIX _t_a_r file
+     stored at 1600 bits per inch.
+
+4.   Read the file _m_i_t/_c_o_n_f_i_g/_R_E_A_D_M_E for instructions on how
+     to configure the build for your particular site.  Also,
+     make sure that you  follow  the  directions  in  _R_E_A_D_M_E
+     files in _m_i_t/_s_e_r_v_e_r/_d_d_x/ directories for which you plan
+     to build servers.  In particular, you  must  make  sure
+     that  the  _O_S_M_a_j_o_r_V_e_r_s_i_o_n and _O_S_M_i_n_o_r_V_e_r_s_i_o_n configura-
+     tion parameters, as well as those indicated at the  top
+     of  _m_i_t/_c_o_n_f_i_g/_s_i_t_e._d_e_f,  are appropriate for your sys-
+     tem.
+
+5.   If you plan to compile the release  on  more  than  one
+     machine  and  have  a  distributed file system, you may
+     wish to use  the  script  _m_i_t/_u_t_i_l/_s_c_r_i_p_t_s/_l_n_d_i_r._s_h  to
+     create  symbolic  link  trees  on  each  of  the target
+     machines.  This allows all of the  platforms  on  which
+     you wish to run X to share a single set of sources.  In
+     either case, the phrase _b_u_i_l_d  _t_r_e_e  will  be  used  to
+     refer  to the directory tree in which you are compiling
+     (to distinguish it from the _s_o_u_r_c_e _t_r_e_e which  contains
+     the actual files).
+
+6.   If you are building on a Macintosh II,  make  sure  you
+     read  the  file  _m_i_t/_s_e_r_v_e_r/_d_d_x/_m_a_c_I_I/_R_E_A_D_M_E and follow
+     the directions for running the  _X_1_1_R_4  script  in  that
+     directory.   If  you  are using GNUC on the Mac (highly
+     recommended; sources are available  for  anonymous  ftp
+     from  the  machine  _a_p_p_l_e._c_o_m), you will need to remove
+     the "-_s" flag on the _e_g_r_e_p command in the  GNUC  _f_i_x_i_n_-
+     _c_l_u_d_e_s  script.   Otherwise, you will have to build and
+     install the C preprocessor in _m_i_t/_u_t_i_l/_c_p_p/.
+
+7.   If you are running on a VAX  or  680x0  processor,  you
+     should consider using the GNU C compiler (available via
+     anonymous ftp from the machine _p_r_e_p._a_i._m_i_t._e_d_u) to com-
+     pile  the server.  It can result in up to a factor of 2
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 6666 ----
+
+
+     improvement in performance.  See the  _H_a_s_G_c_c  parameter
+     in  the files _s_u_n._c_f, _u_l_t_r_i_x._c_f, _m_a_c_I_I._c_f, and _s_i_t_e._d_e_f
+     in _m_i_t/_c_o_n_f_i_g/
+
+8.   Check   the   _i_m_a_k_e   configuration    parameters    in
+     _m_i_t/_c_o_n_f_i_g/_i_m_a_k_e_m_d_e_p._h and _m_i_t/_c_o_n_f_i_g/_I_m_a_k_e._t_m_p_l.
+
+9.   Once you are satisfied with the configuration, you  are
+     ready  to build the core distribution.  Look at the ._c_f
+     file for your system.  There may be a line in  it  that
+     sets  an  _m_a_k_e  variable named _B_o_o_t_s_t_r_a_p_C_F_l_a_g_s.  If you
+     don't find such a variable, you can use  the  following
+     command to start the build:
+
+             %  make World >& make.world &
+
+     If you do find the variable,  you  should  append  that
+     definition to the command line, using the _m_a_k_e variable
+     BOOTSTRAPCFLAGS.  This is used by _i_m_a_k_e to set particu-
+     lar _c_p_p symbols for all compiles (if you are porting to
+     a different platform, see  _m_i_t/_u_t_i_l/_i_m_a_k_e/_i_m_a_k_e_m_d_e_p._h).
+     Special  BOOTSTRAPCFLAGS  are required on the following
+     systems for which ._c_f files are supplied:  MacII,  AT&T
+     6386,  IBM workstations, and the Tektronix 4310 series.
+     For example:
+
+             %  make BOOTSTRAPCFLAGS=-DmacII  World  >& make.world &
+
+     Do not call the output file _m_a_k_e._l_o_g as the _m_a_k_e  _c_l_e_a_n
+     done  by  _m_a_k_e  _W_o_r_l_d  removes  all files of this name.
+     This will rebuild all of the _M_a_k_e_f_i_l_e_s  and  execute  a
+     _m_a_k_e -_k _a_l_l to compile everything in the core distribu-
+     tion.  This will take anywhere from 15  minutes  (on  a
+     Cray Y-MP) to 12 hours, depending on your machine.
+
+10.  When the _m_a_k_e is done, check the log file for any prob-
+     lems.   There  should  be  no serious errors.  A/UX _p_c_c
+     users can ignore compiler  warnings  about  enumeration
+     type  clashes,  and  Apollo  and  IBM  users can ignore
+     optimizer warnings.  Most  optimizers  will  also  give
+     warnings  about the C code that is generated by _l_e_x and
+     _y_a_c_c in _m_i_t/_c_l_i_e_n_t_s/_t_w_m; these may be safely ignored.
+
+11.  If  you  are  satisfied  that  everything   has   built
+     correctly, test the various critical programs (servers,
+     _x_t_e_r_m, _x_i_n_i_t, etc.) by hand.  You may need to  be  root
+     to  run  the  server or _x_t_e_r_m.  A second workstation or
+     terminal will be particularly useful if  you  run  into
+     problems.
+
+12.  Make  backup  copies  of  your  old  X  header   files,
+     binaries, fonts, libraries, etc.
+
+13.  Go to the top of the build tree and type
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 7777 ----
+
+
+
+             #  make install  >& make.install
+
+     You will either have to do this as root, or have  write
+     access    to    the    appropriate   directories   (see
+     DIRS_TO_BUILD  in   the   top   level   _I_m_a_k_e_f_i_l_e   and
+     _m_i_t/_c_o_n_f_i_g/_I_m_a_k_e._t_m_p_l).   The  _x_t_e_r_m  program should be
+     installed setuid to root on most systems and the  _x_l_o_a_d
+     program  should  be installed setgid to whichever group
+     the file /_d_e_v/_k_m_e_m belongs to (it is  installed  setuid
+     to root by default).
+
+14.  If you would like to install the manual pages, type the
+     following at the top of the build tree:
+
+             #  make install.man
+
+
+15.  If you would like to create and install lint libraries,
+     type the following at the top of the build tree:
+
+             %  make install.ln
+
+
+If you are installing X for the first  time,  you  may  also
+need  to do some of the steps listed below.  Check the vari-
+ous README files in the _m_i_t/_s_e_r_v_e_r/_d_d_x directories for addi-
+tional instructions.
+
+16.  Add device drivers or reconfigure your kernel.
+
+17.  Create additional pseudoterminals.  See your  operating
+     system  script  /_d_e_v/_M_A_K_E_D_E_V and site administrator for
+     details.
+
+18.  Read the manual page for the Display  Manager  _x_d_m  and
+     configure  it  for  your site.  This program provides a
+     portable way of running X automatically  and  has  many
+     hooks  for  creating a nice interface for novice users.
+     WWWWaaaarrrrnnnniiiinnnngggg:::: tttthhhheeee ----LLLL ffffllllaaaagggg iiiissss nnnnoooo lllloooonnnnggggeeeerrrr ssssuuuuppppppppoooorrrrtttteeeedddd  bbbbyyyy  xxxxtttteeeerrrrmmmm....
+     IIIIffff  yyyyoooouuuu  aaaarrrreeee rrrruuuunnnnnnnniiiinnnngggg xxxxtttteeeerrrrmmmm ffffrrrroooommmm ////eeeettttcccc////iiiinnnniiiitttt yyyyoooouuuu wwwwiiiillllllll hhhhaaaavvvveeee
+     ttttoooo ccccoooonnnnvvvveeeerrrrtttt ttttoooo xxxxddddmmmm oooorrrr eeeellllsssseeee ssssaaaavvvveeee yyyyoooouuuurrrr oooolllldddd bbbbiiiinnnnaaaarrrryyyy....
+
+19.  Make  sure  that  all  X11  users  have  the  directory
+     /_u_s_r/_b_i_n/_X_1_1 in their search paths.
+
+20.  Give it a try!
+
+Release 4 of Version 11 of the X Window System should now be
+ready to use.
+
+
+
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 8888 ----
+
+
+_2._2.  _O_p_e_r_a_t_i_n_g _S_y_s_t_e_m _R_e_q_u_i_r_e_m_e_n_t_s
+
+One of the reasons why X is so popular is that it  does  not
+require  very  much operating system support.  Although this
+distribution only contains sample  implementations  for  BSD
+and  UNIX  derivative platforms, support for other operating
+systems is available from a wide variety  of  vendors.   The
+servers  in  this  release  have been built on the following
+systems:
+
+               Ultrix 3.1 (both VAX and RISC)
+                        SunOS 4.0.3
+                         HP-UX 6.5
+                       Domain/OS 10.1
+                          A/UX 1.1
+                  AIX RT-2.2 and PS/2-1.1
+                        IBM AOS-4.3
+                          UTEK 4.0
+
+The client libraries and applications have been built on all
+of the above systems, plus:
+
+                        NEWS-OS 3.2
+                        UNICOS 5.0.1
+         UNIX System V, Release 3.2 (AT&T 6386 WGS)
+
+If you are using versions prior to these, you may  well  run
+into trouble.  In particular, the server will not run on IBM
+4.2A release 2 and there is no  longer  support  for  Apollo
+SR9.7.   The  _R_E_A_D_M_E  files  in  the various _m_i_t/_s_e_r_v_e_r/_d_d_x/
+describe  particular   requirements   such   as   compilers,
+libraries, preprocessors, etc.  As was noted above, A/UX 1.0
+users will need to build a new version of the  C  preproces-
+sor.
+
+You should verify that your networking and interprocess com-
+munication  facilities are working properly before trying to
+use X.  If programs such as _t_a_l_k and _r_l_o_g_i_n  don't  work,  X
+probably won't either.
+
+
+_2._3.  _R_e_a_d_i_n_g _i_n _t_h_e _R_e_l_e_a_s_e _T_a_p_e_s
+
+This release may be obtained electronically from the  Inter-
+net,  the UUNET Project, several consulting firms, and vari-
+ous UUCP archive sites.  In addition, a set  of  2400  foot,
+1600  BPI  magnetic  tapes  (MIT does not distribute on car-
+tridge tapes or floppy disks) and printed  documentation  is
+available  from the MIT Software Center; call (617) 258-8330
+for details.
+
+Each tape from MIT  contains  one  large  _t_a_r  archive  with
+software  and documentation for part of the release.  If you
+have a limited amount of disk space, you  should  load  tape
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 9999 ----
+
+
+#1,  prune out any servers that you don't need, and generate
+listings of the user-contributed tapes for later  retrieval.
+In particular, you will probably want to extract the _m_i_t/_d_o_c
+directory from tape #2.  All filenames are given as relative
+paths  (i.e.  beginning with a period instead of a slash) so
+that the release may be placed anywhere in your file system.
+
+Before reading in the tapes, make sure that you have  enough
+disk  space.   Each  of  the tapes contains roughly 35 mega-
+bytes, split as follows:
+
+
+    _T_a_p_e #   _C_o_n_t_e_n_t_s                        _S_t_a_t_u_s
+
+      1      core software for _m_a_k_e _W_o_r_l_d    required
+      2      core docs and contrib clients   recommended
+      3      contrib libs and toolkits       optional
+      4      contrib Andrew and games        optional
+
+
+The compiled versions of the programs will occupy yet  again
+as  much  disk  space (particularly on RISC machines without
+shared libraries), so plan accordingly.
+
+Create a directory into  which  you  will  put  all  of  the
+sources.  In this directory, execute the appropriate operat-
+ing system commands to read in the core tapes.  If your site
+is  set up so that _t_a_r uses a 1600bpi tape drive by default,
+you will probably type something like:
+
+
+        %  mkdir /usr/local/src/X
+        %  cd /usr/local/src/X
+        %  tar xv
+
+
+See your system administrator for help.
+
+
+_2._4.  _U_s_i_n_g _S_y_m_b_o_l_i_c _L_i_n_k_s
+
+This release uses links (symbolic, on machines that  support
+them)  in  several  places  to  avoid duplication of certain
+files (mostly  header  files).  If  you  are  building  this
+release  on  a system for which configuration files have not
+been supplied, you should check the LN configuration parame-
+ter  in  the  appropriate  _m_i_t/_c_o_n_f_i_g/*._c_f  file.   If  your
+operating system does not support soft links, LN  should  be
+set either to create hard links or to copy the source file.
+
+If you need to move the release to another machine after  it
+has  been  built,  use  _t_a_r instead of _c_p or _r_c_p so that you
+preserve dates and links.  This is usually done with a  com-
+mand of the form:
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11110000 ----
+
+
+
+        %  (chdir /usr/local/src/X; tar cf - .) | rsh othermachine "(chdir /moredisk/X; tar xpBf -)"
+
+
+See your system administrator for help.
+
+
+_2._5.  _C_o_n_f_i_g_u_r_i_n_g _t_h_e _R_e_l_e_a_s_e
+
+This release makes extensive use of a utility  called  _i_m_a_k_e
+to   generate   machine-specific   _M_a_k_e_f_i_l_e_s  from  machine-
+independent _I_m_a_k_e_f_i_l_e_s.  Another utility, called _m_a_k_e_d_e_p_e_n_d,
+is  used  to  generate  _M_a_k_e_f_i_l_e dependencies for C language
+files. Sample  _M_a_k_e_f_i_l_e_s  are  provided,  although  you  are
+strongly  urged  to  use  _i_m_a_k_e  and _m_a_k_e_d_e_p_e_n_d so that your
+software works across releases.
+
+The configuration files for _i_m_a_k_e are located in the  direc-
+tory  _m_i_t/_c_o_n_f_i_g/.   _M_a_k_e_f_i_l_e_s  are  created from a template
+file named _I_m_a_k_e._t_m_p_l, a machine-specific ._c_f  file,  and  a
+site-specific  _s_i_t_e._d_e_f  file.   With only a few exceptions,
+configuration parameters are _c_p_p symbols that may be defined
+on  a  per-server  basis or for all servers in a given site.
+The template file should _n_o_t be modified.
+
+The file  _m_i_t/_c_o_n_f_i_g/_R_E_A_D_M_E  describes  each  of  the  build
+parameters.   The defaults have been chosen to work properly
+on a wide range of machines and to be easy to maintain.   An
+overview  of  the  configuration  system may be found in the
+file _m_i_t/_d_o_c/_c_o_n_f_i_g/_u_s_e_n_i_x_w_s/_p_a_p_e_r._m_s.  Site-specific confi-
+gurations should be described in the file _s_i_t_e._d_e_f using the
+following syntax:
+
+        #ifndef _B_u_i_l_d_P_a_r_a_m_e_t_e_r
+        #define _B_u_i_l_d_P_a_r_a_m_e_t_e_r _s_i_t_e-_s_p_e_c_i_f_i_c-_v_a_l_u_e
+        #endif
+
+
+
+_2._6.  _C_o_m_p_i_l_i_n_g _t_h_e _R_e_l_e_a_s_e
+
+Once the configuration parameters are  set,  you  should  be
+able  to  type the following command at the top of the build
+tree to compile the core software:
+
+        %  make World  >& make.world  &
+
+Remember to set BOOTSTRAPCFLAGS if  your  system  needs  it.
+Don't  redirect  the  output  to _m_a_k_e._l_o_g as this particular
+file is deleted as part of the  build  process.   This  will
+take anywhere up to 24 hours, depending on the machine used,
+and should complete without any significant errors  on  most
+machines.
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11111111 ----
+
+
+If you need to restart the build after all of the  _M_a_k_e_f_i_l_e_s
+and  dependencies have been created, type the following com-
+mand at the top of the build tree:
+
+        %  make -k >& make.out &
+
+If you later decide  to  change  any  of  the  configuration
+parameters, you'll need to do another full _m_a_k_e _W_o_r_l_d.
+
+
+_2._7.  _I_n_s_t_a_l_l_i_n_g _t_h_e _R_e_l_e_a_s_e
+
+If everything compiles successfully,  you  may  install  the
+software by typing the following as root from the top of the
+build tree:
+
+        #  make install
+
+If you would rather not do the installation  as  root,  make
+the necessary directories writable by you and do the install
+from your account.  Then, check the  ownership  and  protec-
+tions  on  _x_t_e_r_m  and _x_l_o_a_d in the BINDIR directory (usually
+/_u_s_r/_b_i_n/_X_1_1/): on most  systems  _x_t_e_r_m  must  be  installed
+setuid to root so that it can set the ownership of its pseu-
+doterminal and update  /_e_t_c/_u_t_m_p,  and  _x_l_o_a_d  needs  to  be
+setuid  to  root  or  setgid  to  the  group owning the file
+/_d_e_v/_k_m_e_m so that it can get the system load average.
+
+If your /_e_t_c/_t_e_r_m_c_a_p and /_u_s_r/_l_i_b/_t_e_r_m_i_n_f_o  databases  don't
+have  entries  for _x_t_e_r_m, sample entries are provided in the
+directory _m_i_t/_c_l_i_e_n_t_s/_x_t_e_r_m/.  System V users  may  need  to
+compile and install the _t_e_r_m_i_n_f_o entry with the _t_i_c utility.
+
+If you plan to use the _x_i_n_i_t program to run  X,  you  should
+create  a  link  named  _X pointing to the appropriate server
+program (usually named something like _X_m_a_c_h_i_n_e in the direc-
+tory  /_u_s_r/_b_i_n/_X_1_1/).   However,  _x_i_n_i_t  is not intended for
+most users; instead, site  administrators  are  expected  to
+either configure _x_d_m or provide user-friendly interfaces.
+
+If you would like to have manual pages installed, check  the
+_M_a_n_D_i_r_e_c_t_o_r_y_R_o_o_t, _M_a_n_D_i_r and _L_i_b_M_a_n_D_i_r configuration parame-
+ters in _m_i_t/_c_o_n_f_i_g/ and type the following at the top of the
+build tree:
+
+        #  make install.man
+
+
+If you  would  like  to  have  lint  libraries  created  and
+installed, type the following at the top of the build tree:
+
+        #  make install.ln
+
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11112222 ----
+
+
+Finally, make sure that all users have the  BINDIR  (usually
+/_u_s_r/_b_i_n/_X_1_1/) in their PATH environment variable.
+
+
+_2._8.  _N_o_t_e_s _o_n _K_e_r_n_e_l_s _a_n_d _S_p_e_c_i_a_l _F_i_l_e_s
+
+On some machines, it may be necessary to rebuild the  kernel
+with a new device driver, or to at least reconfigure it.  If
+you have never run X before  and  are  using  a  system  not
+listed  in  these  notes, you might need verify that the CSR
+addresses in  your  kernel  configuration  file  match  your
+hardware.  In addition, you should make sure that the kernel
+autoconfigures the display when booting.
+
+You may need to create special  devices  for  your  display,
+mouse, or keyboard.  For example,
+
+
+  #  MAKEDEV cgfour            # for Sun 3/60
+  #  MAKEDEV displays          # for displays on the RT/PC
+
+
+The protection modes on the display device files  should  be
+set so that only the server can open them.  If the server is
+started  by  /_e_t_c/_i_n_i_t,  the   protections   can   be   root
+read/write,  everyone  else  no access; otherwise, they will
+have to be read/write for everyone or else your server  will
+have to be setuid to root.
+
+On a Digital QVSS (VAXStation II) under  older  versions  of
+Ultrix, you may need to use _a_d_b to make sure that the kernel
+variable _q_v__d_e_f__s_c_r_n is set to 2 so that the full  width  of
+the  VR-260  monitor  is  used  (otherwise  there will be an
+unused black strip down the right edge of the screen).  This
+can be done by changing the value either in /_v_m_u_n_i_x directly
+or in /_s_y_s/_v_a_x_u_b_a/_q_v._o and relinking  and  reinstalling  the
+kernel.   You  will need to reboot for the new value to take
+effect.
+
+For more information, see the appropriate _R_E_A_D_M_E  files  and
+manual pages in the _m_i_t/_s_e_r_v_e_r/_d_d_x/ directories.
+
+
+_2._9.  _T_e_s_t_i_n_g _t_h_e _R_e_l_e_a_s_e
+
+Even if you plan on using _x_d_m to run X  all  the  time,  you
+should  first  run it by hand from another terminal to check
+that everything is installed and  working  properly.   Error
+messages  from  the X server will then appear on your termi-
+nal, rather than being  written  to  the  _x_d_m-_e_r_r_o_r_s  or  to
+/_u_s_r/_a_d_m/_X?_m_s_g_s (where ? is the number of the display).
+
+The easiest way to test the server is to go to  /_u_s_r/_b_i_n/_X_1_1
+(or wherever you have installed the various X programs), and
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11113333 ----
+
+
+run _x_i_n_i_t as follows:
+
+
+        %  cd /usr/bin/X11
+        %  xinit
+
+
+If all is well, you should see a gray stipple pattern cover-
+ing  the  screen,  a cursor shaped like an ``X'' that tracks
+the pointer, and a  terminal  emulator  window.   Otherwise,
+check the following:
+
+1.   If the gray background doesn't appear at all, check the
+     permissions on any special device files (usually stored
+     in /_d_e_v/) described in the _R_E_A_D_M_E  in  the  appropriate
+     _m_i_t/_s_e_r_v_e_r/_d_d_x/ subdirectories.
+
+2.   If the background appears, but the cursor  is  a  white
+     square  that  doesn't  change, make sure that the fonts
+     have been installed  (in  particular,  the  font  named
+     _c_u_r_s_o_r._s_n_f  in  the directory /_u_s_r/_l_i_b/_X_1_1/_f_o_n_t_s/_m_i_s_c/;
+     see the configuration parameter _D_e_f_a_u_l_t_F_o_n_t_P_a_t_h).  Also
+     make  sure that there is a file named _f_o_n_t_s._d_i_r in each
+     font directory.  This file is created by the  _m_k_f_o_n_t_d_i_r
+     program  and  is  used by the server to find fonts in a
+     directory.
+
+3.   If the cursor appears but doesn't  track  the  pointer,
+     make  sure  that  any special device files (often named
+     something  like  /_d_e_v/_m_o_u_s_e)  are  installed  (see  the
+     server's _R_E_A_D_M_E file).
+
+4.   If the server starts up  and  then  goes  black  a  few
+     seconds  later,  the  initial  client (usually _x_t_e_r_m or
+     _x_d_m) is dying.   Make  sure  that  _x_t_e_r_m  is  installed
+     setuid  to  root and that you have created enough pseu-
+     doterminals.  If you are running  _x_i_n_i_t,   and  have  a
+     file  named  ._x_i_n_i_t_r_c in your home directory, make sure
+     that it is executable and that the last program that it
+     starts  is run in the foreground (i.e. that there is no
+     ampersand at the end  of  the  line).   Otherwise,  the
+     ._x_i_n_i_t_r_c  will  finish immediately, which _x_i_n_i_t assumes
+     means that you are through.
+
+Once you have the initial window working properly, try  run-
+ning  some other programs from the _x_t_e_r_m.  To position a new
+window with the _t_w_m window manager, press  Button1  (usually
+the  left-most button on the pointer) when the flashing rec-
+tangle appears:
+
+
+
+
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11114444 ----
+
+
+
+        %  xclock -g 200x200-0+0 &
+        %  twm &
+        %  xlogo &
+        %  xeyes &
+        ...
+
+
+X should now be ready to use.  Read the manual pages for the
+new programs, look at the new fonts, and have fun.
+
+
+_2._1_0.  _C_r_e_a_t_i_n_g _E_x_t_r_a _P_s_e_u_d_o_t_e_r_m_i_n_a_l_s
+
+Since each _x_t_e_r_m will need a  separate  pseudoterminal,  you
+should create a large number of them (you probably will want
+at least 32 on a small, multiuser system).  Each pty has two
+devices,  a  master  and  a  slave,  which are usually named
+/dev/tty[pqrstu][0-f]  and  /dev/pty[pqrstu][0-f].   If  you
+don't have at least the ``p'' and ``q'' lines configured (do
+an ``ls /dev''), you should have your  system  administrator
+add  them.  This is often done by running the MAKEDEV script
+in /_d_e_v:
+
+        #  cd /dev
+        #  ./MAKEDEV pty0
+        #  ./MAKEDEV pty1
+
+
+
+_2._1_1.  _S_t_a_r_t_i_n_g _X _f_r_o_m /_e_t_c/_r_c
+
+The X Display Manager is used to run the X server  and  ini-
+tial  login  window.  It is normally started from the system
+startup file /_e_t_c/_r_c, and is designed to be easily  tailored
+to the needs of each specific site.  _X_d_m takes care of keep-
+ing the server running, prompting for username and  password
+and  managing  the user's session.  The sample configuration
+currently uses shell scripts  to  provide  a  fairly  simple
+environment.   This  will  be  an area of continuing work in
+future releases.
+
+The key  to  _x_d_m's  flexibility  is  its  extensive  use  of
+resources,  allowing  site  administrators  to  quickly  and
+easily test alternative setups.   When  _x_d_m  starts  up,  it
+reads    a    configuration    file    (the    default    is
+/_u_s_r/_l_i_b/_X_1_1/_x_d_m/_x_d_m-_c_o_n_f_i_g but can be  specified  with  the
+-_c_o_n_f_i_g  command line flag) listing the names of the various
+datafiles, default parameters, and startup and shutdown pro-
+grams  to  be  run.   Because it uses the standard X Toolkit
+resource file format, any parameters that may be set in  the
+_x_d_m-_c_o_n_f_i_g  file  may  also be specified on the command line
+using the standard -_x_r_m option.
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11115555 ----
+
+
+The default configuration contains the following lines:
+
+
+DisplayManager.servers:                /usr/lib/X11/xdm/Xservers
+DisplayManager.errorLogFile:           /usr/lib/X11/xdm/xdm-errors
+DisplayManager*resources:              /usr/lib/X11/xdm/Xresources
+DisplayManager*startup:                /usr/lib/X11/xdm/Xstartup
+DisplayManager*session:                /usr/lib/X11/xdm/Xsession
+DisplayManager*reset:                  /usr/lib/X11/xdm/Xreset
+
+
+The _m_i_t/_s_e_r_v_e_r_s file contains the list of servers to  start.
+The  _e_r_r_o_r_L_o_g_F_i_l_e  is  where  output from _x_d_m is redirected.
+The _r_e_s_o_u_r_c_e_s file contains default resources  for  the  _x_d_m
+login  window.   In  particular,  this  is where special key
+sequences can be specified (in the _x_l_o_g_i_n*_l_o_g_i_n._t_r_a_n_s_l_a_t_i_o_n_s
+resource).   The _s_t_a_r_t_u_p file should be a program or execut-
+able script that is run after the user has provided a  valid
+password.   It is a hook for doing site-specific initializa-
+tion, logging, etc.  The _s_e_s_s_i_o_n entry is the name of a ses-
+sion  manager  program  or  executable script that is run to
+start up the user's environment.  A simple version has  been
+supplied  that  provides  an  _x_t_e_r_m  window  and  _t_w_m window
+manager if the user does not have  an  executable  ._x_s_e_s_s_i_o_n
+file  in his or her home directory.  Finally, the _r_e_s_e_t pro-
+gram or executable script is run after the  user  logs  out.
+It is a hook for cleaning up after the _s_t_a_r_t_u_p program.
+
+To run _x_d_m using the default configuration, add the  follow-
+ing  line to your system boot file (usually named /_e_t_c/_r_c or
+/_e_t_c/_r_c._l_o_c_a_l):
+
+        /usr/bin/X11/xdm
+
+Most sites will undoubtedly want to build their  own  confi-
+gurations.   We  recommend  that you place any site-specific
+_x_d_m-_c_o_n_f_i_g and other _x_d_m files in a different  directory  so
+that  they  are not overwritten if somebody ever does a _m_a_k_e
+_i_n_s_t_a_l_l.    If   you   were   to   store   the   files    in
+/_u_s_r/_l_o_c_a_l/_l_i_b/_x_d_m,  the  following command could be used to
+start _x_d_m:
+
+        /usr/bin/X11/xdm -config /usr/local/lib/xdm/xdm-config
+
+
+Many servers set the keyboard to do non-blocking  I/O  under
+the assumption that they are the only programs attempting to
+read from the keyboard.   Unfortunately,  some  versions  of
+/_e_t_c/_g_e_t_t_y  (A/UX's  in  particular)  will immediately see a
+continuous stream of zero-length reads which they  interpret
+as  end-of-file indicators.  Eventually, /_e_t_c/_i_n_i_t will dis-
+able logins on that line until somebody types the  following
+as root:
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11116666 ----
+
+
+
+        #  kill -HUP 1
+
+Under A/UX, one alternative is to disable logins on the con-
+sole  and  always  run _x_d_m from /_e_t_c/_i_n_i_t_t_a_b.  However, make
+sure that you save a copy of the old  /_e_t_c/_i_n_i_t_t_a_b  in  case
+something  goes  wrong  and  you have to restore logins from
+over the network or from single-user mode.
+
+Another less drastic approach is to set up an account  whose
+shell  is  the  _x_d_m_s_h_e_l_l  program found in _m_i_t/_c_l_i_e_n_t_s/_x_d_m/.
+This program is  not  installed  by  default  so  that  site
+administrators  will  examine  it  to  see if it meets their
+needs.  The _x_d_m_s_h_e_l_l utility makes sure that it is being run
+from the appropriate type of terminal, starts _x_d_m, waits for
+it to finish, and then resets the console if necessary.   If
+the     _x_d_m     resources    file    (specified    by    the
+_D_i_s_p_l_a_y_M_a_n_a_g_e_r*_r_e_s_o_u_r_c_e_s entry in the _x_d_m-_c_o_n_f_i_g file)  con-
+tains  a  binding to the _a_b_o_r_t-_d_i_s_p_l_a_y action similar to the
+following
+
+        xlogin*login.translations: #override  Ctrl<Key>R: abort-display()
+
+the console can then by restored by pressing  the  indicated
+key  (Control-R  in the above example) in the _x_d_m login win-
+dow.
+
+The _x_d_m_s_h_e_l_l program is usually installed setuid to root but
+executable  only by members of a special group, of which the
+account which has _x_d_m_s_h_e_l_l as its shell is the only member:
+
+        %  grep xdm /etc/passwd
+        x:aB9i7vhDVa82z:101:51:Account for starting up X:/tmp:/etc/xdmshell
+        %  grep 51 /etc/group
+        xdmgrp:*:51:
+        %  ls -lg /etc/xdmshell
+        -rws--x---   1 root     xdmgrp     20338 Nov  1 01:32 /etc/xdmshell
+
+
+If the _x_d_m resources have not been configured to have a  key
+bound  to  the  _a_b_o_r_t-_d_i_s_p_l_a_y() action, there will be no way
+for general users to login to the console directly.  Whether
+or not this is desirable depends on the particular site.
+
+_3.  _H_o_w _t_o _R_e_p_o_r_t _B_u_g_s _o_r _R_e_q_u_e_s_t _E_n_h_a_n_c_e_m_e_n_t_s
+
+If you find a _r_e_p_r_o_d_u_c_i_b_l_e bug in the core distribution sup-
+ported  by  MIT (i.e. not in _c_o_n_t_r_i_b/) or would like to sug-
+gest an enhancement (preferably with  sample  code),  please
+fill  in  a  copy  of  the form located in _m_i_t/_d_o_c/_b_u_g_s/_b_u_g-
+_r_e_p_o_r_t and mail it to:
+
+                   _x_b_u_g_s@_e_x_p_o._l_c_s._m_i_t._e_d_u
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11117777 ----
+
+
+Please fill in all sections (even if the bug appears on  all
+systems)  and  please include any test cases; a small sample
+program  is  almost  always  the  best  information  we  can
+receive.   Sites that do not have access to the various net-
+works may send printed copies of bug reports and tests cases
+to:
+
+                           X Bugs
+                        X Consortium
+            MIT Laboratory for Computer Science
+                       room NE43-218
+                   545 Technology Square
+                    Cambridge, MA  02139
+
+Bug reports that are not sent in electronic form  cannot  be
+guaranteed  a  response.   Also,  any  media  containing bug
+reports, contributions, etc. will not be returned.
+
+Bugs in user-contributed software  should  be  sent  to  the
+author  of the particular program, nnnnooootttt to the address listed
+above.  The X Consortium will not track or forward  bugs  in
+code located in _c_o_n_t_r_i_b/.
+
+
+_4.  _W_h_a_t'_s _N_e_w _i_n _t_h_i_s _R_e_l_e_a_s_e
+
+The primary focus of this release has been  optimization  of
+the server and improvements in the key applications.
+
+_4._1.  _C_h_a_n_g_e_s _t_o _t_h_e _c_o_r_e _d_i_s_t_r_i_b_u_t_i_o_n
+
+The following additions, deletions, and  modifications  have
+been  made to the software in the core distribution.  Widget
+writers should read the new X Toolkit Intrinsics  specifica-
+tion.   Application developers who use the Athena Widget Set
+should   read   the   list   of   changes   in   the    file
+_m_i_t/_l_i_b/_X_a_w/_C_H_A_N_G_E_S     and    the    conversion    document
+_m_i_t/_d_o_c/_X_a_w/_C_o_n_v_e_r_t_T_o_R_4, and read the new _A_t_h_e_n_a _W_i_d_g_e_t  _S_e_t
+documentation.
+
+many, many bugs fixed
+     A large number of bugs have been fixed in  the  server,
+     the libraries, and the clients.  Servers are now robust
+     enough that they have been known to run for more than 3
+     months  without  experiencing any problems.  The server
+     is now much stricter about disallowing extraneous  bits
+     in masks (particularly the _d_o__n_o_t__p_r_o_p_a_g_a_t_e__m_a_s_k window
+     attribute), causing some improperly coded  applications
+     to  generate  protocol  errors.   A  new,  non-standard
+     extension  is  provided  (see  _x_s_e_t   _b_c)   to   enable
+     backwards-compatibility for broken clients.
+
+server optimized, data space reduced
+     A substantial  number  of  optimizations  to  both  the
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11118888 ----
+
+
+     device-independent  (dix)  and  device-dependent  (ddx)
+     code.  The  monochrome  (mfb)  and  color  (cfb)  frame
+     buffer  code is now capable of driving many displays at
+     memory speeds.  In addition, the amount of heap  memory
+     that  is used by the server has been reduced by roughly
+     two-thirds since the last release.
+
+SHAPE extension
+     Non-rectangular windows are now supported  by  the  new
+     SHAPE  extension.   Round  windows such as round clocks
+     (see _o_c_l_o_c_k), oval buttons (see  _x_m_h  and  _x_c_a_l_c),  and
+     shaped  desktop  icons  (see  _x_b_i_f_f)  are now possible.
+     This extension is a Consortium standard.
+
+prototype extensions
+     Prototypes of two extensions that are  currently  under
+     development  are  provided in this release.  The _M_u_l_t_i-
+     _B_u_f_f_e_r_i_n_g extension provides the ability to  do  simple
+     animation  (see _i_c_o -_d_b_l), and the _X_I_n_p_u_t_E_x_t_e_n_s_i_o_n pro-
+     vides access to alternate input devices.  These  exten-
+     sions are ddddrrrraaaafffftttt Consortium standards and are subject to
+     change.
+
+build configuration moved and simplified
+     The configuration files have been moved to  _m_i_t/_c_o_n_f_i_g/
+     and  have  been rewritten to make better use of prepro-
+     cessor symbols and macros.  Support for System  V  with
+     and  without  the  STREAMS  transport  layers  has been
+     added.
+
+new servers
+     New support has been added to the sample server for the
+     following   platforms:  Sun  _c_g_t_h_r_e_e  and  _c_g_s_i_x  frame
+     buffers, Digital DECstation  frame  buffers,  Tektronix
+     4319  frame buffer, and all HP framebuffers.  Reorgani-
+     zations within the  machine-independent  (mi)  graphics
+     code  make porting to new platforms even easier than it
+     was before.
+
+security hooks
+     Programming hooks in _X_l_i_b and the server  are  provided
+     for  passing  authorization  information  at connection
+     setup  time.   A  sample  implementation  (called  MIT-
+     MAGIC-COOKIE-1)  based  on secret tokens is used by _x_d_m
+     and the server to provide  greater  security  than  the
+     host-based mechanism.
+
+new fonts
+     Adobe Systems and Digital  Equipment  Corporation  have
+     jointly donated 100dpi versions of the 75dpi fonts that
+     they provided in the last release.  In addition,  Digi-
+     tal  has  donated  a  set  of  terminal emulator fonts.
+     Bigelow & Holmes  and  Sun  Microsystems  have  jointly
+     donated  a  collection of fonts from the _L_u_c_i_d_a family.
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 11119999 ----
+
+
+     Sun has also donated a set of OPEN  LOOK  glyph  fonts.
+     Sony  has  donated  a  set of Kanji and Kana fonts, and
+     several individuals have donated additional fixed-width
+     fonts.
+
+ICCCM support
+     _X_l_i_b,  the  _X  _T_o_o_l_k_i_t  _I_n_t_r_i_n_s_i_c_s,  _t_w_m,  and  various
+     clients  are now hoped to be ICCCM-compliant.  The fol-
+     lowing  window  managers  in  _c_o_n_t_r_i_b/_w_i_n_d_o_w_m_g_r_s/  also
+     claim to be compliant: _g_w_m, _o_l_w_m, and _t_e_k_w_m.
+
+new rgb color database
+     A new color database containing many new  colors,  gray
+     scales,  and color spectra tuned for some of the common
+     monitors is included.
+
+function prototypes
+     ANSI C function prototypes have been added to the  _X_l_i_b
+     and  _X_t header files; the include files should now also
+     be usable from C++ without modification.  The _X_l_i_b pro-
+     totypes are enabled by default (on systems that support
+     them), while the _X_t prototypes are disabled (they  were
+     added  too late in our release cycle).  Picky compilers
+     (such as _h_c) will now catch  many  type  incompatibili-
+     ties.
+
+shared libraries
+     Support for SunOS-style shared libraries has been added
+     to  _X_l_i_b, _X_t, _X_a_w, and _X_m_u.  This substantially reduces
+     the amount of disk spaced used for executable programs.
+
+new Xt Intrinsics
+     The  _X  _T_o_o_l_k_i_t  _I_n_t_r_i_n_s_i_c_s  now   provide   windowless
+     objects,  varargs-style  interfaces,  better caching of
+     resources, fallback resources, locale-driven finding of
+     data files.
+
+Athena widget enhancements
+     Most of the _X_a_w library has been rewritten to  substan-
+     tially  improve  functionality, robustness, and perfor-
+     mance.  New SSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuu and MMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnn  widgets  support
+     pop-up  and  pull-down menus.  The TTTTeeeexxxxtttt widget has been
+     rewritten and is now quite usable for general  editing.
+     The  VVVVPPPPaaaannnneeeedddd widget has been generalized to include hor-
+     izontal paning (and is now called  PPPPaaaannnneeeedddd).   The  LLLLaaaabbbbeeeellll
+     widget  now  supports  multi-line labels.  A new TTTToooogggggggglllleeee
+     widget  has  been  provided  for  implementing   radio-
+     buttons.  Finally, the CCCCoooommmmmmmmaaaannnndddd widget has been enhanced
+     to use the SHAPE extension to provide true  round  but-
+     tons.
+
+standard colormap routines
+     A new set of routines for manipulating standard  color-
+     maps  (see  the _X_S_t_a_n_d_a_r_d_C_o_l_o_r_m_a_p structure in the _X_l_i_b
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 22220000 ----
+
+
+     documentation) has been added to the _X_m_u library.   The
+     _x_s_t_d_c_m_a_p  client uses these routines to create standard
+     colormaps.
+
+additional converters
+     A variety of new converters have been added to _X_m_u.  In
+     addition,  multi-display programs should now be able to
+     use these converters (and might find the utilities  for
+     managing the multiple display data structures useful).
+
+new window manager
+     The _u_w_m window manager has been  moved  from  the  core
+     distribution  to  the user-contributed distribution.  A
+     substantially  rewritten  version  of  the  _t_w_m  window
+     manager is now supported.
+
+improvements in xdm
+     The _x_d_m display manager has been  rewritten  to  reduce
+     the number of processes it requires and to make it much
+     more robust.  This is now the only supported means  for
+     starting  the  server at boot time (the -_L command line
+     option has been removed from _x_t_e_r_m).
+
+new utilities
+     Several  new  utility  programs  have  been   provided:
+     _a_p_p_r_e_s  for determining which resources are loaded into
+     particular  applications,  _l_i_s_t_r_e_s  for  printing   the
+     resource  hierarchy for a widget, _o_c_l_o_c_k for people who
+     like truly round clocks, _x_a_u_t_h for manipulating author-
+     ization  files,  _x_d_i_t_v_i_e_w for previewing _d_i_t_r_o_f_f files,
+     _x_f_o_n_t_s_e_l for interactively  selecting  fonts,  _x_l_s_a_t_o_m_s
+     for  determining the value of various atoms, _x_l_s_c_l_i_e_n_t_s
+     for listing  the  clients  currenting  being  run,  and
+     _x_s_t_d_c_m_a_p for manipulating standard colormaps.
+
+new demos
+     A new demo of how various GC  attributes  (_x_g_c)  affect
+     what is displayed on the screen is provided.
+
+new features in _x_t_e_r_m
+     The following features have been added to _x_t_e_r_m:  8-bit
+     input  and  output,  on-the-fly changing of the current
+     font through escape  sequences  and  a  new  menu,  new
+     resources  for controlling whether or not synthetic key
+     events are ignored, increased portability, and improved
+     menus using the new Athena SSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuu widget.
+
+new CLX and documentation
+     A substantially improved version  of  CLX,  the  Common
+     Lisp   interface  to  X,  is  provided.   In  addition,
+     comprehensive documentation of  the  CLX  interface  is
+     provided, courtesy of Texas Instruments.
+
+sample copyright notice in _m_i_t/_C_O_P_Y_R_I_G_H_T_S
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 22221111 ----
+
+
+     The file _m_i_t/_C_O_P_Y_R_I_G_H_T_S in the top level directory con-
+     tains  a sample copyright notice recommended for people
+     who are interested in contributing software to the pub-
+     lic releases.
+
+X Standards in _m_i_t/_S_t_a_n_d_a_r_d_s._m_a_n
+     The _X_S_t_a_n_d_a_r_d_s(_1) manual page contains a description of
+     what is and is not an MIT X Consortium standard for the
+     X Window System.  For further information about  the  X
+     Consortium, see the manual page _X_C_o_n_s_o_r_t_i_u_m(_1).
+
+_4._2.  _H_i_g_h_l_i_g_h_t_s _o_f _t_h_e _U_s_e_r-_C_o_n_t_r_i_b_u_t_e_d _D_i_s_t_r_i_b_u_t_i_o_n
+
+The user-contributed distribution is set up in a  tree  very
+similar to that used by the core distribution.  New versions
+of several packages are available,  and  a  variety  of  new
+donations  have been received.  Since this is nnnnooootttt a superset
+of the previous user-contributed tape, sites are  encouraged
+to  save  any  R3  user-contributed  software that they use.
+Note that this distribution is of no relation to  the  /_c_o_n_-
+_t_r_i_b    directory    available    for   anonymous   ftp   on
+_e_x_p_o._l_c_s._m_i_t._e_d_u.
+
+XView and olwm
+     The _X_V_i_e_w toolkit and an ICCCM-compliant OPEN LOOK win-
+     dow  manager  from  Sun Microsystems have been added to
+     this release.  This toolkit implements  the  OPEN  LOOK
+     graphical  user  interface  guidelines  and the SunView
+     application programming interface.
+
+Gwm
+     The _G_e_n_e_r_i_c _W_i_n_d_o_w _M_a_n_a_g_e_r from Groupe  Bull  has  been
+     added.   Unlike  other  window managers, _g_w_m provides a
+     programming language for tailoring its user  interface.
+     It is believed to be ICCCM-compliant.
+
+Tektronix Window Manager
+     The _T_e_k_t_r_o_n_i_x _W_i_n_d_o_w _M_a_n_a_g_e_r, derived from the _a_w_m win-
+     dow  manager  in  the  previous release, is also new to
+     this release.  Like _g_w_m and _o_l_w_m, _t_e_k_w_m is believed  to
+     be ICCCM-compliant.
+
+Sigma toolkit and window manager
+     The Sigma Project has donated its Sigma User  Interface
+     Toolkit (SUIT) and window manager (_m__s_w_m).
+
+toolkits updated
+     New versions of _I_n_t_e_r_V_i_e_w_s, _X_w, _a_n_d_r_e_w,  and  _c_l_u_e  are
+     included.  New toolkits include: _x_g_k_s and _X_c_u.
+
+Serpent UIMS
+     The  _S_e_r_p_e_n_t  user  interface  management   system   is
+     included in this release.
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 22222222 ----
+
+
+new libraries
+     Several libraries for doing Japanese input (see _X_J  and
+     _W_n_n),  multi-language  input (see _m_l_x and _i_m), and com-
+     pose processing (see _X_C_o_m_p_o_s_e) are provided.
+
+new programming examples
+     The examples from the O'Reilly and Associates books  on
+     _X_l_i_b and _X_t have been provided.
+
+new demos
+     A variety of eye-catching demos have been added.
+
+new clients
+     A number of useful  packages  have  been  added:  image
+     analysis  (see  _N_C_S_A and _i_m_g), multi-language libraries
+     and utilities (see _k_i_n_p_u_t, _k_t_e_r_m, and _m_l_x_t_e_r_m), a  user
+     interface   prototyping   system  (see  _w_i_n_t_e_r_p),  plus
+     improved versions of _x_f_e_d, _x_c_o_l_o_r_s, _x_p_i_c, _x_p_l_a_c_e_s, _x_t_e_k
+     (formerly _t_e_x_x), _x_t_r_o_f_f, and _x_w_e_b_s_t_e_r.
+
+games
+     A variety of new games have been contributed since  the
+     new release.
+
+_5.  _W_r_i_t_i_n_g _P_o_r_t_a_b_l_e _X _S_o_f_t_w_a_r_e
+
+A favorite saying around here goes:  There's no  such  thing
+as  portable  software,  only software that has been ported.
+However, there are few rules of thumb that  go  a  long  way
+towards  making  programs written for X easy to getting run-
+ning on a wide variety of machines:
+
+1.   Keep all source filenames to  12  characters  or  less.
+     This  is  the  maximum  number of characters that older
+     System V file systems allow when using  a  source  code
+     control system.
+
+2.   Use _I_m_a_k_e_f_i_l_e_s.  They are  the  only  way  to  generate
+     correct   _M_a_k_e_f_i_l_e_s.    The   _x_m_k_m_f   shell  script  in
+     _m_i_t/_u_t_i_l/_s_c_r_i_p_t_s/ makes  it  trivial  create  _M_a_k_e_f_i_l_e_s
+     outside  of  the  core source tree.  The easiest way to
+     construct an _I_m_a_k_e_f_i_l_e is to start with one  that  does
+     something  similar  and  modify it.  The various macros
+     that   are   used   are    defined    in    the    file
+     _m_i_t/_c_o_n_f_i_g/_I_m_a_k_e._r_u_l_e_s.
+
+3.   If  you  absolutely  must  use  _M_a_k_e_f_i_l_e_s  instead   of
+     _I_m_a_k_e_f_i_l_e_s,  link against -_l_X_1_1 instead of -_l_X.  If you
+     are using _i_m_a_k_e,  use  the  symbolic  names  $(XAWLIB),
+     $(XMULIB),  $(XTOOLLIB),  $(EXTENSIONLIB), and $(XLIB).
+     _X_a_w clients may use the symbol _X_a_w_C_l_i_e_n_t_L_i_b_s  to  refer
+     to the appropriate libraries.
+
+4.   Include header  files  using  the  syntax  <_X_1_1/_f_i_l_e._h>
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+
+
+
+
+                           ---- 22223333 ----
+
+
+     instead of "_X_1_1/_f_i_l_e._h", <_X/_f_i_l_e._h>, or "_X/_f_i_l_e._h".
+
+5.   Include <_X_1_1/_X_o_s._h> if you need  _t_y_p_e_s._h,  _s_t_r_i_n_g._h  or
+     _s_t_r_i_n_g_s._h  (then  use  the  routines  _i_n_d_e_x  and _r_i_n_d_e_x
+     instead of _s_t_r_c_h_r  and  _s_t_r_r_c_h_r),  _f_i_l_e._h,  _t_i_m_e._h,  or
+     _u_n_i_s_t_d._h.
+
+6.   If you need to put in System V  vs.  BSD  dependencies,
+     use #_i_f_d_e_f _S_Y_S_V.  If you need SVR3 vs. SVR2, use #_i_f_d_e_f
+     _U_S_G.
+
+7.   Do not assume that the root window's  Visual  (returned
+     by  the _D_e_f_a_u_l_t_V_i_s_u_a_l macro) is the only one available.
+     Some color screens may use a black and white window for
+     the  root or could provide StaticColor as well as Pseu-
+     doColor visuals.  Unfortunately, most libraries do  not
+     have  adequate support for locating visuals to use.  In
+     the mean time, use _X_G_e_t_V_i_s_u_a_l_I_n_f_o().
+
+8.   Use -_d_i_s_p_l_a_y _d_i_s_p_l_a_y_n_a_m_e to specify  the  X  server  to
+     contact.   Do  not simply assume that if a command line
+     argument has a colon in it that it  is  a  _d_i_s_p_l_a_y_n_a_m_e.
+     If  you  accept  command  line abbreviations, make sure
+     that you also accept the full -_d_i_s_p_l_a_y.
+
+9.   Use -_g_e_o_m_e_t_r_y _g_e_o_m_s_p_e_c to specify window geometry.   Do
+     not  simply  assume  that  if  a  command line argument
+     begins with an equal sign that it is a window geometry.
+     If  you  accept  command  line abbreviations, make sure
+     that you also accept the full -_g_e_o_m_e_t_r_y.
+
+10.  Use the ._m_a_n suffix for program manual page sources.
+
+11.  If you are interested in contributing software  to  the
+     MIT  public release, please use a copyright notice that
+     is no more restrictive than the one shown in the  files
+     ./_C_O_P_Y_R_I_G_H_T_S and _c_o_n_t_r_i_b/_C_O_P_Y_R_I_G_H_T_S.
+
+We hope you enjoy Release 4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm RRRReeeelllleeeeaaaasssseeee NNNNooootttteeeessss       XXXX,,,, VVVVeeeerrrrssssiiiioooonnnn 11111111,,,, RRRReeeelllleeeeaaaasssseeee 4444
+
+

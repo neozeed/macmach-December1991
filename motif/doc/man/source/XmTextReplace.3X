@@ -1,0 +1,68 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextReplace 3X "" "" "" ""
+.SH NAME
+\fBXmTextReplace \(em a Text function that replaces part of a text string.\fP
+.iX "XmTextReplace"
+.iX "Text functions" "XmTextReplace"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextReplace (\fIwidget, from_pos, to_pos, value\fP)
+.br
+.ta .5i 1.7i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIfrom_pos\fP;
+.br
+	XmTextPosition	\fIto_pos\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextReplace\fP replaces part of the text string in the Text widget.  The
+character positions begin at zero and are numbered sequentially from the
+beginning of the text.  
+.br
+.ne 5
+.PP
+An example text replacement would be to replace
+the second and third characters in the text string.  To accomplish this,
+the parameter \fIfrom_pos\fP must be 1 and \fIto_pos\fP must be 3.  To
+insert a string after the fourth character, both parameters, \fIfrom_pos\fP
+and \fIto_pos\fP, must be 4.
+.PP
+.ne 20
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+.sp 1
+.br
+.ne 5
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIfrom_pos\fP" .75i
+Specifies the start position of the text to be replaced
+.IP "\fIto_pos\fP" .75i
+Specifies the end position of the text to be replaced
+.IP "\fIvalue\fP" .75i
+Specifies the character string value to be added to the text widget
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

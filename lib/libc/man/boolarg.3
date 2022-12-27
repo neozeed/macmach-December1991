@@ -1,0 +1,68 @@
+.\"
+.\" $Id: boolarg.3,v 1.3 89/12/26 11:15:16 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	boolarg.3,v $
+.\" Revision 1.3  89/12/26  11:15:16  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 20-Jun-86  David VanRyzin at Carnegie-Mellon University
+.\"	Updated manual entry for 4.2 conversion.  Error message
+.\"	now goes to stderr instead of stdout.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH BOOLARG 3 6/20/86
+.CM 4
+.SH NAME
+boolarg \- parse boolean argument or ask user
+.SH SYNOPSIS
+.B 
+int boolarg (ptr,brk,prompt,defalt);
+.br
+.B
+char **ptr,*brk,*prompt;
+.br
+.B
+int defalt;
+.SH DESCRIPTION
+.I 
+Boolarg
+attempts to parse an argument from a string, passing
+the string pointer
+.I 
+ptr
+and the break character set
+.I 
+brk
+to the
+.IR nxtarg (3)
+routine.
+If there is an argument parsed, and it is a legal boolean,
+then its value is returned by
+.IR boolarg .
+If there is no argument, or it is not valid, then an error
+message is printed to stderr and the routine
+.IR getbool (3)
+is passed the remaining arguments.
+The value of
+.I 
+getbool
+is then returned by
+.I 
+boolarg.
+
+.I 
+Boolarg
+is especially useful for parsing boolean values from argument
+lists in programs using the command interpreter,
+.IR ci (3).
+.SH "SEE ALSO"
+.IR nxtarg (3), 
+.IR getbool (3), 
+.IR ci (3)

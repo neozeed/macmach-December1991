@@ -1,0 +1,132 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardCopy 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardCopy \(em a clipboard
+function that copies a data item to temporary storage for later copying
+to clipboard.\fP
+.iX "XmClipboardCopy"
+.iX "clipboard functions" "XmClipboardCopy"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardCopy\fP (\fIdisplay, window, item_id, format_name,
+buffer, length, private_id, data_id\fP)
+.br
+.ta .5i 1.65i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	long	\fIitem_id\fP;
+.br
+	char	\fI* format_name\fP;
+.br
+	char	\fI* buffer\fP;
+.br
+	unsigned long	\fIlength\fP;
+.br
+	int	\fIprivate_id\fP;
+.br
+	int	\fI* data_id\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardCopy\fP
+copies a data item to temporary storage.
+The data item is moved from temporary storage
+to the clipboard data structure when a
+call to \fBXmClipboardEndCopy\fP is made.
+Additional calls to \fBXmClipboardCopy\fP before a call to
+\fBXmClipboardEndCopy\fP add 
+additional data item formats to the same data item or 
+append data to an existing format.  Formats are described in 
+the \fIInter-Client Communication Conventions Manual\fP (ICCCM) as 
+targets.
+.PP
+\fBNOTE:\fP  Do not call \fBXmClipboardCopy\fP before a call to
+\fBXmClipboardStartCopy\fP has been made.  The latter function allocates
+temporary storage required by \fBXmClipboardCopy\fP.
+.PP
+If the \fIbuffer\fP argument is NULL, the data is considered 
+to be passed by name.
+When data, that 
+has been passed by name is later requested by another application, the
+application that owns the data receives a callback with a request for
+the data.  The application that owns the data must then transfer the
+data to the clipboard with the \fBXmClipboardCopyByName\fP function.
+When a data item that was passed by name is deleted 
+from the clipboard, the application that owns the data receives a
+callback stating that the data is no longer needed.
+.PP
+For information on the callback function, see the callback argument
+description for \fBXmClipboardStartCopy\fP.
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIitem_id\fP" 1.2i
+Specifies the number assigned to this data item.
+This number was returned by a previous call to
+\fBXmClipboardStartCopy\fP.
+.br
+.ne 7
+.IP "\fIformat_name\fP" 1.2i
+Specifies the name of the format in which the data item
+is stored on the clipboard.  Format is known as target in the ICCCM.
+.IP "\fIbuffer\fP" 1.2i
+Specifies the buffer from which the clipboard copies the data.
+.IP "\fIlength\fP" 1.2i
+Specifies the length of the data being copied to the clipboard.
+.IP "\fIprivate_id\fP" 1.2i
+Specifies the private data that the application wants 
+to store with the data item.
+.IP "\fIdata_id\fP" 1.2i
+Specifies an identifying number assigned to the data item that uniquely
+identifies the data item and the format.
+This argument is required only for data that is passed by name.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.IP "\fBClipboardFail\fP" 1.2i
+The function failed because \fBXmClipboardStartCopy\fP was not called or
+because the data item contains too many formats.
+.sp 1
+.na
+.ne 2i
+.SH RELATED INFORMATION
+\fBXmClipboardCopyByName(3X)\fP,
+\fBXmClipboardEndCopy(3X)\fP, and
+\fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

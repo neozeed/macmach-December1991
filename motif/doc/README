@@ -1,0 +1,208 @@
+The OSF/Motif Documentation
+
+       The Motif documentation set is made up of the following
+       documents:
+
+          * AES User Environment Volume
+
+          * OSF/Motif Programmer's Reference
+
+          * OSF/Motif Programmer's Guide
+
+          * OSF/Motif Release Notes
+
+          * OSF/Motif Porting Guide
+
+          * OSF/Motif Style Guide
+
+          * OSF/Motif User's Guide
+
+          * OSF/Motif Test Suite User's Guide
+
+       The entire documentation set is contained in one of the
+       major subdirectories (./doc) of the OSF/Motif 1.1 tree.
+
+Structure of the Documentation Directory Tree
+
+       The ./doc directory contains the following files and direc-
+       tories.
+
+       README          This file contains a description of the con-
+                       tents of the ./doc directory.
+
+       aes             This directory contains the source and out-
+                       put files for the AES User Environment
+                       Volume.
+
+       build.docs      This file is the script that we used to make
+                       the index and table of contents files, and
+                       to create the PostScript and output files
+                       for each manual.  This script can also be
+                       used to lengthen filenames for machines with
+                       longname support, and to install manpages
+                       onto your system.
+
+       man             This directory contains the source and out-
+                       put files for the OSF/Motif Programmer's
+                       Reference.
+
+       portingGuide    This directory contains information about
+                       porting applications from OSF/Motif.
+
+       programGuide    This directory contains the source and out-
+                       put files for the OSF/Motif Programmer's
+                       Guide.
+
+       releaseNotes    This directory contains the source and out-
+                       put files for these release notes.
+
+       styleGuide      This directory contains the source and out-
+                       put files for the OSF/Motif Style Guide.
+
+       testGuide       This directory contains the source and out-
+                       put files for the OSF/Motif Test Suite
+                       User's Guide.
+
+       tools           This directory contains files used by the
+                       build.docs script.  In addition, the tools
+                       directory contains a script to convert
+                       PostScript figure files to a format suitable
+                       for individual printing.  See the section
+                       ``Printing PostScript Figures'' below for
+                       more information.
+
+       usersGuide      This directory contains the source and out-
+                       put files for the OSF/Motif User's Guide.
+
+       Each manual directory is broken into three subdirectories:
+
+       output          These directories contain ASCII versions of
+                       the documentation.  These files are suitable
+                       for sending to any printer with either the
+                       lp or the lpr command.
+
+       postscript      These directories contain PostScript ver-
+                       sions of the documentation.  These files are
+                       suitable for sending to any PostScript com-
+                       patible printer with either the lp or the
+                       lpr command.
+
+       source          These directories contain source files for
+                       the documentation.  These files are marked
+                       up using troff primitives in conjunction
+                       with either the man or mm macro package.
+
+       Some source directories may contain a subdirectory called
+       graphics.  This directory contains figures for the document
+       in PostScript format.  These figures have been included in
+       the PostScript output for the manuals in this release.  In
+       order to print any of the PostScript figure files individu-
+       ally, you need to run a script to convert the format.  See
+       the section ``Printing PostScript Figures'' below for more
+       information.
+
+       We have included a paper copy of all the PostScript figures
+       for people lacking a PostScript printer.
+
+The man/pointer Directory
+
+       Besides source, output and postscript, the man directory
+       contains a subdirectory called pointer.  This directory con-
+       tains pointer files needed on machines without longname sup-
+       port. The pointer files exist to help users resolve name
+       conflicts when two manpage names truncate to the same name.
+
+       These pointer files are installed in your manpage directory
+       so that when you enter man with an ambiguous file name you
+       get information from the pointer file directing you to an
+       unambiguous name.  The pointer files are not needed on
+       machines with longname support.
+
+build.docs
+
+       The build.docs script was used to create tables of contents,
+       indexes, output files, and PostScript files for this
+       release.  The script can also be used to install the man-
+       pages and convert files for longname support.  The tools
+       directory contains scripts and macro files used by the
+       build.docs script.  We provide these files as a reference to
+       our documentation build procedure.
+
+       The build.docs script is designed to be easy to modify.  It
+       is a simple shell script.  You may want to use it in pro-
+       cessing the Motif document set.  Please familiarize yourself
+       with the script before using it.  It is not fully debugged,
+       and may not work correctly under all circumstances.
+
+Change Bars in Documents
+
+       The OSF/Motif Programmer's Guide, OSF/Motif Programmer's
+       Reference, and OSF AES/UE have been built with change bars
+       in the margins of lines that have changed since Motif 1.0.
+       To remove the change bars, you must rebuild the documents
+       after removing from the sources all lines that begin with
+       .mc.
+
+Including PostScript Figures
+
+       Three of the documents provided with OSF/Motif 1.1 (the
+       Programmer's Guide, Style Guide, and User's Guide) include
+       figures in PostScript format.  These PostScript files reside
+       in a graphics subdirectory beneath the source text files for
+       each book.
+
+       These files are included directly into the PostScript output
+       for each manual using the .P!  troff macro.  This macro is
+       interpreted by the eroff processor to include PostScript
+       files into the troff source.  If you are using Transcript
+       style troff you may be able to include the PostScript fig-
+       ures directly into the troff source by defining the .P!
+       macro in a way similar to the following:
+
+            .de P!
+            \\&
+            .fl
+            \\!%PB
+            \\!/showpage{}def
+            .fl
+            .sy cat \\$1
+            \\!PE
+            \\!.
+            .sp \\$2
+            ..
+
+Printing PostScript Figures
+
+       In their current form, the PostScript figure files are only
+       suitable for inclusion within the text files.  That is, you
+       can print any of the chapters and appendixes that include
+       figures and the figures will print in the correct positions
+       within the text.  However, you cannot print any of the fig-
+       ures individually in their current form.
+
+       In order to print an individual figure, you need to convert
+       it to the printable format using the conversion script pro-
+       vided in the directory ./doc/tools.  The script printfig
+       takes a PostScript figure suitable for inclusion in a manual
+       and converts it to a format suitable for printing
+       separately.  The output of printfig is sent to the standard
+       output and can be piped to a printer command.
+
+       For example, if you want to print the PostScript figure
+       list1.ps from from the directory
+       ./doc/programGuide/source/graphics, you should enter the
+       following command.
+
+            printfig ./doc/programGuide/source/graphics/list1.ps | lp
+
+       (Remember to put the ./doc/tools directory in your path or
+       copy the figure conversion scripts to your own tools direc-
+       tory.)
+
+       Be aware that the figure conversion script can be run on a
+       single PostScript file or on multiple files.  Thus, both of
+       the following command lines are acceptable:
+
+            printfig -P list1.ps
+
+            printfig -P *

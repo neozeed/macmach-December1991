@@ -1,0 +1,72 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCvtStringToUnitType 3X "" "" "" ""
+.SH NAME
+\fBXmCvtStringToUnitType \(em a function that converts a string
+to a unit-type value.\fP
+.iX "XmCvtStringToUnitType"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmCvtStringToUnitType (\fIargs, num_args, from_val, to_val\fP)
+.br
+.ta .5i 1.5i
+	XrmValuePtr	\fIargs\fP;
+.br
+	Cardinal	\fI* num_args\fP;
+.br
+	XrmValue	\fI* from_val\fP;
+.br
+	XrmValue	\fI* to_val\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCvtStringToUnitType\fP converts a string to a unit type.  Refer to 
+the man pages for \fBXmGadget\fP, \fBXmManager\fP, or \fBXmPrimitive\fP for a 
+description of the valid unit types.
+.PP
+.ne 3i
+Install this function as a resource converter using the Xt Intrinsics function
+\fBXtAddConverter\fP, rather than calling it directly.  
+The following code segment
+shows how to install the converter into the toolkit's converter cache that
+will allow the resource \fBXmNunitType\fP to be specified through a resource
+file.
+.sp 1
+.IP 
+\f(CWXtAddConverter (XmRString, XmRUnitType, XmCvtStringToUnitType, NULL, 0);\fP
+.sp 1
+.PP
+This function should be installed only by applications that need to 
+allow the unit type resource to be specified through a resource file.  
+It must be installed before any widget that is to have
+its \fBXmNunitType\fP resource set by data in a resource file is created.
+.sp 1
+.IP "\fIargs\fP" .75i
+Specifies a list of additional \fBXrmValue\fP arguments to the converter
+if additional context is needed to perform the conversion.  For example,
+the string-to-font converter needs the widget's screen and the 
+string-to-pixel converter needs the widget's screen and color map.  This
+argument is often NULL.
+.IP "\fInum_args\fP" .75i
+Specifies the number of additional \fBXrmValue\fP arguments.  This argument
+is often zero.
+.IP "\fIfrom_val\fP" .75i
+Specifies the value to convert
+.IP "\fIto_val\fP" .75i
+Specifies the descriptor to use to return the converted value
+.sp 1
+.SH RELATED INFORMATION
+\fBXmGadget(3X)\fP, \fBXmManager(3X)\fP, and \fBXmPrimitive(3X)\fP.
+.sp 1

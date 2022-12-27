@@ -1,0 +1,196 @@
+syscalls for MacMach 2/27/89
+
+ {bsd/init_sysent.c}   {h/syscall.h}
+  # args   function	#define			form
+
+ -9  0  0  getmodes	SYS_getmodes (-9)	getmodes()
+ -8  1  0  setmodes	SYS_setmodes (-8)	setmodes(modes)
+ -7  2  0  nosys	/* -7 is old: IPCAtrium */
+ -6  5  0  table	SYS_table (-6)		table(id, index, addr, nel, lel)
+ -5  3  0  rpause	SYS_rpause (-5)		rpause(errno, etype, action)
+ -4  2  0  xutimes	SYS_xutimes (-4)	xutimes(fname, tptr)
+ -3  0  0  nulldev	/* -3 is unused */
+ -2  0  0  getaid	SYS_getaid (-2)		getaid()
+ -1  1  0  setaid	SYS_setaid (-1)		setaid(aid)
+  0  0  0  nosys	SYS_syscall 0
+  1  1  0  rexit	SYS_exit 1		exit(rval)
+  2  0  0  fork		SYS_fork 2 		fork()
+  3  3  1  read		SYS_read 3		read(fdes, cbuf, count)
+  4  3  1  write	SYS_write 4		write(fdes, cbuf, count)
+  5  3  0  open		SYS_open 5		open(fname, mode, crtmode)
+  6  1  0  close	SYS_close 6		close(i)
+  7  0  0  nosys	/* 7 is old: wait */
+  8  2  0  creat	SYS_creat 8		creat(fname, fmode)
+  9  2  0  link		SYS_link 9		link(target, linkname)
+ 10  1  0  unlink	SYS_unlink 10		unlink(fname)
+ 11  2  0  execv	SYS_execv 11		execv(fname, argp)
+ 12  1  0  chdir	SYS_chdir 12		chdir(fname)
+ 13  0  0  nosys	/* 13 is old: time */
+ 14  3  0  mknod	SYS_mknod 14		mknod(fname, fmode, dev)
+ 15  2  0  chmod	SYS_chmod 15		chmod(fname, fmode)
+ 16  3  0  chown	SYS_chown 16		chown(fname, uid, fid)
+ 17  1  0  obreak	/* 17 is old: sbreak */
+ 18  0  0  nosys	/* 18 is old: stat */
+ 19  3  0  lseek	SYS_lseek 19		lseek(fd, off, sbase)
+ 20  0  1  getpid	SYS_getpid 20		getpid()
+ 21  3  0  cover_mount	SYS_mount 21
+ 22  1  0  umount	SYS_umount 22
+ 23  0  0  nosys	/* 23 is old: setuid */
+ 24  0  1  getuid	SYS_getuid 24		getuid()
+ 25  0  0  nosys	/* 25 is old: stime */
+ 26  4  0  ptrace	SYS_ptrace 26		ptrace(req, pid, addr, data)
+ 27  0  0  nosys	/* 27 is old: alarm */
+ 28  0  0  nosys	/* 28 is old: fstat */
+ 29  0  0  nosys	/* 29 is old: pause */
+ 30  0  0  nosys	/* 30 is old: utime */
+ 31  0  0  nosys	/* 31 is old: stty */
+ 32  0  0  nosys	/* 32 is old: gtty */
+ 33  2  0  access	SYS_access 33
+ 34  0  0  nosys	/* 34 is old: nice */
+ 35  0  0  nosys	/* 35 is old: ftime */
+ 36  0  0  sync		SYS_sync 36		sync()
+ 37  2  0  kill		SYS_kill 37		kill(pid, signo)
+ 38  2  0  stat		SYS_stat 38		stat(fname, ub)
+ 39  0  0  nosys	/* 39 is old: setpgrp */
+ 40  2  0  lstat	SYS_lstat 40		lstat(fname, ub)
+ 41  2  0  dup		SYS_dup 41		dup(i)
+ 42  0  0  pipe		SYS_pipe 42		pipe()
+ 43  0  0  nosys	/* 43 is old: times */
+ 44  4  0  profil	SYS_profil 44		profil(bufbase, bufsize, pcoffset, pcscale)
+ 45  0  0  nosys	/* 45 is unused */
+ 46  0  1  nosys	/* 46 is old: setgid */
+ 47  0  1  getgid	SYS_getgid 47		getgid()
+ 48  0  0  nosys	/* 48 is old: sigsys */
+ 49  0  0  nosys	/* 49 is unused */
+ 50  0  0  nosys	/* 50 is unused */
+ 51  1  0  sysacct	SYS_acct 51
+ 52  0  0  nosys	/* 52 is old: phys */
+ 53  0  0  nosys	/* 53 is old: syslock */
+ 54  3  0  afs_xioctl	SYS_ioctl 54		ioctl(fdes, cmd, cmarg)
+ 55  1  0  reboot	SYS_reboot 55
+ 56  0  0  nosys	/* 56 is old: mpxchan */
+ 57  2  0  symlink	SYS_symlink 57
+ 58  3  0  readlink	SYS_readlink 58		readlink(name, buf, count)
+ 59  3  0  execve	SYS_execve 59		execve(fname, argp, envp)
+ 60  1  0  umask	SYS_umask 60		umask(mask)
+ 61  1  0  chroot	SYS_chroot 61		chroot(fname)
+ 62  2  0  fstat	SYS_fstat 62		fstat(fdes, sb)
+ 63  0  0  nosys	/* 63 is unused */
+ 64  1  1  getpagesize	SYS_getpagesize 64
+ 65  5  0  mremap	SYS_mremap 65
+ 66  0  0  vfork	SYS_vfork 66		vfork()
+ 67  3  0  read		/* 67 is old: vread */
+ 68  3  0  write	/* 68 is old: vwrite */
+ 69  1  0  sbrk		SYS_sbrk 69
+ 70  1  0  sstk		SYS_sstk 70
+ 71  6  0  smmap	SYS_mmap 71
+ 72  1  0  ovadvise	SYS_vadvise 72
+ 73  2  0  munmap	SYS_munmap 73
+ 74  3  0  mprotect	SYS_mprotect 74
+ 75  3  0  madvise	SYS_madvise 75
+ 76  1  0  vhangup	SYS_vhangup 76
+ 77  0  0  nosys	/* 77 is old: vlimit */
+ 78  3  0  mincore	SYS_mincore 78
+ 79  2  1  getgroups	SYS_getgroups 79	getgroups(gidsetsize, gidset)
+ 80  2  1  afs_xsetgroups SYS_setgroups 80	setgroups(gidsetsize, gidset)
+ 81  1  1  getpgrp	SYS_getpgrp 81		getpgrp(pid)
+ 82  2  1  setpgrp	SYS_setpgrp 82		setpgrp(pid, pgrp)
+ 83  3  0  setitimer	SYS_setitimer 83
+ 84  0  0  wait		SYS_wait 84
+ 85  1  0  swapon	SYS_swapon 85
+ 86  2  0  getitimer	SYS_getitimer 86
+ 87  2  1  gethostname	SYS_gethostname 87
+ 88  2  1  sethostname	SYS_sethostname 88
+ 89  0  1  getdtablesize SYS_getdtablesize 89	getdtablesize()
+ 90  2  0  dup2		SYS_dup2 90		dup2(i, j)
+ 91  2  1  getdopt	SYS_getdopt 91		getdopt()
+ 92  3  0  fcntl	SYS_fcntl 92		fcntl(fdes, cmd, arg)
+ 93  5  0  select	SYS_select 93		select(nd, in, ou, ex, tv)
+ 94  2  0  setdopt	SYS_setdopt 94		setdopt()
+ 95  1  0  fsync	SYS_fsync 95		fsync(fd)
+ 96  3  1  setpriority	SYS_setpriority 96
+ 97  3  0  socket	SYS_socket 97		socket(domain, type, protocol)
+ 98  3  0  connect	SYS_connect 98		connect(s, name, anamelen)
+ 99  3  0  accept	SYS_accept 99		accept(s, name, anamelen)
+100  2  1  getpriority	SYS_getpriority 100
+101  4  0  send		SYS_send 101		send(s, buf, len, flags)
+102  4  0  recv		SYS_recv 102		recv(s, buf, len, flags)
+103  1  0  sigreturn	SYS_sigreturn 103
+104  3  0  bind		SYS_bind 104		bind(s, name, namelen)
+105  5  0  setsockopt	SYS_setsockopt 105	setsockopt(s, level, name, val, valsize)
+106  2  0  listen	SYS_listen 106		listen(s, backlog)
+107  0  0  nosys	/* 107 was vtimes */
+108  3  0  sigvec	SYS_sigvec 108		sigvec(signo, nsv, osv)
+109  1  0  sigblock	SYS_sigblock 109	sigblock(mask)
+110  1  0  sigsetmask	SYS_sigsetmask 110	sigsetmask(mask)
+111  1  0  sigpause	SYS_sigpause 111	sigpause(mask)
+112  2  0  sigstack	SYS_sigstack 112	sigstack(nss, oss)
+113  3  0  recvmsg	SYS_recvmsg 113		recvmsg(s, msg, flags)
+114  3  0  sendmsg	SYS_sendmsg 114		sendmsg(s, msg, flags)
+115  0  0  nosys	/* 115 is old vtrace */
+116  2  0  gettimeofday	SYS_gettimeofday 116
+117  2  1  getrusage	SYS_getrusage 117
+118  5  0  getsockopt	SYS_getsockopt 118	getsockopt(s, level, name, val, avalsize)
+119  0  0  nosys	/* 119 is old resuba */
+120  3  1  readv	SYS_readv 120		readv(fdes, iovp, iovcnt)
+121  3  1  writev	SYS_writev 121		writev(fdes, iovp, iovcnt)
+122  2  0  settimeofday	SYS_settimeofday 122
+123  3  0  fchown	SYS_fchown 123		fchown(fd, uid, fid)
+124  2  0  fchmod	SYS_fchmod 124		fchmod(fd, fmode)
+125  6  0  recvfrom	SYS_recvfrom 125	recvfrom(s, buf, len, flags, from, fromlenaddr)
+126  2  1  setreuid	SYS_setreuid 126	setreuid(ruid, euid)
+127  2  1  setregid	SYS_setregid 127	setregid(rgid, egid)
+128  2  0  rename	SYS_rename 128		rename(from, to)
+129  2  0  truncate	SYS_truncate 129	truncate(fname, length)
+130  2  0  ftruncate	SYS_ftruncate 130	ftruncate(fd, length)
+131  2  0  afs_xflock	SYS_flock 131
+132  0  0  nosys	/* 132 is unused */
+133  6  0  sendto	SYS_sendto 133		sendto(s, buf, len, flags, to, tolen)
+134  2  0  shutdown	SYS_shutdown 134	shutdown(s, how)
+135  5  0  socketpair	SYS_socketpair 135	socketpair(domain, type, protocol, rsv)
+136  2  0  mkdir	SYS_mkdir 136		mkdir(name, dmode)
+137  1  0  rmdir	SYS_rmdir 137		rmdir(name)
+138  2  0  utimes	SYS_utimes 138		utimes(fname, tptr)
+139  0  0  osigcleanup	/* 139 is unused */
+140  2  0  adjtime	SYS_adjtime 140
+141  3  0  getpeername	SYS_getpeername 141	getpeername(fdes, asa, alen)
+142  0  1  gethostid	SYS_gethostid 142
+143  1  1  sethostid	SYS_sethostid 143
+144  2  1  getrlimit	SYS_getrlimit 144
+145  2  1  setrlimit	SYS_setrlimit 145
+146  2  0  killpg	SYS_killpg 146		killpg(pgrp, signo)
+147  0  0  nosys	/* 147 is unused */
+148  0  0  nullsys	SYS_setquota 148
+149  0  0  nullsys	SYS_quota 149
+150  3  0  getsockname	SYS_getsockname 150	getsockname(fdes, asa, alen)
+151  0  0  nosys
+152  0  0  nosys
+153  0  0  nosys
+154  0  0  nosys
+155  1  0  nfs_svc	SYS_nfs_svc 155
+156  4  0  getdirentries SYS_getdirentries 156	getdirentries(fd, buf, count, basep)
+157  2  0  statfs	SYS_statfs 157
+158  2  0  fstatfs	SYS_fstatfs 158
+159  1  0  unmount	SYS_unmount 159
+160  0  0  async_daemon	SYS_async_daemon 160
+161  2  0  nfs_getfh	SYS_nfs_getfh 161
+162  2  0  getdomainname SYS_getdomainname 162	getdomainname(domainname, len)
+163  2  0  setdomainname SYS_setdomainname 163	setdomainname(domainname, len)
+164  0  0  nosys
+165  0  0  errsys	SYS_quotactl 165
+166  3  0  exportfs	SYS_exportfs 166
+167  4  0  smount	SYS_vfsmount 167
+168  4  0  afs_pioctl	SYS_pioctl 168
+169  0  0  afs_setpag	SYS_setpag 169
+170  0  0  icreate	SYS_icreate 170
+171  0  0  iopen	SYS_iopen 171
+172  0  0  iread	SYS_iread 172
+173  0  0  iwrite	SYS_iwrite 173
+174  0  0  iinc		SYS_iinc 174
+175  0  0  idec		SYS_idec 175
+176  0  0  nosys	
+177  0  0  nosys	
+178  0  0  nosys	
+179  0  0  nosys	
+180  6  0  afs_call	SYS_afs_call 180
+181  0  0  nosys	

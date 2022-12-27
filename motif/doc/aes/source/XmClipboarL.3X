@@ -1,0 +1,127 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardRetrieve 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardRetrieve \(em a clipboard
+function that retrieves a data item from the
+clipboard.\fP
+.iX "XmClipboardRetrieve"
+.iX "clipboard functions" "XmClipboardRetrieve"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardRetrieve\fP (\fIdisplay, window, format_name,
+buffer, length, num_bytes, private_id\fP)
+.br
+.ta .5i 1.65i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	char	\fI* format_name\fP;
+.br
+	char	\fI* buffer\fP;
+.br
+	unsigned long	\fIlength\fP;
+.br
+	unsigned long	\fI* num_bytes\fP;
+.br
+	int	\fI* private_id\fP;
+.fi
+\fP
+.br
+.ne 5i
+.SH DESCRIPTION
+\fBXmClipboardRetrieve\fP retrieves the current data item from clipboard
+storage.  It returns a warning if the clipboard is locked; if there is
+no data on the clipboard; or if the data needs to be truncated because the
+buffer length is too short.
+.PP
+Between a call 
+to \fBXmClipboardStartRetrieve\fP and a call to \fBXmClipboardEndRetrieve\fP, 
+multiple calls to \fBXmClipboardRetrieve\fP 
+with the same format name result
+in data being incrementally copied from the clipboard until the data in that
+format has all been copied.  
+.PP
+The return value \fBClipboardTruncate\fP from calls to
+\fBXmClipboardRetrieve\fP indicates that more data remains to be copied in the
+given format.  It is recommended that any calls to the \fBInquire\fP functions 
+that the application needs to make to effect the copy from the clipboard 
+be made between the call to \fBXmClipboardStartRetrieve\fP and the first call to 
+\fBXmClipboardRetrieve\fP.  That way, the application does not need to call 
+\fBXmClipboardLock\fP and \fBXmClipboardUnlock\fP.  
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIformat_name\fP" 1.2i
+Specifies the name of a format in which the data 
+is stored on the clipboard.
+.IP "\fIbuffer\fP" 1.2i
+Specifies the buffer to which the application wants the 
+clipboard to copy the data.
+.sp
+.ne 3i
+.IP "\fIlength\fP" 1.2i
+Specifies the length of the application buffer.
+.IP "\fInum_bytes\fP" 1.2i
+Specifies the number of bytes of data copied into the application
+buffer.
+.IP "\fIprivate_id\fP" 1.2i
+Specifies the private data stored with the data item by the application that
+placed the data item on the clipboard.
+If the application did not store private data with the data item, this argument
+returns zero.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.IP "\fBClipboardTruncate\fP" 1.2i
+The data returned is truncated because the user did not provide a buffer
+large enough to hold the data.
+.IP "\fBClipboardNoData\fP" 1.2i
+The function could not find data on the clipboard corresponding to the
+format requested.
+This could occur because the clipboard is empty; there is data
+on the clipboard but not in the requested format; or the data in
+the requested format was passed by name and is no longer available. 
+.sp 1
+.na
+.sp
+.ne 2i
+.SH RELATED INFORMATION
+\fBXmClipboardEndRetrieve(3X)\fP, \fBXmClipboardLock(3X)\fP,
+\fBXmClipboardStartCopy(3X)\fP, \fBXmClipboardStartRetrieve(3X)\fP,
+and \fBXmClipboardUnlock(3X)\fP.
+.sp 1
+.ad

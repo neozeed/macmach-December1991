@@ -1,0 +1,342 @@
+.TH TABLE 2 "June 29, 1988"
+.CM 4
+.SH NAME
+table \- examine/update element(s) from system table
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" $Log:	table.2,v $
+.\" Revision 2.2  88/06/29  21:27:51  mja
+.\" Added missing "CMU-CS only" sentence.
+.\" 
+.\" Revision 2.1  88/06/28  23:36:44  mja
+.\" Created.
+.\" 
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH SYNOPSIS
+.ft B
+.nf
+#include <sys/table.h>
+.PP
+.ft B
+cel = table(id, index, addr, nel, lel)
+int cel, id, index;
+char *addr;
+int nel;
+u_int lel;
+.ft R
+.fi
+.SH DESCRIPTION
+The
+.I table
+call is used to examine and/or update selected elements from
+certain system tables.
+The desired table is identified by
+.I id
+and a particular element within that table
+is selected by 
+.I index.
+.PP
+The value of each element is copied to/from the
+specified 
+.I addr.
+The magnitude of
+.I nel
+specifies the number of elements to copy while 
+its sign
+indicates the transfer direction.
+When the number of elements to transfer is positive,
+the direction is from the kernel to 
+.I addr,
+in effect a "read" operation.
+When the number of elements to transfer is negative,
+the direction is from 
+.I addr
+into the kernel, in effect a "write" operation.
+.PP
+The expected size of a single element is specified by
+.I lel
+and successive transfer addresses are calculated from
+.I addr
+by incrementing it by this size for each element copied.
+If the actual element size is larger,
+then excess data is truncated from the end of each element returned to
+.I addr
+during an examine and only the expected size is
+stored from
+.I addr
+during an update.
+If the actual element size is smaller,
+then holes are left between elements returned to
+.I addr
+during an examine and excess data is truncated from the end
+of each each element stored from
+.I addr
+during an update.
+.PP
+All changes to system table elements 
+are guaranteed to be made in
+such a way that each field within the element
+structure remains at a constant offset
+and size, and
+that new fields are added only at the end of an element.
+.PP
+The count of elements examined or updated is returned as
+.I cel.
+A call with an element length of 0 and number of elements
+set to the maximum positive integer can be used to
+determine the length of a table (in elements) before
+actually requesting any of the data.
+
+The
+.I id
+parameter 
+specifies one of the following tables.
+
+.HP
+.B TBL_TTYLOC
+- terminal location information table.
+.IP
+The index is by device number which is
+incremented by one for successive elements.
+Each element is a
+.I 
+ttyloc
+structure as described in
+.IR tty (4).
+.IP
+The terminal location information cannot be updated by
+this call.
+
+.HP
+.B TBL_U_TTYD
+- controlling terminal device number table.
+.IP
+The index is by process ID and exactly one element may be requested.
+If the process ID is zero, then the current process is indexed
+(only zero or the current process ID are supported for now).
+Each element is of type
+.I dev_t
+as defined in 
+.I <sys/types.h>.
+.IP
+The controlling terminal device number cannot be updated by this
+call.
+
+.HP
+.B TBL_UAREA
+- 
+.I U-area
+table.
+.IP
+The index is by process ID which is incremented by one
+for successive elements.
+.IP
+Additional details to be supplied.
+.IP
+The contents of the
+.I U-area
+cannot be updated by this
+call.
+
+.HP
+.B TBL_LOADAVG
+- system load average vector (pseudo-)table.
+.IP
+The index must be zero and exactly one element may be requested.
+This element has
+the following structure:
+.RS
+.IP
+.nf
+struct tbl_loadavg {
+	union {
+		long   tl_lavenrun[3];
+		double tl_davenrun[3];
+	} tl_un;
+	int    tl_lscale;
+};
+.fi
+.RE
+.IP
+If the scale is zero,
+then the load average vector is the floating point variant.
+If the scale is non-zero,
+then the load average vector has been scaled
+by the indicated factor (typically 1000)
+to produce the long integer variant.
+.IP
+The load average vector cannot be updated by this call.
+
+.HP
+.B TBL_INCLUDE_VERSION
+- system include file version number (pseudo-)table.
+.IP
+The index must be zero and exactly one element may be requested.
+The include version is an integer which
+serves as a unique identifer associated with the layout of
+kernel data stuctures which are imported by certain
+kernel dependent programs such as
+.IR ps (1).
+.IP
+The include version number cannot be updated by this call.
+
+.HP
+.B TBL_ARGUMENTS
+- process command argument table.
+.IP
+To be supplied.
+
+.HP
+.B TBL_MAXUPRC
+- maximum process count per user-ID table.
+.IP
+The index is by process ID and exactly one element may be requested.
+If the process ID is zero, then the current process is indexed
+(only zero or the current process ID are supported for now).
+The element is a short integer.
+.IP
+The maximum count includes all processes running under the current
+user-ID even though the limit affects only the current process
+and any children created with that limit in effect.
+.IP
+The limit may only be changed by the
+.I super-user.
+
+.HP
+.B TBL_AID
+- account ID table.
+.IP
+The index is by process ID and exactly one element may be requested.
+If the process ID is zero, then the current process is indexed
+(only zero or the current process ID are supported for now).
+The element is of type
+.I u_short.
+as defined in 
+.I <sys/types.h>.
+.IP
+The account ID is stored in the accounting record recorded
+by the system at process exit time as described in
+.IR acct (5).
+.IP
+The account ID may only be changed by the
+.I super-user.
+
+.HP
+.B TBL_MODES
+- process modes table.
+.IP
+The index is by process ID and exactly one element may be requested.
+If the process ID is zero, then the current process is indexed
+(only zero or the current process ID are supported for now).
+The element is an integer with bits defined in 
+.I <sys/syscalls.h>
+as:
+.RS
+.TP 4
+.B UMODE_P_GID
+Use the standard 4.3BSD semantics of assigning the
+group ID of the parent directory
+to newly created i-nodes.
+At CMU-CS, the default is to assign the current group ID
+of the running process as was the case in 4.1BSD.
+.TP 4
+.B UMODE_NOFOLLOW
+Do not follow remote or symbolic links when they are encountered
+as the last comonent of a  pathname.
+When this mode bit is set for a process, all references
+to such links access the link itself rather than
+interpreting its contents as would normally be the case.
+.TP 4
+.B UMODE_NONICE
+Do not automatically lower the scheduling priority of long-running
+processes when they exceed the CPU time threshhold (typically 10
+minutes).
+.IP
+This is the default for workstation configurations.
+.RE
+
+.HP
+.B TBL_PROCINFO
+- process status information table.
+.IP
+The index is by process slot which is incremented by one
+for successive elements.
+An element is a
+.I tbl_procinfo
+structure defined as:
+.RS
+.IP
+.nf
+#define	PI_COMLEN	19	/* length of command name */
+struct tbl_procinfo {
+	int	pi_uid;		/* user ID */
+	int	pi_pid;		/* proc ID */
+	int	pi_ppid;		/* parent proc ID */
+	int	pi_pgrp;		/* proc group ID */
+	int	pi_ttyd;		/* controlling terminal number */
+	int	pi_status;	/* process status: */
+#define	PI_EMPTY	0	/* - no process */
+#define	PI_ACTIVE	1	/* - active process */
+#define	PI_EXITING	2	/* - exiting */
+#define	PI_ZOMBIE	3	/* - zombie */
+	int	pi_flag;		/* other random flags */
+	char	pi_comm[PI_COMLEN+1];	/* short command name */
+};
+.DT
+.fi
+.RE
+.IP
+The process status information cannot be updated by this
+call.
+.i0
+.DT
+.PP
+The
+.I table
+system call is unique to the
+.B CMU-CS
+environment and is not part of a standard BSD system. 
+.SH "RETURN VALUE"
+A positive return value indicates that the call succeeded
+for that count of elements.
+A return value of \-1 indicates
+that an error occurred, and an error code is stored in the global
+location \fIerrno\fP.
+.SH ERRORS
+The possible errors are:
+.TP 15
+[EFAULT]
+The address specified for \fIaddr\fP is invalid.
+.TP 15
+[EINVAL]
+The table specified by \fIid\fP is not defined.
+.TP 15
+[EINVAL]
+The index specified by \fIindex\fP does not exist
+in the specified table.
+.TP 15
+[EINVAL]
+The specified table admits only an index of the current process ID
+with exactly one element and some other index or
+element number was specified.
+.TP 15
+[EINVAL]
+An element length of zero was supplied for the
+.B TBL_ARGUMENTS
+table.
+.TP 15
+[EINVAL]
+An attempt is made to update an element which cannot be changed
+by the \fItable\fP call.
+.TP 15
+[EPERM]
+An attempt is made to change the maximum number of
+processes or account ID,
+and the caller is not the super-user.
+.TP 15
+[ESRCH]
+The process given by a process ID index cannot be found.
+.SH "SEE ALSO"
+setmodes(1), acct(2), tty(4), acct(5)
+.SH BUGS
+The restrictions on referencing only the current
+process should be lifted.

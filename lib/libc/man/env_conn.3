@@ -1,0 +1,152 @@
+.\"
+.\" $Id: env_conn.3,v 1.1 89/12/28 14:39:13 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	env_conn.3,v $
+.\" Revision 1.1  89/12/28  14:39:13  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 12-Nov-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH ENV_CONN 3 11/12/86
+.CM 4
+.SH NAME
+.nf
+init_env_mgr  \-  initializes the Environment Manager interface
+env_new_conn  \-  make a new default environment
+env_copy_conn  \-  makes a copy of an environment
+env_restrict_conn  \-  creates a read-only copy of an environment
+env_disconnect  \-  delete an environment and its port
+.SH SYNOPSIS
+.nf
+.ft B
+#include <servers/env_mgr.h>
+
+.nf
+.ft B
+void init_env_mgr(reply_port);
+    port_t	reply_port;
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_new_conn(env_port,new_env_port)
+    port_t	env_port;
+    port_t	*new_env_port)
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_copy_conn(env_port,new_env_port)
+    port_t	env_port;
+    port_t	*new_env_port)
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_restrict_conn(env_port,new_env_port)
+    port_t	env_port;
+    port_t	*new_env_port)
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return-t env_disconnect(env_port)
+    port_t	env_port;
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+reply_port
+if equal 
+.B PORT_NULL
+, a reply port will be allocated, otherwise
+.B reply_port
+will be used by the interface to receive the 
+message replies.
+.TP 15
+.B
+env_port
+port identifying environment
+.TP 15
+.B
+new_env_port
+returned pointing to value of new port
+
+.SH DESCRIPTION
+
+.B init_env_mgr
+initializes the user interface to the Environment Manager.
+Must be called before any of the other primitives are used. However,it
+is called by the library initialization program 
+.B mach_init
+,
+so the user does not need to make this call unless a different value of
+.B Reply_port
+is desired.
+
+.B env_new_conn
+create a new, default environment to be handed to a new process. This could
+be initialized with public values such as host_name and Network nameserver port.
+
+.B env_copy_conn
+makes a complete copy of the environment specified by 
+.B env_port
+, allocates
+the 
+.B new_env_port
+and returns it to the caller. Subquently, all requests on
+.B new_env_port
+will use the new copy, and requests on 
+.B env_port
+will continue
+to refer to the original version. Used by parent to pass a copy of its
+environment to a child process.
+
+.B env_restrict_conn
+makes a new port to the environment specified by 
+.B env_port
+, through which
+only reading will be allowed.
+
+.B env_disconnect
+informs the environment manager that this enviroment is no longer needed.
+EnvMgr will deallocate 
+.B env_port
+;
+
+Ownership rights to all the new environment ports are returned to the user. Thus
+when a process that has created and environment dies, these rights are returned
+to the environment manager who will disconnect (and destroy) the environment.
+If a creator process wishes its environment
+to live on after its death, it must pass the ownership rights a process that
+will continue to exist as long as the environment should exist.
+
+.SH DIAGNOSTICS
+.TP 25
+KERN_SUCCESS
+.B new_env_port
+references a new default environment
+.TP 25
+ENV_NO_MORE_CONN
+implementation restriction, no more connections to
+the Environment Manager are available.
+.TP 25
+ENV_UNKNOWN_PORT
+.B env_port
+does not reference a known environment
+
+.SH FILES
+/usr/include/servers/env_mgr.h,
+/usr/include/servers/emdefs.h
+
+.SH SEE ALSO
+.B env_string(3), env_port(3), env_list(3), mach_init(3)

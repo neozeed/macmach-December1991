@@ -1,0 +1,62 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmString "3X" "" "" ""
+.SH NAME
+\fBXmString \(em Data type for a compound string.\fP
+.iX "XmString"
+.iX "data types" "XmString"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.nf
+.B "\&#include <Xm/Xm.h>"
+.fi
+.SH DESCRIPTION
+.B XmString 
+is the data type for a compound string.
+Compound strings include one or more segments, each of which contains
+text, character set, and string direction.
+When a compound string is displayed, the character set and direction are
+used to determine how to display the text.
+The compound string interface consists of the routines listed under
+"Related Information."
+.PP
+Calling \fBXtGetValues\fP for a resource whose type is XmString yields a
+copy of the compound string resource value.
+The application is responsible for using \fBXmStringFree\fP to free the
+memory allocated for the copy.
+.sp 1
+.SH RELATED INFORMATION
+.BR XmStringBaseline(3X) ,
+.BR XmStringByteCompare(3X) ,
+.BR XmStringCompare(3X) ,
+.BR XmStringConcat(3X) ,
+.BR XmStringCopy(3X) ,
+.BR XmStringCreate(3X) ,
+.BR XmStringCreateSimple(3X) ,
+.BR XmStringDraw(3X) ,
+.BR XmStringDrawImage(3X) ,
+.BR XmStringDrawUnderline(3X) ,
+.BR XmStringEmpty(3X) ,
+.BR XmStringExtent(3X) ,
+.BR XmStringFree(3X) ,
+.BR XmStringHasSubstring(3X) ,
+.BR XmStringHeight(3X) ,
+.BR XmStringLength(3X) ,
+.BR XmStringLineCount(3X) ,
+.BR XmStringNConcat(3X) ,
+.BR XmStringNCopy(3X) ,
+.BR XmStringSeparatorCreate(3X) ,
+.BR XmStringTable(3X) ", and "
+.BR XmStringWidth(3X) .
+.sp 1

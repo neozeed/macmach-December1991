@@ -1,0 +1,94 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardStartRetrieve 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardStartRetrieve \(em A function that starts a copy from the
+clipboard.\fP
+.iX "XmClipboardStartRetrieve"
+.iX "clipboard functions" "XmClipboardStartRetrieve"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardStartRetrieve\fP (\fIdisplay, window, timestamp\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	Time	\fItimestamp\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardStartRetrieve\fP
+tells the clipboard routines that the application is
+ready to start copying an item from the clipboard.  The clipboard is
+locked by this routine and stays locked until \fBXmClipboardEndRetrieve\fP 
+is called.  
+Between a call to 
+\fBXmClipboardStartRetrieve\fP and a call to \fBXmClipboardEndRetrieve\fP, 
+multiple calls to \fBXmClipboardRetrieve\fP 
+with the same format name result
+in data being incrementally copied from the clipboard until the data in that
+format has all been copied.  
+.PP
+The return value \fBClipboardTruncate\fP from calls to
+\fBXmClipboardRetrieve\fP indicates that more data remains to be copied in the
+given format.  It is recommended that any calls to the \fBInquire\fP functions 
+that the application needs to make to effect the copy from the clipboard 
+be made between the call to \fBXmClipboardStartRetrieve\fP 
+and the first call to 
+\fBXmClipboardRetrieve\fP.  That way, the application does not need to call 
+\fBXmClipboardLock\fP and \fBXmClipboardUnlock\fP.  
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fItimestamp\fP" 1.2i
+Specifies the time of the event that triggered the copy.
+A valid timestamp must be supplied; it is not sufficient to use
+\fBCurrentTime\fP.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.br
+.ne 10
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardEndRetrieve(3X)\fP,
+\fBXmClipboardInquireCount(3X)\fP, \fBXmClipboardInquireFormat(3X)\fP,
+\fBXmClipboardInquireLength(3X)\fP, \fBXmClipboardInquirePendingItems(3X)\fP,
+\fBXmClipboardLock(3X)\fP, 
+\fBXmClipboardRetrieve(3X)\fP, \fBXmClipboardStartCopy(3X)\fP, and
+\fBXmClipboardUnlock(3X)\fP.
+.sp 1
+.ad

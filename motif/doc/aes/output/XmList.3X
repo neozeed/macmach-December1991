@@ -1,0 +1,1211 @@
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmLLLLiiiisssstttt ---- tttthhhheeee LLLLiiiisssstttt wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////LLLLiiiisssstttt....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          List allows a user to select one or more items from a group
+          of choices.  Items are selected from the list in a variety
+          of ways, using both the pointer and the keyboard.
+
+          List operates on an array of strings that are defined by the
+          application.  Each string becomes an item in the List, with
+          the first string becoming the item in position 1, the second
+          string becoming the item in position 2, and so on.
+
+          The size of the List is set by specifying the number of
+          items that are visible.  To create a list that allows the
+          user to scroll easily through a large number of items, use
+          the XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddLLLLiiiisssstttt convenience function.
+
+          If the List has no items at initialization or as a result of
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss, it saves the current value of XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn
+          and forces XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn to False.  If XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss is
+          called for XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn while the List has no items, the
+          List updates the saved value but does not change the
+          XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn resource.  If the List later has items as a
+          result of XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss, it sets XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn to the saved
+          value.
+
+          To select items, move the pointer or cursor to the desired
+          item and press the BBBBSSSSeeeelllleeeecccctttt mouse button or the key defined
+          as KKKKSSSSeeeelllleeeecccctttt.  There are several styles of selection behavior,
+          and they all highlight the selected item or items by
+          displaying them in inverse colors.  An appropriate callback
+          is invoked to notify the application of the user's choice.
+          The application then takes whatever action is required for
+          the specified selection.
+
+
+        SSSSeeeelllleeeeccccttttiiiioooonnnn
+          Each list has one of four selection models:
+
+          +o  Single Select
+
+          +o  Browse Select
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          +o  Multiple Select
+
+          +o  Extended Select
+
+          In Single Select and Browse Select, at most one item is
+          selected at a time.  In Single Select, pressing BBBBSSSSeeeelllleeeecccctttt on
+          an item toggles its selection state and deselects any other
+          selected item.  In Browse Select, pressing BBBBSSSSeeeelllleeeecccctttt on an
+          item selects it and deselects any other selected item;
+          dragging BBBBSSSSeeeelllleeeecccctttt moves the selection along with the cursor.
+
+          In Multiple Select, any number of items can be selected at a
+          time.  Pressing BBBBSSSSeeeelllleeeecccctttt on an item toggles its selection
+          state but does not deselect any other selected items.
+
+          In Extended Select, any number of items can be selected at a
+          time, and the user can easily select ranges of items.
+          Pressing BBBBSSSSeeeelllleeeecccctttt on an item selects it and deselects any
+          other selected item.  Dragging BBBBSSSSeeeelllleeeecccctttt or pressing or
+          dragging BBBBEEEExxxxtttteeeennnndddd following a BBBBSSSSeeeelllleeeecccctttt action selects all
+          items between the item under the pointer and the item on
+          which BBBBSSSSeeeelllleeeecccctttt was pressed.  This action also deselects any
+          other selected items outside that range.
+
+          Extended Select also allows the user to select and deselect
+          discontiguous ranges of items.  Pressing BBBBTTTToooogggggggglllleeee on an item
+          toggles its selection state but does not deselect any other
+          selected items.  Dragging BBBBTTTToooogggggggglllleeee or pressing or dragging
+          BBBBEEEExxxxtttteeeennnndddd following a BBBBTTTToooogggggggglllleeee action sets the selection state
+          of all items between the item under the pointer and the item
+          on which BBBBTTTToooogggggggglllleeee was pressed to the state of the item on
+          which BBBBTTTToooogggggggglllleeee was pressed.  This action does not deselect
+          any other selected items outside that range.
+
+          All selection operations available from the mouse are also
+          available from the keyboard.  List has two keyboard
+          selection modes, Normal Mode and Add Mode.  In Normal Mode,
+          navigation operations and KKKKSSSSeeeelllleeeecccctttt select the item at the
+          location cursor and deselect any other selected items.  In
+          Add Mode, navigation operations have no effect on selection,
+          and KKKKSSSSeeeelllleeeecccctttt toggles the selection state of the item at the
+          location cursor without deselecting any other selected
+          items.
+
+          Single and Multiple Select use Add Mode, and Browse Select
+          uses Normal Mode.
+
+          Extended Select can use either mode; the user changes modes
+          by pressing KKKKAAAAddddddddMMMMooooddddeeee.  In Extended Select Normal Mode,
+          pressing KKKKSSSSeeeelllleeeecccctttt has the same effect as pressing BBBBSSSSeeeelllleeeecccctttt;
+          KKKKEEEExxxxtttteeeennnndddd and shifted navigation have the same effect as
+          pressing BBBBEEEExxxxtttteeeennnndddd following a BBBBSSSSeeeelllleeeecccctttt action.  In Extended
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          Select Add Mode, pressing KKKKSSSSeeeelllleeeecccctttt has the same effect as
+          pressing BBBBTTTToooogggggggglllleeee; KKKKEEEExxxxtttteeeennnndddd and shifted navigation have the
+          same effect as pressing BBBBEEEExxxxtttteeeennnndddd following a BBBBTTTToooogggggggglllleeee action.
+
+          Normal Mode is indicated by a solid location cursor, and Add
+          Mode is indicated by a dashed location cursor.
+
+
+        CCCCllllaaaasssssssseeeessss
+          List inherits behavior and resources from CCCCoooorrrreeee and
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee classes.
+
+          The class pointer is xxxxmmmmLLLLiiiissssttttWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmLLLLiiiisssstttt.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                               XXXXmmmmLLLLiiiisssstttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                           CCCCllllaaaassssssss                       TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt           AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNautomaticSelection          XmCAutomaticSelection       Boolean             False             CSG
+     XmNbrowseSelectionCallback     XmCCallback                 XtCallbackList      NULL              C
+     XmNdefaultActionCallback       XmCCallback                 XtCallbackList      NULL              C
+     XmNextendedSelectionCallback   XmCCallback                 XtCallbackList      NULL              C
+     XmNfontList                    XmCFontList                 XmFontList          dynamic           CSG
+     XmNitemCount                   XmCItemCount                int                 0                 CSG
+     XmNitems                       XmCItems                    XmStringTable       NULL              CSG
+     XmNlistMarginHeight            XmCListMarginHeight         Dimension           0                 CSG
+     XmNlistMarginWidth             XmCListMarginWidth          Dimension           0                 CSG
+     XmNlistSizePolicy              XmCListSizePolicy           unsigned char       XmVARIABLE        CG
+     XmNlistSpacing                 XmCListSpacing              Dimension           0                 CSG
+     XmNmultipleSelectionCallback   XmCCallback                 XtCallbackList      NULL              C
+     XmNscrollBarDisplayPolicy      XmCScrollBarDisplayPolicy   unsigned char       XmAS_NEEDED       CSG
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+     XmNselectedItemCount           XmCSelectedItemCount        int                 0                 CSG
+     XmNselectedItems               XmCSelectedItems            XmStringTable       NULL              CSG
+     XmNselectionPolicy             XmCSelectionPolicy          unsigned char       XmBROWSE_SELECT   CSG
+     XmNsingleSelectionCallback     XmCCallback                 XtCallbackList      NULL              C
+     XmNstringDirection             XmCStringDirection          XmStringDirection   dynamic           CSG
+     XmNtopItemPosition             XmCTopItemPosition          int                 1                 CSG
+     XmNvisibleItemCount            XmCVisibleItemCount         int                 1                 CSG
+
+
+          XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn
+               Invokes XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when the user moves
+               into a new item if the value is True and the selection
+               mode is either XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT or XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT.
+               If False, no selection callbacks are invoked until the
+               user releases the mouse button.  See the Behavior
+               section for further details on the interaction of this
+               resource with the selection modes.
+
+          XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when an
+               item is selected in the browse selection mode.  The
+               reason is XXXXmmmmCCCCRRRR____BBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT.
+
+          XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when an
+               item is double clicked.  The reason is
+               XXXXmmmmCCCCRRRR____DDDDEEEEFFFFAAAAUUUULLLLTTTT____AAAACCCCTTTTIIIIOOOONNNN.
+
+          XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when items
+               are selected using the extended selection mode. The
+               reason is XXXXmmmmCCCCRRRR____EEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT.
+
+          XXXXmmmmNNNNffffoooonnnnttttLLLLiiiisssstttt
+               Specifies the font list associated with the list items.
+               This is used in conjunction with the
+               XXXXmmmmNNNNvvvviiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt resource to determine the height of
+               the List widget.  If this value is NULL at
+               initialization, it is initialized by looking up the
+               parent hierarchy of the widget for an ancestor that is
+               a subclass of the XmBulletinBoard, VendorShell, or
+               XmMenuShell widget class.  If such an ancestor is
+               found, the font list is initialized to the appropriate
+               default font list of the ancestor widget
+               (XmNdefaultFontList for VendorShell and XmMenuShell,
+               XmNtextFontList for XmBulletinBoard).
+
+          XXXXmmmmNNNNiiiitttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the total number of items.  The value must be
+               the number of items in XXXXmmmmNNNNiiiitttteeeemmmmssss and must not be
+               negative.  It is automatically updated by the list
+               whenever an item is added to or deleted from the list.
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNiiiitttteeeemmmmssss
+               Points to an array of compound strings that are to be
+               displayed as the list items.  Refer to XXXXmmmmSSSSttttrrrriiiinnnngggg((((3333XXXX)))) for
+               more information on the creation and structure of
+               compound strings.
+
+          XXXXmmmmNNNNlllliiiissssttttMMMMaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the height of the margin between the list
+               border and the items.
+
+          XXXXmmmmNNNNlllliiiissssttttMMMMaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the width of the margin between the list
+               border and the items.
+
+          XXXXmmmmNNNNlllliiiissssttttSSSSiiiizzzzeeeePPPPoooolllliiiiccccyyyy
+               Controls the reaction of the List when an item grows
+               horizontally beyond the current size of the list work
+               area.  If the value is XXXXmmmmCCCCOOOONNNNSSSSTTTTAAAANNNNTTTT, the list viewing
+               area does not grow, and a horizontal ScrollBar is added
+               for a ScrolledList.  If this resource is set to
+               XXXXmmmmVVVVAAAARRRRIIIIAAAABBBBLLLLEEEE, the List grows to
+               match the size of the longest item, and no horizontal
+               ScrollBar appears.
+
+               When the value of this resource is
+               XXXXmmmmRRRREEEESSSSIIIIZZZZEEEE____IIIIFFFF____PPPPOOOOSSSSSSSSIIIIBBBBLLLLEEEE, the List attempts to grow or
+               shrink to match the width of the widest item.  If it
+               cannot grow to match the widest size, a horizontal
+               ScrollBar is added for a ScrolledList if the longest
+               item is wider than the list viewing area.
+
+               The size policy must be set at the time the List widget
+               is created.  It cannot be changed at a later time
+               through XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+          XXXXmmmmNNNNlllliiiissssttttSSSSppppaaaacccciiiinnnngggg
+               Specifies the spacing between list items.  This spacing
+               increases by the value of the XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttTTTThhhhiiiicccckkkknnnneeeessssssss
+               resource in Primitive.
+
+          XXXXmmmmNNNNmmmmuuuullllttttiiiipppplllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when an
+               item is selected in multiple selection mode. The reason
+               is XXXXmmmmCCCCRRRR____MMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllBBBBaaaarrrrDDDDiiiissssppppllllaaaayyyyPPPPoooolllliiiiccccyyyy
+               Controls the display of vertical ScrollBars in a
+               ScrolledList.  When the value of this resource is
+               XXXXmmmmAAAASSSS____NNNNEEEEEEEEDDDDEEEEDDDD, a vertical ScrollBar is displayed only
+               when the number of items in the List exceeds the number
+               of Visible items.  When the value is XXXXmmmmSSSSTTTTAAAATTTTIIIICCCC, a
+               vertical ScrollBar is always displayed.
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNsssseeeelllleeeecccctttteeeeddddIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of strings in the selected items
+               list.  The value must be the number of items in
+               XXXXmmmmNNNNsssseeeelllleeeecccctttteeeeddddIIIItttteeeemmmmssss and must not be negative.
+
+          XXXXmmmmNNNNsssseeeelllleeeecccctttteeeeddddIIIItttteeeemmmmssss
+               Points to an array of compound strings that represents
+               the list items that are currently selected, either by
+               the user or by the application.
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy
+               Defines the interpretation of the selection action.
+               This can be one of the following:
+
+               +o  XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT - allows only single selections
+
+               +o  XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT - allows multiple selections
+
+               +o  XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT - allows extended selections
+
+               +o  XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT - allows PM "drag and browse"
+                  functionality
+
+          XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when an
+               item is selected in single selection mode. The reason
+               is XXXXmmmmCCCCRRRR____SSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT.
+
+          XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               Specifies the initial direction to draw the string.
+               The values are XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____LLLL____TTTTOOOO____RRRR and
+               XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____RRRR____TTTTOOOO____LLLL.  The value of this resource
+               is determined at creation time.  If the widget's parent
+               is a manager, this value is inherited from the widget's
+               parent, otherwise it is set to
+               XmSTRING_DIRECTION_L_TO_R.
+
+          XXXXmmmmNNNNttttooooppppIIIItttteeeemmmmPPPPoooossssiiiittttiiiioooonnnn
+               Specifies the position of the item that is the first
+               visible item in the list.  Setting this resource is
+               equivalent to calling the XXXXmmmmLLLLiiiissssttttSSSSeeeettttPPPPoooossss function.  The
+               position of the first item in the list is 1; the
+               position of the second item is 2; and so on.  A
+               position of 0 specifies the last item in the list.  The
+               value must not be negative.
+
+          XXXXmmmmNNNNvvvviiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items that can fit in the
+               visible space of the list work area.  The List uses
+               this value to determine its height.  The value must be
+               greater than 0.
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          List inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmTAB_GROUP            G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          List defines a new callback structure.  The application must
+          first look at the reason field and use only the structure
+          members that are valid for that particular reason, because
+          not all fields are relevant for every possible reason.  The
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          callback structure is defined as follows:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt          _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt       *_e_v_e_n_t;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg     _i_t_e_m;
+            iiiinnnntttt          _i_t_e_m__l_e_n_g_t_h;
+            iiiinnnntttt          _i_t_e_m__p_o_s_i_t_i_o_n;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg     *_s_e_l_e_c_t_e_d__i_t_e_m_s;
+            iiiinnnntttt          _s_e_l_e_c_t_e_d__i_t_e_m__c_o_u_n_t;
+            iiiinnnntttt          *_s_e_l_e_c_t_e_d__i_t_e_m__p_o_s_i_t_i_o_n_s;
+            iiiinnnntttt          _s_e_l_e_c_t_i_o_n__t_y_p_e;
+          } XXXXmmmmLLLLiiiissssttttCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n       Indicates why the callback was invoked.
+
+          _e_v_e_n_t        Points to the XXXXEEEEvvvveeeennnntttt that triggered the
+                       callback.  It can be NULL.
+
+          _i_t_e_m         Is the last item selected at the time of the
+                       _e_v_e_n_t that caused the callback.  _i_t_e_m points to
+                       a temporary storage space that is reused after
+                       the callback is finished.  Therefore, if an
+                       application needs to save the item, it should
+                       copy the item into its own data space.
+
+          _i_t_e_m__l_e_n_g_t_h  Is the length in bytes of _i_t_e_m.
+
+          _i_t_e_m__p_o_s_i_t_i_o_nIs the position of _i_t_e_m in the List's XXXXmmmmNNNNiiiitttteeeemmmmssss
+                       array.
+
+          _s_e_l_e_c_t_e_d__i_t_e_m_s
+                       Is a list of items selected at the time of the
+                       _e_v_e_n_t that caused the callback.  _s_e_l_e_c_t_e_d__i_t_e_m_s
+                       points to a temporary storage space that is
+                       reused after the callback is finished.
+                       Therefore, if an application needs to save the
+                       selected list, it should copy the list into its
+                       own data space.
+
+          _s_e_l_e_c_t_e_d__i_t_e_m__c_o_u_n_t
+                       Is the number of items in the _s_e_l_e_c_t_e_d__i_t_e_m_s
+                       list.
+
+          _s_e_l_e_c_t_e_d__i_t_e_m__p_o_s_i_t_i_o_n_s
+                       Is an array of integers, one for each selected
+                       item, representing the position of each
+                       selected item in the List's XXXXmmmmNNNNiiiitttteeeemmmmssss array.
+                       _s_e_l_e_c_t_e_d__i_t_e_m__p_o_s_i_t_i_o_n_s points to a temporary
+                       storage space that is reused after the callback
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+                       is finished.  Therefore, if an application
+                       needs to save this array, it should copy the
+                       array into its own data space.
+
+          _s_e_l_e_c_t_i_o_n__t_y_p_e
+                       Indicates that the most recent extended
+                       selection was the initial selection
+                       (XXXXmmmmIIIINNNNIIIITTTTIIIIAAAALLLL), a modification of an existing
+                       selection (XXXXmmmmMMMMOOOODDDDIIIIFFFFIIIICCCCAAAATTTTIIIIOOOONNNN), or an additional
+                       noncontiguous selection (XXXXmmmmAAAADDDDDDDDIIIITTTTIIIIOOOONNNN).
+
+          The following table describes the reasons for which the
+          individual callback structure fields are valid:
+
+            RRRReeeeaaaassssoooonnnn                           VVVVaaaalllliiiidddd FFFFiiiieeeellllddddssss
+     ____________________________________________________________________________________________________________________________________________
+     XXXXmmmmCCCCRRRR____SSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT     _r_e_a_s_o_n, _e_v_e_n_t, _i_t_e_m, _i_t_e_m__l_e_n_g_t_h, _i_t_e_m__p_o_s_i_t_i_o_n
+     ______________________________________________________________________
+     XXXXmmmmCCCCRRRR____DDDDEEEEFFFFAAAAUUUULLLLTTTT____AAAACCCCTTTTIIIIOOOONNNN    _r_e_a_s_o_n, _e_v_e_n_t, _i_t_e_m, _i_t_e_m__l_e_n_g_t_h, _i_t_e_m__p_o_s_i_t_i_o_n
+     ______________________________________________________________________
+     XXXXmmmmCCCCRRRR____BBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT     _r_e_a_s_o_n, _e_v_e_n_t, _i_t_e_m, _i_t_e_m__l_e_n_g_t_h, _i_t_e_m__p_o_s_i_t_i_o_n
+     ______________________________________________________________________
+                            _r_e_a_s_o_n, _e_v_e_n_t, _i_t_e_m, _i_t_e_m__l_e_n_g_t_h,
+                            _i_t_e_m__p_o_s_i_t_i_o_n, _s_e_l_e_c_t_e_d__i_t_e_m_s,
+                            _s_e_l_e_c_t_e_d__i_t_e_m__c_o_u_n_t, _s_e_l_e_c_t_e_d__i_t_e_m__p_o_s_i_t_i_o_n_s
+777     XXXXmmmmCCCCRRRR____MMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT
+
+
+     ______________________________________________________________________
+                            _r_e_a_s_o_n, _e_v_e_n_t, _i_t_e_m, _i_t_e_m__l_e_n_g_t_h,
+                            _i_t_e_m__p_o_s_i_t_i_o_n, _s_e_l_e_c_t_e_d__i_t_e_m_s,
+                            _s_e_l_e_c_t_e_d__i_t_e_m__c_o_u_n_t, _s_e_l_e_c_t_e_d__i_t_e_m__p_o_s_i_t_i_o_n_s,
+                            _s_e_l_e_c_t_i_o_n__t_y_p_e
+7777     XXXXmmmmCCCCRRRR____EEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT
+
+
+
+7                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmList includes translations from Primitive.  The XmList
+          translations are listed below.  These translations may not
+          directly correspond to a translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: LLLLiiiissssttttBBBBeeeeggggiiiinnnnSSSSeeeelllleeeecccctttt(((())))
+          BBBBSSSSeeeelllleeeecccctttt MMMMoooottttiiiioooonnnn::::LLLLiiiissssttttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::LLLLiiiissssttttEEEEnnnnddddSSSSeeeelllleeeecccctttt(((())))
+
+          BBBBEEEExxxxtttteeeennnndddd PPPPrrrreeeessssssss:::: LLLLiiiissssttttBBBBeeeeggggiiiinnnnEEEExxxxtttteeeennnndddd(((())))
+          BBBBEEEExxxxtttteeeennnndddd MMMMoooottttiiiioooonnnn::::LLLLiiiissssttttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((())))
+          BBBBEEEExxxxtttteeeennnndddd RRRReeeelllleeeeaaaasssseeee::::LLLLiiiissssttttEEEEnnnnddddEEEExxxxtttteeeennnndddd(((())))
+
+          BBBBTTTToooogggggggglllleeee PPPPrrrreeeessssssss:::: LLLLiiiissssttttBBBBeeeeggggiiiinnnnTTTToooogggggggglllleeee(((())))
+          BBBBTTTToooogggggggglllleeee MMMMoooottttiiiioooonnnn::::LLLLiiiissssttttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((())))
+          BBBBTTTToooogggggggglllleeee RRRReeeelllleeeeaaaasssseeee::::LLLLiiiissssttttEEEEnnnnddddTTTToooogggggggglllleeee(((())))
+
+          KKKKUUUUpppp::::           LLLLiiiissssttttPPPPrrrreeeevvvvIIIItttteeeemmmm(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKUUUUpppp::::    LLLLiiiissssttttEEEExxxxtttteeeennnnddddPPPPrrrreeeevvvvIIIItttteeeemmmm(((())))
+
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+          KKKKDDDDoooowwwwnnnn::::         LLLLiiiissssttttNNNNeeeexxxxttttIIIItttteeeemmmm(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKDDDDoooowwwwnnnn::::  LLLLiiiissssttttEEEExxxxtttteeeennnnddddNNNNeeeexxxxttttIIIItttteeeemmmm(((())))
+
+          KKKKLLLLeeeefffftttt::::         LLLLiiiissssttttLLLLeeeeffffttttCCCChhhhaaaarrrr(((())))
+          MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt::::   LLLLiiiissssttttLLLLeeeeffffttttPPPPaaaaggggeeee(((())))
+
+          KKKKRRRRiiiigggghhhhtttt::::        LLLLiiiissssttttRRRRiiiigggghhhhttttCCCChhhhaaaarrrr(((())))
+          MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt::::  LLLLiiiissssttttRRRRiiiigggghhhhttttPPPPaaaaggggeeee(((())))
+
+          KKKKPPPPaaaaggggeeeeUUUUpppp::::       LLLLiiiissssttttPPPPrrrreeeevvvvPPPPaaaaggggeeee(((())))
+          KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn::::     LLLLiiiissssttttNNNNeeeexxxxttttPPPPaaaaggggeeee(((())))
+          KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt::::     LLLLiiiissssttttLLLLeeeeffffttttPPPPaaaaggggeeee(((())))
+          KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt::::    LLLLiiiissssttttRRRRiiiigggghhhhttttPPPPaaaaggggeeee(((())))
+
+          KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee::::    LLLLiiiissssttttBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee(((())))
+          KKKKEEEEnnnnddddLLLLiiiinnnneeee::::      LLLLiiiissssttttEEEEnnnnddddLLLLiiiinnnneeee(((())))
+
+          KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::    LLLLiiiissssttttBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::LLLLiiiissssttttBBBBeeeeggggiiiinnnnDDDDaaaattttaaaaEEEExxxxtttteeeennnndddd(((())))
+
+          KKKKEEEEnnnnddddDDDDaaaattttaaaa::::      LLLLiiiissssttttEEEEnnnnddddDDDDaaaattttaaaa(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKEEEEnnnnddddDDDDaaaattttaaaa::::LLLLiiiissssttttEEEEnnnnddddDDDDaaaattttaaaaEEEExxxxtttteeeennnndddd(((())))
+
+          KKKKAAAAddddddddMMMMooooddddeeee::::      LLLLiiiissssttttAAAAddddddddMMMMooooddddeeee(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     LLLLiiiissssttttKKKKbbbbddddAAAAccccttttiiiivvvvaaaatttteeee(((())))
+
+          KKKKSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: LLLLiiiissssttttKKKKbbbbddddBBBBeeeeggggiiiinnnnSSSSeeeelllleeeecccctttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::LLLLiiiissssttttKKKKbbbbddddEEEEnnnnddddSSSSeeeelllleeeecccctttt(((())))
+
+          KKKKEEEExxxxtttteeeennnndddd PPPPrrrreeeessssssss:::: LLLLiiiissssttttKKKKbbbbddddBBBBeeeeggggiiiinnnnEEEExxxxtttteeeennnndddd(((())))
+          KKKKEEEExxxxtttteeeennnndddd RRRReeeelllleeeeaaaasssseeee::::LLLLiiiissssttttKKKKbbbbddddEEEEnnnnddddEEEExxxxtttteeeennnndddd(((())))
+
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  LLLLiiiissssttttKKKKbbbbddddCCCCaaaannnncccceeeellll(((())))
+          KKKKSSSSeeeelllleeeeccccttttAAAAllllllll::::    LLLLiiiissssttttKKKKbbbbddddSSSSeeeelllleeeeccccttttAAAAllllllll(((())))
+          KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll::::  LLLLiiiissssttttKKKKbbbbddddDDDDeeeeSSSSeeeelllleeeeccccttttAAAAllllllll(((())))
+
+          KKKKHHHHeeeellllpppp::::         PPPPrrrriiiimmmmiiiittttiiiivvvveeeeHHHHeeeellllpppp(((())))
+          KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd     PPPPrrrriiiimmmmiiiittttiiiivvvveeeeNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+          KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd     PPPPrrrriiiimmmmiiiittttiiiivvvveeeePPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmList action routines are described below.  The current
+          selection is always shown with inverted colors.
+
+          LLLLiiiissssttttAAAAddddddddMMMMooooddddeeee(((()))):
+               Toggles the state of Add Mode for keyboard selection.
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa(((()))):
+               Moves the location cursor to the first item in the
+               list.  In Normal Mode, this also deselects any current
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               selection, selects the first item in the list, and
+               calls the appropriate selection callbacks
+               (XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnDDDDaaaattttaaaaEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT
+               or XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT, moves the location cursor to the
+               first item in the list.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Changes
+               the selection state of the first item and all items
+               between it and the current anchor point to the state of
+               the item at the current anchor point.  Calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Changes
+               the selection state of the item under the pointer and
+               all items between it and the current anchor point to
+               the state of the item at the current anchor point.  If
+               XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True, calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee(((()))):
+               Moves the horizontal scroll region to the beginning of
+               the line.
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnSSSSeeeelllleeeecccctttt(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               deselects any current selection and toggles the
+               selection state of the item under the pointer.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               deselects any current selection and selects the item
+               under the pointer.  If XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to
+               True, calls the XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               toggles the selection state of the item under the
+               pointer.  Any previous selections remain.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               deselects any current selection, selects the item under
+               the pointer, and sets the current anchor at that item.
+               If XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True, calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttBBBBeeeeggggiiiinnnnTTTToooogggggggglllleeee(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  Moves the current anchor to the
+               item under the pointer without changing the current
+               selection.  If the item is unselected, it is selected;
+               if the item is selected, it is unselected.  If
+               XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True, calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               deselects any current selection and selects the item
+               under the
+               pointer.  If XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True and
+               the pointer has entered a new list item, calls the
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection is being
+               made and an extended selection has previously been made
+               from the current anchor point, restores the selection
+               state of the items in that range to their state before
+               the previous extended selection was done.  Changes the
+               selection state of the item under the pointer and all
+               items between it and the current anchor point to the
+               state of the item at the current anchor point.  If
+               XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True and the pointer
+               has entered a new list item, calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the pointer leaves a scrolled list, this action
+               scrolls the list in the direction of the pointer
+               motion.
+
+          LLLLiiiissssttttEEEEnnnnddddDDDDaaaattttaaaa(((()))):
+               Moves the location cursor to the last item in the list.
+               In Normal Mode, this also deselects any current
+               selection, selects the last item in the list, and calls
+               the appropriate selection callbacks
+               (XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttEEEEnnnnddddDDDDaaaattttaaaaEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT
+               or XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT, moves the location cursor to the
+               last item in the list.
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Changes
+               the selection state of the last item and all items
+               between it and the current anchor point to the state of
+               the item at the current anchor point.  Calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttEEEEnnnnddddEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               moves the location cursor to the last item selected or
+               deselected and, if XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to
+               False, calls the XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.
+
+          LLLLiiiissssttttEEEEnnnnddddLLLLiiiinnnneeee(((()))):
+               Moves the horizontal scroll region to the end of the
+               line.
+
+          LLLLiiiissssttttEEEEnnnnddddSSSSeeeelllleeeecccctttt(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT or
+               XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, moves the location cursor to the
+               last item selected or deselected and calls the
+               appropriate selection callbacks
+               (XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNmmmmuuuullllttttiiiipppplllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT).
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT or
+               XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT, moves the location cursor to the
+               last item selected or deselected and, if
+               XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to False, calls the
+               appropriate selection callbacks
+               (XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttEEEEnnnnddddTTTToooogggggggglllleeee(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               moves the location cursor to the last item selected or
+               deselected and, if XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to
+               False, calls the XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.
+
+          LLLLiiiissssttttEEEExxxxtttteeeennnnddddNNNNeeeexxxxttttIIIItttteeeemmmm(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Moves
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               the location cursor to the next item and changes the
+               selection state of the item and all items between it
+               and the current anchor point to the state of the item
+               at the current anchor point.  Calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttEEEExxxxtttteeeennnnddddPPPPrrrreeeevvvvIIIItttteeeemmmm(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Moves
+               the location cursor to the previous item and changes
+               the selection state of the item and all items between
+               it and the current anchor point to the state of the
+               item at the current anchor point.  Calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttKKKKbbbbddddAAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               Calls the callbacks for XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          LLLLiiiissssttttKKKKbbbbddddBBBBeeeeggggiiiinnnnEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               does the following:  If an extended selection has been
+               made from the current anchor point, restores the
+               selection state of the items in that range to their
+               state before the extended selection was done.  Changes
+               the selection state of the item at the location cursor
+               and all items between it and the current anchor point
+               to the state of the item at the current anchor point.
+
+          LLLLiiiissssttttKKKKbbbbddddBBBBeeeeggggiiiinnnnSSSSeeeelllleeeecccctttt(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               deselects any current selection and toggles the state
+               of the item at the location cursor.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               deselects any current selection and selects the item at
+               the location cursor.  If XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set
+               to True, calls the XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               toggles the selection state of the item at the location
+               cursor.  Any previous selections remain.
+
+
+
+
+
+
+
+
+
+
+     Page 14                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               moves the current anchor to the item at the location
+               cursor.  In Normal Mode, deselects any current
+               selection and selects the item at the location cursor.
+               In Add Mode, toggles the selection state of the item at
+               the location cursor and leaves the current selection
+               unchanged.  If XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to True,
+               calls the XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttKKKKbbbbddddCCCCaaaannnncccceeeellll(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT
+               and an extended selection is being made from the
+               current anchor point, cancels the new selection and
+               restores the selection state of the items in that range
+               to their state before the extended selection was done.
+
+          LLLLiiiissssttttKKKKbbbbddddDDDDeeeeSSSSeeeelllleeeeccccttttAAAAllllllll(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, or XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT in Add Mode,
+               deselects all items in the list.  If the
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT in
+               Normal Mode, deselects all items in the list (except
+               the item at the location cursor if the shell's
+               XXXXmmmmNNNNkkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT).  Calls the
+               appropriate selection callbacks
+               (XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNmmmmuuuullllttttiiiipppplllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttKKKKbbbbddddEEEEnnnnddddEEEExxxxtttteeeennnndddd(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT
+               and if XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to False, calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          LLLLiiiissssttttKKKKbbbbddddEEEEnnnnddddSSSSeeeelllleeeecccctttt(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT or
+               XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT or if XXXXmmmmNNNNaaaauuuuttttoooommmmaaaattttiiiiccccSSSSeeeelllleeeeccccttttiiiioooonnnn is set to
+               False, calls the appropriate selection callbacks
+               (XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               XXXXmmmmNNNNmmmmuuuullllttttiiiipppplllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttKKKKbbbbddddSSSSeeeelllleeeeccccttttAAAAllllllll(((()))):
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT or
+               XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT, selects the item at the location
+               cursor.  If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to
+               XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT or XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT, selects all
+
+
+
+     Page 15                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               items in the list.  Calls the appropriate selection
+               callbacks (XXXXmmmmNNNNssssiiiinnnngggglllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT, XXXXmmmmNNNNmmmmuuuullllttttiiiipppplllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmMMMMUUUULLLLTTTTIIIIPPPPLLLLEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk when XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT).
+
+          LLLLiiiissssttttLLLLeeeeffffttttCCCChhhhaaaarrrr(((()))):
+               Scrolls the list one character to the left.
+
+          LLLLiiiissssttttLLLLeeeeffffttttPPPPaaaaggggeeee(((()))):
+               Scrolls the list one page to the left.
+
+          LLLLiiiissssttttNNNNeeeexxxxttttIIIItttteeeemmmm(((()))):
+               Moves the location cursor to the next item in the list.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               this action also selects the next item, deselects any
+               current selection, and calls the
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               this action in Normal Mode also selects the next item,
+               deselects any current selection, moves the current
+               anchor to the next item, and calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  In Add Mode
+               this action does not affect the selection or the
+               anchor.
+
+          LLLLiiiissssttttNNNNeeeexxxxttttPPPPaaaaggggeeee(((()))):
+               Scrolls the list to the next page, moving the location
+               cursor to a new item.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               this action also selects the new item, deselects any
+               current selection, and calls the
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               this action in Normal Mode also selects the new item,
+               deselects any current selection, moves the current
+               anchor to the new item, and calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  In Add Mode
+               this action does not affect the selection or the
+               anchor.
+
+          LLLLiiiissssttttPPPPrrrreeeevvvvIIIItttteeeemmmm(((()))):
+               Moves the location cursor to the previous item in the
+               list.
+
+
+
+
+     Page 16                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               this action also selects the previous item, deselects
+               any current selection, and calls the
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               this action in Normal Mode also selects the previous
+               item, deselects any current selection, moves the
+               current anchor to the previous item, and calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  In Add Mode
+               this action does not affect the selection or the
+               anchor.
+
+          LLLLiiiissssttttPPPPrrrreeeevvvvPPPPaaaaggggeeee(((()))):
+               Scrolls the list to the previous page, moving the
+               location cursor to a new item.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmBBBBRRRROOOOWWWWSSSSEEEE____SSSSEEEELLLLEEEECCCCTTTT,
+               this action also selects the new item, deselects any
+               current selection, and calls the
+               XXXXmmmmNNNNbbbbrrrroooowwwwsssseeeeSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+               If the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy is set to XXXXmmmmEEEEXXXXTTTTEEEENNNNDDDDEEEEDDDD____SSSSEEEELLLLEEEECCCCTTTT,
+               this action in Normal Mode also selects the new item,
+               deselects any current selection, moves the current
+               anchor to the new item, and calls the
+               XXXXmmmmNNNNeeeexxxxtttteeeennnnddddeeeeddddSSSSeeeelllleeeeccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  In Add Mode
+               this action does not affect the selection or the
+               anchor.
+
+          LLLLiiiissssttttRRRRiiiigggghhhhttttCCCChhhhaaaarrrr(((()))):
+               Scrolls the list one character to the right.
+
+          LLLLiiiissssttttRRRRiiiigggghhhhttttPPPPaaaaggggeeee(((()))):
+               Scrolls the list one page to the right.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeeHHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeeNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Moves the focus to the first item contained within the
+               next tab group.  If the current tab group is the last
+               entry in the tab group list, it wraps to the beginning
+               of the tab group list.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeePPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Moves the focus to the first item contained within the
+               previous tab group.  If the beginning of the tab group
+               list is reached, it wraps to the end of the tab group
+
+
+
+     Page 17                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmLLLLiiiisssstttt((((3333XXXX))))
+
+
+
+               list.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          The List widget has the additional behavior described below:
+
+          <<<<DDDDoooouuuubbbblllleeee CCCClllliiiicccckkkk>>>>
+               If a button click is followed by another button click
+               within the time span specified by the display's multi-
+               click time, the List interprets that as a double click
+               and calls the callbacks for XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk.
+               The item's colors invert to indicate that it is
+               selected.
+
+          <<<<FFFFooooccccuuuussssIIIInnnn>>>>:
+               If the focus policy is Explicit, sets the focus and
+               draw the location cursor.
+
+          <<<<FFFFooooccccuuuussssOOOOuuuutttt>>>>:
+               If the focus policy is Explicit, removes the focus and
+               erase the location cursor.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLiiiisssstttt((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddLLLLiiiisssstttt((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmmUUUUnnnnsssseeeelllleeeecccctttteeeedddd((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeeIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeePPPPoooossss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttAAAAllllllllIIIItttteeeemmmmssss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttSSSSeeeelllleeeeccccttttIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttSSSSeeeettttHHHHoooorrrriiiizzzzPPPPoooossss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttSSSSeeeettttIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttSSSSeeeettttPPPPoooossss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttSSSSeeeettttBBBBoooottttttttoooommmmIIIItttteeeemmmm((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttSSSSeeeettttBBBBoooottttttttoooommmmPPPPoooossss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttSSSSeeeelllleeeeccccttttPPPPoooossss((((3333XXXX)))),,,, XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttPPPPoooossss((((3333XXXX)))),,,,
+          XXXXmmmmLLLLiiiissssttttIIIItttteeeemmmmEEEExxxxiiiissssttttssss((((3333XXXX)))),,,, aaaannnndddd XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX))))....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 18                                          (printed 1/9/91)
+
+
+

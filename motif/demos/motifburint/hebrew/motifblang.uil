@@ -1,0 +1,141 @@
+!************************************************************
+!*                                                         **
+!*                                                         **
+!*   (c) Copyright, 1990 Open Software Foundation, Inc.    **
+!*   All Rights Reserved                                   **
+!*                                                         **
+!*                                                         **
+!***********************************************************/
+module MotifBurger_hebrew_literals
+        version = 'v1.1'
+        names = case_sensitive
+        character_set=iso_hebrew_lr
+
+!/*
+!  character set is Hebrew - this means that compound strings will be tagged as
+!  Right to Left for runtime rendering.
+!
+!  The postfix "_lr" just tell the compiler that the Hebrew strings should by 
+!  default be parsed from left to right. This means that the strings were typed
+!  using a left to right editor (storage order is equal to logical order).
+!  Note that while this makes it easy to enter Hebrew text using a 
+!  standard (left to right only) text editor, it is difficult to read 
+!  the Hebrew strings.
+!
+!  In case one wants to make the Hebrew strings to appear in physical order
+!  in the file, it is needed to also use the declaration of the character set
+!  as follows:
+!		        character_set=iso_hebrew
+!  Note that in this case the strings are still tagged as Right to Left. The only
+!  difference is that the UIL compiler will parse the string from Right to Left!
+!
+!  To summarize:
+!  If you declare  character_set=iso_hebrew, then the Compound String 
+!  created by the UIL compiler from the construct: text="תירבע",
+!  is identical to the Compound String created by the UIL compiler from
+!  the construct text="עברית" only if the module header header contains the
+!  default character set declaration as: character_set=iso_hebrew_lr.
+!  
+!  IMPORTANT:
+!
+!  If you mark a string with a single quotation mark e.g: 'string' then the
+!  compound string created is tagged with:
+!
+!			 character set equals ISO_LATIN1,
+!                         direction equals LEFT_TO_RIGHT.
+!*/
+
+value
+!        k_motifburger_title		: exported  "**** הזמנות לפלאפל ****";
+        k_motifburger_title		: exported 'MOTIFburger Order-Entry Box';
+        k_nyi_label_text
+		      : exported compound_string("פעולה זו אינה קיימת כעת") ;
+	k_file_label_text               : exported compound_string("קובץ") ;
+	  k_quit_label_text             : exported compound_string("צא") ;
+	k_edit_label_text               : exported compound_string("עריכה") ;
+	  k_cut_dot_label_text        : exported compound_string('Cut');
+	  k_copy_dot_label_text       : exported compound_string('Copy');
+	  k_paste_dot_label_text      : exported compound_string('Paste');
+	  k_clear_dot_label_text      : exported compound_string('Clear');
+
+	  k_select_all_label_text     : exported compound_string("בחר הכל");
+        k_order_label_text            : exported compound_string("הזמנה") ;
+	  k_show_controls_label_text  : exported compound_string("Show Controls...");
+	  k_cancel_order_label_text   : exported compound_string("בטל הזמנה ");
+	  k_submit_order_label_text   : exported compound_string("הכן הזמנה");
+	  k_create_order_label_text   : exported compound_string("הצג תפריט הזמנות...");
+	  k_dismiss_order_label_text  : exported compound_string("בטל תפריט הזמנות...");
+	k_hamburgers_label_text       : exported compound_string("פלאפל");	!falafels
+	  k_rare_label_text           : exported compound_string("פיתה");	!pita
+	  k_medium_label_text         : exported compound_string("אש-תנור");	!iraqi
+	  k_well_done_label_text      : exported compound_string("חצי מנה");	!half
+	  k_ketchup_label_text        : exported compound_string("טחינה");	!tchina
+	  k_mustard_label_text        : exported compound_string("חרדל");	!mustard
+	  k_onion_label_text          : exported compound_string("סלט-טורקי");	!salad
+	  k_mayonnaise_label_text     : exported compound_string("חילבה");	!hilbeh
+	  k_pickle_label_text         : exported compound_string("חמוצים");	!pickle
+	  k_quantity_label_text       : exported compound_string("כמות");
+        k_fries_label_text            : exported compound_string("צ'יפס");
+	  k_size_label_text           : exported compound_string("גודל");
+	  k_tiny_label_text           : exported compound_string("קטן מאד");
+	  k_medium_fries_label_text   : exported compound_string("בינוני");
+	  k_small_label_text          : exported compound_string("קטן");
+	  k_large_label_text          : exported compound_string("גדול");
+	  k_huge_label_text           : exported compound_string("ענק");
+        k_drinks_label_text           : exported compound_string("משקאות");
+	  k_0_label_text              : exported '0';
+	  k_drink_list_text           : exported 
+		  string_table ("בירה", compound_string("מיץ תפוחים"), "מיץ תפוזים", "יין",
+				"קולה", "בירה שחורה", "מים",
+				"חלב", "קפה", "תה");
+	  k_drink_list_select         : exported string_table("בירה");
+	  k_u_label_text              : exported compound_string("U");
+	  k_d_label_text              : exported compound_string("D");
+        k_apply_label_text            : exported compound_string("יישום");
+        k_reset_label_text            : exported compound_string("איפוס");
+        k_cancel_label_text           : exported compound_string("בטל");
+        k_dismiss_label_text          : exported compound_string("נטישה");
+	k_quit_accelerator_text	      : exported compound_string("z/lrtC");
+	k_ketchup_accelerator_text    : exported compound_string("k/lrtC");
+
+! string direction value required since the Hebrew font is not left to right
+value
+    k_string_direction	: exported XmSTRING_DIRECTION_R_TO_L;
+
+! scroll bar placement value required for compatability with right to left apps
+value
+    k_scroll_bar_placement : exported XmBOTTOM_LEFT;
+
+! substitute another font name if this font is not available on your system
+! HEBREW
+value
+  k_ascii_font : font (
+	'-*-times-BOLD-R-Normal--*-120-*-*-P-*-*-*');
+  k_hebrew_font : font (
+	'-Misc-Fixed-Medium-R-Normal--13-120-75-75-C-80-ISO8859-8',
+	character_set=iso_hebrew);
+
+
+  k_font_table : exported font_table (iso_latin1 = k_ascii_font,
+				 iso_hebrew = k_hebrew_font);
+  k_button_font_table : exported font_table (iso_latin1 = k_ascii_font,
+				 iso_hebrew = k_hebrew_font);
+  k_mnemonic_charset : exported 'ISO8859-8';
+
+
+!value
+!
+! These values are wrong and just here for compatability only.
+! This will be addressed in Motif 1.2
+!
+!	menonic name			ASCII		Keyboard Symbol
+!	----------------------		-------		---------------
+        k_file_mnemonic                 : exported keysym("F");         ! "F"
+        k_quit_mnemonic                 : exported keysym("Q");         ! "Q"
+        k_edit_mnemonic                 : exported keysym("E");         ! "E"
+        k_order_mnemonic                : exported keysym("O"); ! "O"
+        k_rare_mnemonic                 : exported keysym("R"); ! "R"
+        k_medium_mnemonic               : exported keysym("M"); ! "M" 
+        k_ketchup_mnemonic              : exported keysym("K"); ! "K"
+
+end module;

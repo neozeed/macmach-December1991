@@ -1,0 +1,88 @@
+.\"
+.\" $Id: path.3,v 1.3 89/12/26 11:20:44 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	path.3,v $
+.\" Revision 1.3  89/12/26  11:20:44  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH PATH 3 12/5/79
+.CM 1
+.SH "NAME"
+path \- split pathname into directory and file parts
+.SH "SYNOPSIS"
+.B
+path (pathname,direc,file);
+.br
+.B
+char *pathname,*direc,*file;
+.SH "DESCRIPTION"
+.I
+Path
+breaks a complete pathname into a filename part and a directory part.
+It handles all pathnames allowed in UNIX.
+The resulting filename will
+not have trailing slashes, and will not be null.
+The resulting
+directory name will not be null.
+.sp
+You provide three strings:
+.I
+pathname,
+the complete name to be split,
+.I
+direc,
+a buffer into which the directory part will be copied, and
+.I
+file,
+a buffer to hold the filename part.
+You must ensure that the
+buffers are big enough.
+.sp
+The handling of most names is obvious, but several special cases
+exist.
+The name "f", containing no slashes, is split into
+directory "." and filename "f".
+The name "/" is directory "/" and
+filename ".".
+The path "" is directory "." and filename ".".
+.SH "SEE ALSO"
+.IR getwd (3),
+.IR expand (3)
+.SH "BUGS"
+The string
+.I
+direc
+must be big enough to hold the entire pathname, since it is used
+as working storage by
+.I
+path.
+.sp
+A possible future modification to
+.I
+path
+would add the additional proviso that the directory part
+will be an absolute pathname.
+The implementation of this
+is simple -- you perform
+.I
+getwd,
+and prepend the value (with a separating "/"), but only
+if the original
+.I
+pathname
+is not absolute (i.e.
+does not begin with "/").
+It is also
+possible (but not necessary) to resolve initial "../"
+substrings in
+.I
+pathname
+at that time.

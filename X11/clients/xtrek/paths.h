@@ -1,0 +1,10 @@
+/* Machine Generated: DO NOT EDIT */
+#define FONTDIR "/usr/X11/lib/fonts/misc"
+#define LIBDIR "/usr/X11/lib/xtrek"
+#define PROGRAM_NAME "xtrek"
+#define DIR "/tmp"
+#define PLFILE "/tmp/.planets"
+#define MOTD "/usr/X11/lib/xtrek/motd"
+#define SCOREFILE "/tmp/scores"
+#define FONTNAME "xtrek"
+#define DEFAULT_CONFIG "/usr/X11/lib/xtrek/default.config"

@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringHeight 3X "" "" "" ""
+.SH NAME
+\fBXmStringHeight \(em a compound string function that returns the line
+height of the given compound string.\fP
+.iX "XmStringHeight"
+.iX "compound string functions" "XmStringHeight"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Dimension XmStringHeight (\fIfontlist, string\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmFontList	\fIfontlist\fP;
+.br
+	XmString	\fIstring\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringHeight\fP 
+returns the height, in pixels, of the sum of all the line heights
+of the given
+compound string.  Separator components delimit lines.
+.PP
+.ne 3i
+When \fIstring\fP has been created with \fBXmStringCreateSimple\fP, the
+font associated with the character set derived from the
+current language environment must
+appear at the front of \fIfontlist\fP.
+Otherwise, the result of the function is undefined.
+.sp 1
+.IP "\fIfontlist\fP" .75i
+Specifies the font list
+.IP "\fIstring\fP" .75i 
+Specifies the string
+.sp 1
+.SH RETURN VALUE
+Returns the height of the specified string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

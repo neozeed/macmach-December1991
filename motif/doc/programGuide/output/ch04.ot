@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4.  SSSShhhheeeellllllll WWWWiiiiddddggggeeeettttssss
+
+       Shell widgets are used to provide communication between the
+       widgets in an application and the window manager.  An
+       application's widgets are arranged in a hierarchy, with       |
+       upper-level widgets acting as the parents of lower-level      |
+       widgets.  Widgets at the top of the hierarchy do not have     |
+       normal parent widgets, but have a Shell as the parent.  Dif-
+       ferent Shell widgets are provided for the various categories  |
+       of toplevel widgets, including dialogs and menu panes.  Fig-  |
+       ure 4-1 shows the hierarchy of the Shell widgets.  Keep in    |
+       mind that Shell is a subclass of Composite (see Figure 1-4).  |
+
+                   FFFFiiiigggguuuurrrreeee 4444----1111....  Shell Widget Hierarchy               |
+       The classes Shell, WmShell, and VendorShell are private and
+       should not be instantiated.  The other Shell classes are for
+       public use, although a DialogShell is normally created by a
+       convenience function as part of a set rather than by itself.
+       Each of the Shell classes has a manpage (found in the         |
+       _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e) that has information on
+       the resources belonging to the specific Shell widget.
+
+       4.1  DDDDeeeessssccccrrrriiiippppttttiiiioooonnnnssss ooooffff SSSShhhheeeellllllll WWWWiiiiddddggggeeeettttssss
+
+       The Shell widgets shown in Figure 4-1 are of two types:       |
+       Private and Public.  This means that the Public widgets are
+       those that you should instantiate, either individually or,
+       as in the case of DialogShell, as part of a set.  The         |
+       Private widgets are those that you should not instantiate.
+       These widgets typically just supply resources to Shell widg-
+       ets that are lower in the hierarchy.  Keep in mind the        |
+       hierarchy diagram of Figure 4-1 as you study the definitions
+       of the Shell widgets.
+
+          +o SSSShhhheeeellllllll - Shell is the base class for all shell widgets.   |
+            It provides the fields needed by all the Shell widgets.
+            Shell is a subclass of Composite (see Figure 1-2).       |
+
+          +o OOOOvvvveeeerrrrrrrriiiiddddeeeeSSSShhhheeeellllllll - OverrideShell is used for shell windows
+            that bypass the window manager.  Popup menus are one
+            example of where an OverrideShell might be used.
+
+          +o WWWWMMMMSSSShhhheeeellllllll - WMShell contains fields that are needed by
+            the common window manager protocol.
+
+
+                                                                4-1
+
+
+
+
+
+
+
+
+
+
+
+
+          +o VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll - VendorShell contains fields that are used
+            by vendor-specific window managers.
+
+          +o TTTTooooppppLLLLeeeevvvveeeellllSSSShhhheeeellllllll - TopLevelShell is used for normal         |
+            toplevel windows.  It is not the root shell used by an   |
+            application, rather it is normally used to create peer   |
+            toplevel windows in situations where an application
+            needs more than one set of windows.  The root shell is
+            normally the ApplicationShell.
+
+          +o AAAApppppppplllliiiiccccaaaattttiiiioooonnnnSSSShhhheeeellllllll - ApplicationShell is an application's  |
+            toplevel or root window.  This is the shell that is      |
+            created by XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee.  An application should not
+            have more than one ApplicationShell.  Subsequent         |
+            toplevel shells should be of class TopLevelShell and     |
+            are created by XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeeeSSSShhhheeeellllllll.  These top-level
+            shells can be considered the root of a second widget
+            tree for the application.
+
+          +o MMMMeeeennnnuuuuSSSShhhheeeellllllll - MenuShell is used as the parent of pop-up    |
+            and pull-down menu panes.  It is a subclass of Over-     |
+            rideShell.
+
+          +o DDDDiiiiaaaallllooooggggSSSShhhheeeellllllll - DialogShell is the parent of Dialogs.
+            Although it can be instantiated by itself, it is nor-
+            mally instantiated as part of a set by one of the con-
+            venience dialogs.  For example, XXXXmmmmCCCCrrrreeeeaaaatttteeeeEEEErrrrrrrroooorrrrDDDDiiiiaaaalllloooogggg      |
+            creates a DialogShell and a message box as its child.    |
+            See Chapter 5, ``Dialog Widgets and Functions,'' for
+            more information.
+
+       4.2  SSSShhhheeeellllllll WWWWiiiiddddggggeeeetttt AAAAppppppppeeeeaaaarrrraaaannnncccceeee
+
+       Most Shell widgets are invisible.  However, the type of       |
+       Shell class can have an impact on how its children are
+       displayed.  For example, children of a TransientShell (typi-
+       cally Dialogs) by default have no buttons on the window
+       manager frame that surrounds the window.  Also, as long as
+       the transient window is visible, it will remain above the
+       window from which it is transient.
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4-2
+
+
+
+
+

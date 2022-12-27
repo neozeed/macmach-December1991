@@ -1,0 +1,70 @@
+.\"
+.\" $Id: chrarg.3,v 1.3 89/12/26 11:15:25 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	chrarg.3,v $
+.\" Revision 1.3  89/12/26  11:15:25  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH CHRARG 3 12/5/79
+.CM 1
+.SH "NAME"
+chrarg \- parse character argument or ask user
+.SH "SYNOPSIS"
+.B
+int chrarg (ptr,brk,prompt,legals,defalt);
+.br
+.B
+char **ptr,*brk,*prompt,*legals,defalt;
+.SH "DESCRIPTION"
+.I
+Chrarg
+attemps to parse an argument from a string, passing
+the string pointer
+.I
+ptr
+and the break character set
+.I
+brk
+to the
+.IR nxtarg (3)
+routine.
+If there is an argument parsed, and
+it begins with a character which is present in the
+string
+.I
+legals
+of legal character responses, then the index of that
+character within
+.I
+legals
+is returned.
+If there is no argument, or if it does
+not begin with a legal character, then the parameters
+.I
+prompt, legals,
+and
+.I
+defalt
+are passed to the
+.IR getchr (3)
+routine, whose value is then returned by
+.I
+chrarg.
+.sp
+.I
+Chrarg
+is especially useful for parsing character values
+from argument lists in programs using the command interpreter,
+.IR ci (3).
+.SH "SEE ALSO"
+.IR nxtarg (3), 
+.IR getchr (3), 
+.IR ci (3)

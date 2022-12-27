@@ -1,0 +1,1188 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       21.  MMMMoooottttiiiiffff RRRReeeessssoooouuuurrrrcccceeee MMMMaaaannnnaaaaggggeeeerrrr FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       The functions discussed in this chapter define the applica-
+       tion interface to Motif Resource Manager (MRM).  MRM is
+       responsible for creating widgets based on definitions con-
+       tained in the UID files created by the UIL compiler.  MRM     |
+       interprets the output of the UIL compiler and generates the
+       appropriate argument lists for widget creation functions.
+       Specifically, the functions discussed in this chapter allow
+       your application to                                           |
+
+          +o Initialize MRM.
+
+          +o Provide information required by MRM to successfully
+            interpret information contained in UID files.
+
+          +o Create widgets using UID file definitions.
+
+          +o Read literal definitions from UID files.  Tthese defin-  |
+            itions are created by using the exported value defini-
+            tions in the UIL, and the resulting literals may be      |
+            used for any purpose the application requires.
+
+       The representation of widgets in a UID file is not exposed
+       in these functions.  All management and translation of these
+       representations is done internally.
+
+       All definitions required to use MRM facilities are contained  |
+       in the include file <<<<MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>>>>.
+
+       21.1  SSSSeeeettttttttiiiinnnngggg UUUUpppp SSSSttttoooorrrraaaaggggeeee aaaannnndddd DDDDaaaattttaaaa SSSSttttrrrruuuuccccttttuuuurrrreeeessss
+
+       To initialize the internal data structures needed by MRM,
+       use MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee.                                            |
+
+       vvvvooooiiiidddd MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee()                                          |
+
+       The MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee function must be called to prepare an       |
+       application to use MRM widget-fetching facilities.  You must
+       call this function prior to fetching a widget.  However, it   |
+       is good programming practice to call MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee prior to   |
+       performing any MRM operations.  MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee initializes     |
+       the internal data structures that MRM needs to successfully   |
+       perform type conversion on arguments and to successfully      |
+
+
+                                                               21-1
+
+
+
+
+
+
+
+
+
+
+
+
+       access widget creation facilities.  An application must call  |
+       MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee before it uses other MRM functions.
+
+       21.2  OOOObbbbttttaaaaiiiinnnniiiinnnngggg UUUUIIIIDDDD DDDDaaaattttaaaabbbbaaaasssseeee FFFFiiiilllleeee IIIIDDDDssss
+
+       A Motif application can access different UID files based on
+       the language preferences of the user. This capability is      |
+       provided by MRM in a way that is consistent with the exist-
+       ing NLS standards as specified in the _X_O_p_e_n _P_o_r_t_a_b_i_l_i_t_y
+       _G_u_i_d_e (issue 3, draft 2). In particular, the capability is
+       compatible with the searching and naming conventions used to
+       access message catalogs.  To specify the UID files to be
+       opened in Motif applications, use MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy:           |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy(_n_u_m__f_i_l_e_s, _f_i_l_e__n_a_m_e_s__l_i_s_t,         |
+                         _a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t, _h_i_e_r_a_r_c_h_y__i_d)    |
+            MMMMrrrrmmmmCCCCoooouuuunnnntttt _n_u_m__f_i_l_e_s;                                      |
+            SSSSttttrrrriiiinnnngggg _f_i_l_e__n_a_m_e_s__l_i_s_t [];                               |
+            MMMMrrrrmmmmOOOOssssOOOOppppeeeennnnPPPPaaaarrrraaaammmmPPPPttttrrrr *_a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t;            |
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy *_h_i_e_r_a_r_c_h_y__i_d;                              |
+
+       _n_u_m__f_i_l_e_s      Specifies the number of files in the name
+                      list.                                          |
+
+       _f_i_l_e__n_a_m_e_s__l_i_s_t Specifies an array of pointers to character
+                      strings that identify the .uid files.          |
+
+       _a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t                                     |
+                      A list of operating system dependent ancil-    |
+                      lary structures corresponding to such things
+                      as file names, clobber flag, and so forth.
+                      This argument should be NULL for most opera-
+                      tions.  If you need to reference this struc-
+                      ture, see the definition of MrmOsOpenParamPtr  |
+                      in MrmPublic.h for more information.           |
+
+       _h_i_e_r_a_r_c_h_y__i_d   Returns the search hierarchy ID.  The search   |
+                      hierarchy ID identifies the list of ....uuuuiiiidddd       |
+                      files that MRM searches (in order) when per-   |
+                      forming subsequent fetch calls.                |
+
+       The MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function allows the user to specify the  |
+       list of UID files that MRM searches in subsequent fetch       |
+       operations.  All subsequent fetch operations return the       |
+       first occurrence of the named item encountered while
+       traversing the UID hierarchy from the first list element
+       (UID file specification) to the last list element.  This      |
+       function also allocates a hierarchy ID and opens all the UID  |
+       files in the hierarchy. It initializes the optimized search
+       lists in the hierarchy.  If MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy encounters any   |
+
+
+       21-2
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       errors during its execution, it closes any files that were    |
+       opened.                                                       |
+
+       Each UID file string in _f_i_l_e__n_a_m_e_s__l_i_s_t can specify either a  |
+       full pathname or a filename.  If a UID file string has a      |
+       leading / (slash), it specifies a full pathname, and MRM      |
+       opens the file as specified.  Otherwise, the UID file string  |
+       specifies a filename.  In this case MRM looks for the file    |
+       along a search path specified by the UUUUIIIIDDDDPPPPAAAATTTTHHHH environment      |
+       variable or by a default search path, which varies depending  |
+       on whether or not the XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR environment variable is     |
+       set.  The filename is substituted for each occurrence of %%%%UUUU   |
+       in the search path.                                           |
+
+       The UUUUIIIIDDDDPPPPAAAATTTTHHHH environment variable specifies a search path and  |
+       naming conventions associated with UID files.  It can con-    |
+       tain the substitution field %%%%UUUU, where the UID file string     |
+       from the _f_i_l_e__n_a_m_e_s__l_i_s_t argument to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy is      |
+       substituted for %%%%UUUU.  It can also contain the substitution     |
+       fields accepted by XXXXttttRRRReeeessssoooollllvvvveeeePPPPaaaatttthhhhnnnnaaaammmmeeee.  For example, the fol-  |
+       lowing UUUUIIIIDDDDPPPPAAAATTTTHHHH value and MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy call cause MRM to   |
+       open two separate UID files:                                  |
+
+       UIDPATH=/uidlib/%L/%U.uid:/uidlib/%U/%L                       |
+         static char *uid_files[] = {"/usr/users/me/test.uid", "test2"};
+          MrmHierarchy  *Hierarchy_id;
+          MrmOpenHierarchy((MrmCount)2,uid_files, NULL, Hierarchy_id)
+
+       MRM opens the first file, ////uuuussssrrrr////uuuusssseeeerrrrssss////mmmmeeee////tttteeeesssstttt....uuuuiiiidddd, as speci-   |
+       fied in the _f_i_l_e__n_a_m_e_s__l_i_s_t argument to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy      |
+       because the UID file string in the _f_i_l_e__n_a_m_e_s__l_i_s_t argument   |
+       specifies a full pathname.  MRM looks for the second file,    |
+       tttteeeesssstttt2222, first as ////uuuuiiiiddddlllliiiibbbb////%%%%LLLL////tttteeeesssstttt2222....uuuuiiiidddd and second as            |
+       ////uuuuiiiiddddlllliiiibbbb////tttteeeesssstttt2222////%%%%LLLL, where the current setting of the            |
+       xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or the LLLLAAAANNNNGGGG environment variable is      |
+       substituted for %%%%LLLL.                                           |
+
+       If UUUUIIIIDDDDPPPPAAAATTTTHHHH is not set but the environment variable XXXXAAAAPPPPPPPPLLLLRRRREEEESSSS----  |
+       DDDDIIIIRRRR is set, MRM searches the following pathnames:             |
+
+
+       %%%%UUUU                                                            |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                        |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////uuuuiiiidddd////%%%%UUUU                                        |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////uuuuiiiidddd////%%%%UUUU                                        |
+       $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////uuuuiiiidddd////%%%%UUUU                                           |
+       $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%UUUU                                                  |
+       $$$$HHHHOOOOMMMMEEEE////%%%%UUUU                                                      |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+
+
+                                                               21-3
+
+
+
+
+
+
+
+
+
+
+
+
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%UUUU                                           |
+       ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////uuuuiiiidddd////%%%%UUUU                                       |
+
+
+       If neither UUUUIIIIDDDDPPPPAAAATTTTHHHH nor XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR is set, MRM searches the   |
+       following pathnames:                                          |
+
+
+       %%%%UUUU                                                            |
+       $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                            |
+       $$$$HHHHOOOOMMMMEEEE////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                            |
+       $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                               |
+       $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////uuuuiiiidddd////%%%%UUUU                                               |
+       $$$$HHHHOOOOMMMMEEEE////%%%%llll////uuuuiiiidddd////%%%%UUUU                                               |
+       $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%UUUU                                                  |
+       $$$$HHHHOOOOMMMMEEEE////%%%%UUUU                                                      |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                     |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%NNNN////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%UUUU                                        |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%UUUU                                           |
+       ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////uuuuiiiidddd////%%%%UUUU                                       |
+
+
+       The following substitutions are used in these paths:          |
+
+       %%%%UUUU   The UID file string, from the _f_i_l_e__n_a_m_e_s__l_i_s_t argument   |
+
+       %%%%NNNN   The class name of the application                        |
+
+       %%%%LLLL   The value of the xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or the LLLLAAAANNNNGGGG        |
+            environment variable                                     |
+
+       %%%%llll   The language component of the xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or    |
+            the LLLLAAAANNNNGGGG environment variable                            |
+
+
+
+
+
+
+
+
+
+
+
+
+
+       21-4
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       After MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy opens the UID hierarchy, you should    |
+       not delete or modify the UID files until you close the UID    |
+       hierarchy by calling MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.
+
+       The MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function returns one of these status     |
+       return constants:                                             |
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmNOT_FOUND   File not found.                                |
+       MrmFAILURE     The function failed.                           |
+
+       21.3  CCCClllloooossssiiiinnnngggg aaaa MMMMRRRRMMMM SSSSeeeeaaaarrrrcccchhhh HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy
+
+       To close an MRM search hierarchy, use MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy:      |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy(_h_i_e_r_a_r_c_h_y__i_d)                      |
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+
+       _h_i_e_r_a_r_c_h_y__i_d        Specifies the ID of a previously opened
+                           UID hierarchy.  The _h_i_e_r_a_r_c_h_y__i_d was
+                           returned in a previous call to MMMMrrrrmmmmOOOO----      |
+                           ppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                             |
+
+       The MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function closes a UID hierarchy previ-  |
+       ously opened by MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.  All files associated with  |
+       the hierarchy are closed by MRM and all associated memory is
+       returned.  The MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function returns one of      |
+       these status return constants:
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmFAILURE     The function failed.                           |
+
+       21.4  RRRReeeeggggiiiisssstttteeeerrrriiiinnnngggg MMMMRRRRMMMM IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn aaaannnndddd CCCCaaaallllllllbbbbaaaacccckkkkssss
+
+       This section discusses the MRM functions you can use to       |
+
+          +o Save the information needed to access the widget crea-
+            tion function
+
+          +o Register a vector of callback functions
+
+       21.4.1  RRRReeeeggggiiiisssstttteeeerrrriiiinnnngggg MMMMRRRRMMMM IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+
+       To save the information needed to access the widget creation
+       function, use MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss:                               |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss(_c_l_a_s_s__c_o_d_e, _c_l_a_s_s__n_a_m_e, _c_r_e_a_t_e__n_a_m_e,|
+                                  _c_r_e_a_t_e__p_r_o_c, _c_l_a_s_s__r_e_c_o_r_d)         |
+            MMMMrrrrmmmmTTTTyyyyppppeeee _c_l_a_s_s__c_o_d_e;                                      |
+
+
+                                                               21-5
+
+
+
+
+
+
+
+
+
+
+
+
+            SSSSttttrrrriiiinnnngggg _c_l_a_s_s__n_a_m_e;                                       |
+            SSSSttttrrrriiiinnnngggg _c_r_e_a_t_e__n_a_m_e;                                      |
+            WWWWiiiiddddggggeeeetttt (* _c_r_e_a_t_e__p_r_o_c) ();                               |
+            WWWWiiiiddddggggeeeettttCCCCllllaaaassssssss _c_l_a_s_s__r_e_c_o_r_d;                                |
+
+       _c_l_a_s_s__c_o_d_e       Specifies the code name of the class.  For   |
+                        all application-defined widgets, this code   |
+                        name is MMMMRRRRMMMMwwwwccccUUUUnnnnkkkknnnnoooowwwwnnnn.  For all Motif         |
+                        Toolkit widgets, each code name begins with  |
+                        the letters MMMMRRRRMMMMwwwwcccc.  The code names for all   |
+                        application widgets are defined in MMMMrrrrmmmm....hhhh.    |
+
+       _c_l_a_s_s__n_a_m_e       Specifies the case-sensitive name of the
+                        class.  The class names for all Motif        |
+                        Toolkit widgets are defined in MMMMrrrrmmmm....hhhh. Each   |
+                        class name begins with the letters MMMMRRRRMMMMwwwwccccnnnn.   |
+
+       _c_r_e_a_t_e__n_a_m_e      Specifies the case-sensitive name of the
+                        low-level widget creation function for the   |
+                        class.  An example from the Motif Toolkit    |
+                        is XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLaaaabbbbeeeellll.  Arguments are             |
+                        _p_a_r_e_n_t__w_i_d_g_e_t, _n_a_m_e, _o_v_e_r_r_i_d_e__a_r_g_l_i_s_t, and
+                        _o_v_e_r_r_i_d_e__a_r_g_c_o_u_n_t.                           |
+
+       For user-defined widgets, _c_r_e_a_t_e__n_a_m_e is the creation pro-    |
+       cedure in the UIL that defines this widget.                   |
+
+       _c_r_e_a_t_e__p_r_o_c      Specifies the address of the creation func-
+                        tion that you named in _c_r_e_a_t_e__n_a_m_e.          |
+
+       _c_l_a_s_s__r_e_c_o_r_d     Specifies a pointer to the class record.     |
+
+       The MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss function allows MRM to access user-      |
+       defined widget classes.  This function registers the neces-
+       sary information for MRM to create widgets of this class.     |
+       You must call MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss prior to fetching any user-
+       defined class widget.
+
+       MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss saves the information needed to access the   |
+       widget creation function and to do type conversion of argu-
+       ment lists by using the information in MRM databases.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmFAILURE     The allocation of the class descriptor failed. |
+
+
+
+
+
+
+
+       21-6
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       21.4.2  RRRReeeeggggiiiisssstttteeeerrrriiiinnnngggg aaaa VVVVeeeeccccttttoooorrrr ooooffff CCCCaaaallllllllbbbbaaaacccckkkk FFFFuuuunnnnccccttttiiiioooonnnnssss            |
+
+       To register a vector of names of identifiers or callback
+       functions for access in MRM, use MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss or MMMMrrrrmmmmRRRReeee----   |
+       ggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy:                                       |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss(_r_e_g_i_s_t_e_r__l_i_s_t, _r_e_g_i_s_t_e_r__c_o_u_n_t)      |
+            MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrAAAArrrrgggglllliiiisssstttt _r_e_g_i_s_t_e_r__l_i_s_t;                        |
+            MMMMrrrrmmmmCCCCoooouuuunnnntttt _r_e_g_i_s_t_e_r__c_o_u_n_t;                                 |
+
+       _r_e_g_i_s_t_e_r__l_i_s_t       Specifies a list of name/value pairs for
+                           the names to be registered.  Each name
+                           is a case-sensitive, NULL-terminated
+                           ASCII string.  Each value is a 32-bit
+                           quantity, interpreted as a procedure
+                           address if the name is a callback func-
+                           tion, and uninterpreted otherwise.        |
+
+       _r_e_g_i_s_t_e_r__c_o_u_n_t      Specifies the number of entries in
+                           _r_e_g_i_s_t_e_r__l_i_s_t.                            |
+
+       The MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss function registers a vector of names     |
+       and associated values for access in MRM. The values can be
+       callback functions, pointers to user-defined data, or any
+       other values. The information provided is used to resolve
+       symbolic references occurring in UID files to their run-time
+       values.  For callbacks, this information provides the pro-
+       cedure address required by the Motif Toolkit.  For names
+       used as identifiers in UIL, this information provides any
+       run-time mapping the application needs.
+
+       The names in the list are case-sensitive.  The list can be
+       either ordered or unordered.
+
+       Callback functions registered through MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss can    |
+       be either regular or creation callbacks.  Regular callbacks
+       have declarations determined by Motif Toolkit and user
+       requirements.  Creation callbacks have the same format as
+       any other callback:                                           |
+
+       vvvvooooiiiidddd CCCCaaaallllllllBBBBaaaacccckkkkPPPPrrrroooocccc(_w_i_d_g_e_t__i_d, _t_a_g, _c_a_l_l_b_a_c_k__d_a_t_a)              |
+                   WWWWiiiiddddggggeeeetttt *_w_i_d_g_e_t__i_d;                                |
+                   OOOOppppaaaaqqqquuuueeee _t_a_g;                                       |
+                   XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt *_c_a_l_l_b_a_c_k__d_a_t_a;               |
+
+       _w_i_d_g_e_t__i_d        Specifies the widget ID associated with the
+                        widget performing the callback (as in any
+                        callback function).                          |
+
+
+
+
+                                                               21-7
+
+
+
+
+
+
+
+
+
+
+
+
+       _t_a_g              Specifies the tag value (as in any callback
+                        function).                                   |
+
+       _c_a_l_l_b_a_c_k__d_a_t_a    Specifies a widget-specific data structure.  |
+                        This data structure has a minimum of two     |
+                        members, event and reason.  The reason
+                        member is always set to MMMMrrrrmmmmCCCCRRRR____CCCCRRRREEEEAAAATTTTEEEE.        |
+
+       Note that the widget name and parent are available from the
+       widget record accessible through _w_i_d_g_e_t__i_d.                   |
+
+       This function returns one of these status return constants:   |
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmFAILURE     Memory allocation failed.                      |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy(_h_i_e_r_a_r_c_h_y__i_d, _r_e_g_i_s_t_e_r__l_i_s_t, _r_e_g_i_s_t_e_r__c_o_u_n_t)|
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrAAAArrrrgggglllliiiisssstttt _r_e_g_i_s_t_e_r__l_i_s_t;                        |
+            MMMMrrrrmmmmCCCCoooouuuunnnntttt _r_e_g_i_s_t_e_r__c_o_u_n_t;                                 |
+
+       _h_i_e_r_a_r_c_h_y__i_d        Specifies the hierarchy with which the    |
+                           names are to be associated.               |
+
+       _r_e_g_i_s_t_e_r__l_i_s_t       Specifies a list of name/value pairs for  |
+                           the names to be registered.  Each name    |
+                           is a case-sensitive, NULL-terminated      |
+                           ASCII string.  Each value is a 32-bit     |
+                           quantity, interpreted as a procedure      |
+                           address if the name is a callback func-   |
+                           tion, and uninterpreted otherwise.        |
+
+       _r_e_g_i_s_t_e_r__c_o_u_n_t      Specifies the number of entries in        |
+                           _r_e_g_i_s_t_e_r__l_i_s_t.
+
+       The MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function registers a vector   |
+       of names and associated values for access in MRM. The values  |
+       can be callback functions, pointers to user-defined data, or  |
+       any other values. The information provided is used to         |
+       resolve symbolic references occurring in UID files to their   |
+       run-time values.  For callbacks, this information provides    |
+       the procedure address required by the Motif Toolkit.  For     |
+       names used as identifiers in UIL, this information provides   |
+       any run-time mapping the application needs.                   |
+
+       This function is similar to MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss,,,, except that     |
+       the scope of the names registered by MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrr----             |
+       NNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy is limited to the hierarchy specified by     |
+       _h_i_e_r_a_r_c_h_y__i_d, whereas the names registered by MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrr----    |
+       NNNNaaaammmmeeeessss have global scope.  When MRM looks up a name, it first  |
+
+
+       21-8
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       tries to find the name among those registered for the given   |
+       hierarchy.  If that lookup fails, it tries to find the name   |
+       among those registered globally.
+
+       This function returns one of these status return constants:   *
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmFAILURE     Memory allocation failed.                      |
+
+       21.5  FFFFeeeettttcccchhhhiiiinnnngggg WWWWiiiiddddggggeeeettttssss                                        |
+
+       This section discusses the MRM functions you can use to       |
+
+          +o Fetch all the widgets defined in some interface          |
+
+          +o Fetch values stored in UID files                         |
+
+          +o Fetch any indexed application widget                     |
+
+       21.5.1  FFFFeeeettttcccchhhhiiiinnnngggg VVVVaaaalllluuuueeeessss SSSSttttoooorrrreeeedddd iiiinnnn UUUUIIIIDDDD FFFFiiiilllleeeessss
+
+       To fetch the values to be set from literals stored in UID
+       files, use MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss:                                 |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss(_h_i_e_r_a_r_c_h_y__i_d, _w_i_d_g_e_t, _a_r_g_s, _n_u_m__a_r_g_s)|
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            WWWWiiiiddddggggeeeetttt _w_i_d_g_e_t;                                           |
+            AAAArrrrggggLLLLiiiisssstttt _a_r_g_s;                                            |
+            CCCCaaaarrrrddddiiiinnnnaaaallll _n_u_m__a_r_g_s;                                       |
+
+       _h_i_e_r_a_r_c_h_y__i_d     Specifies the ID of the UID hierarchy that
+                        contains the specified literal. The
+                        _h_i_e_r_a_r_c_h_y__i_d was returned in a previous
+                        call to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                    |
+
+       _w_i_d_g_e_t           Specifies the widget that is modified.       |
+
+       _a_r_g_s             Specifies an argument list that identifies
+                        the widget arguments to be modified as well
+                        as the index (UIL name) of the literal that
+                        defines the value for that argument.  The    |
+                        name part of each argument (_a_r_g_s[_n]._n_a_m_e)    |
+                        must begin with the string XXXXmmmmNNNN followed by
+                        the name that uniquely identifies this
+                        attribute tag.  For example, XXXXmmmmNNNNwwwwiiiiddddtttthhhh is     |
+                        the attribute name associated with the core
+                        argument _w_i_d_t_h.  The value part              |
+                        (_a_r_g_s[_n]._v_a_l_u_e) must be a string that gives
+                        the index (UIL name) of the literal.  You
+                        must define all literals in UIL as exported
+
+
+                                                               21-9
+
+
+
+
+
+
+
+
+
+
+
+
+                        values.                                      |
+
+       _n_u_m__a_r_g_s         Specifies the number of entries in _a_r_g_s.     |
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function is similar to XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss,     |
+       except that the values to be set are defined by the UIL
+       named values that are stored in the UID hierarchy.            |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss fetches the values to be set from literals
+       stored in UID files.
+
+       This function sets the values on a widget, evaluating the     |
+       values as literal references that can be resolved from a UID
+       hierarchy. Each literal is fetched from the hierarchy, and
+       its value is modified and converted as required. This value
+       is then placed in the argument list and used as the actual
+       value for an XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss call. MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss allows a     |
+       widget to be modified after creation using UID file values
+       exactly as is done for creation values in MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.     |
+
+       As in MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt, each argument whose value can be        |
+       evaluated from the UID hierarchy is set in the widget.
+       Values that are not found or values in which conversion
+       errors occur are not modified.
+
+       Each entry in the argument list identifies an argument to be
+       modified in the widget. The name part identifies the tag,
+       which begins with XXXXmmmmNNNN.  The value part must be a string       |
+       whose value is the index of the literal. Thus, the following  |
+       code modifies the XmLabel resource of the widget to have the
+       value of the literal accessed by the index OK_button_label
+       in the hierarchy:                                             |
+
+       args[n].name = XmNlabel;
+       args[n].value = "OK_button_label";
+
+       This function returns one of these status return constants:   |
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmFAILURE     The function failed.                           |
+
+       21.5.2  FFFFeeeettttcccchhhhiiiinnnngggg IIIInnnnddddeeeexxxxeeeedddd AAAApppppppplllliiiiccccaaaattttiiiioooonnnn WWWWiiiiddddggggeeeettttssss                  |
+
+       To fetch an indexed application widget, use MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.   |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt(_h_i_e_r_a_r_c_h_y__i_d, _i_n_d_e_x, _p_a_r_e_n_t__w_i_d_g_e_t,   |
+                                _w_i_d_g_e_t, _c_l_a_s_s)                       |
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            SSSSttttrrrriiiinnnngggg _i_n_d_e_x;                                            |
+            WWWWiiiiddddggggeeeetttt _p_a_r_e_n_t__w_i_d_g_e_t;                                    |
+            WWWWiiiiddddggggeeeetttt *_w_i_d_g_e_t;                                          |
+
+
+       21-10
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+            MMMMrrrrmmmmTTTTyyyyppppeeee *_c_l_a_s_s;                                          |
+
+       _h_i_e_r_a_r_c_h_y__i_d   Specifies the ID of the UID hierarchy that
+                      contains the interface definition.  The        |
+                      _h_i_e_r_a_r_c_h_y__i_d was returned in a previous call   |
+                      to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                           |
+
+       _i_n_d_e_x          Specifies the UIL name of the widget to
+                      fetch.                                         |
+
+       _p_a_r_e_n_t__w_i_d_g_e_t  Specifies the parent widget ID.                |
+
+       _w_i_d_g_e_t         Returns the widget ID of the created widget.
+                      If this is not NULL when you call              |
+                      MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee,,,, MRM assumes that the
+                      widget has already been created and            |
+                      MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee returns MMMMrrrrmmmmFFFFAAAAIIIILLLLUUUURRRREEEE.     |
+
+       _c_l_a_s_s          Returns the class code identifying MRM's
+                      widget class.  The widget class code for the
+                      main window widget, for example, is            |
+                      MMMMRRRRMMMMwwwwccccMMMMaaaaiiiinnnnWWWWiiiinnnnddddoooowwww.  Literals identifying MRM
+                      widget class codes are defined in MMMMrrrrmmmm....hhhh.       |
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt function fetches and then creates an       |
+       indexed application widget and its children.  The indexed
+       application widget is any widget that is named in UIL and
+       that is not the child of any other widget in the UID hierar-
+       chy.  In fetch operations, the fetched widget's subtree is
+       also fetched and created.  This widget must not appear as
+       the child of a widget within its own subtree. MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt  |
+       does not execute XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd for the newly created widget.  |
+
+       An application can fetch any named widget in the UID hierar-  *
+       chy using MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.  MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt can be called at    |
+       any time to fetch a widget that was not fetched at applica-   |
+       tion startup.  MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt determines if a widget has
+       already been fetched by checking _w_i_d_g_e_t for a NULL value.     |
+       Non-NULL values signify that the widget has already been      |
+       fetched, and MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt fails.  MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt can be     |
+       used to defer fetching pop-up widgets until they are first    |
+       referenced (presumably in a callback), and then used to       |
+       fetch them once.
+
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt can also create multiple instances of a        |
+       widget (and its subtree).  In this case, the UID definition
+       functions as a template; a widget definition can be fetched
+       any number of times. An application can use this to make
+       multiple instances of a widget, for example, in a dialog box
+       box or menu.
+
+
+
+                                                              21-11
+
+
+
+
+
+
+
+
+
+
+
+
+       The index (UIL name) that identifies the widget must be
+       known to the application.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmNOT_FOUND   Widget not found in UID hierarchy.             |
+       MrmFAILURE     The function failed.                           |
+
+       21.5.3  OOOOvvvveeeerrrrrrrriiiiddddiiiinnnngggg MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt AAAArrrrgggguuuummmmeeeennnnttttssss
+
+       To fetch any indexed application widget and override the      |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt arguments, use MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee:         |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee(_h_i_e_r_a_r_c_h_y__i_d, _i_n_d_e_x, _p_a_r_e_n_t__w_i_d_g_e_t, |
+                                 _o_v_e_r_r_i_d_e__n_a_m_e, _o_v_e_r_r_i_d_e__a_r_g_s,       |
+                                 _o_v_e_r_r_i_d_e__n_u_m__a_r_g_s, _w_i_d_g_e_t, _c_l_a_s_s)   |
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            SSSSttttrrrriiiinnnngggg _i_n_d_e_x;                                            |
+            WWWWiiiiddddggggeeeetttt _p_a_r_e_n_t__w_i_d_g_e_t;                                    |
+            SSSSttttrrrriiiinnnngggg _o_v_e_r_r_i_d_e__n_a_m_e;                                    |
+            AAAArrrrggggLLLLiiiisssstttt _o_v_e_r_r_i_d_e__a_r_g_s;                                   |
+            CCCCaaaarrrrddddiiiinnnnaaaallll _o_v_e_r_r_i_d_e__n_u_m__a_r_g_s;                              |
+            WWWWiiiiddddggggeeeetttt *_w_i_d_g_e_t;                                          |
+            MMMMrrrrmmmmTTTTyyyyppppeeee *_c_l_a_s_s;                                          |
+
+       _h_i_e_r_a_r_c_h_y__i_d        Specifies the ID of the UID hierarchy
+                           that contains the interface definition.   |
+                           The _h_i_e_r_a_r_c_h_y__i_d was returned in a pre-   |
+                           vious call to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy....           |
+
+       _i_n_d_e_x               SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee UUUUIIIILLLL nnnnaaaammmmeeee ooooffff tttthhhheeee wwwwiiiiddddggggeeeetttt ttttoooo
+                           ffffeeeettttcccchhhh....                                    ||||
+
+       _p_a_r_e_n_t__w_i_d_g_e_t       SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee ppppaaaarrrreeeennnntttt wwwwiiiiddddggggeeeetttt IIIIDDDD....           ||||
+
+       _o_v_e_r_r_i_d_e__n_a_m_e       SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee nnnnaaaammmmeeee ttttoooo oooovvvveeeerrrrrrrriiiiddddeeee tttthhhheeee
+                           wwwwiiiiddddggggeeeetttt nnnnaaaammmmeeee.... UUUUsssseeee aaaa NNNNUUUULLLLLLLL vvvvaaaalllluuuueeee iiiiffff yyyyoooouuuu ddddoooo
+                           nnnnooootttt wwwwaaaannnntttt ttttoooo oooovvvveeeerrrrrrrriiiiddddeeee tttthhhheeee wwwwiiiiddddggggeeeetttt nnnnaaaammmmeeee....     ||||
+
+       _o_v_e_r_r_i_d_e__a_r_g_s       SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee oooovvvveeeerrrrrrrriiiiddddeeee aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt,,,,     ||||
+                           eeeexxxxaaaaccccttttllllyyyy aaaassss ggggiiiivvvveeeennnn ttttoooo XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt        ||||
+                           (conversion complete and so forth).  Use  ||||
+                           a NULL value if you do not want to over-
+                           ride the argument list.                   |
+
+       _o_v_e_r_r_i_d_e__n_u_m__a_r_g_s   Specifies the number of arguments in      |
+                           _o_v_e_r_r_i_d_e__a_r_g_s.                            |
+
+
+
+
+       21-12
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       _w_i_d_g_e_t              Returns the widget ID of the created
+                           widget.  If this is not NULL when you     |
+                           call MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee, MRM assumes  |
+                           that the widget has already been created  |
+                           and MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee returns        |
+                           MrmFAILURE.                               |
+
+       _c_l_a_s_s               Returns the class code identifying MRM's
+                           widget class.  For example, the widget    |
+                           class code for the main window widget is  |
+                           MMMMRRRRMMMMwwwwccccMMMMaaaaiiiinnnnWWWWiiiinnnnddddoooowwww.  Literals identifying
+                           MRM widget class codes are defined in     |
+                           MMMMrrrrmmmm....hhhh.                                    |
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function is the extended version   |
+       of MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.  It is identical to MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt,        |
+       except that it allows the caller to override the widget's
+       name and any arguments that MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt otherwise          |
+       retrieves from the UID file or one of the defaulting mechan-  |
+       isms.  That is, the override argument list is not limited to
+       those arguments in the UID file.
+
+       The override arguments apply only to the widget fetched and   |
+       returned by this function.  Its children (subtree) do not     |
+       receive any override parameters.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS     The function executed successfully.            |
+       MrmNOT_FOUND   Widget not found in UID hierarchy.             |
+       MrmFAILURE     The function failed.                           |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              21-13
+
+
+
+
+
+
+
+
+
+
+
+
+       21.6  FFFFeeeettttcccchhhhiiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       The Motif Toolkit provides functions with which you can
+       fetch literals from UID files.  Specifically, the section
+       discusses how to fetch:
+
+          +o A named color literal
+
+          +o An icon literal
+
+          +o A literal value
+
+       21.6.1  FFFFeeeettttcccchhhhiiiinnnngggg aaaa NNNNaaaammmmeeeedddd CCCCoooolllloooorrrr LLLLiiiitttteeeerrrraaaallll                        |
+
+       To fetch a named color literal, use MMMMrrrrmmmmFFFFeeeettttcccchhhhCCCCoooolllloooorrrrLLLLiiiitttteeeerrrraaaallll:     |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       iiiinnnntttt MMMMrrrrmmmmFFFFeeeettttcccchhhhCCCCoooolllloooorrrrLLLLiiiitttteeeerrrraaaallll(_h_i_e_r_a_r_c_h_y__i_d, _i_n_d_e_x, _d_i_s_p_l_a_y,        |
+                                    _c_o_l_o_r_m_a_p__i_d, _p_i_x_e_l)              |
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            SSSSttttrrrriiiinnnngggg _i_n_d_e_x;                                            |
+            DDDDiiiissssppppllllaaaayyyy *_d_i_s_p_l_a_y;                                        |
+            CCCCoooolllloooorrrrmmmmaaaapppp _c_o_l_o_r_m_a_p__i_d;                                    |
+            PPPPiiiixxxxeeeellll *_p_i_x_e_l;                                            |
+
+       _h_i_e_r_a_r_c_h_y__i_d        Specifies the ID of the UID hierarchy     |
+                           that contains the specified literal. The  |
+                           _h_i_e_r_a_r_c_h_y__i_d was returned in a previous   |
+                           call to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                 |
+
+       _i_n_d_e_x               Specifies the UIL name of the color
+                           literal to fetch. You must define this
+                           name in UIL as an exported value.         |
+
+       _d_i_s_p_l_a_y             Specifies the display used for the pix-   |
+                           map.  The _d_i_s_p_l_a_y argument specifies the
+                           connection to the X server. For more
+                           information on the Display structure,     |
+                           see the Xlib function XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy.       |
+
+       _c_o_l_o_r_m_a_p__i_d         Specifies the ID of the colormap.  If     |
+                           NULL, the default colormap is used.       |
+
+       _p_i_x_e_l               Returns the ID of the color literal.      |
+
+
+
+
+
+
+
+
+
+       21-14
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhCCCCoooolllloooorrrrLLLLiiiitttteeeerrrraaaallll function fetches a named color       |
+       literal from a UID file, and converts the color literal to a
+       pixel color value.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS     The function executed successfully.             |
+       MrmNOT_FOUND   The color literal was not found in the UIL file.|
+       MrmFAILURE     The function failed.                            |
+
+       21.6.2  FFFFeeeettttcccchhhhiiiinnnngggg aaaannnn IIIIccccoooonnnn LLLLiiiitttteeeerrrraaaallll                              |
+
+       To fetch an icon literal, use MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll:            |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       iiiinnnntttt MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll(_h_i_e_r_a_r_c_h_y__i_d, _i_n_d_e_x, _s_c_r_e_e_n,          |
+                             _d_i_s_p_l_a_y, _f_g_p_i_x, _b_g_p_i_x, _p_i_x_m_a_p)          |
+           MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                                |
+           SSSSttttrrrriiiinnnngggg _i_n_d_e_x;                                             |
+           SSSSccccrrrreeeeeeeennnn *_s_c_r_e_e_n;                                           |
+           DDDDiiiissssppppllllaaaayyyy *_d_i_s_p_l_a_y;                                         |
+           PPPPiiiixxxxeeeellll _f_g_p_i_x;                                              |
+           PPPPiiiixxxxeeeellll _b_g_p_i_x;                                              |
+           PPPPiiiixxxxmmmmaaaapppp *_p_i_x_m_a_p;                                           |
+
+       _h_i_e_r_a_r_c_h_y__i_d   Specifies the ID of the UID hierarchy that
+                      contains the specified icon literal. The
+                      _h_i_e_r_a_r_c_h_y__i_d was returned in a previous call
+                      to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                           |
+
+       _i_n_d_e_x          Specifies the UIL name of the icon literal to
+                      fetch.                                         |
+
+       _s_c_r_e_e_n         Specifies the screen used for the pixmap.
+                      The _s_c_r_e_e_n argument specifies a pointer to
+                      the Xlib structure Screen that contains the    |
+                      information about that screen and is linked    |
+                      to the Display structure.  For more informa-
+                      tion on the Display and Screen structures,     |
+                      see the Xlib function XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy and the
+                      associated screen information macros.          |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              21-15
+
+
+
+
+
+
+
+
+
+
+
+
+       _d_i_s_p_l_a_y        Specifies the display used for the pixmap.     |
+                      The _d_i_s_p_l_a_y argument specifies the connection  |
+                      to the X server. For more information on the   |
+                      Display structure, see the Xlib function       |
+                      XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy.                                  |
+
+       _f_g_p_i_x          Specifies the foreground color for the pix-
+                      map.                                           |
+
+       _b_g_p_i_x          Specifies the background color for the pix-
+                      map.                                           |
+
+       _p_i_x_m_a_p         Returns the resulting X pixmap value.          |
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll function fetches an icon literal      |
+       from an Mrm.hierarchy, and converts the icon literal to an X
+       pixmap.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS     The function executed successfully.             |
+       MrmNOT_FOUND   The icon literal was not found in the hierarchy.|
+       MrmFAILURE     The function failed.                            |
+
+       21.6.3  FFFFeeeettttcccchhhhiiiinnnngggg aaaa LLLLiiiitttteeeerrrraaaallll VVVVaaaalllluuuueeee                              |
+
+       To fetch a literal value, use MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll:                |
+
+       ####iiiinnnncccclllluuuuddddeeee <MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>                                    |
+       iiiinnnntttt MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll(_h_i_e_r_a_r_c_h_y__i_d, _i_n_d_e_x, _d_i_s_p_l_a_y, _v_a_l_u_e, _t_y_p_e)|
+            MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;                               |
+            SSSSttttrrrriiiinnnngggg _i_n_d_e_x;                                            |
+            DDDDiiiissssppppllllaaaayyyy *_d_i_s_p_l_a_y;                                        |
+            ccccaaaaddddddddrrrr____tttt *_v_a_l_u_e;                                          |
+            MMMMrrrrmmmmCCCCooooddddeeee *_t_y_p_e;                                           |
+
+       _h_i_e_r_a_r_c_h_y__i_d   Specifies the ID of the UID hierarchy that
+                      contains the specified literal. The
+                      _h_i_e_r_a_r_c_h_y__i_d was returned in a previous call
+                      to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.                           |
+
+
+
+
+
+
+
+
+
+
+
+
+
+       21-16
+
+
+
+
+
+
+
+
+
+                                   Motif Resource Manager Functions
+
+
+       _i_n_d_e_x          Specifies the UIL name of the literal (pix-
+                      map) to fetch. You must define this name in
+                      UIL as an exported value.                      |
+
+       _d_i_s_p_l_a_y        Specifies the display used for the pixmap.
+                      The _d_i_s_p_l_a_y argument specifies the connection
+                      to the X server. For more information on the   |
+                      Display structure, see the Xlib function       |
+                      XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy.                                  |
+
+       _v_a_l_u_e          Returns the ID of the named literal's value.   |
+
+       _t_y_p_e           Returns the named literal's data type.         |
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll function reads and returns the value and  |
+       type of a literal (named value) that is stored as a public
+       resource in a single UID file.  This function returns a
+       pointer to the value of the literal.  For example, an
+       integer is always returned as a pointer to an integer, and a
+       string is always returned as a pointer to a string.
+
+       Applications should not use MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll for fetching      |
+       icon or color literals.  If this is attempted, MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiii----    |
+       tttteeeerrrraaaallll returns an error.
+
+       This function returns one of these status return constants:
+
+       MrmSUCCESS      The function executed successfully.                   |
+       MrmWRONG_TYPE   The operation encountered an unsupported literal type.|
+       MrmNOT_FOUND    The literal was not found in the UID file.            |
+       MrmFAILURE      The function failed.                                  |
+
+
+
+                                                                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              21-17
+
+
+
+
+

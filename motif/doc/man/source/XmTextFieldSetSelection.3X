@@ -1,0 +1,52 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldSetSelection 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldSetSelection \(em a TextField function that sets the primary selection
+of the text.\fP
+.iX "XmTextFieldSetSelection"
+.iX "TextField functions" "XmTextFieldSetSelection"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldSetSelection (\fIwidget, first, last, time\fP)
+.br
+.ta .5i 1.7i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIfirst\fP;
+.br
+	XmTextPosition	\fIlast\fP;
+.br
+	Time	\fItime\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldSetSelection\fP sets the primary selection of the text in
+the widget.
+It also sets the insertion cursor position to the last position of the
+selection and calls the widget's \fBXmNmotionVerifyCallback\fP callbacks.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIfirst\fP" .75i
+Marks the first character position of the text to be selected
+.IP "\fIlast\fP" .75i
+Marks the last position of the text to be selected
+.IP "\fItime\fP" .75i
+Specifies the time at which the selection value is desired.  This should
+be the same as the time of the event that triggered this request.
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

@@ -1,0 +1,13 @@
+INCLUDES = -I. -I$(LIBSRC) -I$(MTOOLKITSRC)
+LOCAL_LIBRARIES = $(XMLIB) 
+
+NormalLibraryObjectRule()
+
+MSimpleProgramTarget(motifshell)
+InstallProgram(motifshell,$(BINDIR))
+
+SRCS =	motifshell.c
+
+OBJS = motifshell.o
+
+DependTarget ()

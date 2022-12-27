@@ -1,0 +1,175 @@
+.TH msg_send 2 9/19/86
+.CM 4
+.SH NAME
+.nf
+msg_send   \-  transmits a message
+.SH SYNOPSIS
+.nf
+.ft B
+#include <mach/message.h>
+.nf
+.ft B
+msg_return_t msg_send(header, option, timeout)
+	msg_header_t	*header;
+	msg_option_t	option;
+	msg_timeout_t	timeout;
+
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+header
+The address of the message to be sent. A message
+consists of a fixed sized header followed by a variable number
+of data descriptors and data items. See 
+.B <mach/message.h>
+for
+a definition of the message structure.
+.TP 15
+.B
+timeout
+In the event that the destination port is full and the 
+.B SEND_TIMEOUT
+option  has been specified, this value
+specifies the maximum wait time (in milliseconds).
+.TP 15
+.B
+option
+The failure conditions under which  
+.B msg_send
+should terminate;
+the value of this parameter is an or'ed combination of
+the following two options.
+Unless one of the two following values for the 
+.B option
+parameter
+is explicitly specified, 
+.B msg_send
+does  not return until the
+message is successfully queued for the intended receiver.
+.TP 15
+.B
+SEND_TIMEOUT
+specifies that the 
+.B msg_send
+request should terminate 
+after the timeout period has elapsed, even if the kernel has been
+unable to queue the message.
+.TP 15
+.B
+SEND_NOTIFY
+allows the sender to give exactly one message to the 
+operating system without being suspended should the 
+destination port be full.  When
+another message can be forced to the receiving port's
+queue using SEND_NOTIFY, the sending task receives a NOTIFY_MSG_ACCEPTED
+notification.
+A second attempt to send a message with the notify option before the
+notification arrives results in an error.
+If 
+.B SEND_TIMEOUT
+is also specified, 
+.B msg_send
+will
+wait until the specified timeout has elapsed before invoking the
+.B SEND_NOTIFY
+option.
+.TP 15
+.B
+SEND_INTERRUPT
+Specifies that 
+.B msg_send
+should return if
+a software interrupt occurs in this thread.
+.TP 15
+.B
+MSG_OPTION_NONE
+A constant defined as zero which may be used
+to specify that neither of the previous options are wanted.
+
+.SH DESCRIPTION
+.B msg_send
+transmits a message from the current task to the remote
+port specified in the message header field (
+.B msg_remote_port
+).  
+The message consists of its header,
+followed by a variable number of data descriptors and data items.
+(See the introduction to this section for details on message formatting.)
+
+If the 
+.B msg_local_port
+field is not set to 
+.B PORT_NULL
+, send rights to 
+that port will be passed to the receiver of this message. The receiver
+task may use that port to send a reply to this message.
+
+If the 
+.B SEND_NOTIFY
+option is used and this call returns a
+.B SEND_WILL_NOTIFY
+code, then the user can expect to
+receive a notify message from the kernel. This message will either
+be a 
+.B NOTIFY_MSG_ACCEPTED
+or a 
+.B NOTIFY_PORT_DELETED
+message
+depending on what happened to the queued message. The first and
+only data item in these messages is the port to which the original
+message was sent.  The ids and formats for these messages are defined in 
+.B <mach/notify.h>
+.
+
+.SH DIAGNOSTICS
+.TP 25
+SEND_SUCCESS
+The message has been queued for the destination port.
+.TP 25
+SEND_INVALID_MEMORY
+The message header or body was not readable by 
+the calling task, or the message body specified out-of-line data which 
+was not readable.
+.TP 25
+SEND_INVALID_PORT
+The message refers to a name for which the current
+task does not have access, or to which access was explicitly removed from
+the current task (see 
+.B port_deallocate
+) while waiting for the
+message to be posted, or a 
+.B msg_type_name
+field in the message specifies
+rights that the name doesn't denote in the task (eg, specifying
+.B MSG_TYPE_SEND
+and supplying a port set's name).
+.TP 25
+SEND_TIMED_OUT
+The message was not sent since the destination port was
+still full after 
+.B timeout
+milliseconds.
+.TP 25
+SEND_WILL_NOTIFY
+The destination port was full but the 
+.B SEND_NOTIFY
+option was specified.  A notification message will be sent
+when the message can be posted.
+.TP 25
+SEND_NOTIFY_IN_PROGRESS
+The 
+.B SEND_NOTIFY
+option was specified but 
+a notification request is already outstanding for this thread and given 
+destination port.
+
+.SH FILES
+<mach/message.h>, <mach/notify.h>,
+</mach_init.h>
+
+.SH SEE ALSO
+.B msg_receive, msg_rpc
+

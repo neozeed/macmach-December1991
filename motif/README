@@ -1,0 +1,1950 @@
+The Purpose of This Release
+
+       This release contains full sources and documentation for
+       OSF/MotifTM, revision 1.1.  This release runs on the two
+       OSF/Motif reference machines, the HP 9000/370 running HP-UX
+       6.5 and the DECstation 3100 running Ultrix 3.1.  This
+       release includes new features and documentation as well as
+       code corrections and bug fixes that we have made since
+       MotifTM 1.0.
+
+Installing This Release
+
+       NOTE: Information in this section may have changed after the
+       final tape for this release was produced.  If you depend on
+       the accuracy of information in this section - for example,
+       if you are using this information to reinstall the release -
+       please use the hardcopy installation instructions shipped
+       with the release media.
+
+       Installing the Tape
+
+       Motif 1.1 is provided on magnetic tape, in tar format.  This
+       tape is one of two types, depending on your order:
+
+          * 6250 bpi 9-track tape (one tape)
+
+          * QIC-24 cartridge tape (two tapes)
+
+       Tape 1 of the cartridge tapes contains the source code,
+       demos, test suites, and the documentation source and output
+       files for the OSF/Motif Release Notes, Programmer's Guide,
+       and Test Suite User's Guide.  Tape 2 contains the documenta-
+       tion source and output files for the Application Environment
+       Specification User Environment Volume and the OSF/Motif
+       Programmer's Reference, Style Guide, Porting Guide, and
+       User's Guide.
+
+       The tapes contain test suites that are very large when com-
+       piled.  Likewise, many of the documentation files on the
+       tapes are quite large.  If you have limited space, you might
+       not want to install the tests or documentation.  The ``Disk
+       Space Requirements'' section below lists the sizes of the
+       top-level directories on the tapes.
+
+       To install the entire contents of the tape, create the
+       directory that you want to be the root for the sources, make
+       that the current directory, load the tape into the tape
+       drive, and issue this command (for both of the cartridge
+       tapes):
+
+            tar xvf device_name
+
+       To install everything except the documentation, load the
+       tape (tape 1 of the cartridge tapes) and issue this command:
+
+            tar xvf device_name ./BUGREPORT ./Imakefile ./Imakefile+R4 \
+                 ./Makefile ./Makefile.hp ./README ./X11R4 ./bindings \
+                 ./clients ./config ./demos ./lib ./tests ./tools ./util
+
+       To install only the documentation, create the directory that
+       you want to be the root for the sources and make that the
+       current directory.  The documentation files will not write
+       over the source files, so the root for documentation files
+       and source files can be the same.  Issue this command (for
+       tape 1 of the cartridge tapes):
+
+            tar xvf device_name ./BUGREPORT ./README ./doc
+
+       Issue this command for tape 2 of the cartridge tapes:
+
+            tar xvf device_name ./doc
+
+       Disk Space Requirements
+
+       The following table lists the size, in 1024-byte blocks, for
+       the top-level directories on the Motif 1.1 tape.  For a com-
+       plete listing of the files on the tape, issue the following
+       command (for both cartridge tapes):
+
+            tar tvf device_name
+
+
+                  TABLE 1.  Motif 1.1 Disk Space Summary
+
+       Directory Name       Size in 1024-byte Blocks
+       ./                               107
+       ./X11R4                          573
+       ./bindings                        22
+       ./clients                       2902
+       ./config                         200
+       ./demos                         2851
+       ./lib                           5458
+       ./tests                         7625
+       ./tools                          466
+       ./util                           577
+       ./doc                             28
+       ./doc/programGuide             26674
+       ./doc/releaseNotes               735
+       ./doc/testGuide                  359
+       ./doc/tools                       18
+       _____________________________________________
+       Total Tape #1                  48595
+
+       ./doc/aes                      11948
+       ./doc/man                      12668
+       ./doc/portingGuide               221
+       ./doc/styleGuide               22494
+       ./doc/usersGuide                8936
+       _____________________________________________
+       Total Tape #2                  56267
+
+       _____________________________________________
+       Grand Total                   104862
+
+       Assistance
+
+       If you have any problems when installing the tape, call the
+       OSF/Motif support desk at (617) 621-8990.
+
+New Features and Changes in this Release
+
+       This section summarizes new features and changes in this
+       release.
+
+       AES/UE and Style Guide Compliance
+
+       Motif 1.1 is compliant with the Revision B of the User
+       Environment Volume of the Application Environment Specifica-
+       tion (AES/UE) and with the OSF/Motif Style Guide.  We have
+       made many changes in this release and incorporated changes
+       in the AES/UE to achieve compliance.
+
+       The AES/UE is contained in the directory ./doc/aes.  The
+       OSF/Motif Style Guide is contained in the directory
+       ./doc/styleGuide.  To print or build either document, see
+       the README file in the directory ./doc.
+
+       Enhancements Included in the AES
+
+       Motif 1.1 implements many enhancements included in Revision
+       B of the AES/UE.  Among these are the following:
+
+          * An improved XmFileSelectionBox widget, containing a
+            separate listing of directories.
+
+          * Improved keyboard navigation and selection in many
+            widgets, in compliance with the Style Guide.
+
+          * In Text, primary paste, quick paste using secondary
+            selection, and clipboard cut and paste.
+
+          * New convenience routines for the List and Text widgets.
+
+          * Routines for converting between compound strings and
+            compound text.
+
+          * A routine for creating a compound string in the current
+            language environment.
+
+          * A routine for calculating default shadow and select
+            colors.
+
+          * A routine, XmTrackingLocate, to provide a modal inter-
+            face for selection of a component.
+
+          * A new Motif Resource Manager (MRM) function for regis-
+            tering names whose scope is restricted to a single
+            hierarchy.
+
+          * Enhancements to the Motif Window Manager (MWM), includ-
+            ing these:
+
+               * New options exist to support multiple screens.
+
+               * BDrag in the title of a window drags the window
+                 and in an icon drags the icon.
+
+               * BMenu causes icon menus to pop up.
+
+               * New resources exist:
+
+                      enableWarp
+                      iconBoxSBDisplayPolicy
+                      raiseKeyFocus
+
+               * A new function, f.normalize_and_raise, causes the
+                 client window to be displayed in normal size at
+                 the top of the stack.
+
+               * The window manager uses the LANG environment vari-
+                 able to determine choice of language.
+
+               * A new environment variable, MWMSHELL, controls
+                 which shell is invoked by f.exec.
+
+       The following services are new in Revision B of the AES/UE
+       (not including previously existing services added in Revi-
+       sion B):
+
+          MrmRegisterNamesInHierarchy
+          XmCascadeButtonGadgetHighlight
+          XmCreateWorkArea
+          XmCvtCTToXmString
+          XmCvtXmStringToCT
+          XmFontList
+          XmGetColors
+          XmGetPostedFromWidget
+          XmListAddItems
+          XmListDeleteAllItems
+          XmListDeleteItems
+          XmListDeleteItemsPos
+          XmListGetMatchPos
+          XmListGetSelectedPos
+          XmListItemPos
+          XmListReplaceItems
+          XmListReplaceItemsPos
+          XmListSetAddMode
+          XmMainWindowSep3
+          XmProcessTraversal
+          XmString
+          XmStringCreateSimple
+          XmStringDirection
+          XmStringHasSubstring
+          XmStringSimpleCreate
+          XmStringTable
+          XmTextCopy
+          XmTextCut
+          XmTextGetBaseline
+          XmTextGetInsertionPosition
+          XmTextGetLastPosition
+          XmTextGetSelectionPosition
+          XmTextGetSource
+          XmTextGetTopCharacter
+          XmTextInsert
+          XmTextPaste
+          XmTextPosToXY
+          XmTextPosition
+          XmTextRemove
+          XmTextScroll
+          XmTextSetAddMode
+          XmTextSetHighlight
+          XmTextSetInsertionPosition
+          XmTextSetSource
+          XmTextSetTopCharacter
+          XmTextShowPosition
+          XmTextXYToPos
+          XmTrackingLocate
+
+       The following previously existing services have been added
+       to the AES/UE in Revision B:
+
+          MrmCloseHierarchy
+          MrmFetchColorLiteral
+          MrmFetchIconLiteral
+          MrmFetchLiteral
+          MrmFetchSetValues
+          MrmFetchWidget
+          MrmFetchWidgetOverride
+          MrmInitialize
+          MrmOpenHierarchy
+          MrmRegisterClass
+          MrmRegisterNames
+          Uil
+          XmActivateProtocol
+          XmActivateWMProtocol
+          XmAddProtocolCallbacks
+          XmAddProtocols
+          XmAddWMProtocolCallbacks
+          XmAddWMProtocols
+          XmConvertUnits
+          XmDeactivateProtocol
+          XmDeactivateWMProtocol
+          XmFontListAdd
+          XmFontListCreate
+          XmFontListFree
+          XmRemoveProtocolCallbacks
+          XmRemoveProtocols
+          XmRemoveWMProtocolCallbacks
+          XmRemoveWMProtocols
+          XmSetProtocolHooks
+          XmSetWMProtocolHooks
+          XmStringBaseline
+          XmStringByteCompare
+          XmStringCompare
+          XmStringConcat
+          XmStringCopy
+          XmStringCreate
+          XmStringDraw
+          XmStringDrawImage
+          XmStringDrawUnderline
+          XmStringEmpty
+          XmStringExtent
+          XmStringFree
+          XmStringHeight
+          XmStringLength
+          XmStringLineCount
+          XmStringNConcat
+          XmStringNCopy
+          XmStringSeparatorCreate
+          XmStringWidth
+
+       The WindowObj service has been removed from the AES/UE in
+       Revision B.
+
+       Other Enhancements
+
+       Motif 1.1 contains a number of enhancements that are not
+       included in the AES.  Among these are the following:
+
+          * New routines for creating simple menus.  Each type of
+            menu supported by these routines has two simple crea-
+            tion functions, one with a fixed argument list and one
+            with a variable-length argument list.  See the manual
+            pages for routines whose names begin with XmCreateSim-
+            ple and XmVaCreateSimple (for example, XmCreateSim-
+            plePopupMenu and XmVaCreateSimplePopupMenu).
+
+          * A new widget, XmTextField, and associated convenience
+            routines, for single-line text.
+
+          * A new routine, XmProcessTraversal, to set keyboard
+            focus.
+
+          * New routines for getting and setting a routine to cal-
+            culate default colors.
+
+          * A new routine for finding the widget that has the des-
+            tination cursor.
+
+          * New routines for traversing a font list.
+
+          * The use in many translation tables of virtual keysyms
+            that can be bound at run time to user- or vendor-
+            specific keysyms.
+
+          * A change to the Motif Window Manager (MWM) to read a
+            file, .motifbind, with bindings for virtual keysyms.
+
+          * Enhancements to the User Interface Language (UIL),
+            including these:
+
+               * Widget Meta-Language (WML) support for resource
+                 synonyms.
+
+               * Allowing forward references for all UIL named ele-
+                 ments.
+
+               * Providing names for all objects.
+
+               * SINGLE_FLOAT and RGB data types.
+
+               * KEYSYM function.
+
+               * Supporting enumeration values for resources (UIL
+                 and WML).
+
+               * Using $LANG to determine base character set.
+
+               * Supporting toolkit object names for gadgets.
+
+       The following new manual pages exist in Motif 1.1 for
+       features not included in the AES/UE:
+
+          XmCreateSimpleCheckBox
+          XmCreateSimpleMenuBar
+          XmCreateSimpleOptionMenu
+          XmCreateSimplePopupMenu
+          XmCreateSimplePulldownMenu
+          XmCreateSimpleRadioBox
+          XmCreateTextField
+          XmFontListCopy
+          XmFontListFreeFontContext
+          XmFontListGetNextFont
+          XmFontListInitFontContext
+          XmGetColorCalculation
+          XmGetDestination
+          XmResolveAllPartOffsets
+          XmSetColorCalculation
+          XmSetFontUnits
+          XmTextField
+          XmTextFieldClearSelection
+          XmTextFieldCopy
+          XmTextFieldCut
+          XmTextFieldGetBaseline
+          XmTextFieldGetEditable
+          XmTextFieldGetInsertionPosition
+          XmTextFieldGetLastPosition
+          XmTextFieldGetMaxLength
+          XmTextFieldGetSelection
+          XmTextFieldGetSelectionPosition
+          XmTextFieldGetString
+          XmTextFieldInsert
+          XmTextFieldPaste
+          XmTextFieldPosToXY
+          XmTextFieldRemove
+          XmTextFieldReplace
+          XmTextFieldSetAddMode
+          XmTextFieldSetEditable
+          XmTextFieldSetHighlight
+          XmTextFieldSetInsertionPosition
+          XmTextFieldSetMaxLength
+          XmTextFieldSetSelection
+          XmTextFieldSetString
+          XmTextFieldShowPosition
+          XmTextFieldXYToPos
+          XmVaCreateSimpleCheckBox
+          XmVaCreateSimpleMenuBar
+          XmVaCreateSimpleOptionMenu
+          XmVaCreateSimplePopupMenu
+          XmVaCreateSimplePulldownMenu
+          XmVaCreateSimpleRadioBox
+
+       Include File Changes
+
+       The AtomMgr.h, Protocols.h, ProtocolsP.h, and MwmUtil.h
+       include files have been moved from the lib/Xt/X11 directory
+       to the lib/Xm directory (after installation, from
+       /usr/include/X11 to /usr/include/Xm).  Pointer files to the
+       Xm directory will remain in the X11 directory for backward
+       compatibility through Motif 1.1.  The installation procedure
+       removes these old files from the /usr/include/X11 directory
+       and replaces them with links to these new files in the
+       /usr/include/Xm directory for backward compatibility with
+       Motif 1.0.
+
+       The Motif-specific information has been removed from the
+       Vendor.h and VendorP.h include files in the lib/Xt direc-
+       tory; it has been moved to the files Vendor.c and VendorE.h
+       in the lib/Xm directory.
+
+       OSF/Motif and the Xt Intrinsics
+
+       Motif 1.1 uses Version 11, Release 4 of the X Window
+       SystemTM, including the X11R4 X Toolkit Intrinsics.  This
+       section lists some implications of this change for applica-
+       tion programs.
+
+       Values of type Position and Dimension are now 16-bit quanti-
+       ties.
+
+       Applications should use the X11R4 Xt programming interface,
+       as described in Appendix C (``Conversion Notes'') of the X
+       Toolkit Intrinsics - C Language Interface document.  In par-
+       ticular, applications should use XtAppInitialize,
+       XtAppCreateShell, and XtAppMainLoop instead of XtInitialize,
+       XtCreateApplicationShell, and XtMainLoop.
+
+       Whenever a widget grabs the keyboard, it should use the Xt
+       grabbing functions instead of the Xlib functions, because Xt
+       maintains internal state indicating whether or not the key-
+       board is grabbed.  Applications that do not use the Xt grab-
+       bing functions are not guaranteed to work in future versions
+       of OSF/Motif.
+
+       Use of some Intrinsics functions by applications may con-
+       flict with internal use of those functions by Motif 1.1.  In
+       such cases Motif provides equivalent functions.  In particu-
+       lar, applications should avoid using the following func-
+       tions:
+
+          * XtSetKeyboardFocus - This routine might break Motif
+            keyboard traversal.  An application should use XmPro-
+            cessTraversal to set keyboard focus.
+
+          * XtRemoveAllCallbacks - Calling this routine from an
+            application removes all callbacks from a widget,
+            including those added internally by Motif code.  An
+            application should use XtRemoveCallback or XtRemove-
+            Callbacks to remove particular callbacks.
+
+       Applications should use appropriate Xt routines for manag-
+       ing, realizing, and mapping children.  Managing a widget
+       implies that geometry is totally recomputed.  Unmanaging and
+       managing a widget simply to make it appear or disappear
+       without geometry changes is inappropriate.  An application
+       should use XtMap and XtUnmap for this purpose.
+
+       Compound String Changes
+
+       The internal implementation of the XmString data type has
+       changed.  Applications that used the internals of the opaque
+       data structure are likely to break.
+
+       Motif 1.1 has introduced a number of extensions with the
+       intent of providing backward compatibility for the next
+       internationalization release.  In particular:
+
+          * XmStringCreate is included in Revision B of the AES as
+            a temporary-use element and might be changed or removed
+            from the AES in future revisions.
+
+          * A new routine, XmStringCreateSimple, creates a compound
+            string, deriving the character set from the language
+            environment of a widget passed as an argument.  Appli-
+            cations should use this routine instead of
+            XmStringCreate to create a compound string using the
+            ``default'' character set.
+
+          * Some applications have been using the character set
+            identifier in a compound string as a specific tag mean-
+            ingful only to the application, not as a real character
+            set identifier.  Such applications are likely to be
+            broken in the future releases.
+
+       Internal Changes
+
+       We have made changes to the internal Gadget caching code and
+       the clipboard code.  These internal changes do not affect
+       the application programming interface.
+
+       ANSI C and C++ Compliance
+
+       Motif 1.1 is compliant with ANSI C.  All external functions
+       are prototyped.
+
+       You can compile an application for C++ using Motif 1.1 pub-
+       lic header files, and this C++ program can link with the Xm,
+       Uil, and Mrm libraries.  All external functions use the
+       extern "C" clause.
+
+       Resource Names Changed
+
+       The names of three resources have been changed because of
+       conflicts with resource names in other widgets.  In
+       XmPanedWindow, XmNminimum has been renamed to XmNpaneM-
+       inimum, and XmNmaximum has been renamed to XmNpaneMaximum.
+       In XmText, XmNtopPosition has been renamed to XmNtopCharac-
+       ter.
+
+       The MWM selectColor icon box resource has been renamed to
+       troughColor.
+
+       Default Font List Changes
+
+       The value of the XmNfontList resource now obtains its
+       default dynamically.  The default value is obtained by look-
+       ing up the parent hierarchy of the widget for an ancestor
+       that is a subclass of the XmBulletinBoard, VendorShell, or
+       XmMenuShell widget class.  If such an ancestor is found, the
+       font list is initialized to the appropriate default font
+       list of the ancestor widget (XmNdefaultFontList for Vendor-
+       Shell and XmMenuShell; XmNbuttonFontList, XmNlabelFontList,
+       or XmNtextFontList for XmBulletinBoard).  The three XmBul-
+       letinBoard font list resources obtain their defaults in the
+       same way.
+
+       XmNtextTranslations To Be Removed from BulletinBoard
+
+       The XmNtextTranslations resource in XmBulletinBoard exists
+       in Motif 1.1 but may be removed in a future release.  Bul-
+       letinBoard no longer overrides the KReturn translation for
+       multiline text.
+
+       Help Translations Added
+
+       Every widget has a translation for KHelp.  The Help action
+       calls the XmNhelpCallback callbacks if they exist.  If they
+       do not exist, the Help action looks up the parent hierarchy
+       until it finds an XmNhelpCallback and then calls it.  Appli-
+       cations no longer need provide translation table entries for
+       <F1>.
+
+       Traversal Enabled by Default
+
+       Traversal for many controls is enabled by default in this
+       release; the XmNtraversalOn resource defaults to True for
+       these widgets.  The default value of XmNtraversalOn is False
+       for the following widgets and gadgets:
+
+            XmLabel
+            XmLabelGadget
+            XmScrollBar
+            XmSeparator
+            XmSeparatorGadget
+
+       The default is True for all other widgets (except that it is
+       forced to False in an empty List).  This is a change to the
+       following widgets and gadgets:
+
+            XmArrowButton
+            XmArrowButtonGadget
+            XmCascadeButton
+            XmCascadeButtonGadget
+            XmDrawnButton
+            XmPushButton
+            XmPushButtonGadget
+            XmToggleButton
+            XmToggleButtonGadget
+            XmList
+            XmText
+
+       This change can affect the layout of applications, as many
+       controls are larger to accommodate the traversal highlight.
+       In most cases the Motif 1.0 appearance can be restored by
+       setting the following resources:
+
+            *traversalOn:           false
+            *highlightOnEnter:      false
+            *highlightThickness:    0
+
+       Mnemonic Type Changed to KeySym
+
+       The type of the XmNmnemonic resources in XmLabel, XmLabel-
+       Gadget, and XmRowColumn has been changed to KeySym.  The
+       size of this type is different from that of the Motif 1.0
+       type, char, for these resources.
+
+       Mnemonic Underlining is Case Sensitive
+
+       In order to be underlined when a mnemonic is used, a charac-
+       ter in a label string must match the mnemonic exactly.  How-
+       ever, to activate the mnemonic, the user can press either
+       the shifted or the unshifted key that corresponds to the
+       mnemonic.
+
+       MrmFetchInterfaceModule Removed
+
+       The MrmFetchInterfaceModule routine has been removed in
+       Motif 1.1.
+
+       Compound String Resources Inconsistently Copied
+
+       In this release, XtGetValues for a resource whose value is a
+       compound string sometimes does and sometimes does not copy
+       the returned string.  Following is a list of some known
+       resources whose XmString values are not copied (this list
+       may not be exhaustive):
+
+            XmBulletinBoard     XmNdialogTitle
+            XmFileSelectionBox  XmNdirectory
+                                XmNnoMatchString
+            XmRowColumn         XmNlabelString
+            XmScale             XmNtitleString
+
+       In addition, the XmList resources XmNitems and XmNselectedI-
+       tems, which are of type XmStringTable, are not copied.
+
+       You must be careful not to free the compound strings
+       returned by XtGetValues for these resources; you should free
+       the compound strings returned for other XmString resources,
+       using the XmStringFree routine.
+
+       Clipboard Workaround
+
+       All XmClipboard routines require a window ID parameter.  If
+       the window ID is obtained from a Text widget or if XtOwn-
+       Selection has been called on the widget used to obtain the
+       window ID, paste requests from non-Motif clients will fail.
+       The problem is caused by a bug in the Intrinsics selection
+       mechanism.  To get around it use a different widget, such as
+       the parent, to obtain the window ID.
+
+       Problem with Clicking in Borders
+
+       Pressing BSelect in the border of an Arrow, DrawnButton,
+       PushButton, or ToggleButton widget has undefined behavior.
+       You should not change the value of the XmNborderWidth
+       resource from its default of 0.  This applies also when the
+       buttons are inside any RowColumn widget whose XmNentryBorder
+       resource is greater than 0.  The result of pressing BSelect
+       in the RowColumn entry border area is undefined.
+
+       Widget Meta-Language
+
+       A new widget meta-language (WML) facility generates com-
+       ponents of the user interface language (UIL) compiler needed
+       to add new widgets to the OSF/Motif widget set or to add a
+       new widget set.  WML is a specification language based on
+       lex and yacc and is used to describe toolkit classes and
+       resources.  The language allows a hierarchical description
+       of toolkit widgets, including their inheritance relations.
+       This information is used in generating the UIL compiler.
+
+       WML is documented in the OSF/Motif Programmer's Guide.  To
+       print or build the Programmer's Guide, see the README file
+       in the directory ./doc.
+
+       Test Suite Enhancements
+
+       The test suite has a new interactive user interface that
+       puts the actual test and the instructions for running that
+       test up on the screen together.
+
+       The Toolkit tests are reorganized for better modularity.
+
+       This release also contains additional tests for UIL, the
+       Motif resource manager (MRM), memory use, and compound
+       strings.  See the README files in the directories
+       ./tests/uil, ./tests/Mrm, ./tests/memory, and
+       ./tests/XmString.
+
+       Documentation Enhancements
+
+       The following documents have been substantially revised for
+       Motif 1.1:
+
+          * The OSF/Motif Style Guide has been rewritten.
+
+          * A new revision of the Application Environment Specifi-
+            cation User Environment Volume (AES/UE) accompanies
+            Motif 1.1.
+
+          * The OSF/Motif Programmer's Reference has been updated
+            for this release, and the format of the descriptions of
+            translations and actions has changed.
+
+          * The OSF/Motif Programmer's Guide has been made accurate
+            for Motif 1.1.
+
+       For more information on building and printing the documenta-
+       tion, see the section ``The OSF/Motif Documentation'' below.
+
+Overview of the Motif Directory Structure
+
+       The Motif directory structure is outlined below.
+
+       The file ./README summarizes the contents of the top level
+       directories in the directory structure, briefly describes
+       the build process, and describes bug reporting procedures.
+
+       The file ./BUGREPORT is a bug report template.  This tem-
+       plate has changed since the last release to clarify severity
+       levels.
+
+       The directory ./X11R4 contains official MIT patches for Ver-
+       sion 11, Release 4 of the X Window System, as well as one
+       OSF patch that has been submitted to the X Consortium.  The
+       patches to Xlib and the X Toolkit Intrinsics are required
+       for building and running Motif 1.1.  The file ./X11R4/README
+       describes the MIT patches and how to apply them to your X
+       sources.  For more information on these patches, see the
+       section ``Building Motif for Your System'' below.
+
+       NOTE: MIT, not OSF, is responsible for support of patches
+       1-14 in the ./X11R4 directory.  We provide them unsupported,
+       only for the convenience of users who might not yet have
+       received the latest sources.
+
+       The directory ./util contains utilities used in building
+       Motif.  This directory is unmodified from the version dis-
+       tributed from MIT.
+
+       The directory ./doc contains all relevant documentation.
+       This directory also contains a script called build.docs
+       which can be used to create ASCII and PostScript output for
+       all relevant documents. For more information, consult
+       the section ``The OSF/Motif Documentation'' below.
+
+       The directory ./lib contains the toolkit library and
+       resource manager library:
+
+          * ./lib/Xm contains the Motif widget library.
+
+          * ./lib/Mrm contains the Motif resource manager library
+            used with the uil compiler.
+
+       The directory ./bindings contains vendor-specific bindings
+       for virtual keysyms.  For more information on virtual bind-
+       ings, see the file ./bindings/README or the
+       VirtualBindings(3X) manual page in the OSF/Motif
+       Programmer's Reference.
+
+       The directory ./clients contains the Motif window manager,
+       the User Interface Language (uil) compiler:
+
+          * ./clients/uil contains the uil compiler and the call-
+            able uil interface library (libUil.a).
+
+          * ./clients/mwm contains the Motif window manager.  The
+            directory ./clients/mwm/examples is an unsupported
+            directory that contains sample .Xdefaults and .mwmrc
+            files.
+
+       The directory ./demos is an unsupported directory. This
+       directory contains several demo subdirectories (consult the
+       README file in each directory for more information):
+
+          * ./demos/dogs contains a uil demo of the same name.
+
+          * ./demos/fonts contains public fonts used in the inter-
+            national demos.
+
+          * ./demos/hellohebrew contains the hellomotif demo in
+            Hebrew.
+
+          * ./demos/hellokanji contains the hellomotif demo in
+            Japanese.
+
+          * ./demos/hellomotif contains a uil demo of the same name
+            that demonstrates a PushButton.
+
+          * ./demos/motifanim contains a uil demo that demonstrates
+            animation of pixmaps.
+
+          * ./demos/motifburger contains a uil demo called
+            motifbur.
+
+          * ./demos/motifburint contains the motifburger demo in
+            English, French, Japanese and Hebrew.
+
+          * ./demos/motifgif contains a toolkit demo of the same
+            name.
+
+          * ./demos/motifshell contains a toolkit demo of the same
+            name.
+
+          * ./demos/mre contains the Motif resource editor, which
+            is written in uil.
+
+          * ./demos/periodic contains a uil demo of the same name.
+
+          * ./demos/periodickanji contains the periodic demo in
+            Japanese.
+
+          * ./demos/uilsymdump contains a uil demo of the same
+            name.
+
+          * ./demos/widgetView contains a toolkit demo of the same
+            name.
+
+          * ./demos/xmsamplers contains a few toolkit demo pro-
+            grams.
+
+       The directory ./tests contains the test suites.  Refer to
+       the section ``The OSF/Motif Test Suite'' below for more
+       information.  The tests directories are as follows:
+
+          * ./tests/Mrm contains tests of the Motif resource
+            manager library.  This directory has been added since
+            Motif 1.0.
+
+          * ./tests/Toolkit contains tests of the Motif widgets.
+
+          * ./tests/XmString contains tests of compound strings.
+            This directory has been added since Motif 1.0.
+
+          * ./tests/mwm contains tests of the Motif window manager.
+
+          * ./tests/uil contains tests of the uil compiler.
+
+       The directory ./tools contains a single tools subdirectory,
+       wml, with the Widget Meta-Language (WML) facility.  This
+       directory has been added since Motif 1.0 (it appeared in
+       Motif 1.0.A).
+
+       The directory ./config contains files primarily from the
+       X11R4 tape.  The only files that have changed are ultrix.cf,
+       hp.cf, and imakemdep.h.  Two new files created by OSF are
+       Motif.tmpl and Motif.rules.  This directory contains the
+       rules, templates, and machine-specific configuration files
+       for imake, as well as the source code for the imake utility.
+
+Where to Get Help
+
+       Report problems with this release to the mail alias:
+
+            motif-defect@osf.org
+
+       motif-defect is an alias to a person at OSF who is in charge
+       of receiving and dispatching bugs reported against the
+       latest released version of OSF/Motif.
+
+       Discussions concerning the technology in this release can be
+       directed to the mailing list:
+
+            motif-talk@osf.org
+
+       Note that to report problems with OSF/Motif snapshots, you
+       use the following alias:
+
+            uec-defect@osf.org
+
+       Please do not report snapshot bugs to the motif-defect
+       alias.
+
+       Discussions concerning the technology in snapshots can be
+       directed to the mailing list:
+
+            uec-comment@osf.org
+
+       Licensees with full support contracts can also call OSF for
+       help.  The service number is 1-617-621-8990, and support is
+       available between 8:30 AM and 5:00 PM United States Eastern
+       time, Monday through Friday.  You can obtain an OSF/Motif
+       software support contract for support of released versions
+       of OSF/Motif by contacting OSF Direct Channels at 1-617-
+       621-7300.
+
+Building Motif for Your System
+
+       Motif 1.1 uses X11R4 Xlib and X Toolkit Intrinsics
+       libraries.  The versions of these libraries used to build
+       Motif must have all the official MIT patches applied to them
+       in order for Motif to build and run properly.
+
+       The default build procedure assumes that you will link your
+       targets with the installed versions of the Xlib, Xt, and X
+       extensions libraries.  If you do not want to use the
+       installed versions, see the ``System Libraries'' section
+       below for information on how to build Motif with nonin-
+       stalled libraries.
+
+       The procedure for building Motif has two steps:
+
+          * Patching the X11R4 libraries.  This is explained in the
+            next section.
+
+          * Building Motif.  This procedure is explained in subse-
+            quent sections.
+
+       In addition, some configurations require tailoring after
+       patching the X11R4 libraries and before building Motif.
+       This is explained in the section ``Tailoring the Build Pro-
+       cess'' below.
+
+       Patching the X11R4 Libraries
+
+       You must apply the patches supplied in the ./X11R4 directory
+       to the X11R4 sources.  If you do not have the X11R4 sources,
+       you can arrange to obtain them by writing to this address:
+
+            MIT X Consortium
+            Laboratory for Computer Science
+            545 Technology Square
+            Cambridge, MA  02139
+
+       To apply the patches, you may want to use the patch program
+       that appears in the ./util/patch directory.  This directory
+       was copied unmodified from the MIT X11R4 distribution and is
+       provided only as a convenience to Motif users.
+
+       To use the patch program you must first build it by moving
+       to the directory ./util/patch and following the instructions
+       in the README file there.  Once you have built the patch
+       program for your system, you are ready to apply the patches
+       to your MIT X11R4 sources.  These patches are contained in
+       the files ./X11R4/fix*.  Change directory to the top of your
+       X11R4 sources:
+
+            cd X11R4-source-top-level
+
+       Then copy the patches to that directory:
+
+            cp Motif-source-top-level/X11R4/fix* .
+
+       Run the patch program, applying the MIT patches in ascending
+       numerical order.  Use the appropriate pathname strip count
+       to remove the correct number of leading directory names from
+       the pathname in the patch.  For example, assume that the
+       patch file pathname contains mit/lib/Xt, and your sources to
+       be patched are in ./lib/Xt.  To apply all 14 patches and
+       strip the first directory name from the pathname in the
+       patch, you might use the following from a C shell:
+
+            @ i=1
+            while ($i <= 14)
+              patch -p1 < fix-$i
+              @ i++
+            end
+
+       After applying the 14 MIT patches, you must apply the OSF
+       patch:
+
+            patch -p1 < fix-osf
+
+       After applying all patches to the X11 and Xt library
+       sources, you should rebuild and re-install those libraries
+       if necessary.
+
+       Note that the patches contain fixes for multiple source
+       files, including those in such libraries as Xaw and Xmu.  If
+       you do not have sources for a file affected by the patch,
+       the patch program issues a query for a file to patch.
+       Pressing <Return> at the query and then y<Return> at the
+       ``Skip this patch?'' query bypasses the file in question.
+
+       Patch to the Motif Xm Library
+
+       The Motif 1.1 tape includes a patch that fixes an important
+       problem with secondary selection in the Text widget.  This
+       problem was discovered and the patch made after the Motif
+       1.1 code freeze.
+
+       OSF's engineering policy requires rigorous regression test-
+       ing of all Motif code.  Fixes for problems discovered after
+       code freeze cannot be integrated into the source without
+       restarting the regression tests.  Because of the policy,
+       integrating the fix to the Text widget would have resulted
+       in an unacceptable delay in the release of Motif 1.1.
+
+       As an alternative, we are providing a patch, which has
+       passed preliminary testing but has not been completely
+       tested.  If you choose to install this patch, you must do so
+       before building Motif.  When regression testing is complete,
+       OSF will send a message to the motif-talk mailing list with
+       information about the status of this patch.
+
+       The patch is in the file ./lib/Xm/PATCH.  It contains fixes
+       for three source files:  ./lib/Xm/CutPaste.c,
+       ./lib/Xm/Text.c, and ./lib/Xm/TextIn.c.  To apply this
+       patch, you can use the patch program described in the sec-
+       tion ``Patching the X11R4 Libraries'' above.  After building
+       the patch program, use the following sequence of commands to
+       apply the patch:
+
+            cd Motif-source-top-level/lib/Xm
+            patch < PATCH
+
+       The patch program saves the original version of each file
+       patched.  If the original file name is file, the name of the
+       original version that the patch program saves is file.orig.
+       If you need to restore any of the original files after
+       applying the patch, you can do so as follows:
+
+            mv file.orig file
+
+       Motif Makefiles
+
+       Before building Motif, determine whether or not your system
+       requires tailoring.  For more information, see the section
+       ``Tailoring the Build Process'' below.
+
+       This Motif release contains sample Makefiles for each of its
+       reference machines.  A Makefile for an HP 9000/370 running
+       HP-UX 6.5 is called Makefile.hp.  A Makefile for a DECsta-
+       tion 3100 running Ultrix 3.1 is called Makefile.  It is a
+       generic Makefile, suitable for most BSD-based systems.  The
+       source build is started from the root of the Motif source
+       tree.
+
+       The command:
+
+            make
+
+       compiles the entire tree, except for the test suites.  The
+       make command should be preceded by the make includes com-
+       mand.  This creates an ./X11 directory containing links to
+       the required header files.
+
+       The test suites contained in the ./tests directory are enor-
+       mous when compiled.  (On our HP reference machine the tests
+       grow to over 400MB when compiled.)  The tests are not built
+       by default.  To add the tests to the build, add the word
+       tests to the end of the list of SUBDIRS in the Imakefile or
+       Makefile at the top of the Motif source tree.
+
+       We have provided the necessary files so that you can use the
+       X11 utility imake to create system specific Makefiles.  The
+       directory ./config contains the source for the imake program
+       as well as rules for creating make targets (Imake.rules), a
+       Makefile template (Imake.tmpl) and some system dependent
+       configuration files including a default configuration file
+       (generic.cf).
+
+       NOTE: OSF does not support the imake utility.  It is pro-
+       vided as a convenience to our licensees.
+
+       To create machine-specific Makefiles for your system, change
+       directories to the root of the Motif source tree and give
+       the following set of commands:
+
+            make Makefile  (creates the toplevel Makefile)
+
+            make Makefiles (walks the source tree creating
+                           Makefiles)
+
+            make includes  (creates the ./X11 directory with header
+                           file links)
+
+            make depend    (adds dependency lists to the Makefiles)
+
+       You can combine this four-step process into one step as fol-
+       lows:
+
+            make World
+
+       You may need to build ./config/imake with the
+       FIXUP_CPP_WHITESPACE symbol defined if your C preprocessor
+       collapses tabs in macro expansions into a single space and
+       replaces escaped newlines with a space.  If you get an error
+       similar to "Make: Must be a separator on rules line 234.
+       Stop.", you must rebuild imake using -DFIXUP_CPP_WHITESPACE
+       and restore your top-level Makefile using:
+
+            cp Makefile.bak Makefile
+
+       You can then proceed with the make Makefile step mentioned
+       above.
+
+       At OSF we have found the following sequence of commands to
+       be most convenient:
+
+            make Makefile
+            make Makefiles
+            make includes
+            make depend
+            make
+
+       Unless you have added the word tests to the list of SUBDIRS
+       in the Imakefile or Makefile at the top of the Motif source
+       tree, this scheme does not create the proper Makefiles in
+       the ./tests directory that would allow you to compile each
+       test as needed.  To do this, issue the following sequence of
+       commands inside the ./tests directory:
+
+            make Makefile
+            make Makefiles
+            make includes
+            make depend
+
+       There are several flags in the Makefiles that you may need
+       to modify to build Motif correctly on your machine.  If you
+       do not use imake, you may have to edit all of the Makefiles
+       in the Motif source tree.  Using imake, global changes to
+       the entire set of Makefiles can be made in the imake confi-
+       guration file.  If you are not using one of the configura-
+       tion files provided, you can write your own system-specific
+       configuration file or edit the default configuration file,
+       ./config/generic.cf.  Changes to individual Makefiles can be
+       made in the Imakefile in the same directory.
+
+       If you are building the widget meta-language facility (WML),
+       see the section below that describes the YACCFLAGS make
+       variable that you might need to provide.
+
+       The command
+
+            make install
+
+       compiles and installs the entire tree, except for the test
+       suites.  The installer must be the superuser.  Make sure the
+       files and directories the superuser creates can be read by
+       all.  Installing Motif overwrites the previous Motif instal-
+       lation.
+
+       In order to prevent the (re)-installation of the MIT X11R4
+       files, you should delete the config and util directory names
+       from the SUBDIRS list in the top-level Makefile before run-
+       ning make install.  If you want to compile and install the
+       test suites, you must add the word tests to the end of the
+       SUBDIRS list in the top-level Makefile before running make
+       install.
+
+       The install targets use the syntax for a Berkeley-type
+       install procedure.  A script provided by the X11 release,
+       ./util/scripts/bsdinst.sh, accepts BSD-type install argu-
+       ments and makes the appropriate calls to the System V
+       install procedure.
+
+       NOTE: Motif has not been tested under shared libraries.
+
+       XKeysymDB
+
+       The file /usr/lib/X11/XKeysymDB must be present for key
+       bindings to work correctly.  In this release the file
+       ./lib/Xm/XKeysymDB contains OSF virtual keysyms.  If you
+       have an existing /usr/lib/X11/XKeysymDB file that does not
+       include the OSF keysyms, the installation procedure (make
+       install) will prepend ./lib/Xm/XKeysymDB to the existing
+       /usr/lib/X11/XKeysymDB file.
+
+       If you do not have an existing /usr/lib/X11/XKeysymDB file,
+       the installation procedure will install ./lib/Xm/XKeysymDB
+       in the /usr/lib/X11 directory.
+
+       The Motif Build Tree
+
+       The default source build compiles the Motif sources in the
+       following order:
+
+            config/               (imake)
+            util/                 (the X utilities)
+            lib/
+                 Xm               (the Motif widget library)
+                 Mrm              (the resource manager library)
+            tools/
+                 wml              (the widget meta-language facility)
+            clients/
+                 mwm              (the Motif window manager)
+                 uil              (the uil compiler and callable library)
+            demos/
+                 motifshell       (a toolkit demo)
+                 widgetView       (a toolkit demo)
+                 mre              (the Motif resource editor)
+                 periodic         (a uil demo)
+                 periodickanji    (periodic in Japanese)
+                 motifanim        (a uil demo)
+                 motifburger      (a uil demo)
+                 motifburint      (motifburger in four languages)
+                 hellomotif       (a uil demo)
+                 hellohebrew      (hellomotif in Hebrew)
+                 hellokanji       (hellomotif in Japanese)
+                 dogs             (a uil demo)
+                 xmsamplers       (a few toolkit demos)
+                 motifgif         (a toolkit demo)
+                 uilsymdump       (a uil demo)
+
+       In addition, if you are building all the test suites, they
+       are compiled and built by default in the following order:
+
+            tests/
+                 Toolkit          (tests of Motif widgets)
+                 Mrm              (tests of the Motif resource manager)
+                 uil              (tests of the user interface language)
+                 mwm              (tests of the Motif window manager)
+                 XmString         (tests of compound strings)
+
+       You can build the source tree out of order if you wish.
+       However, be sure the libraries have finished compiling
+       before attempting to link with them.  Objects are archived
+       into the libraries as they are built, so the libraries will
+       exist in an incomplete state before they are finished build-
+       ing.  The libraries can be built concurrently.  Once the
+       libraries are built, the clients and tests can be built con-
+       currently.  You must build ./tools/wml before building
+       ./clients/uil.  You must build ./clients/uil before building
+       any of the UIL demos.
+
+       Tailoring the Build Process
+
+       System Libraries
+
+       We have added the variable SYSLIBS to the HP and Ultrix
+       imake configuration files (./config/hp.cf and
+       ./config/ultrix.cf).  SYSLIBS describes the system libraries
+       that all targets are linked with.  The value of SYSLIBS is
+       dependent on your operating system.  SYSLIBS is never used
+       in a make dependency list, so linker flags can be used
+       instead of absolute pathnames.
+
+       All Motif targets need to link with the Xlib library
+       libX11.a and the Xt library libXt.a.  Listed below are pos-
+       sible configurations for the locations of these libraries
+       and for how the build process gains access to them.
+
+       Installed Libraries
+
+       In the HP and Ultrix configurations files, SYSLIBS is
+       defined as:
+
+            SYSLIBS = -lXt -lX11
+
+       This uses the X11 and Xt libraries that are installed in
+       /usr/lib.
+
+       Alternate Libraries Using Absolute Pathnames
+
+       If you need to use an absolute pathname for either of these
+       libraries, you can change your configuration file or
+       Makefiles to use absolute pathnames, as in the following
+       example:
+
+            SYSLIBS = /usr/lib/new/libXt.a /usr/lib/alternate/libX11.a
+
+       Similarly, the X extensions library is linked with
+       ./clients/mwm and with ./demos/xmsamplers.  The default
+       Imakefiles in ./clients/mwm and ./demos/xmsamplers link with
+       the library installed in /usr/lib.  If you need to use an
+       absolute pathname for the extensions library you should
+       change the references in ./clients/mwm/Imakefile and
+       ./demos/xmsamplers/Imakefile from -lXext to an absolute
+       pathname, as in this example:
+
+            /usr/lib/alternate/libXext.a
+
+       X Libraries within the Motif Tree
+
+       Since OSF/Motif requires that you build with the appropriate
+       patches to the X libraries, and since not all users may have
+       these libraries installed, you may want to combine your
+       X11R4 source tree and your OSF/Motif tree to have the same
+       root.  This is the way that we at OSF build on machines that
+       do not have the R4 versions of the libraries.
+
+       This configuration results in a single ./lib directory con-
+       taining both the OSF/Motif (./lib/Xm, ./lib/Mrm) and X
+       (./lib/X, ./lib/Xt) library sources.  In addition to the X11
+       and Xt libraries, you would have the ./extensions directory
+       (containing the X extensions library that the OSF/Motif win-
+       dow manager links with) and the ./include and ./lib/Xau
+       directories, which contain files used in building the X11
+       library.
+
+       To facilitate building with this configuration, we have
+       included several files that you would use with imake, as
+       alternates to the default files. The alternates have the
+       extension +R4 added to their names and should be copied over
+       the default files if the R4 libraries are found in the
+       OSF/Motif tree.  These files are:
+
+            ./Imakefile+R4
+            ./lib/Imakefile+R4
+            ./clients/mwm/Imakefile+R4
+            ./demos/xmsamplers/Imakefile+R4
+            ./config/ultrix.cf+R4
+            ./config/hp.cf+R4
+
+       These files contain the following assumptions:
+
+          * ./Imakefile+R4 assumes the presence of the ./include
+            and ./extensions directories.
+
+          * ./lib/Imakefile+R4 assumes the presence of the ./lib/X,
+            ./lib/Xt, and ./lib/Xau directories.
+
+          * ./clients/mwm/Imakefile+R4 and
+            ./demos/xmsamplers/Imakefile+R4 assume the presence of
+            the ./extensions/lib directory.
+
+          * ./config/ultrix.cf+R4 and ./config/hp.cf+R4 assume the
+            presence of ./lib/X/libX11.a and ./lib/Xt/libXt.a.
+
+       By using the R4 versions of these  Imakefiles and configura-
+       tions files, you ensure that all Makefiles produced by make
+       Makefiles point to the X11R4 libraries within the OSF/Motif
+       tree.  These files should replace the default files if you
+       are using this configuration.  To do this, you should first
+       save the version that uses the installed libraries and then
+       copy the modified versions into their place.  For example:
+
+            cd ./lib
+            cp Imakefile Imakefile.inst
+            cp Imakefile+R4 Imakefile
+
+       Additional System Libraries
+
+       Any other libraries that you wish to link with should be
+       added to the SYSLIBS definition.  On some System V type sys-
+       tems, you must link with a socket library in order to link
+       X11 applications.  Here is an example of how you can add
+       this to your make configuration file or Makefiles:
+
+            SYSLIBS = -lXt -lX11 -linet
+
+       Any library that is required to build and link X11 and its
+       applications will also be required to build Motif.  If you
+       are not using imake and you need to change your SYSLIBS
+       variable, you will need to edit all of the Makefiles at the
+       lowest levels of the ./clients, ./demos, and ./tests direc-
+       tories.  If you are modifying an imake configuration file
+       from the X11 release, be sure to add the SYSLIBS definition
+       to it.
+
+       Compiler Flags
+
+       The imake variables StandardDefines and DefaultCCOptions
+       contain the flags that are used in every C compile.  They
+       are incorporated into the CFLAGS that are used with every
+       call to CC.  Any option that you need to set for every com-
+       pile should be included in one of these variables.  The
+       default imake configuration file, ./config/generic.cf, does
+       not have any StandardDefines or DefaultCCOptions.  Standard-
+       Defines can contain flags that are operating system or
+       machine dependent.  -DSYSV is an example of an operating
+       system dependent flag.  -DSTRINGS_ALIGNED is an example of a
+       machine dependent flag.  StandardDefines is the appropriate
+       place to put the following types of flags:
+
+            #define StandardDefines -DSYSV
+
+       or
+
+            #define StandardDefines -DBSD -Wc,-Np3000
+
+       or any other general compile flag.  If you are using imake,
+       you can change the StandardDefines line in your system con-
+       figuration files; otherwise you will have to edit the
+       STD_DEFINES value in every bottom level Makefile in the
+       directory structure if you need to change the StandardDe-
+       fines.
+
+       The flag -D_NO_PROTO has been added to the HP and Ultrix
+       configuration files.  Use of this flag turns off prototyping
+       for non-ANSI or non-prototyping compilers.
+
+       The make variable DEFINES can be set in a particular
+       Imakefile if you need to add a flag to a single directory
+       compile.  There is an example of the use of DEFINES in
+       ./clients/mwm/Imakefile:
+
+            DEFINES = $(MWM_DEFINES)
+
+       See the next section for a description of MWM_DEFINES.
+
+       If you need to add a compile flag to a single directory, add
+       or change the DEFINES variable in the Imakefile or Makefile
+       for that directory.  DEFINES are never given a value in an
+       imake configuration file.
+
+       To put SCCS ID strings into the binary, add the flag
+       -DREV_INFO to the StandardDefines line.  Be aware that this
+       will make the resulting objects substantially larger.
+
+       The make variable CDEBUGFLAGS has the default value -O,
+       which tells the compiler to optimize.  If you wish to debug,
+       change the value of the CDEBUGFLAGS to the debug flag for
+       your compiler.  To change the value of the variable CDEBUG-
+       FLAGS in the entire build, add the following line to your
+       imake configuration file (assuming that the debug flag is
+       -g:
+
+            #define DefaultCDebugFlags = -g
+
+       To change the value of the variable CDEBUGFLAGS in a single
+       Makefile, replace the present CDEBUGFLAGS definition within
+       this line:
+
+            CDEBUGFLAGS = -g
+
+       If you are not using imake, you need to edit any Makefile
+       your build uses.  The default build passes the variable CDE-
+       BUGFLAGS through the tree, so you may need to edit higher
+       level Makefiles that you use.  CDEBUGFLAGS are dependent on
+       the compiler you use, so if you change compilers, you may
+       need to change your CDEBUGFLAGS accordingly.
+
+       X11R4 Extensions in mwm
+
+       In this release, the Motif window manager (mwm) is built to
+       support the X11R4 move opaque feature and nonrectangular
+       window shape extension.
+
+       MWM_DEFINES
+
+       To work around a bug in the MIT X11R4 server for the color
+       DECstation 3100 (Xcfbpmax), the default Makefile for mwm
+       does not have LARGECURSORS defined.  (It is defined in
+       Makefile.hp.)  Normally LARGECURSORS is defined so that mwm
+       can use large cursors (32x32) if the X server supports them.
+       The MIT DECstation X server answers incorrectly when XQuer-
+       yBestCursor is called with a cursor size of 32x32.  The
+       server responds that it can display 32x32 cursors, when in
+       fact it cannot.
+
+       As a result, if mwm is built with LARGECURSORS defined, it
+       does not display the hourglass or the caution (system modal)
+       cursor.  Instead, the cursor is invisible.  If your server
+       does not have this bug, define LARGECURSORS when you build
+       mwm.
+
+       To allow mwm to be built with different flags for different
+       hardware platforms, we have added the variable MWM_DEFINES
+       to the Ultrix and HP imake configuration files
+       (./config/ultrix.cf and ./config/hp.cf).  The hp.cf file
+       defines MWM_DEFINES as follows:
+
+            MWM_DEFINES = -DLARGECURSORS -DSHAPE -DOPAQUE
+
+       The ultrix.cf file omits the -DLARGECURSORS flag.
+
+       If you are modifying an imake configuration file from the
+       X11 release, be sure to add MWM_DEFINES to it.  If you want
+       to change any of the defaults for MWM_DEFINES, change them
+       in the imake configuration file if you are using imake; oth-
+       erwise, change the value in ./clients/mwm/Makefile.
+
+       YACCFLAGS
+
+       The widget meta-language facility uses the commands yacc and
+       lex to convert widget description tables into C source
+       files.  Some versions of yacc need special flags to process
+       the large parse tables that are generated.  The make vari-
+       able YACCFLAGS is used to hold the flags required by yacc.
+       Here are examples of YACCFLAGS that may be needed:
+
+       For an HP 9000/370:
+
+            YACCFLAGS = -Nm20000
+
+       For the XENIXTM operating system:
+
+            YACCFLAGS = -Sr500 -Ss1000 -Sa10000 -Sm50000
+
+       If you have compilation errors that cause yacc to die with a
+       complaint such as "out of space", you may need to add the
+       YACCFLAGS variable to your imake configuration file or
+       Makefile.  The default imake configuration file,
+       ./config/generic.cf, does not have any YACCFLAGS defined.
+       The only Makefile in the Motif source tree that uses yacc is
+       in the directory ./tools/wml.
+
+       Some old versions of yacc cannot increase the size of their
+       internal tables with flags, and therefore will not work with
+       our wml sources.  In this case you need to upgrade your yacc
+       from new sources.  You can get a new yacc by:
+
+          * Asking your operating system vendor for an upgrade.
+
+          * If you are an OSF member and OSF/1 licensee, using the
+            yacc sources from any of the OSF/1 snapshots.  It will
+            build on most machines without significant changes.
+
+          * Using the yacc from the System V.4 distribution.  We
+            have not tested the use of this version of yacc.
+
+       Ranlib
+
+       The command ranlib is used to create a symbol table of con-
+       tents for libraries.  In your imake configuration files or
+       individual Makefiles the variable RANLIB must be defined to
+       have the value of the name of the ranlib command.  The com-
+       mand $(RANLIB) is run by the Makefiles, so the command echo
+       is substituted on systems that do not require ranlib.  If
+       you need to use ranlib, you may use the default value for
+       RanlibCmd set in Imake.tmpl.  If you do not need to use ran-
+       lib, define RanlibCmd by including this line in your imake
+       configuration file or library Makefiles:
+
+            #define RanlibCmd echo
+
+       The full pathname of echo or ranlib can be used if you wish
+       to specify a particular version of the command.  The default
+       imake configuration file uses ranlib.
+
+       Whether to run ranlib or not tends to be an operating system
+       dependency, although it is actually a dependency on the par-
+       ticular linking tools.  If the Motif build produces many
+       undefined symbols that have the prefix Xm, you probably
+       should have run ranlib on your libraries.  If ranlib exists
+       on your system, it probably will not hurt to use it.  The
+       particular Makefiles that use RANLIB are in the directories
+       ./lib/Xm, ./lib/Mrm, ./tools/wml, and ./clients/uil.
+
+       Machine Dependencies
+
+       The code to support the use of compound strings, found in
+       the file ./lib/Xm/XmString.c, has a machine dependency.  The
+       compound string contains an unaligned integer.  When this
+       code is compiled without any additional flags the integer is
+       accessed directly.  If your machine can not access an
+       unaligned integer, you can compile with the flag
+       -DSTRINGS_ALIGNED, and the integer is accessed as two
+       separate bytes.  You can add the flag -DSTRINGS_ALIGNED to
+       the StandardDefines line in your imake configuration file or
+       the Makefile in ./lib/Xm.  The default imake configuration
+       file, ./config/generic.cf, does not have the
+       -DSTRINGS_ALIGNED flag defined.
+
+       Whether to use the -DSTRINGS_ALIGNED flag will depend on
+       your machine, not on your operating system.  For instance, a
+       Vax running Ultrix does not require aligned integers, how-
+       ever a DECstation 3100, which is a Risc-based machine, does
+       require the flag to be defined even when it is also running
+       Ultrix.  (We have added the flag to DefaultCCOptions in
+       ./config/ultrix.cf.)  Some machines do not require integers
+       to be aligned, but will respond much slower when you try to
+       access one that is not aligned.  It may be prudent to try
+       compiling both with and without the flag, and seeing which
+       toolkit provides better performance on your machine.
+
+       Operating System Dependencies
+
+       Presently, we provide several workarounds for portability
+       problems in Motif source.  These workarounds have been sug-
+       gested by Motif licensees and are not thoroughly tested.
+       You may wish to examine them closely to determine if they
+       will work properly on your system.  None of the flags men-
+       tioned in this section are used by default.
+
+       A workaround for machines that do not have vfork() can be
+       used by adding the flag -DNO_VFORK to the StandardDefines
+       line in your imake configuration file or Makefiles.  If you
+       are not using imake, you will need to edit the Makefile in
+       the directory ./clients/mwm to add this flag. This flag is
+       examined in ./lib/Xm/Xm.h.
+
+       The file selection box widget is operating system dependent
+       because it reads directories and does regular expression
+       handling.  A few of the common ways to do these functions
+       are available in the code by adjusting build flags.  You may
+       need to make minor changes to ./lib/Xm/FileSB.c to allow it
+       to work on your system.
+
+       By default, FileSB.c finds the name of a directory in the
+       structure dirent which is defined in the include file
+       dirent.h.  Some systems keep their directory information in
+       a structure called direct, rather than dirent.  The struc-
+       ture direct can usually be found in either sys/dir.h or
+       ndir.h.  If the structure dirent is found in the include
+       file dirent.h on your system, you can use FileSB.c without
+       adding any compile flag.  If dirent.h does not exist on your
+       machine, check to see which one of sys/dir.h or ndir.h does
+       exist on your machine.  Look in the include file to see
+       which structure, direct or dirent, is defined.  If your sys-
+       tem uses the structure direct defined in the include file
+       sys/dir.h you can add the flag -DSYS_DIR to the StandardDe-
+       fines in your imake configuration file or Makefile to pick
+       up the correct structure.  If your system uses the structure
+       direct found in the include file ndir.h, you can add the
+       flag -DNDIR to the StandardDefines in your imake configura-
+       tion file or Makefile to pick up the correct structure.  If
+       your system uses the opposite pairings of include files and
+       structure or some other structure to provide directory
+       information, you will need to edit the file
+       ./lib/Xm/FileSB.c to be sure that the correct file is
+       included and the correct structure is used.  These flags
+       affect FileSB.c, so if you are editing Makefiles by hand you
+       will need to change the Makefile in ./lib/Xm.
+
+       The default regular expression handling functions used by
+       Motif are regex() and regcmp().  They are used by FileSB.c
+       and the mre demo.  On some systems, such as our reference
+       machine the HP 9000/370, regex and regcmp are found in libPW
+       rather than libc.  If you can not link Motif applications
+       because regex and regcmp are undefined, look to see if they
+       are in libPW.  If they are in libPW you can add the flag
+       -lPW to your SYSLIBS variable in your imake configuration
+       file or Makefiles.  Look at the imake configuration file for
+       the HP, ./config/hp.cf, or the sample HP Makefiles to see an
+       example of how to add this flag.
+
+       We have added a workaround so that if you do not have
+       regex() or regcmp() on your system, you can use re_comp()
+       and re_exec() by adding the flag -DNO_REGEX to the Standard-
+       Defines line in your imake configuration file or Makefiles.
+       Also, if you are not using imake, you may need to modify the
+       Makefiles for the ./lib/Xm and ./demos/mre directories in
+       order to pick up the appropriate functions.
+
+       Presently the file selection box also uses the function
+       getcwd().  We have also added a workaround for systems that
+       have getwd() rather than getcwd().  This workaround is
+       located in FileSB.c and can be used by adding the flag
+       -DUSE_GETWD to the StandardDefines line in your imake confi-
+       guration file or Makefiles.  If you are not using imake, you
+       may need to modify the Makefile for ./lib/Xm in order to
+       pick up the appropriate function.
+
+       Additions to Imake template file
+
+       The new files Motif.tmpl and Motif.rules found in ./config
+       contain OSF additions to the default Imake template and
+       rules files.  They are included into Imake.tmpl by the C
+       preprocessor so they are globally defined in the Motif build
+       tree.
+
+       Lint
+
+       There are lint targets in some of the Motif Makefiles; how-
+       ever, no global make lint command is available.  To use lint
+       on the Motif sources, issue the following commands:
+
+            cd ./lib
+            make lintlib
+            cd ../clients
+            make lint
+
+The OSF/Motif Documentation
+
+       The Motif documentation set is made up of the following
+       documents:
+
+          * AES User Environment Volume
+
+          * OSF/Motif Programmer's Reference
+
+          * OSF/Motif Programmer's Guide
+
+          * OSF/Motif Release Notes
+
+          * OSF/Motif Porting Guide
+
+          * OSF/Motif Style Guide
+
+          * OSF/Motif User's Guide
+
+          * OSF/Motif Test Suite User's Guide
+
+       The entire documentation set is contained in one of the
+       major subdirectories (./doc) of the OSF/Motif 1.1 tree.
+
+       Structure of the Documentation Directory Tree
+
+       The ./doc directory contains the following files and direc-
+       tories.
+
+       README          This file contains a description of the con-
+                       tents of the ./doc directory.
+
+       aes             This directory contains the source and out-
+                       put files for the AES User Environment
+                       Volume.
+
+       build.docs      This file is the script that we used to make
+                       the index and table of contents files, and
+                       to create the PostScript and output files
+                       for each manual.  This script can also be
+                       used to lengthen filenames for machines with
+                       longname support, and to install manpages
+                       onto your system.
+
+       man             This directory contains the source and out-
+                       put files for the OSF/Motif Programmer's
+                       Reference.
+
+       portingGuide    This directory contains information about
+                       porting applications from OSF/Motif.
+
+       programGuide    This directory contains the source and out-
+                       put files for the OSF/Motif Programmer's
+                       Guide.
+
+       releaseNotes    This directory contains the source and out-
+                       put files for these release notes.
+
+       styleGuide      This directory contains the source and out-
+                       put files for the OSF/Motif Style Guide.
+
+       testGuide       This directory contains the source and out-
+                       put files for the OSF/Motif Test Suite
+                       User's Guide.
+
+       tools           This directory contains files used by the
+                       build.docs script.  In addition, the tools
+                       directory contains a script to convert
+                       PostScript figure files to a format suitable
+                       for individual printing.  See the section
+                       ``Printing PostScript Figures'' below for
+                       more information.
+
+       usersGuide      This directory contains the source and out-
+                       put files for the OSF/Motif User's Guide.
+
+       Each manual directory is broken into three subdirectories:
+
+       output          These directories contain ASCII versions of
+                       the documentation.  These files are suitable
+                       for sending to any printer with either the
+                       lp or the lpr command.
+
+       postscript      These directories contain PostScript ver-
+                       sions of the documentation.  These files are
+                       suitable for sending to any PostScript com-
+                       patible printer with either the lp or the
+                       lpr command.
+
+       source          These directories contain source files for
+                       the documentation.  These files are marked
+                       up using troff primitives in conjunction
+                       with either the man or mm macro package.
+
+       Some source directories may contain a subdirectory called
+       graphics.  This directory contains figures for the document
+       in PostScript format.  These figures have been included in
+       the PostScript output for the manuals in this release.  In
+       order to print any of the PostScript figure files individu-
+       ally, you need to run a script to convert the format.  See
+       the section ``Printing PostScript Figures'' below for more
+       information.
+
+       We have included a paper copy of all the PostScript figures
+       for people lacking a PostScript printer.
+
+       The man/pointer Directory
+
+       Besides source, output and postscript, the man directory
+       contains a subdirectory called pointer.  This directory con-
+       tains pointer files needed on machines without longname sup-
+       port. The pointer files exist to help users resolve name
+       conflicts when two manpage names truncate to the same name.
+
+       These pointer files are installed in your manpage directory
+       so that when you enter man with an ambiguous file name you
+       get information from the pointer file directing you to an
+       unambiguous name.  The pointer files are not needed on
+       machines with longname support.
+
+       build.docs
+
+       The build.docs script was used to create tables of contents,
+       indexes, output files, and PostScript files for this
+       release.  The script can also be used to install the man-
+       pages and convert files for longname support.  The tools
+       directory contains scripts and macro files used by the
+       build.docs script.  We provide these files as a reference to
+       our documentation build procedure.
+
+       The build.docs script is designed to be easy to modify.  It
+       is a simple shell script.  You may want to use it in pro-
+       cessing the Motif document set.  Please familiarize yourself
+       with the script before using it.  It is not fully debugged,
+       and may not work correctly under all circumstances.
+
+       Change Bars in Documents
+
+       The OSF/Motif Programmer's Guide, OSF/Motif Programmer's
+       Reference, and OSF AES/UE have been built with change bars
+       in the margins of lines that have changed since Motif 1.0.
+       To remove the change bars, you must rebuild the documents
+       after removing from the sources all lines that begin with
+       .mc.
+
+       Including PostScript Figures
+
+       Three of the documents provided with OSF/Motif 1.1 (the
+       Programmer's Guide, Style Guide, and User's Guide) include
+       figures in PostScript format.  These PostScript files reside
+       in a graphics subdirectory beneath the source text files for
+       each book.
+
+       These files are included directly into the PostScript output
+       for each manual using the .P!  troff macro.  This macro is
+       interpreted by the eroff processor to include PostScript
+       files into the troff source.  If you are using Transcript
+       style troff you may be able to include the PostScript fig-
+       ures directly into the troff source by defining the .P!
+       macro in a way similar to the following:
+
+            .de P!
+            \\&
+            .fl
+            \\!%PB
+            \\!/showpage{}def
+            .fl
+            .sy cat \\$1
+            \\!PE
+            \\!.
+            .sp \\$2
+            ..
+
+       Printing PostScript Figures
+
+       In their current form, the PostScript figure files are only
+       suitable for inclusion within the text files.  That is, you
+       can print any of the chapters and appendixes that include
+       figures and the figures will print in the correct positions
+       within the text.  However, you cannot print any of the fig-
+       ures individually in their current form.
+
+       In order to print an individual figure, you need to convert
+       it to the printable format using the conversion script pro-
+       vided in the directory ./doc/tools.  The script printfig
+       takes a PostScript figure suitable for inclusion in a manual
+       and converts it to a format suitable for printing
+       separately.  The output of printfig is sent to the standard
+       output and can be piped to a printer command.
+
+       For example, if you want to print the PostScript figure
+       list1.ps from from the directory
+       ./doc/programGuide/source/graphics, you should enter the
+       following command.
+
+            printfig ./doc/programGuide/source/graphics/list1.ps | lp
+
+       (Remember to put the ./doc/tools directory in your path or
+       copy the figure conversion scripts to your own tools direc-
+       tory.)
+
+       Be aware that the figure conversion script can be run on a
+       single PostScript file or on multiple files.  Thus, both of
+       the following command lines are acceptable:
+
+            printfig -P list1.ps
+
+            printfig -P *
+
+The OSF/Motif Test Suite
+
+       The OSF/Motif Test Suite resides in one of the major direc-
+       tories subordinate to the top level of the OSF/Motif 1.1
+       tree (./tests).  Throughout these release notes we identify
+       the Suite as ./tests, and identify the subordinate direc-
+       tories and files that comprise the actual tests as
+       ./tests/dir_name.
+
+       Locating and Identifying the Tests
+
+       The OSF/Motif Test Suite consists of five sets of tests:
+
+          * The OSF/Motif Toolkit (Toolkit) Tests.  These tests
+            reside in directories and files subordinate to
+            ./tests/Toolkit.
+
+            Buttons   Tests of Button widgets.
+
+            Constraint Tests of constraint resources.
+
+            CutPaste  Tests of the clipboard.
+
+            List      Tests of List widgets.
+
+            Manager   Tests of Manager widgets.
+
+            Menus     Tests of Menu systems.
+
+            Message   Tests of MessageBox widgets.
+
+            Other     Miscellaneous tests.
+
+            Primitive Tests of basic objects
+
+            Select    Tests of the selection mechanism.
+
+            Shells    Tests of Shell widgets.
+
+            Text      Tests of Text widgets
+
+            Windows   Tests of Shells
+
+            bitmaps   A supporting directory for the test suites.
+
+          * The OSF/Motif Resource Manager (MRM) tests.  These
+            tests reside in the ./tests/Mrm subdirectory.  These
+            tests have been added since Motif 1.0.
+
+          * The OSF/Motif User Interface Language (UIL) Tests.
+            These tests reside in directories and files subordinate
+            to ./tests/uil.  In Motif 1.1 the following subdirec-
+            tories are present:
+
+            Callbacks Tests of multiple callbacks.
+
+            callUil   Tests of the callable UIL compiler.
+
+            dataStructs Tests of UIL's internal data and data
+                      structures.
+
+            EnumVal   Tests of enumerated values.
+
+            ForRef    Tests of forward referencing.
+
+            matrix    Tests of WML technology for adding widgets.
+
+            NL        Tests of use of Native Language environment
+                      variables.
+
+            Syntax    Tests of UIL syntax.
+
+            validator Tests of the implementation of the UIL com-
+                      piler.
+
+            widgets   Tests of each Motif widget, written using
+                      UIL.
+
+          * The OSF/Motif Window Manager (mwm) Tests.  These tests
+            reside in directories and files subordinate to
+            ./tests/mwm.
+
+            PI        Tests of properties, atoms and ICCCM conven-
+                      tions.
+
+            user      Tests of user-settable resource default
+                      files.
+
+          * The compound string (XmString) tests.  These tests
+            reside in files subordinate to ./tests/XmString.
+
+       Refer to the OSF/Motif Test Suite User's Guide and the on-
+       line README files for full descriptions of the Test Suite
+       directory structure and the available tests.

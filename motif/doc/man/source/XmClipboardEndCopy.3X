@@ -1,0 +1,81 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardEndCopy 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardEndCopy \(em A clipboard
+function that ends a copy to the clipboard.\fP
+.iX "XmClipboardEndCopy"
+.iX "clipboard functions" "XmClipboardEndCopy"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardEndCopy\fP (\fIdisplay, window, item_id\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	long	\fIitem_id\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardEndCopy\fP locks the clipboard from access by other applications, 
+places data in the clipboard data structure, and unlocks the clipboard.
+Data items copied to the clipboard by \fBXmClipboardCopy\fP are not actually
+entered in the clipboard data structure until the call to 
+\fBXmClipboardEndCopy\fP.
+.PP
+This function also frees up temporary storage that was allocated by 
+\fBXmClipboardStartCopy\fP, which must be called before
+\fBXmClipboardEndCopy\fP.  The latter function should not be called if
+\fBXmClipboardCancelCopy\fP has been called.
+.br
+.ne 7
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each
+clipboard function it calls.
+.IP "\fIitem_id\fP" 1.2i
+Specifies the number assigned to this data item.  This number was returned
+by a previous call to \fBXmClipboardStartCopy\fP.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.IP "\fBClipboardFail\fP" 1.2i
+The function failed because \fBXmClipboardStartCopy\fP was not called.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardCancelCopy(3X)\fP,
+\fBXmClipboardCopy(3X)\fP and \fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

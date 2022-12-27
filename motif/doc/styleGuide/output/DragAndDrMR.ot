@@ -1,0 +1,66 @@
+
+
+
+
+
+
+
+
+       The drag-and-drop model allows the user to move or copy the
+       selected elements by dragging them to a new location.  Even
+       collections that do not support dragging of their own ele-
+       ments can support drops of elements from other collections.
+
+       If a component implements dragging, it should use BBBBDDDDrrrraaaagggg to
+       perform the drag operations.  Some implementations may
+       choose to use BBBBSSSSeeeelllleeeecccctttt instead of BBBBDDDDrrrraaaagggg.  When BBBBSSSSeeeelllleeeecccctttt is
+       used for dragging operations, its use must supersede the use
+       of BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg in the selection models described in Section
+       3.1.  Applications that implement the drag-and-drop model
+       using BBBBSSSSeeeelllleeeecccctttt must also support the use of BBBBDDDDrrrraaaagggg instead.
+
+       When using BBBBDDDDrrrraaaagggg for dragging elements, if BBBBDDDDrrrraaaagggg is pressed
+       on a selected element or within a linear range of selected
+       elements, it must drag the entire selection until it is
+       released.  If BBBBDDDDrrrraaaagggg is pressed outside of the selected range
+       in a text-like collection, it must do a quick transfer
+       instead of dragging the element.  Quick transfer is
+       described in Section 3.2.3.  If BBBBDDDDrrrraaaagggg is pressed on an
+       unselected element in a list-like collection, it can either
+       do a quick transfer or a dragging operation.  The behavior
+       of BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss in a graphics-like collection is unspecified.
+       It can either do a quick transfer, a dragging operation, or
+       pan the visible region.
+
+       The type of the elements dragged, and the source and desti-
+       nation of the drag-and-drop operations determine whether the
+       operation causes a move or a copy as follows:
+
+          +o Dragging to a transport device, such as a printer or
+            mailbox, must be treated as a copy.
+
+          +o Dragging to a removal device, such as a wastebasket or
+            shredder, must be treated as a move.
+
+          +o Dragging to a non-Text container must be treated as a
+            move.
+
+          +o Dragging text to or from a Text component must be
+            treated as a copy.
+
+       Pressing MMMMCCCCttttrrrrllll with the drag operation must make the opera-
+       tion a copy.  Pressing MMMMAAAAlllltttt with the drag operation must
+       make the operation a move.  See Chapter 3 for more informa-
+       tion on the drag-and-drop model, and for information on
+       quick transfer and the selection models.
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+This directory contains font files for japanese (Kanji and Katakana) and
+Hebrew (ISO8859-8) character sets. They are provided for the japanese
+and hebrew demos of hellohebrew, hellokanji, periodickanji and 
+motifburgerint. 
+
+To build the fonts for a DEC system execute mkfont.DEC; for HP excute 
+mkfont.HP. 
+
+To add this directory to the font list use the xset command below:
+
+	xset +fp dir
+
+where dir is the full directory specification of this dictory. Then type
+
+	xset fp rehash 
+
+to rescan the the font directories. 
+
+Or use xset to set a new font path:
+
+	xset fp /usr/lib/X11/misc,/usr/lib/X11/75dpi,/usr/lib/X11/100dpi,dir
+
+where dir is the directory that you built the new fonts.

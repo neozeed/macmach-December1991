@@ -1,0 +1,55 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringWidth 3X "" "" "" ""
+.SH NAME
+\fBXmStringWidth \(em a compound string function that returns the width of
+the longest sequence of text components in a compound string.\fP
+.iX "XmStringWidth"
+.iX "compound string functions" "XmStringWidth"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Dimension XmStringWidth (\fIfontlist, string\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmFontList	\fIfontlist\fP;
+.br
+	XmString	\fIstring\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringWidth\fP 
+returns the width, in pixels, of the longest sequence of text
+components in the provided compound string.  Separator components are used
+to delimit sequences of text components.
+.PP
+When \fIstring\fP has been created with \fBXmStringCreateSimple\fP, the
+font associated with the character set derived from the
+current language environment must
+appear at the front of \fIfontlist\fP.
+Otherwise, the result of the function is undefined.
+.sp 1
+.IP "\fIfontlist\fP" .75i
+Specifies the font list
+.IP "\fIstring\fP" .75i 
+Specifies the string
+.sp 1
+.SH RETURN VALUE
+Returns the width of the compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X).
+.sp 1

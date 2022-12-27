@@ -1,0 +1,364 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH VirtualBindings 3X "" "" "" ""
+.SH NAME
+\fBVirtualBindings \(em Bindings for virtual mouse and key events.\fP
+.iX "VirtualBindings"
+.iX "default bindings" "VirtualBindings"
+.sp 1
+.SH DESCRIPTION
+The OSF/Motif manual pages describe translations in terms of
+\fIvirtual bindings\fP, based on those described in the \fIOSF/Motif
+Style Guide\fP.
+Mouse events are described in terms of \fIvirtual buttons\fP, and key
+events are described in terms of \fIvirtual keys\fP.
+The term \fIvirtual\fP implies that the events as described do not
+necessarily correspond to a fixed set of X Window System events.
+Instead, virtual buttons and keys are linked to actual events by means
+of virtual bindings.
+.sp 1
+.SS "Virtual Modifiers"
+Both virtual buttons and virtual keys may contain \fIvirtual
+modifiers\fP.
+Each virtual modifier corresponds to one or more actual modifiers.
+The following table lists the bindings of virtual modifiers to actual
+modifiers in OSF/Motif:
+.PP
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Virtual Modifier Bindings
+Virtual Modifier@Actual Modifiers
+_
+MAlt@Mod1
+MCtrl@Ctrl
+MShift@Shift
+.TE
+.PP
+\fBMod1\fP refers to the first modifier key.
+OSF/Motif requires that it correspond to either \fBAlt\fP or \fBMeta\fP.
+.PP
+The virtual modifier \fBMAny\fP indicates that any modifier can be used.
+If \fBMAny\fP is not specified and the user presses an actual modifier
+that is not explicitly included in a translation, that modifier may
+prevent the translation from being matched.
+.sp 1
+.SS "Virtual Buttons"
+Each virtual button corresponds to one or more actual button event
+descriptions.
+Each button event description contains a button name and possibly
+modifiers.
+These button event descriptions, appropriately ordered and possibly
+further modified, are used in translation tables.
+The following table lists the bindings of virtual buttons to actual
+button event descriptions in OSF/Motif:
+.PP
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Virtual Button Bindings
+Virtual Button@Actual Button Events
+_
+BCustom@<Btn3>
+BDrag@<Btn2>
+BExtend@Shift<Btn1>
+BMenu@<Btn3>
+BSelect@<Btn1>
+BToggle@Ctrl<Btn1>
+.TE
+.sp 1
+.SS "Virtual Keys"
+Each virtual key corresponds to one or more actual key event
+descriptions.
+Each key event description contains a keysym name and possibly
+modifiers.
+These key event descriptions, appropriately ordered and possibly further
+modified, 
+.ne 15
+are used in translation tables.
+The following table lists the bindings of virtual keys to
+actual key event descriptions in OSF/Motif:
+.PP
+.TS
+center, box, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings
+_
+Virtual Key@Actual Key Events
+=
+KActivate@<Key>Return
+@Ctrl<Key>Return
+@<Key>osfActivate
+_
+KAddMode@<Key>osfAddMode
+_
+KBackSpace@<Key>osfBackSpace
+_
+KBackTab@Shift<Key>Tab
+_
+KBeginData@Ctrl<Key>osfBeginLine
+_
+KBeginLine@<Key>osfBeginLine
+_
+KCancel@<Key>osfCancel
+_
+KClear@<Key>osfClear
+_
+KCopy@<Key>osfCopy
+@Ctrl<Key>osfInsert
+_
+KCut@<Key>osfCut
+@Shift<Key>osfDelete
+_
+KDelete@<Key>osfDelete
+_
+KDeselectAll@Ctrl<Key>backslash
+_
+KDown@<Key>osfDown
+_
+KEndData@Ctrl<Key>osfEndLine
+_
+KEndLine@<Key>osfEndLine
+_
+KEnter@<Key>Return
+_
+KEscape@<Key>Escape
+_
+KExtend@Ctrl Shift<Key>space
+@Shift<Key>osfSelect
+_
+KHelp@<Key>osfHelp
+_
+KInsert@<Key>osfInsert
+_
+.TE
+.bp
+.TS
+center, box, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings (Continued)
+_
+Virtual Key@Actual Key Events
+=
+KLeft@<Key>osfLeft
+_
+KMenu@<Key>osfMenu
+_
+KMenuBar@<Key>osfMenuBar
+_
+KNextField@<Key>Tab
+@Ctrl<Key>Tab
+_
+KNextMenu@Ctrl<Key>osfDown
+@Ctrl<Key>osfRight
+_
+KPageDown@<Key>osfPageDown
+_
+KPageLeft@Ctrl<Key>osfPageUp
+_
+KPageRight@Ctrl<Key>osfPageDown
+_
+KPageUp@<Key>osfPageUp
+_
+KPaste@<Key>osfPaste
+@Shift<Key>osfInsert
+_
+KPrevField@Shift<Key>Tab
+@Ctrl Shift<Key>Tab
+_
+KPrevMenu@Ctrl<Key>osfUp
+@Ctrl<Key>osfLeft
+_
+KPrimaryCopy@Ctrl<Key>osfPrimaryPaste
+@Mod1<Key>osfCopy
+@Mod1 Ctrl<Key>osfInsert
+_
+KPrimaryCut@Mod1<Key>osfPrimaryPaste
+@Mod1<Key>osfCut
+@Mod1 Shift<Key>osfDelete
+_
+KPrimaryPaste@<Key>osfPrimaryPaste
+_
+KQuickCopy@Ctrl<Key>osfQuickPaste
+_
+KQuickCut@Mod1<Key>osfQuickPaste
+_
+KQuickExtend@Shift<Key>osfQuickPaste
+_
+.TE
+.bp
+.TS
+center, box, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings (Continued)
+_
+Virtual Key@Actual Key Events
+=
+KQuickPaste@<Key>osfQuickPaste
+_
+KReselect@Ctrl Shift<Key>osfSelect
+_
+KRestore@Ctrl Shift<Key>osfInsert
+_
+KRight@<Key>osfRight
+_
+KSelect@<Key>space
+@Ctrl<Key>space
+@<Key>osfSelect
+_
+KSelectAll@Ctrl<Key>slash
+_
+KSpace@<Key>space
+_
+KTab@<Key>Tab
+_
+KUndo@<Key>osfUndo
+@Mod1<Key>osfBackSpace
+_
+KUp@<Key>osfUp
+_
+KAny@<Key>
+_
+.TE
+.sp 1
+.SS "Bindings for osf Keysyms"
+Keysym strings that begin with "osf" are not part of the X server's
+keyboard mapping.
+Instead, these keysyms are produced on the client side at run time and
+are used by the translation manager when the server delivers an actual
+key event.
+A mapping is maintained between "osf" keysyms and actual keysyms.
+This mapping is based on information obtained from one of the following
+sources, listed in order of precedence:
+.IP \(bu 3
+A _MOTIF_BINDINGS property on the root window of screen 0.
+The Motif Window Manager sets this property when it starts up, taking
+the contents from the \fB\&.motifbind\fP file in the user's home
+directory.
+.IP \(bu 3
+An \fBXmNdefaultVirtualBindings\fP application resource in the resource
+database.
+.IP \(bu 3
+A fixed default based on the vendor string returned by the X server
+during the call to \fBXOpenDisplay\fP.
+.IP \(bu 3
+A fixed fallback default.
+.PP
+The format of the specification for mapping "osf" keysyms to actual
+keysyms is similar to that of a specification for an event translation.
+The syntax is specified here in EBNF notation using the following
+conventions:
+.PP
+.in +3n
+.nf
+.ta 1i
+[\fIa\fP]	Means either nothing or \fIa\fP
+{\fIa\fP}	Means zero or more occurrences of \fIa\fP
+.fi
+.in
+.PP
+Terminals are enclosed in double quotation marks.
+.PP
+The syntax of an "osf" keysym binding specification is as follows:
+.PP
+.in +3n
+.nf
+.ta 1.5i 1.75i
+binding_spec	=	{line "\en"} [line]
+line	=	virtual_keysym ":" key_event
+key_event	=	{modifier_name} "<Key>" actual_keysym
+virtual_keysym	=	keysym
+actual_keysym	=	keysym
+keysym	=	A valid X11 keysym name that is
+		mapped by \fBXStringToKeysym\fP
+.fi
+.in
+.PP
+As with event translations, more specific event descriptions must
+precede less specific descriptions.
+For example, an event description for a key with a modifier must precede
+a description for the same key without the same modifier.
+.PP
+Following is an example of a specification for the
+\fBXmNdefaultVirtualBindings\fP resource in a resource file:
+.PP
+.in +3n
+.nf
+.ta 0.5i 2i 2.5i 3.75i
+*defaultVirtualBindings: \e
+	osfBackSpace	:	<Key>BackSpace	\en\e
+	osfInsert	:	<Key>InsertChar	\en\e
+...
+	osfDelete	:	<Key>DeleteChar
+.fi
+.in
+.P
+The format of a \fB\&.motifbind\fP file is the same, except that the
+binding specification for each keysym is placed on a separate line.
+The example specification above appears as follows in a
+\fB\&.motifbind\fP file:
+.PP
+.in +3n
+.nf
+.ta 1.5i 2i
+osfBackSpace	:	<Key>BackSpace
+osfInsert	:	<Key>InsertChar
+...
+osfDelete	:	<Key>DeleteChar
+.fi
+.in
+.PP
+The following table lists the fixed fallback default bindings for
+"osf" keysyms:
+.PP
+.br
+.ne 7
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Fallback Default Bindings for "osf" Keysyms
+"osf" Keysym@Fallback Default Binding
+_
+osfActivate@<unbound>
+osfAddMode@Shift F8
+osfBackSpace@Backspace
+osfBeginLine@Home
+osfClear@Clear
+osfCopy@<unbound>
+osfCut@<unbound>
+osfDelete@Delete
+osfDown@Down
+osfEndLine@End
+osfCancel@Escape
+osfHelp@F1
+osfInsert@Insert
+osfLeft@Left
+osfMenu@F4
+osfMenuBar@F10
+osfPageDown@Next
+osfPageUp@Prior
+osfPaste@<unbound>
+osfPrimaryPaste@<unbound>
+osfQuickPaste@<unbound>
+osfRight@Right
+osfSelect@Select
+osfUndo@Undo
+osfUp@Up
+.TE
+.sp 1
+.ad

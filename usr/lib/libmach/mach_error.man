@@ -1,0 +1,45 @@
+.TH mach_error 3 3/25/87
+.CM 4
+.SH NAME
+.nf
+mach_error \- print a Mach-related error message on stderr
+mach_error_string \- return an error message string
+mach_error_type \- return a string with the system and subsystem name of the error
+.SH SYNOPSIS
+.nf
+#include <mach.h>
+
+void mach_error(str, errno)
+	char		*str;
+	kern_return_t	errno;
+
+char *mach_error_string(errno)
+	kern_return_t	errno;
+
+char *mach_error_type(errno)
+	kern_return_t	errno;
+
+.SH DESCRIPTION
+.I mach_error
+uses
+.I mach_error_string
+to print a message on stderr.  The message is formatted by first printing
+the string specified by
+.I str,
+followed by the string returned by
+.I mach_error_string.
+This is then followed by the actual number
+.I (errno)
+specified in the call (useful when the return code is bogus).
+
+.I mach_error_string
+returns a human readable string corresponding to the specified
+Mach return value.  This string is statically allocated in the Mach
+library.  A pointer to this string is returned.
+
+.I mach_error_type
+returns a string containing the system and subsystem name of
+the specified error.
+
+.SH "SEE ALSO"
+macherr(1), error(5)

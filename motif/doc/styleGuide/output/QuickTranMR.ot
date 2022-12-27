@@ -1,0 +1,132 @@
+
+
+
+
+
+
+
+
+       Quick transfer is used to make a selection, and then immedi-
+       ately cut or copy that selection to the destination cursor.
+       In quick transfer, the user picks the destination first,
+       then makes a selection to be pasted there.  This allows mul-
+       tiple selections to be quickly pasted at the same location.
+
+       The destination cursor must be in the component in which the
+       user last did a selection, insertion, or editing operation.
+       It can either be at the location cursor of that component,
+       or determined independently.
+
+       If the destination cursor is determined independently, it
+       must be at the location where selection, insertion or edit-
+       ing was last done.  Furthermore, when the current selection
+       is null, the anchor must be kept at the destination cursor
+       as well.  The destination cursor should be determined
+       independently in environments in which strong support of
+       keyboard use is expected.
+
+       The following quick-transfer actions should be made avail-
+       able.
+
+       BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee DDDDrrrraaaagggg  Must select a region for quick transfer,
+                         and paste the region at the destination
+                         cursor when the button is released.
+                         Whether the paste action cuts or copies
+                         the selection to the new location depends
+                         on the type of elements pasted, and the
+                         source and destination of the selection as
+                         in primary selection described in Section
+                         3.2.2.
+
+       BBBBQQQQuuuuiiiicccckkkkCCCCooooppppyyyy DDDDrrrraaaagggg   Must copy the selection to the position of
+                         the pointer.
+
+       BBBBQQQQuuuuiiiicccckkkkCCCCuuuutttt DDDDrrrraaaagggg    Must cut the selection to the position of
+                         the pointer.
+
+       KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee       Must set a quick anchor point to start a
+                         quick-paste operation.  Whether the paste
+                         action cuts or copies the selection to the
+                         new location depends on the type of ele-
+                         ments pasted, and the source and destina-
+                         tion of the selection as in primary selec-
+                         tion described in Section 3.2.2.
+
+       KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy        Must set a quick anchor point to start a
+                         quick-copy operation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt         Must set a quick anchor point to start a
+                         quick-cut operation.
+
+       KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd      Must perform the quick operation,
+                         transferring the elements between the
+                         quick anchor point and the location cur-
+                         sor.
+
+       ___________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy    DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss  |
+      |___________________________________|
+      | BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee    BBBBDDDDrrrraaaagggg             |
+      | BBBBQQQQuuuuiiiicccckkkkCCCCooooppppyyyy     MMMMCCCCttttrrrrllll BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee |
+      | BBBBQQQQuuuuiiiicccckkkkCCCCuuuutttt      MMMMAAAAlllltttt BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee  |
+      | KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee    <<<<vvvveeeennnnddddoooorrrr ddddeeeeffffiiiinnnneeeedddd>>>>  |
+      | KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy     MMMMCCCCttttrrrrllll KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee |
+      | KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt      MMMMAAAAlllltttt KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee  |
+      | KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd   MMMMSSSShhhhiiiifffftttt KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee|
+      |___________________________________|
+
+       See Section 3.2.3 for more information about quick transfer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

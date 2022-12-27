@@ -1,0 +1,528 @@
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx ---- tttthhhheeee SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////SSSSeeeelllleeeeccccttttiiiiooooBBBB....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          SelectionBox is a general dialog widget that allows the user
+          to select one item from a list.  By default a SelectionBox
+          includes the following:
+
+          +o  A scrolling list of alternatives
+
+          +o  An editable text field for the selected alternative
+
+          +o  Labels for the list and text field
+
+          +o  Three or four buttons
+
+          The default button labels are OOOOKKKK, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp.  By
+          default an AAAAppppppppllllyyyy button is also created; if the parent of
+          the SelectionBox is a DialogShell it is managed, and
+          otherwise it is unmanaged.  One additional WWWWoooorrrrkkkkAAAArrrreeeeaaaa child
+          may be added to the SelectionBox after creation.
+
+          The user can select an item in two ways:  by scrolling
+          through the list and selecting the desired item or by
+          entering the item name directly into the text edit area.
+          Selecting an item from the list causes that item name to
+          appear in the selection text edit area.
+
+          The user may select a new item as many times as desired.
+          The item is not actually selected until the user presses the
+          OOOOKKKK PushButton.
+
+          The default value for the XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd resource
+          XXXXmmmmNNNNccccaaaannnncccceeeellllBBBBuuuuttttttttoooonnnn is the Cancel button unless XXXXmmmmNNNNddddiiiiaaaallllooooggggTTTTyyyyppppeeee is
+          XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____CCCCOOOOMMMMMMMMAAAANNNNDDDD, when the default is NULL.  The default
+          value for the XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd resource XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttBBBBuuuuttttttttoooonnnn is
+          the OK button unless XXXXmmmmNNNNddddiiiiaaaallllooooggggTTTTyyyyppppeeee is XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____CCCCOOOOMMMMMMMMAAAANNNNDDDD, when
+          the default is NULL.
+
+
+        CCCCllllaaaasssssssseeeessss
+          SelectionBox inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, and XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd
+          Classes.
+
+          The class pointer is xxxxmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+          The class name is XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                    XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt       AAAAcccccccceeeessssssss
+     _________________________________________________________________________________________
+     XmNapplyCallback          XmCCallback               XtCallbackList   NULL          C
+     XmNapplyLabelString       XmCApplyLabelString       XmString         "Apply"       CSG
+     XmNcancelCallback         XmCCallback               XtCallbackList   NULL          C
+     XmNcancelLabelString      XmCCancelLabelString      XmString         "Cancel"      CSG
+     XmNdialogType             XmCDialogType             unsigned char    dynamic       CG
+     XmNhelpLabelString        XmCHelpLabelString        XmString         "Help"        CSG
+     XmNlistItemCount          XmCItemCount              int              0             CSG
+     XmNlistItems              XmCItems                  XmStringTable    NULL          CSG
+     XmNlistLabelString        XmCListLabelString        XmString         dynamic       CSG
+     XmNlistVisibleItemCount   XmCVisibleItemCount       int              dynamic       CSG
+     XmNminimizeButtons        XmCMinimizeButtons        Boolean          False         CSG
+     XmNmustMatch              XmCMustMatch              Boolean          False         CSG
+     XmNnoMatchCallback        XmCCallback               XtCallbackList   NULL          C
+     XmNokCallback             XmCCallback               XtCallbackList   NULL          C
+     XmNokLabelString          XmCOkLabelString          XmString         "OK"          CSG
+     XmNselectionLabelString   XmCSelectionLabelString   XmString         "Selection"   CSG
+     XmNtextAccelerators       XmCTextAccelerators       XtAccelerators   default       C
+     XmNtextColumns            XmCColumns                short            dynamic       CSG
+     XmNtextString             XmCTextString             XmString         ""            CSG
+
+
+          XXXXmmmmNNNNaaaappppppppllllyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when the user
+               activates the AAAAppppppppllllyyyy button.  The callback reason is
+               XXXXmmmmCCCCRRRR____AAAAPPPPPPPPLLLLYYYY.
+
+          XXXXmmmmNNNNaaaappppppppllllyyyyLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label for the AAAAppppppppllllyyyy button.
+
+          XXXXmmmmNNNNccccaaaannnncccceeeellllCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when the user
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               activates the CCCCaaaannnncccceeeellll button.  The callback reason is
+               XXXXmmmmCCCCRRRR____CCCCAAAANNNNCCCCEEEELLLL.
+
+          XXXXmmmmNNNNccccaaaannnncccceeeellllLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label for the CCCCaaaannnncccceeeellll button.
+
+          XXXXmmmmNNNNddddiiiiaaaallllooooggggTTTTyyyyppppeeee
+               Determines the set of SelectionBox children widgets
+               that are created and managed at initialization.  The
+               following are possible values:
+
+               +o  XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____PPPPRRRROOOOMMMMPPPPTTTT - all standard children except the
+                  list and list label are created, and all except the
+                  AAAAppppppppllllyyyy button are managed
+
+               +o  XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____CCCCOOOOMMMMMMMMAAAANNNNDDDD - only the list, the selection
+                  label, and the text field are created and managed
+
+               +o  XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____SSSSEEEELLLLEEEECCCCTTTTIIIIOOOONNNN - all standard children are
+                  created and managed
+
+               +o  XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____FFFFIIIILLLLEEEE____SSSSEEEELLLLEEEECCCCTTTTIIIIOOOONNNN - all standard children are
+                  created and managed
+
+               +o  XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____WWWWOOOORRRRKKKK____AAAARRRREEEEAAAA - all standard children are
+                  created, and all except the AAAAppppppppllllyyyy button are managed
+
+               If the parent of the SelectionBox is a DialogShell, the
+               default is XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____SSSSEEEELLLLEEEECCCCTTTTIIIIOOOONNNN; otherwise, the default
+               is XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____WWWWOOOORRRRKKKK____AAAARRRREEEEAAAA.  XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPrrrroooommmmppppttttDDDDiiiiaaaalllloooogggg and
+               XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg set and append this resource to
+               the creation _a_r_g_l_i_s_t supplied by the application.  This
+               resource cannot be modified after creation.
+
+          XXXXmmmmNNNNhhhheeeellllppppLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label for the HHHHeeeellllpppp button.
+
+          XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmssss
+               Specifies the items in the SelectionBox list.
+               XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for this resource returns the list items
+               themselves, not a copy of the list items.  The
+               application must not free the returned items.
+
+          XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items in the SelectionBox list.
+               The value must not be negative.
+
+          XXXXmmmmNNNNlllliiiissssttttLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label to appear above the
+               SelectionBox list containing the selection items.  The
+               default is "Items" unless XXXXmmmmNNNNddddiiiiaaaallllooooggggTTTTyyyyppppeeee is
+               XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____PPPPRRRROOOOMMMMPPPPTTTT; in that case the default is NULL.
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNlllliiiissssttttVVVViiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items displayed in the
+               SelectionBox list.  The value must be greater than 0
+               unless XXXXmmmmNNNNddddiiiiaaaallllooooggggTTTTyyyyppppeeee is XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____PPPPRRRROOOOMMMMPPPPTTTT; in that case
+               the value is always 0.  The default is dynamic based on
+               the height of the list.
+
+          XXXXmmmmNNNNmmmmiiiinnnniiiimmmmiiiizzzzeeeeBBBBuuuuttttttttoooonnnnssss
+               Sets the buttons to the width of the widest button and
+               height of the tallest button if False.  If True, button
+               width and height are not modified.
+
+          XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh
+               Specifies whether the selection widget should check if
+               the user's selection in the text edit field has an
+               exact match in the SelectionBox list when the BOK
+               button is activated.  If the selection does not have an
+               exact match, and XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True, the
+               XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk callbacks are called.  If the
+               selection does have an exact match or if XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh
+               is False, XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk callbacks are called.
+
+          XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when the user
+               makes a selection from the text edit field that does
+               not have an exact match with any of the items in the
+               list box.  The callback reason is XXXXmmmmCCCCRRRR____NNNNOOOO____MMMMAAAATTTTCCCCHHHH.
+               Callbacks in this list are called only if XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh
+               is true.
+
+          XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when the user
+               activates the OOOOKKKK button.  The callback reason is
+               XXXXmmmmCCCCRRRR____OOOOKKKK.  If the selection text does not match a list
+               item, and XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True, the XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks are called instead.
+
+          XXXXmmmmNNNNooookkkkLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label for the OOOOKKKK button.
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the string label for the selection text edit
+               field.
+
+          XXXXmmmmNNNNtttteeeexxxxttttAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+               Specifies translations added to the Text widget child
+               of the SelectionBox.  The default includes bindings for
+               the up and down keys for auto selection of list items.
+               This resource is ignored if XXXXmmmmNNNNaaaacccccccceeeelllleeeerrrraaaattttoooorrrrssss is
+               initialized to a nondefault value.
+
+          XXXXmmmmNNNNtttteeeexxxxttttCCCCoooolllluuuummmmnnnnssss
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               Specifies the number of columns in the Text widget.
+               The value must be greater than 0.
+
+          XXXXmmmmNNNNtttteeeexxxxttttSSSSttttrrrriiiinnnngggg
+               Specifies the text in the text edit selection field.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          SelectionBox inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                               XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                  CCCCllllaaaassssssss                TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt        AAAAcccccccceeeessssssss
+     _________________________________________________________________________________
+     XmNallowOverlap       XmCAllowOverlap      Boolean          True           CSG
+     XmNautoUnmanage       XmCAutoUnmanage      Boolean          True           CG
+     XmNbuttonFontList     XmCButtonFontList    XmFontList       dynamic        CSG
+     XmNcancelButton       XmCWidget            Widget           dynamic        SG
+     XmNdefaultButton      XmCWidget            Widget           dynamic        SG
+     XmNdefaultPosition    XmCDefaultPosition   Boolean          True           CSG
+     XmNdialogStyle        XmCDialogStyle       unsigned char    dynamic        CSG
+     XmNdialogTitle        XmCDialogTitle       XmString         NULL           CSG
+     XmNfocusCallback      XmCCallback          XtCallbackList   NULL           C
+     XmNlabelFontList      XmCLabelFontList     XmFontList       dynamic        CSG
+     XmNmapCallback        XmCCallback          XtCallbackList   NULL           C
+     XmNmarginHeight       XmCMarginHeight      Dimension        10             CSG
+     XmNmarginWidth        XmCMarginWidth       Dimension        10             CSG
+     XmNnoResize           XmCNoResize          Boolean          False          CSG
+     XmNresizePolicy       XmCResizePolicy      unsigned char    XmRESIZE_ANY   CSG
+     XmNshadowType         XmCShadowType        unsigned char    XmSHADOW_OUT   CSG
+     XmNtextFontList       XmCTextFontList      XmFontList       dynamic        CSG
+     XmNtextTranslations   XmCTranslations      XtTranslations   NULL           C
+     XmNunmapCallback      XmCCallback          XtCallbackList   NULL           C
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    dynamic                CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                N/A
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt          _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg     _v_a_l_u_e;
+            iiiinnnntttt          _l_e_n_g_t_h;
+          } XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+          _v_a_l_u_e  Indicates the XXXXmmmmSSSSttttrrrriiiinnnngggg value selected by the user
+                 from the SelectionBox list or entered into the
+                 SelectionBox text field
+
+          _l_e_n_g_t_h Indicates the size in bytes of the XXXXmmmmSSSSttttrrrriiiinnnngggg value
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmSelectionBox inherits translations from XmBulletinBoard.
+
+
+        AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+          The XXXXmmmmNNNNtttteeeexxxxttttAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss are added to the Text descendant of
+          XmSelectionBox.  The default accelerators are listed below.
+          These accelerators may not directly correspond to a
+          translation table.
+
+          KKKKUUUUpppp::::           SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((0000))))
+          KKKKDDDDoooowwwwnnnn::::         SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((1111))))
+          KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::    SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((2222))))
+          KKKKEEEEnnnnddddDDDDaaaattttaaaa::::      SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((3333))))
+          KKKKRRRReeeessssttttoooorrrreeee::::      SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxRRRReeeessssttttoooorrrreeee(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmSelectionBox action routines are described below:
+
+          SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((0000||||1111||||2222||||3333)))):
+               When called with a 0 argument, selects the previous
+               item in the list and replaces the text with that item.
+
+               When called with a 1 argument, selects the next item in
+               the list and replaces the text with that item.
+
+               When called with a 2 argument, selects the first item
+               in the list and replaces the text with that item.
+
+               When called with a 3 argument, selects the last item in
+               the list and replaces the text with that item.
+
+          SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxRRRReeeessssttttoooorrrreeee(((()))):
+               Replaces the text value with the list selection.  If no
+               item in the list is selected, clears the text.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          The SelectionBox widget has the additional behavior
+          described below:
+
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll:
+               Calls the activate callbacks for the cancel button if
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))  OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn   XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               it is sensitive.
+
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee:
+               Calls the activate callbacks for the button with the
+               keyboard focus.  If no button has the keyboard focus,
+               calls the activate callbacks for the default button if
+               it is sensitive.  In a List widget or single-line Text
+               widget, the List or Text action associated with
+               KKKKAAAAccccttttiiiivvvvaaaatttteeee is called before the SelectionBox actions
+               associated with KKKKAAAAccccttttiiiivvvvaaaatttteeee.  In a multi-line Text
+               widget, any KKKKAAAAccccttttiiiivvvvaaaatttteeee event except KKKKEEEEnnnntttteeeerrrr calls the
+               Text action associated with KKKKAAAAccccttttiiiivvvvaaaatttteeee, then the
+               SelectionBox actions associated with KKKKAAAAccccttttiiiivvvvaaaatttteeee.
+
+          <<<<OOOOKKKK BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               If XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True and the text does not match an
+               item in the file list, calls the XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks with reason XXXXmmmmCCCCRRRR____NNNNOOOO____MMMMAAAATTTTCCCCHHHH.  Otherwise, calls
+               the XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason XXXXmmmmCCCCRRRR____OOOOKKKK.
+
+          <<<<AAAAppppppppllllyyyy BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               Calls the XXXXmmmmNNNNaaaappppppppllllyyyyCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____AAAAPPPPPPPPLLLLYYYY.
+
+          <<<<CCCCaaaannnncccceeeellll BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               Calls the XXXXmmmmNNNNccccaaaannnncccceeeellllCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____CCCCAAAANNNNCCCCEEEELLLL.
+
+          <<<<HHHHeeeellllpppp BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>::::
+               Calls the XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____HHHHEEEELLLLPPPP.
+
+          <<<<MMMMaaaappppWWWWiiiinnnnddddoooowwww>>>>:
+               Calls the callbacks for XXXXmmmmNNNNmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk if the
+               SelectionBox is a child of a Dialog shell.
+
+          <<<<UUUUnnnnmmmmaaaappppWWWWiiiinnnnddddoooowwww>>>>:
+               Calls the callbacks for XXXXmmmmNNNNuuuunnnnmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk if the
+               SelectionBox is the child of a DialogShell.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPrrrroooommmmppppttttDDDDiiiiaaaalllloooogggg((((3333XXXX)))),
+          XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))), and XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxGGGGeeeettttCCCChhhhiiiilllldddd((((3333XXXX)))).
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+

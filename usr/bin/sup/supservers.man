@@ -1,0 +1,222 @@
+.\"
+.\" $Id: supservers.8,v 1.3 89/12/29 17:25:58 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	supservers.8,v $
+.\" Revision 1.3  89/12/29  17:25:58  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/29            bww]
+.\" 
+.\" 21-May-87  Glenn Marcy (gm0w) at Carnegie-Mellon University
+.\"	Updated documentation for 4.3; changed /usr/cmu to /usr/cs.
+.\"
+.\" 15-Jan-86  Glenn Marcy (gm0w) at Carnegie-Mellon University
+.\"	Updated documentation; -s switch to supscan.
+.\"
+.\" 23-May-85  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Supscan created and documented; also -N flag.
+.\"
+.\" 04-Apr-85  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH SUPSERVERS 8 1/16/86
+.CM 1
+.SH "NAME"
+supfilesrv, supnamesrv, supscan \- sup server processes
+.SH "SYNOPSIS"
+supfilesrv
+[
+.I 
+-l
+] [
+.I 
+-q
+] [
+.I 
+-N
+] [
+.I 
+-P
+]
+.br
+supnamesrv [
+.I 
+-l
+] [
+.I 
+-q
+] [
+.I 
+-N
+] [
+.I 
+-P
+]
+.br
+supscan [
+.I 
+-v
+] [
+.I 
+-s
+] [
+.I 
+collection
+] [
+.I 
+basedir
+]
+.SH "DESCRIPTION"
+.I 
+Supfilesrv
+and
+.I 
+supnamesrv
+are the server processes used to interact with
+.I 
+sup
+client processes via the IP/TCP network protocol.
+These servers
+normally are expected to be running on server machines at all times.
+Each machine with files of interest to users on other machines is
+expected to be a file server and should run
+.I 
+supfilesrv;
+a few machines selected to act additionally as name server machines
+should run
+.I 
+supnamesrv
+also.
+
+A file server machine will service requests for both "private" and
+"system" file collections.
+No special action is necessary to support
+private collections, as the client user is expected to supply all
+necessary information.
+For system collections, if the base directory
+is not the default (see FILES below), an entry must be put into
+the directory list file; this entry is a single text line containing
+the name of the collection, one or more spaces, and the name of the
+base directory for that collection.
+
+A name server machine will be used to determine the host name of the
+file server for each system collection.
+Each collection should have
+an entry in the host list file; this entry is a single text line
+containing the name of the collection, one or more spaces, and
+the name of the host machine acting as file server for that collection.
+
+Details of setting up a file collection for the file server are
+described in the manual entry for
+.I 
+sup(1).
+
+.I 
+Supfilesrv
+and 
+.I 
+supnamesrv
+generally run as a network server process that listens for connections,
+and for each connection (double-)forks a process to handle the interaction
+with the client.
+However, with the -l flag, no forking will take place:
+the server will listen for a network connection, handle it, and exit.
+This is useful for debugging the servers in "live" mode rather than as
+daemons.
+Log messages are normally printed on the standard output.
+To suppress
+log messages, the -q "quiet" flag can be used.
+
+For debugging purposes, the -P "debugging ports" flag can be used.
+It will cause the selection of an alternate, non-privileged set of
+TCP ports instead of the usual ports, which are reserved for the
+active server processes.  The -N "network debugging" flag can be used
+to produce voluminous messages describing the network communication
+progress and status.
+
+It is possible to pre-compile a list of the files in a collection
+to make
+.I 
+supfilesrv
+service that collection much faster.  This can be done by running
+.I 
+supscan
+on the desired collection on the repository machine.  This produces a
+list of all the files in the collection at the time of the
+.I 
+supscan;
+subsequent upgrades will be based on this list of files rather than
+actually scanning the disk at the time of the upgrade.  Of course,
+the upgrade will consequently bring the client machine up to the status
+of the repository machine as of the time of the
+.I 
+supscan
+rather than as of the time of the upgrade; hence, if
+.I 
+supscan
+is used, it should be run periodically on the
+collection.
+This facility is useful for extremely large file collections
+that are upgraded many times per day, such as the CMU UNIX system
+software.  The "verbose" flag
+.I 
+-v
+will cause
+.I 
+supscan
+to produce output messages as it scans the files in the collection.
+The "system" flag
+.I 
+-s
+will cause
+.I 
+supscan
+to scan all system collections residing on the current host.
+The
+.I 
+basedir
+parameter must be specified if the collection is a private
+collection whose base directory is not the default.
+.SH "FILES"
+.TP
+/usr/<collection>
+default base directory for a collection
+.TP
+/usr/lib/supservers/coll.dir
+directory list file for file server
+.TP
+/usr/lib/supservers/coll.host
+host list file for name server
+.TP
+<base-directory>/sup/<collection>/*
+files used by file server (see
+.I 
+sup(1))
+.TP
+<base-directory>/sup/<collection>/list
+list file used by
+.I 
+supscan
+to create file list
+.TP
+<base-directory>/sup/<collection>/scan
+file list created by
+.I 
+supscan
+from list file
+.i0
+.DT
+.PP
+.SH "SEE ALSO"
+sup(1)
+.br
+.I 
+The SUP Software Upgrade Protocol,
+S.
+A.
+Shafer, CMU Computer Science Dept., 1985.
+.SH "DIAGNOSTICS"
+The file server and name server processes place log messages on the
+standard and diagnostic output files.
+The process name and process
+id number generally accompany each message for diagnostic purposes.

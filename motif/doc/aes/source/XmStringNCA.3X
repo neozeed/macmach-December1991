@@ -1,0 +1,67 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringNConcat 3X "" "" "" ""
+.SH NAME
+\fBXmStringNConcat \(em a compound string function that appends a 
+specified number
+of bytes to a compound string.\fP
+.iX "XmStringNConcat"
+.iX "compound string functions" "XmStringNConcat"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmStringNConcat (\fIs1, s2, num_bytes\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmString	\fIs1\fP;
+.br
+	XmString	\fIs2\fP;
+.br
+	int	\fInum_bytes\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringNConcat\fP appends a specified number of bytes from \fIs2\fP to 
+the end of \fIs1\fP, including tags, directional indicators, and
+separators.  It then returns the
+resulting compound string.  The original strings are preserved.  The space
+for the 
+.ne 2i
+resulting compound string is allocated within the function.  
+The application is responsible for managing the allocated space.  The
+memory can be recovered by calling \fBXmStringFree\fP.
+.br
+.ne 7
+.sp 1
+.IP "\fIs1\fP" .75i
+Specifies the compound string to which a copy of \fIs2\fP is appended.
+.IP "\fIs2\fP" .75i
+Specifies the compound string that is appended to the end of \fIs1\fP.
+.IP "\fInum_bytes\fP" .75i
+Specifies the number of bytes of \fIs2\fP to append to \fIs1\fP.  
+If this value is less than the
+length of \fIs2\fP, as many bytes as possible, but possibly fewer than
+this value, will be appended to \fIs1\fP such that the resulting string
+is still a valid compound string.
+.sp 1
+.SH RETURN VALUE
+Returns a new compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and \fBXmStringFree(3X)\fP.
+.sp 1

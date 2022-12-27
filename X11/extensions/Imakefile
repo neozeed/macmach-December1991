@@ -1,0 +1,14 @@
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+  IMAKE_DEFINES = ExtensionDefines
+
+#if BuildServer
+  SERVERSUBDIRS = server
+#endif
+        SUBDIRS = lib include test $(SERVERSUBDIRS)
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs(lib)
+MakeLintSubdirs(lib,install.ln,install.ln)

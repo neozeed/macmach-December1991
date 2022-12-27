@@ -1,0 +1,62 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+!****************************************************************************
+!****************************************************************************
+!**
+!**   File:        mess_tmpl.uil	
+!**
+!**   Project:     Motif - widget examination program
+!**
+!**   Description: Program which shows resources of widgets
+!**
+!**   Author:      Pete Levine
+!**
+!****************************************************************************
+!****************************************************************************/
+  
+  include file "XmAppl.uil";
+  
+  
+  procedure
+          exit_test();
+	  Report_Callback(string);
+
+  value
+	  wheat			     : color('wheat');
+	  navy			     : color('navy');
+
+  object                                  ! The main window widget.
+                                          ! This displays the current order
+                                          ! as it is taken.
+          S_MAIN_WIDGET : XmBulletinBoard {
+  
+              arguments {
+                  XmNx = 0;
+                  XmNy = 0;
+              };
+    	      controls {
+                  XmBulletinBoardDialog 	explanation;

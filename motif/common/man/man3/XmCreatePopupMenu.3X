@@ -1,0 +1,91 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreatePopupMenu 3X "" "" "" ""
+.SH NAME
+\fBXmCreatePopupMenu \(em a RowColumn widget convenience creation function.\fP
+.iX "XmCreatePopupMenu"
+.iX "creation functions" "XmCreatePopupMenu"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmCreatePopupMenu (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreatePopupMenu\fP creates an instance of a RowColumn widget 
+of type \fBXmMENU_POPUP\fP and returns 
+the associated widget ID.  When using this function to create the Popup
+MenuPane, a MenuShell widget is automatically created as the parent of
+the MenuPane. 
+The parent of the MenuShell widget is the widget indicated by the
+\fIparent\fP parameter.
+.PP
+\fBXmCreatePopupMenu\fP is 
+provided as a convenience function for creating RowColumn
+widgets configured to operate as Popup MenuPanes and is not implemented as
+a separate widget class.  
+.PP
+The PopupMenu is used as the first MenuPane within a PopupMenu system;
+all other
+MenuPanes are of the Pulldown type.  A Popup MenuPane displays a 
+3-D shadow, unless the feature is disabled by the application.
+The shadow appears around the edge of the MenuPane.
+.PP
+The Popup MenuPane must be created as the child of a MenuShell widget in
+order to function properly when it is incorporated into a menu.
+If the application uses this convenience function for creating a
+Popup MenuPane, the MenuShell is automatically created as the real
+parent of the MenuPane.
+If the application does not use this convenience function to create the
+RowColumn to function as a Popup MenuPane,
+it is the application's responsibility to create the 
+MenuShell widget.
+.PP
+To access the PopupMenu, the application must first position the 
+widget using the
+\fBXmMenuPosition\fP function and then manage it using \fBXtManageChild\fP.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmCreateSimplePopupMenu(3X)\fP,
+\fBXmMenuPosition(3X)\fP,
+\fBXmMenuShell(3X)\fP,
+\fBXmRowColumn(3X)\fP, and
+\fBXmVaCreateSimplePopupMenu(3X)\fP.
+.sp 1

@@ -1,0 +1,1056 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       23.  TTTThhhheeee WWWWiiiiddddggggeeeetttt MMMMeeeettttaaaa----LLLLaaaannnngggguuuuaaaaggggeeee FFFFaaaacccciiiilllliiiittttyyyy                        |
+
+       The widget meta-language facility (WML) is used to generate
+       the components of the user interface language (UIL) compiler
+       that can change depending on the widget set.  Using WML you
+       can add support in UIL for new widgets to the OSF/Motif       |
+       widget set or for a totally new widget set.
+
+       UIL is made up of:
+
+          +o Static syntax                                            |
+
+          +o Dynamic syntax                                           |
+
+          +o Data types                                               |
+
+       The static syntax elements are the basic syntax and keywords
+       of UIL.  The static elements do not change as you modify the
+       widget set.  The static syntax elements of UIL are defined
+       in the file UUUUiiiillll....yyyy.                                            |
+
+       The dynamic syntax elements are the parts of UIL that change
+       with the widget set.  The dynamic syntax elements describe
+       the widget and gadget classes supported by UIL including
+       their resources and hierarchy.  The dynamic elements of UIL
+       are defined in WML files.  The dynamic elements of the
+       OSF/Motif widget set are defined in the file mmmmoooottttiiiiffff....wwwwmmmmllll.
+
+       The data type elements describe the allowable data types for
+       each widget and gadget resource.  Although the data types do
+       not change, the resources that they are assigned to change
+       with the widget set.  The data types are provided in UIL for
+       better error checking.  The allowable data types for each
+       resource are defined in the same file as the dynamic syntax   |
+       elements.
+
+       The WML facility combines the static syntax, dynamic syntax,
+       and data type elements to produce new source code for UIL.
+       This allows you to modify the dynamic elements of your ver-
+       sion of UIL; giving you the ability to add resources, widg-
+       ets, gadgets, or even new widget sets.
+
+       Once you have modified your WML file, run the WML facility
+       with that file as input and compile the new UIL compiler.  A
+
+
+                                                               23-1
+
+
+
+
+
+
+
+
+
+
+
+
+       number of useful reports are also created by the WML facil-
+       ity to help you analyze, debug, and document your changes.    |
+
+       23.1  UUUUssssiiiinnnngggg WWWWMMMMLLLL                                               |
+
+       Every time Motif is built, UIL is built from the mmmmoooottttiiiiffff....wwwwmmmmllll    |
+       file using the WML facility.  You can create your own WML
+       file in the directory ttttoooooooollllssss////wwwwmmmmllll to use in place of
+       mmmmoooottttiiiiffff....wwwwmmmmllll.  By convention, WML files have a suffix of ....wwwwmmmmllll.   |
+       Section 2 describes how to modify WML files.  After you have
+       created your new WML file, building a new UIL is a four step
+       process:
+
+         1.  Build WML.
+
+         2.  Run WML with your WML file.
+
+         3.  Install the UIL source files.
+
+         4.  Build UIL.
+
+       All four steps are done as needed each time Motif is built.
+       You should follow your standard Motif build instructions to
+       rebuild UIL.  In most cases you will simply move to the top
+       of your build tree and enter mmmmaaaakkkkeeee.  By default, UIL is built
+       using the mmmmoooottttiiiiffff....wwwwmmmmllll file from the ttttoooooooollllssss////wwwwmmmmllll directory.  You
+       can specify a different WML file in the ttttoooooooollllssss////wwwwmmmmllll directory
+       with the command line make variable TTTTAAAABBBBLLLLEEEE as follows:
+
+
+       make TABLE=_a_n_y_f_i_l_e._w_m_l
+
+
+       Where _a_n_y_f_i_l_e._w_m_l is the name of a WML file in the tools/wml
+       directory of your Motif build tree.
+
+       You should refer to the _O_S_F/_M_o_t_i_f _R_e_l_e_a_s_e _N_o_t_e_s for more
+       information about building Motif.
+
+       The following sections describe how to do each of the four
+       steps independently.                                          |
+
+       23.1.1  BBBBuuuuiiiillllddddiiiinnnngggg WWWWMMMMLLLL                                          |
+
+       WML is built by default when you build Motif.  You should
+       only need to build WML if you want to use it without build-
+       ing Motif.  The WML source is located in the subdirectory
+       ttttoooooooollllssss////wwwwmmmmllll.  Before WML is built, the directory should con-
+       tain the files:
+
+
+
+
+       23-2
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+                 Imakefile     wml.c         wmlparse.y              |
+                 Makefile      wml.h         wmlresolve.c            |
+                 Makefile.hp   wmllex.l      wmlsynbld.c             |
+                 README        wmlouth.c     wmluiltok.l             |
+                 Uil.y         wmloutkey.c   wmlutils.c              |
+                 UilDBDef.h    wmloutmm.c                            |
+                 motif.wml     wmloutp1.c                            |
+
+       The files IIIImmmmaaaakkkkeeeeffffiiiilllleeee, MMMMaaaakkkkeeeeffffiiiilllleeee, and MMMMaaaakkkkeeeeffffiiiilllleeee....hhhhpppp are used to
+       build and run the WML facility.  The RRRREEEEAAAADDDDMMMMEEEE file contains
+       this technical bulletin.  The files UUUUiiiillll....yyyy and mmmmoooottttiiiiffff....wwwwmmmmllll are   |
+       the data files for the static syntax, dynamic syntax and
+       data type elements of UIL.  The files with the wwwwmmmmllll prefix
+       are the source files for the WML facility.
+
+       To build WML, change to the directory ttttoooooooollllssss////wwwwmmmmllll, build the
+       make file for your machine, and build WML using the follow-
+       ing commands:
+
+
+       cd tools/wml
+       make Makefile
+       make depend
+       make wmltools
+
+
+       The make file is built from the Imake facility using the
+       mmmmaaaakkkkeeee MMMMaaaakkkkeeeeffffiiiilllleeee and mmmmaaaakkkkeeee ddddeeeeppppeeeennnndddd commands.  The mmmmaaaakkkkeeee MMMMaaaakkkkeeeeffffiiiilllleeee
+       command produces a machine dependent MMMMaaaakkkkeeeeffffiiiilllleeee for your
+       machine.  The mmmmaaaakkkkeeee ddddeeeeppppeeeennnndddd command adds include file depen-
+       dencies to the new make file.
+
+       After you have built the WML facility the ttttoooooooollllssss////wwwwmmmmllll direc-
+       tory should contain the following additional files:
+
+                  lex.yy.c    wmloutkey.o   wmlresolve.o             |
+                  libwml.a    wmloutmm.o    wmlsynbld.o              |
+                  wml         wmloutp1.o    wmluiltok                |
+                  wml.o       wmlparse.c    wmlutils.o               |
+                  wmllex.c    wmlparse.h                             |
+                  wmlouth.o   wmlparse.o                             |
+
+       23.1.2  RRRRuuuunnnnnnnniiiinnnngggg WWWWMMMMLLLL                                           |
+
+       You need to run WML separately only if you do not want to     |
+       install and build the new version of UIL.  Running WML
+       automatically builds the WML source files if necessary.
+
+       The mmmmaaaakkkkeeee rrrruuuunnnnwwwwmmmmllll command from the ttttoooooooollllssss////wwwwmmmmllll directory runs
+       the WML facility.  You can specify the WML file to use with
+       the make variable TTTTAAAABBBBLLLLEEEE.
+
+
+                                                               23-3
+
+
+
+
+
+
+
+
+
+
+
+
+
+       make runwml TABLE=_a_n_y_f_i_l_e._w_m_l
+
+
+       Where _a_n_y_f_i_l_e._w_m_l is a WML file in the ttttoooooooollllssss////wwwwmmmmllll directory.
+       If you do not set the TTTTAAAABBBBLLLLEEEE make variable, the mmmmoooottttiiiiffff....wwwwmmmmllll
+       file is used by default.
+
+       Running WML produces the following files:
+
+       UIL source files mmmmaaaakkkkeeee ccccooooppppyyyy copies these files to the
+                      cccclllliiiieeeennnnttttssss////uuuuiiiillll directory to be used in building
+                      UIL.  The UIL source files are UUUUiiiillllCCCCoooonnnnsssstttt....hhhh,     |
+                      UUUUiiiillllDDDDBBBBDDDDeeeeffff....hhhh, UUUUiiiillllKKKKeeeeyyyyTTTTaaaabbbb....hhhh, UUUUiiiillllLLLLeeeexxxxPPPPaaaarrrrssss....cccc,         |
+                      UUUUiiiillllLLLLeeeexxxxPPPPaaaarrrrssss....hhhh, UUUUiiiillllSSSSyyyymmmmAAAArrrrTTTTaaaa....hhhh, UUUUiiiillllSSSSyyyymmmmAAAArrrrTTTTyyyy....hhhh,      |
+                      UUUUiiiillllSSSSyyyymmmmCCCCSSSSeeeetttt....hhhh, UUUUiiiillllSSSSyyyymmmmCCCCttttllll....hhhh, UUUUiiiillllSSSSyyyymmmmEEEEnnnnuuuummmm....hhhh,       |
+                      UUUUiiiillllSSSSyyyymmmmGGGGeeeennnn....hhhh, UUUUiiiillllSSSSyyyymmmmNNNNaaaammmm....hhhh, UUUUiiiillllSSSSyyyymmmmRRRRAAAArrrrgggg....hhhh,
+                      UUUUiiiillllSSSSyyyymmmmRRRReeeeaaaassss....hhhh, UUUUiiiillllTTTTooookkkkNNNNaaaammmmeeee....hhhh, and UUUUiiiillllUUUUrrrrmmmmCCCCllllaaaassss....hhhh.
+
+       wml.report     This report describes the widget set sup-
+                      ported by the newly created UIL sources.  You
+                      can use it to help validate your WML source
+                      file.  It is organized so you can easily com-
+                      pare it to reference documentation as fol-
+                      lows:
+
+                         +o Class names are ordered alphabetically
+                           by name.
+
+                         +o Resources are ordered by ancestor(top
+                           down).
+
+                         +o Resources are listed alphabetically,
+                           with datatype and default.
+
+                         +o Reasons are ordered by ancestor then
+                           alphabetically.
+
+                         +o Controls are ordered alphabetically.
+
+       wml-uil.mm     This file contains the AAAAppppppppeeeennnnddddiiiixxxx BBBB of this      |
+                      manual.  You can process this file using tbl,
+                      troff and the mm macro package to produce two
+                      tables for each supported widget class.  The
+                      first table lists the controls and reasons
+                      supported by the class.  The second table
+                      lists the resources for the class, their
+                      types and default values.
+
+       These files overwrite any existing WML output files in the
+       ttttoooooooollllssss////wwwwmmmmllll directory.  If you do not want to lose the
+
+
+       23-4
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+       existing files, save them somewhere else.
+
+       23.1.3  IIIInnnnssssttttaaaalllllllliiiinnnngggg UUUUIIIILLLL                                        |
+
+       You need to install the UIL source files separately only if   |
+       you do not want to build the new version of UIL.  Installing
+       the UIL source files automatically builds the WML source
+       files and runs WML if necessary.
+
+       The mmmmaaaakkkkeeee command from the ttttoooooooollllssss////wwwwmmmmllll directory installs the
+       UIL source files in the cccclllliiiieeeennnnttttssss////uuuuiiiillll directory.  The mmmmaaaakkkkeeee aaaallllllll
+       and mmmmaaaakkkkeeee ccccooooppppyyyy commands are synonyms for the mmmmaaaakkkkeeee command.
+       This overwrites the existing source files in the cccclllliiiieeeennnnttttssss////uuuuiiiillll
+       directory.  If you do not want to lose your existing source
+       files, save them somewhere else.
+
+       You can specify the WML file on the mmmmaaaakkkkeeee command line using
+       the make variable TTTTAAAABBBBLLLLEEEE....
+
+
+       make TABLE=_a_n_y_f_i_l_e._w_m_l
+
+
+       Where _a_n_y_f_i_l_e._w_m_l is the name of a WML file.  If you do not
+       specify TTTTAAAABBBBLLLLEEEE, mmmmoooottttiiiiffff....wwwwmmmmllll is used by default.                  |
+
+       23.1.4  BBBBuuuuiiiillllddddiiiinnnngggg UUUUIIIILLLL                                          |
+
+       You only need to build UIL separately if you do not want the
+       new UIL to reflect the current WML tables.  To build UIL
+       separately, move to the cccclllliiiieeeennnnttttssss////uuuuiiiillll directory and enter
+       mmmmaaaakkkkeeee.
+
+
+       cd clients/uil
+       make
+
+
+       You should refer to the _O_S_F/_M_o_t_i_f _R_e_l_e_a_s_e _N_o_t_e_s for more
+       information about building UIL.                               |
+
+       23.2  MMMMooooddddiiiiffffyyyyiiiinnnngggg WWWWMMMMLLLL ffffiiiilllleeeessss                                     |
+
+       WML files are ASCII files that you can modify with any stan-
+       dard text editor.  They are accessed in the ttttoooooooollllssss////wwwwmmmmllll direc-
+       tory by WML.  By convention WML files have the suffix ....wwwwmmmmllll.
+       The Motif widget set is described in the mmmmoooottttiiiiffff....wwwwmmmmllll file.
+       This is also the default WML file when using the WML facil-
+       ity.
+
+
+
+
+                                                               23-5
+
+
+
+
+
+
+
+
+
+
+
+
+       When adding new widgets or changing widget characteristics,
+       you should start with a copy of the mmmmoooottttiiiiffff....wwwwmmmmllll file.  If you
+       are creating a new widget set for use with UIL, you should
+       start from scratch.  In either case the mmmmoooottttiiiiffff....wwwwmmmmllll file is a
+       good example of WML syntax, and you should familiarize your-
+       self with it before writing your own WML file.                |
+
+       23.2.1  WWWWMMMMLLLL SSSSyyyynnnnttttaaaaxxxx                                            |
+
+       WML files have a simple syntax, similar in structure to UIL.  |
+       It is made up of seven elements:
+
+          +o Comments
+
+          +o Data Type Definitions
+
+          +o Character Set Definitions                                |
+
+          +o Enumeration Set Definitions                              |
+
+          +o Control List Definitions
+
+          +o Class Definitions
+
+          +o Resource Definitions
+
+       You can use space, tabs, or newlines anywhere in the syntax,
+       as long as you do not split up keywords or strings, except
+       that comments end at a newline.  The order of elements is
+       not important to the syntax.
+
+       This section uses the following additional conventions to
+       describe the syntax of the widget meta-language:
+
+       [  ]   Indicates optional elements.
+
+       ...    Indicates where an element of syntax can be repeated.
+
+       |      Indicates a choice among multiple items.
+
+       For example:
+
+       EEEExxxxaaaaccccttttllllyyyyTTTTyyyyppppeeeedddd [{{{{OOOONNNNEEEE | TTTTWWWWOOOO | _a_n_y_t_h_i_n_g._e_l_s_e [...]}}}}];
+
+       indicates that EEEExxxxaaaaccccttttllllyyyyTTTTyyyyppppeeeedddd must be typed exactly as shown,
+       and that any number of optional arguments of OOOONNNNEEEE, TTTTWWWWOOOO, or
+       _a_n_y_t_h_i_n_g._e_l_s_e must be inclosed in braces if used.  Any of
+       the following lines would fit this sample syntax:
+
+
+
+
+
+       23-6
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+
+       ExactlyTyped;
+       ExactlyTyped {ONE};
+       ExactlyTyped {  variable } ;
+       ExactlyTyped {ONE TWO variable};
+
+
+       23.2.1.1  CCCCoooommmmmmmmeeeennnnttttssss                                            |
+
+       You can include comments in the WML file.  Comments have the
+       following syntax:
+
+       [_a_n_y._e_l_e_m_e_n_t]!_a_n_y._c_o_m_m_e_n_t
+
+       Comments begin with an exclamation point and extend to the
+       end of the line.  A comment can begin on a line by itself or
+       follow any part of another element.  A comment does not
+       change the meaning of any other element.  For example:
+
+
+       !This is a comment.
+
+       !This is a comment
+       !  that spans two lines.
+
+       DataType    !This is a comment following code.
+
+
+       23.2.1.2  DDDDaaaattttaaaa TTTTyyyyppppeeee DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                               |
+
+       Data type definitions register all the resource data types
+       used in the file.  You must register all the data types used
+       in your WML file.  Data type definitions have the following
+       syntax:
+
+       DDDDaaaattttaaaaTTTTyyyyppppeeee
+         _a_n_y._d_a_t_a_t_y_p_e [{{{{ IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll ==== _i_n_t_e_r_n_a_l._n_a_m_e |||| DDDDooooccccNNNNaaaammmmeeee ==== """"_s_t_r_i_n_g"""";;;; [[[[............]]]]}}}}]]]];;;;
+         [[[[............]]]]
+
+       A data type definition begins with the keyword DDDDaaaattttaaaaTTTTyyyyppppeeee.
+       Following the DDDDaaaattttaaaaTTTTyyyyppppeeee keyword is a list of data types that
+       can be further modified with:
+
+       IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll which forces the value of the internal sym-
+                 bol table literal definition of the data type
+                 name.  This modifier is only used to get around
+                 symbol table definitions hard coded into the UIL
+                 compiler.  It should rarely be used.
+
+       DDDDooooccccNNNNaaaammmmeeee   which gives an arbitrary string for use in the
+                 documentation.  This string is meant to supply a
+
+
+                                                               23-7
+
+
+
+
+
+
+
+
+
+
+
+
+                 different name for the data type for use in the
+                 documentation, or a single name for the data type
+                 if the data type has aliases.
+
+       For example:
+
+
+       DDDDaaaattttaaaaTTTTyyyyppppeeee OOOOddddddddNNNNuuuummmmbbbbeeeerrrr {{{{DDDDooooccccNNNNaaaammmmeeee====""""OOOOddddddddNNNNuuuummmmbbbbeeeerrrr"""";;;;}}}};;;;
+                NNNNeeeewwwwSSSSttttrrrriiiinnnngggg;;;;
+
+
+       23.2.1.3  CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                           |
+
+       Character set definitions register the Motif Toolkit name     |
+       and other information for the character set names used in     |
+       UIL.  Character set definitions have the following syntax:    |
+
+       CCCChhhhaaaarrrraaaacccctttteeeerrrrSSSSeeeetttt                                                  |
+         _a_n_y._c_h_a_r_a_c_t_e_r._s_e_t                                           |
+            {{{{ XXXXmmmmSSSSttttrrrriiiinnnnggggCCCChhhhaaaarrrrsssseeeettttNNNNaaaammmmeeee ==== """"_s_t_r_i_n_g"""" ;;;;                       |
+             [AAAAlllliiiiaaaassss ==== """"_s_t_r_i_n_g"""" ... ;;;; |                               |
+              DDDDiiiirrrreeeeccccttttiiiioooonnnn ==== [ LLLLeeeeffffttttTTTTooooRRRRiiiigggghhhhtttt | RRRRiiiigggghhhhttttTTTTooooLLLLeeeefffftttt ] ;;;; |          |
+              PPPPaaaarrrrsssseeeeDDDDiiiirrrreeeeccccttttiiiioooonnnn ==== [ LLLLeeeeffffttttTTTTooooRRRRiiiigggghhhhtttt | RRRRiiiigggghhhhttttTTTTooooLLLLeeeefffftttt ] ;;;; |     |
+              CCCChhhhaaaarrrraaaacccctttteeeerrrrSSSSiiiizzzzeeee ==== [ OOOOnnnneeeeBBBByyyytttteeee | TTTTwwwwooooBBBByyyytttteeee ] ;;;; ]              |
+             [ ... ] }}}} ;;;;                                             |
+         [ ... ]                                                     |
+
+       A character set definition begins with the keyword CCCChhhhaaaarrrraaaacccc----    |
+       tttteeeerrrrSSSSeeeetttt.  Following the CCCChhhhaaaarrrraaaacccctttteeeerrrrSSSSeeeetttt keyword is a list of      |
+       character sets that can be further modified with:             |
+
+       XXXXmmmmSSSSttttrrrriiiinnnnggggCCCChhhhaaaarrrrsssseeeettttNNNNaaaammmmeeee Specifies the name of the character set,  |
+                      which will become the character set component  |
+                      of a compound string segment created using     |
+                      this character set.  This modifier is          |
+                      required.                                      |
+
+       AAAAlllliiiiaaaassss          Specifies one or more aliases for the charac-  |
+                      ter set name.  Each alias can be used within   |
+                      UIL to refer to the same character set.        |
+
+       DDDDiiiirrrreeeeccccttttiiiioooonnnn      Specifies the direction of a compound string   |
+                      segment created using this character set.      |
+                      The default is LLLLeeeeffffttttTTTTooooRRRRiiiigggghhhhtttt.                    |
+
+       PPPPaaaarrrrsssseeeeDDDDiiiirrrreeeeccccttttiiiioooonnnn Specifies the direction in which an input      |
+                      string is parsed when a compound string seg-   |
+                      ment is created using this character set.      |
+                      The default is whatever DDDDiiiirrrreeeeccccttttiiiioooonnnn is speci-    |
+                      fied.                                          |
+
+
+
+       23-8
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+       CCCChhhhaaaarrrraaaacccctttteeeerrrrSSSSiiiizzzzeeee  Specifies the number of bytes in each charac-  |
+                      ter of a compound string segment created       |
+                      using this character set.  The default is      |
+                      OOOOnnnneeeeBBBByyyytttteeee.                                       |
+
+       For example:                                                  |
+
+       CharacterSet                                                  |
+         iso_latin1                                                  |
+           { XmStringCharsetName = "ISO8859-1";                      |
+             Alias = "ISOLatin1"; };                                 |
+         iso_hebrew_lr                                               |
+           { XmStringCharsetName = "ISO8859-8";                      |
+             Alias = "iso_latin8_lr";                                |
+             Direction = RightToLeft;                                |
+             ParseDirection = LeftToRight; };                        |
+         ksc_korean                                                  |
+           { XmStringCharsetName = "KSC5601.1987-0";                 |
+             CharacterSize = TwoByte; };                             |
+
+       23.2.1.4  EEEEnnnnuuuummmmeeeerrrraaaattttiiiioooonnnn SSSSeeeetttt DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                         |
+
+       Enumeration set definitions register the named constants      |
+       used in the Motif Toolkit to specify some resource values.    |
+       Enumeration set definitions have the following syntax:        |
+
+       EEEEnnnnuuuummmmeeeerrrraaaattttiiiioooonnnnSSSSeeeetttt                                                |
+         _r_e_s_o_u_r_c_e._n_a_m_e :::: _r_e_s_o_u_r_c_e._t_y_p_e                               |
+            {{{{ _e_n_u_m._v_a_l_u_e._n_a_m_e ;;;; [ ... ] }}}} ;;;;                          |
+
+       An enumeration set definition begins with the keyword         |
+       EEEEnnnnuuuummmmeeeerrrraaaattttiiiioooonnnnSSSSeeeetttt.  For each enumeration set defined, the name   |
+       and type of the resource are listed.  The resource name is    |
+       the Motif Toolkit resource name, with the beginning XXXXmmmmNNNN       |
+       removed and with the initial letter capitalized.  For exam-   |
+       ple, the name of the Motif Toolkit resource XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee  |
+       is RRRRoooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee.  The resource type is the data type for     |
+       the resource; for most resources, this is iiiinnnntttteeeeggggeeeerrrr.  Follow-   |
+       ing the resource name and type is a list of names of          |
+       enumeration values that can be used as settings for the       |
+       resource.  These names are the same as those in the Motif     |
+       Toolkit.                                                      |
+
+       For example:                                                  |
+
+       EnumerationSet                                                |
+         RowColumnType: integer                                      |
+           { XmWORK_AREA; XmMENU_BAR; XmMENU_POPUP;                  |
+             XmMENU_PULLDOWN; XmMENU_OPTION; };                      |
+
+
+
+
+                                                               23-9
+
+
+
+
+
+
+
+
+
+
+
+
+       23.2.1.5  CCCCoooonnnnttttrrrroooollll LLLLiiiisssstttt DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                            |
+
+       Control list definitions assign a name to groups of con-
+       trols.  You can use these control lists later in class
+       definitions to simplify the structure of your WML file.
+       Control list definitions have the following syntax:
+
+       CCCCoooonnnnttttrrrroooollllLLLLiiiisssstttt
+         _a_n_y._c_o_n_t_r_o_l._l_i_s_t [{{{{ _a_n_y._c_o_n_t_r_o_l;;;; [...]}}}}];;;;
+
+       A control list definition starts with the CCCCoooonnnnttttrrrroooollllLLLLiiiisssstttt key-
+       word.  Following the CCCCoooonnnnttttrrrroooollllLLLLiiiisssstttt keyword are any number of
+       control list definitions.  Control list definitions are made
+       up of a control list name followed by the set of controls it
+       represents.  For example:
+
+
+       ControlList
+               Buttons {PushButton;
+                        RadioButton;
+                        CascadeButton;
+                        NewCascadebutton;};
+
+
+       Each control specified in the control list must be defined
+       as a class in the file.                                       |
+
+       23.2.1.6  CCCCllllaaaassssssss DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                                   |
+
+       Class definitions describe a particular widget class includ-
+       ing its position in the class hierarchy, toolkit convenience
+       function, resources, and controls.  There should be one
+       class definition for each widget or gadget in the widget set
+       you want to support in UIL.  Class definitions have the fol-
+       lowing syntax:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       23-10
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+       CCCCllllaaaassssssss _c_l_a_s_s._n_a_m_e :::: MMMMeeeettttaaaaCCCCllllaaaassssssss | WWWWiiiiddddggggeeeetttt | GGGGaaaaddddggggeeeetttt
+          [{{{{[ SSSSuuuuppppeeeerrrrCCCCllllaaaassssssss ==== _c_l_a_s_s._n_a_m_e;;;; |
+              IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll ==== _i_n_t_e_r_n_a_l._n_a_m_e;;;; |
+              AAAAlllliiiiaaaassss ==== _a_l_i_a_s;;;; |
+              CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeeeFFFFuuuunnnnccccttttiiiioooonnnn ==== _c_o_n_v_e_n_i_e_n_c_e._f_u_n_c_t_i_o_n;;;; |
+              WWWWiiiiddddggggeeeettttCCCCllllaaaassssssss ==== _w_i_d_g_e_t._c_l_a_s_s;;;; |
+              DDDDooooccccNNNNaaaammmmeeee ==== """"_s_t_r_i_n_g"""";;;; |
+              DDDDiiiiaaaallllooooggggCCCCllllaaaassssssss ==== TTTTrrrruuuueeee | FFFFaaaallllsssseeee;;;; |
+              RRRReeeessssoooouuuurrrrcccceeeessss {{{{ _a_n_y._r_e_s_o_u_r_c_e._n_a_m_e [{{{{DDDDeeeeffffaaaauuuulllltttt ==== _n_e_w._d_e_f_a_u_l_t._v_a_l_u_e;;;; |
+                                                   EEEExxxxcccclllluuuuddddeeee ==== TTTTrrrruuuueeee | FFFFaaaallllsssseeee;;;;
+                                                   [...]}}}}
+                                                ];;;;
+                           [...]}}}};;;; |
+              CCCCoooonnnnttttrrrroooollllssss {{{{ _a_n_y._c_o_n_t_r_o_l._n_a_m_e;;;; [...]};;;;
+              [...]
+          ]}}}}];;;;
+
+       Class definitions start with the CCCCllllaaaassssssss keyword. For each
+       class defined, the name of the class and whether the class
+       is a metaclass, widget, or gadget is listed.  Each class
+       definition can be further modified with the following key-
+       words:
+
+       SSSSuuuuppppeeeerrrrCCCCllllaaaassssssss            This indicates the name of the parent
+                             class.  Only the root of the hierarchy
+                             does not specify a SuperClass.
+
+       IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll       which forces the value of the internal
+                             symbol table literal definition of the
+                             class name.  This modifier is only
+                             used to get around symbol table defin-
+                             itions hard coded into the UIL com-
+                             piler.  It should rarely be used.
+
+       AAAAlllliiiiaaaassss                 This indicates alternate names for the
+                             class for use in a UIL specification.   *
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeeeFFFFuuuunnnnccccttttiiiioooonnnn   This indicates the name of the crea-
+                             tion convenience function for this
+                             class.  All widget and gadget classes
+                             must have a CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeeeFFFFuuuunnnnccccttttiiiioooonnnn.
+
+       WWWWiiiiddddggggeeeettttCCCCllllaaaassssssss           This indicates the associated widget
+                             class of gadget type classes.
+                             Presently, nothing is done with this
+                             value.
+
+       DDDDooooccccNNNNaaaammmmeeee               This defines an arbitrary string for
+                             use in the documentation.  Presently,
+                             nothing is done with this value.
+
+
+
+                                                              23-11
+
+
+
+
+
+
+
+
+
+
+
+
+       DDDDiiiiaaaallllooooggggCCCCllllaaaassssssss           This indicates whether the class is a
+                             dialog class.  Presently, nothing is
+                             done with this value.
+
+       RRRReeeessssoooouuuurrrrcccceeeessss             This lists the resources of the widget
+                             class.  This keyword can be further
+                             modified with:
+
+                             DDDDeeeeffffaaaauuuulllltttt   This specifies a new default
+                                       value for this resource.
+                                       Resource default values are
+                                       usually set in the resource
+                                       definition.  If an inherited
+                                       resource's default value is
+                                       changed by the class, the
+                                       new default value should be
+                                       noted here.
+
+                             EEEExxxxcccclllluuuuddddeeee   This specifies whether an
+                                       inherited resource should be
+                                       excluded from the resource
+                                       list of the class.  Exclude
+                                       is FFFFaaaallllsssseeee by default.
+
+       CCCCoooonnnnttttrrrroooollllssss              This lists the controls that the
+                             widget class allows.  The controls can
+                             be other classes or a control list
+                             from the control list definition.
+
+       The example below uses the examples from the data type
+       definitions and control list definitions above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       23-12
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+
+       Class
+            TopLevelWidget : MetaClass
+                 {
+                 Resources
+                      {
+                      XtbNfirstResource;
+                      XtbNsecondResource;
+                      };
+                 };
+            NewWidget : Widget
+                 {
+                 SuperClass = TopLevelWidget;
+                 ConvenienceFunction = XtbCreateNewWidget;
+                 Resources
+                      {
+                      XtbNnewResource;
+                      XtbNfirstResource {Default="XtbNEW_VALUE";};
+                      XtbNsecondResource {Exclude=True;};
+                      };
+                 Controls
+                      {
+                      NewWidget;
+                      Buttons;
+                      };
+                 };
+
+
+       23.2.1.7  RRRReeeessssoooouuuurrrrcccceeee DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss                                |
+
+       Resource definitions describe a particular resource includ-
+       ing its type, and default value.  There should be a resource
+       definition for each new resource referenced in the class      |
+       definitions.  Resource definitions have the following syn-
+       tax:
+
+       RRRReeeessssoooouuuurrrrcccceeee
+             _r_e_s_o_u_r_c_e._n_a_m_e :::: AAAArrrrgggguuuummmmeeeennnntttt | RRRReeeeaaaassssoooonnnn | CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt | SSSSuuuubbbbRRRReeeessssoooouuuurrrrcccceeee
+                   [{{{{[ TTTTyyyyppppeeee ==== _t_y_p_e ;;;; |
+                        RRRReeeessssoooouuuurrrrcccceeeeLLLLiiiitttteeeerrrraaaallll ==== _r_e_s_o_u_r_c_e._l_i_t_e_r_a_l ;;;; |
+                        IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll ==== _i_n_t_e_r_n_a_l._n_a_m_e;;;; |
+                        AAAAlllliiiiaaaassss ==== _a_l_i_a_s ;;;; |
+                        RRRReeeellllaaaatttteeeedddd ==== _r_e_l_a_t_e_d ;;;; |
+                        DDDDeeeeffffaaaauuuulllltttt ==== _d_e_f_a_u_l_t ;;;; |
+                        DDDDooooccccNNNNaaaammmmeeee ==== _d_o_c._n_a_m_e ;;;; ]
+                      [...]}}}}]
+             [...]
+
+       Resource definitions start with the RRRReeeessssoooouuuurrrrcccceeee keyword. For
+       each resource definition, the name of the resource and
+       whether the resource is an argument, reason, constraint or
+
+
+                                                              23-13
+
+
+
+
+
+
+
+
+
+
+
+
+       subresource is listed.
+
+       AAAArrrrgggguuuummmmeeeennnntttt       Indicates a standard resource.
+
+       RRRReeeeaaaassssoooonnnn         Indicates a callback resource.
+
+       CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt     Indicates a constraint resource.
+
+       SSSSuuuubbbbRRRReeeessssoooouuuurrrrcccceeee    Presently, nothing is done with this value.
+
+       The resource definition can be further modified with the
+       following keywords:
+
+       TTTTyyyyppppeeee           This indicates the data type of the resource.
+                      It must be listed in the data type defini-
+                      tion.
+
+       RRRReeeessssoooouuuurrrrcccceeeeLLLLiiiitttteeeerrrraaaallll This indicates the keyword used in the UIL
+                      file to reference the resource.  In Motif,
+                      the resource name is the same as the RRRReeeessssoooouuuurrrr----
+                      cccceeeeLLLLiiiitttteeeerrrraaaallll.
+
+       IIIInnnntttteeeerrrrnnnnaaaallllLLLLiiiitttteeeerrrraaaallll which forces the value of the internal sym-
+                      bol table literal definition of the resource
+                      name.  This modifier is only used to get
+                      around symbol table definitions hard coded
+                      into the UIL compiler.  It should rarely be
+                      used.
+
+       AAAAlllliiiiaaaassss          This indicates alternate names for the
+                      resource for use in a UIL specification.       *
+
+       RRRReeeellllaaaatttteeeedddd        This lists other related resources.  It is
+                      for documentation purposes only.  Presently,
+                      nothing is done with this value.
+
+       DDDDeeeeffffaaaauuuulllltttt        This indicates the default value of the
+                      resource.
+
+       DDDDooooccccNNNNaaaammmmeeee        This defines an arbitrary string for use in
+                      the documentation.  Presently, nothing is
+                      done with this value.
+
+
+
+
+
+
+
+
+
+
+
+       23-14
+
+
+
+
+
+
+
+
+
+                                  The Widget Meta-Language Facility
+
+
+       The example below uses the examples from the data type
+       definitions, control list definitions and class definitions
+       above.
+
+
+       Resource
+            XtbNfirstResource : Argument
+                 { Type = OddNumber;
+                   Default = "XtbOLD_VALUE";};
+            XtbNsecondResource : Argument
+                 { Type = NewString;
+                   Default = "XtbNEW_STRING"; };
+            XtbNnewResource : Argument
+                 { Type = OddNumber;
+                   Default = "XtbODD_NUMBER"; };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              23-15
+
+
+
+
+

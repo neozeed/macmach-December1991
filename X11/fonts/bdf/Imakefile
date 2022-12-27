@@ -1,0 +1,10 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = misc 75dpi
+    ALLFONTDIRS = $(FONTDIR)/misc $(FONTDIR)/75dpi
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+MakeDirectories(install,$(ALLFONTDIRS))

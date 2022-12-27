@@ -1,0 +1,52 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextShowPosition 3X "" "" "" ""
+.SH NAME
+\fBXmTextShowPosition \(em a Text function that forces text at a given
+position to be displayed\fP
+.iX "XmTextShowPosition"
+.iX "Text functions" "XmTextShowPosition"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextShowPosition (\fIwidget, position\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextShowPosition\fP forces text at the specified position to be
+displayed.  If the \fBXmNautoShowCursorPosition\fP resource is True, the
+application should also set the insert cursor to this position.
+.sp 1
+.ne 2i
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIposition\fP" .75i
+Specifies the character position to be displayed.  This is an integer
+number of characters from the beginning of the text buffer.  The first
+character position is 0.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

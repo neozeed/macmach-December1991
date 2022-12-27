@@ -1,0 +1,60 @@
+*** CutPaste.c.orig	Thu Aug 16 17:44:42 1990
+--- CutPaste.c	Thu Aug 16 08:56:01 1990
+***************
+*** 678,681 ****
+--- 678,684 ----
+      {
+          case SelectionClear:
++ 	    if (event->xselectionclear.selection != XmInternAtom(
++ 		event->xselectionclear.display, "CLIPBOARD", False))
++ 		    	return;
+              break;
+  
+***************
+*** 688,691 ****
+--- 691,699 ----
+              Boolean notify_sent = FALSE;
+  	    Boolean abort = FALSE;
++ 
++ 	    if (event->xselectionrequest.selection != XmInternAtom(        
++ 	    	event->xselectionrequest.display, "CLIPBOARD", False))
++ 			return;
++ 
+  
+  	    writeback = FALSE;
+*** TextIn.c.orig	Thu Aug 16 17:49:17 1990
+--- TextIn.c	Thu Aug 16 08:56:29 1990
+***************
+*** 343,346 ****
+--- 343,349 ----
+                        &nitems, &bytes, &prop);
+  
++    if (prop == NULL)
++ 	return FALSE;
++ 
+     pair = (TextInsertPair *)prop;
+  
+*** Text.c.orig	Thu Aug 16 17:44:51 1990
+--- Text.c	Thu Aug 16 17:43:19 1990
+***************
+*** 595,599 ****
+      if (updateTo > widget->text.bottom_position)
+  	updateTo = widget->text.bottom_position;
+!     if (updateFrom > updateTo) return;
+  
+      l1 = FindHighlight(widget, updateFrom, XmsdLeft);
+--- 595,599 ----
+      if (updateTo > widget->text.bottom_position)
+  	updateTo = widget->text.bottom_position;
+!     if (updateFrom >= updateTo) return;
+  
+      l1 = FindHighlight(widget, updateFrom, XmsdLeft);
+***************
+*** 2137,2140 ****
+--- 2137,2142 ----
+             else
+                XmTextSetAddMode(widget, False);
++            _XmTextDestinationVisible(widget, True);
++            changed_dest_visible = True;
+             return True;
+          }

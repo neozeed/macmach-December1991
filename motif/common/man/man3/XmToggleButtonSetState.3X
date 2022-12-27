@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmToggleButtonSetState 3X "" "" "" ""
+.SH NAME
+\fBXmToggleButtonSetState \(em a ToggleButton function that sets or changes
+the current state.\fP
+.iX "XmToggleButtonSetState"
+.iX "ToggleButton functions" "XmToggleButtonSetState"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/ToggleB.h>
+.sp 1
+void XmToggleButtonSetState (\fIwidget, state, notify\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	Boolean	\fIstate\fP;
+.br
+	Boolean	\fInotify\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmToggleButtonSetState\fP sets or changes the ToggleButton's current state.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the ToggleButton widget ID.
+.IP "\fIstate\fP" .75i
+Specifies a Boolean value that indicates whether the ToggleButton state is
+selected or unselected.  If True, the button state is selected; 
+if False, the button state is unselected.
+.br
+.ne 20
+.IP "\fInotify\fP" .75i
+Indicates whether \fBXmNvalueChangedCallback\fP is called; 
+it can be either True or False.
+When this argument is True and the ToggleButton is a child of a
+RowColumn widget whose \fBXmNradioBehavior\fP is True, selecting the
+ToggleButton causes other ToggleButton and ToggleButtonGadget
+children of the RowColumn to be unselected.
+.sp 1
+.PP
+For a complete definition of ToggleButton and 
+its associated resources, see \fBXmToggleButton(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmToggleButton(3X)\fP.
+.sp 1

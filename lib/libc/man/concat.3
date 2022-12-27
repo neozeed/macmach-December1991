@@ -1,0 +1,101 @@
+.\"
+.\" $Id: concat.3,v 1.4 89/12/26 20:12:51 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	concat.3,v $
+.\" Revision 1.4  89/12/26  20:12:51  bww
+.\" 	Updated version macro.
+.\" 	[89/12/26  20:11:26  bww]
+.\" 
+.\" Revision 1.3  89/12/26  11:15:50  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" Revision 1.2  89/05/26  12:15:30  bww
+.\" 	CMU CS as of 89/05/15
+.\" 	[89/05/26  09:46:50  bww]
+.\" 
+.\" Revision 2.2  89/02/22  17:58:48  gm0w
+.\" 	Created.
+.\" 	[89/02/22            gm0w]
+.\" 
+.TH CONCAT 3 2/22/89
+.CM 4
+.SH NAME
+concat, vconcat \- concatenate strings into a buffer
+.SH SYNOPSIS
+.nf
+.B
+char *concat(buf, buflen, str1, str2, ..., NULL);
+.br
+.B
+char *buf;
+.br
+.B
+int buflen;
+.br
+.B
+char *str1, *str2, ...;
+.PP
+.B
+#include <varargs.h>
+.PP
+.B
+char *vconcat(buf, buflen, ap)
+.br
+.B
+char *buf;
+.br
+.B
+int buflen;
+.br
+.B
+va_list ap;
+.SH DESCRIPTION
+.I Concat
+takes a list of string pointers and concatenates them into a buffer.
+The string pointers are terminated by a NULL (0) string pointer.
+.I Buf
+should be a buffer of length
+.IR buflen
+that will contain the concatenation of the string pointers.
+.PP
+.I Concat
+will return NULL if
+.I buf
+is NULL, if
+.I buflen
+is <= 0, or if the concatenation of the string pointers did not
+fit into
+.IR buf .
+In all other cases,
+.I concat
+will terminate the concatenation with a null (0) byte and return a
+pointer to the null byte.
+.PP
+.I Vconcat
+is a varargs version of concat which may be used by routines to
+concatenate their string pointer argument list into a buffer.
+.SH EXAMPLES
+.PP
+.I end
+=
+.IR concat ( buf ,
+.IR buflen ,
+.IR dir ,
+\fI"/"\fR,
+.IR file ,
+.IR NULL );
+.PP
+could be used to generate a file path from a directory name and a
+file name, returning a pointer to the end of the path.
+.PP
+.IR concat ( end ,
+.IR buf + buflen - end ,
+\fI"."\fR,
+.IR ext ,
+.IR NULL );
+.PP
+could then be used to add an extension to the file path.
+.SH "SEE ALSO"
+strcat(3), strcpy(3), sprintf(3)

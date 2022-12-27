@@ -1,0 +1,138 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmResolvePartOffsets 3X "" "" "" ""
+.SH NAME
+\fBXmResolvePartOffsets \(em a function that allows writing of 
+upward-compatible applications and widgets.\fP
+.iX "XmResolvePartOffsets"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/XmP.h>
+.sp 1
+void XmResolvePartOffsets (\fIwidget_class, offset\fP)
+.br
+.ta .5i 1.5i
+	WidgetClass	\fIwidget_class\fP;
+.br
+	XmOffsetPtr	\fI* offset\fP;
+.fi
+\fP
+.sp 1
+.SH DESCRIPTION
+The use of offset records requires one extra global variable per widget
+class.
+The variable consists of a pointer to an array of offsets into the
+widget record for each part of the widget structure.
+The \fBXmResolvePartOffsets\fP function 
+allocates the offset records needed by an application to guarantee
+upward-compatible access to widget instance records by 
+.ne 4
+applications and widgets.
+These offset records are used by the widget to access all of the
+widget's variables.
+A widget needs to take the following steps:
+.IP \(bu 3
+Instead of creating a resource list, the widget creates an offset
+resource list.
+To help you accomplish this, use the \fBXmPartResource\fP
+structure and the \fBXmPartOffset\fP macro.
+The \fBXmPartResource\fP data structure looks just like a 
+resource list, but instead of having
+one integer for its offset, it has two shorts.
+This is put into the class record as if it were a normal resource
+list.  Instead of using \fBXtOffset\fP for the offset, the widget uses
+\fBXmPartOffset\fP.
+.sp 0.5
+.nf
+\f(CWXmPartResource resources[] = {
+  { BarNxyz, BarCXyz, XmRBoolean,
+    sizeof(Boolean), XmPartOffset(Bar,xyz),
+    XmRImmediate, (caddr_t)False }\fP
+};
+.fi
+.IP \(bu 3
+Instead of putting the widget size in the class record, the widget puts the
+widget part size in the same field.
+.IP \(bu 3
+Instead of putting \fBXtVersion\fP in the class record, the widget puts
+\fBXtVersionDontCheck\fP in the class record.
+.IP \(bu 3
+The widget defines a variable, of type \fBXmOffsetPtr\fP, to point to
+the offset record.
+This can be part of the widget's class record or a separate global
+variable.
+.IP \(bu 3
+In class initialization, the widget calls \fBXmResolvePartOffsets\fP,
+passing it a pointer to contain the address of the offset 
+record and the class record.
+This does several things:
+.IP
+Adds the superclass (which, by definition, has already been initialized)
+size field to the part size field
+.IP
+Allocates an array based upon the number of superclasses
+.IP
+Fills in the offsets of all the widget parts with the appropriate
+values, determined by examining the size fields of all superclass
+records
+.IP
+Uses the part offset array to modify the offset entries in the resource
+list to be real offsets, in place
+.br
+.ne 6
+.IP \(bu 3
+The widget defines a constant which will be the index to its part
+structure in the offsets array.
+The value should be 1 greater than
+the index of the widget's superclass.
+Constants defined for all Xm
+widgets can be found in \fBXmP.h\fP.
+.IP
+\f(CW\&#define BarIndex (XmBulletinBIndex + 1)\fP
+.IP \(bu 3
+Instead of accessing fields directly, the widget must always go through
+the offset table.
+The \fBXmField\fP macro helps you access these fields.
+Because the \fBXmPartOffset\fP and \fBXmField\fP
+macros concatenate things together, you must 
+ensure that there is no space
+after the part argument.
+For example, the following macros do not work because of the space
+after the part (Label) argument:
+.IP
+\f(CWXmField(w, offset, Label , text, char *)
+.br
+XmPartOffset(Label , text)\fP
+.IP
+Therefore, you must not have any spaces after the part (Label)
+argument, as illustrated here:
+.IP
+\f(CWXmField(w, offset, Label, text, char *)\fP
+.IP
+You can define macros for each field to make this easier.
+Assume an integer field \fIxyz\fP:
+.sp 0.5
+.nf
+.ta 0.25i
+\f(CW\&#define BarXyz(w) (*(int *)(((char *) w) + \e
+	offset[BarIndex] + XtOffset(BarPart,xyz)))\fP
+.fi
+.sp 1
+.PP
+The parameters for \fBXmResolvePartOffsets\fP are defined below:
+.IP \fIwidget_class\fP 1.0i
+Specifies the widget class pointer for the created widget.
+.IP \fIoffset\fP 1.0i
+Returns the offset record.

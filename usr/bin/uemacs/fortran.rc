@@ -1,0 +1,78 @@
+add-global-mode "wrap"
+add-global-mode "magic"
+72 set-fill-column
+6 handle-tab
+bind-to-key execute-macro-30 M-S-FN4
+bind-to-key execute-macro-36 ^J
+bind-to-key execute-macro-35 ^M
+bind-to-key execute-macro-39 M-C
+;; insert comment
+39 store-macro
+       newline
+       insert-string "C     "
+	bind-to-key execute-macro-37 ^J
+	bind-to-key execute-macro-34 M-S-FN4
+	bind-to-key execute-macro-38 ^M
+!endm
+;; reset after comment macro
+38 store-macro
+	newline
+	insert-string "      "
+	set-mark
+	bind-to-key execute-macro-30 M-S-FN4
+	bind-to-key execute-macro-36 ^J
+	bind-to-key execute-macro-35 ^M
+	bind-to-key execute-macro-33 " "
+!endm
+;; macro for comments -- handles ^J
+37 store-macro
+	newline
+	insert-string "C     "
+!endm
+;; macro for regular fortran lines -- handles ^J
+36 store-macro
+	newline
+	insert-string "     + "
+!endm
+;;macro for regular lines -- handles ^M
+35 store-macro
+	newline
+	insert-string "      "
+	set-mark
+	bind-to-key execute-macro-33 " "
+!endm
+;; indent macro for comments only
+34 store-macro
+	wrap-word
+	set-mark
+	beginning-of-line
+	insert-string "C     "
+	handle-tab
+	exchange-point-and-mark
+!endm
+;; handle numbered lines
+33 store-macro
+	exchange-point-and-mark
+	set %firstid #$cbufname
+	backward-character
+	!if %firstid
+		beginning-of-line
+		kill-to-end-of-line
+		insert-string %firstid
+		handle-tab
+	!else
+		insert-string " "
+	!endif
+	unbind-key " "
+!endm
+;; indent macro for normal lines
+30 store-macro
+	wrap-word
+	set-mark
+	beginning-of-line
+	insert-string "     +  "
+	exchange-point-and-mark
+!endm
+
+
+

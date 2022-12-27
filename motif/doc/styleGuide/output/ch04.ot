@@ -1,0 +1,2904 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4.  AAAApppppppplllliiiiccccaaaattttiiiioooonnnn DDDDeeeessssiiiiggggnnnn PPPPrrrriiiinnnncccciiiipppplllleeeessss
+
+       This chapter is directed at application designers, rather
+       than the people who write the algorithms of an application,
+       although they are often one in the same.  Application
+       designers are the people who design the interface between
+       the application algorithms and the user.  In designing user
+       interfaces, an application designer chooses the proper con-
+       trols or groups of controls, or components, to pass data
+       between the base application and the user, lay out those
+       components naturally, and ensure that user interaction with
+       the components and layout is easy to use.
+
+       This chapter describes the three elements of application
+       user interface design, as well as the principles for design-
+       ing new user interface components.  The four major sections
+       of this chapter are as follows:
+
+          +o Choosing components
+
+          +o Layout
+
+          +o Interaction
+
+          +o Component design
+
+       4.1  CCCChhhhoooooooossssiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       The user interface of an application is made up of com-
+       ponents that perform two simple functions:  presenting the
+       application information to the user, and allowing the user
+       to enter data for the application.  Components can be
+       divided into six types:  basic controls, field controls,
+       basic groups, layout groups, framing groups, and DialogBox
+       groups.  The groups are containers for controls and groups
+       of controls.  Groups can be nested.
+
+       The component types that should be available in a user
+       interface toolkit are described in the following lists.  The
+       details of these component are described in the reference
+       section in Chapter 7 of this guide.  The correspondence of
+       the these components to widgets available in the OSF/Motif
+       toolkit is described in Appendix B.
+
+
+
+                                                                4-1
+
+
+
+
+
+
+
+
+
+
+
+
+          +o BBBBaaaassssiiiicccc CCCCoooonnnnttttrrrroooollllssss
+
+            Separator        Draws a separating line within windows
+                             and between Menu items.  A Separator
+                             does not allow application interac-
+                             tion.
+
+            Label            Displays static text and images.  A
+                             Label presents application information
+                             to the user.
+
+            PushButton       A button used to activate an opera-
+                             tion.  A PushButton contains a label
+                             that indicates the operation of the
+                             button.  The label can contain text or
+                             an image.
+
+            CascadeButton    A button used to display a PullDown
+                             Menu.  A CascadeButton contains a
+                             label that indicates the Menu to be
+                             displayed.  CascadeButtons can also
+                             contain an arrow graphic after the
+                             label to distinguish it from PushBut-
+                             tons and to indicate the direction of
+                             the cascading Menu.
+
+            OOOOppppttttiiiioooonnnnBBBBuuuuttttttttoooonnnn     A button used to display an Option
+                             Menu.  An Option Menu allows for a one
+                             of many selection.  An OptionButton
+                             contains a label that indicates the
+                             current state of the Option Menu, and
+                             a bar graphic to distinguish it from a
+                             PushButton.
+
+            ToggleButton     A button with two states: on and off.
+                             A ToggleButton contains a label that
+                             indicates the active state.  Normally,
+                             preceding the label is a graphic indi-
+                             cator of the state of the ToggleBut-
+                             ton.
+
+            CheckButton      A ToggleButton in a group of Tog-
+                             gleButtons where any number of the
+                             ToggleButtons can be on at a time.
+                             The graphic indicator for a CheckBut-
+                             ton is usually a filled square to
+                             indicate the on state or an empty
+                             square to indicate the off state.  On
+                             color systems, the filled color can be
+                             distinct from general application
+                             colors to visually distinguish the on
+
+
+       4-2
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+                             state.
+
+            RadioButton      A ToggleButton in a group of Tog-
+                             gleButtons where only one of the Tog-
+                             gleButtons can be on at a time.  The
+                             graphic indicator for a RadioButton is
+                             usually a filled diamond or circle to
+                             indicate the on state or an empty dia-
+                             mond or circle to indicate the off
+                             state.  On color systems, the filled
+                             color can be distinct from general
+                             application colors to visually distin-
+                             guish the on state.
+
+          +o FFFFiiiieeeelllldddd CCCCoooonnnnttttrrrroooollllssss
+
+            Sash             Used to set the boundary between two
+                             components.  A Sash is usually a small
+                             square on the boundary between two
+                             components.  The separated components
+                             are called Panes, and a group of
+                             Panes, Separators, and Sashes is
+                             called a PanedWindow.
+
+            Scale            Used to set or display a value in a
+                             range.  A Scale is usually composed of
+                             a slider, moving within an element
+                             that indicates the size of the range,
+                             and a label that indicates the current
+                             value.  The position of the slider
+                             indicates the value relative to the
+                             range.  The slider is moved directly
+                             by using the mouse pointer or by using
+                             the arrow keys.  A Scale can also have
+                             buttons with arrow graphics for moving
+                             the slider with the mouse.
+
+            ScrollBar        Used to scroll the visible area of a
+                             component.  A ScrollBar is usually
+                             composed of a slider, moving within an
+                             element that indicates the full size
+                             of the component, and buttons with
+                             arrow graphics for moving the slider
+                             with the mouse.  The slider indicates
+                             the relative position and size of the
+                             visible area of the component.  The
+                             slider is moved directly by using the
+                             mouse pointer or by using the arrow
+                             keys.
+
+
+
+
+                                                                4-3
+
+
+
+
+
+
+
+
+
+
+
+
+            List             Used for selecting elements from a
+                             list of elements.  A List can allow
+                             multiple items to be selected or can
+                             be constrained to only allow one item
+                             to be selected at a time.  A List is
+                             usually composed of a vertical list of
+                             items.  A List can also have both hor-
+                             izontal and vertical ScrollBars for
+                             scrolling the visible portion of the
+                             list of items.
+
+            Text             Used for displaying, entering, and
+                             modifying text.  There are single line
+                             and multiple line variants.  Multiline
+                             Text can have both horizontal and
+                             vertical ScrollBars for scrolling the
+                             visible portion of the text area.
+
+            Canvas           Used for displaying, entering, and
+                             modifying graphics.  A Canvas can have
+                             both horizontal and vertical
+                             ScrollBars for scrolling the visible
+                             portion of the drawing area.
+
+          +o BBBBaaaassssiiiicccc GGGGrrrroooouuuuppppssss
+
+            Panel            Organizes a collection of components
+                             in a horizontal, vertical, or 2-
+                             dimensional layout.  A Panel is usu-
+                             ally composed of just one type of but-
+                             ton.
+
+            Menu             Organizes a collection of buttons,
+                             Labels, and Separators in a horizon-
+                             tal, vertical, or 2-dimensional layout
+                             within a separate Menu window.  There
+                             are three types of Menus:  PullDown,
+                             Popup, and Option.  A Menu is only
+                             available while it is pulled down or
+                             popped up.
+
+            MenuBar          Organizes a collections of CascadeBut-
+                             tons in a horizontal layout at the top
+                             of a MainWindow.
+
+          +o LLLLaaaayyyyoooouuuutttt GGGGrrrroooouuuuppppssss
+
+            Composition      Organizes a collection of components
+                             in an arbitrary layout.
+
+
+
+
+       4-4
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+            PanedWindow      A linear grouping of components,
+                             Separators, and Sashes.  Sashes are
+                             used to set the boundary between two
+                             components.  The separated components
+                             are called Panes and can contain any
+                             components.
+
+          +o FFFFrrrraaaammmmiiiinnnngggg GGGGrrrroooouuuuppppssss
+
+            Frame            Draws framing decorations around a
+                             component.
+
+            ScrolledWindow   Frames a component and adds ScrollBars
+                             for scrolling the visible area of the
+                             component.
+
+            MainWindow       Organizes the contents of a primary
+                             window.  A MainWindow frames the
+                             client area and can optionally include
+                             ScrollBars, a MenuBar, a command area,
+                             and a message area.
+
+          +o DDDDiiiiaaaallllooooggggBBBBooooxxxx GGGGrrrroooouuuuppppssss DialogBox groups"
+
+            A DialogBox group can either be nested within another
+            group or organizes the contents of a secondary window.
+            Although a DialogBox may contain any component, a sim-
+            ple DialogBox is composed of a Label and a Panel of
+            PushButtons for supplying a response to the DialogBox.
+            The OSF/Motif toolkit provides a number of ready-
+            designed DialogBoxes for common uses: CommandDialog,
+            FileSelectionDialog, MessageDialog, PromptDialog, and
+            SelectionDialog.  There are also a number of different
+            types of MessageDialogs:  ErrorDialog, InformationDia-
+            log, QuestionDialog, WorkingDialog, and WarningDialog.
+
+       4.1.1  GGGGuuuuiiiiddddeeeelllliiiinnnneeeessss ffffoooorrrr CCCChhhhoooooooossssiiiinnnngggg aaaa MMMMaaaaiiiinnnn CCCCoooommmmppppoooonnnneeeennnntttt GGGGrrrroooouuuupppp
+
+       At the highest level, components are organized into MainWin-
+       dows, Menus, and DialogBoxes.  Correctly deciding which com-
+       ponent group to use for which parts of an application is one
+       of the most important tasks of application designer.
+
+       Every application must contain at least one MainWindow. The
+       MainWindow can contain a MenuBar, ScrollBars, a command
+       area, a message area, and the client area.  The client area
+       of the MainWindow contains the framework of an application.
+       The client area should contain all the components needed to
+       perform the primary actions of the applications.  For exam-
+       ple, in a text editor application, the MainWindow usually
+       contains a text editing area, and in a graphics editor
+
+
+                                                                4-5
+
+
+
+
+
+
+
+
+
+
+
+
+       application, the MainWindow usually contains a graphics
+       editing area and the components for changing drawing func-
+       tions.  Components that are used constantly throughout the
+       application should be contained in the MainWindows client
+       area.  Components that are used intermittently or infre-
+       quently should be placed in Menus or DialogBoxes.
+
+       The advantages of Menus are that they are readily available,
+       quickly accessed and dismissed, and easy to browse through.
+       The most commonly used Menus should be placed in the MenuBar
+       in the MainWindow to increase these advantages.  Because
+       Menus are readily available, and quickly accessed and
+       dismissed, they should be used for components that are used
+       frequently.  The time delays of bringing up a DialogBox for
+       frequently used components can greatly reduce user produc-
+       tivity. Because Menus are easy to browse through, they
+       should also be used for components that are commonly
+       accessed by most users.
+
+       The advantages of Menus also cause some disadvantages.  A
+       Menu is a very short-lived component group.  It is displayed
+       only while the user makes a selection.  Once the user makes
+       a selection, the Menu disappears.  So a Menu is not well-
+       suited for making several selections at once.
+
+       Note that some systems contain a component group called a
+       Tear-Off Menu.  Once a Tear-Off Menu is pulled down, it can
+       be made to remain posted until specifically dismissed.  A
+       Tear-Off Menu allows the user to make multiple selections
+       because it can stay posted after a user selection.  A Tear-
+       Off Menu behaves more like a DialogBox than a Menu.
+
+       Menus are also modal.  That is, while a Menu is posted, the
+       user cannot interact with other elements of the application.
+       Because of this, Menus should not be used for components
+       that the user may want to have available while interacting
+       with other elements of the application.
+
+       The other disadvantage of Menus is that they can only con-
+       tain buttons and Labels.  Menus should be used for perform-
+       ing simple actions and setting values, but they are not
+       suitable for more complicated functions like text entry.
+
+       DialogBoxes are used for two general purposes: to present
+       information to the user, and to take user input.  Applica-
+       tions should use DialogBoxes to present transient informa-
+       tion to the user, like warnings, cautions, or conformations
+       to actions.  DialogBoxes that present information to the
+       user are called Message DialogBoxes.  Message DialogBoxes
+       are often placed on the screen by applications without a
+       request from the user.  Because Message DialogBoxes can
+
+
+       4-6
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       disrupt a user's work, applications should present con-
+       stantly updated information in the client area of the
+       MainWindow.  Also, applications can present minor cautions,
+       incidental notes, and simple help in the message area of the
+       MainWindow.
+
+       The advantages of using DialogBoxes to take user input are
+       that they are long-lived, and can contain any components.
+       Because they are long-lived, they can be used to perform
+       more than one action at a time, and can remain available
+       while the user interacts with other parts of the applica-
+       tion.  Applications should use user-input DialogBoxes like
+       small applications. DialogBoxes should be used to perform
+       tasks ancillary to the application, where the user can take
+       more than one action before dismissing the DialogBox.
+       Applications should also use DialogBoxes where the task
+       requires more complicated interaction than is available in a
+       Menu, like file selection.
+
+       The following table summarizes the suggested uses for
+       MainWindows, Menus, and DialogBoxes.
+
+                    TTTTAAAABBBBLLLLEEEE 4444----1111....  Suggested Window Types
+
+                                                   UUUUsssseeee TTTThhhhiiiissss MMMMaaaaiiiinnnn CCCCoooommmmppppoooonnnneeeennnntttt GGGGrrrroooouuuupppp
+       FFFFoooorrrr TTTThhhheeeesssseeee CCCCaaaasssseeeessss                             MMMMaaaaiiiinnnnWWWWiiiinnnnddddoooowwww   MMMMeeeennnnuuuu   DDDDiiiiaaaallllooooggggBBBBooooxxxx
+       _________________________________________________________________________
+       Primary application actions                     X         -         -
+       Ancillary application actions                   -         -         X
+       Components used intermittently                  -         X         -
+       Components used frequently                      X         X         -
+       Components used seldomly                        -         -         X
+       Components accessed by most users               -         X         -
+       Simple actions                                  X         X         -
+       Complex actions                                 X         -         X
+       Presenting transient information                -         -         X
+       Presenting constantly updated information       X         -         -
+       Presenting minor information                    X         -         -
+
+       4.1.2  GGGGuuuuiiiiddddeeeelllliiiinnnneeeessss ffffoooorrrr CCCChhhhoooooooossssiiiinnnngggg IIIInnnntttteeeerrrraaaaccccttttiiiivvvveeee MMMMeeeetttthhhhooooddddssss
+
+       Choosing the correct components for a task is usually sim-
+       ple.  In most cases, a task seems to naturally belong to a
+       component; for instance, scrolling a region with a
+       ScrollBar, or choosing a value from a range with a Scale.
+       Each component's general purpose is described in Section
+       4.1, as well as in the reference section in Chapter 7.  In
+       some cases though, it is difficult to decide between two
+       controls or groups of controls that could perform the same
+       task.  The following sections give some guidelines for
+       choosing among some common similar components.
+
+
+                                                                4-7
+
+
+
+
+
+
+
+
+
+
+
+
+          +o Choosing a single-choice component
+
+          +o Choosing a multiple-choice component
+
+          +o Choosing between a Menu and PushButton
+
+          +o Choosing between Text or Canvas, and a Label
+
+       4.1.2.1  CCCChhhhoooooooossssiiiinnnngggg aaaa SSSSiiiinnnngggglllleeee----CCCChhhhooooiiiicccceeee CCCCoooommmmppppoooonnnneeeennnntttt
+
+       A single-choice component allows the user to select a single
+       item from a group of items.  Applications should use
+       single-choice component to limit the user to one choice; for
+       example, choosing among available pen widths in a drawing
+       program.  The available single-choice components are as fol-
+       lows:
+
+          +o RadioBox
+
+          +o OptionButton
+
+          +o List
+
+       You should choose a single-choice component based on the
+       number of items to choose among, the space available for the
+       selection area, and the permanence of the selection.  For a
+       small number of items, the best component is a RadioBox or
+       an OptionButton.  RadioBoxes should usually contain no more
+       than 5 or 6 items.  OptionMenus, which are connected to
+       OptionButtons, should usually contain no more 10 to 12
+       items.  If there is very little space available in your
+       application, you should use an OptionButton over a RadioBox,
+       since the OptionButton takes up very little space.
+
+       When the number of items to choose from gets larger than a
+       RadioBox or OptionButton can easily handle, you should use a
+       List.  You should also use a List when the items to choose
+       from can change.  For application consistency, the choices
+       in a RadioBox or OptionButton should not change, but if they
+       do, you should use an OptionButton over a RadioBox.  If a
+       RadioBox or OptionButton choice becomes unavailable, it
+       should be disabled rather than removed.  Section 4.3.1.6
+       describes disabling components in detail.
+
+       4.1.2.2  CCCChhhhoooooooossssiiiinnnngggg aaaa MMMMuuuullllttttiiiipppplllleeee----CCCChhhhooooiiiicccceeee CCCCoooommmmppppoooonnnneeeennnntttt
+
+       A multiple-choice control or group of controls allows the
+       user to simultaneously choose multiple items from a group of
+       items.  Applications should use multiple-choice components,
+       rather than a series of single-choice actions, where the
+       user may want to select more than one item from a group.
+
+
+       4-8
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       The available multiple-choice components are as follows:
+
+          +o CheckBox
+
+          +o List
+
+       As with single-choice components, the main factor when
+       choosing which to use is the number of items in the group.
+       For small groups of fewer than seven static elements, appli-
+       cations should use a CheckBox.  Applications should other-
+       wise use a List.  Note that a List component can be used as
+       a single- or multiple-choice component.
+
+       4.1.2.3  CCCChhhhoooooooossssiiiinnnngggg BBBBeeeettttwwwweeeeeeeennnn aaaa PPPPooooppppuuuupppp MMMMeeeennnnuuuu aaaannnndddd aaaa PPPPaaaannnneeeellll oooorrrr PPPPuuuullllllll----
+                DDDDoooowwwwnnnn MMMMeeeennnnuuuu
+
+       Popup Menus should only be considered as shortcuts to appli-
+       cation features because they are hidden in the application.
+       Features hidden in Popup Menus are difficult to find for
+       beginning users of an application because they provide no
+       cue to their existence.  Applications should use Popup Menus
+       to allow users to remain focused on their work areas, and
+       when there is not enough space in the client area for a
+       Panel of buttons.
+
+       Popup Menus contain a set of buttons that can be used in the
+       same way as a Panel of buttons or a PullDown Menu.  The pri-
+       mary difference is availability.  A Popup Menu is only visi-
+       ble when requested by the user.  At all other times it is
+       hidden, providing no cue to its existence.  When the user
+       requests a Popup Menu, the application displays it at the
+       location of the pointer.  Buttons and PullDown Menus on the
+       other hand are always visible, but users need to move the
+       focus away from their main work to activate them.  Another
+       difference is that buttons take up screen space while Popup
+       Menus do not.  PullDown Menus provide a good compromise in
+       space and availability versus Popup Menus and Panels.
+
+       Applications should use a Panel of buttons when the user
+       makes frequent or multiple selections, and when space in the
+       client area allows.  Whenever the choice between Popup Menus
+       and Panels is difficult, applications should favor Panels.
+
+       4.1.2.4  CCCChhhhoooooooossssiiiinnnngggg BBBBeeeettttwwwweeeeeeeennnn TTTTeeeexxxxtttt oooorrrr CCCCaaaannnnvvvvaaaassss,,,, aaaannnndddd aaaa LLLLaaaabbbbeeeellll
+
+       A Label is a simple mechanism for displaying text or graph-
+       ics.  A Label does not have any mechanisms for the user to
+       edit its contents, or the overhead required for editing.
+       Applications should use a Label for displaying text or
+       graphics that do not need user editing.  Applications should
+       use a Text or Canvas when the text or graphics needs to be
+
+
+                                                                4-9
+
+
+
+
+
+
+
+
+
+
+
+
+       edited.  On some systems, the contents of a Label are not
+       selectable.  If the user needs to select the contents of
+       some noneditable text or graphics, applications should use a
+       Text or Canvas and disable editing rather than using a
+       Label.
+
+       4.2  LLLLaaaayyyyoooouuuutttt
+
+       The previous section described the components that are
+       available for building an application.  This section
+       describes how to combine those components into a coherent
+       application that encourages a user's sense of control.  The
+       guidelines presented in this section will help you create
+       applications that are both consistent with themselves and
+       with other OSF/Motif compliant applications.
+
+       This chapter discusses the following client area design
+       topics:
+
+          +o Client areas
+
+          +o Grouping components
+
+          +o Menu design
+
+          +o DialogBox design
+
+       Design the layout of your application windows according to
+       the natural use order and the natural scanning order of the
+       people who will be using your application.
+
+       First design for the the natural use order.  Consider the
+       tasks that the user will perform with your application.  The
+       components should be positioned so that moving among the
+       components is simple and quick while performing the most
+       common tasks- the less pointer movement, the better.  This
+       is also true for keyboard traversal- the fewer keystrokes
+       required to perform a task, the better.
+
+       The natural scanning order is most important when arranging
+       small groups of components to help the user find the correct
+       component for the task.  You should put the most important
+       and most used commands first.  In most cases, this order is
+       from left to right and from top to bottom.  For users in
+       right-to-left direction language environments the natural
+       scanning direction is from right to left and from top to
+       bottom.
+
+
+
+
+
+
+       4-10
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       4.2.1  CCCCoooommmmmmmmoooonnnn CCCClllliiiieeeennnntttt AAAArrrreeeeaaaassss
+
+       You application is presented in windows.  The windows can be
+       either MainWindows, DialogBoxes or Menus.  The contents of
+       these windows are the application client areas.  Some of
+       these client areas have common features that are described
+       in this section.  This section describes in detail the con-
+       tents of the common MainWindow areas.
+
+          +o Command area
+
+          +o Message area
+
+          +o ScrollBars
+
+          +o MenuBar
+
+       Following this is a description of some common DialogBoxes.
+       These common client areas provide a familiar base for users
+       new to your application to begin working.
+
+       Figure 4-1 shows a MainWindow with its client areas.
+
+       FFFFiiiigggguuuurrrreeee 4444----1111....  A Typical MainWindow and Its Common Client
+                    Areas
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       MainWindows contain the framework for your application.  In
+       a text editing application, a MainWindow usually contains
+
+
+                                                               4-11
+
+
+
+
+
+
+
+
+
+
+
+
+       the text.  In a spreadsheet application, a MainWindow usu-
+       ally contains the spreadsheet.  In a mail browsing applica-
+       tion, a MainWindow usually contains a list of mail messages
+       and an area for viewing a message.  Every application must
+       have at least one MainWindow.
+
+       Some applications may want more than one MainWindow; for
+       example, applications with more than one primary function,
+       like the query and update features of a database, and appli-
+       cations with more than one instance of the same primary
+       function, like a graphics editor working on multiple fig-
+       ures.  When an application has multiple MainWindows that
+       serve the same primary function, each window should be
+       treated as a separate application.  Each window must close
+       and iconify separately.  When an application has multiple
+       MainWindows that serve different primary functions, each
+       window must be iconifiable separately, but it is up the
+       application to decide whether each closes separately, or
+       whether closing one window closes the entire application.
+       You should take special care to identify, using the window
+       manager title bar or a prominent internal label, which
+       DialogBoxes belong to each MainWindow.
+
+       4.2.1.1  CCCCoooommmmmmmmaaaannnndddd AAAArrrreeeeaaaa
+
+       Even though user interface applications are oriented toward
+       direct manipulation of graphical elements, your application
+       can provide an area for a user to enter a typed command.
+       This can be particularly useful when updating an existing
+       command-based application to a graphical user-interface-
+       based application.
+
+       If your application includes a command area, it should run
+       from border to border across the bottom of the MainWindow,
+       just above the message area, or just below the MenuBar.  We
+       recommend that a command area run just above the message
+       area.
+
+       4.2.1.2  MMMMeeeessssssssaaaaggggeeee AAAArrrreeeeaaaa
+
+       Your application can provide a message area in the MainWin-
+       dow for presenting application messages.  Your application
+       should not use a message area for warnings or messages
+       requiring immediate action.  These should be displayed in a
+       DialogBox.
+
+       If your application includes a message area, it should run
+       from border to border across the bottom of the MainWindow,
+       below any ScrollBars or command area.  Your application can
+       display and remove the message area as needed.
+
+
+
+       4-12
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       4.2.1.3  SSSSccccrrrroooollllllllBBBBaaaarrrrssss
+
+       An application can use ScrollBars in its MainWindow to pro-
+       vide a means for viewing an area larger than the MainWindow.
+       Your application defaults should place ScrollBars on the
+       bottom and right sides of the application. (ScrollBar place-
+       ment can be a user preference.)  You should place ScrollBars
+       below the MenuBar and above any command or message area.
+       ScrollBars should not scroll the MenuBar, command area, or
+       message area.  The ScrollBars can be displayed and removed
+       as needed.
+
+       4.2.1.4  MMMMeeeennnnuuuuBBBBaaaarrrr
+
+       The MenuBar is a basic group that organizes the most common
+       features of an application.  The MenuBar must be a horizon-
+       tal bar at the top edge of the application just below the
+       title area of the window frame.  The MenuBar contains a list
+       of Menu topics in CascadeButtons with PullDown Menus con-
+       nected to them.  Commands must not be included as topics in
+       the MenuBar because they inhibit Menu browsing.  Each Menu
+       topic should have a single-letter mnemonic indicated by
+       underlining.
+
+       While we recommended that you include the common Menus in
+       the MenuBar of your application, your choice of Menu titles
+       and items depends on the nature of your application.  If
+       your application requires it, you should design more
+       relevant titles and selections, but do not change the mean-
+       ings of words used in the common Menus.
+
+       The following PullDown Menus provide general functions com-
+       mon to most applications.  Remember that these Menu guide-
+       lines, like all the guidelines in this _S_t_y_l_e _G_u_i_d_e, only
+       apply in a left-to-right language direction environment in
+       an English locale.  You need to make the appropriate changes
+       for other locales.
+
+       F____FFFiiiilllleeee      The FFFFiiiilllleeee Menu should contain components for per-
+                 forming actions on the files, such as opening,
+                 saving, closing, and printing.  It should also
+                 contain components for performing actions on the
+                 application as a whole, such as quitting.  If your
+                 application includes a FFFFiiiilllleeee Menu, it must be the
+                 first entry in the MenuBar, and must be placed to
+                 the far left.  The FFFFiiiilllleeee Menu should have a
+                 mnemonic of FFFF.
+
+       E____EEEddddiiiitttt      The EEEEddddiiiitttt Menu should contain components for per-
+                 forming actions on the current data of the appli-
+                 cation, such as an undo action or making global
+
+
+                                                               4-13
+
+
+
+
+
+
+
+
+
+
+
+
+                 substitutions in a block of text.  It should also
+                 include components for interacting with the system
+                 clipboard, such as cut, copy, and paste.  If your
+                 application includes an EEEEddddiiiitttt Menu, it must be
+                 placed to the right of the FFFFiiiilllleeee Menu.  The EEEEddddiiiitttt
+                 Menu should have a mnemonic of EEEE.
+
+       V____VVViiiieeeewwww      The VVVViiiieeeewwww Menu should contain components for chang-
+                 ing the user's view on the data.  Components in
+                 the VVVViiiieeeewwww Menu should not actually change the data.
+                 The exact contents of the VVVViiiieeeewwww Menu are applica-
+                 tion specific, but it may include components that
+                 change the appearance of the data, the amount of
+                 data that is displayed, or the order in which the
+                 data is displayed.  If your application includes a
+                 VVVViiiieeeewwww Menu, it must be placed to the right of the
+                 EEEEddddiiiitttt Menu.  The VVVViiiieeeewwww Menu should have a mnemonic
+                 of VVVV.
+
+       O____OOOppppttttiiiioooonnnnssss   The OOOOppppttttiiiioooonnnnssss Menu should contain components for a
+                 user to customize the application.  The exact con-
+                 tents of the OOOOppppttttiiiioooonnnnssss Menu are application
+                 specific.  If your application includes an OOOOppppttttiiiioooonnnnssss
+                 Menu, it must be placed to the right of the VVVViiiieeeewwww
+                 Menu.  The OOOOppppttttiiiioooonnnnssss Menu should have a mnemonic of
+                 OOOO.
+
+       H____HHHeeeellllpppp      The HHHHeeeellllpppp Menu should contain components that pro-
+                 vide user help facilities.  The components in the
+                 HHHHeeeellllpppp Menu usually bring up a DialogBox with help
+                 information.  Every application should have a HHHHeeeellllpppp
+                 Menu.  If your application includes a HHHHeeeellllpppp Menu,
+                 it must be the last Menu item and placed to the
+                 far right on the MenuBar.  The HHHHeeeellllpppp Menu should
+                 have a mnemonic of HHHH.
+
+       The recommended contents of the FFFFiiiilllleeee, EEEEddddiiiitttt, and HHHHeeeellllpppp Menus
+       follow.  The contents of the VVVViiiieeeewwww and OOOOppppttttiiiioooonnnnssss Menus are
+       application specific and are not specified here.
+
+       4.2.1.4.1  FFFFiiiilllleeee MMMMeeeennnnuuuu CCCCoooonnnntttteeeennnnttttssss
+       Figure 4-2 shows a sample FFFFiiiilllleeee Menu.  The common Menu con-
+       tents are described following the figure.  Note that you
+       should only include those functions actually supported by
+       your application.
+
+
+
+
+
+
+
+
+       4-14
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+
+              FFFFiiiigggguuuurrrreeee 4444----2222....  The File Menu and Its Selections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       N____NNNeeeewwww       Must create a new file.  The NNNNeeeewwww operation must
+                 clear existing data from the client area.  If com-
+                 pletion of the operation will obliterate current
+                 changes to the file, you must display a DialogBox,
+                 asking the user about saving changes.  This action
+                 must have the mnemonic NNNN.
+
+       O____OOOppppeeeennnn .... .... .... Must open an existing file.  The OOOOppppeeeennnn operation
+                 must prompt the user for the name of the file with
+                 a DialogBox.  The title bar should be updated with
+                 the name of the newly opened file.  If completion
+                 of the operation will obliterate current changes
+                 to the file, you must display a DialogBox, asking
+                 the user about saving changes.  This DialogBox
+                 should be displayed after the user selects a new
+                 file.  This action must have the mnemonic OOOO.
+
+       S____SSSaaaavvvveeee      Must save the currently opened file without remov-
+                 ing the existing contents of the client area.  If
+                 the currently opened file has no name, SSSSaaaavvvveeee must
+                 prompt for a filename with a DialogBox.  This
+                 action must have the mnemonic SSSS.
+
+       SSSSaaaavvvveeee A____AAAssss .... .... .... Must save the currently opened file under a
+                 new name without removing the existing contents of
+
+
+                                                               4-15
+
+
+
+
+
+
+
+
+
+
+
+
+                 the client area.  The SSSSaaaavvvveeee AAAAssss operation must
+                 prompt for the name of the file with a DialogBox.
+                 If the user tries to save the new file under an
+                 existing name, SSSSaaaavvvveeee AAAAssss must alert the user with a
+                 DialogBox of a possible loss of data.  This action
+                 must have the mnemonic AAAA.
+
+       P____PPPrrrriiiinnnntttt     Must schedule a file for printing.  If your appli-
+                 cation requires specific printing information
+                 before printing, the operation must first request
+                 that information with a DialogBox, and the entry
+                 title must be followed by an ellipses.  Printing
+                 information can also be specified for the applica-
+                 tion in the OOOOppppttttiiiioooonnnnssss Menu.  This action must have
+                 the mnemonic PPPP.
+
+       C____CCClllloooosssseeee     Can be supplied in applications that have multiple
+                 independent primary windows.  This action must not
+                 be supplied in applications with a single primary
+                 window, or multiple dependent primary windows.
+                 This action must only close the current primary
+                 window and its associated secondary windows; that
+                 is, the window family.  This action must have the
+                 mnemonic CCCC.  You can include this action even
+                 though it is similar to the CCCClllloooosssseeee action in the
+                 window Menu.  This ensures that users have a way
+                 to close the primary window even if they are not
+                 running a compliant window manager.  Applications
+                 should prompt the user to save any unsaved changes
+                 if the action would cause loss of data.
+
+       E____EEExxxxiiiitttt      Must end the current application and all windows
+                 associated with it.  This action is equivalent to
+                 closing all primary windows of the application. If
+                 completion of the operation will obliterate
+                 current changes to the file, you must display a
+                 DialogBox, asking the user about saving changes.
+                 This action must have the mnemonic EEEE.  You should
+                 include this action even though it is similar to
+                 the CCCClllloooosssseeee action in the window Menu.  This ensures
+                 that users have a way to end the application even
+                 if they are not running a compliant window
+                 manager.  Applications should prompt the user to
+                 save any unsaved changes if the action would cause
+                 loss of data.  If your application does not have a
+                 FFFFiiiilllleeee Menu, put EEEExxxxiiiitttt at the end of the first Pull-
+                 Down Menu.
+
+       You should include Menu items in the order described.  If
+       you add new Menu items, you should insert them near similar
+       elements.
+
+
+       4-16
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       4.2.1.4.2  EEEEddddiiiitttt MMMMeeeennnnuuuu CCCCoooonnnntttteeeennnnttttssss
+       Figure 4-3 shows a sample EEEEddddiiiitttt Menu.  The common Menu con-
+       tents are described following the figure.  Note that you
+       should only include those functions actually supported by
+       your application.
+
+              FFFFiiiigggguuuurrrreeee 4444----3333....  The Edit Menu and Its Selections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       U____UUUnnnnddddoooo   AAAAlllltttt++++BBBBaaaacccckkkkssssppppaaaacccceeee Must reverse the most recently executed
+                        action.  To provide a visual cue to the
+                        user, the UUUUnnnnddddoooo selection title should be
+                        dynamically modified to indicate what is
+                        being undone.  For example, if the most
+                        recently executed action were a paste, the
+                        action name would be UUUUnnnnddddoooo ppppaaaasssstttteeee.  Your
+                        application should be able to undo all of
+                        the actions in the EEEEddddiiiitttt Menu. This action
+                        must have the mnemonic UUUU.  If this action
+                        has an accelerator, it must override the
+                        standard undo action for a specific com-
+                        ponent, and must be MMMMAAAAlllltttt KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee.
+
+       CCCCuuuut____ttt   SSSShhhhiiiifffftttt++++DDDDeeeellll  Must remove the selected portion of data
+                        from the client area to the clipboard
+                        buffer.  Your application can determine
+                        whether the area that was occupied by the
+                        removed data is left blank or whether the
+                        remaining data is compressed to fill in the
+
+
+                                                               4-17
+
+
+
+
+
+
+
+
+
+
+
+
+                        space.  Usually, graphics applications
+                        leave the space blank while text applica-
+                        tions compress the remaining text to fill
+                        in the space.  This action must have the
+                        mnemonic TTTT.  If this action has an
+                        accelerator, it must override the standard
+                        cut action for a specific component, and
+                        both MMMMSSSShhhhiiiifffftttt KKKKDDDDeeeelllleeeetttteeee and KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt should
+                        be supported.
+
+       C____CCCooooppppyyyy   CCCCttttrrrrllll++++IIIInnnnssss  Must copy the selected portion of data to
+                        the clipboard buffer without removing the
+                        original data from the client area.  This
+                        action must have the mnemonic CCCC.  If this
+                        action has an accelerator, it must override
+                        the standard copy action for a specific
+                        component, and both MMMMCCCCttttrrrrllll KKKKIIIInnnnsssseeeerrrrtttt and KKKKPPPPrrrriiii----
+                        mmmmaaaarrrryyyyCCCCooooppppyyyy should be supported.
+
+       P____PPPaaaasssstttteeee   SSSShhhhiiiifffftttt++++IIIInnnnssssMust paste the contents of the clipboard
+                        buffer into a client area. When there is
+                        one main editing area, the application can
+                        force the paste to occur in that area.
+                        When an accelerator is used and the focus
+                        is in an editable component the paste
+                        should go to that editable component.  When
+                        the focus policy is explicit, and when
+                        there are multiple possible destinations
+                        for the paste, the paste should go to the
+                        last editable component with the input
+                        focus.  When the focus policy is implicit,
+                        and when there are multiple possible desti-
+                        nations for the paste, the paste should go
+                        to the component with the destination cur-
+                        sor, as described in Section 3.2.3.
+
+                        Your application can determine whether the
+                        pasted data is reformatted to fit in the
+                        client area and whether existing data moves
+                        to create room for the pasted data.  Text
+                        applications usually reformat the pasted
+                        text to fit into the margins of the text
+                        field, and they will move the existing text
+                        to make room for the new text.  Graphics
+                        applications usually do neither.  This
+                        action must have the mnemonic PPPP.  If this
+                        action has an accelerator, it must override
+                        the standard paste action for a specific
+                        component, and both MMMMSSSShhhhiiiifffftttt KKKKIIIInnnnsssseeeerrrrtttt and
+                        KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee should be supported.
+
+
+
+       4-18
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       CCCClllle____eeeaaaarrrr            Must remove a selected portion of data from
+                        the client area without copying it to a
+                        clipboard buffer.  The remaining data is
+                        not compressed to fill the space that was
+                        occupied by the cleared data.  This action
+                        must have the mnemonic EEEE.
+
+       D____DDDeeeelllleeeetttteeee           Must remove a selected portion of data from
+                        the client area without copying it to a
+                        clipboard buffer. The remaining data is
+                        compressed to fill the space that was occu-
+                        pied by the deleted data.  This action must
+                        have the mnemonic DDDD.
+
+       You should include Menu items in the order described.  If
+       you add new Menu items, you should insert them near similar
+       elements.
+
+       4.2.1.4.3  HHHHeeeellllpppp MMMMeeeennnnuuuu CCCCoooonnnntttteeeennnnttttssss
+       Figure 4-4 shows a sample HHHHeeeellllpppp Menu.  The common Menu con-
+       tents are described following the figure.  Note that you
+       should only include those functions actually supported by
+       your application.
+
+              FFFFiiiigggguuuurrrreeee 4444----4444....  The Help Menu and Its Selections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       OOOOnnnn C____CCCoooonnnntttteeeexxxxtttt Must initiate context-sensitive help by changing
+                 the shape of the pointer to the question pointer
+                 described in Section 2.2.2.  When the user moves
+
+
+                                                               4-19
+
+
+
+
+
+
+
+
+
+
+
+
+                 the pointer to the component help is wanted on and
+                 presses BBBBSSSSeeeelllleeeecccctttt, any available context-sensitive
+                 help for the component must be presented, and the
+                 pointer reverts from the question pointer.  This
+                 action must have the mnemonic CCCC.
+
+       OOOOnnnn H____HHHeeeellllpppp .... .... .... Must provide information on how to use the
+                 application's help facility.
+
+       OOOOnnnn W____WWWiiiinnnnddddoooowwww .... .... .... Must provide general information about the
+                 window from which help was requested.
+
+       OOOOnnnn K____KKKeeeeyyyyssss .... .... .... Must provide information about the
+                 application's use of function keys, mnemonics, and
+                 keyboard accelerators.
+
+       I____IIInnnnddddeeeexxxx .... .... .... Must provide an index for all help information
+                 in the application.  The index can provide search
+                 capabilities.
+
+       T____TTTuuuuttttoooorrrriiiiaaaallll .... .... .... Must provide access to the application's
+                 tutorial.
+
+       OOOOnnnn V____VVVeeeerrrrssssiiiioooonnnn .... .... .... Must provide the name and version of the
+                 application.  It can provide other information as
+                 well.
+
+       Help is usually provided in DialogBoxes, but you should not
+       use ellipses in the hhhheeeellllpppp Menu for help actions provided in a
+       message area.  You should include Menu items in the order
+       described.  If you add new Menu items, you should insert
+       them near similar elements.
+
+       4.2.1.5  DDDDiiiiaaaallllooooggggBBBBooooxxxxeeeessss
+
+       Applications use DialogBoxes to interact with the user about
+       application details not directly related to the primary pur-
+       pose of the application.  Applications display DialogBoxes
+       only when needed to convey a message to the user, or when
+       the user requests it to provide input to the application.
+       They follow the same general layout guidelines as a MainWin-
+       dow. Additional guidelines for DialogBox design are given in
+       Section 4.2.4, as well as in the reference section in
+       Chapter 7.
+
+       The following DialogBoxes provide general functions common
+       to many applications.
+
+
+
+
+
+
+       4-20
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       4.2.1.5.1  CCCCoooommmmmmmmaaaannnnddddDDDDiiiiaaaalllloooogggg
+       A CCCCoooommmmmmmmaaaannnnddddDDDDiiiiaaaalllloooogggg should be used to enter keyboard commands.
+       It should not interrupt the user's interaction with the
+       application, that is, it should not be modal.  It should
+       include a CommandBox as shown in Figure 4-5.
+
+                       FFFFiiiigggguuuurrrreeee 4444----5555....  A CommandDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.1.5.2  FFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+       A FFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg should be used to enter the name of
+       file for processing.  It should not interrupt the user's
+       interaction with the application, that is, it should not be
+       modal.  It should include a FileSelectionBox as shown in
+       Figure 4-6.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               4-21
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    FFFFiiiigggguuuurrrreeee 4444----6666....  A FileSelectionDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.1.5.3  PPPPrrrroooommmmppppttttDDDDiiiiaaaalllloooogggg
+       A PPPPrrrroooommmmppppttttDDDDiiiiaaaalllloooogggg should be used to prompt the user for input.
+       It can interrupt the user's interaction with the applica-
+       tion, that is, it can be application modal.  It should
+       include a message, a text input area, and one of the follow-
+       ing button arrangements as shown in Figure 4-7.
+
+       OOOOKKKK CCCCaaaannnncccceeeellll
+       OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+       OOOOKKKK AAAAppppppppllllyyyy CCCCaaaannnncccceeeellll
+       OOOOKKKK AAAAppppppppllllyyyy CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+       OOOOKKKK AAAAppppppppllllyyyy RRRReeeesssseeeetttt CCCCaaaannnncccceeeellll
+       OOOOKKKK AAAAppppppppllllyyyy RRRReeeesssseeeetttt CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+
+
+
+       4-22
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+
+                       FFFFiiiigggguuuurrrreeee 4444----7777....  A PromptDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.1.5.4  SSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+       A SSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg should be used to allow a user to make a
+       selection from a list of choices.  It can interrupt the
+       user's interaction with the application, that is, it can be
+       application modal.  It should contain a SelectionBox as
+       shown in Figure 4-8.
+
+                      FFFFiiiigggguuuurrrreeee 4444----8888....  A SelectionDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               4-23
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.1.5.5  MMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg
+       A MMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg should be used to convey a message to the
+       user.  It must not interrupt the user's interaction with the
+       application, that is, it must not be modal.  It should
+       include a message, and one of the following button arrange-
+       ments.
+
+       OOOOKKKK
+       OOOOKKKK HHHHeeeellllpppp
+       OOOOKKKK CCCCaaaannnncccceeeellll
+       OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+       YYYYeeeessss NNNNoooo
+       YYYYeeeessss NNNNoooo HHHHeeeellllpppp
+       YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll
+       YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+       CCCCaaaannnncccceeeellll
+       CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+       RRRReeeettttrrrryyyy CCCCaaaannnncccceeeellll
+       RRRReeeettttrrrryyyy CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+       There are a number of different types of MessageDialogs:
+       ErrorDialog, InformationDialog, QuestionDialog, WorkingDia-
+       log, and WarningDialog.
+
+       An ErrorDialog should be used to convey a message about a
+       user error.  It should stop user interaction with the appli-
+       cation until it is dismissed, that is, it should be applica-
+       tion modal.  It should include an error symbol, a message,
+       and one of the following button arrangements as shown in
+       Figure 4-9.
+
+       OOOOKKKK CCCCaaaannnncccceeeellll
+       OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+
+                       FFFFiiiigggguuuurrrreeee 4444----9999....  An ErrorDialog
+
+
+
+
+
+
+
+
+
+
+
+
+       An InformationDialog should be used to convey information to
+       the user.  It must not interrupt the user's interaction with
+       the application, that is, it must not be modal.  It should
+
+
+       4-24
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       include an information symbol, a message, and one of the
+       following button arrangements as shown in Figure 4-10.
+
+       OOOOKKKK
+       OOOOKKKK HHHHeeeellllpppp
+
+
+                    FFFFiiiigggguuuurrrreeee 4444----11110000....  An InformationDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       A QuestionDialog should be used to get a user response to a
+       question.  It should interrupt the user's interaction with
+       the application, that is, it should be application modal.
+       It should include a question symbol, a message, and one of
+       the following button arrangements as as shown in Figure 4-
+       11.
+
+       YYYYeeeessss NNNNoooo
+       YYYYeeeessss NNNNoooo HHHHeeeellllpppp
+       YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll
+       YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+
+                      FFFFiiiigggguuuurrrreeee 4444----11111111....  A QuestionDialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+       A WarningDialog should be used to alert the user to a possi-
+       ble danger.  It should interrupt the user's interaction with
+
+
+                                                               4-25
+
+
+
+
+
+
+
+
+
+
+
+
+       the application, that is, it should be application modal.
+       It should contain a warning symbol, a message, and one of
+       the following button arrangements as shown in Figure 4-12.
+
+       YYYYeeeessss NNNNoooo
+       YYYYeeeessss NNNNoooo HHHHeeeellllpppp
+       OOOOKKKK CCCCaaaannnncccceeeellll
+       OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+
+                      FFFFiiiigggguuuurrrreeee 4444----11112222....  A WarningDialog
+
+
+
+
+
+
+
+
+
+
+       A WorkingDialog should be used to show work in progress and
+       give the user an opportunity to cancel the operation.  It
+       should not interrupt the user's interaction with the appli-
+       cation, that is, it should not be modal.  It should contain
+       a working symbol, a message, and one of the following button
+       arrangements as shown in Figure 4-13.
+
+       OOOOKKKK CCCCaaaannnncccceeeellll
+       OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+
+                      FFFFiiiigggguuuurrrreeee 4444----11113333....  A WorkingDialog
+
+
+
+
+
+
+
+
+
+
+
+       4.2.2  GGGGrrrroooouuuuppppiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       This section describes how you should group components using
+       the group components described in Section 4.1.
+
+          +o Grouping similar components
+
+
+
+       4-26
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+          +o Arranging components for fixed layout
+
+          +o Arranging components for resizing layout
+
+          +o Arranging components for aligned layout
+
+          +o Arranging components in PanedWindows
+
+       Separators are a good tool for visually separating groups of
+       components.  You should use Separators in your application
+       anyplace where the border between two groups of components
+       is not obvious by some other means, such as for a signifi-
+       cant change in component types, framing, or a division by
+       space.
+
+       4.2.2.1  GGGGrrrroooouuuuppppiiiinnnngggg SSSSiiiimmmmiiiillllaaaarrrr CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       Components similar in appearance and function group natur-
+       ally together.  You should organize similar components
+       together.  Similar PushButtons, as in a Menu, and a Panel of
+       CheckButtons, as in a list of options, are good examples of
+       where grouping is important. Without grouping, related
+       actions are difficult to find.  One of the most important
+       cases is a Panel of RadioButtons.  Without grouping, when
+       you turned on one RadioButton, you might not see the previ-
+       ous button turn off.  You can also associate a title with a
+       group of components to better associate the group and its
+       purpose.
+
+       4.2.2.2  AAAArrrrrrrraaaannnnggggiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss ffffoooorrrr FFFFiiiixxxxeeeedddd LLLLaaaayyyyoooouuuutttt
+
+       Components that are grouped using a Composition group com-
+       ponent can be positioned as they best fit, both physically
+       and visually.  This is often the case in the MainWindow
+       client area, and is also useful when the layout of the com-
+       ponents is important to the application.
+
+       When you layout components in this manner, remember that
+       your application can be resized by the user.  This can be
+       compensated for in a number of ways.  If the area has a
+       fixed size and is not appropriate to scroll, like a control
+       panel, you can either clip the area or turn off resizing.
+       If the area has a fixed size and is appropriate to scroll,
+       you should include ScrollBars for scrolling the viewable
+       area.
+
+
+
+
+
+
+
+
+                                                               4-27
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.2.3  AAAArrrrrrrraaaannnnggggiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss ffffoooorrrr RRRReeeessssiiiizzzziiiinnnngggg LLLLaaaayyyyoooouuuutttt
+
+       Composition component groups can also be positioned so that
+       the position and size of each component is relative to the
+       Composition component group or other components in the
+       group.  This style of layout permits the components to
+       change size proportionally to any change in the size of the
+       Composition component.
+
+       Sometimes a window is resized too small to be useful.  Your
+       application can either simply ignore this, clip the region
+       once all the components are at their minimum size, remove
+       less useful components to make room for more shrinking, or
+       replace all the components with a message that indicates
+       that the minimum size is reached, stating that the user
+       needs to enlarge the window to continue working in it.
+
+       4.2.2.4  AAAArrrrrrrraaaannnnggggiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss ffffoooorrrr AAAAlllliiiiggggnnnneeeedddd LLLLaaaayyyyoooouuuutttt
+
+       Panels can arrange components aligned horizontally, verti-
+       cally, or in two dimensions.  Buttons are usually aligned in
+       Panels horizontally along the bottom of of the client area,
+       either in a MainWindow or a DialogBox.  ToggleButtons should
+       be arranged in vertical Panels so the graphics align and
+       look neat.  A common use of Panels is in building Menus, or
+       RadioBoxes, that is, a set of RadioButtons.  Two-dimensional
+       Panels are commonly used in graphics programs to present
+       drawing styles, and in spreadsheets to contain cells.
+
+       You application should use Panels to provide the best organ-
+       ization for large groups of similar components.  Panels
+       should be placed in a Composition component group to allow
+       for proper user resizing either by using ScrollBars or by
+       resizing the elements of the Panel.
+
+       4.2.2.5  AAAArrrrrrrraaaannnnggggiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnnttttssss iiiinnnn PPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwwwssss
+
+       PanedWindows provide a way for the user to simply adjust the
+       size of components relative to one another.  You should use
+       PanedWindows to separate user tasks in an application with
+       limited space.  This allows the user to ignore elements of
+       the application that are unused.
+
+       PanedWindows can also be used to present two simultaneous
+       views of the same data.  For example, a text editor may use
+       multiple Panes, with a separate Text component in each Pane
+       to allow the user to write in one section of a document,
+       while looking at another.  The user can then resize the
+       Panes to show more or less of either block of text.
+
+
+
+
+       4-28
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       PanedWindows can be composed of either vertical (one on top
+       of the other) or horizontal (side by side) sets of Panes,
+       Separators, and Sashes.  Users can resize Panes by dragging
+       the boundary between them.  Making one Pane bigger makes the
+       other Pane smaller, while the overall size of the window
+       remains the same.
+
+       4.2.3  MMMMeeeennnnuuuu DDDDeeeessssiiiiggggnnnn
+
+       Menus are the primary means of organizing most of an
+       application's features.  Because of screen size limitation
+       and visual simplicity, Menus organize both components used
+       frequently by users and components used in most application
+       sessions.
+
+       There are three types of Menus.
+
+          +o PullDown Menus
+
+          +o Popup Menus
+
+          +o Option Menus
+
+       PullDown Menus are pulled down from a CascadeButton.  Cas-
+       cadeButtons should always be available in the context that
+       they are needed.  Menus can also contain CascadeButtons, so
+       that Menus can be nested.  The MenuBar is a horizontal col-
+       lection of CascadeButtons.
+
+       Popup Menus are context sensitive, but give no cue to their
+       existence.  They are popped up when the user presses BBBBMMMMeeeennnnuuuu
+       over a component with an associated Popup Menu.  Popup Menus
+       should only be used to provide shortcuts, since new users of
+       an application may not realize or remember that they exist.
+       Even within a single control, such as a Canvas, the contents
+       of a Popup Menu can depend upon position within the control,
+       or the state of the elements at that position, such as
+       whether the Menu is popped up from within a selected range
+       of elements.
+
+       Option Menus provide a means of selecting from a set of
+       choices while taking up very little space.  An Option Menu
+       is popped up from an OptionButton, which is distinguished by
+       a bar graphic on the right side of the button.
+
+       Menus are composed of titles, elements, mnemonics, and
+       accelerators.  A Menu's title should be unique to avoid con-
+       fusion.  The title should clearly indicate the purpose of
+       the Menu.
+
+
+
+
+                                                               4-29
+
+
+
+
+
+
+
+
+
+
+
+
+          +o A PullDown Menu's title is taken from the label in the
+            CascadeButton.
+
+          +o A Popup Menu's title should be placed at the top of the
+            Popup Menu and separated from the Menu elements by a
+            Separator.
+
+          +o An Option Menu's title is usually a label to the left
+            of the OptionButton, but can be at the top of the
+            Option Menu itself.
+
+       Most basic controls can be Menu elements including Labels,
+       Separators, PushButtons, ToggleButtons, and CascadeButtons.
+       The elements can be identified by either a text label or a
+       graphic.  A Menu must be wide enough to accommodate its wid-
+       est element.
+
+       A mnemonic provides a quick way to access Menu elements from
+       the keyboard.  While a Menu is posted, pressing the mnemonic
+       letter of an element activates that element.  The MenuBar's
+       mnemonics can be used by pressing MMMMAAAAlllltttt with the mnemonic
+       letter.  An element's mnemonic should be the first character
+       of the element's label.  If that character conflicts with
+       another mnemonic in the Menu, another character in the label
+       should be used.  The mnemonic of an element should be under-
+       lined in the element's label.  When the appropriate mnemonic
+       letter does not appear in the element's label, it should
+       appear in parentheses after the label.
+
+       An accelerator provides a way to access Menu elements from
+       the keyboard without posting the Menu.  Accelerators are
+       useful to the experienced user for saving time when using
+       frequently used components.  You should provide accelerators
+       primarily as a matter of utility, not design conformity.
+
+       If a keyboard accelerator exists for a Menu entry, it should
+       appear following the Menu's label, justified on the same
+       line.  The accelerator and the selection should be separated
+       by enough space to make them visually distinct.
+
+       You should use the following guidelines when designing Menus
+       and Menu systems:
+
+          +o Keep Menu structures simple.
+
+          +o Group like Menu elements together.
+
+          +o List Menu selections by frequency of use.
+
+          +o List Menu selections by order of use.
+
+
+
+       4-30
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+          +o Separate destructive actions.
+
+          +o Provide mnemonics and accelerators.
+
+       4.2.3.1  KKKKeeeeeeeeppppiiiinnnngggg MMMMeeeennnnuuuu SSSSttttrrrruuuuccccttttuuuurrrreeeessss SSSSiiiimmmmpppplllleeee
+
+       Applications should keep Menu structures simple.  One the
+       primary benefits of Menus is the ease of access to the ele-
+       ments of the Menu.  While cascading submenus help the appli-
+       cation and the user organize Menu elements, each level of a
+       submenu reduces the ease of access to the Menu elements.
+       Multiple levels of cascading submenus can also quickly
+       create visual clutter.  Whenever you consider using a cas-
+       cading submenu, you should consider using a DialogBox or
+       more PullDown Menus instead.
+
+       4.2.3.2  GGGGrrrroooouuuuppppiiiinnnngggg LLLLiiiikkkkeeee MMMMeeeennnnuuuu EEEElllleeeemmmmeeeennnnttttssss TTTTooooggggeeeetttthhhheeeerrrr
+
+       Applications should group Menu elements into logical groups.
+       This helps the user locate specific Menu elements.  You
+       should first try to place a new Menu element into the common
+       Menu groups described in Section 4.2.1.5.  If that is not
+       appropriate, you should group new Menu elements according to
+       function, with the more frequently used element appearing
+       first.  You should also use Separators between logical
+       groups of elements.
+
+       4.2.3.3  LLLLiiiissssttttiiiinnnngggg MMMMeeeennnnuuuu SSSSeeeelllleeeeccccttttiiiioooonnnnssss bbbbyyyy FFFFrrrreeeeqqqquuuueeeennnnccccyyyy ooooffff UUUUsssseeee
+
+       As in other client areas, applications should order Menu
+       elements according to the frequency of usage, positioning
+       the most frequently used elements near the top of the Menu.
+
+       4.2.3.4  LLLLiiiissssttttiiiinnnngggg MMMMeeeennnnuuuu SSSSeeeelllleeeeccccttttiiiioooonnnnssss bbbbyyyy OOOOrrrrddddeeeerrrr ooooffff UUUUsssseeee
+
+       More important to Menu design than the frequency of use is
+       the order of use.  Applications should order Menu elements
+       according to the order of usage.  For example, the CCCCooooppppyyyy ele-
+       ment should be placed before PPPPaaaasssstttteeee....  This helps the user's
+       interactions flow smoothly.
+
+       4.2.3.5  SSSSeeeeppppaaaarrrraaaattttiiiinnnngggg DDDDeeeessssttttrrrruuuuccccttttiiiivvvveeee AAAAccccttttiiiioooonnnnssss
+
+       Applications should separate destructive actions from fre-
+       quently chosen selections.  This is to avoid accidental
+       selection of the destructive element.  Destructive elements,
+       like DDDDeeeelllleeeetttteeee or CCCClllleeeeaaaarrrr, should be placed at the end of a Pull-
+       Down Menu and separated from other elements by a Separator.
+
+
+
+
+
+                                                               4-31
+
+
+
+
+
+
+
+
+
+
+
+
+       4.2.3.6  PPPPrrrroooovvvviiiiddddiiiinnnngggg MMMMnnnneeeemmmmoooonnnniiiiccccssss aaaannnndddd AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+
+       Applications should provide mnemonics and accelerators to
+       Menu elements.  Try to choose mnemonics and accelerators
+       that are easy to remember by using letters from the
+       element's title.  Note that mnemonics and accelerators only
+       add to the utility of your applications.  They never detract
+       from the basic ability of a new user.
+
+       Applications should provide accelerators for frequently used
+       menu items.  In general, accelerators should not be assigned
+       for every menu item in an application.  It is preferable to
+       assign accelerators that have some mnemonic value, although
+       accelerators that use function keys are acceptable.
+
+       Applications should not use accelerators that are a combina-
+       tion of the modifier MMMMAAAAlllltttt and letter keys to avoid conflicts
+       with mnemonics.  For example, MMMMAAAAlllltttt <<<<EEEE>>>> as an accelerator for
+       EEEExxxxiiiitttt conflicts with the use of MMMMAAAAlllltttt <<<<EEEE>>>> to pulldown the Edit
+       menu since it is the mnemonic for the EEEEddddiiiitttt CascadeButton in
+       the MenuBar.
+
+       Similarly, applications that involve text entry should not
+       use accelerators that are combinations of the modifier
+       MMMMSSSShhhhiiiifffftttt and letter keys to avoid conflict with the text entry
+       commands.  Applications that expect field controls to have
+       bindings that include combinations of the modifier MMMMCCCCttttrrrrllll and
+       letter keys, such as text editors, should also avoid these
+       combinations.
+
+       Accelerator bindings that use only one modifier are prefer-
+       able to bindings that use two or more modifier keys.
+
+       4.2.4  DDDDiiiiaaaallllooooggggBBBBooooxxxx DDDDeeeessssiiiiggggnnnn
+
+       When designing a DialogBox, you should follow all the same
+       layout principles as for other applications areas.  Dialog-
+       Boxes are usually transitory.  The user usually wants to
+       simply respond and get back to the primary tasks of the
+       application. To help the user respond quickly, there are a
+       number of common DialogBox actions.  By using and ordering
+       these actions consistently, you provide the user with cues
+       to quickly respond to each DialogBox.
+
+       When a DialogBox is displayed, all components within the
+       DialogBox should reflect the current state of the applica-
+       tion.  For example, if the DialogBox is used for changing
+       the current font in a text editor, the DialogBox should be
+       initially displayed with the current font.  If the DialogBox
+       is modeless, then any changes to the application should be
+       updated in the DialogBox.
+
+
+       4-32
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       DialogBoxes may limit how a user can interact with other
+       windows in order to force the order of interaction.  These
+       limitations, which are called modes, are described in the
+       following text.
+
+       MMMMooooddddeeeelllleeeessssssss              Allows interaction with the secondary
+                             window and all other windows.
+
+       PPPPrrrriiiimmmmaaaarrrryyyy mmmmooooddddaaaallll         Does not allow interaction with any
+                             ancestor of the window.
+
+       AAAApppppppplllliiiiccccaaaattttiiiioooonnnn mmmmooooddddaaaallll     Does not allow interaction with any
+                             window created by the same application
+                             even if the application has multiple
+                             primary windows.
+
+       SSSSyyyysssstttteeeemmmm mmmmooooddddaaaallll          Does not allow interaction with any
+                             window on the screen.  This includes
+                             windows from all other applications
+                             and any icon box.  To indicate a sys-
+                             tem modal secondary window, the
+                             pointer should change shape to a cau-
+                             tion pointer whenever it leaves the
+                             system modal secondary window.
+
+       Remember that the guidelines presented in this section, like
+       all the guidelines in this _S_t_y_l_e _G_u_i_d_e, only apply in a
+       left-to-right language direction environment in an English
+       locale.  You need to make the appropriate changes for other
+       locales.
+
+       4.2.4.1  CCCCoooommmmmmmmoooonnnn DDDDiiiiaaaalllloooogggg BBBBooooxxxx AAAAccccttttiiiioooonnnnssss
+
+       While your application may sometimes require special Dialog-
+       Box actions, most share common actions.  The common actions
+       provide a consistent means for the user to quickly respond
+       to DialogBoxes and get back to the primary application
+       tasks.  The common actions should be presented in a horizon-
+       tal collection of PushButtons at the bottom of the Dialog-
+       Box, separated from the rest of the DialogBox by a Separa-
+       tor.
+
+       No DialogBox will contain all of the common actions in the
+       following list.  You should use the ones appropriate to your
+       application or determine new actions so they do not conflict
+       with the common actions listed.  If you create a new action,
+       you should give it an active-voice label that indicates its
+       purpose.  A active-voice label describes the action that
+       pressing the button causes.  The actions are listed in the
+       approximate sequence in which they should appear in Dialog-
+       Boxes.
+
+
+                                                               4-33
+
+
+
+
+
+
+
+
+
+
+
+
+       YYYYeeeessss    Must indicate an affirmative response to a question
+              posed in the DialogBox, and then close the window.
+              While YYYYeeeessss is not an active-voice label, it implies a
+              positive response to a question in a QQQQuuuueeeessssttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+              or a WWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg.  Only use YYYYeeeessss if it is a clear
+              answer to the question.
+
+       NNNNoooo     Must indicate a negative response to a question posed
+              in the DialogBox, and then close the window.  While
+              NNNNoooo is not an active-voice label, it implies a nega-
+              tive response to a question in a QQQQuuuueeeessssttttiiiioooonnnnDDDDiiiiaaaalllloooogggg.
+              Only use NNNNoooo if it is a clear answer to the question.
+
+       OOOOKKKK     Must cause the application to apply any changes made
+              in the DialogBox and dismiss the DialogBox.  While OOOOKKKK
+              is not an active-voice label, its usage is too common
+              to change.
+
+       AAAAppppppppllllyyyy  Must apply any changes made to components in the
+              DialogBox.
+
+       RRRReeeettttrrrryyyy  Must cause the task in progress to be attempted
+              again.  This action is commonly found in message
+              boxes that report an error.
+
+       SSSSttttoooopppp   Must end the task in progress at the next possible
+              breaking point.  This action is commonly found in a
+              WWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaallllooooggggBBBBooooxxxx.
+
+       RRRReeeesssseeeetttt  Must cancel any user changes that have not been
+              applied to the application.  It must also reset the
+              status of the DialogBox to the state since the last
+              time the DialogBox action was applied or to the ini-
+              tial state of the DialogBox.
+
+       CCCCaaaannnncccceeeellll Must close the DialogBox without performing any
+              DialogBox actions not yet applied to the application.
+              Pressing KKKKCCCCaaaannnncccceeeellll anywhere in the DialogBox, except
+              during a cancelable drag operation, must perform the
+              action of this button.
+
+       HHHHeeeellllpppp .... .... .... Must provide any help for the DialogBox.  The
+              ellipses should not be used if the help action is not
+              provided in a new DialogBox.
+
+       If a DialogBox action causes an error, the DialogBox should
+       not be dismissed before the error is displayed.  Instead,
+       the DialogBox should remain available after the error is
+       dismissed to give the user a chance to correct the error and
+       reuse the DialogBox.
+
+
+
+       4-34
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       4.2.4.2  AAAArrrrrrrraaaannnnggggiiiinnnngggg CCCCoooommmmmmmmoooonnnn AAAAccccttttiiiioooonnnnssss
+
+       You should arrange PushButton actions in DialogBoxes in the
+       same way you arrange other PushButtons, according to order
+       and frequency of use.  The common action PushButtons should
+       be ordered as presented in the previous section.  Positive
+       responses to the DialogBox should be presented first, fol-
+       lowed by negative responses, and canceling responses.  HHHHeeeellllpppp
+       should always be the last action on the right.
+
+       The following rules should be used when determining what
+       default buttons to place in a DialogBox.
+
+          +o Modal DialogBoxes should use one of the following but-
+            ton arrangements unless superseded by another rule:
+
+            OOOOKKKK CCCCaaaannnncccceeeellll
+            OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+          +o Modeless DialogBoxes should use one of the following
+            button arrangements unless superseded by another rule:
+
+            OOOOKKKK AAAAppppppppllllyyyy CCCCaaaannnncccceeeellll
+            OOOOKKKK AAAAppppppppllllyyyy CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+            OOOOKKKK AAAAppppppppllllyyyy RRRReeeesssseeeetttt CCCCaaaannnncccceeeellll
+            OOOOKKKK AAAAppppppppllllyyyy RRRReeeesssseeeetttt CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+          +o Information DialogBoxes should use one of the following
+            button arrangements:
+
+            OOOOKKKK
+            OOOOKKKK HHHHeeeellllpppp
+
+          +o Question DialogBoxes should use one of the following
+            button arrangements:
+
+            YYYYeeeessss NNNNoooo
+            YYYYeeeessss NNNNoooo HHHHeeeellllpppp
+
+            It is possible that both the YYYYeeeessss and NNNNoooo actions of a
+            Question DialogBox will perform an action.  If this is
+            the case the Question DialogBox should use one of the
+            following button arrangements:
+
+            YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll
+            YYYYeeeessss NNNNoooo CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+          +o Warning DialogBoxes should use one of the following
+            button arrangements:
+
+
+
+
+                                                               4-35
+
+
+
+
+
+
+
+
+
+
+
+
+            YYYYeeeessss NNNNoooo
+            YYYYeeeessss NNNNoooo HHHHeeeellllpppp
+            OOOOKKKK CCCCaaaannnncccceeeellll
+            OOOOKKKK CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+          +o Working DialogBoxes should use one of the following
+            button arrangements:
+
+            CCCCaaaannnncccceeeellll
+            CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+            RRRReeeettttrrrryyyy CCCCaaaannnncccceeeellll
+            RRRReeeettttrrrryyyy CCCCaaaannnncccceeeellll HHHHeeeellllpppp
+
+       4.2.4.3  DDDDeeeetttteeeerrrrmmmmiiiinnnniiiinnnngggg DDDDiiiiaaaallllooooggggBBBBooooxxxx LLLLooooccccaaaattttiiiioooonnnn aaaannnndddd SSSSiiiizzzzeeee
+
+       Your application determines the size and location of its
+       DialogBoxes.  You should size and place DialogBoxes so that
+       they do not obscure important information in other windows
+       of your application.  The initial size of a DialogBox should
+       be large enough to contain the dialog components without
+       crowding or visual confusion, but otherwise should be as
+       small as possible.  DialogBoxes should follow the same rules
+       for resizing as a MainWindow as described in Section
+       4.2.2.3.
+
+       You should place DialogBoxes on the screen so they are com-
+       pletely visible.
+
+       In general you should place DialogBoxes close to either the
+       component that caused it to be displayed, the current
+       action, or the information needed to respond to it.  When a
+       DialogBox relates to an item in an underlying window, you
+       should position the DialogBox to the right of the item.  If
+       there is not enough room to the right of the item, try to
+       position the DialogBox to the left, below or above the item,
+       in that order, depending on screen space available.  You
+       should only obscure related information as a last resort.
+
+       If a DialogBox does not relate to items in the underlying
+       windows, the DialogBox should be placed centered in the
+       application's work area.
+
+       If two DialogBoxes need to overlay, you should offset the
+       top DialogBox to the right and below the title of the lower
+       DialogBox.  Use your best judgement, knowing that the screen
+       area for DialogBoxes is limited.
+
+       While the previous suggestions seem simple enough, they can-
+       not always be followed completely.  Therefore, DialogBoxes,
+       once displayed, should be movable so that the user can relo-
+       cate them as needed to see information in underlying
+
+
+       4-36
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       windows.
+
+       4.3  IIIInnnntttteeeerrrraaaaccccttttiiiioooonnnn
+
+       This section gives guidelines for creating applications with
+       consistent interactions.  When an application behaves as
+       expected and the user is not surprised by the results of the
+       actions, the user can complete tasks quicker.  This section
+       presents the following guidelines for good application
+       interaction:
+
+          +o Supply indications of actions.
+
+          +o Give feedback.
+
+          +o Allow user flexibility.
+
+       4.3.1  SSSSuuuuppppppppllllyyyyiiiinnnngggg IIIInnnnddddiiiiccccaaaattttiiiioooonnnnssss ooooffff AAAAccccttttiiiioooonnnnssss
+
+       The first step to consistent interaction is to provide cues
+       to the result of every action.  This means that actions of
+       components should be indicated by the component's shape,
+       label, and graphics.  It also means that the actions and
+       interactions of components should remain consistent, so the
+       user always knows what to expect.
+
+       Lastly, it means that interactions should be simple.  As
+       interactions become complicated, it also becomes difficult
+       to visually represent the interaction.  Complicated interac-
+       tions and components create the possibility for more errors.
+       Even the most complicated concepts can be clarified by care-
+       ful organization, so if your application's interactions seem
+       complicated, consider reorganizing them for simplicity.
+
+       4.3.1.1  UUUUssssiiiinnnngggg CCCCoooommmmmmmmoooonnnn CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       Users expect components to behave consistently across all
+       applications.  PushButtons always perform an action. Option-
+       Buttons always provide selections.  Because of this, when
+       users want to perform an action, they look for a PushButton,
+       usually in a Menu.  They do not look for an OptionButton.
+       You should use the components that are provided when
+       appropriate, rather than create new ones.  You should not
+       alter the look of a component so that it is unrecognizable
+       as the type of component that it is.
+
+
+
+
+
+
+
+
+                                                               4-37
+
+
+
+
+
+
+
+
+
+
+
+
+       4.3.1.2  UUUUssssiiiinnnngggg IIIInnnnttttuuuuiiiittttiiiivvvveeee LLLLaaaabbbbeeeellllssss
+
+       One of the best indicators of the action of a component is
+       its label.  The label can be either text or a graphic.  You
+       should choose your labels carefully to indicate the action
+       of each component.
+
+       Components that perform actions should be labeled with
+       active verbs.  Components that present options should be
+       labeled with nouns.  You should also label component groups,
+       including Panels, with nouns to indicate the the contents of
+       the group.
+
+       Consider the use of graphics as labels with two cautions.
+       Graphic labels cannot be nouns or active verbs, so choose a
+       graphic whose meaning is clear in the context of the com-
+       ponent.  Also remember that while graphic symbols are very
+       language independent, they can be highly culture specific.
+       In some cultures, a mailbox graphic can indicate a mailer
+       action, but since mailboxes are not common in all cultures,
+       an envelope graphic may be better, or you can provide a
+       mechanism for changing the graphic based on the locale.
+
+       4.3.1.3  UUUUssssiiiinnnngggg GGGGrrrraaaapppphhhhiiiiccccssss ttttoooo SSSShhhhoooowwww AAAAccccttttiiiioooonnnn
+
+       Many components also include a small graphic symbol follow-
+       ing the label to indicate the action of the component.  Cas-
+       cadeButtons should use an arrow graphic that points in the
+       direction the cascading Menu will appear.  OptionButtons
+       should use a rectangle graphic to distinguish them from
+       PushButtons.  Any component that causes a DialogBox to be
+       displayed should include an ellipses following the label.
+
+       All previously mentioned graphics should follow the text or
+       graphic of the label.  In left-to-right direction language
+       environments, the graphic should be on the right.  In
+       right-to-left direction language environments, the graphic
+       should be on the left.  Note that the graphic indicating the
+       state of a ToggleButtons is precedes the label in a left-
+       to-right direction language environment.
+
+       4.3.1.4  SSSShhhhoooowwwwiiiinnnngggg DDDDeeeeffffaaaauuuulllltttt AAAAccccttttiiiioooonnnnssss
+
+       Your application should use default values for common set-
+       tings or obvious selections.  Default values should be shown
+       in the on state.  For example, the default value for a Text
+       area should be in the Text area in the selected state when-
+       ever text entry is requested; the default selection in a
+       List should be set in the selected state whenever a list
+       selection is requested; or the default RadioButton should be
+       filled in a Panel at application start-up time.  In any
+
+
+       4-38
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       case, once the state is changed, the new state should take
+       the place of the default until the state is reset.  Your
+       application can decide whether to save its state after being
+       closed.
+
+       Groups of controls, such as a DialogBox, can also have a
+       default action.  The default action is usually activated by
+       pressing KKKKAAAAccccttttiiiivvvvaaaatttteeee....  KKKKAAAAccccttttiiiivvvvaaaatttteeee is usually bound to <<<<RRRReeeettttuuuurrrrnnnn>>>>
+       or MMMMCCCCttttrrrrllll<Return>....  The default action of a component group
+       should be distinguished from the other selections by an
+       extra border as shown in Figure 4-14.
+
+                    FFFFiiiigggguuuurrrreeee 4444----11114444....  A Default PushButton
+
+
+
+
+
+
+
+
+
+
+
+
+       The OOOOKKKK PushButton should be the default PushButton in modal
+       DialogBoxes and modeless DialogBoxes that are transient.
+       The AAAAppppppppllllyyyy PushButton should be the default PushButton in a
+       modeless DialogBox that is likely to be displayed for multi-
+       ple actions.
+
+       Using the keyboard to navigate through the PushButtons, the
+       button with the location cursor should become the default
+       PushButton.  This ensures that pressing KKKKAAAAccccttttiiiivvvvaaaatttteeee over a
+       PushButton invokes the correct PushButton.  When the loca-
+       tion cursor leaves the PushButtons, the original default
+       button should once again become the default.
+
+       4.3.1.5  AAAAvvvvooooiiiiddddiiiinnnngggg CCCCoooommmmppppoooonnnneeeennnntttt MMMMooooddddeeeessss
+
+       A component has modes when its action changes based on some
+       previous action or the state of the application.  This is
+       very confusing to the user, who was expecting the original
+       action of the component.  Components in your application
+       should not have modes.  Your application should use multiple
+       components, rather than modal components.
+
+
+
+
+
+
+
+                                                               4-39
+
+
+
+
+
+
+
+
+
+
+
+
+       4.3.1.6  SSSShhhhoooowwwwiiiinnnngggg UUUUnnnnaaaavvvvaaaaiiiillllaaaabbbblllleeee CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       As the state of your application changes, certain components
+       become inappropriate.  For example, the MMMMiiiinnnniiiimmmmiiiizzzzeeee selection
+       in a window Menu is inappropriate when the window is already
+       minimized.  In such cases, you should make the inappropriate
+       components unavailable.  This is also called disabling the
+       components.  Disabled components should be visually deem-
+       phasized, usually by graying the label of the component.
+
+       You should not remove unavailable components from the appli-
+       cation client areas.  The components should remain visible
+       to remind the user of their existence, and to ensure appli-
+       cation consistency.  Figure 4-15 shows a disabled Menu ele-
+       ment.
+
+                  FFFFiiiigggguuuurrrreeee 4444----11115555....  A Disabled Menu Element
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       You should disable Menu items and components to help avoid
+       errors.  In general, you should disable the lowest level
+       component that results in an irreversible error state.  For
+       example, consider a graphics editor that has a DialogBox
+       that is used for aligning selected graphics objects.  If the
+       user may want to see the choices in the DialogBox even if
+       the choices are not available, this DialogBox should be
+       displayable at all times; its Menu item should not be dis-
+       abled.  If there are no graphics objects to align, the
+       DialogBox should still be displayed, but its OOOOKKKK and AAAAppppppppllllyyyy
+       buttons should be disabled.  Once graphics objects are
+       selected, the OOOOKKKK and AAAAppppppppllllyyyy buttons should become enabled.
+
+       Menu items that are inappropriate and will result in error
+       messages should be disabled.  Some examples are the EEEEddddiiiitttt
+
+
+       4-40
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+       Menu's CCCCuuuutttt and CCCCooooppppyyyy actions when nothing is selected.  The
+       EEEEddddiiiitttt Menu's UUUUnnnnddddoooo entry should be disabled if the last opera-
+       tion cannot be undone.
+
+       Menu items that perform no action, need not be disabled.
+       For example, the NNNNeeeewwww entry in the FFFFiiiilllleeee Menu need not be dis-
+       abled immediately after it is invoked.  It can be selectable
+       repeatedly, even though it performs no new action, because
+       it does not result in an error state.
+
+       A Menu item that displays a modal DialogBox should be dis-
+       abled if it would cause an error either on display of the
+       box, or on clicking the OOOOKKKK or AAAAppppppppllllyyyy buttons in the Dialog-
+       Box.  Since the DialogBox is modal, nothing can be changed
+       in the application to correct the error until the box is
+       dismissed, and it should not be displayable until the appli-
+       cation is in a state that makes the action of the DialogBox
+       possible.
+
+       Menu items that display modeless DialogBoxes should never be
+       disabled.  If a box is modeless, at any time the user can
+       change the state of the application to make the DialogBox
+       useful.  If the action cannot be completed because some
+       necessary information is not yet available, then the OOOOKKKK and
+       AAAAppppppppllllyyyy buttons should be disabled.
+
+       You should avoid frequently disabling and enabling com-
+       ponents in situations where the state change would cause a
+       distracting flashing.  For example, editing a Text component
+       in a DialogBox may cause some buttons to be inappropriate at
+       each invalid text value.  In this case, you should display
+       an error message if the OOOOKKKK or AAAAppppppppllllyyyy button is clicked for an
+       inappropriate text value.  Of course, the error message
+       should explain the valid text values.
+
+       4.3.2  PPPPrrrroooovvvviiiiddddiiiinnnngggg FFFFeeeeeeeeddddbbbbaaaacccckkkk
+
+       Another important element to user interaction is providing
+       feedback about the current state of the application.  This
+       is done, as described in the previous section, using labels
+       and graphics, and by keeping the interface consistent.  Your
+       application should also dynamically indicate the state of
+       the application's actions.  For example, the mouse pointer
+       shape changes to indicate when and where special actions can
+       occur.  Chapter 2 describes mouse pointer shapes in detail.
+       Other ways to provide the user feedback are described in the
+       following sections.
+
+
+
+
+
+
+                                                               4-41
+
+
+
+
+
+
+
+
+
+
+
+
+       4.3.2.1  SSSShhhhoooowwwwiiiinnnngggg PPPPrrrrooooggggrrrreeeessssssss
+
+       If an action takes a long time to complete, the user may
+       mistake the delay to mean that the system or the application
+       stopped working.  For actions that take a long time to com-
+       plete, your application should indicate that there will be a
+       delay with a WWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaalllloooogggg.  If your application can track
+       the progress of long actions, it should try to update the
+       WWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaalllloooogggg with the progress of the action.
+
+       4.3.2.2  PPPPrrrroooovvvviiiiddddiiiinnnngggg WWWWaaaarrrrnnnniiiinnnnggggssss
+
+       Certain actions can cause destructive results, such as clos-
+       ing an application before saving changes in the current
+       file.  Applications should not disallow such destructive
+       actions, instead they should warn the user of the conse-
+       quences with a WWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg....  The WWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg must allow
+       the user to cancel the destructive action.  Note that too
+       many WWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaallllooooggggssss can be disruptive to the user's main
+       task.  WWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaallllooooggggssss should be reserved for truly destruc-
+       tive actions.  For destructive actions that can easily be
+       recovered from, applications should provide undo actions to
+       reverse them; for example, the UUUUnnnnddddoooo element of the EEEEddddiiiitttt
+       PullDown Menu.
+
+       4.3.2.3  PPPPrrrroooovvvviiiiddddiiiinnnngggg HHHHeeeellllpppp
+
+       Even in the most intuitive application, the purpose of a
+       component or the way to do a task can be hard to figure out
+       for a new user.  Your application should provide a help
+       mechanism for all of its aspects.  Section 4.2.1.5 describes
+       the most common base for a help mechanism, the HHHHeeeellllpppp PullDown
+       Menu on the MenuBar.  Context-sensitive help should also be
+       available by using the KKKKHHHHeeeellllpppp key.  KKKKHHHHeeeellllpppp is usually bound to
+       <<<<FFFF1111>>>>, or <<<<HHHHeeeellllpppp>>>>.
+
+       4.3.3  AAAAlllllllloooowwwwiiiinnnngggg UUUUsssseeeerrrr FFFFlllleeeexxxxiiiibbbbiiiilllliiiittttyyyy
+
+       Good user-application interaction should also allow user
+       flexibility.  No matter how well your application is
+       designed, some users will not like parts of it.  They will
+       want to change some elements of it; for example, from simple
+       elements like the colors and fonts to complicated elements
+       like the default values.  You should allow users to adjust
+       elements of your applications because it increases their
+       sense of control over the applications.  You should consider
+       the following attributes of your applications for user cus-
+       tomization:
+
+          +o Application parameters
+
+
+
+       4-42
+
+
+
+
+
+
+
+
+
+                                      Application Design Principles
+
+
+          +o Colors
+
+          +o Fonts
+
+          +o Default values
+
+          +o Key bindings
+
+          +o Labels
+
+          +o Messages
+
+          +o Help information
+
+       The exact list of attributes you should allow the user to
+       customize depends on your application.
+
+       4.4  CCCCoooommmmppppoooonnnneeeennnntttt DDDDeeeessssiiiiggggnnnn
+
+       For consistency with other applications, you should always
+       try to use existing components for your application tasks,
+       but there are cases where new components are needed.  In
+       designing new components, you should follow the same rules
+       as application designers follow.  You should think of com-
+       ponents as small applications.  They perform a task, present
+       information to the user, and take information from the user.
+       New components must follow the guidelines for designing
+       applications.
+
+       The first step to designing a new component is to compare
+       its features with those of the other components.  If the new
+       component has a feature that is the same as another com-
+       ponent, the mechanisms for using the feature, layout, key
+       bindings, graphics, and so on, should be the same in the new
+       component.  You should also try to match the appearance
+       style of components on your system.  Most OSF/Motif compli-
+       ant systems use a 3-dimensional beveled presentation style.
+       Appearance is not specified as a matter of component style
+       in this _S_t_y_l_e _G_u_i_d_e; however, any new components will
+       assimilate better with existing components if they try to
+       conform to the implied appearance style for the system on
+       which they will be used.
+
+
+
+
+
+
+
+
+
+
+
+                                                               4-43
+
+
+
+
+

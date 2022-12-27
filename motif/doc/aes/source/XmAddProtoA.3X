@@ -1,0 +1,87 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmAddProtocolCallback 3X "" "" "" ""
+.SH NAME
+\fBXmAddProtocolCallback \(em A VendorShell function that adds client
+callbacks for a protocol.\fP
+.iX "XmAddProtocolCallback"
+.iX "VendorShell functions" "XmAddProtocolCallback"
+.iX "protocols"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmAddProtocolCallback (\fIshell, property, protocol, callback, closure\fP)
+.br
+.ta .5i 1.75i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIproperty\fP;
+.br
+	Atom	\fIprotocol\fP;
+.br
+	XtCallbackProc	\fIcallback\fP;
+.br
+	caddr_t	\fIclosure\fP;
+.sp 1
+void XmAddWMProtocolCallback (\fIshell, protocol, callback, closure\fP)
+.br
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIprotocol\fP;
+.br
+	XtCallbackProc	\fIcallback\fP;
+.br
+	caddr_t	\fIclosure\fP;
+.fi
+\fP
+.br
+.ne 10
+.SH DESCRIPTION
+\fBXmAddProtocolCallback\fP adds client callbacks for a protocol.  It
+checks if the protocol is registered, and if it is not,
+calls \fBXmAddProtocols\fP.  It then adds the callback to
+the internal list.  These callbacks are called when
+the corresponding client message is received.
+.PP 
+\fBXmAddWMProtocolCallback\fP is a convenience interface.  
+It calls \fBXmAddProtocolCallback\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.sp 1
+.IP "\fIshell\fP" .75i
+Specifies the widget with which the protocol property is associated.
+.IP "\fIproperty\fP" .75i
+Specifies the protocol property.
+.IP "\fIprotocol\fP" .75i
+Specifies the protocol \fBAtom\fP (or an \fBint\fR type cast to \fBAtom\fP).
+.IP "\fIcallback\fP" .75i
+Specifies the procedure to call when a protocol message is received.
+.IP "\fIclosure\fP" .75i
+Specifies the client data to be passed to the callback when it is invoked.
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+.na
+\fBVendorShell(3X)\fP, \fBXmAddProtocols(3X)\fP, 
+\fBXmAddWMProtocolCallback(3X)\fP, and \fBXmInternAtom(3X)\fP.
+.sp 1
+.ad

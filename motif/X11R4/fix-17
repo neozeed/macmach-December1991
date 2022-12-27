@@ -1,0 +1,1894 @@
+This patch is a continuation of fix-15.  You must apply it at the same time
+as fix-15 and fix-16.
+
+cd to the top of the X tree and apply with "patch -p0".
+
+*** /tmp/,RCSt1a13680	Fri Sep 28 14:22:09 1990
+--- mit/lib/Xt/Selection.c	Fri Sep 28 14:22:10 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] =
+!     "$XConsortium: Selection.c,v 1.45 90/02/16 11:45:54 kit Exp $";
+! #endif
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Selection.c,v 1.56 90/09/24 16:39:34 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 78,85 ****
+      PropList sarray = (PropList)closure;
+      XDeleteContext(sarray->dpy, DefaultRootWindow(sarray->dpy),
+  		   selectPropertyContext);
+!     XtFree((XtPointer)sarray->list);
+!     XtFree(closure);
+  }
+  
+  
+--- 75,82 ----
+      PropList sarray = (PropList)closure;
+      XDeleteContext(sarray->dpy, DefaultRootWindow(sarray->dpy),
+  		   selectPropertyContext);
+!     XtFree((char*)sarray->list);
+!     XtFree((char*)closure);
+  }
+  
+  
+***************
+*** 145,151 ****
+   if (XFindContext(dpy, DefaultRootWindow(dpy), selectPropertyContext,
+      (caddr_t *)&sarray)) 
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	    "noSelectionProperties", "freeSelectionProperty", "XtToolkitError",
+  		"internal error: no selection property context for display",
+  		 (String *)NULL,  (Cardinal *)NULL );
+   for (p = sarray->list; p; p++) 
+--- 142,148 ----
+   if (XFindContext(dpy, DefaultRootWindow(dpy), selectPropertyContext,
+      (caddr_t *)&sarray)) 
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	    "noSelectionProperties", "freeSelectionProperty", XtCXtToolkitError,
+  		"internal error: no selection property context for display",
+  		 (String *)NULL,  (Cardinal *)NULL );
+   for (p = sarray->list; p; p++) 
+***************
+*** 193,199 ****
+  	info->timeout = XtAppAddTimeOut(app,
+  			 app->selectionTimeout, ReqTimedOut, (XtPointer)info);
+  #endif 
+! 	XtAddEventHandler(info->widget, (EventMask) NULL, TRUE,
+  			  HandleSelectionReplies, (XtPointer)info);
+  	XConvertSelection(info->ctx->dpy, selection, target, 
+  			  info->property, XtWindow(info->widget), info->time);
+--- 190,196 ----
+  	info->timeout = XtAppAddTimeOut(app,
+  			 app->selectionTimeout, ReqTimedOut, (XtPointer)info);
+  #endif 
+! 	XtAddEventHandler(info->widget, (EventMask)0, TRUE,
+  			  HandleSelectionReplies, (XtPointer)info);
+  	XConvertSelection(info->ctx->dpy, selection, target, 
+  			  info->property, XtWindow(info->widget), info->time);
+***************
+*** 200,224 ****
+  }
+  
+  
+  
+  static Select FindCtx(dpy, selection)
+  Display *dpy;
+  Atom selection;
+  {
+      Select ctx;
+-     static XContext selectContext = 0;
+  
+      if (selectContext == 0)
+  	selectContext = XUniqueContext();
+!     if (XFindContext(dpy, (Window)selection, selectContext, (caddr_t *)&ctx)) {
+! 	PropList sarray = GetPropList(dpy);
+! 	ctx = XtNew(SelectRec);
+! 	ctx->dpy = dpy;
+! 	ctx->selection = selection;
+! 	ctx->widget = NULL;
+! 	ctx->prop_list = sarray;
+! 	(void)XSaveContext(dpy, (Window)selection, selectContext, (caddr_t)ctx);
+!     }
+      return ctx;
+  }
+  
+--- 197,232 ----
+  }
+  
+  
++ static XContext selectContext = 0;
+  
++ static Select NewContext(dpy, selection)
++ Display *dpy;
++ Atom selection;
++ {
++     /* assert(selectContext != 0) */
++     Select ctx = XtNew(SelectRec);
++     ctx->dpy = dpy;
++     ctx->selection = selection;
++     ctx->widget = NULL;
++     ctx->prop_list = GetPropList(dpy);
++     ctx->ref_count = 0;
++     ctx->free_when_done = FALSE;
++     ctx->was_disowned = FALSE;
++     (void)XSaveContext(dpy, (Window)selection, selectContext, (caddr_t)ctx);
++     return ctx;
++ }
++ 
+  static Select FindCtx(dpy, selection)
+  Display *dpy;
+  Atom selection;
+  {
+      Select ctx;
+  
+      if (selectContext == 0)
+  	selectContext = XUniqueContext();
+!     if (XFindContext(dpy, (Window)selection, selectContext, (caddr_t *)&ctx))
+! 	ctx = NewContext(dpy, selection);
+! 
+      return ctx;
+  }
+  
+***************
+*** 228,239 ****
+  XtPointer closure, data;
+  {
+      Select ctx = (Select) closure;
+!     if (ctx->widget == widget)
+! 	ctx->widget = NULL;
+  }
+  
+  /* Selection Owner code */
+  
+  static Boolean LoseSelection(ctx, widget, selection, time)
+  Select ctx;
+  Widget widget;
+--- 236,253 ----
+  XtPointer closure, data;
+  {
+      Select ctx = (Select) closure;
+!     if (ctx->widget == widget) {
+! 	if (ctx->free_when_done)
+! 	    XtFree((char*)ctx);
+! 	else
+! 	    ctx->widget = NULL;
+!     }
+  }
+  
+  /* Selection Owner code */
+  
++ static void HandleSelectionEvents();
++ 
+  static Boolean LoseSelection(ctx, widget, selection, time)
+  Select ctx;
+  Widget widget;
+***************
+*** 240,260 ****
+  Atom selection;
+  Time time;
+  {
+-     static void HandleSelectionEvents();
+- 
+      if ((ctx->widget == widget) &&
+  	(ctx->selection == selection) && /* paranoia */
+  	((time == CurrentTime) || (time >= ctx->time)))
+      {
+! 	XtRemoveEventHandler(widget, (EventMask) NULL, TRUE,
+  			     HandleSelectionEvents, (XtPointer)ctx); 
+  	XtRemoveCallback(widget, XtNdestroyCallback, 
+  			 WidgetDestroyed, (XtPointer)ctx); 
+! 	ctx->widget = NULL; /* widget officially loses ownership */
+  	/* now inform widget */
+  	if (ctx->loses) { 
+  	    if (ctx->incremental)  
+! 	       (*ctx->loses)(widget, &ctx->selection, ctx->owner_closure);
+  	    else  (*ctx->loses)(widget, &ctx->selection);
+  	}
+  	return(TRUE);
+--- 254,274 ----
+  Atom selection;
+  Time time;
+  {
+      if ((ctx->widget == widget) &&
+  	(ctx->selection == selection) && /* paranoia */
++ 	!ctx->was_disowned &&
+  	((time == CurrentTime) || (time >= ctx->time)))
+      {
+! 	XtRemoveEventHandler(widget, (EventMask)0, TRUE,
+  			     HandleSelectionEvents, (XtPointer)ctx); 
+  	XtRemoveCallback(widget, XtNdestroyCallback, 
+  			 WidgetDestroyed, (XtPointer)ctx); 
+! 	ctx->was_disowned = TRUE; /* widget officially loses ownership */
+  	/* now inform widget */
+  	if (ctx->loses) { 
+  	    if (ctx->incremental)  
+! 	       (*(XtLoseSelectionIncrProc)ctx->loses)
+! 		   (widget, &ctx->selection, ctx->owner_closure);
+  	    else  (*ctx->loses)(widget, &ctx->selection);
+  	}
+  	return(TRUE);
+***************
+*** 314,320 ****
+  	    _XtUnregisterWindow(window, widget);
+  	    XSelectInput(dpy, window, 0L);
+  	    (void)XDeleteContext(dpy, window, selectWindowContext);
+! 	    XtFree((XtPointer)requestWindow);
+  	}
+      } else {
+          XtRemoveEventHandler(widget, mask, TRUE,  proc, closure); 
+--- 328,334 ----
+  	    _XtUnregisterWindow(window, widget);
+  	    XSelectInput(dpy, window, 0L);
+  	    (void)XDeleteContext(dpy, window, selectWindowContext);
+! 	    XtFree((char*)requestWindow);
+  	}
+      } else {
+          XtRemoveEventHandler(widget, mask, TRUE,  proc, closure); 
+***************
+*** 336,348 ****
+  			     ctx->owner_closure);
+      } else {
+  	if (ctx->notify == NULL)
+! 	    XtFree((XtPointer)req->value);
+  	else {
+  	    /* the requestor hasn't deleted the property, but
+  	     * the owner needs to free the value.
+  	     */
+  	    if (ctx->incremental)
+! 		(*ctx->notify)(ctx->widget, &ctx->selection, &req->target, 
+  			       (XtRequestId*)&req, ctx->owner_closure);
+  	    else
+  		(*ctx->notify)(ctx->widget, &ctx->selection, &req->target);
+--- 350,363 ----
+  			     ctx->owner_closure);
+      } else {
+  	if (ctx->notify == NULL)
+! 	    XtFree((char*)req->value);
+  	else {
+  	    /* the requestor hasn't deleted the property, but
+  	     * the owner needs to free the value.
+  	     */
+  	    if (ctx->incremental)
+! 		(*(XtSelectionDoneIncrProc)ctx->notify)
+! 			      (ctx->widget, &ctx->selection, &req->target, 
+  			       (XtRequestId*)&req, ctx->owner_closure);
+  	    else
+  		(*ctx->notify)(ctx->widget, &ctx->selection, &req->target);
+***************
+*** 351,357 ****
+  
+      RemoveHandler(ctx->dpy, req->requestor, req->widget,
+  	  	(EventMask) PropertyChangeMask, HandlePropertyGone, closure); 
+!     XtFree((XtPointer)req);
+  }
+  
+  static void SendIncrement(incr)
+--- 366,374 ----
+  
+      RemoveHandler(ctx->dpy, req->requestor, req->widget,
+  	  	(EventMask) PropertyChangeMask, HandlePropertyGone, closure); 
+!     XtFree((char*)req);
+!     if (--ctx->ref_count == 0 && ctx->free_when_done)
+! 	XtFree((char*)ctx);
+  }
+  
+  static void SendIncrement(incr)
+***************
+*** 364,370 ****
+          incrSize = incr->bytelength - incr->offset;
+      XChangeProperty(dpy, incr->requestor, incr->property, 
+      	    incr->type, incr->format, PropModeReplace, 
+! 	    (unsigned char *)&incr->value[incr->offset], 
+  	    NUMELEM(incrSize, incr->format));
+      incr->offset += incrSize;
+  }
+--- 381,387 ----
+          incrSize = incr->bytelength - incr->offset;
+      XChangeProperty(dpy, incr->requestor, incr->property, 
+      	    incr->type, incr->format, PropModeReplace, 
+! 	    (unsigned char *)incr->value + incr->offset,
+  	    NUMELEM(incrSize, incr->format));
+      incr->offset += incrSize;
+  }
+***************
+*** 378,384 ****
+  		    PropModeReplace, (unsigned char *) NULL, 0);
+      req->allSent = TRUE;
+  
+!     if (ctx->notify == NULL) XtFree((XtPointer)req->value);
+  }
+  
+  static void HandlePropertyGone(widget, closure, ev)
+--- 395,401 ----
+  		    PropModeReplace, (unsigned char *) NULL, 0);
+      req->allSent = TRUE;
+  
+!     if (ctx->notify == NULL) XtFree((char*)req->value);
+  }
+  
+  static void HandlePropertyGone(widget, closure, ev)
+***************
+*** 403,415 ****
+      if (req->allSent) { 
+  	if (ctx->notify)  
+  	    if (ctx->incremental) {
+! 		(*ctx->notify)(ctx->widget, &ctx->selection, &req->target,
+  			       (XtRequestId*)&req, ctx->owner_closure);
+  	    }
+  	    else (*ctx->notify)(ctx->widget, &ctx->selection, &req->target);
+  	RemoveHandler(event->display, event->window, widget,
+  	  	(EventMask) PropertyChangeMask, HandlePropertyGone, closure); 
+! 	XtFree((XtPointer)req);
+      } else  { /* is this part of an incremental transfer? */ 
+  	if (ctx->incremental) {
+  	     if (req->bytelength == 0)
+--- 420,435 ----
+      if (req->allSent) { 
+  	if (ctx->notify)  
+  	    if (ctx->incremental) {
+! 		(*(XtSelectionDoneIncrProc)ctx->notify)
+! 			      (ctx->widget, &ctx->selection, &req->target,
+  			       (XtRequestId*)&req, ctx->owner_closure);
+  	    }
+  	    else (*ctx->notify)(ctx->widget, &ctx->selection, &req->target);
+  	RemoveHandler(event->display, event->window, widget,
+  	  	(EventMask) PropertyChangeMask, HandlePropertyGone, closure); 
+! 	XtFree((char*)req);
+! 	if (--ctx->ref_count == 0 && ctx->free_when_done)
+! 	    XtFree((char*)ctx);
+      } else  { /* is this part of an incremental transfer? */ 
+  	if (ctx->incremental) {
+  	     if (req->bytelength == 0)
+***************
+*** 417,426 ****
+  	     else {
+  		unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+      		SendIncrement(req);
+! 		(*ctx->convert)(ctx->widget, &ctx->selection, &req->target, 
+  			    &req->type, &req->value, 
+  			    &req->bytelength, &req->format,
+! 			    &size, ctx->owner_closure, (XtRequestId*)&req);
+  		if (req->bytelength)
+  		    req->bytelength = BYTELENGTH(req->bytelength, req->format);
+  		req->offset = 0;
+--- 437,447 ----
+  	     else {
+  		unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+      		SendIncrement(req);
+! 		(*(XtConvertSelectionIncrProc)ctx->convert)
+! 			   (ctx->widget, &ctx->selection, &req->target, 
+  			    &req->type, &req->value, 
+  			    &req->bytelength, &req->format,
+! 			    &size, ctx->owner_closure, (XtPointer*)&req);
+  		if (req->bytelength)
+  		    req->bytelength = BYTELENGTH(req->bytelength, req->format);
+  		req->offset = 0;
+***************
+*** 514,526 ****
+  	format = 32;
+      }
+      else {
+  	if (ctx->incremental == TRUE) {
+  	     unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+! 	     if ((*ctx->convert)(ctx->widget, &event->selection, &target,
+  				&targetType, &value, &length, &format,
+  				&size, ctx->owner_closure, (XtRequestId*)&req)
+  		     == FALSE) {
+! 		 XtFree((XtPointer)req);
+  		 return(FALSE);
+  	     }
+  	     PrepareIncremental(req, widget, event->requestor, property,
+--- 535,550 ----
+  	format = 32;
+      }
+      else {
++ 	ctx->ref_count++;
+  	if (ctx->incremental == TRUE) {
+  	     unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+! 	     if ((*(XtConvertSelectionIncrProc)ctx->convert)
+! 			       (ctx->widget, &event->selection, &target,
+  				&targetType, &value, &length, &format,
+  				&size, ctx->owner_closure, (XtRequestId*)&req)
+  		     == FALSE) {
+! 		 XtFree((char*)req);
+! 		 ctx->ref_count--;
+  		 return(FALSE);
+  	     }
+  	     PrepareIncremental(req, widget, event->requestor, property,
+***************
+*** 531,544 ****
+  	ctx->req = req;
+  	if ((*ctx->convert)(ctx->widget, &event->selection, &target,
+  			    &targetType, &value, &length, &format) == FALSE) {
+! 	    XtFree((XtPointer)req);
+  	    ctx->req = NULL;
+  	    return(FALSE);
+  	}
+  	ctx->req = NULL;
+      }
+      if (BYTELENGTH(length,format) <= MAX_SELECTION_INCR(ctx->dpy)) {
+! 	if (! timestamp_target && ctx->notify != NULL) {
+  		  req->target = target;
+  		  req->property = property;
+  		  req->widget = widget;
+--- 555,570 ----
+  	ctx->req = req;
+  	if ((*ctx->convert)(ctx->widget, &event->selection, &target,
+  			    &targetType, &value, &length, &format) == FALSE) {
+! 	    XtFree((char*)req);
+  	    ctx->req = NULL;
++ 	    ctx->ref_count--;
+  	    return(FALSE);
+  	}
+  	ctx->req = NULL;
+      }
+      if (BYTELENGTH(length,format) <= MAX_SELECTION_INCR(ctx->dpy)) {
+! 	if (! timestamp_target) {
+! 	    if (ctx->notify != NULL) {
+  		  req->target = target;
+  		  req->property = property;
+  		  req->widget = widget;
+***************
+*** 554,559 ****
+--- 580,587 ----
+  	          AddHandler(ctx->dpy, event->requestor,
+  			     widget, (EventMask) PropertyChangeMask, 
+  			     HandlePropertyGone, (XtPointer)req);
++ 	      }
++ 	      else ctx->ref_count--;
+          }
+  	XChangeProperty(ctx->dpy, event->requestor, property, 
+  			targetType, format, PropModeReplace,
+***************
+*** 560,567 ****
+  			(unsigned char *)value, (int)length);
+  	/* free storage for client if no notify proc */
+  	if (timestamp_target || ctx->notify == NULL) {
+! 	    XtFree((XtPointer)value);
+! 	    XtFree((XtPointer)req);
+  	}
+  	*incremental = FALSE;
+      } else {
+--- 588,595 ----
+  			(unsigned char *)value, (int)length);
+  	/* free storage for client if no notify proc */
+  	if (timestamp_target || ctx->notify == NULL) {
+! 	    XtFree((char*)value);
+! 	    XtFree((char*)req);
+  	}
+  	*incremental = FALSE;
+      } else {
+***************
+*** 573,584 ****
+  }
+  
+  /*ARGSUSED*/
+! static void HandleSelectionEvents(widget, closure, event)
+  Widget widget;
+  XtPointer closure;
+  XEvent *event;
+  {
+!     Select eventCtx, ctx;
+      XSelectionEvent ev;
+      Boolean incremental;
+      Atom target;
+--- 601,613 ----
+  }
+  
+  /*ARGSUSED*/
+! static void HandleSelectionEvents(widget, closure, event, cont)
+  Widget widget;
+  XtPointer closure;
+  XEvent *event;
++ Boolean *cont;
+  {
+!     Select ctx;
+      XSelectionEvent ev;
+      Boolean incremental;
+      Atom target;
+***************
+*** 588,608 ****
+      ctx = (Select) closure;
+      switch (event->type) {
+        case SelectionClear:
+- 	eventCtx = FindCtx(event->xselectionclear.display,
+- 			   event->xselectionclear.selection);
+  	/* if this event is not for the selection we registered for,
+  	 * don't do anything */
+! 	if (eventCtx != ctx)
+  	    break;
+  	(void) LoseSelection(ctx, widget, event->xselectionclear.selection,
+  			event->xselectionclear.time);
+  	break;
+        case SelectionRequest:
+- 	eventCtx = FindCtx(event->xselectionrequest.display,
+- 			   event->xselectionrequest.selection);
+  	/* if this event is not for the selection we registered for,
+  	 * don't do anything */
+! 	if (eventCtx != ctx)
+  	    break;
+  	ev.type = SelectionNotify;
+  	ev.display = event->xselectionrequest.display;
+--- 617,633 ----
+      ctx = (Select) closure;
+      switch (event->type) {
+        case SelectionClear:
+  	/* if this event is not for the selection we registered for,
+  	 * don't do anything */
+! 	if (ctx->selection != event->xselectionclear.selection)
+  	    break;
+  	(void) LoseSelection(ctx, widget, event->xselectionclear.selection,
+  			event->xselectionclear.time);
+  	break;
+        case SelectionRequest:
+  	/* if this event is not for the selection we registered for,
+  	 * don't do anything */
+! 	if (ctx->selection != event->xselectionrequest.selection)
+  	    break;
+  	ev.type = SelectionNotify;
+  	ev.display = event->xselectionrequest.display;
+***************
+*** 612,618 ****
+  	ev.target = event->xselectionrequest.target;
+  	if (event->xselectionrequest.property == None) /* obsolete requestor */
+  	   event->xselectionrequest.property = event->xselectionrequest.target;
+! 	if (!(ctx->widget)
+  	   || ((event->xselectionrequest.time != CurrentTime)
+  	        && (event->xselectionrequest.time < ctx->time)))
+  	    ev.property = None;
+--- 637,643 ----
+  	ev.target = event->xselectionrequest.target;
+  	if (event->xselectionrequest.property == None) /* obsolete requestor */
+  	   event->xselectionrequest.property = event->xselectionrequest.target;
+! 	if (ctx->widget != widget || ctx->was_disowned
+  	   || ((event->xselectionrequest.time != CurrentTime)
+  	        && (event->xselectionrequest.time < ctx->time)))
+  	    ev.property = None;
+***************
+*** 675,695 ****
+      Window window;
+      Boolean old_context = FALSE;
+  
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget != widget || ctx->time != time)
+      {
+  	window = XtWindow(widget);
+          XSetSelectionOwner(ctx->dpy, selection, window, time);
+          if (XGetSelectionOwner(ctx->dpy, selection) != window)
+  	    return FALSE;
+!     	if (ctx->widget != widget)
+!  	{
+! 	    XtAddEventHandler(widget, (EventMask)NULL, TRUE,
+  			      HandleSelectionEvents, (XtPointer)ctx);
+  	    XtAddCallback(widget, XtNdestroyCallback,
+  			  WidgetDestroyed, (XtPointer)ctx);
+! 
+! 	    if (ctx->widget) {
+  		oldctx = *ctx;
+  		old_context = TRUE;
+  	    }
+--- 700,750 ----
+      Window window;
+      Boolean old_context = FALSE;
+  
++     if (!XtIsRealized(widget)) return False;
++ 
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget != widget || ctx->time != time ||
+! 	ctx->ref_count || ctx->was_disowned)
+      {
++ 	Boolean replacement = FALSE;
+  	window = XtWindow(widget);
+          XSetSelectionOwner(ctx->dpy, selection, window, time);
+          if (XGetSelectionOwner(ctx->dpy, selection) != window)
+  	    return FALSE;
+! 	if (ctx->ref_count) {	/* exchange is in-progress */
+! #ifdef DEBUG_ACTIVE
+! 	    printf( "Active exchange for widget \"%s\"; selection=0x%x, ref_count=%d\n",
+! 		    XtName(widget), (long)selection, ctx->ref_count );
+! #endif
+! 	    if (ctx->widget != widget ||
+! 		ctx->convert != convert ||
+! 		ctx->loses != lose ||
+! 		ctx->notify != notify ||
+! 		ctx->owner_cancel != cancel ||
+! 		ctx->incremental != incremental ||
+! 		ctx->owner_closure != closure)
+! 	    {
+! 		if (ctx->widget == widget) {
+! 		    XtRemoveEventHandler(widget, (EventMask)0, TRUE,
+! 					HandleSelectionEvents, (XtPointer)ctx);
+! 		    XtRemoveCallback(widget, XtNdestroyCallback,
+! 				     WidgetDestroyed, (XtPointer)ctx);
+! 		    replacement = TRUE;
+! 		}
+! 		ctx->free_when_done = TRUE;
+! 		ctx = NewContext(XtDisplay(widget), selection);
+! 	    }
+! 	    else if (!ctx->was_disowned) { /* current owner is new owner */
+! 		ctx->time = time;
+! 		return TRUE;
+! 	    }
+! 	}
+!     	if (ctx->widget != widget || ctx->was_disowned || replacement) {
+! 	    XtAddEventHandler(widget, (EventMask)0, TRUE,
+  			      HandleSelectionEvents, (XtPointer)ctx);
+  	    XtAddCallback(widget, XtNdestroyCallback,
+  			  WidgetDestroyed, (XtPointer)ctx);
+! 	    if (ctx->widget && !ctx->was_disowned && !replacement) {
+  		oldctx = *ctx;
+  		old_context = TRUE;
+  	    }
+***************
+*** 703,708 ****
+--- 758,764 ----
+      ctx->owner_cancel = cancel;
+      ctx->incremental = incremental;
+      ctx->owner_closure = closure;
++     ctx->was_disowned = FALSE;
+  
+      if (old_context)
+  	(void) LoseSelection(&oldctx, oldctx.widget, selection, oldctx.time);
+***************
+*** 775,784 ****
+      return (type == info->ctx->prop_list->incremental_atom);
+  }
+  
+! static void ReqCleanup(widget, closure, ev)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
+  {
+      CallBackInfo info = (CallBackInfo)closure;
+      unsigned long bytesafter, length;
+--- 831,842 ----
+      return (type == info->ctx->prop_list->incremental_atom);
+  }
+  
+! /*ARGSUSED*/
+! static void ReqCleanup(widget, closure, ev, cont)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
++ Boolean *cont;
+  {
+      CallBackInfo info = (CallBackInfo)closure;
+      unsigned long bytesafter, length;
+***************
+*** 790,796 ****
+      if (ev->type == SelectionNotify) {
+  	XSelectionEvent *event = (XSelectionEvent *) ev;
+  	if (!MATCH_SELECT(event, info)) return; /* not really for us */
+!          XtRemoveEventHandler(widget, (EventMask) NULL, TRUE,
+  			   ReqCleanup, (XtPointer) info );
+  	if (IsINCRtype(info, XtWindow(widget), event->property)
+  #ifndef NO_DRAFT_ICCCM_COMPATIBILITY
+--- 848,854 ----
+      if (ev->type == SelectionNotify) {
+  	XSelectionEvent *event = (XSelectionEvent *) ev;
+  	if (!MATCH_SELECT(event, info)) return; /* not really for us */
+!          XtRemoveEventHandler(widget, (EventMask)0, TRUE,
+  			   ReqCleanup, (XtPointer) info );
+  	if (IsINCRtype(info, XtWindow(widget), event->property)
+  #ifndef NO_DRAFT_ICCCM_COMPATIBILITY
+***************
+*** 805,813 ****
+  		XDeleteProperty(event->display, XtWindow(widget),
+  				event->property);
+             FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	   XtFree((XtPointer)info->req_closure);
+! 	   XtFree((XtPointer)info->target);
+!            XtFree((XtPointer) info);
+  	}
+      } else if ((ev->type == PropertyNotify) &&
+  		(ev->xproperty.state == PropertyNewValue) &&
+--- 863,871 ----
+  		XDeleteProperty(event->display, XtWindow(widget),
+  				event->property);
+             FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	   XtFree((char*)info->req_closure);
+! 	   XtFree((char*)info->target);
+!            XtFree((char*)info);
+  	}
+      } else if ((ev->type == PropertyNotify) &&
+  		(ev->xproperty.state == PropertyNewValue) &&
+***************
+*** 822,830 ****
+             XtRemoveEventHandler(widget, (EventMask) PropertyChangeMask, FALSE,
+  			   ReqCleanup, (XtPointer) info );
+             FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	   XtFree((XtPointer)info->req_closure);
+! 	   XtFree((XtPointer)info->target);
+!            XtFree((XtPointer) info);
+  	}
+      }
+  }
+--- 880,888 ----
+             XtRemoveEventHandler(widget, (EventMask) PropertyChangeMask, FALSE,
+  			   ReqCleanup, (XtPointer) info );
+             FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	   XtFree((char*)info->req_closure);
+! 	   XtFree((char*)info->target);
+!            XtFree((char*)info);
+  	}
+      }
+  }
+***************
+*** 835,841 ****
+  XtIntervalId   *id;
+  {
+      XtPointer value = NULL;
+!     int length = 0;
+      int format = 8;
+      Atom resulttype = XT_CONVERT_FAIL;
+      CallBackInfo info = (CallBackInfo)closure;
+--- 893,899 ----
+  XtIntervalId   *id;
+  {
+      XtPointer value = NULL;
+!     unsigned long length = 0;
+      int format = 8;
+      Atom resulttype = XT_CONVERT_FAIL;
+      CallBackInfo info = (CallBackInfo)closure;
+***************
+*** 862,870 ****
+  
+      /* change event handlers for straggler events */
+      if (info->proc == (XtEventHandler)HandleSelectionReplies) {
+!         XtRemoveEventHandler(info->widget, (EventMask) NULL, 
+  			TRUE, info->proc, (XtPointer) info);
+! 	XtAddEventHandler(info->widget, (EventMask) NULL, TRUE,
+  		ReqCleanup, (XtPointer) info);
+      } else {
+          XtRemoveEventHandler(info->widget,(EventMask) PropertyChangeMask, 
+--- 920,928 ----
+  
+      /* change event handlers for straggler events */
+      if (info->proc == (XtEventHandler)HandleSelectionReplies) {
+!         XtRemoveEventHandler(info->widget, (EventMask)0, 
+  			TRUE, info->proc, (XtPointer) info);
+! 	XtAddEventHandler(info->widget, (EventMask)0, TRUE,
+  		ReqCleanup, (XtPointer) info);
+      } else {
+          XtRemoveEventHandler(info->widget,(EventMask) PropertyChangeMask, 
+***************
+*** 875,884 ****
+  
+  }
+  
+! static void HandleGetIncrement(widget, closure, ev)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
+  {
+      XPropertyEvent *event = (XPropertyEvent *) ev;
+      CallBackInfo info = (CallBackInfo) closure;
+--- 933,944 ----
+  
+  }
+  
+! /*ARGSUSED*/
+! static void HandleGetIncrement(widget, closure, ev, cont)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
++ Boolean *cont;
+  {
+      XPropertyEvent *event = (XPropertyEvent *) ev;
+      CallBackInfo info = (CallBackInfo) closure;
+***************
+*** 887,893 ****
+      unsigned long bytesafter;
+      unsigned long length;
+      int bad;
+-     static void HandleSelectionReplies();
+  
+      if ((event->state != PropertyNewValue) || (event->atom != info->property))
+  	 return;
+--- 947,952 ----
+***************
+*** 903,919 ****
+      XtRemoveTimeOut(info->timeout); 
+  #endif 
+      if (length == 0) {
+         (*info->callback)(widget, *info->req_closure, &ctx->selection, 
+  			  &info->type, 
+  			  (info->offset == 0 ? value : info->value), 
+! 			  &info->offset, &info->format);
+!        if (info->offset) XFree(value);
+         XtRemoveEventHandler(widget, (EventMask) PropertyChangeMask, FALSE, 
+  		HandleGetIncrement, (XtPointer) info);
+         FreeSelectionProperty(event->display, info->property);
+!        XtFree((XtPointer)info->req_closure);
+!        XtFree((XtPointer)info->target);
+!        XtFree((XtPointer) info);
+      } else { /* add increment to collection */
+        if (info->incremental) {
+          (*info->callback)(widget, *info->req_closure, &ctx->selection, 
+--- 962,979 ----
+      XtRemoveTimeOut(info->timeout); 
+  #endif 
+      if (length == 0) {
++        unsigned long u_offset = info->offset;
+         (*info->callback)(widget, *info->req_closure, &ctx->selection, 
+  			  &info->type, 
+  			  (info->offset == 0 ? value : info->value), 
+! 			  &u_offset, &info->format);
+!        if (info->offset = u_offset) XFree(value);
+         XtRemoveEventHandler(widget, (EventMask) PropertyChangeMask, FALSE, 
+  		HandleGetIncrement, (XtPointer) info);
+         FreeSelectionProperty(event->display, info->property);
+!        XtFree((char*)info->req_closure);
+!        XtFree((char*)info->target);
+!        XtFree((char*)info);
+      } else { /* add increment to collection */
+        if (info->incremental) {
+          (*info->callback)(widget, *info->req_closure, &ctx->selection, 
+***************
+*** 921,928 ****
+        } else {
+            if ((BYTELENGTH(length,info->format)+info->offset) 
+  			> info->bytelength) {
+!   	    info->value = (char *)XtRealloc((XtPointer) info->value, 
+! 					 (unsigned) (info->bytelength *= 2));
+            }
+            bcopy(value, &info->value[info->offset], 
+  		(int) BYTELENGTH(length, info->format));
+--- 981,988 ----
+        } else {
+            if ((BYTELENGTH(length,info->format)+info->offset) 
+  			> info->bytelength) {
+!   	    info->value = XtRealloc(info->value, 
+! 				    (unsigned) (info->bytelength *= 2));
+            }
+            bcopy(value, &info->value[info->offset], 
+  		(int) BYTELENGTH(length, info->format));
+***************
+*** 980,986 ****
+      }
+      else {
+  	XtAppWarningMsg( XtWidgetToApplicationContext(widget),
+! 			"badFormat","xtGetSelectionValue","XtToolkitError",
+  	"Selection owner returned type INCR property with format != 32",
+  			(String*)NULL, (Cardinal*)NULL );
+  	return 0;
+--- 1040,1046 ----
+      }
+      else {
+  	XtAppWarningMsg( XtWidgetToApplicationContext(widget),
+! 			"badFormat","xtGetSelectionValue",XtCXtToolkitError,
+  	"Selection owner returned type INCR property with format != 32",
+  			(String*)NULL, (Cardinal*)NULL );
+  	return 0;
+***************
+*** 1017,1023 ****
+  
+      XDeleteProperty(dpy, XtWindow(widget), property);
+      (*info->callback)(widget, closure, &selection, 
+! 			  &type, value, &length, &format);
+  
+      if (info->incremental) {
+  	/* let requestor know the whole thing has been received */
+--- 1077,1083 ----
+  
+      XDeleteProperty(dpy, XtWindow(widget), property);
+      (*info->callback)(widget, closure, &selection, 
+! 			  &type, (XtPointer)value, &length, &format);
+  
+      if (info->incremental) {
+  	/* let requestor know the whole thing has been received */
+***************
+*** 1024,1030 ****
+  	value = (unsigned char*)XtMalloc((unsigned)1);
+  	length = 0;
+  	(*info->callback)(widget, closure, &selection,
+! 			  &type, value, &length, &format);
+      }
+      return TRUE;
+  }
+--- 1084,1090 ----
+  	value = (unsigned char*)XtMalloc((unsigned)1);
+  	length = 0;
+  	(*info->callback)(widget, closure, &selection,
+! 			  &type, (XtPointer)value, &length, &format);
+      }
+      return TRUE;
+  }
+***************
+*** 1081,1090 ****
+  }
+  
+  
+! static void HandleSelectionReplies(widget, closure, ev)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
+  {
+      XSelectionEvent *event = (XSelectionEvent *) ev;
+      Display *dpy = event->display;
+--- 1141,1152 ----
+  }
+  
+  
+! /*ARGSUSED*/
+! static void HandleSelectionReplies(widget, closure, ev, cont)
+  Widget widget;
+  XtPointer closure;
+  XEvent *ev;
++ Boolean *cont;
+  {
+      XSelectionEvent *event = (XSelectionEvent *) ev;
+      Display *dpy = event->display;
+***************
+*** 1103,1109 ****
+  #ifndef DEBUG_WO_TIMERS
+      XtRemoveTimeOut(info->timeout); 
+  #endif 
+!     XtRemoveEventHandler(widget, (EventMask) NULL, TRUE,
+  		HandleSelectionReplies, (XtPointer) info );
+      if (event->target == ctx->prop_list->indirect_atom) {
+          (void) XGetWindowProperty(dpy, XtWindow(widget), info->property, 0L,
+--- 1165,1171 ----
+  #ifndef DEBUG_WO_TIMERS
+      XtRemoveTimeOut(info->timeout); 
+  #endif 
+!     XtRemoveEventHandler(widget, (EventMask)0, TRUE,
+  		HandleSelectionReplies, (XtPointer) info );
+      if (event->target == ctx->prop_list->indirect_atom) {
+          (void) XGetWindowProperty(dpy, XtWindow(widget), info->property, 0L,
+***************
+*** 1143,1157 ****
+         }
+         XFree((char*)pairs);
+         FreeSelectionProperty(dpy, info->property);
+!        XtFree((XtPointer)info->req_closure); 
+!        XtFree((XtPointer)info->target); 
+!        XtFree((XtPointer) info);
+      } else if (event->property == None) {
+  	HandleNone(widget, info->callback, *info->req_closure, event->selection);
+          FreeSelectionProperty(XtDisplay(widget), info->property);
+!         XtFree((XtPointer)info->req_closure);
+!         XtFree((XtPointer)info->target); 
+!         XtFree((XtPointer) info);
+  #ifndef NO_DRAFT_ICCCM_COMPATIBILITY
+      } else if (event->target == ctx->prop_list->incremental_atom) {
+  	HandleIncremental(dpy, widget, event->property, info, 0);
+--- 1205,1219 ----
+         }
+         XFree((char*)pairs);
+         FreeSelectionProperty(dpy, info->property);
+!        XtFree((char*)info->req_closure); 
+!        XtFree((char*)info->target); 
+!        XtFree((char*)info);
+      } else if (event->property == None) {
+  	HandleNone(widget, info->callback, *info->req_closure, event->selection);
+          FreeSelectionProperty(XtDisplay(widget), info->property);
+!         XtFree((char*)info->req_closure);
+!         XtFree((char*)info->target); 
+!         XtFree((char*)info);
+  #ifndef NO_DRAFT_ICCCM_COMPATIBILITY
+      } else if (event->target == ctx->prop_list->incremental_atom) {
+  	HandleIncremental(dpy, widget, event->property, info, 0);
+***************
+*** 1160,1168 ****
+  	if (HandleNormal(dpy, widget, event->property, info, 
+  			 *info->req_closure, event->selection)) {
+  	    FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	    XtFree((XtPointer)info->req_closure);
+! 	    XtFree((XtPointer)info->target); 
+! 	    XtFree((XtPointer) info);
+  	}
+      }
+  }
+--- 1222,1230 ----
+  	if (HandleNormal(dpy, widget, event->property, info, 
+  			 *info->req_closure, event->selection)) {
+  	    FreeSelectionProperty(XtDisplay(widget), info->property);
+! 	    XtFree((char*)info->req_closure);
+! 	    XtFree((char*)info->target); 
+! 	    XtFree((char*)info);
+  	}
+      }
+  }
+***************
+*** 1179,1194 ****
+  {
+      Select ctx = req->ctx;
+      XtPointer value = NULL, temp, total = NULL;
+!     unsigned int length;
+      int format;
+      Atom resulttype;
+!     int totallength = 0;
+  
+  	req->event.target = target;
+  
+  	if (ctx->incremental) {
+  	   unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+! 	   if (!(*ctx->convert)(ctx->widget, &selection, &target,
+  			    &resulttype, &value, &length, &format,
+  			    &size, ctx->owner_closure, (XtRequestId*)&req)) {
+  	       HandleNone(widget, callback, closure, selection);
+--- 1241,1257 ----
+  {
+      Select ctx = req->ctx;
+      XtPointer value = NULL, temp, total = NULL;
+!     unsigned long length;
+      int format;
+      Atom resulttype;
+!     unsigned long totallength = 0;
+  
+  	req->event.target = target;
+  
+  	if (ctx->incremental) {
+  	   unsigned long size = MAX_SELECTION_INCR(ctx->dpy);
+! 	   if (!(*(XtConvertSelectionIncrProc)ctx->convert)
+! 			   (ctx->widget, &selection, &target,
+  			    &resulttype, &value, &length, &format,
+  			    &size, ctx->owner_closure, (XtRequestId*)&req)) {
+  	       HandleNone(widget, callback, closure, selection);
+***************
+*** 1214,1220 ****
+  			 /* should owner be notified on end-of-piece?
+  			  * Spec is unclear, but non-local transfers don't.
+  			  */
+! 			 (*ctx->convert)(ctx->widget, &selection, &target,
+  					 &resulttype, &value, &length, &format,
+  					 &size, ctx->owner_closure,
+  					 (XtRequestId*)&req);
+--- 1277,1284 ----
+  			 /* should owner be notified on end-of-piece?
+  			  * Spec is unclear, but non-local transfers don't.
+  			  */
+! 			 (*(XtConvertSelectionIncrProc)ctx->convert)
+! 					(ctx->widget, &selection, &target,
+  					 &resulttype, &value, &length, &format,
+  					 &size, ctx->owner_closure,
+  					 (XtRequestId*)&req);
+***************
+*** 1226,1233 ****
+  		    int bytelength = BYTELENGTH(length, format);
+  		    total = XtRealloc(total, 
+  			    (unsigned) (totallength += bytelength));
+! 		    bcopy(value, &total[totallength-bytelength], bytelength);
+! 		    (*ctx->convert)(ctx->widget, &selection, &target, 
+  			    &resulttype, &value, &length, &format,
+  			    &size, ctx->owner_closure, (XtRequestId*)&req);
+  		  }
+--- 1290,1301 ----
+  		    int bytelength = BYTELENGTH(length, format);
+  		    total = XtRealloc(total, 
+  			    (unsigned) (totallength += bytelength));
+! 		    bcopy( value,
+! 			   (unsigned char*)total + totallength - bytelength,
+! 			   bytelength
+! 			  );
+! 		    (*(XtConvertSelectionIncrProc)ctx->convert)
+! 			   (ctx->widget, &selection, &target, 
+  			    &resulttype, &value, &length, &format,
+  			    &size, ctx->owner_closure, (XtRequestId*)&req);
+  		  }
+***************
+*** 1237,1245 ****
+  		    total,  &totallength, &format);
+  	      }
+  	      if (ctx->notify) 
+! 		  (*ctx->notify)(ctx->widget, &selection, &target, 
+  				 (XtRequestId*)&req, ctx->owner_closure);
+! 	      else XtFree(value);
+  	  }
+  	} else { /* not incremental owner */
+  	  if (!(*ctx->convert)(ctx->widget, &selection, &target, 
+--- 1305,1314 ----
+  		    total,  &totallength, &format);
+  	      }
+  	      if (ctx->notify) 
+! 		  (*(XtSelectionDoneIncrProc)ctx->notify)
+! 				(ctx->widget, &selection, &target, 
+  				 (XtRequestId*)&req, ctx->owner_closure);
+! 	      else XtFree((char*)value);
+  	  }
+  	} else { /* not incremental owner */
+  	  if (!(*ctx->convert)(ctx->widget, &selection, &target, 
+***************
+*** 1276,1282 ****
+      CallBackInfo info;
+  
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget) {
+  	RequestRec req;
+  	ctx->req = &req;
+  	req.ctx = ctx;
+--- 1345,1351 ----
+      CallBackInfo info;
+  
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget && !ctx->was_disowned) {
+  	RequestRec req;
+  	ctx->req = &req;
+  	req.ctx = ctx;
+***************
+*** 1283,1291 ****
+  	req.event.type = 0;
+  	req.event.requestor = XtWindow(widget);
+  	req.event.time = time;
+  	DoLocalTransfer(&req, selection, target, widget,
+  			callback, closure, incremental);
+! 	ctx->req = NULL;
+      }
+      else {
+  	info = MakeInfo(ctx, callback, &closure, 1, widget,
+--- 1352,1364 ----
+  	req.event.type = 0;
+  	req.event.requestor = XtWindow(widget);
+  	req.event.time = time;
++ 	ctx->ref_count++;
+  	DoLocalTransfer(&req, selection, target, widget,
+  			callback, closure, incremental);
+! 	if (--ctx->ref_count == 0 && ctx->free_when_done)
+! 	    XtFree((char*)ctx);
+! 	else
+! 	    ctx->req = NULL;
+      }
+      else {
+  	info = MakeInfo(ctx, callback, &closure, 1, widget,
+***************
+*** 1342,1348 ****
+  
+      if (count == 0) return;
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget) {
+  	RequestRec req;
+  	ctx->req = &req;
+  	req.ctx = ctx;
+--- 1415,1421 ----
+  
+      if (count == 0) return;
+      ctx = FindCtx(XtDisplay(widget), selection);
+!     if (ctx->widget && !ctx->was_disowned) {
+  	RequestRec req;
+  	ctx->req = &req;
+  	req.ctx = ctx;
+***************
+*** 1349,1358 ****
+  	req.event.type = 0;
+  	req.event.requestor = XtWindow(widget);
+  	req.event.time = time;
+  	for (; count; count--, targets++, closures++ )
+  	    DoLocalTransfer(&req, selection, *targets, widget,
+  			    callback, *closures, incremental);
+! 	ctx->req = NULL;
+      } else {
+  	info = MakeInfo(ctx, callback, closures, count, widget,
+  			time, incremental);
+--- 1422,1435 ----
+  	req.event.type = 0;
+  	req.event.requestor = XtWindow(widget);
+  	req.event.time = time;
++ 	ctx->ref_count++;
+  	for (; count; count--, targets++, closures++ )
+  	    DoLocalTransfer(&req, selection, *targets, widget,
+  			    callback, *closures, incremental);
+! 	if (--ctx->ref_count == 0 && ctx->free_when_done)
+! 	    XtFree((char*)ctx);
+! 	else
+! 	    ctx->req = NULL;
+      } else {
+  	info = MakeInfo(ctx, callback, closures, count, widget,
+  			time, incremental);
+***************
+*** 1370,1376 ****
+  			info->property, info->property,
+  			32, PropModeReplace, (unsigned char *) pairs, 
+  			count * IndirectPairWordSize);
+! 	XtFree((XtPointer)pairs);
+  	RequestSelectionValue(info, selection, ctx->prop_list->indirect_atom);
+      }
+  }
+--- 1447,1453 ----
+  			info->property, info->property,
+  			32, PropModeReplace, (unsigned char *) pairs, 
+  			count * IndirectPairWordSize);
+! 	XtFree((char*)pairs);
+  	RequestSelectionValue(info, selection, ctx->prop_list->indirect_atom);
+      }
+  }
+***************
+*** 1428,1434 ****
+  	Cardinal num_params = 1;
+  	XtAppWarningMsg( XtWidgetToApplicationContext(widget),
+  			 "notInConvertSelection", "xtGetSelectionRequest",
+! 			 "XtToolkitError",
+  			 "XtGetSelectionRequest called for widget \"%s\" outside of ConvertSelection proc",
+  			 &params, &num_params
+  		       );
+--- 1505,1511 ----
+  	Cardinal num_params = 1;
+  	XtAppWarningMsg( XtWidgetToApplicationContext(widget),
+  			 "notInConvertSelection", "xtGetSelectionRequest",
+! 			 XtCXtToolkitError,
+  			 "XtGetSelectionRequest called for widget \"%s\" outside of ConvertSelection proc",
+  			 &params, &num_params
+  		       );
+***************
+*** 1438,1443 ****
+--- 1515,1523 ----
+      if (req == NULL) {
+  	/* non-incremental owner; only one request can be
+  	 * outstanding at a time, so it's safe to keep ptr in ctx */
++ #ifdef lint
++ 	ctx = NULL;
++ #endif
+  	req = ctx->req;
+      }
+  
+*** /tmp/,RCSt1a13731	Fri Sep 28 14:22:18 1990
+--- mit/lib/Xt/SelectionI.h	Fri Sep 28 14:22:18 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: SelectionI.h,v 1.24 90/04/03 16:17:53 swick Exp $ */
+  /* $oHeader: SelectionI.h,v 1.3 88/08/19 14:02:44 asente Exp $ */
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: SelectionI.h,v 1.28 90/08/27 20:47:36 swick Exp $ */
+  /* $oHeader: SelectionI.h,v 1.3 88/08/19 14:02:44 asente Exp $ */
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 43,49 ****
+     Atom target;
+     Atom type;
+     int format;
+!    char *value;
+     unsigned long bytelength;
+     int offset;
+     XtIntervalId timeout;
+--- 43,49 ----
+     Atom target;
+     Atom type;
+     int format;
+!    XtPointer value;
+     unsigned long bytelength;
+     int offset;
+     XtIntervalId timeout;
+***************
+*** 75,81 ****
+      XtPointer owner_closure;
+      PropList prop_list;
+      Request req;			/* state for local non-incr xfer */
+!     Boolean incremental;
+  } SelectRec;
+  
+  typedef struct {
+--- 75,84 ----
+      XtPointer owner_closure;
+      PropList prop_list;
+      Request req;			/* state for local non-incr xfer */
+!     int ref_count;			/* of active transfers */
+!     Boolean incremental:1;
+!     Boolean free_when_done:1;
+!     Boolean was_disowned:1;
+  } SelectRec;
+  
+  typedef struct {
+*** /tmp/,RCSt1a13825	Fri Sep 28 14:22:56 1990
+--- mit/lib/Xt/TMparse.c	Fri Sep 28 14:22:57 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: TMparse.c,v 1.95 90/07/12 17:47:39 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: TMparse.c,v 1.99 90/08/24 11:11:31 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 894,900 ****
+  	keySymName[1] = '\0';
+  	event->event.eventCode = StringToKeySym(keySymName, error);
+  	event->event.eventCodeMask = ~0L;
+!     } else if (*str == ',' || *str == ':') {
+  	/* no detail */
+  	event->event.eventCode = 0L;
+          event->event.eventCodeMask = 0L;
+--- 894,904 ----
+  	keySymName[1] = '\0';
+  	event->event.eventCode = StringToKeySym(keySymName, error);
+  	event->event.eventCodeMask = ~0L;
+!     } else if (*str == ',' || *str == ':' ||
+! 	       /* allow leftparen to be single char symbol,
+! 		* for backwards compatibility
+! 		*/
+! 	       (*str == '(' && *(str+1) >= '0' && *(str+1) <= '9')) {
+  	/* no detail */
+  	event->event.eventCode = 0L;
+          event->event.eventCodeMask = 0L;
+***************
+*** 906,911 ****
+--- 910,916 ----
+  		&& *str != ' '
+  		&& *str != '\t'
+                  && *str != '\n'
++ 	        && (*str != '(' || *(str+1) <= '0' || *(str+1) >= '9')
+  		&& *str != '\0') str++;
+  	(void) strncpy(keySymName, start, str-start);
+  	keySymName[str-start] = '\0';
+***************
+*** 1069,1075 ****
+      Value shiftMask;
+      register char	c;
+      char	s[2];
+-     Cardinal	tmEvent;
+      (void) _XtLookupModifier("Ctrl",(LateBindingsPtr*)NULL,
+                   FALSE,(Value *) &ctrlMask,TRUE);
+      (void) _XtLookupModifier("Alt",(LateBindingsPtr*)NULL,
+--- 1074,1079 ----
+***************
+*** 1093,1110 ****
+  	    if (*str != '\0' && *str != '\n') str++;
+  	    break;
+  	}
+!     tmEvent = (EventType) LookupTMEventType("Key",error);
+!     if (*error)
+!         return PanicModeRecovery(str);
+! 
+!     event->event.eventType = events[tmEvent].eventType;
+!     if ('A' <= c && c <= 'Z') {
+! 	event->event.modifiers |=  shiftMask;
+! 	c += 'a' - 'A';
+!     }
+      s[0] = c;
+      s[1] = '\0';
+      event->event.eventCode = StringToKeySym(s, error);
+  
+      return str;
+  }
+--- 1097,1110 ----
+  	    if (*str != '\0' && *str != '\n') str++;
+  	    break;
+  	}
+!     event->event.eventType = KeyPress;
+      s[0] = c;
+      s[1] = '\0';
+      event->event.eventCode = StringToKeySym(s, error);
++     if (*error) return PanicModeRecovery(str);
++     event->event.eventCodeMask = ~0L;
++     event->event.matchEvent = _XtMatchUsingStandardMods;
++     event->event.standard = True;
+  
+      return str;
+  }
+***************
+*** 1953,1960 ****
+      ConverterTable table;
+  {
+      XrmQuark q;
+-     extern void _XtFreeTranslations();
+-     extern Boolean _XtCvtMergeTranslations();
+       _XtTableAddConverter(table,
+  	     q = XrmStringToRepresentation(XtRString), 
+  	     XrmStringToRepresentation(XtRTranslationTable), 
+--- 1953,1958 ----
+*** /tmp/,RCSt1a13912	Fri Sep 28 14:23:44 1990
+--- mit/lib/Xt/TMstate.c	Fri Sep 28 14:23:46 1990
+***************
+*** 1,4 ****
+! /* "$XConsortium: TMstate.c,v 1.110 90/07/15 21:17:38 swick Exp $"; */
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+--- 1,5 ----
+! /* $XConsortium: TMstate.c,v 1.117 90/09/27 09:27:56 swick Exp $ */
+! 
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+***************
+*** 268,274 ****
+      register String str;
+      LateBindingsPtr lateModifiers;
+  {
+!     for (; lateModifiers->keysym != NULL; lateModifiers++) {
+  	CHECK_STR_OVERFLOW;
+  	if (lateModifiers->knot) {
+  	    *str++ = '~';
+--- 269,275 ----
+      register String str;
+      LateBindingsPtr lateModifiers;
+  {
+!     for (; lateModifiers->keysym != 0; lateModifiers++) {
+  	CHECK_STR_OVERFLOW;
+  	if (lateModifiers->knot) {
+  	    *str++ = '~';
+***************
+*** 418,424 ****
+           return FALSE;
+      }
+      _InitializeKeysymTables(dpy, perDisplay);
+!     for (ref=0;event->lateModifiers[ref].keysym != NULL;ref++) {
+          found = FALSE;
+          for (i=0;i<8;i++) {
+              temp = &(perDisplay->modsToKeysyms[i]);
+--- 419,425 ----
+           return FALSE;
+      }
+      _InitializeKeysymTables(dpy, perDisplay);
+!     for (ref=0;event->lateModifiers[ref].keysym != 0;ref++) {
+          found = FALSE;
+          for (i=0;i<8;i++) {
+              temp = &(perDisplay->modsToKeysyms[i]);
+***************
+*** 1030,1036 ****
+      }
+  
+      compiledActionTable[count].name = NULL;
+!     compiledActionTable[count].signature = NULL;
+      compiledActionTable[count].proc = NULL;
+  
+  #ifdef lint
+--- 1031,1037 ----
+      }
+  
+      compiledActionTable[count].name = NULL;
+!     compiledActionTable[count].signature = 0;
+      compiledActionTable[count].proc = NULL;
+  
+  #ifdef lint
+***************
+*** 1230,1236 ****
+      _XtRemoveTranslations(widget);
+      if (widget->core.tm.translations &&
+  	widget->core.tm.translations->accProcTbl) {
+! 	  XtFree((char*)widget->core.tm.translations);
+      }
+      widget->core.tm.translations = NULL;
+      if (widget->core.tm.proc_table != NULL) {
+--- 1231,1237 ----
+      _XtRemoveTranslations(widget);
+      if (widget->core.tm.translations &&
+  	widget->core.tm.translations->accProcTbl) {
+! 	  _XtUninstallAccelerators(widget);
+      }
+      widget->core.tm.translations = NULL;
+      if (widget->core.tm.proc_table != NULL) {
+***************
+*** 1475,1480 ****
+--- 1476,1493 ----
+      rec->table = (CompiledActionTable) _CompileActionTable(actions, num_actions);
+  }
+  
++ void _XtFreeActions(actions)
++     register ActionList actions;
++ {
++     register ActionList next_action;
++     while (actions) {
++ 	next_action = actions->next;
++ 	XtFree((char*)actions->table);
++ 	XtFree((char*)actions);
++ 	actions = next_action;
++     }
++ }
++ 
+  void _XtInitializeStateTable(pStateTable)
+      XtTranslations *pStateTable;
+  {
+***************
+*** 1653,1659 ****
+--- 1666,1683 ----
+                 a->index = quarkIndexMap[b->index];
+             else
+                 a->index = -(accQuarkIndexMap[-(b->index+1)]+1);
++ #ifdef REFCNT_TRANSLATIONS
++ 	   if (b->num_params) {
++ 	       int p;
++ 	       a->params = (String*)
++ 		   XtMalloc((Cardinal)b->num_params * sizeof(String));
++ 	       for (p = 0; p < b->num_params; p++)
++ 		   a->params[p] = XtNewString(b->params[p]);
++ 	   }
++ 	   else a->params = NULL;
++ #else
+             a->params = b->params;
++ #endif
+             a->num_params=b->num_params;
+             a->next = NULL;
+             *aa = a;
+***************
+*** 1737,1745 ****
+  	    old->eventObjTbl[j] = *newEvent;
+  #ifdef REFCNT_TRANSLATIONS
+  	    if (newEvent->event.lateModifiers != NULL) {
+! 		int count = 0;
+  		LateBindingsPtr b = newEvent->event.lateModifiers;
+! 		while (b->keysym != 0) {b++; count++};
+  		old->eventObjTbl[j].event.lateModifiers =
+  		    b = (LateBindingsPtr)
+  			XtMalloc( (unsigned)count*sizeof(LateBindings) );
+--- 1761,1769 ----
+  	    old->eventObjTbl[j] = *newEvent;
+  #ifdef REFCNT_TRANSLATIONS
+  	    if (newEvent->event.lateModifiers != NULL) {
+! 		int count = 1;
+  		LateBindingsPtr b = newEvent->event.lateModifiers;
+! 		while (b->keysym != 0) {b++; count++;}
+  		old->eventObjTbl[j].event.lateModifiers =
+  		    b = (LateBindingsPtr)
+  			XtMalloc( (unsigned)count*sizeof(LateBindings) );
+***************
+*** 2039,2046 ****
+--- 2063,2072 ----
+      XtTranslations translateData;
+      StateTablePtr stateTable;
+      register StatePtr state;
++ #ifdef REFCNT_TRANSLATIONS
+      register EventObjPtr eventObj;
+      register int i;
++ #endif
+      register ActionPtr action;
+  
+      if (*num_args != 0)
+***************
+*** 2051,2060 ****
+--- 2077,2090 ----
+  
+      translateData = *(XtTranslations*)toVal->addr;
+      stateTable = translateData->stateTable;
++ #ifdef REFCNT_TRANSLATIONS
+      for (i = stateTable->numEvents, eventObj = stateTable->eventObjTbl; i;) {
+  	XtFree( (char*)eventObj->event.lateModifiers );
+  	i--; eventObj++;
+      }
++ #else
++     /* %%% This leaks memory in XtDestroyAppContext */
++ #endif
+      XtFree( (char*)stateTable->eventObjTbl );
+      XtFree( (char*)stateTable->quarkTable );
+      XtFree( (char*)stateTable->accQuarkTable );
+***************
+*** 2063,2072 ****
+--- 2093,2107 ----
+  	nextState = state->forw;
+  	for (action = state->actions; action;) {
+  	    ActionPtr nextAction = action->next;
++ #ifdef REFCNT_TRANSLATIONS
+  	    for (i = action->num_params; i;) {
+  		XtFree( action->params[--i] );
+  	    }
+  	    XtFree( (char*)action->params );
++ #else
++     /* %%% This leaks memory in XtDestroyAppContext */
++ #endif
++ 	    XtFree( (char*)action );
+  	    action = nextAction;
+  	}
+  	XtFree( (char*)state );
+***************
+*** 2082,2089 ****
+      XtPointer closure, data;
+  {
+      int i;
+!     XtTranslations table = (XtTranslations)closure;
+!     StateTablePtr stateTable = table->stateTable;
+      if (table == NULL) {
+          XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+              XtNtranslationError,"nullTable",XtCXtToolkitError,
+--- 2117,2123 ----
+      XtPointer closure, data;
+  {
+      int i;
+!     XtTranslations table = *(XtTranslations*)closure;
+      if (table == NULL) {
+          XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+              XtNtranslationError,"nullTable",XtCXtToolkitError,
+***************
+*** 2098,2111 ****
+              (String *)NULL, (Cardinal *)NULL);
+          return;
+      }
+!     for (i=0;i<stateTable->accNumQuarks;i++) {
+          if (table->accProcTbl[i].widget == widget)
+!             table->accProcTbl[i].widget = 0;
+      }
+- 
+  }
+          
+  
+  void XtInstallAccelerators(destination, source)
+      Widget destination, source;
+  {
+--- 2132,2195 ----
+              (String *)NULL, (Cardinal *)NULL);
+          return;
+      }
+!     for (i=0;i<table->stateTable->accNumQuarks;i++) {
+          if (table->accProcTbl[i].widget == widget)
+!             table->accProcTbl[i].widget = NULL;
+      }
+  }
+          
++ void _XtRegisterAccRemoveCallbacks(dest)
++     Widget dest;
++ {
++ /*
++  * called by Core.SetValues when the translation table is replaced.
++  */
++     int i;
++     XtTranslations translations = dest->core.tm.translations;
++     Widget lastWidget = NULL;
++     for (i = 0; i < translations->stateTable->accNumQuarks; i++) {
++ 	if (translations->accProcTbl[i].widget &&
++ 	    translations->accProcTbl[i].widget != lastWidget) {
++ 	      lastWidget = translations->accProcTbl[i].widget;
++ 	      if (lastWidget->core.destroy_callbacks != NULL)
++ 		  _XtAddCallbackOnce( lastWidget,
++ 				      _XtCallbackList((CallbackStruct*)
++ 					    lastWidget->core.destroy_callbacks
++ 					   ),
++ 				      RemoveAccelerators,
++ 				      (XtPointer)&dest->core.tm.translations
++ 				     );
++ 	      else
++ 		  XtAddCallback( lastWidget, XtNdestroyCallback,
++ 				 RemoveAccelerators,
++ 				 (XtPointer)&dest->core.tm.translations
++ 				);
++ 	}
++     }
++ }
+  
++ void _XtUninstallAccelerators(w)
++     Widget w;
++ {
++ /*
++  * Called from Core.Destroy and XtUninstallTranslations
++  */
++     int i;
++     XtTranslations translations = w->core.tm.translations;
++     Widget lastWidget = NULL;
++     for (i = 0; i < translations->stateTable->accNumQuarks; i++) {
++ 	if (translations->accProcTbl[i].widget &&
++ 	    translations->accProcTbl[i].widget != lastWidget) {
++ 	      lastWidget = translations->accProcTbl[i].widget;
++ 	      XtRemoveCallback(lastWidget, XtNdestroyCallback,
++ 			       RemoveAccelerators,
++ 			       (XtPointer)&w->core.tm.translations);
++ 	}
++     }
++     XtFree( (char*)translations );
++ }
++ 
++ 
+  void XtInstallAccelerators(destination, source)
+      Widget destination, source;
+  {
+***************
+*** 2146,2153 ****
+  	_XtRegisterGrabs(destination, True);
+      }
+  
+!     XtAddCallback(source, XtNdestroyCallback,
+!         RemoveAccelerators,(XtPointer)destination->core.tm.translations);
+      if (XtClass(source)->core_class.display_accelerator != NULL){
+  	 char *buf = XtMalloc((Cardinal)100);
+  	 int len = 100;
+--- 2230,2247 ----
+  	_XtRegisterGrabs(destination, True);
+      }
+  
+!     if (source->core.destroy_callbacks != NULL)
+! 	_XtAddCallbackOnce( source,
+! 			    _XtCallbackList((CallbackStruct*)
+! 					    source->core.destroy_callbacks
+! 					    ),
+! 			    RemoveAccelerators,
+! 			    (XtPointer)&destination->core.tm.translations
+! 			   );
+!     else
+! 	XtAddCallback(source, XtNdestroyCallback, RemoveAccelerators,
+! 		      (XtPointer)&destination->core.tm.translations);
+! 
+      if (XtClass(source)->core_class.display_accelerator != NULL){
+  	 char *buf = XtMalloc((Cardinal)100);
+  	 int len = 100;
+*** /tmp/,RCSt1a13984	Fri Sep 28 14:24:01 1990
+--- mit/lib/Xt/TranslateI.h	Fri Sep 28 14:24:02 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: TranslateI.h,v 1.23 90/07/13 07:35:51 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: TranslateI.h,v 1.25 90/08/17 15:48:27 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 171,207 ****
+  
+  extern void _XtPopupInitialize();
+  
+! extern void _XtInstallTranslations(); /* widget, stateTable */
+!     /* Widget widget; */
+!     /* XtTranslations stateTable; */
+  
+! extern void _XtBindActions(); /* widget, stateTable */
+!     /* Widget widget; */
+!     /* XtTranslations stateTable; */
+  
+  extern void _XtTranslateInitialize();
+  
+! extern XtTranslations _XtParseTranslationTable(); /* source */
+!     /* String source; */
+  
+  extern void _XtRegisterGrabs(
+  #if NeedFunctionPrototypes
+      Widget /* widget */,
+- #if NeedWidePrototypes
+-     int /* acceleratorsOnly */
+- #else
+      Boolean /* acceleratorsOnly */
+  #endif
+  #endif
+  );
+  
+! extern void _XtPopup(); /* widget, grab_kind, spring_loaded */
+!     /* Widget      widget; */
+!     /* XtGrabKind  grab_kind; */
+!     /* Boolean     spring_loaded; */
+  
+  extern XtTranslations _XtCondCopyTranslations(
+  #if NeedFunctionPrototypes
+!     XtTranslations	translations
+  #endif
+  );
+--- 171,254 ----
+  
+  extern void _XtPopupInitialize();
+  
+! extern void _XtInstallTranslations(
+! #if NeedFunctionPrototypes
+!     Widget		/* widget */,
+!     XtTranslations	/* stateTable */
+! #endif
+! );
+  
+! extern void _XtBindActions(
+! #if NeedFunctionPrototypes
+!     Widget	/* widget */,
+!     XtTM	/* tm_rec */
+! #endif
+! );
+  
+  extern void _XtTranslateInitialize();
+  
+! extern XtTranslations _XtParseTranslationTable(
+! #if NeedFunctionPrototypes
+!     String /* source */
+! #endif
+! );
+  
++ #if NeedWidePrototypes
++ #define Boolean int
++ #endif
++ 
+  extern void _XtRegisterGrabs(
+  #if NeedFunctionPrototypes
+      Widget /* widget */,
+      Boolean /* acceleratorsOnly */
+  #endif
++ );
++ 
++ extern void _XtPopup(
++ #if NeedFunctionPrototypes
++     Widget 	/* widget */,
++     XtGrabKind 	/* grab_kind */,
++     Boolean 	/* spring_loaded */
+  #endif
+  );
+  
+! #undef Boolean
+  
+  extern XtTranslations _XtCondCopyTranslations(
+  #if NeedFunctionPrototypes
+!     XtTranslations /* translations */
+! #endif
+! );
+! 
+! extern void _XtRegisterAccRemoveCallbacks(
+! #if NeedFunctionPrototypes
+!     Widget /* dest */
+! #endif
+! );
+! 
+! extern void _XtUninstallAccelerators(
+! #if NeedFunctionPrototypes
+!     Widget /* w */
+! #endif
+! );
+! 
+! extern Boolean _XtCvtMergeTranslations(
+! #if NeedFunctionPrototypes
+!     Display*	/* dpy */,
+!     XrmValuePtr /* args */,
+!     Cardinal*	/* num_args */,
+!     XrmValuePtr /* from */,
+!     XrmValuePtr /* to */,
+!     XtPointer*	/* closure_ret */
+! #endif
+! );
+! 
+! void _XtFreeTranslations(
+! #if NeedFunctionPrototypes
+!     XtAppContext /* app */,
+!     XrmValuePtr  /* toVal */,
+!     XtPointer    /* closure */,
+!     XrmValuePtr  /* args */,
+!     Cardinal*	 /* num_args */
+  #endif
+  );
+*** /tmp/,RCSt1a23230	Fri Sep 28 15:46:36 1990
+--- mit/lib/X/sysV/Berklib.c	Fri Sep 28 15:46:36 1990
+***************
+*** 1,3 ****
+--- 1,5 ----
++ /* $XConsortium: Berklib.c,v 1.4 90/08/27 15:29:40 swick Exp $ */
++ 
+  /*
+   * This file is used by System V based systems.
+   */
+***************
+*** 5,11 ****
+  #include <sys/types.h>
+  
+  /*
+!  * These are routines fould in BDS and not found in HP-UX.  They are
+   * included so that some clients can compile.
+   */
+  
+--- 7,13 ----
+  #include <sys/types.h>
+  
+  /*
+!  * These are routines found in BSD and not found in many SysV's.  They are
+   * included so that some clients can compile.
+   */
+  
+***************
+*** 197,199 ****
+--- 199,224 ----
+  }
+  
+  #endif /* hpux */
++ 
++ /*
++  * gettimeofday emulation
++  * Caution -- emulation is incomplete
++  *  - has only second, not microsecond, resolution.
++  *  - does not return timezone info.
++  */
++ 
++ #if defined(USG) && !defined(CRAY)
++ int gettimeofday (tvp, tzp)
++     struct timeval *tvp;
++     struct timezone *tzp;
++ {
++     time (&tvp->tv_sec);
++     tvp->tv_usec = 0L;
++ 
++     if (tzp) {
++ 	fprintf( stderr,
++ 		 "Warning: gettimeofday() emulation does not return timezone\n"
++ 		);
++     }
++ }
++ #endif

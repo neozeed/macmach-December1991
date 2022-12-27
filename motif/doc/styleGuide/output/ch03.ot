@@ -1,0 +1,1716 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3.  SSSSeeeelllleeeeccccttttiiiioooonnnn aaaannnndddd CCCCoooommmmppppoooonnnneeeennnntttt AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       The selection model determines how elements are selected
+       from a group of elements.  This chapter describes the selec-
+       tion models that are used by the various components of an
+       application.  It then describes the component activation
+       model, which determines how to act upon the selected ele-
+       ments.
+
+       OSF/Motif compliant applications use an object-action selec-
+       tion model.  In an object-action selection model, the user
+       first selects an object, and then performs an action on it.
+       The object-action selection model mimics real life, so it is
+       a familiar process to the user and increases the user's
+       sense of control over applications.
+
+       Objects include not only recognizable objects like windows,
+       PushButtons, and List elements, but also component elements
+       that are not always recognized as discrete objects, like
+       individual letters of a text file.  Applications can also
+       treat a group of elements as a single element, either in a
+       contiguous range or as a noncontiguous group.
+
+       Once users select an object, they can perform an action on
+       it by using the components available in the application, or
+       by using one of the selection actions, like cut, copy, and
+       paste.  Using components to perform actions on a selection
+       is called activation.  This chapter describes the following
+       topics:
+
+          +o Selection models, which determine how element is a col-
+            lection are selected for later action.
+
+          +o Selection actions, which perform actions directly on a
+            selection, such as cut, copy and paste.
+
+          +o Component activation, which is the means of using com-
+            ponents with a mouse or keyboard.
+
+
+
+
+
+
+
+
+                                                                3-1
+
+
+
+
+
+
+
+
+
+
+
+
+       3.1  SSSSeeeelllleeeeccccttttiiiioooonnnn MMMMooooddddeeeellllssss
+
+       Selection is used to mark one or more of a group of elements
+       simply for highlighting the elements, or so they can be
+       moved, copied, or otherwise manipulated by the application.
+
+       Groups of elements can be organized into the following three
+       types of collections:
+
+          +o List-like
+
+          +o Text-like
+
+          +o Graphics-like
+
+       In list-like collections, when the pointer or location cur-
+       sor are in the collection, they are considered to be on an
+       element.  The notion of "on" depends upon the manipulation
+       model presented by the control.  For example, "on" may mean
+       that the cursor is within the bounds of the element, or it
+       may mean that the cursor is on the boundary of the element,
+       or the element may have handles, and "on" means that the
+       cursor is on one of the handles.  In text-like collections,
+       when the pointer or location cursor are in the collection,
+       they are considered to be between two elements.  The name
+       text-like refers to Text components in insert mode where the
+       insertion cursor is always between two letters. List-like
+       and text-like collections are usually ordered as linear col-
+       lections.  That is, the collections are treated as if the
+       elements were connected as a series of elements in one
+       dimension.
+
+       In graphics-like collections, the pointer and location cur-
+       sor can be either on or between elements.  Graphics-like
+       collections are usually ordered as 2-dimensional collec-
+       tions.  That is, the ordering of elements in the collection
+       depends on both the horizontal and vertical position of the
+       element within each collection.
+
+       OSF/Motif compliant systems must support the five different
+       selection models.  Each model is used where appropriate in
+       applications to limit the type of selections the user can
+       make.  For example, a List may limit selection to a single
+       element where the user is only allowed to make one choice.
+       The five selection models are as follows:
+
+       SSSSiiiinnnngggglllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn         Used to select a single element in
+                                a collection.  Clicking BBBBSSSSeeeelllleeeecccctttt on
+                                an element selects it and deselects
+                                the previously selected element in
+                                the collection.  Single selection
+
+
+       3-2
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+                                is described in Section 3.1.1
+
+       BBBBrrrroooowwwwsssseeee SSSSeeeelllleeeeccccttttiiiioooonnnn         Used to allow browsing through sin-
+                                gle selection collections.  Browse
+                                selection is also used to select a
+                                single element of a collection.
+                                Browse selection works just like
+                                single selection, but additionally
+                                allows the user to browse through
+                                the elements by dragging BBBBSSSSeeeelllleeeecccctttt
+                                through the elements in the collec-
+                                tion.  Browse selection highlights
+                                each element as it is traversed,
+                                and gives the application an oppor-
+                                tunity to provide information about
+                                each element as it is highlighted.
+                                Releasing BBBBSSSSeeeelllleeeecccctttt on an element
+                                selects it and deselects the previ-
+                                ously selected element.  Browse
+                                selection is described in Section
+                                3.1.2
+
+       MMMMuuuullllttttiiiipppplllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn       Used to select or deselect multiple
+                                elements of a collection.  Clicking
+                                BBBBSSSSeeeelllleeeecccctttt on an unselected element
+                                adds that element to the current
+                                selection.  Clicking BBBBSSSSeeeelllleeeecccctttt on a
+                                selected element removes that ele-
+                                ment from the current selection.
+                                Multiple selection is described in
+                                Section 3.1.3
+
+       RRRRaaaannnnggggeeee SSSSeeeelllleeeeccccttttiiiioooonnnn          Used to select a contiguous range
+                                of elements in a collection.
+                                Clicking BBBBSSSSeeeelllleeeecccctttt on an element
+                                selects the single element, and
+                                deselects any previous selection.
+                                BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg over a range of ele-
+                                ments selects all the elements
+                                within the range, and deselects any
+                                previous selection.  Range selec-
+                                tion is described in Section 3.1.4
+
+       DDDDiiiissssccccoooonnnnttttiiiigggguuuuoooouuuussss SSSSeeeelllleeeeccccttttiiiioooonnnn  Used for selecting multiple discon-
+                                tiguous ranges of elements in a
+                                collection.  Clicking or dragging
+                                BBBBSSSSeeeelllleeeecccctttt operates just as for range
+                                selection.  Discontiguous selection
+                                also allows BBBBTTTToooogggggggglllleeee to be used to
+                                add or remove selection ranges.
+                                Discontiguous selection is
+
+
+                                                                3-3
+
+
+
+
+
+
+
+
+
+
+
+
+                                described in Section 3.1.5.
+
+       The choice of the selection model should be made on a col-
+       lection by collection basis.  Some components, like Text,
+       enforce a selection model.  Other components, like a List,
+       allow the application or the user to determine the selection
+       model.
+
+       Variants of these selection models may be needed for collec-
+       tions that are especially dense, when objects are organized
+       in layers, when 3-dimensional selection is needed, when
+       objects are hierarchicly organized, or in other situations
+       not covered by this _S_t_y_l_e _G_u_i_d_e.  Selection models for such
+       cases should not deviate unnecessarily from the standard
+       selection models.
+
+       In all selection models, the selected element or group of
+       elements should be visually highlighted in some way.
+       Highlighting the selection can be done in the following of
+       ways:
+
+          +o Using any one of the location cursor mechanisms
+
+          +o Inverting the colors of the selection
+
+          +o Drawing a solid or dashed box around the elements of
+            the selection
+
+       The selection can also be a null selection.  That is, it is
+       possible for no items to be selected in a collection.  This
+       commonly occurs in text-like collections where the location
+       cursor is between two elements, or when the user has
+       deselected all the elements.
+
+       3.1.1  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd SSSSiiiinnnngggglllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       The single selection model is the simplest selection model.
+       In the single selection model, when BBBBSSSSeeeelllleeeecccctttt is clicked in a
+       selectable element that is deselected, that element must be
+       selected, and any other selection in the collection must be
+       deselected.  The selected element must have the location
+       cursor.
+
+       3.1.2  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd BBBBrrrroooowwwwsssseeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       The browse selection model is very similar to the single
+       selection model.  In browse selection, like single selec-
+       tion, only a single element is selected at a time.  In the
+       browse selection model, when BBBBSSSSeeeelllleeeecccctttt is released in a
+       selectable element, that element must be selected, and any
+       other selection in the collection must be deselected.  As
+
+
+       3-4
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       BBBBSSSSeeeelllleeeecccctttt is dragged through selectable elements, each element
+       under the pointer must be selected, and the previously
+       selected element must be deselected.  The selection must
+       remain on the element where BBBBSSSSeeeelllleeeecccctttt is released and the
+       location cursor must be moved there.  The browse selection
+       model gives the application an opportunity to provide infor-
+       mation about each element as it is highlighted.
+
+       3.1.3  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd MMMMuuuullllttttiiiipppplllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Multiple selection allows the user to select or deselect
+       multiple single elements of a collection.  Clicking BBBBSSSSeeeelllleeeecccctttt
+       on an unselected element must add that element to the
+       current selection in the collection.  Clicking BBBBSSSSeeeelllleeeecccctttt on a
+       selected element must remove that element from the current
+       selection in the collection.  Clicking BBBBSSSSeeeelllleeeecccctttt on an element
+       must move the location cursor to that element.
+
+       With multiple selection, the user can select any group of
+       elements in a collection, including discontiguous groups,
+       all the elements, or none of the elements.  Because multiple
+       selection requires one mouse click for each element
+       selected, although a simple model, it is not well-suited for
+       selecting large groups of elements.
+
+       3.1.4  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd RRRRaaaannnnggggeeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       The range selection model allows the user to select multiple
+       contiguous elements of a collection.  The description of
+       this selection model assumes that the drag-and-drop model is
+       not in use in the collection.  The drag-and-drop model and
+       its effect on this selection model are described in Section
+       3.2.1.
+
+       In the range selection model, when BBBBSSSSeeeelllleeeecccctttt is pressed, all
+       elements in the collection must be deselected.  If BBBBSSSSeeeelllleeeecccctttt
+       is clicked on a selectable element, it must be selected.
+       Pressing BBBBSSSSeeeelllleeeecccctttt must also set an anchor on the element, or
+       at the position where BBBBSSSSeeeelllleeeecccctttt was pressed.  The aaaannnncccchhhhoooorrrr is
+       one of the endpoints of the selected range.  As BBBBSSSSeeeelllleeeecccctttt is
+       dragged through the collection, every element between the
+       pointer and the anchor must be included in the selection.
+       When BBBBSSSSeeeelllleeeecccctttt is released, the anchor must not move, all the
+       elements between the anchor and the release position must
+       remain in the selection, and the location cursor must be at
+       the location where BBBBSSSSeeeelllleeeecccctttt is released.
+
+       The user can extend the range selection using BBBBEEEExxxxtttteeeennnndddd.  BBBBEEEExxxx----
+       tttteeeennnndddd is usually bound to MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt.  When BBBBEEEExxxxtttteeeennnndddd is
+       pressed, the selection must be extended according to one of
+       the following extension models:
+
+
+                                                                3-5
+
+
+
+
+
+
+
+
+
+
+
+
+       RRRReeeesssseeeelllleeeecccctttt       The selection must extend to include all ele-
+                      ments between the anchor and the pointer.
+                      When BBBBEEEExxxxtttteeeennnndddd is released, the anchor must not
+                      move, all the elements between the anchor and
+                      the release position must remain in the
+                      selection, and the location cursor must be on
+                      the last element selected or at the position
+                      of the release for graphics-like collections.
+
+       EEEEnnnnllllaaaarrrrggggeeee----OOOOnnnnllllyyyy   The selection can only be enlarged.  The
+                      selection must extend to include all elements
+                      between the old selection and the pointer.
+                      In the graphics-like collections, the
+                      extended range must be determined by the
+                      smallest rectangle that encloses the old
+                      selection and the pointer.  When BBBBEEEExxxxtttteeeennnndddd is
+                      released, the position of the anchor is
+                      irrelevant, all the elements selected must
+                      remain in the selection, and the location
+                      cursor must be on the last element selected
+                      or at the position of the release for
+                      graphics-like collections.
+
+       BBBBaaaallllaaaannnncccceeee----BBBBeeeeaaaammmm   A balance point is defined at the midpoint of
+                      the current selection.  When BBBBEEEExxxxtttteeeennnndddd is
+                      pressed on the opposite side of the balance
+                      point from the anchor point, this model must
+                      work exactly like the reselect model.  When
+                      BBBBEEEExxxxtttteeeennnndddd is pressed on the same side of the
+                      balance point as the anchor point, this model
+                      must move the anchor point to the other side
+                      of the selection, and then must work exactly
+                      like the reselect model.  In graphics-like
+                      collections, balancing the anchor point is
+                      done separately in each dimension.  When BBBBEEEExxxx----
+                      tttteeeennnndddd is released, all elements must remain in
+                      the selection, the anchor must remain in its
+                      last position, and the location cursor must
+                      be on the last element selected or at the
+                      position of the release for graphics-like
+                      collections.
+
+       Text-like collections should use the balance-beam model.
+       The extension model used by other collections depends on the
+       purpose of the collection.
+
+       In the range selection model, clicking BBBBTTTToooogggggggglllleeee can move the
+       location cursor to the position of the pointer without
+       affecting the current selection.  BBBBTTTToooogggggggglllleeee is usually bound
+       to MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt as shown in the following table.
+
+
+
+       3-6
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+                   TTTTAAAABBBBLLLLEEEE 3333----1111....  Range Selection Bindings
+
+                   ___________________________________
+                  | VVVViiiirrrrttttuuuuaaaallll BBBBuuuuttttttttoooonnnn   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                  |___________________________________|
+                  | BBBBEEEExxxxtttteeeennnndddd          MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt  |
+                  | BBBBTTTToooogggggggglllleeee          MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt   |
+                  |___________________________________|
+
+       3.1.5  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd DDDDiiiissssccccoooonnnnttttiiiigggguuuuoooouuuussss SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       The discontiguous selection mechanism allows the user to
+       make multiple simultaneous range selections.  It behaves
+       very similar to the range selection model.  The description
+       of this selection model assumes that the drag-and-drop model
+       is not in use in the collection.  The drag-and-drop model
+       and its effect on this selection model are described in Sec-
+       tion 3.2.1.
+
+       The behavior of BBBBSSSSeeeelllleeeecccctttt in the discontiguous selection model
+       is exactly the same as in the range selection model.  In the
+       discontiguous selection model, when BBBBSSSSeeeelllleeeecccctttt is pressed all
+       elements in the collection must be deselected.  If BBBBSSSSeeeelllleeeecccctttt
+       is clicked on a selectable element, it must be selected.
+       Pressing BBBBSSSSeeeelllleeeecccctttt must also set an anchor on the element, or
+       at the position where BBBBSSSSeeeelllleeeecccctttt was pressed.  As BBBBSSSSeeeelllleeeecccctttt is
+       dragged through the collection, every element between the
+       pointer and the anchor must be included in the selection.
+       When BBBBSSSSeeeelllleeeecccctttt is released, the anchor must not move, all the
+       elements between the anchor and the release position must
+       remain in the selection, and the location cursor must be on
+       the last element selected.  After the anchor point is set
+       with BBBBSSSSeeeelllleeeecccctttt, BBBBEEEExxxxtttteeeennnndddd must work exactly as in the range
+       selection model.
+
+       The primary difference between the range selection model and
+       the discontiguous selection model is the use of BBBBTTTToooogggggggglllleeee.  In
+       the range selection mode, BBBBTTTToooogggggggglllleeee is only used to move the
+       position of the location cursor without disrupting the
+       current selection.  In the discontiguous model, BBBBTTTToooogggggggglllleeee is
+       used to toggle the selection state of an element or a range
+       of elements.
+
+       If the current selection is null, BBBBTTTToooogggggggglllleeee CCCClllliiiicccckkkk can leave
+       the anchor alone and leave all elements deselected.  Other-
+       wise, if BBBBTTTToooogggggggglllleeee is clicked, the anchor must move to that
+       point, and if BBBBTTTToooogggggggglllleeee is clicked on an element, the selec-
+       tion state of that element must be toggled, and the anchor
+       must be placed on that element.  In any case, the location
+       cursor must move to the point at which the click occurs.
+
+
+
+                                                                3-7
+
+
+
+
+
+
+
+
+
+
+
+
+       In list-like collections, BBBBTTTToooogggggggglllleeee DDDDrrrraaaagggg places the anchor on
+       the element at which BBBBTTTToooogggggggglllleeee is pressed and toggles the
+       selection state of that element.  In text and graphics-like
+       collections, BBBBTTTToooogggggggglllleeee DDDDrrrraaaagggg leaves the anchor at the point at
+       which BBBBTTTToooogggggggglllleeee is pressed, but never on an element.  In any
+       case, the location cursor is left at the point at which
+       BBBBTTTToooogggggggglllleeee is released, and the selection state of the elements
+       in the range dragged out by BBBBTTTToooogggggggglllleeee are toggled based on one
+       of the following toggle models.
+
+       AAAAnnnncccchhhhoooorrrr TTTToooogggggggglllleeee     For collections where the anchor is on an
+                         element rather than between elements, each
+                         element in the extended range, regardless
+                         of its current selection state, must be
+                         set to the selection state of the element
+                         with the anchor.  That is, if the element
+                         with the anchor is selected, all elements
+                         in the extended range are also selected;
+                         if the element is unselected, all the ele-
+                         ments in the extended range are
+                         deselected.
+
+       TTTTeeeexxxxtttt TTTToooogggggggglllleeee       For collections where the anchor is always
+                         between two elements, as in Text, each
+                         element in the extended range must be set
+                         to the inverse of the selection state of
+                         the element within the extended range that
+                         is immediately adjacent to the anchor at
+                         the time that BBBBTTTToooogggggggglllleeee was pressed.
+
+       FFFFuuuullllllll TTTToooogggggggglllleeee       selection mode, BBBBTTTToooogggggggglllleeee is only used to
+                         move the position of the location cursor
+                         without disrupting thel the elements in
+                         the extended range are deselected.
+
+       TTTTeeeexxxxtttt TTTToooogggggggglllleeee       For collections wher The selection state
+                         of all elements in the extended range must
+                         be toggled.
+
+       If the anchor is on an element, anchor toggling must be
+       used; otherwise text or full toggling must be used.
+
+       Once BBBBTTTToooogggggggglllleeee has been used to toggle a selection, the tog-
+       gled range may be extended by BBBBEEEExxxxtttteeeennnndddd.  The extended range
+       can be determined by any of the extension models described
+       in Section 3.1.4; that is, Reselect, Enlarge-Only, or
+       Balance-Beam.  Once the extended range is determined, the
+       selection state of elements added to the range must be
+       determined by the toggle model as described above.  If BBBBEEEExxxx----
+       tttteeeennnndddd removes elements from the extended range, they should
+       revert to their state prior to the last use of BBBBTTTToooogggggggglllleeee.
+
+
+       3-8
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       3.1.6  KKKKeeeeyyyybbbbooooaaaarrrrdddd SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Selections can be made by using the keyboard as well as the
+       mouse.  There are two different keyboard selection models
+       available, normal mode and add mode.
+
+       Normal mode is used for making simple contiguous selections
+       from the keyboard.  In normal mode, keyboard navigation must
+       never leave the location cursor disjoint from the current
+       selection. In collections where the location cursor is on an
+       element, the element with the location cursor is ordinarily
+       selected; if it is not, pressing KKKKSSSSeeeelllleeeecccctttt moves the selection
+       to the cursored element.
+
+       In normal mode, if the location cursor is disjointed from
+       the selection, editing or inserting at the location cursor
+       should deselect the selection and can move the anchor to the
+       cursor location.
+
+       Add mode is used for making discontiguous selections from
+       the keyboard.  Even in collections that do not support
+       discontiguous selections, add mode allows the selection to
+       be unaffected by keyboard navigation.
+
+       Browse selections must only support normal mode.  Single and
+       multiple selections must only support add mode.  Range and
+       discontiguous selections must support both modes.  The
+       default mode for range and discontiguous selections must be
+       normal mode.  KKKKAAAAddddddddMMMMooooddddeeee must switch between add mode and nor-
+       mal mode in range and discontiguous selections.  When
+       switching from normal to add mode, if the cursored element
+       is the only element selected in the collection, it must be
+       deselected.  Mouse-based selection must not change based on
+       the keyboard selection mode.
+
+       In editable components, add mode is a temporary mode that
+       must be exited when an operation is performed on the selec-
+       tion, or when the selection is deselected.
+
+       The usual bindings of the virtual keys used in this section
+       are shown in the following table.
+
+                 TTTTAAAABBBBLLLLEEEE 3333----2222....  Keyboard Selection Bindings
+
+
+
+
+
+
+
+
+
+
+                                                                3-9
+
+
+
+
+
+
+
+
+
+
+
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKSSSSeeeelllleeeecccctttt       <<<<SSSSeeeelllleeeecccctttt>>>>        |
+                    |               <<<<SSSSppppaaaacccceeee>>>>         |
+                    |               MMMMCCCCttttrrrrllll <<<<SSSSppppaaaacccceeee>>>>   |
+                    | KKKKEEEExxxxtttteeeennnndddd       MMMMSSSShhhhiiiifffftttt KKKKSSSSeeeelllleeeecccctttt  |
+                    | KKKKAAAAddddddddMMMMooooddddeeee      MMMMSSSShhhhiiiifffftttt <<<<FFFF8888>>>>     |
+                    |________________________________|
+
+       3.1.6.1  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd SSSSiiiinnnngggglllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Collections using the single selection model must use add
+       mode.  In add mode, the navigation keys for the collection
+       must move the location cursor independent from the selected
+       element.  If KKKKSSSSeeeelllleeeecccctttt is pressed on an unselected element, it
+       must select the element with the location cursor, and must
+       deselect any previous selection in the collection.  If
+       KKKKSSSSeeeelllleeeecccctttt is pressed on a selected element, it must deselect
+       the element with the location cursor.
+
+       3.1.6.2  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd BBBBrrrroooowwwwsssseeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Collections using the browse selection model must use normal
+       mode.  The navigation keys move the location cursor and the
+       selection.  If the application has deselected all elements
+       or if the cursor is left disjoint from the selection,
+       KKKKSSSSeeeelllleeeecccctttt selects the cursored element and deselects any other
+       elements.
+
+       3.1.6.3  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd MMMMuuuullllttttiiiipppplllleeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Collections using the multiple selection model must use add
+       mode.  The navigation keys for the collection must move the
+       location cursor independent from the current selection.
+       KKKKSSSSeeeelllleeeecccctttt on an unselected element must add the element to the
+       current selection.  KKKKSSSSeeeelllleeeecccctttt on a selected element must
+       remove the element from the current selection.
+
+       3.1.6.4  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd RRRRaaaannnnggggeeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Collections using the range selection model must initially
+       use normal mode.  This allows a keyboard-based behavior
+       similar to dragging with the mouse.
+
+       In normal mode, navigation keys must move the location cur-
+       sor and deselect the current selection.  If the cursor is on
+       an element, it must be selected.  The anchor must move with
+       the location cursor.  However, in text-like collections, a
+       different model can be used in which the anchor must instead
+       remain at its current location, except that, if the current
+
+
+       3-10
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       selection is null, the anchor must be moved to the location
+       of the cursor prior to navigation.
+
+       KKKKSSSSeeeelllleeeecccctttt must move the anchor to the cursor, deselect the
+       current selection, and, if the cursor is on an element,
+       select the element.  Unless the anchor is on a deselected
+       item, KKKKEEEExxxxtttteeeennnndddd must extend the selection from the cursor to
+       the anchor, based on the extension model used by BBBBEEEExxxxtttteeeennnndddd.
+
+       Using MMMMSSSShhhhiiiifffftttt in conjunction with the navigation keys must
+       extend the selection.  If the current selection is null, or
+       the cursor is disjoint from it, the selection must be
+       deselected, and the anchor must be moved to the cursor.  The
+       cursor must then be moved according to the navigation keys,
+       and the selection must be extended based on the extension
+       model used by BBBBEEEExxxxtttteeeennnndddd.
+
+       In add mode, KKKKSSSSeeeelllleeeecccctttt and KKKKEEEExxxxtttteeeennnndddd must work exactly as in
+       normal mode.  However, ordinary navigation must simply move
+       the location cursor, but must leave the anchor unchanged.
+       Shifted navigation must move the location cursor according
+       to the navigation keys, and the selection must be extended
+       based on the extension model used by BBBBEEEExxxxtttteeeennnndddd.
+
+       3.1.6.5  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd DDDDiiiissssccccoooonnnnttttiiiigggguuuuoooouuuussss SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Collections using the discontiguous selection model must
+       initially use normal mode.  In the discontiguous selection
+       model, add mode is not only a separate model of interaction,
+       but an extension to the model that allows the user to select
+       discontiguous elements.
+
+       In normal mode, keyboard-based discontiguous selection
+       behaves identically to keyboard-based range selection.  In
+       add mode, KKKKSSSSeeeelllleeeecccctttt must move the anchor to the location cur-
+       sor and initiate toggling.  If it is on an element, the
+       selection state of that element must be toggled, but the
+       selection state of all other elements must remain unchanged.
+       KKKKEEEExxxxtttteeeennnndddd and shifted navigation operations must extend the
+       selection between the anchor and the location cursor using
+       one of the toggle mechanisms described in Section 3.1.5.
+
+       3.1.7  CCCCaaaannnncccceeeelllliiiinnnngggg aaaa SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       KKKKCCCCaaaannnncccceeeellll must cancel or undo any incomplete drag operation
+       used for selection, including selection dragging using the
+       drag-and-drop model described in Section 3.2.1.  Once KKKKCCCCaaaannnn----
+       cccceeeellll is pressed to cancel a drag operation, the application
+       must ignore subsequent key and button releases until after
+       all buttons and keys are released.  KKKKCCCCaaaannnncccceeeellll is usually bound
+       to <<<<EEEEssssccccaaaappppeeee>>>> or <<<<CCCCaaaannnncccceeeellll>>>>.
+
+
+                                                               3-11
+
+
+
+
+
+
+
+
+
+
+
+
+       3.1.8  SSSSeeeelllleeeeccccttttiiiinnnngggg aaaannnndddd DDDDeeeesssseeeelllleeeeccccttttiiiinnnngggg AAAAllllllll EEEElllleeeemmmmeeeennnnttttssss
+
+       There are two special keyboard-based selection mechanisms
+       for selecting (via KKKKSSSSeeeelllleeeeccccttttAAAAllllllll) and deselecting (via
+       KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll) all the elements in a collection.  KKKKSSSSeeeelllleeeeccccttttAAAAllllllll
+       in a collection using multiple, range, or discontiguous
+       selection, must select all the elements in a collection,
+       place the anchor at the beginning of the collection, and
+       leave the location cursor at its previous position.
+
+       Deselection differs between add mode and normal mode.  In
+       add mode, KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll must deselect all the elements in a
+       collection.  In normal mode, KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll must deselect all
+       the elements in a collection, except the element with the
+       location cursor if the location cursor is being displayed.
+       In either case, it must leave the location cursor at its
+       current location and move the anchor to the location cursor.
+       An application can deselect all elements in a collection
+       regarless of the state of add mode or the selection model.
+
+       KKKKSSSSeeeelllleeeeccccttttAAAAllllllll and KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll are usually bound as shown in
+       the following table.
+
+             TTTTAAAABBBBLLLLEEEE 3333----3333....  KSelectAll and KDeselectAll Bindings
+
+                    _________________________________
+                   | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy    DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                   |_________________________________|
+                   | KKKKSSSSeeeelllleeeeccccttttAAAAllllllll     MMMMCCCCttttrrrrllll <<<<////>>>>       |
+                   | KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll   MMMMCCCCttttrrrrllll <<<<\\\\>>>>       |
+                   |_________________________________|
+
+       3.1.9  UUUUssssiiiinnnngggg MMMMnnnneeeemmmmoooonnnniiiiccccssss ffffoooorrrr EEEElllleeeemmmmeeeennnnttttssss
+
+       Collections can also support mnemonics associated with its
+       elements if the elements have labels.  Typing a mnemonic
+       while the collection has the keyboard focus must be
+       equivalent to moving the location cursor to the element and
+       typing KKKKSSSSeeeelllleeeecccctttt.
+
+       3.2  SSSSeeeelllleeeeccccttttiiiioooonnnn AAAAccccttttiiiioooonnnnssss
+
+       Once a selection is made, the elements of the selection can
+       be acted upon using selection actions.  Some common selec-
+       tion actions are delete, cut, copy, and paste, although your
+       application is not limited to these.  Selection actions
+       should be available in editable collections.  This section
+       describes the following ways of using selection actions.
+
+          +o The drag-and-drop model
+
+
+
+       3-12
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+          +o Using primary selection
+
+          +o Using quick transfer
+
+          +o Using keyboard selection actions
+
+       3.2.1  TTTThhhheeee DDDDrrrraaaagggg----aaaannnndddd----DDDDrrrroooopppp MMMMooooddddeeeellll
+
+       Some collections can support the drag-and-drop model.  The
+       drag-and-drop model allows the user to move or copy the
+       selected elements by dragging them to a new location.
+
+       Collections can allow their elements to be dragged and
+       dropped within the same collection and different collec-
+       tions.  When the dragged elements are dropped outside of the
+       original collection, an appropriate representation of the
+       dragged elements can be moved or copied to the destination
+       collection, if the destination supports dropping of that
+       type of element.
+
+       The appropriate representation of dropped elements is deter-
+       mined by the collection in which the elements are dropped.
+       For example, if a graphic element representing a file were
+       dropped in a Text component, it could be appropriate to
+       paste the name or the contents of the file into the Text
+       component.  Even collections that do not support dragging of
+       their own elements can support drops of elements from other
+       collections.
+
+       If a component implements dragging, it should use BBBBDDDDrrrraaaagggg to
+       perform the drag operations.  Some implementations may
+       choose to use BBBBSSSSeeeelllleeeecccctttt instead of BBBBDDDDrrrraaaagggg because of limited
+       mouse buttons, consistency with existing interfaces, or user
+       preference.  When BBBBSSSSeeeelllleeeecccctttt is used for dragging operations,
+       its use must supersede the use of BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg in the selec-
+       tion models described in Section 3.1.  Applications that
+       implement the drag-and-drop model using BBBBSSSSeeeelllleeeecccctttt must also
+       support the use of BBBBDDDDrrrraaaagggg instead if it is available.
+
+       When using BBBBDDDDrrrraaaagggg for dragging elements, if BBBBDDDDrrrraaaagggg is pressed
+       on a selected element or within a linear range of selected
+       elements, it must drag the entire selection until it is
+       released.  If BBBBDDDDrrrraaaagggg is pressed outside of a selected range
+       in a text-like collection, it must do a quick transfer
+       instead of dragging the element.  Quick transfer is
+       described in Section 3.2.3.  If BBBBDDDDrrrraaaagggg is pressed on an
+       unselected element in a list-like collection, it can either
+       do a quick transfer or a dragging operation.  The behavior
+       of BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss in a graphics-like collection is unspecified.
+       It can either do a quick transfer, a dragging operation, or
+       pan the visible region.
+
+
+                                                               3-13
+
+
+
+
+
+
+
+
+
+
+
+
+       A drag operation may either copy or move the selected ele-
+       ments.  If the elements are copied, a copy or representation
+       of the elements must be pasted into the destination collec-
+       tion, but the original elements must remain unchanged.  If
+       the original elements were selected, they must remain
+       selected.
+
+       If the elements are moved, a copy or representation of the
+       elements must be pasted into the destination collection, and
+       the original elements must be deleted.  If the original ele-
+       ments were selected, the copy of the elements must become
+       selected if the destination supports selection.
+
+       The type of the elements dragged, and the source and desti-
+       nation of the drag-and-drop operations determine whether the
+       operation causes a move or a copy.  The following rules can
+       be user customizable.  If not customized the rules that must
+       be followed are as follows.
+
+          +o Dragging from a non editable component must be treated
+            as a copy.
+
+          +o Dragging to a transport device, like a printer or mail-
+            box, must be treated as a copy.
+
+          +o Dragging to a removal device, like a wastebasket or
+            shredder, must be treated as a move.
+
+          +o Dragging text to or from a Text collection must be
+            treated as a copy.
+
+       In other cases the operation must be treated as a move.
+       Pressing MMMMCCCCttttrrrrllll with the drag operation must make the opera-
+       tion a copy.  Pressing MMMMAAAAlllltttt with the drag operation must
+       make the operation a move.
+
+       When the drag-and-drop model is implemented using BBBBSSSSeeeelllleeeecccctttt,
+       BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg on a selected element or within a linear range
+       of selected elements must initiate a drag operation on the
+       entire selection.  BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg on an unselected element
+       must select the element, deselecting all other elements, and
+       initiate a drag operation.
+
+       A component may use BBBBSSSSeeeelllleeeecccctttt for drag-and-drop, but not BBBBTTTToooogggg----
+       gggglllleeee.  If BBBBTTTToooogggggggglllleeee is used for drag-and-drop, BBBBTTTToooogggggggglllleeee DDDDrrrraaaagggg on
+       a selected element must remove the element from the selec-
+       tion.  BBBBTTTToooogggggggglllleeee DDDDrrrraaaagggg on an unselected element must add the
+       element to the selection and initiate a drag operation on
+       the entire selection.  Components that implement the drag-
+       and-drop model using BBBBTTTToooogggggggglllleeee, must also support the use of
+       BBBBDDDDrrrraaaagggg instead.
+
+
+       3-14
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       3.2.2  UUUUssssiiiinnnngggg PPPPrrrriiiimmmmaaaarrrryyyy SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       Each collection maintains its own selection.  However, there
+       must only be a single primary selection.  The primary selec-
+       tion is the selection on which selection actions, like cut
+       and copy, are performed.  If more than one selection is
+       highlighted, the primary selection must be the selection
+       that is most visually highlighted.  The primary selection is
+       associated with the collection it is in, and it is possible
+       for the primary selection to not contain any elements.  In
+       this case, the primary selection is said to be null.
+
+       There are two models for how the primary selection moves
+       among collections:
+
+          +o Focus-based, where the primary selection must move to a
+            collection whenever the collection gets the input
+            focus.
+
+          +o Selection-based, where the primary selection must move
+            to an editable collection whenever a nonnull selection
+            is explicitly started in that collection using either
+            BBBBSSSSeeeelllleeeecccctttt, BBBBEEEExxxxtttteeeennnndddd, BBBBTTTToooogggggggglllleeee, KKKKSSSSeeeelllleeeecccctttt, KKKKEEEExxxxtttteeeennnndddd, KKKKSSSSeeeelllleeeecccc----
+            ttttAAAAllllllll, or KKKKRRRReeeesssseeeelllleeeecccctttt.  Clicking BBBBSSSSeeeelllleeeecccctttt or BBBBTTTToooogggggggglllleeee, but
+            not on an element, must not move the primary selection
+            to that component.  The primary selection is only moved
+            when a nonnull selection is made by clicking BBBBSSSSeeeelllleeeecccctttt or
+            BBBBTTTToooogggggggglllleeee.  When BBBBEEEExxxxtttteeeennnndddd is clicked, an implementation
+            can move the primary selection to the component even if
+            the resulting selection is null.  Dragging BBBBSSSSeeeelllleeeecccctttt,
+            BBBBEEEExxxxtttteeeennnndddd, or BBBBTTTToooogggggggglllleeee must move the primary selection to
+            the component even if no elements are ultimately
+            selected.
+
+       When a collection loses the primary selection, it should
+       remember what was selected, including the elements contained
+       in it and the position of the anchor.  Each collection can
+       provide KKKKRRRReeeesssseeeelllleeeecccctttt, which must restore the collection's
+       selection as the primary selection.  KKKKRRRReeeesssseeeelllleeeecccctttt is usually
+       bound as shown in the following table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               3-15
+
+
+
+
+
+
+
+
+
+
+
+
+                      TTTTAAAABBBBLLLLEEEE 3333----4444....  KReselect Bindings
+
+                   ____________________________________
+                  | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss    |
+                  |____________________________________|
+                  | KKKKRRRReeeesssseeeelllleeeecccctttt     MMMMCCCCttttrrrrllll MMMMSSSShhhhiiiifffftttt KKKKSSSSeeeelllleeeecccctttt|
+                  | KKKKSSSSeeeelllleeeecccctttt       <<<<SSSSeeeelllleeeecccctttt>>>>            |
+                  |               <<<<SSSSppppaaaacccceeee>>>>             |
+                  |               MMMMCCCCttttrrrrllll <<<<SSSSppppaaaacccceeee>>>>       |
+                  |____________________________________|
+
+       The selection-based, primary selection model should be used
+       whenever possible because when using the focus-based model,
+       it is impossible to perform primary transfer between dif-
+       ferent components for either a mouse user with a pointer
+       focus policy, or for a keyboard user.  Primary transfer is
+       used to cut or copy the primary selection to a new location
+       without using the clipboard.
+
+       Clicking BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee must paste the primary selection to
+       the position of the pointer and set the location cursor
+       there.  The type of elements in the primary selection, and
+       the source and destination of the primary selection deter-
+       mine whether BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee causes a move or a copy in the
+       same manner as the drag-and-drop model described in the pre-
+       vious section.
+
+       Clicking BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy must copy the primary selection to the
+       position of the pointer and set the location cursor there.
+       Clicking BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt must cut the primary selection, paste
+       it at the position of the pointer, and set the location cur-
+       sor there.
+
+       Keyboard-based primary transfer, KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee, KKKKPPPPrrrriiii----
+       mmmmaaaarrrryyyyCCCCooooppppyyyy, and KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt, must behave like the mouse-based
+       primary transfer except that the primary selection is pasted
+       at the position of the location cursor instead of the
+       pointer.
+
+       If a collection has a fixed insertion point (as in, append-
+       only text), then primary transfer can paste the selection at
+       that point.
+
+       Primary transfer is usually bound as shown in the following
+       table.
+
+                  TTTTAAAABBBBLLLLEEEE 3333----5555....  Primary Transfer Bindings
+
+
+
+
+
+
+       3-16
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+              _____________________________________________
+             | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy oooorrrr BBBBuuuuttttttttoooonnnn   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss   |
+             |_____________________________________________|
+             | BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee           BBBBDDDDrrrraaaagggg              |
+             | BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy            MMMMCCCCttttrrrrllll BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee|
+             | BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt             MMMMAAAAlllltttt BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee |
+             | KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee           <<<<vvvveeeennnnddddoooorrrr ddddeeeeffffiiiinnnneeeedddd>>>>   |
+             | KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy            MMMMCCCCttttrrrrllll KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee|
+             |                         MMMMAAAAlllltttt KKKKCCCCooooppppyyyy         |
+             | KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt             MMMMAAAAlllltttt KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee |
+             |                         MMMMAAAAlllltttt KKKKCCCCuuuutttt          |
+             | KKKKCCCCuuuutttt                    MMMMSSSShhhhiiiifffftttt KKKKDDDDeeeelllleeeetttteeee     |
+             |                         <<<<CCCCuuuutttt>>>>              |
+             | KKKKCCCCooooppppyyyy                   MMMMSSSShhhhiiiifffftttt KKKKIIIInnnnsssseeeerrrrtttt     |
+             |                         <<<<CCCCooooppppyyyy>>>>             |
+             | KKKKDDDDeeeelllleeeetttteeee                 <<<<DDDDeeeelllleeeetttteeee>>>>           |
+             | KKKKIIIInnnnsssseeeerrrrtttt                 <<<<IIIInnnnsssseeeerrrrtttt>>>>           |
+             |_____________________________________________|
+
+       3.2.3  UUUUssssiiiinnnngggg QQQQuuuuiiiicccckkkk TTTTrrrraaaannnnssssffffeeeerrrr
+
+       Quick transfer is used to make a selection, and then immedi-
+       ately cut or copy that selection to the destination cursor.
+       In primary transfer, the user makes a selection, then picks
+       a destination.  In quick transfer, the user picks the desti-
+       nation first, then makes a selection to be pasted there.
+       This allows multiple selections to be quickly pasted at the
+       same location.  Note that quick transfer does not follow the
+       object-action selection model.
+
+       The ddddeeeessssttttiiiinnnnaaaattttiiiioooonnnn ccccuuuurrrrssssoooorrrr is the location where selections will
+       be pasted.
+
+          +o In text-like collections, the selection must be pasted
+            in the space before the destination cursor.
+
+          +o In list-like collections, the selection must be pasted
+            before the element with the destination cursor.
+
+          +o In graphics-like collections, the position at which the
+            selection is pasted and the resulting position of the
+            destination cursor are unspecified.
+
+       The destination cursor does not need to be in the same col-
+       lection in which the quick transfer is invoked.  The desti-
+       nation cursor must be in the component in which the user
+       last did a selection, insertion, or editing operation.  It
+       can either be at the location cursor of that component, or
+       determined independently.
+
+
+
+
+                                                               3-17
+
+
+
+
+
+
+
+
+
+
+
+
+       If the destination cursor is determined independently, it
+       must be at the location where selection, insertion or edit-
+       ing was last done.  Furthermore, when the current selection
+       is null, the anchor must be kept at the same location as the
+       destination cursor.  The destination cursor should be deter-
+       mined independently in environments in which strong support
+       of keyboard use is expected.
+
+       The position of the destination cursor should be visually
+       marked, typically by a caret, whenever it is not in the col-
+       lection with the location cursor, or when it is in the same
+       collection, but disjointed.
+
+       Quick transfer is generally used as a secondary selection
+       mechanism.  That is, it must not disturb the primary selec-
+       tion or affect the clipboard, except that if the destination
+       cursor is in or on the boundaries of the primary selection,
+       quick transfer must delete the contents of the primary
+       selection, leaving a null primary selection, before pasting
+       the transferred elements.  Deleting or replacing the con-
+       tents of the primary selection is called a pending delete.
+
+       With the mouse, the quick transfer selection is made by
+       dragging BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee.  BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee is usually bound to
+       BBBBDDDDrrrraaaagggg.  Therefore, quick transfer can be unavailable in col-
+       lections that support the drag-and-drop model.  BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee
+       DDDDrrrraaaagggg in a collection must select all the elements between
+       the place where BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee was pressed and released, and
+       either cut or copy them to the position of the destination
+       cursor.  Whether the operation performs a cut or a copy is
+       determined by the same rules as the drag-and-drop model
+       described in Section 3.2.1.  BBBBQQQQuuuuiiiicccckkkkCCCCooooppppyyyy DDDDrrrraaaagggg must perform
+       the same action as BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee, but must force a copy opera-
+       tion.  BBBBQQQQuuuuiiiicccckkkkCCCCuuuutttt DDDDrrrraaaagggg must perform the same action as
+       BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee, but must force a cut operation.
+
+       With the keyboard, KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee must set the quick anchor
+       point to start either a copy or cut operation.  Whether the
+       operation performs a cut or a copy is determined by the same
+       rules as the drag-and-drop model described in Section 3.2.1.
+       KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy must set the quick anchor point to start a copy
+       operation.  KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt must set the quick anchor point to
+       start a cut operation.  KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd must perform the quick
+       operation using every element between the quick anchor point
+       and the location cursor.
+
+       Quick transfer is usually bound as shown in the following
+       table.
+
+
+
+
+
+       3-18
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+                   TTTTAAAABBBBLLLLEEEE 3333----6666....  Quick Transfer Bindings
+
+               ____________________________________________
+              | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy oooorrrr BBBBuuuuttttttttoooonnnn   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss  |
+              |____________________________________________|
+              | BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee             BBBBDDDDrrrraaaagggg             |
+              | BBBBQQQQuuuuiiiicccckkkkCCCCooooppppyyyy              MMMMCCCCttttrrrrllll BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee |
+              | BBBBQQQQuuuuiiiicccckkkkCCCCuuuutttt               MMMMAAAAlllltttt BBBBQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee  |
+              | KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee             <<<<vvvveeeennnnddddoooorrrr ddddeeeeffffiiiinnnneeeedddd>>>>  |
+              | KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy              MMMMCCCCttttrrrrllll KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee |
+              | KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt               MMMMAAAAlllltttt KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee  |
+              | KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd            MMMMSSSShhhhiiiifffftttt KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee|
+              |____________________________________________|
+
+       Quick transfer can be used to transfer static text or graph-
+       ics that are not ordinarily selectable.  For example, a por-
+       tion of the text label of a PushButton is not ordinarily
+       selectable, since BBBBSSSSeeeelllleeeecccctttt or KKKKSSSSeeeelllleeeecccctttt activate the PushButton
+       instead.  We recommend that developers support quick
+       transfer for all static text and graphics.
+
+       While dragging out the quick selection, the range should be
+       highlighted in some way.  The highlighting mechanism should
+       be different than that used for the primary selection.  In
+       text, the highlight should be underlining.  The range deter-
+       mined by the quick anchor and the location cursor should be
+       similarly highlighted during keyboard-based quick selection.
+
+       3.2.4  UUUUssssiiiinnnngggg KKKKeeeeyyyybbbbooooaaaarrrrdddd CCCClllliiiippppbbbbooooaaaarrrrdddd SSSSeeeelllleeeeccccttttiiiioooonnnn AAAAccccttttiiiioooonnnnssss aaaannnndddd DDDDeeeelllleeee----
+              ttttiiiioooonnnn
+
+       Mouse-based clipboard selection actions are usually per-
+       formed using the EEEEddddiiiitttt Menu of an application.  In addition,
+       special bindings are available for keyboard-based clipboard
+       selection.  The keyboard-based clipboard selection actions
+       must be available in every editable collection.  In list-
+       and graphics-like collections, KKKKDDDDeeeelllleeeetttteeee and KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee must
+       delete the selected elements.  In text-like collections,
+       KKKKDDDDeeeelllleeeetttteeee and KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee behave as follows.
+
+          +o When the location cursor is in a selection, KKKKDDDDeeeelllleeeetttteeee and
+            KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee must delete the selection.
+
+          +o When the selection is null, KKKKDDDDeeeelllleeeetttteeee must delete one
+            character forward and KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee must delete one char-
+            acter backward.
+
+          +o When the selection is not null and the location cursor
+            is outside of the selection, KKKKDDDDeeeelllleeeetttteeee can either delete
+            the selection or delete one character forward and
+            KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee can either delete the selection or delete
+
+
+                                                               3-19
+
+
+
+
+
+
+
+
+
+
+
+
+            one character backward.
+
+       KKKKCCCCuuuutttt must cut the selected elements to the clipboard.  KKKKCCCCooooppppyyyy
+       must copy the selected elements to the clipboard.  KKKKPPPPaaaasssstttteeee
+       must paste the contents of the clipboard at the position of
+       the location or destination cursor, except if the collection
+       has a fixed insertion point (such as append-only text).
+       KKKKUUUUnnnnddddoooo should undo the last operation on a selection.  There
+       can be additional methods of undoing operations on selec-
+       tions.  KKKKCCCCooooppppyyyy and KKKKUUUUnnnnddddoooo can also be supported on non edit-
+       able collections.
+
+       The keyboard-based clipboard selection actions are usually
+       bound as shown in the following table.
+
+                  TTTTAAAABBBBLLLLEEEE 3333----7777....  Clipboard Action Bindings
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKDDDDeeeelllleeeetttteeee       <<<<DDDDeeeelllleeeetttteeee>>>>        |
+                    | KKKKCCCCuuuutttt          MMMMSSSShhhhiiiifffftttt <<<<DDDDeeeelllleeeetttteeee>>>> |
+                    | KKKKCCCCooooppppyyyy         MMMMCCCCttttrrrrllll <<<<IIIInnnnsssseeeerrrrtttt>>>>  |
+                    | KKKKPPPPaaaasssstttteeee        MMMMSSSShhhhiiiifffftttt <<<<IIIInnnnsssseeeerrrrtttt>>>> |
+                    | KKKKUUUUnnnnddddoooo         MMMMAAAAlllltttt <<<<BBBBaaaacccckkkkSSSSppppaaaacccceeee>>>>|
+                    |________________________________|
+
+       Pasting in Text must place the pasted text before the cur-
+       sor.  In graphics, the placement of pasted graphics and the
+       final position of the cursor are specific to the graphics
+       component.
+
+       Editable components must also support pending deletion.  In
+       pending deletion, any insert, paste or editing operation
+       first deletes the contents of the current selection.  Pend-
+       ing deletion must occur when the location cursor is in or on
+       the boundaries of the selection.
+
+       3.3  CCCCoooommmmppppoooonnnneeeennnntttt AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       Components are used to send information to the underlying
+       application.  For example, a Text component is used to send
+       complicated information to the application, but most com-
+       ponents, for example, PushButtons are simply used to start
+       an application process.  In fact even a complicated com-
+       ponent like Text may need to tell the application that the
+       user is finished entering information.  Components that
+       start some application process are used following the
+       activation model, which is divided into the following areas:
+
+
+
+
+       3-20
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+          +o Basic activation
+
+          +o Accelerators
+
+          +o Mnemonics
+
+          +o Help activation
+
+          +o Default activation
+
+          +o Expert activation
+
+          +o Previewing and autorepeat
+
+       3.3.1  BBBBaaaassssiiiicccc AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       The basic activation model mimics real life button activa-
+       tion in that pressing on a button activates it.  The user
+       selects a button with the location cursor, which can be
+       moved among components following the navigation model
+       described in Chapter 2.
+
+          +o Clicking BBBBSSSSeeeelllleeeecccctttt on the button must activate the but-
+            ton.
+
+          +o KKKKAAAAccccttttiiiivvvvaaaatttteeee on the button with the location cursor must
+            activate the button.
+
+          +o KKKKSSSSeeeelllleeeecccctttt on a button with the location cursor must
+            activate the button.
+
+       KKKKAAAAccccttttiiiivvvvaaaatttteeee and KKKKSSSSeeeelllleeeecccctttt are usually bound as shown in the fol-
+       lowing table.
+
+                     TTTTAAAABBBBLLLLEEEE 3333----8888....  Activation Bindings
+
+                   ___________________________________
+                  | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss   |
+                  |___________________________________|
+                  | KKKKAAAAccccttttiiiivvvvaaaatttteeee     KKKKEEEEnnnntttteeeerrrr             |
+                  | KKKKEEEEnnnntttteeeerrrr        <<<<RRRReeeettttuuuurrrrnnnn>>>> oooorrrr <<<<EEEEnnnntttteeeerrrr>>>>|
+                  |               MMMMCCCCttttrrrrllll KKKKEEEEnnnntttteeeerrrr       |
+                  | KKKKSSSSeeeelllleeeecccctttt       <<<<SSSSeeeelllleeeecccctttt>>>>           |
+                  |               <<<<SSSSppppaaaacccceeee>>>>            |
+                  |               MMMMCCCCttttrrrrllll <<<<SSSSppppaaaacccceeee>>>>      |
+                  |___________________________________|
+
+       When BBBBSSSSeeeelllleeeecccctttt is pressed over a button, the appearance of the
+       button must change to indicate that releasing BBBBSSSSeeeelllleeeecccctttt
+       activates the button.  If while BBBBSSSSeeeelllleeeecccctttt is pressed the
+       pointer is moved outside of the button, the visual state
+
+
+                                                               3-21
+
+
+
+
+
+
+
+
+
+
+
+
+       must be restored.  If while BBBBSSSSeeeelllleeeecccctttt is still pressed the
+       pointer is moved back inside of the button, the visual state
+       must again be changed to indicate the pending activation.
+       If BBBBSSSSeeeelllleeeecccctttt is pressed and released within a button, the but-
+       ton must be activated, regardless of whether the pointer has
+       moved out of the button while it was pressed.
+
+       An implementation can allow BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++ (multiple mouse
+       button clicks) to be treated as a single mouse button click
+       on a per component basis.  In an application where double-
+       clicks are used heavily, this helps prevent the user from
+       unintentionally activating a button twice.
+
+       Note that selection and editing components are also activat-
+       able, but KKKKSSSSeeeelllleeeecccctttt and BBBBSSSSeeeelllleeeecccctttt are used to select elements
+       within the component.  In selection and editing components,
+       only KKKKAAAAccccttttiiiivvvvaaaatttteeee and BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222 can be used to activate
+       the component.  As a further restriction, BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222 in
+       a Text component is used to select a word, and in multiline
+       Text components, KKKKEEEEnnnntttteeeerrrr, the primary binding for KKKKAAAAccccttttiiiivvvvaaaatttteeee,
+       is used to insert a carriage return.  MMMMCCCCttttrrrrllll KKKKEEEEnnnntttteeeerrrr, the
+       other binding for KKKKAAAAccccttttiiiivvvvaaaatttteeee, must always be available for
+       activating Text components.
+
+       3.3.2  AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+
+       An accelerator is a key or key combination that invokes the
+       action of some component regardless of the position of the
+       location cursor when the accelerator is pressed.  Accelera-
+       tors are most commonly used to activate Menu items without
+       first posting the Menu.
+
+       If the button with the accelerator is within a primary or
+       secondary window, or within a PullDown Menu system from its
+       MenuBar, then it must be activatable whenever the input
+       focus is in the window.  If the button with the accelerator
+       is within a Popup Menu system, then it must be activatable
+       whenever the focus is in the component with the Popup Menu.
+
+       Applications can provide accelerators for any button com-
+       ponent.  All PushButtons and ToggleButtons must support
+       accelerators in Menus.  If a button has an accelerator, the
+       accelerator must be shown following the label of the button.
+
+       3.3.3  MMMMnnnneeeemmmmoooonnnniiiiccccssss
+
+       A mnemonic is a single character that can be associated with
+       any component that contains a text label.  The label must
+       contain the character, and the character must be underlined
+       within the label.  If a label does not naturally contain the
+       character of the mnemonic, the mnemonic must be placed in
+
+
+       3-22
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       parentheses following the label.  Labels can also be sequen-
+       tially numbered, and the number can serve as the mnemonic.
+       Labels that are duplicated within an application should be
+       given the same mnemonic.  Mnemonics must be case insensitive
+       for activation.  Either an uppercase or lowercase letter can
+       be underlined in the label.
+
+       When the location cursor is on a component within a Menu, a
+       MenuBar or the same field as a component with a mnemonic,
+       typing the mnemonic character must move the location cursor
+       to the component and activate it.  If a mnemonic is used for
+       an OptionButton, for a CascadeButton in a MenuBar, or a
+       PushButton that is not in a basic group (that is, not in a
+       Panel, a Menu, or a MenuBar), typing MMMMAAAAlllltttt and the mnemonic
+       anywhere in the window or its Menus must move the cursor to
+       the component with that mnemonic and activate it.  Mnemonics
+       must be supported for PushButtons in a Menu, ToggleButtons
+       in a Menu, and CascadeButtons in a Menu or MenuBar.
+
+       Mnemonics can also be used to select and deselect elements
+       within a component as described in Section 3.1.9.
+
+       3.3.4  HHHHeeeellllpppp AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       Help is generally invoked from selections in the HHHHeeeellllpppp Menu
+       of the MenuBar.  In addition, KKKKHHHHeeeellllpppp on a component must
+       invoke any context-sensitive help for the component or its
+       nearest ancestor with context-sensitive help available.
+       Within DialogBoxes, applications should provide context-
+       sensitive help for the DialogBox as a whole.  KKKKHHHHeeeellllpppp is usu-
+       ally bound as shown in the following table.
+
+                        TTTTAAAABBBBLLLLEEEE 3333----9999....  KHelp Bindings
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKHHHHeeeellllpppp         <<<<FFFF1111>>>>            |
+                    |               <<<<HHHHeeeellllpppp>>>>          |
+                    |________________________________|
+
+       3.3.5  DDDDeeeeffffaaaauuuulllltttt AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       A DialogBox should have a default action associated with it.
+       The default action should be the action of a default Push-
+       Button in the bottom area of PushButtons of the DialogBox.
+       The default PushButton must be highlighted in some way, usu-
+       ally by displaying a border around it.  Default PushButton
+       highlighting can be removed when the focus is outside of the
+       DialogBox.  If the DialogBox is nested in a window the
+       highlighting must be removed when the focus is not the
+
+
+                                                               3-23
+
+
+
+
+
+
+
+
+
+
+
+
+       Field.  The default action of a DialogBox is activated
+       according to the following rules.
+
+          +o When the input focus is on a PushButton other than the
+            default, KKKKAAAAccccttttiiiivvvvaaaatttteeee must activate that PushButton.  The
+            highlighting must be removed from the default PushBut-
+            ton, and can be moved to the new PushButton.  When the
+            focus policy is implicit, the changes in highlighting
+            should have a delay to prevent flicker when moving the
+            pointer through components.
+
+          +o When the focus is on an activatable field control, like
+            List or Text, BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222 or KKKKAAAAccccttttiiiivvvvaaaatttteeee must
+            activate both the field control's corresponding action
+            and the default action of the DialogBox, except where
+            these inputs are used internally by the component (such
+            as, BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222 in Text, and KKKKEEEEnnnntttteeeerrrr in multiline
+            Text.)
+
+          +o When the input focus is on any other component, KKKKAAAAcccc----
+            ttttiiiivvvvaaaatttteeee must activate the default action of the Dialog-
+            Box, but not the action of the component.
+
+          +o When the focus is not on any component, KKKKAAAAccccttttiiiivvvvaaaatttteeee must
+            activate the default action of the DialogBox.
+
+       Except in the middle of a drag operation that can be can-
+       celed, KKKKCCCCaaaannnncccceeeellll anywhere in a DialogBox must be equivalent to
+       activating the CCCCaaaannnncccceeeellll PushButton in the DialogBox.
+
+       3.3.6  EEEExxxxppppeeeerrrrtttt AAAAccccttttiiiivvvvaaaattttiiiioooonnnn
+
+       Some elements, usually PushButtons and ToggleButtons, can
+       have eeeexxxxppppeeeerrrrtttt aaaaccccttttiiiivvvvaaaattttiiiioooonnnn actions associated with them.  For
+       example, an icon's expert action is restoring the window.
+       BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222 (that is, double-clicking the element)
+       should activate any expert action for the element.  Expert
+       actions should only be available in a Panel of PushButtons
+       or in a Panel of RadioButtons where one of the RadioButtons
+       is always on.
+
+       Where expert activation is available, the expert action of
+       all the buttons in the Panel should be the similar.  The
+       expert action should include the regular action of the com-
+       ponent in a more global manner.  For example, a Panel of
+       RadioButtons in a drawing application could include a tool
+       for turning on the erase cursor.  Selecting the RadioButton
+       turns on the erase cursor.  Double-clicking the RadioButton
+       could erase the drawing area.  To support new users and
+       keyboard-only users, expert actions must only be shortcuts
+       to application features available elsewhere.
+
+
+       3-24
+
+
+
+
+
+
+
+
+
+                                 Selection and Component Activation
+
+
+       3.3.7  PPPPrrrreeeevvvviiiieeeewwwwiiiinnnngggg aaaannnndddd AAAAuuuuttttoooorrrreeeeppppeeeeaaaatttt
+
+       Two special actions can be used with activation: previewing
+       and autorepeat.  When BBBBSSSSeeeelllleeeecccctttt is pressed and held over a
+       PushButton or ToggleButton, the application can present
+       information in some way that describes the effect of
+       activating the button.  This is called pppprrrreeeevvvviiiieeeewwwwiiiinnnngggg.  The
+       information must be removed when the user releases BBBBSSSSeeeelllleeeecccctttt.
+       Applications should provide a means to disable previewing
+       for experienced users.
+
+       PushButtons may also aaaauuuuttttoooorrrreeeeppppeeeeaaaatttt.  That is, when BBBBSSSSeeeelllleeeecccctttt is
+       pressed and held, the PushButton activates and continues to
+       activate at regular intervals until the PushButton is
+       released.  Autorepeating buttons should continue to repeat
+       even when the pointer moves outside the button while the
+       button is pressed; however, applications can suspend the
+       activation of the button until the pointer is moved back
+       inside of the button.  While the button is active, it should
+       be drawn in the active state.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               3-25
+
+
+
+
+

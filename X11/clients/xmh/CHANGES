@@ -1,0 +1,133 @@
+The following changes have been made to this directory since R3:
+
+     o  Much of xmh, particularly the interface, has been rewritten.
+     o  The documentation is accurate and complete.
+     o  Supports one level of subfolders, using menus.
+        Folders without subfolders will have no menus; folder buttons
+        will still function for those.  Only toplevel folders have buttons.
+     o  Commands in the main toc & view window are found in menus
+        at the top of the window; these correspond to the R3 grouping
+        of command buttons (with the exception of Compose Message, which,
+        is at the top of the Message menu.  The functionality
+        of these commands has not changed.
+     o  Buttons are Oval; this is a settable resource from Xaw.
+     o  Action procedures are implemented and documented for each command.
+     o  Other action procedures support special accelerator translations
+	by placing folder and/or sequence names on a stack, for example:
+        XmhOpenFolder and XmhOpenSequence will take a parameter as the
+	name of a folder or sequence to open.  See the man page.
+     o  Keyboard and pointer accelerators are defined and customizable.
+	and accelerators are installed in all xmh real estate.
+     o  Accelerators are removed in the view while editing in the view.
+        This is true of the view in the main window and the separate view 
+        window.
+     o  Buttons in view and comp windows are can have customized functions,
+        because they use action procedures rather than callbacks.
+     o  Accelerators are "insensitive" when appropriate.
+     o  popups rewritten.
+     o  The Create Folder popup accepts Return as equivalent to clicking Okay.
+     o  The Create Folder popup sets keyboard focus to the text input field.
+     o  The Create Folder popup engages user in dialog if an error occurs.
+     o  stderr from mh commands are reported in Notice popups.
+     o  Rescanning "popup" is gone; rescanning notice is now in the 
+        folder titlebar.
+     o  CheckFrequency resource can be used to turn reduce rescanning.
+     o  When deleting a folder, xmh will display the toc (Table of Contents)
+        of the folder to be deleted.  After the user confirms or 
+        cancels the delete, xmh will revert to displaying the previously 
+        displayed folder toc, unless, as before, it has been deleted;
+        in that case, the InitialFolder	(inbox) is opened in the toc and 
+        becomes the current folder.  xmh used to open the (alphabetically)
+        first folder in the toc after the current one was deleted.
+     o  Generally, any unsaved changes are confirmed before xmh will exit.
+     o  Generally, popups which ask for confirmation on deleting some work or
+	changes that you made but didn't save will pop up in the *middle* 
+        of the window, instead of close to the most recent event.
+     o  Window gravity is set on confirm popups.
+     o  The settable resource BlockEventsOnBusy can prevent user input and
+        show a settable busy cursor while xmh is rescanning.
+     o  Sequence buttons are gone; sequences are shown in the Sequence menu.
+     o  Options menu, or ReadInReverse resource, allows user to read mail in
+        reverse order without the hassle of auto increment in wrong direction.
+     o  Text edit caret position cursor invisible in the toc.
+     o  Text fields in popups are not editable if they only show a message
+	as opposed to taking user input.
+     o  PointerColor resource for the regular xmh cursor.
+     o  The pull-down command menus were implemented so that users can define
+        private translations to use them as pop-up command menus.
+     o  Popup command menus have ability to remember previous selection
+	see StickyMenu resource.
+     o  A customizable, optional command buttonbox can be created in
+	the middle of the main toc and view screen.  See CommandButtonCount.
+     o  The file clients/xmh/Xmh.sample gives sample customizations.
+     o  App defaults specifies resources by class name so user can 
+	override more easily with instance name.
+     o  Widget hierarchy given in man page.
+     o  version file is replaced by settable Banner resource.
+     o  new resource PrefixWmAndIconName, so icon names can be folder names.
+     o  For reasons of consistency, as long as everybody has to 
+        re-write many xmh resource specifications anyway, the following
+        changes to R3 extant application resource names and classes
+        have been made:
+
+      	Application resource *capitalization* changes, made to the
+	*instance* names:
+
+	Old			New
+	---			---
+	tempdir			tempDir
+	mhpath			mhPath
+	initialfolder		initialFolder
+	initialincfile		initialIncFile
+	replyinsertfilter	replyInsertFilter
+	draftsfolder		draftsFolder
+	sendwidth		sendWidth
+	sendbreakwidth		sendBreakWidth
+	printcommmand		printCommand
+	tocwidth		tocWidth
+	skipdeleted		skipDeleted
+	skipmoved		skipMoved
+	skipcopied		skipCopied
+	hideboringheaders	hideBoringHeaders
+	tocgeometry		tocGeometry
+	viewgeometry		viewGeometry
+	compgeometry		compGeometry
+	pickgeometry		pickGeometry
+	tocpercentage		tocPercentage
+	checknewmail		checkNewMail
+	makecheckpoints		makeCheckpoints
+	mailpath		mailPath
+	mailwaitingflag		mailWaitingFlag
+	
+
+	Capitalization changes made to app resource *class* names:
+
+	tempDir			TempDir
+	makeCheckPoints		MakeCheckpoints
+
+     o  Selecting a drafts folder message to edit using UseAsCompostion 
+        no longer overwrites the currently viewed message when the 
+        changes are saved.
+     o  Some obscure errors now have popup dialog boxes explaining
+	what happened, instead of just ringing the bell.  Obscure,
+        meaning, some system call failed, can't insert a file...
+     o  The default reply insert filter is cat, used to be echo.
+     o  WM_DELETE_WINDOW support.
+     o  Pick window looks the same, but uses toggle widgets 
+	for Pick/Skip and Yes/No; these used to be command widgets.
+     o  Double clicking no longer acts as automatic confirmation
+        when deleting a folder.
+     o  Protection against double clicks on close button when one 
+        is enough, and two is too much.
+     o  Text options given in app defaults file, not in code,
+        whenever acceptable.
+     o  EDisk Source removed; xmh uses the ascii source from Xaw,
+        which now supports editable file sources.  Toc source rewritten.
+     o  Geometry management code deleted; this is done by the
+        X Toolkit Intrinsics now.
+     o  Warns the user when app-defaults file is not installed.
+        This can be turned off by a hidden (undocumented) resource.
+     o  mh command dispatch code rewritten.
+     o  The PRIMARY selection is asserted in the toc, instead of defaulting.
+     o  The Text widget's new Search and Replace popup is prevented
+        in pick and popup text fields, and in the Table of Contents.

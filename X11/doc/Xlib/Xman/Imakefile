@@ -1,0 +1,165 @@
+# Makefile for the Xlib manpages.
+
+TROFF= psroff
+PRINTER= lpr
+
+MANPAGES = \
+	AllPlanes.3X11 \
+	BlkPScrn.3X11 \
+	ImageOrd.3X11 \
+	IsCKey.3X11 \
+	XACHints.3X11 \
+	XAIcSize.3X11 \
+	XASCmap.3X11 \
+	XASHints.3X11 \
+	XAWMHints.3X11 \
+	XAddHost.3X11 \
+	XAllColor.3X11 \
+	XAllEvnt.3X11 \
+	XAnyEvent.3X11 \
+	XButEvent.3X11 \
+	XCKCntrl.3X11 \
+	XCKMping.3X11 \
+	XCMEvent.3X11 \
+	XCPCntrl.3X11 \
+	XCSSet.3X11 \
+	XCWAttrib.3X11 \
+	XCWEvent.3X11 \
+	XCirEvent.3X11 \
+	XCirREven.3X11 \
+	XClrArea.3X11 \
+	XCmpEvent.3X11 \
+	XConEvent.3X11 \
+	XConREven.3X11 \
+	XConfWin.3X11 \
+	XCopyArea.3X11 \
+	XCreCmap.3X11 \
+	XCreFCur.3X11 \
+	XCreGC.3X11 \
+	XCreImage.3X11 \
+	XCrePmap.3X11 \
+	XCreReg.3X11 \
+	XCreWin.3X11 \
+	XCroEvent.3X11 \
+	XDWEvent.3X11 \
+	XDefCur.3X11 \
+	XDesWin.3X11 \
+	XDrArc.3X11 \
+	XDrIStr.3X11 \
+	XDrLine.3X11 \
+	XDrPoint.3X11 \
+	XDrRect.3X11 \
+	XDrString.3X11 \
+	XDrText.3X11 \
+	XERegion.3X11 \
+	XErrEvent.3X11 \
+	XExpEvent.3X11 \
+	XFCEvent.3X11 \
+	XFillRect.3X11 \
+	XFlush.3X11 \
+	XFree.3X11 \
+	XGEEvent.3X11 \
+	XGEvent.3X11 \
+	XGetDef.3X11 \
+	XGetRes.3X11 \
+	XGetVInfo.3X11 \
+	XGetWAttr.3X11 \
+	XGetWProp.3X11 \
+	XGrButton.3X11 \
+	XGrKey.3X11 \
+	XGrKeybrd.3X11 \
+	XGrPntr.3X11 \
+	XGrServer.3X11 \
+	XIcWin.3X11 \
+	XIfEvent.3X11 \
+	XInitial.3X11 \
+	XInstCmap.3X11 \
+	XInterReg.3X11 \
+	XInternA.3X11 \
+	XKMapEven.3X11 \
+	XListFont.3X11 \
+	XLoadFont.3X11 \
+	XLookKsym.3X11 \
+	XMDBases.3X11 \
+	XMEvent.3X11 \
+	XMREvent.3X11 \
+	XMapWin.3X11 \
+	XNEvent.3X11 \
+	XOpDsply.3X11 \
+	XPEvent.3X11 \
+	XParGeom.3X11 \
+	XPolyReg.3X11 \
+	XPutBEvnt.3X11 \
+	XPutImage.3X11 \
+	XPutRes.3X11 \
+	XQBSize.3X11 \
+	XQColor.3X11 \
+	XQPointer.3X11 \
+	XQTree.3X11 \
+	XREvent.3X11 \
+	XRREvent.3X11 \
+	XRaiseWin.3X11 \
+	XReadBF.3X11 \
+	XRecCur.3X11 \
+	XReparWin.3X11 \
+	XSCEvent.3X11 \
+	XSContext.3X11 \
+	XSEvent.3X11 \
+	XSInput.3X11 \
+	XSLTTProp.3X11 \
+	XSREvent.3X11 \
+	XSeArcMod.3X11 \
+	XSeClipO.3X11 \
+	XSeClosDM.3X11 \
+	XSeCmd.3X11 \
+	XSeErrHan.3X11 \
+	XSeEvent.3X11 \
+	XSeFillS.3X11 \
+	XSeFont.3X11 \
+	XSeFontP.3X11 \
+	XSeInFoc.3X11 \
+	XSeLAttr.3X11 \
+	XSePMap.3X11 \
+	XSeScSav.3X11 \
+	XSeSelOwn.3X11 \
+	XSeState.3X11 \
+	XSeTFHint.3X11 \
+	XSeTProp.3X11 \
+	XSeTile.3X11 \
+	XSeWMCMac.3X11 \
+	XSeWMCWin.3X11 \
+	XSeWMINam.3X11 \
+	XSeWMName.3X11 \
+	XSeWMProp.3X11 \
+	XSeWMProt.3X11 \
+	XStBytes.3X11 \
+	XStColors.3X11 \
+	XStTKsym.3X11 \
+	XSync.3X11 \
+	XTextExt.3X11 \
+	XTextWid.3X11 \
+	XTranWCo.3X11 \
+	XUQuark.3X11 \
+	XUmapEven.3X11 \
+	XUnmapWin.3X11 \
+	XVEvent.3X11 \
+	XWarpPntr.3X11
+
+INSTALLFLAGS = $(INSTMANFLAGS)
+
+all: # nothing to do
+
+PS:
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(MANPAGES) ;\
+	do \
+	echo formatting $$i ; \
+	tbl $$i | eqn | $(TROFF) -man - > `basename $$i .3X11`.PS ; \
+	done
+
+onePS:
+	tbl $(FILE).3X11 | eqn | $(TROFF) -man - > $(FILE).PS
+
+InstallMultipleMan($(MANPAGES),$(LIBMANDIR))
+
+depend:

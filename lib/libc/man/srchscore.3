@@ -1,0 +1,58 @@
+.\"
+.\" $Id: srchscore.3,v 1.3 89/12/26 11:22:13 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	srchscore.3,v $
+.\" Revision 1.3  89/12/26  11:22:13  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 23-Jan-80  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Patterned after Dave McKeown's matching function.
+.\"
+.TH SRCHSCORE 3 1/23/80
+.CM 1
+.SH "NAME"
+srchscore \- determine quality of string match
+.SH "SYNOPSIS"
+.B
+int srchscore (big,small);
+.br
+.B
+char *big,*small;
+.SH "DESCRIPTION"
+.I
+Srchscore
+takes two strings, and gives you back a number which tries to capture
+the idea of "how well" they match each other.
+The integer returned is
+in the range from 0 to the square of the length of
+.I
+small,
+with a higher
+score indicating a better match.
+.sp
+The match is determined by taking consecutive substrings of
+.I
+small
+which match substrings of
+.I
+big,
+squaring the length of each such substring, then imposing a penalty
+for not-quite-exactly-matching corresponding substrings.
+These scores
+are added up to determine the final score.
+.SH "SEE ALSO"
+.IR strcmp (3), 
+.IR stlmatch (3), 
+.IR stabsearch (3)
+.SH HISTORY
+.TP
+13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+Revised for 4.3.
+.TP
+23-Jan-80  Steven Shafer (sas) at Carnegie-Mellon University
+Patterned after Dave McKeown's matching function.

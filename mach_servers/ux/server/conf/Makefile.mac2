@@ -1,0 +1,54 @@
+#
+# Mach Operating System
+# Copyright (c) 1986 Carnegie-Mellon University
+# All rights reserved.  The CMU software License Agreement
+# specifies the terms and conditions for use and redistribution.
+#
+######################################################################
+# HISTORY
+# $Log:	Makefile.mac2,v $
+# Revision 2.2  90/09/04  16:36:32  bohman
+# 	Created.
+# 
+######################################################################
+
+######################################################################
+#BEGIN	Machine dependent Makefile fragment for the Macintosh II
+######################################################################
+
+CC=	cc -m68020
+AS=	as -m68020
+
+LD=	ld
+
+MD=	md
+
+KCC=	${CC}
+KCPP=	${KCC} -E
+
+VOLATILE=
+
+LDFLAGS=-x -e start -L${MKLIB}
+LIBS=-lthreads -lmach_sa
+
+LDDEPS_PREFIX=
+
+OBJSDEPS=
+
+INCLUDES=	-I$(SOURCE_DIR) -I. ${INCLUDES}
+
+LDOBJS_PREFIX=
+LDOBJS_SUFFIX=
+
+#
+#  Compilation rules to generate .o from .c for normal files
+#
+C_RULE_1A=${KCC} -c -O ${COPTS} -fno-defer-pop 
+C_RULE_1B=$*.c
+C_RULE_2=
+C_RULE_3=
+C_RULE_4=
+
+######################################################################
+#END	 Machine dependent Makefile fragment for the Macintosh II
+######################################################################

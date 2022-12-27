@@ -1,0 +1,61 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringBaseline 3X "" "" "" ""
+.SH NAME
+\fBXmStringBaseline \(em a compound string function that returns the number of
+pixels between the top of the character box and the baseline of the first
+line of text.\fP
+.iX "XmStringBaseline"
+.iX "compound string functions" "XmStringBaseline"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Dimension XmStringBaseline (\fIfontlist, string\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmFontList	\fIfontlist\fP;
+.br
+	XmString	\fIstring\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringBaseline\fP
+returns the number of pixels between the top of the character
+box and the baseline of the first line of text in the provided compound
+string.
+.PP
+.ne 2i
+When \fIstring\fP has been created with \fBXmStringCreateSimple\fP, the
+font associated with the character set derived from the
+current language environment must
+appear at the front of \fIfontlist\fP.
+Otherwise, the result of the function is undefined.
+.sp 1
+.IP "\fIfontlist\fP" .75i 
+Specifies the font list
+.IP "\fIstring\fP" .75i 
+Specifies the string
+.sp 1
+.SH RETURN VALUE
+Returns the number of
+pixels between the top of the character box and the baseline of the first
+line of text.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

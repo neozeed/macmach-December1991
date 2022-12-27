@@ -1,0 +1,264 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       9.  KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnntttteeeerrrrffffaaaacccceeee
+
+       The keyboard interface allows the user to interact with an
+       application using the keyboard in place of, or as a supple-
+       ment to, the mouse.  This capability is necessary in a
+       variety of situations, such as mouseless systems or applica-  |
+       tions that do not want to force the user to switch back and
+       forth between the keyboard and mouse.
+
+       The keyboard interface involves two major components:
+
+          +o Keyboard focus and traversal from widget to widget       |
+
+          +o Keyboard input processing to an individual widget        |
+
+       9.1  KKKKeeeeyyyybbbbooooaaaarrrrdddd FFFFooooccccuuuussss MMMMooooddddeeeellllssss
+
+       Traversal provides the means of moving the keyboard focus     |
+       within an application.  The keyboard focus indicates which
+       widget is currently active.  When a particular widget has
+       keyboard focus, all keyboard input directed at the applica-
+       tion goes to that widget, regardless of the location of the
+       pointer.                                                      |
+
+       Motif supports two focus models:
+
+          +o The pointer-driven focus model. In the pointer-driven    |
+            model, a widget receives keyboard input only when the
+            cursor is positioned within the widget's bounding rec-
+            tangle; moving the cursor out of the widget causes it
+            to lose focus.
+
+          +o The click-to-type focus model.  In the click-to-type     |
+            model, when the window manager passes the focus to the
+            topmost shell widget, the topmost shell widget
+            redirects the focus to one of its descendents.  The
+            user can move the focus to another descendent of the
+            topmost shell widget either by pressing the arrow or
+            tab keys, or by clicking mouse button 1 in a widget.
+            Clicking mouse button 1 in a widget may cause that
+            widget to ask for and receive the input focus. When a
+            descendent has focus, it continues to receive all key-   |
+            board input until either of the following occurs:        |
+
+
+                                                                9-1
+
+
+
+
+
+
+
+
+
+
+
+
+               - The user requests that the focus be moved to
+                 another descendent of the topmost shell widget.
+
+               - The window manager takes the focus away from the
+                 topmost shell widget.
+
+       An application sets the desired model by means of the         |
+       XXXXmmmmNNNNkkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy resource, which is exported by the
+       VendorShell widget class.  The specified focus model is
+       active for the complete widget hierarchy built from the top-
+       most shell widget.
+
+       The functionality described in the rest of this chapter
+       applies only to the click-to-type focus model. The Motif      |
+       menu system provides its own type of keyboard traversal.      |
+       This is explained in Chapter 6, ``Menus.''
+
+       Only Primitive widgets and gadgets can have the keyboard      |
+       focus, since they are not merely containers; the user         |
+       interacts with them.  In this discussion, gadgets are con-
+       sidered comparable to Primitive widgets.
+
+       Each Primitive widget has a Boolean resource, XmNtraver-      |
+       salOn, that specifies whether or not the widget will accept
+       the focus.  The default is False, which denies focus.  The
+       resource must be set to True in order for the widget to
+       accept the focus.
+
+       When a widget has accepted the keyboard focus, a highlight
+       is drawn around the widget.
+
+       9.2  GGGGrrrroooouuuuppppiiiinnnngggg WWWWiiiiddddggggeeeettttssss IIIInnnnttttoooo TTTTaaaabbbb GGGGrrrroooouuuuppppssss
+
+       Motif uses the concept of tab groups to group Primitive       |
+       widgets.  Any manager or Primitive widget can be defined as   |
+       a tab group. If a manager widget is in a tab group, its
+       Primitive children are part of the tab group.
+
+       Two functions manage the addition and deletion of tab groups
+       for an application.
+
+       Tab groups are ordinarily specified by the XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee  |
+       resource.  XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp is called to control the order of    |
+       traversal of tab groups.  XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp adds the specified
+       tab group to the list of tab groups associated with a par-
+       ticular widget hierarchy.
+
+       XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp(_t_a_b__g_r_o_u_p)                                      |
+             WWWWiiiiddddggggeeeetttt _t_a_b__g_r_o_u_p;                                       |
+
+
+
+
+       9-2
+
+
+
+
+
+
+
+
+
+                                                 Keyboard Interface
+
+
+       _t_a_b__g_r_o_u_p Specifies the manager or Primitive widget that      |
+                 defines a tab group.
+
+
+       XXXXmmmmRRRReeeemmmmoooovvvveeeeTTTTaaaabbbbGGGGrrrroooouuuupppp removes the tab group from the list of tab
+       groups associated with a particular widget hierarchy.
+
+       XXXXmmmmRRRReeeemmmmoooovvvveeeeTTTTaaaabbbbGGGGrrrroooouuuupppp(_t_a_b__g_r_o_u_p)                                   |
+             WWWWiiiiddddggggeeeetttt _t_a_b__g_r_o_u_p;                                       |
+
+       _t_a_b__g_r_o_u_p Specifies the manager or Primitive widget that      |
+                 defines a tab group.
+
+
+       9.3  TTTTrrrraaaavvvveeeerrrrssssaaaallll WWWWiiiitttthhhhiiiinnnn aaaannnndddd BBBBeeeettttwwwweeeeeeeennnn TTTTaaaabbbb GGGGrrrroooouuuuppppssss
+
+       Traversal involves two types of focus changes-changing the
+       focus to a different widget within a particular tab group
+       and changing the focus to another tab group.                  |
+
+       Movement among the Primitive widgets within a tab group is
+       controlled by the order in which the widgets were created.
+       The following keys change the focus to another widget in the
+       same tab group:
+
+          +o The down arrow key moves the focus to the next widget
+            for which the XmNtraversalOn resource has been set to
+            True.  When the focus reaches the end of the tab group,
+            it wraps to the beginning.  The right arrow key has the
+            same effect unless its behavior is defined by the par-
+            ticular widget.  For example, a Text widget confi-       |
+            gureOBd for single-line edit defines the behavior of
+            the right arrow key; therefore, that key does not
+            change the focus.
+
+          +o The up arrow key moves the focus to the previous
+            widget.  When the focus reaches the beginning of the
+            tab group, it wraps to the end.  The left arrow key has
+            the same effect unless its behavior is defined by the
+            particular widget.
+
+          +o The home key moves the focus to the first Primitive
+            widget in the tab group.
+
+       Movement between tab groups is controlled by the order in
+       which the application has registered the tab groups.
+
+          +o The <<<<TTTTaaaabbbb>>>> moves the focus to the first widget in the     |
+            next tab group.  When the focus reaches the end of the
+            tab group list, the focus wraps to the beginning of the
+            list.
+
+
+                                                                9-3
+
+
+
+
+
+
+
+
+
+
+
+
+          +o <<<<SSSShhhhiiiifffftttt>>>> <<<<TTTTaaaabbbb>>>>  moves the focus to the first widget in    |
+            the previous tab group.  When the focus reaches the
+            beginning of the tab group list, it wraps to the end of
+            the list.
+
+       Clicking mouse button 1 within certain widgets (typically,
+       text widgets) moves the focus to the indicated widget.  The
+       focus remains there until either the widget hierarchy loses   |
+       the focus, or the user moves the focus to another widget.  A
+       widget must have its XmNtraversalOn resource set to True in
+       order to get focus this way.
+
+       Certain widgets must be placed within their own tab group;
+       that is, the widget cannot be included in a tab group con-
+       taining other widgets.
+
+          +o Each List widget and the ScrollBar widget must be        |
+            registered as its own tab group, since they define spe-
+            cial behavior for the arrow keys.
+
+          +o Each multiline text widget must be registered as its
+            own tab group, since it defines special behavior for
+            both the arrow keys and the Tab keys.  Single-line text  |
+            widgets do not have this requirement.
+
+          +o The Option menu widget must be registered as its own
+            tab group because it consists of two internal Primitive
+            widgets.
+
+       9.4  KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnnppppuuuutttt PPPPrrrroooocccceeeessssssssiiiinnnngggg ttttoooo aaaa WWWWiiiiddddggggeeeetttt
+
+       Keyboard input into a widget that has focus is handled by
+       definitions of the widget's default translations for key-
+       board input. Refer to the _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e    _|
+       for the default translations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       9-4
+
+
+
+
+

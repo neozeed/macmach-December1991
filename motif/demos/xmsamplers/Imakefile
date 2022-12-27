@@ -1,0 +1,39 @@
+INCLUDES = -I. -I$(LIBSRC) -I$(MTOOLKITSRC)
+LOCAL_LIBRARIES = $(XMLIB) 
+
+SRCS1=	\
+	xmdialogs.c \
+	xmeditor.c \
+	xmfonts.c \
+	xmlist.c \
+	xmmenushel.c \
+	xmoption.c \
+	xmter.c \
+	xmprotocol.c
+
+NormalLibraryObjectRule()
+
+MSimpleProgramTarget(xmdialogs)
+MSimpleProgramTarget(xmeditor)
+MSimpleProgramTarget(xmfonts)
+MSimpleProgramTarget(xmlist)
+MSimpleProgramTarget(xmmenushel)
+MSimpleProgramTarget(xmoption)
+MSimpleProgramTarget(xmprotocol)
+
+OBJS1 = xmter.o
+PROGRAMS=xmter
+NormalLibraryObjectRule()
+ComplexProgramTarget_1(xmter,$(LOCAL_LIBRARIES),-lXext $(SYSLIBS))
+
+InstallProgram(xmdialogs,$(BINDIR))
+InstallProgram(xmeditor,$(BINDIR))
+InstallProgram(xmfonts,$(BINDIR))
+InstallProgram(xmlist,$(BINDIR))
+InstallProgram(xmmenushel,$(BINDIR))
+InstallProgram(xmoption,$(BINDIR))
+InstallProgram(xmprotocol,$(BINDIR))
+InstallProgram(xmter,$(BINDIR))
+
+InstallAppDefaults(XMdemos)
+

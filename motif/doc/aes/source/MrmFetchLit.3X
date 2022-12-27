@@ -1,0 +1,102 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchLiteral 3X
+.SH NAME
+\fBMrmFetchLiteral\fP \- Fetches a literal from a UID file.
+.iX "MrmFetchLiteral"
+.iX "uil functions" "MrmFetchLiteral"
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchLiteral"
+.NX R "MrmFetchLiteral" "definition"
+.BI "int MrmFetchLiteral(" "hierarchy_id" ","
+.IB "index" ","
+.IB "display" ","
+.IB "value" ","
+.IB "type" ")"
+.in +5n
+.br
+.BI "MrmHierarchy " "hierarchy_id" ";"
+.br
+.BI "String " "index" ";"
+.br
+.BI "Display *" "display" ";"
+.br
+.BI "caddr_t *" "value" ";"
+.br
+.BI "MrmCode *" "type" ";"
+.in -5n
+.SH DESCRIPTION
+The
+\fBMrmFetchLiteral\fP
+function
+.NX R "MrmFetchLiteral" "description"
+reads and returns the value and type of a literal (named value) 
+that is stored as
+a public resource in a single UID file.
+This function returns a pointer to the value of the literal.
+For example, an integer is always returned as a pointer to an integer,
+and a string is always returned as a pointer to a string.
+.PP
+Applications should not use
+\fBMrmmFetchLiteral\fP
+for fetching icon or color literals.
+If this is attempted,
+\fBMrmmFetchLiteral\fP
+returns an error.
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the UID hierarchy that contains the
+specified literal. 
+The
+\fIhierarchy_id\fP
+was returned in a previous call to
+\fBMrmOpenHierarchy\fP.
+.IP \fIindex\fP 1.5i
+Specifies the UIL name of the literal (pixmap) to fetch. 
+You must define this name in UIL as an exported value.
+.IP \fIdisplay\fP 1.5i
+Specifies the display used for the pixmap.
+The
+\fIdisplay\fP 
+argument specifies the connection to the X server. 
+For more information on the
+\fBDisplay\fP structure see the Xlib function
+\fBXOpenDisplay\fP.
+.IP \fIvalue\fP 1.5i
+Returns the ID of the named literal's value.
+.IP \fItype\fP 1.5i
+Returns the named literal's data type.
+Types are defined in the include file \fB<Mrm/MrmPublic.h>\fP.
+.SH RETURN VALUE
+.NX R "MrmSUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmNOT_FOUND"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 2.0i
+The function executed successfully.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmNOT_FOUND\fP
+The literal was not found in the UIL file.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+.na
+\fBMrmFetchIconLiteral(3X)\fP,
+\fBMrmFetchColorLiteral(3X)\fP,
+\fBXOpenDisplay(3X)\fP
+.ad

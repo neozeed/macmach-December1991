@@ -1,0 +1,2916 @@
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          mmmmwwwwmmmm - The Motif Window Manager.
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          mmmmwwwwmmmm [_o_p_t_i_o_n_s]
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          mmmmwwwwmmmm is an X Window System client that provides window
+          management functionality and some session management
+          functionality.  It provides functions that facilitate
+          control (by the user and the programmer) of elements of
+          window states such as placement, size, icon/normal display,
+          and input-focus ownership.  It also provides session
+          management functions such as stopping a client.
+
+        OOOOppppttttiiiioooonnnnssss
+          ----ddddiiiissssppppllllaaaayyyy _d_i_s_p_l_a_y
+                  This option specifies the display to use; see _X(_1).
+
+          ----xxxxrrrrmmmm _r_e_s_o_u_r_c_e_s_t_r_i_n_g
+                  This option specifies a resource string to use.
+
+          ----mmmmuuuullllttttiiiissssccccrrrreeeeeeeennnn
+                  This option causes mmmmwwwwmmmm to manage all screens on the
+                  display.  The default is to manage only a single
+                  screen.
+
+
+          ----nnnnaaaammmmeeee _n_a_m_e
+                  This option causes mmmmwwwwmmmm to retrieve its resources
+                  using the specified name, as in _n_a_m_e*_r_e_s_o_u_r_c_e.
+
+
+          ----ssssccccrrrreeeeeeeennnnssss  _n_a_m_e [_n_a_m_e [...]]/_f_P
+                  This option specifies the resource names to use for
+                  the screens managed by mmmmwwwwmmmm.  If mmmmwwwwmmmm is managing a
+                  single screen, only the first name in the list is
+                  used.  If mmmmwwwwmmmm is managing multiple screens, the
+                  names are assigned to the screens in order, starting
+                  with screen 0.  Screen 0 gets the first name, screen
+                  1 the second name, and so on.
+
+        AAAAppppppppeeeeaaaarrrraaaannnncccceeee
+          The following sections describe the basic default behaviors
+          of windows, icons, the icon box, input focus, and window
+          stacking.  The appearance and behavior of the window manager
+          can be altered by changing the configuration of specific
+          resources.  Resources are defined under the heading "X
+          DEFAULTS."
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+        SSSSccccrrrreeeeeeeennnnssss
+          By default, mmmmwwwwmmmm manages only the single screen specified by
+          the ----ddddiiiissssppppllllaaaayyyy option or the DISPLAY environment variable (by
+          default, screen 0).  If the ----mmmmuuuullllttttiiiissssccccrrrreeeeeeeennnn option is specified
+          or if the mmmmuuuullllttttiiiiSSSSccccrrrreeeeeeeennnn resource is True, mmmmwwwwmmmm tries to manage
+          all the screens on the display.
+
+          When mmmmwwwwmmmm is managing multiple screens, the ----ssssccccrrrreeeeeeeennnnssss option
+          can be used to give each screen a unique resource name.  The
+          names are separated by blanks, for example, ----ssssccccrrrreeeeeeeennnnssss mwm0
+          mwm1.  If there are more screens than names, resources for
+          the remaining screens will be retrieved using the first
+          name.
+
+        WWWWiiiinnnnddddoooowwwwssss
+          Default mmmmwwwwmmmm window frames have distinct components with
+          associated functions:
+
+          TTTTiiiittttlllleeee AAAArrrreeeeaaaa       In addition to displaying the client's
+                           title, the title area is used to move the
+                           window.  To move the window, place the
+                           pointer over the title area, press button 1
+                           and drag the window to a new location.  A
+                           wire frame is moved during the drag to
+                           indicate the new location.  When the button
+                           is released, the window is moved to the new
+                           location.
+
+          TTTTiiiittttlllleeee BBBBaaaarrrr        The title bar includes the title area, the
+                           minimize button, the maximize button, and
+                           the window menu button.
+
+          MMMMiiiinnnniiiimmmmiiiizzzzeeee BBBBuuuuttttttttoooonnnn  To turn the window into an icon, click
+                           button 1 on the minimize button (the frame
+                           box with a _s_m_a_l_l square in it).
+
+          MMMMaaaaxxxxiiiimmmmiiiizzzzeeee BBBBuuuuttttttttoooonnnn  To make the window fill the screen (or
+                           enlarge to the largest size allowed by the
+                           configuration files), click button 1 on the
+                           maximize button (the frame box with a _l_a_r_g_e
+                           square in it).
+
+          WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu BBBBuuuuttttttttoooonnnn
+                           The window menu button is the frame box
+                           with a horizontal bar in it.  To pull down
+                           the window menu, press button 1.  While
+                           pressing, drag the pointer on the menu to
+                           your selection, then release the button
+                           when your selection is highlighted.
+                           Alternately, you can click button 1 to pull
+                           down the menu and keep it posted; then
+                           position the pointer and select.
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                              DDDDeeeeffffaaaauuuulllltttt WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu
+           SSSSeeeelllleeeeccccttttiiiioooonnnn   AAAAcccccccceeeelllleeeerrrraaaattttoooorrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+           __________________________________________________________
+                                     Restores the window to its size
+                                     before minimizing or maximizing
+77           Restore     Alt+F5
+
+                                     Allows the window to be moved
+                                     with
+                                     keys or mouse
+777           Move        Alt+F7
+
+
+           Size        Alt+F8        Allows the window to be resized
+           Minimize    Alt+F9        Turns the window into an icon
+           Maximize    Alt+F10       Makes the window fill the screen
+                                     Moves window to bottom of window
+                                     stack
+77           Lower       Alt+F3
+
+           Close       Alt+F4        Causes client to terminate
+
+
+          RRRReeeessssiiiizzzzeeee BBBBoooorrrrddddeeeerrrr HHHHaaaannnnddddlllleeeessss
+                           To change the size of a window, move the
+                           pointer over a resize border handle (the
+                           cursor changes), press button 1, and drag
+                           the window to a new size.  When the button
+                           is released, the window is resized.  While
+                           dragging is being done, a rubber-band
+                           outline is displayed to indicate the new
+                           window size.
+
+          MMMMaaaatttttttteeee            An optional matte decoration can be added
+                           between the client area and the window
+                           frame.  A matte is not actually part of the
+                           window frame.  There is no functionality
+                           associated with a matte.
+
+        IIIIccccoooonnnnssss
+          Icons are small graphic representations of windows.  A
+          window can be minimized (iconified) using the minimize
+          button on the window frame.  Icons provide a way to reduce
+          clutter on the screen.
+
+          Pressing mouse button 1 when the pointer is over an icon
+          causes the icon's window menu to pop up.  Releasing the
+          button (press + release without moving mouse = click) causes
+          the menu to stay posted.  The menu contains the following
+          selections:
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                               IIIIccccoooonnnn WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu
+        SSSSeeeelllleeeeccccttttiiiioooonnnn   AAAAcccccccceeeelllleeeerrrraaaattttoooorrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+        _______________________________________________________________
+        Restore     Alt+F5        Opens the associated window
+        Move        Alt+F7        Allows the icon to be moved with keys
+        Size        Alt+F8        Inactive (not an option for icons)
+        Minimize    Alt+F9        Inactive (not an option for icons)
+                                  Opens the associated window and makes
+                                  it fill the screen
+77        Maximize    Alt+F10
+
+        Lower       Alt+F3        Moves icon to bottom of icon stack
+        Close       Alt+F4        Removes client from mmmmwwwwmmmm management
+
+          Note that pressing button 3 over an icon also causes the
+          icon's window menu to pop up.  To make a menu selection,
+          drag the pointer over the menu and release button 3 when the
+          desired item is highlighted.
+
+          Double-clicking button 1 on an icon normalizes the icon into
+          its associated window.  Double-clicking button 1 on the icon
+          box's icon opens the icon box and allows access to the
+          contained icons.  (In general, double-clicking a mouse
+          button is a quick way to perform a function.)  Double-
+          clicking button 1 with the pointer on the window menu button
+          closes the window.
+
+        IIIIccccoooonnnn BBBBooooxxxx
+          When icons begin to clutter the screen, they can be packed
+          into an icon box.  (To use an icon box, mmmmwwwwmmmm must be started
+          with the icon box configuration already set.) The icon box
+          is a mmmmwwwwmmmm window that holds client icons.  It includes one or
+          more scroll bars when there are more window icons than the
+          icon box can show at the same time.
+
+          Icons in the icon box can be manipulated with the mouse.
+          The following table summarizes the behavior of this
+          interface.  Button actions apply whenever the pointer is on
+          any part of the icon. Note that invoking the ffff....rrrraaaaiiiisssseeee
+          function on an icon in the icon box raises an already open
+          window to the top of the stack.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+        BBBBuuuuttttttttoooonnnn AAAAccccttttiiiioooonnnn           DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+        ________________________________________________________________________________________________________________________________
+        Button 1 click          Selects the icon
+        ________________________________________________________________
+        Button 1 double-click   Normalizes (opens) the associated window
+        ________________________________________________________________
+                                Raises an already open window to the top
+                                of the stack
+77        Button 1 double-click
+
+        ________________________________________________________________
+        Button 1 drag           Moves the icon
+        ________________________________________________________________
+        Button 3 press          Causes the menu for that icon to pop up
+        ________________________________________________________________
+                                Highlights items as the pointer moves
+                                across the menu
+77        Button 3 drag
+
+7                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          Pressing mouse button 3 when the pointer is over an icon
+          causes the menu for that icon to pop up.
+
+                             IIIIccccoooonnnn MMMMeeeennnnuuuu ffffoooorrrr tttthhhheeee IIIIccccoooonnnn BBBBooooxxxx
+     SSSSeeeelllleeeeccccttttiiiioooonnnn   AAAAcccccccceeeelllleeeerrrraaaattttoooorrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+     ___________________________________________________________________________
+     Restore     Alt+F5        Opens the associated window (if not already open)
+     Move        Alt+F7        Allows the icon to be moved with keys
+     Size        Alt+F8        Inactive
+     Minimize    Alt+F9        Inactive
+                               Opens the associated window (if not already open)
+                               and maximizes its size
+77     Maximize    Alt+F10
+
+     Lower       Alt+F3        Inactive
+     Close       Alt+F4        Removes client from mmmmwwwwmmmm management
+7              |7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+                            |7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+          To pull down the window menu for the icon box itself, press
+          button 1 with the pointer over the menu button for the icon
+          box. The window menu of the icon box differs from the window
+          menu of a client window: The "Close" selection is replaced
+          with the "PackIcons Shift+Alt+F7" selection.  When selected,
+          PackIcons packs the icons in the box to achieve neat rows
+          with no empty slots.
+
+          Pressing [Shift][Escape] when the icon box has the input
+          focus causes the window menu of the icon box to pop up.
+          Pressing F4 (the pop-up menu key) causes the window menu of
+          the currently selected icon to pop up.
+
+        IIIInnnnppppuuuutttt FFFFooooccccuuuussss
+          mmmmwwwwmmmm supports (by default) a keyboard input focus policy of
+          explicit selection.  This means when a window is selected to
+          get keyboard input, it continues to get keyboard input until
+          the window is withdrawn from window management, another
+          window is explicitly selected to get keyboard input, or the
+          window is iconified.  Several resources control the input
+          focus.  The client window with the keyboard input focus has
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          the active window appearance with a visually distinct window
+          frame.
+
+          The following tables summarize the keyboard input focus
+          selection behavior:
+
+       BBBBuuuuttttttttoooonnnn AAAAccccttttiiiioooonnnn    OOOObbbbjjjjeeeecccctttt                  FFFFuuuunnnnccccttttiiiioooonnnn DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _________________________________________________________________
+       Button 1 press   Window / window frame   Keyboard focus selection
+       Button 1 press   Icon                    Keyboard focus selection
+
+     KKKKeeeeyyyy AAAAccccttttiiiioooonnnn          FFFFuuuunnnnccccttttiiiioooonnnn DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+     _______________________________________________________________________
+     [Alt][Tab]          Move input focus to next window in window stack
+     [Alt][Shift][Tab]   Move input focus to previous window in window stack
+
+
+        XXXX DDDDeeeeffffaaaauuuullllttttssss
+          mmmmwwwwmmmm is configured from its resource database.  This database
+          is built from the following sources. They are listed in
+          order of precedence, low to high:
+
+               /usr/lib/X11/app-defaults/Mwm
+               $HOME/Mwm
+               RESOURCE_MANAGER root window property or $HOME/.Xdefaults
+               XENVIRONMENT variable or $HOME/.Xdefaults-_h_o_s_t
+               mmmmwwwwmmmm command line options
+
+          The file names /usr/lib/X11/app-defaults/Mwm and $HOME/Mwm
+          represent customary locations for these files.  The actual
+          location of the system-wide class resource file may depend
+          on the XFILESEARCHPATH environment variable and the current
+          language environment.  The actual location of the user-
+          specific class resource file may depend on the
+          XUSERFILESEARCHPATH and XAPPLRESDIR environment variables
+          and the current language environment.
+
+          Entries in the resource database may refer to other resource
+          files for specific types of resources.  These include files
+          that contain bitmaps, fonts, and mmmmwwwwmmmm specific resources such
+          as menus and behavior specifications (for example, button
+          and key bindings).
+
+          MMMMwwwwmmmm is the resource class name of mmmmwwwwmmmm and mmmmwwwwmmmm is the
+          resource name used by mmmmwwwwmmmm to look up resources. (For looking
+          up resources of multiple screens, the ----ssssccccrrrreeeeeeeennnnssss command line
+          option specifies resource names, such as "mwm_b+w" and
+          "mwm_color".)  In the following discussion of resource
+          specification, "Mwm" and "mwm" (and the aliased mmmmwwwwmmmm resource
+          names) can be used interchangeably, but "mwm" takes
+          precedence over "Mwm".
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          mmmmwwwwmmmm uses the following types of resources:
+
+          _C_o_m_p_o_n_e_n_t _A_p_p_e_a_r_a_n_c_e _R_e_s_o_u_r_c_e_s:
+
+          These resources specify appearance attributes of window
+          manager user interface components.  They can be applied to
+          the appearance of window manager menus, feedback windows
+          (for example, the window reconfiguration feedback window),
+          client window frames, and icons.
+
+          _S_p_e_c_i_f_i_c _A_p_p_e_a_r_a_n_c_e _a_n_d _B_e_h_a_v_i_o_r _R_e_s_o_u_r_c_e_s:
+
+          These resources specify mmmmwwwwmmmm appearance and behavior (for
+          example, window management policies).  They are not set
+          separately for different mmmmwwwwmmmm user interface components.
+
+          _C_l_i_e_n_t _S_p_e_c_i_f_i_c _R_e_s_o_u_r_c_e_s:
+
+          These mmmmwwwwmmmm resources can be set for a particular client
+          window or class of client windows.  They specify client-
+          specific icon and client window frame appearance and
+          behavior.
+
+          Resource identifiers can be either a resource name (for
+          example, foreground) or a resource class (for example,
+          Foreground).  If the value of a resource is a filename and
+          if the filename is prefixed by "~/", then it is relative to
+          the path contained in the HOME environment variable
+          (generally the user's home directory).
+
+        CCCCoooommmmppppoooonnnneeeennnntttt AAAAppppppppeeeeaaaarrrraaaannnncccceeee RRRReeeessssoooouuuurrrrcccceeeessss
+          The syntax for specifying component appearance resources
+          that apply to window manager icons, menus, and client window
+          frames is
+
+                 MMMMwwwwmmmm****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****ffffoooorrrreeeeggggrrrroooouuuunnnndddd is used to specify the
+          foreground color for mmmmwwwwmmmm menus, icons, client window frames,
+          and feedback dialogs.
+
+          The syntax for specifying component appearance resources
+          that apply to a particular mmmmwwwwmmmm component is
+
+                 MMMMwwwwmmmm****[mmmmeeeennnnuuuu|iiiiccccoooonnnn|cccclllliiiieeeennnntttt|ffffeeeeeeeeddddbbbbaaaacccckkkk]****_r_e_s_o_u_r_c_e__i_d
+
+          If _m_e_n_u is specified, the resource is applied only to mmmmwwwwmmmm If
+          _m_e_n_u is specified, the resource is applied only to MWM
+          menus; if _i_c_o_n is specified, the resource is applied to
+          icons; and if _c_l_i_e_n_t is specified, the resource is applied
+          to client window frames.  For example, MMMMwwwwmmmm****iiiiccccoooonnnn****ffffoooorrrreeeeggggrrrroooouuuunnnndddd
+          is used to specify the foreground color for mmmmwwwwmmmm icons,
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          MMMMwwwwmmmm****mmmmeeeennnnuuuu****ffffoooorrrreeeeggggrrrroooouuuunnnndddd specifies the foreground color for mmmmwwwwmmmm
+          menus, and MMMMwwwwmmmm****cccclllliiiieeeennnntttt****ffffoooorrrreeeeggggrrrroooouuuunnnndddd is used to specify the
+          foreground color for mmmmwwwwmmmm client window frames.
+
+          The appearance of the title area of a client window frame
+          (including window management buttons) can be separately
+          configured.  The syntax for configuring the title area of a
+          client window frame is
+
+              MMMMwwwwmmmm****cccclllliiiieeeennnntttt****ttttiiiittttlllleeee****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****cccclllliiiieeeennnntttt****ttttiiiittttlllleeee****ffffoooorrrreeeeggggrrrroooouuuunnnndddd specifies the
+          foreground color for the title area.  Defaults for title
+          area resources are based on the values of the corresponding
+          client window frame resources.
+
+          The appearance of menus can be configured based on the name
+          of the menu.  The syntax for specifying menu appearance by
+          name is
+
+              MMMMwwwwmmmm****mmmmeeeennnnuuuu****_m_e_n_u__n_a_m_e****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****mmmmeeeennnnuuuu****mmmmyyyy____mmmmeeeennnnuuuu****ffffoooorrrreeeeggggrrrroooouuuunnnndddd specifies the
+          foreground color for the menu named mmmmyyyy____mmmmeeeennnnuuuu.
+
+          The following component appearance resources that apply to
+          all window manager parts can be specified:
+
+           CCCCoooommmmppppoooonnnneeeennnntttt AAAAppppppppeeeeaaaarrrraaaannnncccceeee RRRReeeessssoooouuuurrrrcccceeeessss ---- AAAAllllllll WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr PPPPaaaarrrrttttssss
+         NNNNaaaammmmeeee                 CCCCllllaaaassssssss                VVVVaaaalllluuuueeee TTTTyyyyppppeeee   DDDDeeeeffffaaaauuuulllltttt
+         ______________________________________________________________
+         background           Background           color        varies|-
+         backgroundPixmap     BackgroundPixmap     string|-|-     varies|-
+         bottomShadowColor    Foreground           color        varies|-
+         bottomShadowPixmap   BottomShadowPixmap   string|-|-     varies|-
+         fontList             FontList             string|-|-|-    "fixed"
+         foreground           Foreground           color        varies|-
+         saveUnder            SaveUnder            T/F          F
+         topShadowColor       Background           color        varies|-
+         topShadowPixmap      TopShadowPixmap      string|-|-     varies
+
+         |-The default is chosen based on the visual type of the
+         screen.
+         |-|-Image name.  See XmInstallImage(3X).
+         |-|-|-X11 R4 Font description.
+
+          bbbbaaaacccckkkkggggrrrroooouuuunnnndddd (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the background color. Any
+                  legal X color may be specified.  The default value
+                  is chosen based on the visual type of the screen.
+
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          bbbbaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp (class BBBBaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the background Pixmap of the
+                  mmmmwwwwmmmm decoration when the window is inactive (does not
+                  have the keyboard focus). The default value is
+                  chosen based on the visual type of the screen.
+
+          bbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the bottom shadow color.
+                  This color is used for the lower and right bevels of
+                  the window manager decoration. Any legal X color may
+                  be specified.  The default value is chosen based on
+                  the visual type of the screen.
+
+          bbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class BBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the bottom shadow Pixmap.
+                  This Pixmap is used for the lower and right bevels
+                  of the window manager decoration. The default is
+                  chosen based on the visual type of the screen.
+
+          ffffoooonnnnttttLLLLiiiisssstttt (class FFFFoooonnnnttttLLLLiiiisssstttt)
+                  This resource specifies the font used in the window
+                  manager decoration.  The character encoding of the
+                  font should match the character encoding of the
+                  strings that are used.  The default is "fixed."
+
+          ffffoooorrrreeeeggggrrrroooouuuunnnndddd (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the foreground color.  The
+                  default is chosen based on the visual type of the
+                  screen.
+
+          ssssaaaavvvveeeeUUUUnnnnddddeeeerrrr (class SSSSaaaavvvveeeeUUUUnnnnddddeeeerrrr)
+                  This is used to indicate whether "save unders" are
+                  used for mmmmwwwwmmmm components.  For this to have any
+                  effect, save unders must be implemented by the X
+                  server.  If save unders are implemented, the X
+                  server saves the contents of windows obscured by
+                  windows that have the save under attribute set.  If
+                  the saveUnder resource is True, mmmmwwwwmmmm will set the
+                  save under attribute on the window manager frame of
+                  any client that has it set.  If saveUnder is False,
+                  save unders will not be used on any window manager
+                  frames.  The default value is False.
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          ttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the top shadow color. This
+                  color is used for the upper and left bevels of the
+                  window manager decoration. The default is chosen
+                  based on the visual type of the screen.
+
+          ttttooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (((( class TTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp))))
+                  This resource specifies the top shadow Pixmap. This
+                  Pixmap is used for the upper and left bevels of the
+                  window manager decoration. The default is chosen
+                  based on the visual type of the screen.
+
+          The following component appearance resources that apply to
+          frame and icons can be specified:
+
+                             FFFFrrrraaaammmmeeee aaaannnndddd IIIIccccoooonnnn CCCCoooommmmppppoooonnnneeeennnnttttssss
+      NNNNaaaammmmeeee                       CCCCllllaaaassssssss                VVVVaaaalllluuuueeee TTTTyyyyppppeeee    DDDDeeeeffffaaaauuuulllltttt
+      _______________________________________________________________________
+      activeBackground           Background           color         varies|-
+      activeBackgroundPixmap     BackgroundPixmap     string |-|-     varies|-
+      activeBottomShadowColor    Foreground           color         varies|-
+      activeBottomShadowPixmap   BottomShadowPixmap   string|-|-      variesfR|-
+      activeForeground           Foreground           color         varies|-g
+      activeTopShadowColor       Background           color         varies|-
+      activeTopShadowPixmap      TopShadowPixmap      string|-|-/fP   varies|-
+
+      |-The default is chosen based on the visual type of the screen.
+      |-|-See XmInstallImage(3X).
+
+
+          aaaaccccttttiiiivvvveeeeBBBBaaaacccckkkkggggrrrroooouuuunnnndddd (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the background color of the
+                  mmmmwwwwmmmm decoration when the window is active (has the
+                  keyboard focus).  The default is chosen based on the
+                  visual type of the screen.
+
+          aaaaccccttttiiiivvvveeeeBBBBaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp (class AAAAccccttttiiiivvvveeeeBBBBaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the background Pixmap of the
+                  mmmmwwwwmmmm decoration when the window is active (has the
+                  keyboard focus).  The default is chosen based on the
+                  visual type of the screen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          aaaaccccttttiiiivvvveeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the bottom shadow color of
+                  the mmmmwwwwmmmm decoration when the window is active (has
+                  the keyboard focus).  The default is chosen based on
+                  the visual type of the screen.
+
+          aaaaccccttttiiiivvvveeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class BBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the bottom shadow Pixmap of
+                  the mmmmwwwwmmmm decoration when the window is active (has
+                  the keyboard focus).  The default is chosen based on
+                  the visual type of the screen.
+
+          aaaaccccttttiiiivvvveeeeFFFFoooorrrreeeeggggrrrroooouuuunnnndddd (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the foreground color of the
+                  mmmmwwwwmmmm decoration when the window is active (has the
+                  keyboard focus).  The default is chosen based on the
+                  visual type of the screen.
+
+          aaaaccccttttiiiivvvveeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the top shadow color of the
+                  mmmmwwwwmmmm decoration when the window is active (has the
+                  keyboard focus).  The default is chosen based on the
+                  visual type of the screen.
+
+          aaaaccccttttiiiivvvveeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class TTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the top shadow Pixmap of the
+                  mmmmwwwwmmmm decoration when the window is active (has the
+                  keyboard focus).  The default is chosen based on the
+                  visual type of the screen.
+
+        SSSSppppeeeecccciiiiffffiiiicccc AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr RRRReeeessssoooouuuurrrrcccceeeessss
+          The syntax for specifying specific appearance and behavior
+          resources is
+
+                   MMMMwwwwmmmm****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****kkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy specifies the window
+          manager policy for setting the keyboard focus to a
+          particular client window.
+
+          The following specific appearance and behavior resources can
+          be specified:
+
+                      SSSSppppeeeecccciiiiffffiiiicccc AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr RRRReeeessssoooouuuurrrrcccceeeessss
+     NNNNaaaammmmeeee                     CCCCllllaaaassssssss                    VVVVaaaalllluuuueeee TTTTyyyyppppeeee   DDDDeeeeffffaaaauuuulllltttt
+     _____________________________________________________________________________
+     autoKeyFocus             AutoKeyFocus             T/F          T
+     autoRaiseDelay           AutoRaiseDelay           millisec     500
+
+
+
+
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                                                                    /usr/include/\
+                                                                    X11/bitmaps
+77     bitmapDirectory          BitmapDirectory          directory
+
+                                                                    "DefaultBut\
+                                                                    tonBindings"
+77     buttonBindings           ButtonBindings           string
+
+     cleanText                CleanText                T/F          T
+     clientAutoPlace          ClientAutoPlace          T/F          T
+     colormapFocusPolicy      ColormapFocusPolicy      string       keyboard
+     configFile               ConfigFile               file         .mwmrc
+     deiconifyKeyFocus        DeiconifyKeyFocus        T/F          T
+                                                                    multi-click
+                                                                    time
+77     doubleClickTime          DoubleClickTime          millisec.
+
+     enableWarp               enableWarp               T/F          T
+     enforceKeyFocus          EnforceKeyFocus          T/F          T
+     fadeNormalIcon           FadeNormalIcon           T/F          F
+     frameBorderWidth         FrameBorderWidth         pixels       5
+     iconAutoPlace            IconAutoPlace            T/F          T
+     iconBoxGeometry          IconBoxGeometry          string       6x1+0-0
+     iconBoxName              IconBoxName              string       iconbox
+     iconBoxSBDisplayPolicy   IconBoxSBDisplayPolicy   string       all
+     iconBoxTitle             IconBoxTitle             XmString     Icons
+     iconClick                IconClick                T/F          T
+     iconDecoration           IconDecoration           string       varies
+     iconImageMaximum         IconImageMaximum         wxh          50x50
+     iconImageMinimum         IconImageMinimum         wxh          16x16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                SSSSppppeeeecccciiiiffffiiiicccc AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr RRRReeeessssoooouuuurrrrcccceeeessss ((((CCCCoooonnnnttttiiiinnnnuuuueeeedddd))))
+     NNNNaaaammmmeeee                   CCCCllllaaaassssssss                  VVVVaaaalllluuuueeee TTTTyyyyppppeeee     DDDDeeeeffffaaaauuuulllltttt
+     ____________________________________________________________________________
+     iconPlacement          IconPlacement          string         left bottom
+     iconPlacementMargin    IconPlacementMargin    pixels         varies
+     interactivePlacement   InteractivePlacement   T/F            F
+                                                                  "DefaultKey\
+                                                                  Bindings"
+77     keyBindings            KeyBindings            string
+
+     keyboardFocusPolicy    KeyboardFocusPolicy    string         explicit
+     limitResize            LimitResize            T/F            T
+     lowerOnIconify         LowerOnIconify         T/F            T
+                                                                  2X screen
+                                                                  w&h
+77     maximumMaximumSize     MaximumMaximumSize     wxh (pixels)
+
+     moveThreshold          MoveThreshold          pixels         4
+     multiScreen            MultiScreen            T/F            F
+     passButtons            PassButtons            T/F            F
+     passSelectButton       PassSelectButton       T/F            T
+     positionIsFrame        PositionIsFrame        T/F            T
+     positionOnScreen       PositionOnScreen       T/F            T
+     quitTimeout            QuitTimeout            millisec.      1000
+     raiseKeyFocus          RaiseKeyFocus          T/F            F
+     resizeBorderWidth      ResizeBorderWidth      pixels         10
+     resizeCursors          ResizeCursors          T/F            T
+     screens                Screens                string         varies
+     showFeedback           ShowFeedback           string         -kill
+     startupKeyFocus        StartupKeyFocus        T/F            T
+                                                                  system
+                                                                  title
+77     transientDecoration    TransientDecoration    string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          SSSSppppeeeecccciiiiffffiiiicccc AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr RRRReeeessssoooouuuurrrrcccceeeessss ((((CCCCoooonnnnttttiiiinnnnuuuueeeedddd))))
+     NNNNaaaammmmeeee                 CCCCllllaaaassssssss                VVVVaaaalllluuuueeee TTTTyyyyppppeeee   DDDDeeeeffffaaaauuuulllltttt
+     ________________________________________________________________
+                                                            -minimize
+                                                            -maximize
+77     transientFunctions   TransientFunctions   string
+
+     useIconBox           UseIconBox           T/F          F
+     wMenuButtonClick     WMenuButtonClick     T/F          T
+     wMenuButtonClick2    WMenuButtonClick2    T/F          T
+
+
+          aaaauuuuttttooooKKKKeeeeyyyyFFFFooooccccuuuussss (class AAAAuuuuttttooooKKKKeeeeyyyyFFFFooooccccuuuussss)
+                  This resource is available only when the keyboard
+                  input focus policy is explicit.  If autoKeyFocus is
+                  given a value of True, then when a window with the
+                  keyboard input focus is withdrawn from window
+                  management or is iconified, the focus is set to the
+                  previous window that had the focus.  If the value
+                  given is False, there is no automatic setting of the
+                  keyboard input focus.  The default value is True.
+
+          aaaauuuuttttooooRRRRaaaaiiiisssseeeeDDDDeeeellllaaaayyyy (class AAAAuuuuttttooooRRRRaaaaiiiisssseeeeDDDDeeeellllaaaayyyy)
+                  This resource is available only when the
+                  focusAutoRaise resource is True and the keyboard
+                  focus policy is pointer. The autoRaiseDelay resource
+                  specifies the amount of time (in milliseconds) that
+                  mmmmwwwwmmmm will wait before raising a window after it gets
+                  the keyboard focus. The default value of this
+                  resource is 500 (ms).
+
+          bbbbiiiittttmmmmaaaappppDDDDiiiirrrreeeeccccttttoooorrrryyyy (class BBBBiiiittttmmmmaaaappppDDDDiiiirrrreeeeccccttttoooorrrryyyy)
+                  This resource identifies a directory to be searched
+                  for bitmaps referenced by mmmmwwwwmmmm resources.  This
+                  directory is searched if a bitmap is specified
+                  without an absolute pathname.  The default value for
+                  this resource is /usr/include/X11/bitmaps.
+
+          bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss (class BBBBuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss)
+                  This resource identifies the set of button bindings
+                  for window management functions.  The named set of
+                  button bindings is specified in the mmmmwwwwmmmm resource
+                  description file.  These button bindings are _m_e_r_g_e_d
+                  with the built-in default bindings.  The default
+                  value for this resource is "DefaultButtonBindings".
+
+          cccclllleeeeaaaannnnTTTTeeeexxxxtttt (class CCCClllleeeeaaaannnnTTTTeeeexxxxtttt)
+                  This resource controls the display of window manager
+                  text in the client title and feedback windows.  If
+                  the default value of True is used, the text is drawn
+                  with a clear (no stipple) background.  This makes
+                  text easier to read on monochrome systems where a
+                  backgroundPixmap is specified. Only the stippling in
+                  the area immediately around the text is cleared.  If
+
+
+
+     Page 14                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  False, the text is drawn directly on top of the
+                  existing background.
+
+          cccclllliiiieeeennnnttttAAAAuuuuttttooooPPPPllllaaaacccceeee (class CCCClllliiiieeeennnnttttAAAAuuuuttttooooPPPPllllaaaacccceeee)
+                  This resource determines the position of a window
+                  when the window has not been given a user-specified
+                  position.  With a value of True, windows are
+                  positioned with the top left corners of the frames
+                  offset horizontally and vertically.  A value of
+                  False causes the currently configured position of
+                  the window to be used.  In either case, mmmmwwwwmmmm will
+                  attempt to place the windows totally on-screen.  The
+                  default value is True.
+
+          ccccoooolllloooorrrrmmmmaaaappppFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy (class CCCCoooolllloooorrrrmmmmaaaappppFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy)
+                  This resource indicates the colormap focus policy
+                  that is to be used.  If the resource value is
+                  explicit, a colormap selection action is done on a
+                  client window to set the colormap focus to that
+                  window.  If the value is pointer, the client window
+                  containing the pointer has the colormap focus.  If
+                  the value is keyboard, the client window that has
+                  the keyboard input focus has the colormap focus.
+                  The default value for this resource is keyboard.
+
+          ccccoooonnnnffffiiiiggggFFFFiiiilllleeee (class CCCCoooonnnnffffiiiiggggFFFFiiiilllleeee)
+                  The resource value is the pathname for an mmmmwwwwmmmm
+                  resource description file.
+
+                  If the pathname begins with "~/", mmmmwwwwmmmm considers it
+                  to be relative to the user's home directory (as
+                  specified by the HOME environment variable).  If the
+                  LANG environment variable is set, mmmmwwwwmmmm looks for
+                  $HOME/$LANG/_c_o_n_f_i_g_F_i_l_e.  If that file does not exist
+                  or if LANG is not set, mmmmwwwwmmmm looks for
+                  $HOME/_c_o_n_f_i_g_F_i_l_e.
+
+                  If the ccccoooonnnnffffiiiiggggFFFFiiiilllleeee pathname does not begin with "~/",
+                  mmmmwwwwmmmm considers it to be relative to the current
+                  working directory.
+
+                  If the ccccoooonnnnffffiiiiggggFFFFiiiilllleeee resource is not specified or if
+                  that file does not exist, mmmmwwwwmmmm uses several default
+                  paths to find a configuration file.  If the LANG
+                  environment variable is set, mmmmwwwwmmmm looks for the
+                  configuration file first in $HOME/$LANG/.mwmrc.  If
+                  that file does not exist or if LANG is not set, mmmmwwwwmmmm
+                  looks for $HOME/.mwmrc.  If that file does not exist
+                  and if LANG is set, mmmmwwwwmmmm next looks for
+                  /usr/lib/X11/$LANG/system.mwmrc.  If that file does
+                  not exist or if LANG is not set, mmmmwwwwmmmm looks for
+                  /usr/lib/X11/system.mwmrc.
+
+
+
+     Page 15                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          ddddeeeeiiiiccccoooonnnniiiiffffyyyyKKKKeeeeyyyyFFFFooooccccuuuussss (class DDDDeeeeiiiiccccoooonnnniiiiffffyyyyKKKKeeeeyyyyFFFFooooccccuuuussss)
+                  This resource applies only when the keyboard input
+                  focus policy is explicit.  If a value of True is
+                  used, a window receives the keyboard input focus
+                  when it is normalized (deiconified).  True is the
+                  default value.
+
+          ddddoooouuuubbbblllleeeeCCCClllliiiicccckkkkTTTTiiiimmmmeeee (class DDDDoooouuuubbbblllleeeeCCCClllliiiicccckkkkTTTTiiiimmmmeeee)
+                  This resource is used to set the maximum time (in
+                  ms) between the clicks (button presses) that make up
+                  a double-click.  The default value of this resource
+                  is the display's multi-click time.
+
+          eeeennnnaaaabbbblllleeeeWWWWaaaarrrrpppp (class EEEEnnnnaaaabbbblllleeeeWWWWaaaarrrrpppp)
+                  The default value of this resource, True, causes mmmmwwwwmmmm
+                  to "warp" the pointer to the center of the selected
+                  window during keyboard-controlled resize and move
+                  operations.  Setting the value to False causes mmmmwwwwmmmm
+                  to leave the pointer at its original place on the
+                  screen, unless the user explicitly moves it with the
+                  cursor keys or pointing device.
+
+          eeeennnnffffoooorrrrcccceeeeKKKKeeeeyyyyFFFFooooccccuuuussss (class EEEEnnnnffffoooorrrrcccceeeeKKKKeeeeyyyyFFFFooooccccuuuussss)
+                  If this resource is given a value of True, the
+                  keyboard input focus is always explicitly set to
+                  selected windows even if there is an indication that
+                  they are "globally active" input windows.  (An
+                  example of a globally active window is a scroll bar
+                  that can be operated without setting the focus to
+                  that client.)  If the resource is False, the
+                  keyboard input focus is not explicitly set to
+                  globally active windows.  The default value is True.
+
+          ffffaaaaddddeeeeNNNNoooorrrrmmmmaaaallllIIIIccccoooonnnn (class FFFFaaaaddddeeeeNNNNoooorrrrmmmmaaaallllIIIIccccoooonnnn)
+                  If this resource is given a value of True, an icon
+                  is grayed out whenever it has been normalized (its
+                  window has been opened).  The default value is
+                  False.
+
+          ffffrrrraaaammmmeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh (class FFFFrrrraaaammmmeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh)
+                  This resource specifies the width (in pixels) of a
+                  client window frame border without resize handles.
+                  The border width includes the 3-D shadows.  The
+                  default value is 5 pixels.
+
+          iiiiccccoooonnnnAAAAuuuuttttooooPPPPllllaaaacccceeee (class IIIIccccoooonnnnAAAAuuuuttttooooPPPPllllaaaacccceeee)
+                  This resource indicates whether the window manager
+                  arranges icons in a particular area of the screen or
+                  places each icon where the window was when it was
+                  iconified.  The value True indicates that icons are
+                  arranged in a particular area of the screen,
+                  determined by the iconPlacement resource.  The value
+
+
+
+     Page 16                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  False indicates that an icon is placed at the
+                  location of the window when it is iconified.  The
+                  default is True.
+
+          iiiiccccoooonnnnBBBBooooxxxxGGGGeeeeoooommmmeeeettttrrrryyyy (class IIIIccccoooonnnnBBBBooooxxxxGGGGeeeeoooommmmeeeettttrrrryyyy)
+                  This resource indicates the initial position and
+                  size of the icon box.  The value of the resource is
+                  a standard window geometry string with the following
+                  syntax:
+
+                     [====][_w_i_d_t_hxxxx_h_e_i_g_h_t][{++++----}_x_o_f_f_s_e_t{++++----}_y_o_f_f_s_e_t]
+
+                  If the offsets are not provided, the iconPlacement
+                  policy is used to determine the initial placement.
+                  The units for width and height are columns and rows.
+
+                  The actual screen size of the icon box window
+                  depends on the iconImageMaximum (size) and
+                  iconDecoration resources.  The default value for
+                  size is (6 * iconWidth + padding) wide by (1 *
+                  iconHeight + padding) high.  The default value of
+                  the location is +0 -0.
+
+          iiiiccccoooonnnnBBBBooooxxxxNNNNaaaammmmeeee (class IIIIccccoooonnnnBBBBooooxxxxNNNNaaaammmmeeee)
+                  This resource specifies the name that is used to
+                  look up icon box resources.  The default name is
+                  "iconbox".
+
+          iiiiccccoooonnnnBBBBooooxxxxSSSSBBBBDDDDiiiissssppppllllaaaayyyyPPPPoooolllliiiiccccyyyy (class IIIIccccoooonnnnBBBBooooxxxxSSSSBBBBDDDDiiiissssppppllllaaaayyyyPPPPoooolllliiiiccccyyyy)
+                  This resource specifies the scroll bar display
+                  policy of the window manager in the icon box. The
+                  resource has three possible values:  all, vertical,
+                  and horizontal.  The default value, "all", causes
+                  both vertical and horizontal scroll bars always to
+                  appear.  The value "vertical" causes a single
+                  vertical scroll bar to appear in the icon box and
+                  sets the orientation of the icon box to horizontal
+                  (regardless of the iconBoxGeometry specification).
+                  The value "horizontal" causes a single horizontal
+                  scroll bar to appear in the icon box and sets the
+                  orientation of the icon box to vertical (regardless
+                  of the iconBoxGeometry specification).
+
+          iiiiccccoooonnnnBBBBooooxxxxTTTTiiiittttlllleeee (class IIIIccccoooonnnnBBBBooooxxxxTTTTiiiittttlllleeee)
+                  This resource specifies the name that is used in the
+                  title area of the icon box frame.  The default value
+                  is "Icons".
+
+          iiiiccccoooonnnnCCCClllliiiicccckkkk (class IIIIccccoooonnnnCCCClllliiiicccckkkk)
+                  When this resource is given the value of True, the
+                  system menu is posted and left posted when an icon
+                  is clicked.  The default value is True.
+
+
+
+     Page 17                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          iiiiccccoooonnnnDDDDeeeeccccoooorrrraaaattttiiiioooonnnn (class IIIIccccoooonnnnDDDDeeeeccccoooorrrraaaattttiiiioooonnnn)
+                  This resource specifies the general icon decoration.
+                  The resource value is label (only the label part is
+                  displayed) or image (only the image part is
+                  displayed) or label image (both the label and image
+                  parts are displayed).  A value of activelabel can
+                  also be specified to get a label (not truncated to
+                  the width of the icon) when the icon is selected.
+                  The default icon decoration for icon box icons is
+                  that each icon has a label part and an image part
+                  (label image).  The default icon decoration for
+                  stand alone icons is that each icon has an active
+                  label part, a label part, and an image part
+                  (activelabel label image).
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeMMMMaaaaxxxxiiiimmmmuuuummmm (class IIIIccccoooonnnnIIIImmmmaaaaggggeeeeMMMMaaaaxxxxiiiimmmmuuuummmm)
+                  This resource specifies the maximum size of the icon
+                  _i_m_a_g_e.  The resource value is _w_i_d_t_hxxxx_h_e_i_g_h_t (for
+                  example, 64x64).  The maximum supported size is
+                  128x128.  The default value of this resource is
+                  50x50.
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeMMMMiiiinnnniiiimmmmuuuummmm (class IIIIccccoooonnnnIIIImmmmaaaaggggeeeeMMMMiiiinnnniiiimmmmuuuummmm)
+                  This resource specifies the minimum size of the icon
+                  _i_m_a_g_e.  The resource value is _w_i_d_t_hxxxx_h_e_i_g_h_t (for
+                  example, 32x50).  The minimum supported size is
+                  16x16.  The default value of this resource is 16x16.
+
+          iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnntttt (class IIIIccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnntttt)
+                  This resource specifies the icon placement scheme to
+                  be used.  The resource value has the following
+                  syntax:
+                        _p_r_i_m_a_r_y__l_a_y_o_u_t  _s_e_c_o_n_d_a_r_y__l_a_y_o_u_t
+
+                  The layout values are one of the following:
+
+                       VVVVaaaalllluuuueeee    DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                       _________________________________________
+                       top      Lay the icons out top to bottom.
+                       bottom   Lay the icons out bottom to top.
+                       left     Lay the icons out left to right.
+                       right    Lay the icons out right to left.
+
+                  A horizontal (vertical) layout value should not be
+                  used for both the _p_r_i_m_a_r_y__l_a_y_o_u_t and the
+                  _s_e_c_o_n_d_a_r_y__l_a_y_o_u_t (for example, don't use top for the
+                  _p_r_i_m_a_r_y__l_a_y_o_u_t and bottom for the _s_e_c_o_n_d_a_r_y__l_a_y_o_u_t).
+                  The _p_r_i_m_a_r_y__l_a_y_o_u_t indicates whether, when an icon
+                  placement is done, the icon is placed in a row or a
+                  column and the direction of placement.  The
+                  _s_e_c_o_n_d_a_r_y__l_a_y_o_u_t indicates where to place new rows
+                  or columns.  For example, top right indicates that
+
+
+
+     Page 18                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  icons should be placed top to bottom on the screen
+                  and that columns should be added from right to left
+                  on the screen.  The default placement is left bottom
+                  (icons are placed left to right on the screen, with
+                  the first row on the bottom of the screen, and new
+                  rows added from the bottom of the screen to the top
+                  of the screen).
+
+          iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnnttttMMMMaaaarrrrggggiiiinnnn (class IIIIccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnnttttMMMMaaaarrrrggggiiiinnnn)
+                  This resource sets the distance between the edge of
+                  the screen and the icons that are placed along the
+                  edge of the screen.  The value should be greater
+                  than or equal to 0.  A default value (see below) is
+                  used if the value specified is invalid.  The default
+                  value for this resource is equal to the space
+                  between icons as they are placed on the screen (this
+                  space is based on maximizing the number of icons in
+                  each row and column).
+
+          iiiinnnntttteeeerrrraaaaccccttttiiiivvvveeeePPPPllllaaaacccceeeemmmmeeeennnntttt (class IIIInnnntttteeeerrrraaaaccccttttiiiivvvveeeePPPPllllaaaacccceeeemmmmeeeennnntttt)
+                  This resource controls the initial placement of new
+                  windows on the screen. If the value is True, the
+                  pointer shape changes before a new window is placed
+                  on the screen to indicate to the user that a
+                  position should be selected for the upper-left hand
+                  corner of the window.  If the value is False,
+                  windows are placed according to the initial window
+                  configuration attributes.  The default value of this
+                  resource is False.
+
+          kkkkeeeeyyyyBBBBiiiinnnnddddiiiinnnnggggssss (class KKKKeeeeyyyyBBBBiiiinnnnddddiiiinnnnggggssss)
+                  This resource identifies the set of key bindings for
+                  window management functions.  If specified, these
+                  key bindings _r_e_p_l_a_c_e the built-in default bindings.
+                  The named set of key bindings is specified in mmmmwwwwmmmm
+                  resource description file.  The default value for
+                  this resource is "DefaultKeyBindings".
+
+          kkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy (class KKKKeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy)
+                  If set to pointer, the keyboard focus policy is to
+                  have the keyboard focus set to the client window
+                  that contains the pointer (the pointer could also be
+                  in the client window decoration that mmmmwwwwmmmm adds).  If
+                  set to explicit, the policy is to have the keyboard
+                  focus set to a client window when the user presses
+                  button 1 with the pointer on the client window or
+                  any part of the associated mmmmwwwwmmmm decoration.  The
+                  default value for this resource is explicit.
+
+          lllliiiimmmmiiiittttRRRReeeessssiiiizzzzeeee (class LLLLiiiimmmmiiiittttRRRReeeessssiiiizzzzeeee)
+                  If this resource is True, the user is not allowed to
+                  resize a window to greater than the maximum size.
+
+
+
+     Page 19                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  The default value for this resource is True.
+
+          lllloooowwwweeeerrrrOOOOnnnnIIIIccccoooonnnniiiiffffyyyy (class LLLLoooowwwweeeerrrrOOOOnnnnIIIIccccoooonnnniiiiffffyyyy)
+                  If this resource is given the default value of True,
+                  a window's icon appears on the bottom of the window
+                  stack when the window is minimized (iconified).  A
+                  value of False places the icon in the stacking order
+                  at the same place as its associated window.  The
+                  default value of this resource is True.
+
+          mmmmaaaaxxxxiiiimmmmuuuummmmMMMMaaaaxxxxiiiimmmmuuuummmmSSSSiiiizzzzeeee (class MMMMaaaaxxxxiiiimmmmuuuummmmMMMMaaaaxxxxiiiimmmmuuuummmmSSSSiiiizzzzeeee)
+                  This resource is used to limit the maximum size of a
+                  client window as set by the user or client.  The
+                  resource value is _w_i_d_t_hxxxx_h_e_i_g_h_t (for example,
+                  1024x1024) where the width and height are in pixels.
+                  The default value of this resource is twice the
+                  screen width and height.
+
+          mmmmoooovvvveeeeTTTThhhhrrrreeeesssshhhhoooolllldddd (class MMMMoooovvvveeeeTTTThhhhrrrreeeesssshhhhoooolllldddd)
+                  This resource is used to control the sensitivity of
+                  dragging operations that move windows and icons.
+                  The value of this resource is the number of pixels
+                  that the locator is moved with a button down before
+                  the move operation is initiated.  This is used to
+                  prevent window/icon movement when you click or
+                  double-click and there is unintentional pointer
+                  movement with the button down.  The default value of
+                  this resource is 4 (pixels).
+
+          mmmmuuuullllttttiiiiSSSSccccrrrreeeeeeeennnn (class MMMMuuuullllttttiiiiSSSSccccrrrreeeeeeeennnn)
+                  This resource, if True, causes mmmmwwwwmmmm to manage all the
+                  screens on the display.  If False, mmmmwwwwmmmm manages only
+                  a single screen.  The default value is False.
+
+          ppppaaaassssssssBBBBuuuuttttttttoooonnnnssss (class PPPPaaaassssssssBBBBuuuuttttttttoooonnnnssss)
+                  This resource indicates whether or not button press
+                  events are passed to clients after they are used to
+                  do a window manager function in the client context.
+                  If the resource value is False, the button press is
+                  not passed to the client.  If the value is True, the
+                  button press is passed to the client window.  The
+                  window manager function is done in either case.  The
+                  default value for this resource is False.
+
+          ppppaaaassssssssSSSSeeeelllleeeeccccttttBBBBuuuuttttttttoooonnnn (class PPPPaaaassssssssSSSSeeeelllleeeeccccttttBBBBuuuuttttttttoooonnnn)
+                  This resource indicates whether or not to pass the
+                  select button press events to clients after they are
+                  used to do a window manager function in the client
+                  context.  If the resource value is False, then the
+                  button press will not be passed to the client.  If
+                  the value is True, the button press is passed to the
+                  client window.  The window manager function is done
+
+
+
+     Page 20                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  in either case.  The default value for this resource
+                  is True.
+
+          ppppoooossssiiiittttiiiioooonnnnIIIIssssFFFFrrrraaaammmmeeee (class PPPPoooossssiiiittttiiiioooonnnnIIIIssssFFFFrrrraaaammmmeeee)
+                  This resource indicates how client window position
+                  information (from the WM_NORMAL_HINTS property and
+                  from configuration requests) is to be interpreted.
+                  If the resource value is True, the information is
+                  interpreted as the position of the MWM client window
+                  frame.  If the value is False, it is interpreted as
+                  being the position of the client area of the window.
+                  The default value of this resource is True.
+
+          ppppoooossssiiiittttiiiioooonnnnOOOOnnnnSSSSccccrrrreeeeeeeennnn (class PPPPoooossssiiiittttiiiioooonnnnOOOOnnnnSSSSccccrrrreeeeeeeennnn)
+                  This resource is used to indicate that windows
+                  should initially be placed (if possible) so that
+                  they are not clipped by the edge of the screen (if
+                  the resource value is True).  If a window is larger
+                  than the size of the screen, at least the upper-left
+                  corner of the window is on-screen.  If the resource
+                  value is False, windows are placed in the requested
+                  position even if totally off-screen.  The default
+                  value of this resource is True.
+
+          qqqquuuuiiiittttTTTTiiiimmmmeeeeoooouuuutttt (class QQQQuuuuiiiittttTTTTiiiimmmmeeeeoooouuuutttt)
+                  This resource specifies the amount of time (in
+                  milliseconds) that mmmmwwwwmmmm will wait for a client to
+                  update the WM_COMMAND property after mmmmwwwwmmmm has sent
+                  the WM_SAVE_YOURSELF message.  This protocol is used
+                  only for those clients that have a WM_SAVE_YOURSELF
+                  atom and no WM_DELETE_WINDOW atom in the
+                  WM_PROTOCOLS client window property.  The default
+                  value of this resource is 1000 (ms). (Refer to the
+                  f.kill function for additional information.)
+
+          rrrraaaaiiiisssseeeeKKKKeeeeyyyyFFFFooooccccuuuussss (class RRRRaaaaiiiisssseeeeKKKKeeeeyyyyFFFFooooccccuuuussss)
+                  This resource is available only when the keyboard
+                  input focus policy is explicit.  When set to True,
+                  this resource specifies that a window raised by
+                  means of the f.normalize_and_raise function also
+                  receives the input focus.  The default value of this
+                  resource is False.
+
+          rrrreeeessssiiiizzzzeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh (class RRRReeeessssiiiizzzzeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh)
+                  This resource specifies the width (in pixels) of a
+                  client window frame border with resize handles.  The
+                  specified border width includes the 3-D shadows. The
+                  default is 10 (pixels).
+
+          rrrreeeessssiiiizzzzeeeeCCCCuuuurrrrssssoooorrrrssss (class RRRReeeessssiiiizzzzeeeeCCCCuuuurrrrssssoooorrrrssss)
+                  This is used to indicate whether the resize cursors
+                  are always displayed when the pointer is in the
+
+
+
+     Page 21                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  window size border.  If True, the cursors are shown,
+                  otherwise the window manager cursor is shown.  The
+                  default value is True.
+
+          ssssccccrrrreeeeeeeennnnssss (class SSSSccccrrrreeeeeeeennnnssss)
+                  This resource specifies the resource names to use
+                  for the screens mananged by mmmmwwwwmmmm.  If mmmmwwwwmmmm is managing
+                  a single screen, only the first name in the list is
+                  used.  If mmmmwwwwmmmm is managing multiple screens, the
+                  names are assigned to the screens in order, starting
+                  with screen 0.  Screen 0 gets the first name, screen
+                  1 the second name, and so on.  The default screen
+                  names are 0, 1, and so on.
+
+          sssshhhhoooowwwwFFFFeeeeeeeeddddbbbbaaaacccckkkk (class SSSShhhhoooowwwwFFFFeeeeeeeeddddbbbbaaaacccckkkk)
+                  This resource controls when feedback information is
+                  displayed.  It controls both window position and
+                  size feedback during move or resize operations and
+                  initial client placement.  It also controls window
+                  manager message and dialog boxes.
+
+                  The value for this resource is a list of names of
+                  the feedback options to be enabled or disabled; the
+                  names must be separated by a space.  If an option is
+                  preceded by a minus sign, that option is excluded
+                  from the list.  The _s_i_g_n of the first item in the
+                  list determines the initial set of options.  If the
+                  sign of the first option is minus, mmmmwwwwmmmm assumes all
+                  options are present and starts subtracting from that
+                  set.  If the sign of the first decoration is plus
+                  (or not specified), mmmmwwwwmmmm starts with no options and
+                  builds up a list from the resource.
+
+                  The names of the feedback options are shown below:
+
+              NNNNaaaammmmeeee        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+              ___________________________________________________________
+              all         Show all feedback (Default value)
+              behavior    Confirm behavior switch
+              kill        Confirm on receipt of KILL signal
+              move        Show position during move
+              none        Show no feedback
+              placement   Show position and size during initial placement
+              quit        Confirm quitting mmmmwwwwmmmm
+              resize      Show size during resize
+              restart     Confirm mmmmwwwwmmmm restart
+
+                  The following command line illustrates the syntax
+                  for showFeedback:
+
+
+
+
+
+
+     Page 22                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                     MMMMwwwwmmmm****sssshhhhoooowwwwFFFFeeeeeeeeddddbbbbaaaacccckkkk:::: ppppllllaaaacccceeeemmmmeeeennnntttt rrrreeeessssiiiizzzzeeee bbbbeeeehhhhaaaavvvviiiioooorrrr rrrreeeessssttttaaaarrrrtttt
+
+                  This resource specification provides feedback for
+                  initial client placement and resize, and enables the
+                  dialog boxes to confirm the restart and set behavior
+                  functions.  It disables feedback for the move
+                  function.  The default value for this resource is
+                  all.
+
+          ssssttttaaaarrrrttttuuuuppppKKKKeeeeyyyyFFFFooooccccuuuussss (class SSSSttttaaaarrrrttttuuuuppppKKKKeeeeyyyyFFFFooooccccuuuussss)
+                  This resource is available only when the keyboard
+                  input focus policy is explicit.  When given the
+                  default value of True, a window gets the keyboard
+                  input focus when the window is mapped (that is,
+                  initially managed by the window manager).
+
+          ttttrrrraaaannnnssssiiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn (class TTTTrrrraaaannnnssssiiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn)
+                  This controls the amount of decoration that mmmmwwwwmmmm puts
+                  on transient windows.  The decoration specification
+                  is exactly the same as for the cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn
+                  (client specific) resource.  Transient windows are
+                  identified by the WM_TRANSIENT_FOR property, which
+                  is added by the client to indicate a relatively
+                  temporary window.  The default value for this
+                  resource is menu title (that is, transient windows
+                  have resize borders and a titlebar with a window
+                  menu button).
+
+          ttttrrrraaaannnnssssiiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss (class TTTTrrrraaaannnnssssiiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss)
+                  This resource is used to indicate which window
+                  management functions are applicable (or not
+                  applicable) to transient windows.  The function
+                  specification is exactly the same as for the
+                  cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss (client specific) resource.  The
+                  default value for this resource is -minimize
+                  -maximize.
+
+          uuuusssseeeeIIIIccccoooonnnnBBBBooooxxxx (class UUUUsssseeeeIIIIccccoooonnnnBBBBooooxxxx)
+                  If this resource is given a value of True, icons are
+                  placed in an icon box.  When an icon box is not
+                  used, the icons are placed on the root window
+                  (default value).
+
+          wwwwMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk (class WWWWMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk)
+                  This resource indicates whether a click of the mouse
+                  when the pointer is over the window menu button
+                  posts and leaves posted the window menu.  If the
+                  value given this resource is True, the menu remains
+                  posted.  True is the default value for this
+                  resource.
+
+          wwwwMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk2222 (class WWWWMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk2222)
+
+
+
+     Page 23                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  When this resource is given the default value of
+                  True, a double-click action on the window menu
+                  button does an f.kill function.
+
+        CCCClllliiiieeeennnntttt SSSSppppeeeecccciiiiffffiiiicccc RRRReeeessssoooouuuurrrrcccceeeessss
+          The syntax for specifying client specific resources is
+
+                   MMMMwwwwmmmm****_c_l_i_e_n_t__n_a_m_e__o_r__c_l_a_s_s****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****mmmmtttteeeerrrrmmmm****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu is used to specify the
+          window menu to be used with mterm clients.
+
+          The syntax for specifying client specific resources for all
+          classes of clients is
+
+                   MMMMwwwwmmmm****_r_e_s_o_u_r_c_e__i_d
+
+          Specific client specifications take precedence over the
+          specifications for all clients.  For example, MMMMwwwwmmmm****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu
+          is used to specify the window menu to be used for all
+          classes of clients that don't have a window menu specified.
+
+          The syntax for specifying resource values for windows that
+          have an unknown name and class (that is, windows that do not
+          have a WM_CLASS property associated with them) is
+
+                   MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****_r_e_s_o_u_r_c_e__i_d
+
+          For example, MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****iiiiccccoooonnnnIIIImmmmaaaaggggeeee is used to specify the
+          icon image to be used for windows that have an unknown name
+          and class.
+
+          The following client specific resources can be specified:
+
+                             CCCClllliiiieeeennnntttt SSSSppppeeeecccciiiiffffiiiicccc RRRReeeessssoooouuuurrrrcccceeeessss
+     NNNNaaaammmmeeee                          CCCCllllaaaassssssss              VVVVaaaalllluuuueeee TTTTyyyyppppeeee   DDDDeeeeffffaaaauuuulllltttt
+     _________________________________________________________________________
+     clientDecoration              ClientDecoration   string       all
+     clientFunctions               ClientFunctions    string       all
+     focusAutoRaise                FocusAutoRaise     T/F          varies
+     iconImage                     IconImage          pathname     (image)
+                                                                   icon
+                                                                   background
+77     iconImageBackground           Background         color
+
+                                                                   icon bottom
+                                                                   shadow
+77     iconImageBottomShadowColor    Foreground         color
+
+                                   BottomShadow-
+                                   Pixmap
+77                                                                   icon bottom
+                                                                   shadow
+                                                                   pixmap
+777     iconImageBottomShadowPixmap                      color
+
+
+
+
+
+
+
+
+
+     Page 24                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+     iconImageForeground           Foreground         color        varies
+                                                                   icon top
+                                                                   shadow
+                                                                   color
+777     iconImageTopShadowColor       Background         color
+
+
+                                   TopShadow-
+                                   Pixmap
+77                                                                   icon top
+                                                                   shadow
+                                                                   pixmap
+777     iconImageTopShadowPixmap                         color
+
+
+     matteBackground               Background         color        background
+                                                                   bottom
+                                                                   shadow
+                                                                   color
+777     matteBottomShadowColor        Foreground         color
+
+
+                                   BottomShadow-
+                                   Pixmap
+77                                                                   bottom
+                                                                   shadow
+                                                                   pixmap
+777     matteBottomShadowPixmap                          color
+
+
+     matteForeground               Foreground         color        foreground
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 25                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                   CCCClllliiiieeeennnntttt SSSSppppeeeecccciiiiffffiiiicccc RRRReeeessssoooouuuurrrrcccceeeessss ((((CCCCoooonnnnttttiiiinnnnuuuueeeedddd))))
+     NNNNaaaammmmeeee                   CCCCllllaaaassssssss               VVVVaaaalllluuuueeee TTTTyyyyppppeeee   DDDDeeeeffffaaaauuuulllltttt
+     __________________________________________________________________
+                                                             top shadow
+                                                             color
+77     matteTopShadowColor    Background          color
+
+                            TopShadow-
+                            Pixmap
+77                                                             top shadow
+                                                             pixmap
+77     matteTopShadowPixmap                       color
+
+     matteWidth             MatteWidth          pixels       0
+                                                             fill the
+                                                             screen
+77     maximumClientSize      MaximumClientSize   wxh
+
+     useClientIcon          UseClientIcon       T/F          F
+                                                             "Default-
+                                                             Window-
+                                                             Menu"
+777     windowMenu             WindowMenu          string
+
+
+
+          cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn (class CCCClllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn)
+                  This resource controls the amount of window frame
+                  decoration.  The resource is specified as a list of
+                  decorations to specify their inclusion in the frame.
+                  If a decoration is preceded by a minus sign, that
+                  decoration is excluded from the frame.  The _s_i_g_n of
+                  the first item in the list determines the initial
+                  amount of decoration.  If the sign of the first
+                  decoration is minus, mmmmwwwwmmmm assumes all decorations are
+                  present and starts subtracting from that set.  If
+                  the sign of the first decoration is plus (or not
+                  specified), then mmmmwwwwmmmm starts with no decoration and
+                  builds up a list from the resource.
+
+                   NNNNaaaammmmeeee       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                   __________________________________________________
+                   all        Include all decorations (default value)
+                   border     Window border
+                   maximize   Maximize button (includes title bar)
+                   minimize   Minimize button (includes title bar)
+                   none       No decorations
+                   resizeh    Border resize handles (includes border)
+                   menu       Window menu button (includes title bar)
+                   title      Title bar (includes border)
+
+          cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss (class CCCClllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss)
+                  This resource is used to indicate which mmmmwwwwmmmm
+                  functions are applicable (or not applicable) to the
+                  client window.  The value for the resource is a list
+                  of functions.  If the first function in the list has
+                  a minus sign in front of it, then mmmmwwwwmmmm starts with
+                  all functions and subtracts from that set.  If the
+                  first function in the list has a plus sign in front
+                  of it, then mmmmwwwwmmmm starts with no functions and builds
+                  up a list.  Each function in the list must be
+                  preceded by the appropriate plus or minus sign and
+                  separated from the next function by a space.
+
+
+
+     Page 26                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          The table below lists the functions available for this
+          resource:
+
+                NNNNaaaammmmeeee       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                ________________________________________________
+                all        Include all functions (default value)
+                none       No functions
+                resize     f.resize
+                move       f.move
+                minimize   f.minimize
+                maximize   f.maximize
+                close      f.kill
+7                        |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+          ffffooooccccuuuussssAAAAuuuuttttooooRRRRaaaaiiiisssseeee (class FFFFooooccccuuuussssAAAAuuuuttttooooRRRRaaaaiiiisssseeee)
+                  When the value of this resource is True, clients are
+                  raised when they get the keyboard input focus.  If
+                  the value is False,  the stacking of windows on the
+                  display is not changed when a window gets the
+                  keyboard input focus.  The default value is True
+                  when the keyboardFocusPolicy is explicit and False
+                  when the keyboardFocusPolicy is pointer.
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeee (class IIIIccccoooonnnnIIIImmmmaaaaggggeeee)
+                  This resource can be used to specify an icon image
+                  for a client (for example, "Mwm*myclock*iconImage").
+                  The resource value is a pathname for a bitmap file.
+                  The value of the (client specific) useClientIcon
+                  resource is used to determine whether or not user
+                  supplied icon images are used instead of client
+                  supplied icon images. The default value is to
+                  display a built-in window manager icon image.
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeBBBBaaaacccckkkkggggrrrroooouuuunnnndddd (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the background color of the
+                  icon image that is displayed in the image part of an
+                  icon.  The default value of this resource is the
+                  icon background color (that is, specified by
+                  "Mwm*background or Mwm*icon*background).
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the bottom shadow color of
+                  the icon image that is displayed in the image part
+                  of an icon.  The default value of this resource is
+                  the icon bottom shadow color (that is, specified by
+                  Mwm*icon*bottomShadowColor).
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class BBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the bottom shadow Pixmap of
+                  the icon image that is displayed in the image part
+                  of an icon.  The default value of this resource is
+                  the icon bottom shadow Pixmap (that is, specified by
+
+
+
+     Page 27                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  Mwm*icon*bottomShadowPixmap).
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeFFFFoooorrrreeeeggggrrrroooouuuunnnndddd (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the foreground color of the
+                  icon image that is displayed in the image part of an
+                  icon.  The default value of this resource varies
+                  depending on the icon background.
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the top shadow color of the
+                  icon image that is displayed in the image part of an
+                  icon.  The default value of this resource is the
+                  icon top shadow color (that is, specified by
+                  Mwm*icon*topShadowColor).
+
+          iiiiccccoooonnnnIIIImmmmaaaaggggeeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class TTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the top shadow Pixmap of the
+                  icon image that is displayed in the image part of an
+                  icon.  The default value of this resource is the
+                  icon top shadow pixmap (that is, specified by
+                  Mwm*icon*topShadowPixmap).
+
+          mmmmaaaatttttttteeeeBBBBaaaacccckkkkggggrrrroooouuuunnnndddd (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the background color of the
+                  matte, when mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh is positive.  The default
+                  value of this resource is the client background
+                  color (that is, specified by "Mwm*background or
+                  Mwm*client*background).
+
+          mmmmaaaatttttttteeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the bottom shadow color of
+                  the matte, when mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh is positive.  The default
+                  value of this resource is the client bottom shadow
+                  color (that is, specified by "Mwm*bottomShadowColor
+                  or Mwm*client*bottomShadowColor).
+
+          mmmmaaaatttttttteeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class BBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the bottom shadow Pixmap of
+                  the matte, when mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh is positive.  The default
+                  value of this resource is the client bottom shadow
+                  pixmap (that is, specified by
+                  "Mwm*bottomShadowPixmap or
+                  Mwm*client*bottomShadowPixmap).
+
+          mmmmaaaatttttttteeeeFFFFoooorrrreeeeggggrrrroooouuuunnnndddd (class FFFFoooorrrreeeeggggrrrroooouuuunnnndddd)
+                  This resource specifies the foreground color of  the
+                  matte,  when  mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh  is  positive.  The default
+                  value of this  resource  is  the  client  foreground
+                  color  (that  is,  specified  by  "Mwm*foreground or
+                  Mwm*client*foreground).
+
+
+
+
+
+     Page 28                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          mmmmaaaatttttttteeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr (class BBBBaaaacccckkkkggggrrrroooouuuunnnndddd)
+                  This resource specifies the top shadow color of  the
+                  matte,  when  mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh  is  positive.  The default
+                  value of this resource  is  the  client  top  shadow
+                  color  (that is, specified by "Mwm*topShadowColor or
+                  Mwm*client*topShadowColor).
+
+          mmmmaaaatttttttteeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp (class TTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp)
+                  This resource specifies the top shadow pixmap of the
+                  matte,  when  mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh  is  positive.  The default
+                  value of this resource  is  the  client  top  shadow
+                  pixmap  (that  is, specified by "Mwm*topShadowPixmap
+                  or Mwm*client*topShadowPixmap).
+
+          mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh (class MMMMaaaatttttttteeeeWWWWiiiiddddtttthhhh)
+                  This resource specifies the width  of  the  optional
+                  matte.  The  default  value  is 0, which effectively
+                  disables the matte.
+
+          mmmmaaaaxxxxiiiimmmmuuuummmmCCCClllliiiieeeennnnttttSSSSiiiizzzzeeee (class MMMMaaaaxxxxiiiimmmmuuuummmmCCCClllliiiieeeennnnttttSSSSiiiizzzzeeee)
+                  This is a  size  specification  that  indicates  the
+                  client  size  to  be  used  when  an  application is
+                  maximized.   The  resource  value  is  specified  as
+                  _w_i_d_t_hxxxx_h_e_i_g_h_t.   The width and height are interpreted
+                  in the units that the client uses (for example,  for
+                  terminal  emulators  this  is generally characters).
+                  If this resource is not specified, the maximum  size
+                  from  the  WM_NORMAL_HINTS  property is used if set.
+                  Otherwise the default value is the  size  where  the
+                  client  window  with window management borders fills
+                  the screen.  When the maximum  client  size  is  not
+                  determined  by  the  maximumClientSize resource, the
+                  maximumMaximumSize  resource  value  is  used  as  a
+                  constraint on the maximum size.
+
+          uuuusssseeeeCCCClllliiiieeeennnnttttIIIIccccoooonnnn (class UUUUsssseeeeCCCClllliiiieeeennnnttttIIIIccccoooonnnn)
+                  If the value given for  this  resource  is  True,  a
+                  client-supplied  icon  image takes precedence over a
+                  user-supplied icon  image.   The  default  value  is
+                  False,  giving  the  user-supplied icon image higher
+                  precedence than the client-supplied icon image.
+
+          wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu (class WWWWiiiinnnnddddoooowwwwMMMMeeeennnnuuuu)
+                  This resource indicates the name of  the  menu  pane
+                  that  is  posted  when  the window menu is popped up
+                  (usually by pressing button 1  on  the  window  menu
+                  button  on the client window frame).  Menu panes are
+                  specified in  the  MWM  resource  description  file.
+                  Window  menus  can  be  customized on a client class
+                  basis  by   specifying   resources   of   the   form
+                  MMMMwwwwmmmm****_c_l_i_e_n_t__n_a_m_e__o_r__c_l_a_s_s****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu     (see    "Mwm
+                  Resource Description  File  Syntax").   The  default
+
+
+
+     Page 29                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  value of this resource is "DefaultWindowMenu".
+
+
+        RRRReeeessssoooouuuurrrrcccceeee DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn FFFFiiiilllleeee
+          The  MWM  resource  description  file  is  a   supplementary
+          resource  file  that contains resource descriptions that are
+          referred to by entries in the  defaults  files  (.Xdefaults,
+          app-defaults/Mwm).   It  contains  descriptions of resources
+          that are to be used  by  mmmmwwwwmmmm,  and  that  cannot  be  easily
+          encoded in the defaults files (a bitmap file is an analogous
+          type  of  resource  description  file).   A  particular  mmmmwwwwmmmm
+          rrrreeeessssoooouuuurrrrcccceeee   ddddeeeessssccccrrrriiiippppttttiiiioooonnnn   ffffiiiilllleeee  can  be  selected  using  the
+          ccccoooonnnnffffiiiiggggFFFFiiiilllleeee resource.
+
+          The following types of resources can be described in the mmmmwwwwmmmm
+          resource description file:
+
+          BBBBuuuuttttttttoooonnnnssss        Window  manager  functions   can   be   bound
+                         (associated) with button events.
+
+          KKKKeeeeyyyyssss           Window  manager  functions   can   be   bound
+                         (associated) with key press events.
+
+          MMMMeeeennnnuuuussss          Menu panes can be used for  the  window  menu
+                         and  other menus posted with key bindings and
+                         button bindings.
+
+        mmmmwwwwmmmm RRRReeeessssoooouuuurrrrcccceeee DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn FFFFiiiilllleeee SSSSyyyynnnnttttaaaaxxxx
+          The mmmmwwwwmmmm resource description file is a  standard  text  file
+          that  contains  items  of  information  separated by blanks,
+          tabs, and newline  characters.   Blank  lines  are  ignored.
+          Items   or   characters  can  be  quoted  to  avoid  special
+          interpretation (for example, the comment  character  can  be
+          quoted  to  prevent it from being interpreted as the comment
+          character).  A quoted item can be contained in double quotes
+          ("""").   Single  characters can be quoted by preceding them by
+          the backslash character (\\\\).  All text from an unquoted #### to
+          the  end  of  the  line  is regarded as a comment and is not
+          interpreted as part of a resource description.  If !!!! is  the
+          first  character  in  a  line,  the  line  is  regarded as a
+          comment.  Window manager  functions  can  be  accessed  with
+          button  and  key  bindings,  and  with window manager menus.
+          Functions are indicated as part of  the  specifications  for
+          button  and  key binding sets, and menu panes.  The function
+          specification has the following syntax:
+
+                _f_u_n_c_t_i_o_n =        _f_u_n_c_t_i_o_n__n_a_m_e [_f_u_n_c_t_i_o_n__a_r_g_s]
+                _f_u_n_c_t_i_o_n__n_a_m_e =   _w_i_n_d_o_w _m_a_n_a_g_e_r _f_u_n_c_t_i_o_n
+
+
+
+
+
+
+
+     Page 30                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                _f_u_n_c_t_i_o_n__a_r_g_s =   {_q_u_o_t_e_d__i_t_e_m |||| _u_n_q_u_o_t_e_d__i_t_e_m}
+
+          The following functions are supported.   If  a  function  is
+          specified that isn't one of the supported functions, then it
+          is interpreted by mmmmwwwwmmmm as _f._n_o_p.
+
+          ffff....bbbbeeeeeeeepppp
+               This function causes a beep.
+
+          ffff....cccciiiirrrrcccclllleeee____ddddoooowwwwnnnn [iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww]
+               This function causes the window or icon that is on  the
+               top  of the window stack to be put on the bottom of the
+               window stack (so that it no longer obscures  any  other
+               window  or  icon).   This  function  affects only those
+               windows and icons that obscure other windows and icons,
+               or  that  are  obscured  by  other  windows  and icons.
+               Secondary windows  (that  is,  transient  windows)  are
+               restacked   with   their   associated  primary  window.
+               Secondary windows always stay on top of the  associated
+               primary  window  and  there  can  be  no  other primary
+               windows between the secondary windows and their primary
+               window.  If an iiiiccccoooonnnn function argument is specified, the
+               function applies only to icons.  If a  wwwwiiiinnnnddddoooowwww  function
+               argument  is  specified,  the  function applies only to
+               windows.
+
+          ffff....cccciiiirrrrcccclllleeee____uuuupppp [iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww]
+               This function raises the window or icon on  the  bottom
+               of  the window stack (so that it is not obscured by any
+               other  windows).   This  function  affects  only  those
+               windows and icons that obscure other windows and icons,
+               or that  are  obscured  by  other  windows  and  icons.
+               Secondary  windows  (that  is,  transient  windows) are
+               restacked with their associated primary window.  If  an
+               _i_c_o_n  function  argument  is  specified,  the  function
+               applies only to icons.  If a _w_i_n_d_o_w  function  argument
+               is specified, the function applies only to windows.
+
+          ffff....eeeexxxxeeeecccc or !!!!
+               This function causes _c_o_m_m_a_n_d to be executed (using  the
+               value  of  the  MWMSHELL  environment variable if it is
+               set, otherwise  the  value  of  the  SHELL  environment
+               variable  if  it  is  set,  otherwise  /_b_i_n/_s_h).  The !!!!
+               notation can be used in place of  the  ffff....eeeexxxxeeeecccc  function
+               name.
+
+          ffff....ffffooooccccuuuussss____ccccoooolllloooorrrr
+               This function sets  the  colormap  focus  to  a  client
+               window.   If  this  function is done in a root context,
+               the default colormap (set up by the _X _W_i_n_d_o_w _S_y_s_t_e_m for
+               the screen where MWM is running) is installed and there
+               is no specific  client  window  colormap  focus.   This
+
+
+
+     Page 31                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+               function  is treated as _f._n_o_p if colormapFocusPolicy is
+               not explicit.
+
+          ffff....ffffooooccccuuuussss____kkkkeeeeyyyy
+               This function sets the keyboard input focus to a client
+               window  or  icon.  This function is treated as _f._n_o_p if
+               keyboardFocusPolicy is not explicit or the function  is
+               executed in a root context.
+
+          ffff....kkkkiiiillllllll
+               This function is used to terminate a  client.   If  the
+               WM_DELETE_WINDOW protocol is set up, the client is sent
+               a client message  event,  indicating  that  the  client
+               window  should  be  deleted.   If  the WM_SAVE_YOURSELF
+               protocol is set up and the WM_DELETE_WINDOW protocol is
+               not  set up, the client is sent a client message event,
+               indicating that the  client  needs  to  prepare  to  be
+               terminated.    If   the   client   does  not  have  the
+               WM_DELETE_WINDOW or WM_SAVE_YOURSELF protocol  set  up,
+               this  function  causes  a  client's  X connection to be
+               terminated (usually resulting  in  termination  of  the
+               client).   Refer  to the description of the quitTimeout
+               resource and the WM_PROTOCOLS property.
+
+          ffff....lllloooowwwweeeerrrr [----_c_l_i_e_n_t]]]]
+               This function lowers a client window to the  bottom  of
+               the  window  stack (where it obscures no other window).
+               Secondary windows  (that  is,  transient  windows)  are
+               restacked  with  their  associated primary window.  The
+               _c_l_i_e_n_t argument indicates the name or class of a client
+               to lower.  If the _c_l_i_e_n_t argument is not specified, the
+               context that the function was invoked in indicates  the
+               window or icon to lower.
+
+          ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee
+               This function causes a client window  to  be  displayed
+               with its maximum size.
+
+          ffff....mmmmeeeennnnuuuu
+               This function associates a cascading (pull-right)  menu
+               with  a  menu pane entry or a menu with a button or key
+               binding.  The _m_e_n_u__n_a_m_e  function  argument  identifies
+               the menu to be used.
+
+          ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee
+               This function causes a client window  to  be  minimized
+               (iconified).   When  a window is minimized when no icon
+               box is used, its icon is placed on the  bottom  of  the
+               window stack (so that it obscures no other window).  If
+               an icon box is used, the client's icon changes  to  its
+               iconified  form inside the icon box.  Secondary windows
+               (that is, transient windows) are minimized  with  their
+
+
+
+     Page 32                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+               associated  primary window.  There is only one icon for
+               a primary window and all its secondary windows.
+
+          ffff....mmmmoooovvvveeee
+               This  function   causes   a   client   window   to   be
+               interactively moved.
+
+          ffff....nnnneeeexxxxtttt____ccccmmmmaaaapppp
+               This function installs the next colormap in the list of
+               colormaps for the window with the colormap focus.
+
+          ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy [iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww |||| ttttrrrraaaannnnssssiiiieeeennnntttt]
+               This function sets the keyboard input focus to the next
+               window/icon  in the set of windows/icons managed by the
+               window manager (the ordering of this set  is  based  on
+               the  stacking of windows on the screen).  This function
+               is treated  as  _f._n_o_p  if  keyboardFocusPolicy  is  not
+               explicit.   The  keyboard  input focus is moved only to
+               windows that do not have an associated secondary window
+               that  is  application modal.  If the ttttrrrraaaannnnssssiiiieeeennnntttt argument
+               is  specified,  transient   (secondary)   windows   are
+               traversed  (otherwise,  if  only  wwwwiiiinnnnddddoooowwww  is specified,
+               traversal is done only to the last focused window in  a
+               transient  group).   If  an  iiiiccccoooonnnn  function argument is
+               specified, the function applies only to  icons.   If  a
+               wwwwiiiinnnnddddoooowwww  function  argument  is  specified, the function
+               applies only to windows.
+
+          ffff....nnnnoooopppp
+               This function does nothing.
+
+          ffff....nnnnoooorrrrmmmmaaaalllliiiizzzzeeee
+               This function causes a client window  to  be  displayed
+               with  its  normal  size.   Secondary  windows (that is,
+               transient windows) are placed  in  their  normal  state
+               along with their associated primary window.
+
+          ffff....nnnnoooorrrrmmmmaaaalllliiiizzzzeeee____aaaannnndddd____rrrraaaaiiiisssseeee
+               This function causes the corresponding client window to
+               be displayed with its normal size and raised to the top
+               of the  window  stack.   Secondary  windows  (that  is,
+               transient  windows)  are  placed  in their normal state
+               along with their associated primary window.
+
+          ffff....ppppaaaacccckkkk____iiiiccccoooonnnnssss
+               This function is used to relayout icons (based  on  the
+               layout  policy being used) on the root window or in the
+               icon box.  In general this causes icons to be  "packed"
+               into the icon grid.
+
+          ffff....ppppaaaassssssss____kkkkeeeeyyyyssss
+               This  function  is  used  to  enable/disable   (toggle)
+
+
+
+     Page 33                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+               processing   of   key   bindings   for  window  manager
+               functions.  When it disables  key  binding  processing,
+               all  keys are passed on to the window with the keyboard
+               input  focus  and  no  window  manager  functions   are
+               invoked.  If the _f._p_a_s_s__k_e_y_s function is invoked with a
+               key binding to disable key-binding processing, the same
+               key   binding   can   be  used  to  enable  key-binding
+               processing.
+
+          ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu
+               This function is used to post the window  menu.   If  a
+               key  is  used to post the window menu and a window menu
+               button is present, the  window  menu  is  automatically
+               placed  with  its  top-left  corner  at the bottom-left
+               corner of the window menu button for the client window.
+               If  no  window menu button is present,  the window menu
+               is placed at the top-left corner of the client window.
+
+          ffff....pppprrrreeeevvvv____ccccmmmmaaaapppp
+               This function installs the  previous  colormap  in  the
+               list  of  colormaps  for  the  window with the colormap
+               focus.
+
+          ffff....pppprrrreeeevvvv____kkkkeeeeyyyy [iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww |||| ttttrrrraaaannnnssssiiiieeeennnntttt]
+               This function sets the  keyboard  input  focus  to  the
+               previous   window/icon  in  the  set  of  windows/icons
+               managed by the window manager (the ordering of this set
+               is  based  on  the  stacking of windows on the screen).
+               This    function    is    treated    as    _f._n_o_p     if
+               keyboardFocusPolicy  is  not  explicit.   The  keyboard
+               input focus is moved only to windows that do  not  have
+               an  associated  secondary  window  that  is application
+               modal.   If  the  _t_r_a_n_s_i_e_n_t  argument   is   specified,
+               transient (secondary) windows are traversed (otherwise,
+               if only _w_i_n_d_o_w is specified, traversal is done only  to
+               the  last  focused window in a transient group).  If an
+               _i_c_o_n  function  argument  is  specified,  the  function
+               applies  only to icons.  If an _w_i_n_d_o_w function argument
+               is specified, the function applies only to windows.
+
+          ffff....qqqquuuuiiiitttt____mmmmwwwwmmmm
+               This function terminates mmmmwwwwmmmm  (but  NOT  the  X  window
+               system).
+
+          ffff....rrrraaaaiiiisssseeee [----_c_l_i_e_n_t]]]]
+               This function raises a client window to the top of  the
+               window stack (where it is obscured by no other window).
+               Secondary windows  (that  is,  transient  windows)  are
+               restacked  with  their  associated primary window.  The
+               _c_l_i_e_n_t argument indicates the name or class of a client
+               to raise.  If the _c_l_i_e_n_t argument is not specified, the
+               context that the function was invoked in indicates  the
+
+
+
+     Page 34                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+               window or icon to raise.
+
+          ffff....rrrraaaaiiiisssseeee____lllloooowwwweeeerrrr
+               This function raises a client window to the top of  the
+               window  stack  if  it  is partially obscured by another
+               window, otherwise it lowers the window to the bottom of
+               the   window   stack.    Secondary  windows  (that  is,
+               transient windows) are restacked with their  associated
+               primary window.
+
+          ffff....rrrreeeeffffrrrreeeesssshhhh
+               This function causes all windows to be redrawn.
+
+          ffff....rrrreeeeffffrrrreeeesssshhhh____wwwwiiiinnnn
+               This function causes a client window to be redrawn.
+
+          ffff....rrrreeeessssiiiizzzzeeee
+               This  function   causes   a   client   window   to   be
+               interactively resized.
+
+          ffff....rrrreeeessssttttaaaarrrrtttt
+               This function causes mmmmwwwwmmmm to be  restarted  (effectively
+               terminated and re-executed).
+
+          ffff....sssseeeennnndddd____mmmmssssgggg _m_e_s_s_a_g_e__n_u_m_b_e_r
+               This function  sends  a  client  message  of  the  type
+               _MOTIF_WM_MESSAGES  with  the _m_e_s_s_a_g_e__t_y_p_e indicated by
+               the  _m_e_s_s_a_g_e__n_u_m_b_e_r  function  argument.   The   client
+               message  is  sent only if _m_e_s_s_a_g_e__n_u_m_b_e_r is included in
+               the client's _MOTIF_WM_MESSAGES property.  A menu  item
+               label  is  grayed  out  if  the menu item is used to do
+               _f._s_e_n_d__m_s_g of a message that is  not  included  in  the
+               client's _MOTIF_WM_MESSAGES property.
+
+          ffff....sssseeeeppppaaaarrrraaaattttoooorrrr
+               This function causes a menu separator to be put in  the
+               menu  pane  at  the  specified  location  (the label is
+               ignored).
+
+          ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr
+               This function causes the window manager to restart with
+               the   default   behavior   (if  a  custom  behavior  is
+               configured) or  revert  to  the  custom  behavior.   By
+               default this is bound to SSSShhhhiiiifffftttt CCCCttttrrrrllll MMMMeeeettttaaaa <<<<KKKKeeeeyyyy>>>>!!!!.
+
+          ffff....ttttiiiittttlllleeee
+               This function inserts a title in the menu pane  at  the
+               specified location.
+
+          Each function may be constrained as to which resource  types
+          can  specify  the function (for example, menu pane) and also
+          what context the function can be used in (for  example,  the
+
+
+
+     Page 35                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          function  is  done to the selected client window).  Function
+          contexts are
+
+          rrrrooooooootttt           No client window or icon has been selected as
+                         an object for the function.
+
+          wwwwiiiinnnnddddoooowwww         A client  window  has  been  selected  as  an
+                         object  for  the function.  This includes the
+                         window's title bar and frame.  Some functions
+                         are  applied  only  when the window is in its
+                         normalized state (for example, _f._m_a_x_i_m_i_z_e) or
+                         its    maximized    state    (for    example,
+                         _f._n_o_r_m_a_l_i_z_e).
+
+          iiiiccccoooonnnn           An icon has been selected as  an  object  for
+                         the function.
+
+          If a function's context has been  specified  as  iiiiccccoooonnnn||||wwwwiiiinnnnddddoooowwww
+          and  the  function  is  invoked in an icon box, the function
+          applies to the icon box, not to the icons inside.
+
+          If a function is specified in a type of resource where it is
+          not  supported  or  is  invoked  in  a context that does not
+          apply, the function is  treated  as  _f._n_o_p.   The  following
+          table  indicates the resource types and function contexts in
+          which window manager functions apply.
+
+     FFFFuuuunnnnccccttttiiiioooonnnn                CCCCoooonnnntttteeeexxxxttttssss                  RRRReeeessssoooouuuurrrrcccceeeessss
+     _______________________________________________________________________________
+     f.beep                  root, icon, window        button, key, menu
+     f.circle_down           root, icon, window        button, key, menu
+     f.circle_up             root, icon, window        button, key, menu
+     f.exec                  root, icon, window        button, key, menu
+     f.focus_color           root, icon, window        button, key, menu
+     f.focus_key             root, icon, window        button, key, menu
+     f.kill                  icon, window              button, key, menu
+     f.lower                 icon, window              button, key, menu
+     f.maximize              icon, window(normal)      button, key, menu
+     f.menu                  root, icon, window        button, key, menu
+     f.minimize              window                    button, key, menu
+     f.move                  icon, window              button, key, menu
+     f.next_cmap             root, icon, window        button, key, menu
+     f.next_key              root, icon, window        button, key, menu
+     f.nop                   root, icon, window        button, key, menu
+     f.normalize             icon, window(maximized)   button, key, menu
+     f.normalize_and_raise   icon, window              button, key, menu
+     f.pack_icons            root, icon, window        button, key, menu
+     f.pass_keys             root, icon, window        button, key, menu
+
+
+
+
+
+
+
+     Page 36                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+     f.post_wmenu            root, icon, window        button, key
+     f.prev_cmap             root, icon, window        button, key, menu
+     f.prev_key              root, icon, window        button, key, menu
+     f.quit_mwm              root                      button, key, menu (root only)
+     f.raise                 icon, window              button, key, menu
+     f.raise_lower           icon, window              button, key, menu
+     f.refresh               root, icon, window        button, key, menu
+     f.refresh_win           window                    button, key, menu
+     f.resize                window                    button, key, menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 37                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+     FFFFuuuunnnnccccttttiiiioooonnnn         CCCCoooonnnntttteeeexxxxttttssss             RRRReeeessssoooouuuurrrrcccceeeessss
+     ___________________________________________________________________
+     f.restart        root                 button, key, menu (root only)
+     f.send_msg       icon, window         button, key, menu
+     f.separator      root, icon, window   menu
+     f.set_behavior   root, icon, window   button, key, menu
+     f.title          root, icon, window   menu
+
+
+        WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr EEEEvvvveeeennnntttt SSSSppppeeeecccciiiiffffiiiiccccaaaattttiiiioooonnnn
+          Events are indicated  as  part  of  the  specifications  for
+          button and key-binding sets, and menu panes.
+
+          Button events have the following syntax:
+
+              _b_u_t_t_o_n =          [_m_o_d_i_f_i_e_r__l_i_s_t]<<<<_b_u_t_t_o_n__e_v_e_n_t__n_a_m_e>>>>
+              _m_o_d_i_f_i_e_r__l_i_s_t =   _m_o_d_i_f_i_e_r__n_a_m_e {_m_o_d_i_f_i_e_r__n_a_m_e}
+
+          All modifiers specified are interpreted as  being  exclusive
+          (this means that only the specified modifiers can be present
+          when  the  button  event  occurs).   The   following   table
+          indicates  the  values  that  can be used for _m_o_d_i_f_i_e_r__n_a_m_e.
+          The [Alt] key is frequently labeled [Extend] or [Meta].  Alt
+          and Meta can be used interchangeably in event specification.
+
+                            MMMMooooddddiiiiffffiiiieeeerrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                            _______________________
+                            Ctrl       Control Key
+                            Shift      Shift Key
+                            Alt        Alt/Meta Key
+                            Meta       Meta/Alt Key
+                            Lock       Lock Key
+                            Mod1       Modifier1
+                            Mod2       Modifier2
+7                                    |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 38                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                             MMMMooooddddiiiiffffiiiieeeerrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                             ______________________
+                             Mod3       Modifier3
+                             Mod4       Modifier4
+                             Mod5       Modifier5
+7                                     |7|7|7|7|
+
+
+
+
+
+          The following table indicates the values that  can  be  used
+          for _b_u_t_t_o_n__e_v_e_n_t__n_a_m_e.
+
+                    BBBBuuuuttttttttoooonnnn       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                    _______________________________________
+                    Btn1Down     Button 1 Press
+                    Btn1Up       Button 1 Release
+                    Btn1Click    Button 1 Press and Release
+                    Btn1Click2   Button 1 Double-Click
+                    Btn2Down     Button 2 Press
+                    Btn2Up       Button 2 Release
+                    Btn2Click    Button 2 Press and Release
+                    Btn2Click2   Button 2 Double-Click
+                    Btn3Down     Button 3 Press
+                    Btn3Up       Button 3 Release
+                    Btn3Click    Button 3 Press and Release
+                    Btn3Click2   Button 3 Double-Click
+                    Btn4Down     Button 4 Press
+                    Btn4Up       Button 4 Release
+                    Btn4Click    Button 4 Press and Release
+                    Btn4Click2   Button 4 Double-Click
+                    Btn5Down     Button 5 Press
+                    Btn5Up       Button 5 Release
+                    Btn5Click    Button 5 Press and Release
+                    Btn5Click2   Button 5 Double-Click
+7                              |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          Key events that are used by  the  window  manager  for  menu
+          mnemonics  and  for  binding to window manager functions are
+          single key presses; key releases are  ignored.   Key  events
+          have the following syntax:
+
+              _k_e_y =             [_m_o_d_i_f_i_e_r__l_i_s_t]<<<<KKKKeeeeyyyy>>>>_k_e_y__n_a_m_e
+              _m_o_d_i_f_i_e_r__l_i_s_t =   _m_o_d_i_f_i_e_r__n_a_m_e {_m_o_d_i_f_i_e_r__n_a_m_e}
+
+          All modifiers specified are interpreted as  being  exclusive
+          (this means that only the specified modifiers can be present
+          when the key event occurs).  Modifiers for keys are the same
+          as  those  that  apply  to  buttons.  The _k_e_y__n_a_m_e is an X11
+          keysym name.  Keysym names can be found in  the  keysymdef.h
+          file (remove the _X_K_ prefix).
+
+        BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnnggggssss
+          The bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss resource value is the name of  a  set  of
+          button  bindings  that  are used to configure window manager
+          behavior.  A window manager function  can  be  done  when  a
+          button  press   occurs with the pointer over a framed client
+
+
+
+     Page 39                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+          window, an icon,  or  the  root  window.   The  context  for
+          indicating  where  the  button  press  applies  is  also the
+          context for invoking the window manager  function  when  the
+          button  press  is  done  (significant for functions that are
+          context sensitive).
+
+          The button binding syntax is
+
+               BBBBuuuuttttttttoooonnnnssss _b_i_n_d_i_n_g_s__s_e_t__n_a_m_e
+               {{{{
+                   _b_u_t_t_o_n    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+                   _b_u_t_t_o_n    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+                                        .
+                                        .
+                   _b_u_t_t_o_n    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+               }}}}
+
+          The syntax for the _c_o_n_t_e_x_t specification is
+
+        _c_o_n_t_e_x_t =   _o_b_j_e_c_t[||||_c_o_n_t_e_x_t]
+        _o_b_j_e_c_t =    rrrrooooooootttt |||| iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww |||| ttttiiiittttlllleeee |||| ffffrrrraaaammmmeeee |||| bbbboooorrrrddddeeeerrrr |||| aaaapppppppp
+
+          The context specification indicates where the  pointer  must
+          be  for  the button binding to be effective.  For example, a
+          context of wwwwiiiinnnnddddoooowwww indicates that the pointer must be over  a
+          client  window  or  window  management  frame for the button
+          binding to be effective.   The  ffffrrrraaaammmmeeee  context  is  for  the
+          window  management  frame  around a client window (including
+          the border and titlebar), the  bbbboooorrrrddddeeeerrrr  context  is  for  the
+          border  part  of  the window management frame (not including
+          the titlebar), the ttttiiiittttlllleeee context is for the  title  area  of
+          the  window management frame, and the aaaapppppppp context is for the
+          application window  (not  including  the  window  management
+          frame).
+
+          If an _f._n_o_p function is specified for a button binding,  the
+          button binding is not done.
+
+
+        KKKKeeeeyyyy BBBBiiiinnnnddddiiiinnnnggggssss
+          The kkkkeeeeyyyyBBBBiiiinnnnddddiiiinnnnggggssss resource value is the name of a set  of  key
+          bindings that are used to configure window manager behavior.
+          A window manager function can be done when a particular  key
+          is  pressed. The context in which the key binding applies is
+          indicated in  the  key  binding  specification.   The  valid
+          contexts  are  the  same  as  those  that  apply  to  button
+          bindings.
+
+          The key binding syntax is
+
+               KKKKeeeeyyyyssss _b_i_n_d_i_n_g_s__s_e_t__n_a_m_e
+               {{{{
+
+
+
+     Page 40                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                   _k_e_y    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+                   _k_e_y    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+                               .
+                               .
+                   _k_e_y    _c_o_n_t_e_x_t    _f_u_n_c_t_i_o_n
+               }}}}
+
+          If an _f._n_o_p function is specified for a key binding, the key
+          binding  is not done.  If an _f._p_o_s_t__w_m_e_n_u or _f._m_e_n_u function
+          is bound to a key, mmmmwwwwmmmm will automatically use the  same  key
+          for  removing  the  menu  from  the screen after it has been
+          popped up.
+
+          The _c_o_n_t_e_x_t specification syntax is the same as  for  button
+          bindings.   For  key bindings, the ffffrrrraaaammmmeeee, ttttiiiittttlllleeee, bbbboooorrrrddddeeeerrrr, and
+          aaaapppppppp contexts are equivalent  to  the  wwwwiiiinnnnddddoooowwww  context.   The
+          context  for  a key event is the window or icon that has the
+          keyboard input focus (rrrrooooooootttt if no  window  or  icon  has  the
+          keyboard input focus).
+
+
+        MMMMeeeennnnuuuu PPPPaaaannnneeeessss
+          Menus can be popped up using  the  _f._p_o_s_t__w_m_e_n_u  and  _f._m_e_n_u
+          window  manager  functions.   The context for window manager
+          functions that are done from a menu is _r_o_o_t, _i_c_o_n or  _w_i_n_d_o_w
+          depending on how the menu was popped up.  In the case of the
+          _w_i_n_d_o_w menu or menus popped  up  with  a  key  binding,  the
+          location  of the keyboard input focus indicates the context.
+          For menus popped up using a button binding, the  context  of
+          the button binding is the context of the menu.
+
+          The menu pane specification syntax is
+
+               MMMMeeeennnnuuuu _m_e_n_u__n_a_m_e
+               {{{{
+                   _l_a_b_e_l  [_m_n_e_m_o_n_i_c]  [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n
+                   _l_a_b_e_l  [_m_n_e_m_o_n_i_c]  [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n
+                               .
+                               .
+                   _l_a_b_e_l  [_m_n_e_m_o_n_i_c]  [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n
+               }}}}
+
+          Each line in the _M_e_n_u specification identifies the label for
+          a  menu item and the function to be done if the menu item is
+          selected.  Optionally a menu  button  mnemonic  and  a  menu
+          button keyboard accelerator may be specified.  Mnemonics are
+          functional  only  when  the  menu  is  posted  and  keyboard
+          traversal applies.
+
+          The _l_a_b_e_l may be a string  or  a  bitmap  file.   The  label
+          specification has the following syntax:
+
+
+
+
+     Page 41                                          (printed 1/9/91)
+
+
+
+
+
+
+     mmmmwwwwmmmm((((1111XXXX))))             OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn              mmmmwwwwmmmm((((1111XXXX))))
+
+
+
+                  _l_a_b_e_l =         _t_e_x_t |||| _b_i_t_m_a_p__f_i_l_e
+                  _b_i_t_m_a_p__f_i_l_e =   @@@@_f_i_l_e__n_a_m_e
+                  _t_e_x_t =          _q_u_o_t_e_d__i_t_e_m |||| _u_n_q_u_o_t_e_d__i_t_e_m
+
+          The string encoding for labels must be compatible  with  the
+          menu  font  that  is  used.   Labels are greyed out for menu
+          items that do the _f._n_o_p function or an invalid function or a
+          function that doesn't apply in the current context.
+
+          A _m_n_e_m_o_n_i_c specification has the following syntax
+
+              _m_n_e_m_o_n_i_c =   _____c_h_a_r_a_c_t_e_r
+
+          The first matching _c_h_a_r_a_c_t_e_r in the label is underlined.  If
+          there  is no matching _c_h_a_r_a_c_t_e_r in the label, no mnemonic is
+          registered with the window manager for that label.  Although
+          the  _c_h_a_r_a_c_t_e_r  must exactly match a character in the label,
+          the mnemonic does not  execute  if  any  modifier  (such  as
+          Shift) is pressed with the character key.
+
+          The _a_c_c_e_l_e_r_a_t_o_r specification is a key  event  specification
+          with  the  same syntax as is used for key bindings to window
+          manager functions.
+
+        EEEEnnnnvvvviiiirrrroooonnnnmmmmeeeennnntttt
+          mmmmwwwwmmmm uses the environment variable HOME specifying the user's
+          home directory.
+
+          mmmmwwwwmmmm uses the environment variable LANG specifying the user's
+          choice  of  language for the mmmmwwwwmmmm message catalog and the mmmmwwwwmmmm
+          resource description file.
+
+          mmmmwwwwmmmm  uses   the   environment   variables   XFILESEARCHPATH,
+          XUSERFILESEARCHPATH,  XAPPLRESDIR,  XENVIRONMENT,  LANG, and
+          HOME in  determining  search  paths  for  resource  defaults
+          files.
+
+          mmmmwwwwmmmm reads the $HOME/.motifbind file if it exists to  install
+          a virtual key bindings property on the root window.
+
+          mmmmwwwwmmmm uses the environment variable  MWMSHELL  (or  SHELL,  if
+          MWMSHELL  is  not  set),  specifying  the  shell to use when
+          executing commands via the _f._e_x_e_c function.
+
+     FFFFiiiilllleeeessss
+          ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////$$$$LLLLAAAANNNNGGGG////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc
+          ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////MMMMwwwwmmmm   $$$$HHHHOOOOMMMMEEEE////MMMMwwwwmmmm   $$$$HHHHOOOOMMMMEEEE////....XXXXddddeeeeffffaaaauuuullllttttssss
+          $$$$HHHHOOOOMMMMEEEE////$$$$LLLLAAAANNNNGGGG////....mmmmwwwwmmmmrrrrcccc $$$$HHHHOOOOMMMMEEEE////....mmmmwwwwmmmmrrrrcccc $$$$HHHHOOOOMMMMEEEE////....mmmmoooottttiiiiffffbbbbiiiinnnndddd
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX)))), XXXX((((1111)))), and XXXXmmmmIIIInnnnssssttttaaaallllllllIIIImmmmaaaaggggeeee((((3333XXXX)))).
+
+
+
+
+     Page 42                                          (printed 1/9/91)
+
+
+

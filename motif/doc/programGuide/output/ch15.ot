@@ -1,0 +1,1289 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       15.  WWWWoooorrrrkkkkiiiinnnngggg wwwwiiiitttthhhh IIIIccccoooonnnnssss
+
+       This chapter presents information users need to customize
+       the appearance and behavior of icons.  Icons provide the
+       user with a handy way to straighten up a cluttered
+       workspace, and are a great tool for efficient multiprocess-   |
+       ing.  Information is also presented on configuring the MWM
+       icon box.  As a programmer, being aware of this information
+       can help you avoid user-caused problems in your application.
+
+       This chapter discusses the following topics:                  |
+
+          +o Studying icon anatomy                                    |
+
+          +o Manipulating icons                                       |
+
+          +o Controlling icon appearance and behavior                 |
+
+          +o Coloring icons                                           |
+
+          +o Using the icon box to hold icons                         |
+
+       15.1  SSSSttttuuuuddddyyyyiiiinnnngggg IIIIccccoooonnnn AAAAnnnnaaaattttoooommmmyyyy
+
+       As shown in the following figure, icons consist of two        |
+       parts: a text label and a graphic image.  Like the other
+       objects appearing on the workspace, the user can configure
+       the appearance of all icons in ....XXXXddddeeeeffffaaaauuuullllttttssss.                    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               15-1
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+                    FFFFiiiigggguuuurrrreeee 11115555----1111....  Icons Have Two Parts               |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       15.1.1  TTTThhhheeee IIIImmmmaaaaggggeeee
+
+       An icon image (a bitmap) is the actual graphic illustration
+       in the icon.  An image can come from any one of the follow-
+       ing three sources:
+
+       CCCClllliiiieeeennnntttt A client can use the WM_HINTS window property to       |
+               specify either an icon window or a bitmap for the
+               window manager to use as the icon image.              |
+
+       UUUUsssseeeerrrr The user can specify an icon image using the             |
+               Mwm*iconImage oooorrrr MMMMwwwwmmmm****ddddeeeeffffaaaauuuulllltttt****iiiiccccoooonnnnIIIImmmmaaaaggggeeee resources.     |
+
+       DDDDeeeeffffaaaauuuulllltttt The window manager uses its own built-in default
+               icon image if an image is not specified elsewhere.    |
+
+       bbbbiiiittttmmmmaaaappppDDDDiiiirrrreeeeccccttttoooorrrryyyy....  You can also, using the bitmapDirectory     |
+       resource, direct the window manager to search a specified
+       directory for bitmaps.  The bitmapDirectory resource causes
+       the window manager to search the specified directory when-
+       ever a bitmap is named with no complete path.  The default
+       value for bitmapDirectory is ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////bbbbiiiittttmmmmaaaappppssss.        |
+
+       iiiiccccoooonnnnIIIImmmmaaaaggggeeee....  The iconImage resource tells the window manager
+       to use a particular bitmap for an icon image.  The value
+       that follows this resource is the path to the bitmap file.
+       Note that, if specified, this resource overrides any
+       client-specified image.
+
+
+
+       15-2
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+       uuuusssseeeeCCCClllliiiieeeennnnttttIIIIccccoooonnnn....  The useClientIcon resource determines
+       whether a client-supplied icon image takes precedence over a  |
+       user-supplied image.  If the value is True, then a client-    |
+       supplied icon image takes precedence over a user-supplied     |
+       icon image.  The default value is False, making the user-
+       supplied icon image have higher precedence than the client-
+       supplied icon image.
+
+       15.1.2  TTTThhhheeee LLLLaaaabbbbeeeellll
+
+       The icon llllaaaabbbbeeeellll is a rectangle, located beneath the icon
+       image, containing the name of the icon.  A label is usually   |
+       supplied by the client (via the WM_ICON_NAME window pro-
+       perty), but some clients, for example xxxxcccclllloooocccckkkk, provide a       |
+       command-line option enabling you to write in your own label.
+
+       Icon labels are truncated on the right to the width of the
+       icon image when the icon is not active.  When the icon
+       becomes active, the full text of the label appears.           |
+
+       15.2  MMMMaaaannnniiiippppuuuullllaaaattttiiiinnnngggg IIIIccccoooonnnnssss
+
+       Icons can be manipulated like windows: by positioning the     |
+       pointer on the icon and clicking, double-clicking, or drag-
+       ging a mouse button.  The keyboard can also be used to mani-
+       pulate icons.  The following table describes the operations   |
+       that can be performed on icons with a mouse.
+
+               TTTTAAAABBBBLLLLEEEE 11115555----1111....  Manipulating Icons with a Mouse          |
+
+                           PPPPoooossssiiiittttiiiioooonnnn tttthhhheeee ppppooooiiiinnnntttteeeerrrr                      |
+         TTTToooo ddddoooo tttthhhhiiiissss............     oooonnnn tttthhhheeee iiiiccccoooonnnn aaaannnndddd............     RRRReeeessssuuuulllltttt             |
+         ________________________________________________________    ||
+7                        |7|7|
+
+                                                                     ||
+7                                               |7|7|
+
+                                                                     ||
+         Turn an icon     |                                          |
+         into a window.   |                                          |
+77                           Double-click the                          |
+                           mouse Select button.                      |
+77                                                  Restores the       |
+                                                  window to its      |
+                                                  former size and    |
+                                                  location.          |
+7777                                                                     |
+
+
+
+         ________________________________________________________    |
+         Move an icon     |                                          |
+         around on the    |                                          |
+         root window.     |                                          |
+777                           Press the mouse                           |
+                           Select button and                         |
+                           drag.                                     |
+777                                                  Moves a wire       |
+                                                  frame with the     |
+                                                  pointer, show-     |
+                                                  ing where the      |
+                                                  icon is be         |
+                                                  moved.             |
+777777                                                                     |
+
+
+
+
+
+         ________________________________________________________    |
+         Move keyboard    |                                          |
+         input focus.     |                                          |
+77                           Press the mouse                           |
+                           Select button.                            |
+77                                                  Makes the icon     |
+                                                  the focus of       |
+                                                  input.             |
+777                                                                     |
+
+
+
+
+
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+7                                               |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+
+                                                               15-3
+
+
+
+
+
+
+
+
+
+
+
+
+                           PPPPoooossssiiiittttiiiioooonnnn tttthhhheeee ppppooooiiiinnnntttteeeerrrr                      |
+         TTTToooo ddddoooo tttthhhhiiiissss............     oooonnnn tttthhhheeee iiiiccccoooonnnn aaaannnndddd............     RRRReeeessssuuuulllltttt             |
+         ________________________________________________________    ||
+7                        |7|7|
+
+                                                                     ||
+7                                               |7|7|
+
+                                                                     ||
+         ________________________________________________________
+         Move an icon to  |
+         the top of the   |
+         window stack.    |
+777                           Press the mouse
+                           Select button on an
+                           icon that has key-
+                           board input focus.
+7777                                                  Moves a par-     |
+                                                  tially con-      |
+                                                  cealed icon to   |
+                                                  the top of the   |
+                                                  window stack.
+77777
+
+
+
+
+         ________________________________________________________
+         Display the      |
+         icon's window    |
+         menu.            |
+777                           Click the mouse       |
+                           Select button; or,    |
+                           press <<<<SSSShhhhiiiifffftttt>>>> <<<<EEEESSSSCCCC>>>>   |
+                           or <<<<AAAAlllltttt>>>><<<<SSSSppppaaaacccceeee>>>>.
+7777                                                  The window menu
+                                                  for an icon is
+                                                  like the window
+                                                  menu of its
+                                                  associated win-
+                                                  dow.  No window
+                                                  is active while
+                                                  an icon has the
+                                                  keyboard focus.
+777777777
+
+
+
+
+
+
+
+
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table describes the operations that can be      |
+       performed on icons with the keyboard.  Keyboard actions       |
+       apply only to active icons.                                   |
+
+            TTTTAAAABBBBLLLLEEEE 11115555----2222....  Manipulating Icons with the Keyboard        |
+
+       TTTToooo ddddoooo tttthhhhiiiissss............                        UUUUsssseeee tttthhhhiiiissss kkkkeeeeyyyy aaaaccccttttiiiioooonnnn............
+       ___________________________________________________________   |
+       Display or remove icon menu.         <<<<SSSShhhhiiiifffftttt>>>> <<<<EEEESSSSCCCC>>>>            |
+                                            or
+                                            <<<<AAAAlllltttt>>>> <<<<SSSSppppaaaacccceeee>>>>            |
+       ___________________________________________________________
+       When the menu is posted...                                    |
+       ___________________________________________________________
+       Move the cursor to different items   Arrow keys
+       ___________________________________________________________
+       Accept the highlighted menu item     <<<<SSSSeeeelllleeeecccctttt>>>>                 |
+       ___________________________________________________________
+       Remove the icon menu                 <<<<EEEESSSSCCCC>>>>                    |
+7                                         |7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The icon's window menu contains the same items as the window
+       menu of the associated client window.  Menu items that do     |
+       not apply to icons are grayed out (for example, Minimize and  |
+       Size).
+
+       The following figure shows the appearance of an icon with     |
+       the input focus.                                              |
+         FFFFiiiigggguuuurrrreeee 11115555----2222....  Appearance of an Icon with the Input Focus    |
+
+       iiiiccccoooonnnnCCCClllliiiicccckkkk....  The iconClick resource controls the posting of    *
+       the window menu when the mouse Select button is clicked with
+
+
+       15-4
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+       the pointer on the icon.  The value of True causes the icon   |
+       window menu to be posted and remain posted.  The value of     |
+       False results in the icon window menu not remaining posted.
+
+       lllloooowwwweeeerrrrOOOOnnnnIIIIccccoooonnnniiiiffffyyyy....  The lowerOnIconify resource can be used to   |
+       control the stacking order of icons.  The default value of    |
+       True places a window's icon on the bottom of the window       |
+       stack when the window is minimized (iconified).  A value of   |
+       False places the icon in the stacking order at the same
+       place as its associated window.
+
+       15.2.1  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg IIIIccccoooonnnn PPPPllllaaaacccceeeemmmmeeeennnntttt
+
+       By default, the window manager places icons in the lower
+       left corner of the workspace.  Successive icons are placed
+       in a row proceeding toward the right.  Icons are prevented    |
+       from overlapping.  An icon is placed in the position it last
+       occupied if no icon is already there.  If that place is       |
+       taken, the icon is placed at the next free location.
+
+       The following three resources enable the user to control the
+       placement of icons:
+
+       iiiiccccoooonnnnAAAAuuuuttttooooPPPPllllaaaacccceeee....  The iconAutoPlace resource indicates whether  |
+       the window manager arranges icons in a particular area of     |
+       the screen or places each icon where the window was when it   |
+       was iconified.  The value True indicates that icons are       |
+       arranged in a particular area of the screen, determined by    |
+       the iconPlacement resource.  The value False indicates that   |
+       an icon is placed at the location of the window when it is    |
+       iconified.  The default is True.
+
+       iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnntttt....  This resource is available only when the      |
+       iconAutoPlace resource has the value True.  The iconPlace-
+       ment resource specifies the arrangement scheme the window
+       manager is to use when placing icons on the workspace.   The
+       default value is "left bottom."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               15-5
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table lists options for iconPlacement values.   |
+
+              TTTTAAAABBBBLLLLEEEE 11115555----3333....  Options for iconPlacement Values
+
+        IIIIffff yyyyoooouuuu wwwwaaaannnntttt tttthhhhiiiissss iiiiccccoooonnnn ppppllllaaaacccceeeemmmmeeeennnntttt............   CCCChhhhoooooooosssseeee tttthhhhiiiissss sssscccchhhheeeemmmmeeee............
+        __________________________________________________________   |
+        From left to right across the top
+        of the screen, new rows below.
+77                                             left top
+
+        __________________________________________________________
+        From right to left across the top
+        of the screen, new rows below.
+77                                             right top
+
+        __________________________________________________________
+        From left to right across the bot-
+        tom of the screen, new rows above.
+77                                             left bottom
+
+        __________________________________________________________
+        From right to left across the bot-
+        tom of the screen, new rows above.
+77                                             right bottom
+
+        __________________________________________________________
+        From bottom to top along the left
+        of the screen, new columns to
+        right.
+777                                             bottom left
+
+
+        __________________________________________________________
+        From bottom to top along the right
+        of the screen, new columns to
+        left.
+777                                             bottom right
+
+
+        __________________________________________________________
+        From top to bottom along the left
+        of the screen, new columns to
+        right.
+777                                             top left
+
+
+        __________________________________________________________
+        From top to bottom along the right
+        of the screen, new columns to
+        left.
+777                                             top right
+
+
+7                                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnnttttMMMMaaaarrrrggggiiiinnnn....  The iconPlacementMargin resource        |
+       specifies the distance between the screen edge and icons.     |
+       The unit of measurement is pixels.  The default value is      |
+       equal to the default space between icons.
+
+       15.2.2  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr IIIIccccoooonnnn PPPPllllaaaacccceeeemmmmeeeennnntttt RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The resources that place icons share a common syntax:
+
+       MMMMwwwwmmmm****_r_e_s_o_u_r_c_e:   _v_a_l_u_e                                         |
+
+       For example, if the user wants automatic placement of icons
+       starting at the top of the screen and proceeding down the
+       right side, the following lines amust be added in the user's  |
+       ....XXXXddddeeeeffffaaaauuuullllttttssss file:
+
+
+
+
+       15-6
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+       MMMMwwwwmmmm****iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnntttt::::   ttttoooopppp rrrriiiigggghhhhtttt                                |
+
+       MMMMwwwwmmmm****iiiiccccoooonnnnAAAAuuuuttttooooPPPPllllaaaacccceeee::::   TTTTrrrruuuueeee                                     |
+
+       15.3  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg IIIIccccoooonnnn AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr
+
+       MWM offers a number of resources to control the appearance    |
+       and behavior of icons.  Among these are resources that
+       enable the user to select icon decoration, control icon
+       size, and create new icon pixmaps.
+
+       15.3.1  SSSSeeeelllleeeeccccttttiiiinnnngggg IIIIccccoooonnnn DDDDeeeeccccoooorrrraaaattttiiiioooonnnn
+
+       iiiiccccoooonnnnDDDDeeeeccccoooorrrraaaattttiiiioooonnnn....  The iconDecoration resource indicates which  |
+       parts of an icon are to be displayed.  The following table    |
+       shows the possible values for iconDecoration and the          |
+       results.
+
+         TTTTAAAABBBBLLLLEEEE 11115555----4444....  The Values for Controlling Icon Appearance     |
+
+        FFFFoooorrrr aaaannnn iiiiccccoooonnnn tttthhhhaaaatttt llllooooooookkkkssss lllliiiikkkkeeee tttthhhhiiiissss............   UUUUsssseeee tttthhhhiiiissss vvvvaaaalllluuuueeee............
+        __________________________________________________________   *
+        Just the label                        label                  |
+        __________________________________________________________
+        Just the image                        image                  |
+        __________________________________________________________   |
+                                              label image (default   |
+                                              value when icon box    |
+                                              is used.)              |
+777        Both label and image                                         |
+
+
+        __________________________________________________________   |
+        The label of an active icon is not   |                       |
+        truncated                                                    |
+77                                              activelabel label     ||
+                                              image (default value  ||
+                                              when icon box is not  ||
+                                              used.)                 |
+7777                                                                     |
+
+
+
+7                                           |7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+       15.3.2  SSSSiiiizzzziiiinnnngggg IIIIccccoooonnnnssss                                          |
+
+       Each icon image has a maximum and minimum size.  MWM has      |
+       maximum and minimum default sizes as well as maximum and      |
+       minimum allowable sizes.  The following two resources con-
+       trol icon image size:
+
+       iiiiccccoooonnnnIIIImmmmaaaaggggeeeeMMMMaaaaxxxxiiiimmmmuuuummmm....  The iconImageMaximum resource limits the
+       maximum size of an icon image.  The largest value allowed is
+       128x128 pixels.  The default value is 50x50 pixels.
+
+       iiiiccccoooonnnnIIIImmmmaaaaggggeeeeMMMMiiiinnnniiiimmmmuuuummmm....  The iconImageMinimum resource limits the
+       minimum size of an icon image.  The smallest value allowed
+       is 16x16 pixels.  The default value is 16x16 pixels.          |
+
+
+
+
+                                                               15-7
+
+
+
+
+
+
+
+
+
+
+
+
+       When calculating limits for image size, remember that the
+       width of an icon is the image width plus the icon frame plus  |
+       the space between icons.  The height of an icon is the image  |
+       height plus the icon frame plus the space between icons.
+       The amount of icon decoration and the size of font used in
+       the icon label also affects the height of the icon.           |
+
+       How the window manager treats an icon depends on the size of
+       the image in relation to the maximum and minimum sizes, as    |
+       shown in the following table.
+
+             TTTTAAAABBBBLLLLEEEE 11115555----5555....  Icon Size Affects Treatment of Icon
+
+       IIIIffff aaaannnn iiiiccccoooonnnn iiiimmmmaaaaggggeeee iiiissss............              TTTThhhheeee wwwwiiiinnnnddddoooowwww mmmmaaaannnnaaaaggggeeeerrrr............           |
+       ____________________________________________________________________
+       Smaller than the minimum size       Act as if no image was specified|
+       ____________________________________________________________________|
+                                           Center the image within the max-|
+                                           imum area                 |
+77       Within maximum and minimum limits                                   |
+
+       ____________________________________________________________________|
+                                           Clip the right side and bottom|
+                                           of the image to fit the maximum   ||
+                                           size                      |
+777       Larger than the maximum size                                        |
+
+
+7                                        |7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+                                                                           |
+
+       15.3.3  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr RRRReeeessssoooouuuurrrrcccceeeessss tttthhhhaaaatttt CCCCoooonnnnttttrrrroooollll IIIIccccoooonnnn AAAAppppppppeeeeaaaarrrr----    |
+               aaaannnncccceeee                                                  |
+
+       The resources that control icon appearance have the follow-   |
+       ing syntax:                                                   |
+
+
+          MMMMwwwwmmmm****_r_e_s_o_u_r_c_e:   _v_a_l_u_e                                      |
+
+
+       For example, the label part of the icon can be eliminated     |
+       using the iconDecoration resource:
+
+          MMMMwwwwmmmm****iiiiccccoooonnnnDDDDeeeeccccoooorrrraaaattttiiiioooonnnn::::  iiiimmmmaaaaggggeeee                                 |
+
+       The iconImage resource has three syntaxes available:
+
+         1.  To use the image for all classes of clients, the syn-   |
+             tax is
+
+                 MMMMwwwwmmmm****iiiiccccoooonnnnIIIImmmmaaaaggggeeee::::    _p_a_t_h/_b_i_t_m_a_p                       |
+
+
+
+
+
+
+
+
+       15-8
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+         2.  To use the image for a specific class of clients, or a  |
+             specific client, the syntax is
+
+                 MMMMwwwwmmmm****_c_l_i_e_n_t_c_l_a_s_s****iiiiccccoooonnnnIIIImmmmaaaaggggeeee::::   _p_a_t_h/_b_i_t_m_a_p            |
+
+                 MMMMwwwwmmmm****_c_l_i_e_n_t_n_a_m_e****iiiiccccoooonnnnIIIImmmmaaaaggggeeee::::   _p_a_t_h/_b_i_t_m_a_p             |
+
+         3.  To use the image as the default image whenever the      |
+             client class is unknown, the syntax is
+
+                 MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****iiiiccccoooonnnnIIIImmmmaaaaggggeeee::::     _p_a_t_h/_b_i_t_m_a_p             |
+
+
+       For example, users who want to use a personal kkkkaaaalllleeeeiiiiddddoooossssccccooooppppeeee    |
+       bitmap for a terminal emulator window (say, mmmmtttteeeerrrrmmmm) and see a  |
+       complete label whenever any icon is active, must add the      |
+       following lines in their ....XXXXddddeeeeffffaaaauuuullllttttssss file:                     |
+
+
+       MMMMwwwwmmmm****mmmmtttteeeerrrrmmmm****iiiiccccoooonnnnIIIImmmmaaaaggggeeee::::   ////uuuusssseeeerrrrssss/_u_s_e_r_n_a_m_e////BBBBiiiittttmmmmaaaappppssss////kkkkaaaalllleeeeiiiidddd....bbbbiiiittttssss    |
+
+       MMMMwwwwmmmm****iiiiccccoooonnnnDDDDeeeeccccoooorrrraaaattttiiiioooonnnn::::    llllaaaabbbbeeeellll aaaaccccttttiiiivvvveeeellllaaaabbbbeeeellll iiiimmmmaaaaggggeeee                |
+
+       15.4  CCCCoooolllloooorrrriiiinnnngggg IIIIccccoooonnnnssss
+
+       Icon window frame elements are colored with the same
+       resources as normalized window frame elements.  (These        |
+       resources are discussed in Chapter 13.)  The following table  |
+       lists the color resources.
+
+           TTTTAAAABBBBLLLLEEEE 11115555----6666....  MWM Color Resources and What They Color      |
+
+       IIIInnnnaaaaccccttttiiiivvvveeee WWWWiiiinnnnddddoooowwww aaaannnndddd   AAAAccccttttiiiivvvveeee WWWWiiiinnnnddddoooowwww aaaannnndddd
+       IIIIccccoooonnnn RRRReeeessssoooouuuurrrrcccceeeessss        IIIIccccoooonnnn RRRReeeessssoooouuuurrrrcccceeeessss            AAAArrrreeeeaaaa CCCCoooolllloooorrrreeeedddd
+       _______________________________________________________________________|
+       foreground            activeForeground          Foreground areas.
+       _______________________________________________________________________
+       background            activeBackground          Background areas.
+       _______________________________________________________________________
+       topShadowColor        activeTopShadowColor      Top and left 3D bevels.|
+       _______________________________________________________________________
+                                                       Bottom and right 3D      |
+                                                       bevels.
+77       bottomShadowColor     activeBottomShadowColor
+
+7                          |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+                                                    |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+       The image part of an icon can be displayed with client        |
+       specific colors.  The following table lists icon image ele-
+       ments and the resources that control their color.             |
+
+
+
+
+
+
+                                                               15-9
+
+
+
+
+
+
+
+
+
+
+
+
+           TTTTAAAABBBBLLLLEEEE 11115555----7777....  Coloring Icon Images with MWM Resources      |
+
+       TTTToooo ccccoooolllloooorrrr tttthhhhiiiissss............                           UUUUsssseeee tttthhhhiiiissss rrrreeeessssoooouuuurrrrcccceeee............      |
+       _____________________________________________________________________*
+       Icon image background                      iconImageBackground       |
+       _____________________________________________________________________|
+       Left and upper 3D bevels                  |
+7                                                  iconImageTopShadowColor
+       _____________________________________________________________________
+       Right and lower three-dimensional bevels   iconImageBottomShadowColor|
+       _____________________________________________________________________
+       Icon image foreground                      iconImageForeground       |
+7                                               |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       Two pixmap resources are available for use in shading icon    |
+       images:
+
+       iiiiccccoooonnnnIIIImmmmaaaaggggeeeeTTTTooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp....  The default value for
+       iconImageTopShadowPixmap is the icon top shadow pixmap        |
+       (specified by MMMMwwwwmmmm****iiiiccccoooonnnn****ttttooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp).
+
+       iiiiccccoooonnnnIIIImmmmaaaaggggeeeeBBBBoooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp.....  The default value for
+       iconImageBottomShadowPixmap is the icon bottom shadow pixmap  |
+       (specified by MMMMwwwwmmmm****iiiiccccoooonnnn****bbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp).
+
+       Procedures for making pixmaps for frame elements are          |
+       described in Section 13.9.
+
+       15.4.1  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr IIIIccccoooonnnn CCCCoooolllloooorrrriiiinnnngggg RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The resources that color icons can have any of three dif-
+       ferent syntaxes.
+
+         1.  To color all clients regardless of class, the syntax    |
+             is
+
+             MMMMwwwwmmmm****iiiiccccoooonnnn****_r_e_s_o_u_r_c_e:   _c_o_l_o_r                              |
+
+
+             For example, a proper use of this syntax is to ensure   |
+             that all icon backgrounds were the same color, a good
+             thing for consistency:                                  |
+
+             MMMMwwwwmmmm****iiiiccccoooonnnn****bbbbaaaacccckkkkggggrrrroooouuuunnnndddd::::   CCCCaaaaddddeeeetttt BBBBlllluuuueeee                       |
+
+
+
+
+
+
+
+
+
+
+
+       15-10
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+         2.  To color specific classes of clients, the syntax is     |
+
+             MMMMwwwwmmmm****iiiiccccoooonnnn****_c_l_i_e_n_t_c_l_a_s_s _o_r _c_l_i_e_n_t_n_a_m_e*_r_e_s_o_u_r_c_e:   _c_o_l_o_r    |
+
+
+             The colors specified with this resource take pre-       |
+             cedence over any other specification for this resource
+             for this class of clients.
+
+         3.  To color any client with an unknown class, the syntax   |
+             is
+
+             MMMMwwwwmmmm****iiiiccccoooonnnn****ddddeeeeffffaaaauuuulllltttt****_r_e_s_o_u_r_c_e:   _c_o_l_o_r                      |
+
+       15.5  UUUUssssiiiinnnngggg tttthhhheeee IIIIccccoooonnnn BBBBooooxxxx ttttoooo HHHHoooolllldddd IIIIccccoooonnnnssss
+
+       The user may want to use an icon box to contain icons
+       instead of having standalone icons on the workspace.  An      |
+       icon box is an MWM window and frame that can reduce the
+       amount of "real estate" taken up by client icons.  The icon
+       box is a scrollable window that displays icons in a grid
+       (rows and columns).
+
+       uuuusssseeeeIIIIccccoooonnnnBBBBooooxxxx....  The useIconBox resource enables the icon box
+       window manager facility.  The value of True places icons in   |
+       an icon box.  The default value of False places icons on the  |
+       root window.
+
+       iiiiccccoooonnnnBBBBooooxxxxNNNNaaaammmmeeee....  The iconBoxName resource specifies the name     |
+       that is used to look up icon box resources.  The default      |
+       name is iconbox.
+
+       iiiiccccoooonnnnBBBBooooxxxxTTTTiiiittttlllleeee....  The iconBoxTitle resource specifies the name
+       that is used in the title area of the icon box frame.  The
+       default name is Icons.                                        |
+
+       15.5.1  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg IIIIccccoooonnnn BBBBooooxxxx AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr
+
+       The icon box is displayed in a standard window management
+       client frame.  Client-specific resources for the icon box
+       can be specified using "iconbox" as the client name.          |
+
+
+          MMMMwwwwmmmm****iiiiccccoooonnnnbbbbooooxxxx****_r_e_s_o_u_r_c_e:   _v_a_l_u_e                              |
+
+       Resources that may be used with the icon box are:
+       clientDecoration; all window resources dealing with color,
+       shadow, and matte; and windowMenu.
+
+       iiiiccccoooonnnnBBBBooooxxxxGGGGeeeeoooommmmeeeettttrrrryyyy....  The iconBoxGeometry resource is used to
+       set the initial size and placement of the icon box.  If the
+
+
+                                                              15-11
+
+
+
+
+
+
+
+
+
+
+
+
+       iconBoxGeometry resource is set, the largest dimension of
+       the size determines if the icons are placed in a row or a
+       column.  The default policy is to place icons in rows going   |
+       from left to right, top to bottom.                            |
+
+       The value of the resource is a standard window geometry
+       string with the following syntax:                             |
+
+
+          [=][<width>x<height>][{+-}<xoffset>{+-}<yoffset>]          |
+
+       If the width and height are not provided, the iiiiccccoooonnnnPPPPllllaaaacccceeeemmmmeeeennnntttt   |
+       policy is used to determine the initial size and orientation  |
+       (horizontal and vertical).
+
+       The actual size of the icon box window depends on the         |
+       iconImageMaximum (size) and iconDecoration resources.  The
+       default value for size is (6 * iconWidth + padding) wide by
+       (1 * iconHeight + padding) high.  The default location
+       (value) is +0-0.
+
+       15.5.1.1  TTTThhhheeee IIIIccccoooonnnn BBBBooooxxxx WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu
+
+       The window menu for the icon box differs from the standard
+       window menu in that it does not contain the "Close" selec-    |
+       tion.  In its place is the "PackIcons" selection, as shown    |
+       in the following figure.
+
+              FFFFiiiigggguuuurrrreeee 11115555----3333....  The System Menu for the Icon Box         |
+
+                         Restore     Alt+F5                          |
+                         Move        Alt+F7
+                         Size        Alt+F8
+                         Minimize    Alt+F9
+                         Maximize    Alt+F10
+                         Lower       Alt+F3                          |
+                         PackIcons   Alt+Shift+F7                    |
+
+       ffff....ppppaaaacccckkkk____iiiiccccoooonnnnssss  The function ffff....ppppaaaacccckkkk____iiiiccccoooonnnnssss shifts icons to fill  |
+       empty spaces in the icon placement grid so that the icons
+       appear in neat, complete rows.  Icons in the icon box do not
+       overlap.
+
+       If there are icons that cannot be displayed in the visible
+       part of the icon box, the user can scroll to see the icons.
+       The sliders within the scroll bars show the extent of the
+       icon grid that is visible.
+
+       The icon box can be minimized (iconified) just like any
+       other window.  If the icon box is minimized, it is placed
+       into the icon grid on the workspace.
+
+
+       15-12
+
+
+
+
+
+
+
+
+
+                                                 Working with Icons
+
+
+       15.5.2  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg IIIIccccoooonnnnssss iiiinnnn tttthhhheeee IIIIccccoooonnnn BBBBooooxxxx
+
+       Every client window that can be iconified has an icon in the
+       icon box, even when the window is in the normal state.  The
+       icon for a client is put into the icon box when the client
+       becomes managed by the window manager and is removed from
+       the icon box when the client withdraws from being managed.
+
+       ffffaaaaddddeeeeNNNNoooorrrrmmmmaaaallllIIIIccccoooonnnn....   Icons for windows in the normal state are
+       visually distinct from icons for windows that are iconified.  |
+       Icons for windows that are iconified look like standalone     |
+       icons.  Icons for windows that are in the normal state        |
+       appear flat and are optionally grayedout.  The value of True  |
+       for the fadeNormalIcon resource grays out normalized win-
+       dows.  The default value is False.                            |
+
+       The text and image attributes of icons in icon boxes are      |
+       determined in the same way as for standalone icons, using     |
+       the iconDecoration resource.
+
+       A standard "control" location cursor is used to indicate the
+       particular icon in the icon box to which keyboard actions
+       apply.  The location cursor is a rectangle outline that sur-  |
+       rounds the icon.
+
+       Icons contained in the icon box can be manipulated with the
+       mouse and from the keyboard.  Mouse button actions apply
+       whenever the pointer is on any part of the icon.  The fol-    |
+       lowing table describes the mouse button actions for control-  |
+       ling icons.
+
+       TTTTAAAABBBBLLLLEEEE 11115555----8888....  Controlling Icons in the Icon Box with a Mouse   |
+
+           BBBBuuuuttttttttoooonnnn AAAAccccttttiiiioooonnnn                   FFFFuuuunnnnccccttttiiiioooonnnn DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+           ____________________________________________________      *
+           Click the mouse Select button   Selects the icon          |
+           ____________________________________________________      |
+           Double-click mouse Select                                 |
+           button                                                    |
+           with pointer on an icon of an                             |
+           iconified window                                          |
+7777                                           Normalizes the icon-      |
+                                           ified window              |
+77                                                                     |
+
+
+
+           ____________________________________________________      |
+           Double-click mouse Select                                 |
+           button                                                    |
+           with pointer on an icon of a                              |
+           normalized window                                         |
+7777                                           Raises the normal-        |
+                                           ized window to the        |
+                                           top of the stack          |
+777                                                                     |
+
+
+
+7                                        |7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+       An icon is manipulated from the keyboard by making the icon   |
+       box the active window and then using the arrow keys to
+       traverse the icons in the icon box.  Pressing <EEEEnnnntttteeeerrrr> does    |
+       the default action for the selected icon:  for an icon of a
+
+
+                                                              15-13
+
+
+
+
+
+
+
+
+
+
+
+
+       normalized window, the window is raised; for an icon of an    |
+       iconified window, the window is normalized.
+
+       Pressing <TTTTaaaabbbb> moves the keyboard input focus around the box  |
+       in this order:  icons, scroll bars, icons.  Pressing the      |
+       <SSSShhhhiiiifffftttt> <TTTTaaaabbbb> sequence moves the focus in the opposite        |
+       direction.                                                    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       15-14
+
+
+
+
+

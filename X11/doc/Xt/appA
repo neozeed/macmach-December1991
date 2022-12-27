@@ -1,0 +1,43 @@
+.bp
+\&
+.sp 1
+.ce 3
+\s+1\fBAppendix A\fP\s-1
+
+\s+1\fBResource File Format\fP\s-1
+.sp 2
+.LP
+.XS
+\fBAppendix A \- Resource File Format\fP
+.XE
+A resource file contains text representing the default resource values for an
+application or set of applications.
+.LP
+The format of resource files is defined by \fI\*(xL\fP and is reproduced here
+for convenience only. 
+.LP
+The format of a resource specification is:
+.TS
+l l .
+ResourceLine	= Comment | ResourceSpec
+Comment	= "!" string | <empty line>
+ResourceSpec	= WhiteSpace ResourceName WhiteSpace ":" WhiteSpace value
+ResourceName	= [Binding] ComponentName {Binding ComponentName}
+Binding	= "." | "*"
+WhiteSpace	= {" " | "\\\\t"}
+ComponentName	= {"A"-"Z" | "a"-"z" | "0"-"9" | "_" | "-"}
+value	= string
+string	= {<any character not including "\\\\n">}
+.TE
+.LP
+where {...} means zero or more occurrences of the enclosed elements.
+.LP
+If the last character on a line is a backslash (\\),
+that line is assumed to continue on the next line.
+.LP
+To include a newline character in a string, use ``\\n''.
+To include
+arbitrary octets in a string, use the 4-character sequence ``\\nnn''
+where nnn is the numeric value of the octet specified as an octal
+constant.  For example, a value containing a NULL byte may be stored
+by including ``\\000'' in the string.

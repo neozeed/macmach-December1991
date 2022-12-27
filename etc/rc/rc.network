@@ -1,0 +1,63 @@
+#! /bin/sh -
+
+# /etc/rc.network for MacMach BSD 4.3
+
+# This script starts up the network access.
+# See /etc/rc.afs and /etc/rc.nfs for fileserver startup.
+
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# BE CAREFUL NOT TO LET THIS PROCESS WRITE TO A TERMINAL DEVICE
+# WHICH WOULD CAUSE IT TO BECOME THE CONTROLLING TERMINAL!
+
+# The /.hostname file sets these shell variables:
+HOSTNAME="MacMach" # system name
+NETNAME=""         # external system name, usually $HOSTNAME
+GATEWAY=""         # gateway address to use
+[ -r /.hostname ] && . /.hostname
+export HOSTNAME NETNAME GATEWAY
+
+# Note that this entire step is within a subshell for output to /dev/console
+# exit 0 to skip remaining operations and continue with /etc/rc
+( exec </dev/console >/dev/console 2>&1
+
+  hostname "$HOSTNAME"
+  [ "$NETNAME" -a "`hostname`" != "$NETNAME" ] && {
+    echo "WARNING: NETNAME != HOSTNAME in /.hostname"
+    hostname "$NETNAME"
+  }
+
+  echo "starting local network for \"`hostname`\""
+  ifconfig lo0 127.0.0.1 up || {
+    echo "ERROR: \"ifconfig lo0 127.0.0.1 up\" failed."
+    eval "$RESTART"
+  }
+  ifconfig lo0
+
+  [ "$NETNAME" ] || {
+    echo "NOTICE: external network not started, see /etc/rc.network"
+    exit 0
+  }
+
+  echo "starting external network for \"`hostname`\""
+  ifconfig en0 `hostname` up arp -trailers || {
+    echo "ERROR: \"ifconfig en0 `hostname` up arp -trailers\" failed."
+    echo "Make sure that this host has an entry in /etc/hosts."
+    echo "Check that the network hardware is connected properly."
+    eval "$RESTART"
+    echo "WARNING: there is no external network connectivity"
+    exit 0
+  }
+  ifconfig en0
+  hostid `hostname`
+
+  [ "$GATEWAY" ] || {
+    echo "NOTICE: no gateway specified, see /.hostname"
+    exit 0
+  }
+
+  route -f -n add 0 "$GATEWAY" 1 || {
+    echo "ERROR: \"route -f -n add 0 $GATEWAY 1\" failed."
+    eval "$RESTART"
+  }
+
+) || exit 1

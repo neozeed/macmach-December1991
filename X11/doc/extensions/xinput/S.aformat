@@ -1,0 +1,136 @@
+.\" .PH "!\v'-1P'\h'-6.5P'\D'l 1P 0'\
+.\" \h'43P'\D'l 1P 0'\h'-1.5P'\
+.\" \v'-1.5P'\D'l 0 1P'\v'52.4P'\D'l 0 1P'\v'-1.5P'\
+.\" \h'1.5P'\D'l -1P 0'\h'-43P'\D'l -1P 0'\h'1.5P'\
+.\" \v'1.5P'\D'l 0 -1P'\v'-52.4P'\D'l 0 -1P'\v'1.5P'\
+.\" \h'5P'\v'1P'!!!"
+.PF ""
+.ds HP 18 14 12 10 \" 20 14 12 10 old
+.ds HF 6 6 6 6     \" Helv bold
+.BS \" footer spacing
+\0
+.BE
+.SK
+.nr H1 -1
+.HM A 1 1 1
+.\"
+.\"  Old version of the footer which has page numbering of the 
+.\"  form:  S-P    where S is the section number and P is the page number.
+.\"
+.\"  .OF "'''\\\\fB\\\\*(Ch\0\0\\\\n(H1-\\\\nP\\\\fP'"
+.\"  .EF "'\\\\fB\\\\n(H1-\\\\nP\0\0\\\\*(Ch\\\\fP'''"
+.\"
+.\"  new form of the footer which just prints the section name
+.\"  and current page number
+.\"
+.OF "'\fB\s12Technical Review - X11R4 Public Release\fP\s0''\\\\fB\\\\*(Ch\0\0\\\\nP\\\\fP'"
+.EF "'\\\\fB\\\\nP\0\0\\\\*(Ch\\\\fP''\fB\s12Technical Review - X11R4 Public Release\fP\s0'"
+.\" .OF "'''\\\\fB\\\\*(Ch\0\0\\\\nP\\\\fP'"
+.\" .EF "'\\\\fB\\\\nP\0\0\\\\*(Ch\\\\fP'''"
+.SA 0
+.nr Hu 4
+.nr Hb 3
+.nr Hs 3
+.nr N 5 \" section number format for figures
+.de PP \" Xlib paragraph
+.P
+..
+.de HX \" heading
+.br
+.if \\$1=2 \{.sp
+.ne 2i
+\D'l \\n(.lu 0'\D'l 0 1u'\D'l -\\n(.lu 0'\D'l 0 1u'\D'l \\n(.lu 0'\
+\D'l 0 1u'\D'l -\\n(.lu 0'
+.sp -.2 \}
+.if \\$1=3 .ne 1i
+.if \\$1=4 \{.ds }0 "
+.ds }2 .\ \ \}
+.if \\$1=1 \{.sy echo '.sp' >>con.con
+.sy echo '\\\\\fB\\n(H1#\\$3\\\\\fP\\\\\0\\\\a#\\n(H1-\\nP' >>con.con
+.ds }0 \\\\n(H1\0\0 \}
+.if \\$1=2 .sy echo '\\n(H1.\\n(H2#\\\\\0\\\\\0\\$3\\\\\0\\\\a#\\n(H1-\\nP' >>con.con
+.if \\n(;0=0 .ds }2 .\ \ 
+.SP
+..
+.de ky \" keycap of constant size 10-pt
+\fR\s10\(br\|\fP\fH\s0\s8\\$1\fP\fR\s0\s10\|\(br\l'|0\(rn'\l'|0\(ul'\fP\s0
+..
+.de nS \" note start
+.sp .5
+.nr i \\n(.i
+.nr l \\n(.l
+.in 0
+.DS L F
+.ll -(\\nlu-4i)/2u
+.in (\\nlu-4i)/2u
+\D'l 4i 0'\D'l 0 1u'\D'l -4i 0'\D'l 0 1u'\D'l 4i 0'\
+\D'l 0 1u'\D'l -4i 0'
+.ce
+\fBNote\fR
+.P
+..
+.de cS \" caution start
+.sp .5
+.nr i \\n(.i
+.nr l \\n(.l
+.in 0
+.DS L F
+.ll -(\\nlu-4i)/2u
+.in (\\nlu-4i)/2u
+\D'l 4i 0'\D'l 0 1u'\D'l -4i 0'\D'l 0 1u'\D'l 4i 0'\
+\D'l 0 1u'\D'l -4i 0'
+.ce
+\fBCaution\fR
+.P
+..
+.de wS \" warning start
+.sp 1
+.nr i \\n(.i
+.nr l \\n(.l
+.in 0
+.DS L F
+.ll -(\\nlu-4i)/2u
+.in (\\nlu-4i)/2u
+\D'l 4i 0'\D'l 0 1u'\D'l -4i 0'\D'l 0 1u'\D'l 4i 0'\
+\D'l 0 1u'\D'l -4i 0'
+.ce
+\fBWarning\fR
+.P
+..
+.de xE \" note,caution,warning end
+.sp -.3
+\D'l 4i 0'\D'l 0 1u'\D'l -4i 0'\D'l 0 1u'\D'l 4i 0'\
+\D'l 0 1u'\D'l -4i 0'
+.DE
+.ll \\nlu
+.in \\niu
+.sp -.5
+\fR
+..
+.de rU \" full-width rule
+.sp -.5
+\D'l \\n(.lu 0'\D'l 0 1u'\D'l -\\n(.lu 0'\D'l 0 1u'\D'l \\n(.lu 0'\
+\D'l 0 1u'\D'l -\\n(.lu 0'
+.sp .5
+..
+.de CO
+.br
+.DS
+.in +.5i
+.vs -2
+\s8\f(LP
+..
+.de CE
+.br
+\s0\fR
+.vs +2
+.in -.5i
+.DE
+..
+.de IN
+.sy echo "\\n(H1\\t\\nP\\t\\$1\\t\\$2" >>idx.idx
+..
+.ds EM \(em\h`-5p`\(em
+\fR\0
+.H 1 "\\*(Ch"
+.sp -.5

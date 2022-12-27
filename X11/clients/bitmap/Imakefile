@@ -1,0 +1,22 @@
+        DEPLIBS = $(DEPXMULIB) $(DEPXLIB)
+        DEPLIB2 = 
+        DEPLIB3 = 
+          SRCS1 = bitmap.c dialog.c
+          OBJS1 = bitmap.o dialog.o
+          SRCS2 = bmtoa.c 
+          OBJS2 = bmtoa.o 
+          SRCS3 = atobm.c 
+          OBJS3 = atobm.o 
+       PROGRAMS = bitmap bmtoa atobm
+
+ComplexProgramTarget_1(bitmap,$(XMULIB) $(XLIB),-lm)
+SingleProgramTarget(bmtoa,$(OBJS2),$(XMULIB), /**/)
+SingleProgramTarget(atobm,$(OBJS3), /**/, /**/)
+
+InstallProgramWithFlags(bmtoa,$(BINDIR), /**/)
+InstallProgramWithFlags(atobm,$(BINDIR), /**/)
+
+#ifdef notdef
+ComplexProgramTarget_2(bmtoa,$(XMULIB), /**/)
+ComplexProgramTarget_3(atobm, /**/, /**/)
+#endif

@@ -1,0 +1,45 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldPaste 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldPaste \(em a TextField function that inserts the clipboard selection\fP
+.iX "XmTextFieldPaste"
+.iX "TextField functions" "XmTextFieldPaste"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+Boolean XmTextFieldPaste (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldPaste\fP inserts the clipboard selection at the
+destination cursor.
+If \fBXmNpendingDelete\fP is True and the destination cursor is inside
+the current selection, the clipboard selection replaces the selected text.
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks if there is a clipboard selection.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID.
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.br
+.ne 10
+.SH RETURN VALUE
+This function returns False if the \fIwidget\fP doesn't own the primary
+selection.  Otherwise, it returns True.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

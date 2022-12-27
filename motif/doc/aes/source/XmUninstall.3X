@@ -1,0 +1,43 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmUninstallImage 3X "" "" "" ""
+.SH NAME
+\fBXmUninstallImage \(em a pixmap caching function that removes an image from
+the image cache.\fP
+.iX "XmUninstallImage"
+.iX "pixmaps"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmUninstallImage (\fIimage\fP)
+.br
+.ta .5i 1.5i
+	XImage	\fI* image\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmUninstallImage\fP removes an image from the image cache.
+.sp 1
+.IP "\fIimage\fP" .75i
+Points to the image structure given to the \fBXmInstallImage()\fP routine
+.sp 1
+.SH RETURN VALUE
+Returns True when successful; returns False if the \fIimage\fP is
+NULL, or if it cannot be found to be uninstalled.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmInstallImage(3X)\fP, \fBXmGetPixmap(3X)\fP, and \fBXmDestroyPixmap(3X)\fP.
+.sp 1

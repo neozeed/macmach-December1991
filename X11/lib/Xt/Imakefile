@@ -1,0 +1,205 @@
+#include <Library.tmpl>
+
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+#if UnalignedReferencesAllowed
+  ALIGN_DEFINES = -DUNALIGNED
+#endif
+        DEFINES = AllocateLocalDefines $(ALIGN_DEFINES)
+PATH_DEFINES = -DXFILESEARCHPATHDEFAULT=\"$(LIBDIR)$(PATHSEP)%L$(PATHSEP)%T$(PATHSEP)%N%S:$(LIBDIR)$(PATHSEP)%l$(PATHSEP)%T$(PATHSEP)%N%S:$(LIBDIR)$(PATHSEP)%T$(PATHSEP)%N%S\"
+APP_DEFINES = -DXAPPLOADDIR=\"$(XAPPLOADDIR)$(PATHSEP)\"
+DB_DEFINES = -DERRORDB=\"$(LIBDIR)/XtErrorDB\"
+INSTALLFLAGS = $(INSTINCFLAGS)
+LINTLIBS = $(LINTXLIB)
+
+HEADERS = \
+	Composite.h \
+	CompositeP.h \
+	Constraint.h \
+	ConstrainP.h \
+	Core.h \
+	CoreP.h \
+	Intrinsic.h \
+	IntrinsicP.h \
+	Object.h \
+	ObjectP.h \
+	Quarks.h \
+	RectObj.h \
+	RectObjP.h \
+	Shell.h \
+	ShellP.h \
+	StringDefs.h \
+	Vendor.h \
+	VendorP.h
+
+SRCS = \
+	ActionHook.c \
+	Alloc.c \
+	ArgList.c \
+	Callback.c \
+	ClickTime.c \
+	Composite.c \
+	Constraint.c \
+	Convert.c \
+	Converters.c \
+	Core.c \
+	Create.c \
+	Destroy.c \
+	Display.c \
+	Error.c \
+	Event.c \
+	EventUtil.c \
+	Functions.c \
+	GCManager.c \
+	Geometry.c \
+	GetActKey.c \
+	GetResList.c \
+	GetValues.c \
+	Initialize.c \
+	Intrinsic.c \
+	Keyboard.c \
+	Manage.c \
+	NextEvent.c \
+	Object.c \
+	PassivGrab.c \
+	Pointer.c \
+	Popup.c \
+	PopupCB.c \
+	RectObj.c \
+	Resources.c \
+	Selection.c \
+	SetSens.c \
+	SetValues.c \
+	SetWMCW.c \
+	Shell.c \
+	TMparse.c \
+	TMstate.c \
+	VarCreate.c \
+	VarGet.c \
+	Varargs.c \
+	Vendor.c \
+	sharedlib.c
+
+OBJS = \
+	ActionHook.o \
+	Alloc.o \
+	ArgList.o \
+	Callback.o \
+	ClickTime.o \
+	Composite.o \
+	Constraint.o \
+	Convert.o \
+	Converters.o \
+	Core.o \
+	Create.o \
+	Destroy.o \
+	Display.o \
+	Error.o \
+	Event.o \
+	EventUtil.o \
+	Functions.o \
+	GCManager.o \
+	Geometry.o \
+	GetActKey.o \
+	GetResList.o \
+	GetValues.o \
+	Initialize.o \
+	Intrinsic.o \
+	Keyboard.o \
+	Manage.o \
+	NextEvent.o \
+	Object.o \
+	PassivGrab.o \
+	Pointer.o \
+	Popup.o \
+	PopupCB.o \
+	RectObj.o \
+	Resources.o \
+	Selection.o \
+	SetSens.o \
+	SetValues.o \
+	SetWMCW.o \
+	Shell.o \
+	TMparse.o \
+	TMstate.o \
+	VarCreate.o \
+	VarGet.o \
+	Varargs.o \
+	Vendor.o
+
+UNSHAREDOBJS = sharedlib.o
+
+all::
+
+#if SharedLibXt 
+# if DebugLibXt
+SharedAndDebuggedLibraryObjectRule()
+SpecialSharedAndDebuggedObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialSharedAndDebuggedObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialSharedDebuggedObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+# else
+SharedLibraryObjectRule()
+SpecialSharedObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialSharedObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialSharedObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+# endif
+#else
+# if DebugLibXt && ProfileLibXt
+DebuggedAndProfiledLibraryObjectRule()
+SpecialDebuggedAndProfiledObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+# else
+#  if DebugLibXt
+DebuggedLibraryObjectRule()
+SpecialDebuggedObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialDebuggedObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialDebuggedObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+#  else
+#   if ProfileLibXt
+ProfiledLibraryObjectRule()
+SpecialProfiledObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialProfiledObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialProfiledObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+#   else
+NormalLibraryObjectRule()
+SpecialObjectRule(Initialize.o,$(ICONFIGFILES),$(APP_DEFINES))
+SpecialObjectRule(Intrinsic.o,$(ICONFIGFILES),$(PATH_DEFINES))
+SpecialObjectRule(Error.o,$(ICONFIGFILES),$(DB_DEFINES))
+#   endif
+#  endif
+# endif
+#endif
+
+/*
+ * always generate unshared library too 
+ */
+#if SharedLibXt
+NormalSharedLibraryTarget(Xt,$(SOXTREV),$(OBJS))
+NormalSharedLibraryDataTarget(Xt,$(SOXTREV),$(UNSHAREDOBJS))
+InstallSharedLibrary(Xt,$(SOXTREV),$(USRLIBDIR))
+InstallSharedLibraryData(Xt,$(SOXTREV),$(USRLIBDIR))
+#endif
+NormalLibraryTarget(Xt,$(OBJS))
+InstallLibrary(Xt,$(USRLIBDIR))
+
+LintLibraryTarget(Xt,$(SRCS))
+InstallLintLibrary(Xt,$(LINTLIBDIR))
+
+#if ProfileLibXt
+ProfiledLibraryTarget(Xt,$(OBJS))
+InstallLibrary(Xt_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibXt
+DebuggedLibraryTarget(Xt,$(OBJS))
+#endif
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(INCDIR))
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

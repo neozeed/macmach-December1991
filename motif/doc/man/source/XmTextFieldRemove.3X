@@ -1,0 +1,43 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldRemove 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldRemove \(em a TextField function that deletes the primary selection\fP
+.iX "XmTextFieldRemove"
+.iX "TextField functions" "XmTextFieldRemove"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+Boolean XmTextFieldRemove (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldRemove\fP deletes the primary selected text.
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks if there is a selection.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID.
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.br
+.ne 10
+.SH RETURN VALUE
+This function returns False if the primary selection is NULL or if the
+\fIwidget\fP doesn't own the primary selection.  Otherwise, it returns
+True.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

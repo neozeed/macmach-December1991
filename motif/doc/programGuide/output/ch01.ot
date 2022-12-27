@@ -1,0 +1,462 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1.  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn ttttoooo tttthhhheeee OOOOSSSSFFFF////MMMMoooottttiiiiffff TTTToooooooollllkkkkiiiitttt                     |
+
+       1.1  TTTThhhheeee OOOOSSSSFFFF////MMMMoooottttiiiiffff TTTToooooooollllkkkkiiiitttt aaaannnndddd tttthhhheeee XXXX WWWWiiiinnnnddddoooowwww SSSSyyyysssstttteeeemmmm            |
+
+       The OSF/Motif Widget set is based on the Xt Intrinsics, a
+       set of functions and procedures that provide quick and easy   |
+       access to the lower levels of the X Window system. You can    |
+       see from Figure 1-1 that the Motif Widget system is layered   |
+       on top of the Xt Intrinsics, which in turn are layered on     |
+       top of the X Window System, thus extending the basic          |
+       abstractions provided by X.                                   |
+
+              FFFFiiiigggguuuurrrreeee 1111----1111....  User Interface Development Model          |
+
+       The Motif Widget system supports independent development of   |
+       new or extended widgets.  The Motif Widget system consists
+       of a number of different widgets, each of which can be used
+       independently or in combination to aid in creating complex    |
+       applications.  You can write applications faster and with     |
+       fewer lines of code using the Motif Widgets; however, Motif   |
+       Widgets require more memory than similar applications writ-   |
+       ten without them.
+
+       This guide explains the individual widgets and shows you how  |
+       to create and use these widgets in your applications.
+
+       1.2  WWWWiiiiddddggggeeeetttt CCCCllllaaaasssssssseeeessss aaaannnndddd HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy
+
+       Every widget is dynamically allocated and contains state
+       information. Every widget belongs to one class, and each
+       class has a structure that is statically allocated and ini-
+       tialized and contains operations for that class.  Figure 12   |
+       shows the basic widget classes.                               |
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                1-1
+
+
+
+
+
+
+
+
+
+
+
+
+                FFFFiiiigggguuuurrrreeee 1111----2222....  Basic Widget Class Hierarchy            |
+
+       The basic class is the Core class.  It contains resources
+       that are inherited by all other classes.  Two classes are
+       layered beneath the Core class, the Composite class and the
+       Primitive class.  The Primitive class has no other classes    |
+       beneath it, but the Composite class has two: the Constraint
+       class and the Shell class.  Each lower class can inherit
+       some or all of the resources belonging to a higher class.     |
+       For example, a Manager class widget can inherit some or all
+       of the resources belonging to the Constraint class, the Com-
+       posite class, and the Core class.  You can find exactly what  |
+       resources a given widget has by examining its manpage in the  |
+       _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.
+
+       This section has a number of hierarchy diagrams to help you   *
+       understand how the widgets relate to each other.  Figure 1-2  |
+       shows the highest level of widget classes.  You can see that  |
+       the Core class is composed of Object, RectObj, and an         |
+       unnamed class.  Core is the base class for all other widget   |
+       classes.
+
+       Figure 1-3 shows the subclasses of the Primitive class.       |
+
+                   FFFFiiiigggguuuurrrreeee 1111----3333....  Primitive Class Widgets              |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1-2
+
+
+
+
+
+
+
+
+
+                              Introduction to the OSF/Motif Toolkit
+
+
+       Figure 1-4 shows the Subclasses of the Shell class.           |
+
+                        FFFFiiiigggguuuurrrreeee 1111----4444....  Shell Widgets                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                1-3
+
+
+
+
+
+
+
+
+
+
+
+
+       Figure 1-5 shows the Manager class widgets.  Note from Fig-   |
+       ure 1-2 that Manager is a subclass of Composite and Con-
+       straint.                                                      |
+
+                       FFFFiiiigggguuuurrrreeee 1111----5555....  Manager Widgets                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1-4
+
+
+
+
+
+
+
+
+
+                              Introduction to the OSF/Motif Toolkit
+
+
+       Figure 1-6 shows the Dialog widgets that are a subclass of    |
+       Manager.  Note that all of the Dialog widgets are subclasses
+       of BulletinBoard.  Also, note the convenience functions that
+       are present.  These are explained in detail in Chapter 5,     |
+       ``Dialog Widgets and Functions.''                             |
+
+                       FFFFiiiigggguuuurrrreeee 1111----6666....  Dialog Widgets                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                1-5
+
+
+
+
+
+
+
+
+
+
+
+
+       Figure 1-7 shows the gadgets that are an integral part of     |
+       the Motif toolkit.                                            |
+
+                           FFFFiiiigggguuuurrrreeee 1111----7777....  Gadgets                      |
+
+       1.3  CCCCoooommmmppppiiiilllliiiinnnngggg SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmmssss
+
+       There are a number of sample programs discussed throughout    |
+       this guide.  The source code for most of these programs can
+       be found in the                                               |
+        ....////ddddeeeemmmmoooossss directory.  There is also a Makefile in this direc-  |
+       tory that you can use to compile and link the programs.
+       Follow this procedure to compile and link a program.
+
+         1.  Copy the program source code file and the Makefile
+             found in  ....////ddddeeeemmmmoooossss to your work directory.  Do not       |
+             attempt to compile the program in the  ....////ddddeeeemmmmoooossss direc-
+             tory.
+
+         2.  Compile the program by executing the following com-
+             mand:                                                   |
+             mmmmaaaakkkkeeee _p_r_o_g_r_a_m_n_a_m_e                                        |
+
+         3.  If there is a defaults file commented into the begin-
+             ning of the source code, move that defaults file to     |
+             the ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss directory before you run  |
+             the program.                                            |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1-6
+
+
+
+
+

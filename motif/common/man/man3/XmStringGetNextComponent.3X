@@ -1,0 +1,97 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringGetNextComponent 3X "" "" "" ""
+.SH NAME
+\fBXmStringGetNextComponent \(em a compound string function that
+returns the type and value of the next component in a
+compound string.\fP
+.iX "XmStringGetNextComponent"
+.iX "compound string functions" "XmStringGetNextComponent"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmStringComponentType XmStringGetNextComponent (\fIcontext, text, charset,
+direction, xunknown_tag, unknown_length, unknown_value\fP)
+.br
+.ta .5i 2.25i
+.br
+	XmStringContext	\fIcontext\fP;
+.br
+	char	\fI** text\fP;
+.br
+	XmStringCharSet	\fI* charset\fP;
+.br
+	XmStringDirection	\fI* direction\fP;
+.br
+	XmStringComponentType	\fI* unknown_tag\fP;
+.br
+	unsigned short	\fI* unknown_length\fP;
+.br
+	unsigned char	\fI** unknown_value\fP;
+.fi
+\fP
+.br
+.ne 10
+.SH DESCRIPTION
+\fBXmStringGetNextComponent\fP 
+returns the type and value of the next component in
+the compound string identified by \fIcontext\fP.  It is a low-level
+component function.  Components are returned one at a time.  On return, only
+some output parameters will be valid; which ones can be determined by
+examining the return status.  In the case of \fItext\fP, \fIcharset\fP, and
+\fIdirection\fP components, only one output parameter is valid.  If the
+return status indicates an unknown component was encountered, the tag,
+length, and value are returned.  This function allocates the
+space necessary to hold returned values; freeing this space is the
+caller's responsibility.
+.sp 1
+.IP "\fIcontext\fP" 1.25i 
+Specifies the string context structure which was allocated by the
+\fBXmStringInitContext\fP function.
+.IP "\fItext\fP" 1.25i 
+Specifies a pointer to a null terminated string.
+.IP "\fIcharset\fP" 1.25i 
+Specifies a pointer to the character set identifier associated with the
+text.
+.IP "\fIdirection\fP" 1.25i 
+Specifies a pointer to the direction of the text.
+.IP "\fIunknown_tag\fP" 1.25i 
+Specifies a pointer to the tag of an unknown component.
+.IP "\fIunknown_length\fP" 1.25i 
+Specifies a pointer to the length of an unknown component.
+.IP "\fIunknown_value\fP" 1.25i 
+Specifies a pointer to the value of an unknown component.
+.sp 1
+.ne 25
+.SH RETURN VALUE
+Returns the type of component found.
+Following are the possible values:
+.RS
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_CHARSET\fP
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_TEXT\fP
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_DIRECTION\fP
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_SEPARATOR\fP
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_END\fP
+.IP \(bu 3
+\fBXmSTRING_COMPONENT_UNKNOWN\fP
+.RE
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and \fBXmStringInitContext(3X)\fP.
+.sp 1

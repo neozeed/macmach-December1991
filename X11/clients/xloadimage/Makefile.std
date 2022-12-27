@@ -1,0 +1,180 @@
+# Makefile for xloadimage.  this replaces the multiple makefiles used in
+# versions prior to xloadimage 2.00.
+#
+# WARNING: if you use gcc 1.37, there is an optimizer bug which causes GIF
+# images to come out black and colormap reduction to fail.  Use gcc-1-37 as
+# your make target if you have gcc 1.37.
+
+SYSPATHFILE=/usr/lib/X11/Xloadimage
+INSTALLDIR=/usr/bin/X11
+SHELL= /bin/sh
+MAKE= make
+STD_CC= cc
+GCC= gcc
+CP= cp
+LN= ln -s
+RM= rm -f
+LIBS= -lX11 -lm
+CFLAGS= -O -DSYSPATHFILE=\"$(SYSPATHFILE)\" $(EXTRAFLAGS)
+GCCFLAGS= -fstrength-reduce -finline-functions
+GCC137FLAGS= -fforce-mem -fforce-addr -fstrength-reduce -finline-functions
+
+MISC= Imakefile Makefile Makefile.std README VMS-CHANGES buildshar.c \
+      xloadimage.man patchlevel mcidas.h pbm.h rle.h sunraster.h \
+      xloadimage.h xwd.h
+
+INCS= cmuwmraster.h copyright.h fbm.h g3.h gif.h hash.h image.h imagetypes.h \
+      kljcpyrght.h mac.h mit.cpyrght mrmcpyrght.h options.h
+
+SRCS= bright.c clip.c cmuwmraster.c compress.c dither.c faces.c fbm.c \
+      fill.c g3.c gif.c halftone.c hash.c imagetypes.c mac.c mcidas.c \
+      mc_tables.c merge.c misc.c new.c options.c path.c pbm.c reduce.c \
+      rle.c rlelib.c root.c rotate.c send.c smooth.c sunraster.c value.c \
+      window.c xbitmap.c xloadimage.c xpixmap.c xwd.c zio.c zoom.c 
+
+OBJS= bright.o clip.o cmuwmraster.o compress.o dither.o faces.o fbm.o \
+      fill.o g3.o gif.o halftone.o hash.o imagetypes.o mac.o mcidas.o \
+      mc_tables.o merge.o misc.o new.o options.o path.o pbm.o reduce.o \
+      rle.o rlelib.o root.o rotate.o send.o smooth.o sunraster.o value.o \
+      window.o xbitmap.o xloadimage.o xpixmap.o xwd.o zio.o zoom.o
+
+ALL= $(MISC) $(INCS) $(SRCS)
+
+# standard target.  this is for BSD-like environments, generally, although
+# it will also work in many System-V environments.
+
+std:
+	@echo "Building standard distribution.  If this fails, consider trying"
+	@echo "'make sysv'."
+	$(MAKE) xloadimage CC=$(STD_CC)
+
+# system-v target.  use this if you have a system-v compliant system.
+	
+sysv:
+	@echo "Building standard distribution for System-V."
+	$(MAKE) xloadimage CC=$(STD_CC) EXTRAFLAGS=-DSYSV
+
+# gcc target.  use this if you have a gcc that is not version 1.37.  you
+# should add -DSYSV between the quotes in EXTRAFLAGS if your system is
+# system-v compliant as well.
+
+gcc:
+	@echo "Building distribution with GNU cc."
+	@echo "**************************************************************"
+	@echo "If you use gcc 1.37, you should abort and type 'make gcc-1-37'"
+	@echo "instead.  If GIF images always display solid black or if"
+	@echo "color images reduce to only a single color, your version"
+	@echo "of gcc has a bug and you should use the gcc-1-37 target."
+	@echo "If something else doesn't work, try using 'make gcc-1-37' and"
+	@echo "then 'make std' before reporting a bug."
+	@echo "**************************************************************"
+	$(MAKE) xloadimage CC=$(GCC) EXTRAFLAGS="$(GCCFLAGS)"
+
+# this target is for systems which use gcc 1.37.  there is a compiler bug
+# in gcc 1.37 which causes some xloadimage functions to fail with the
+# standard optimizations.  use this if GIF loading and colormap reduction
+# product black pictures.
+
+gcc-1-37:
+	@echo "Building distribution with GNU cc using flags for gcc 1.37."
+	@echo "If something doesn't work, try using std before reporting"
+	@echo "a bug."
+	$(MAKE) xloadimage CC=$(GCC) EXTRAFLAGS="$(GCC137FLAGS)"
+
+sysv-gcc:
+	@echo "Building System-V distribution with GNU cc."
+	@echo "Building distribution with GNU cc."
+	@echo "***********************************************************"
+	@echo "If you use gcc 1.37, you should abort and type"
+	@echo "'make sysv-gcc-1-37' instead.  If GIF images always display"
+	@echo "solid black or if color images reduce to only a single"
+	@echo "color, your version of gcc has a bug and you should use"
+	@echo "the gcc-1-37 target.  If something else doesn't work, try"
+	@echo "using 'make sysv-gcc-1-37' and then 'make std' before"
+	@echo "reporting a bug."
+	@echo "***********************************************************"
+	$(MAKE) xloadimage CC=$(GCC) EXTRAFLAGS="-DSYSV $(GCCFLAGS)"
+
+# see comment for gcc-1-37 target.
+
+sysv-gcc-1-37:
+	@echo "Building System-V distribution with GNU cc using flags for"
+	@echo "gcc 1.37.  If something doesn't work, try using std before"
+	@echo "reporting a bug."
+	$(MAKE) xloadimage CC=$(GCC) EXTRAFLAGS="-DSYSV $(GCC137FLAGS)"
+
+install: $(SYSPATHFILE)
+	$(RM) $(INSTALLDIR)/xloadimage
+	$(RM) $(INSTALLDIR)/xsetbg
+	$(RM) $(INSTALLDIR)/xview
+	$(CP) xloadimage $(INSTALLDIR)/xloadimage
+	$(LN) $(INSTALLDIR)/xloadimage $(INSTALLDIR)/xsetbg
+	$(LN) $(INSTALLDIR)/xloadimage $(INSTALLDIR)/xview
+
+xloadimage: $(OBJS)
+	$(CC) $(CFLAGS) -o xloadimage $(OBJS) $(LIBS)
+
+.c.o: xloadimage.h
+	$(CC) -c $(CFLAGS) $*.c
+
+clean:
+	rm -f *.o *~ xloadimage buildshar doshar shar.* *.tar *.tar.Z
+
+$(SYSPATHFILE):
+	@echo "*** Creating default $(SYSPATHFILE) since you"
+	@echo "*** don't have one. This file is used to set up default places"
+	@echo "*** and names to look for images.  You probably want to edit"
+	@echo "*** it for your site.  See the xloadimage manual page for"
+	@echo "*** details on the contents of this file."
+	cp /dev/null $(SYSPATHFILE)
+	echo "path= /usr/local/images" \
+		>> $(SYSPATHFILE)
+	echo "extension=.csun .msun .sun .face .xbm .bm .gif" \
+		>>$(SYSPATHFILE)
+
+# these targets are for building shar distributions
+
+buildshar: buildshar.o
+	$(CC) -o buildshar buildshar.o
+
+shar: buildshar
+	rm -f shar.* doshar
+	cp Makefile Makefile.std # backup for imake users
+	./buildshar $(ALL) > doshar
+	sh doshar
+	rm doshar Makefile.std
+
+# targets for building tar distributions
+
+tar: xloadimage.tar
+
+tar.Z: xloadimage.tar
+	compress xloadimage.tar
+
+xloadimage.tar:
+	cp Makefile Makefile.std # backup for imake users
+	tar cf xloadimage.tar $(ALL)
+	rm Makefile.std
+
+# target for building debuggable versions
+
+debug:
+	@echo Building a debugging version of xloadimage.
+	make xloadimage CC=$(STD_CC) CFLAGS="-g -DSYSPATHFILE=\\\"$(SYSPATHFILE)\\\""
+
+# these targets are for those of us who have Saber-C
+
+# load all objects in saber.  useful if you then swap the portions to debug
+# for source.
+
+objinsaber:
+	#setopt ccargs -g -DSYSPATHFILE=\\\"$(SYSPATHFILE)\\\"
+	#load $(OBJS) $(LIBS)
+	#link
+
+# load all sources in saber.  not as useful as the last one.
+
+srcinsaber:
+	#setopt load_flags -DSYSPATHFILE=\\\"$(SYSPATHFILE)\\\"
+	#load $(SRCS) $(LIBS)
+	#link

@@ -1,0 +1,201 @@
+#include <Library.tmpl>
+
+/**/#
+/**/# This library contains miscellaneous utility routines and is not part
+/**/# of the Xlib standard.
+/**/#
+
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB) 
+
+#ifdef OsNameDefines
+OS_NAME_DEFINES = OsNameDefines
+#endif
+        CSSDEFS = $(OS_NAME_DEFINES) ConnectionFlags
+ BITMAP_DEFINES = -DBITMAPDIR=\"$(INCDIR)$(PATHSEP)bitmaps\"
+
+HEADERS = \
+	Xmu.h \
+	Atoms.h \
+	CharSet.h \
+	CloseHook.h \
+	Converters.h \
+	CurUtil.h \
+	CvtCache.h \
+	DisplayQue.h \
+	Drawing.h \
+	Error.h \
+	Initer.h \
+	Misc.h \
+	StdSel.h \
+	StdCmap.h \
+	SysUtil.h \
+	WinUtil.h \
+	Xct.h
+
+
+SRCS = \
+	AllCmap.c \
+	Atoms.c \
+	ClientWin.c \
+	CloseHook.c \
+	CmapAlloc.c \
+	CrCmap.c \
+	CrPixFBit.c \
+	CursorName.c \
+	CvtCache.c \
+	CvtStdSel.c \
+	DefErrMsg.c \
+	DelCmap.c \
+	DisplayQue.c \
+	DrawLogo.c \
+	DrRndRect.c \
+	FToCback.c \
+	GetHost.c \
+	GrayPixmap.c \
+	Initer.c \
+	LocBitmap.c \
+	Lookup.c \
+	LookupCmap.c \
+	Lower.c \
+	RdBitF.c \
+	ScrOfWin.c \
+	ShapeWidg.c \
+	StdCmap.c \
+	StrToBS.c \
+	StrToBmap.c \
+	StrToCurs.c \
+	StrToJust.c \
+	StrToLong.c \
+	StrToOrnt.c \
+	StrToShap.c \
+	StrToWidg.c \
+	UpdMapHint.c \
+	VisCmap.c \
+	Xct.c \
+	sharedlib.c 
+
+OBJS = \
+	AllCmap.o \
+	Atoms.o \
+	ClientWin.o \
+	CloseHook.o \
+	CmapAlloc.o \
+	CrCmap.o \
+	CrPixFBit.o \
+	CursorName.o \
+	CvtCache.o \
+	CvtStdSel.o \
+	DefErrMsg.o \
+	DelCmap.o \
+	DisplayQue.o \
+	DrawLogo.o \
+	DrRndRect.o \
+	FToCback.o \
+	GetHost.o \
+	GrayPixmap.o \
+	Initer.o \
+	LocBitmap.o \
+	Lookup.o \
+	LookupCmap.o \
+	Lower.o \
+	RdBitF.o \
+	ScrOfWin.o \
+	ShapeWidg.o \
+	StdCmap.o \
+	StrToBS.o \
+	StrToBmap.o \
+	StrToCurs.o \
+	StrToJust.o \
+	StrToLong.o \
+	StrToOrnt.o \
+	StrToShap.o \
+	StrToWidg.o \
+	UpdMapHint.o \
+	VisCmap.o \
+	Xct.o
+
+UNSHAREDOBJS = sharedlib.o
+
+all::
+
+
+#if SharedLibXmu
+# if DebugLibXmu
+SharedAndDebuggedLibraryObjectRule()
+SpecialSharedAndDebuggedObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialSharedAndDebuggedObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialSharedAndDebuggedObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+# else
+SharedLibraryObjectRule()
+SpecialSharedObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialSharedObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialSharedObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+# endif
+#else
+# if DebugLibXmu && ProfileLibXmu
+DebuggedAndProfiledLibraryObjectRule()
+SpecialDebuggedAndProfiledObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialDebuggedAndProfiledObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+# else
+#  if DebugLibXmu 
+DebuggedLibraryObjectRule()
+SpecialDebuggedObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialDebuggedObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialDebuggedObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+#  else
+#   if ProfileLibXmu
+ProfiledLibraryObjectRule()
+SpecialProfiledObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialProfiledObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialProfiledObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+#   else
+NormalLibraryObjectRule()
+SpecialObjectRule(CvtStdSel.o,$(ICONFIGFILES),$(CSSDEFS))
+SpecialObjectRule(LocBitmap.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+SpecialObjectRule(StrToCurs.o,$(ICONFIGFILES),$(BITMAP_DEFINES))
+#   endif
+#  endif
+# endif
+#endif
+
+#if SharedLibXmu
+NormalSharedLibraryTarget(Xmu,$(SOXMUREV),$(OBJS))
+NormalSharedLibraryDataTarget(Xmu,$(SOXMUREV),$(UNSHAREDOBJS))
+InstallSharedLibrary(Xmu,$(SOXMUREV),$(USRLIBDIR))
+InstallSharedLibraryData(Xmu,$(SOXMUREV),$(USRLIBDIR))
+#endif
+
+
+NormalLibraryTarget(Xmu,$(OBJS))
+LintLibraryTarget(Xmu,$(SRCS))
+InstallLibrary(Xmu,$(USRLIBDIR))
+InstallLintLibrary(Xmu,$(LINTLIBDIR))
+
+#if ProfileLibXmu 
+ProfiledLibraryTarget(Xmu,$(OBJS))
+InstallLibrary(Xmu_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibXmu
+DebuggedLibraryTarget(Xmu,$(OBJS))
+#endif
+
+BuildIncludes($(HEADERS),Xmu,..)
+
+MakeDirectories(install,$(INCDIR)/Xmu)
+
+InstallMultiple($(HEADERS),$(INCDIR)/Xmu)
+
+#if InstallOldHeaderFiles
+/* Make links for old programs that need to be converted. */ 
+LinkFileList(install,Xmu.h,$(INCDIR),Xmu)
+
+install::
+	cd $(INCDIR); $(LN) Xmu/Misc.h XawMisc.h
+#endif
+DependTarget()
+
+NormalLintTarget($(SRCS))
+

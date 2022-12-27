@@ -1,0 +1,858 @@
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmFFFFoooorrrrmmmm ---- tttthhhheeee FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////FFFFoooorrrrmmmm....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Form is a container widget with no input semantics of its
+          own.  Constraints are placed on children of the Form to
+          define attachments for each of the child's four sides.
+          These attachments can be to the Form, to another child
+          widget or gadget, to a relative position within the Form, or
+          to the initial position of the child.  The attachments
+          determine the layout behavior of the Form when resizing
+          occurs.
+
+          Following are some important considerations in using a Form:
+
+          +o  Every child must have an attachment on either the left or
+             the right.  If initialization or XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss leaves a
+             widget without such an attachment, the result depends
+             upon the value of XXXXmmmmNNNNrrrruuuubbbbbbbbeeeerrrrPPPPoooossssiiiittttiiiioooonnnniiiinnnngggg.
+
+             If XXXXmmmmNNNNrrrruuuubbbbbbbbeeeerrrrPPPPoooossssiiiittttiiiioooonnnniiiinnnngggg is False, the child is given an
+             XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt of XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM and an XXXXmmmmNNNNlllleeeeffffttttOOOOffffffffsssseeeetttt
+             equal to its current _x value.
+
+             If XXXXmmmmNNNNrrrruuuubbbbbbbbeeeerrrrPPPPoooossssiiiittttiiiioooonnnniiiinnnngggg is True, the child is given an
+             XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt of XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN and an
+             XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn proportional to the current _x value
+             divided by the width of the Form.
+
+             In either case, if the child has not been previously
+             given an _x value, its _x value is taken to be 0, which
+             places the child at the left side of the Form.
+
+          +o  If you want to create a child without any attachments,
+             and then later (e.g., after creating and managing it, but
+             before realizing it) give it a right attachment via
+             XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss, you must set its XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt to
+             XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE at the same time.
+
+          +o  The XXXXmmmmNNNNrrrreeeessssiiiizzzzaaaabbbblllleeee resource controls only whether a
+             geometry request by the child will be granted.  It has no
+             effect on whether the child's size can be changed because
+             of changes in geometry of the Form or of other children.
+
+          +o  Every child has a preferred width, based on geometry
+             requests it makes (whether they are granted or not).
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+          +o  If a child has attachments on both the left and the right
+             sides, its size is completely controlled by the Form.  It
+             can be shrunk below its preferred width or enlarged above
+             it, if necessary, due to other constraints.  In addition,
+             the child's geometry requests to change its own width may
+             be refused.
+
+          +o  If a child has attachments on only its left or right
+             side, it will always be at its preferred width (if
+             resizable, otherwise at is current width).  This may
+             cause it to be clipped by the Form or by other children.
+
+          +o  If a child's left (or right) attachment is set to
+             XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF, its corresponding left (or right) offset
+             is forced to 0.  The attachment is then changed to
+             XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN, with a position that corresponds to _x
+             value of the child's left (or right) edge.  To fix the
+             position of a side at a specific _x value use
+             XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM or XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____FFFFOOOORRRRMMMM with the _x value
+             as the left (or right) offset.
+
+          +o  Unmapping a child has no effect on the Form except that
+             the child is not mapped.
+
+          +o  Unmanaging a child unmaps it.  If no other child is
+             attached to it, or if all children attached to it and all
+             children recursively attached to them are also all
+             unmanaged, all of those children are treated as if they
+             did not exist in determining the size of the Form.
+
+          +o  When using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss to change the XXXXmmmmNNNNxxxx resource of a
+             child, you must simultaneously set its left attachment to
+             either XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF or XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE.  Otherwise, the
+             request is not granted.  If XXXXmmmmNNNNrrrreeeessssiiiizzzzaaaabbbblllleeee is False, the
+             request is granted only if the child's size can remain
+             the same.
+
+          +o  A left (or right) attachment of XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT, where
+             XXXXmmmmNNNNlllleeeeffffttttWWWWiiiiddddggggeeeetttt (or XXXXmmmmNNNNrrrriiiigggghhhhttttWWWWiiiiddddggggeeeetttt) is NULL, acts like an
+             attachment of XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM.
+
+          +o  If an attachment is made to a widget that is not a child
+             of the Form, but an ancestor of the widget is a child of
+             the Form, the attachment is made to the ancestor.
+
+          All these considerations are true of top and bottom
+          attachments as well, with top acting like left, bottom
+          acting like right, _y acting like _x, and height acting like
+          width.
+
+
+        CCCCllllaaaasssssssseeeessss
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+          Form inherits behavior and resources from CCCCoooorrrreeee, CCCCoooommmmppppoooossssiiiitttteeee,
+          CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, and XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd classes.
+
+          The class pointer is xxxxmmmmFFFFoooorrrrmmmmWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmFFFFoooorrrrmmmm.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget. To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                XXXXmmmmFFFFoooorrrrmmmm RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                   CCCCllllaaaassssssss                  TTTTyyyyppppeeee        DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     __________________________________________________________________________
+     XmNfractionBase        XmCMaxValue            int         100       CSG
+     XmNhorizontalSpacing   XmCSpacing             Dimension   0         CSG
+     XmNrubberPositioning   XmCRubberPositioning   Boolean     False     CSG
+     XmNverticalSpacing     XmCSpacing             Dimension   0         CSG
+
+
+          XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee
+               Specifies the denominator used in calculating the
+               relative position of a child widget using
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN constraints.  The value must not be
+               0.
+
+               If the value of a child's XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt (or
+               XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt) is XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN, the position
+               of the left (or right) side of the child is relative to
+               the left side of the Form and is a fraction of the
+               width of the Form.  This fraction is the value of the
+               child's XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn (or XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn) resource
+               divided by the value of the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.
+
+               If the value of a child's XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt (or
+               XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt) is XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN, the position
+               of the top (or bottom) side of the child is relative to
+               the top side of the Form and is a fraction of the
+               height of the Form.  This fraction is the value of the
+               child's XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn (or XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn) resource
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+               divided by the value of the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.
+
+          XXXXmmmmNNNNhhhhoooorrrriiiizzzzoooonnnnttttaaaallllSSSSppppaaaacccciiiinnnngggg
+               Specifies the offset for right and left attachments.
+
+          XXXXmmmmNNNNrrrruuuubbbbbbbbeeeerrrrPPPPoooossssiiiittttiiiioooonnnniiiinnnngggg
+               Indicates the default near (left) and top attachments
+               for a child of the Form.  (NNNNooootttteeee::::  Whether this resource
+               actually applies to the left or right side of the child
+               and its attachment may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)
+
+               The default left attachment is applied whenever
+               initialization or XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss leaves the child without
+               either a left or right attachment.  The default top
+               attachment is applied whenever initialization or
+               XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss leaves the child without either a top or
+               bottom attachment.
+
+               If this Boolean resource is set to False,
+               XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt and XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt default to
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM, XXXXmmmmNNNNlllleeeeffffttttOOOOffffffffsssseeeetttt defaults to the current _x
+               value of the left side of the child, and XXXXmmmmNNNNttttooooppppOOOOffffffffsssseeeetttt
+               defaults to the current _y value of the child.  The
+               effect is to position the child according to its
+               absolute distance from the left or top side of the
+               Form.
+
+               If this resource is set to True, XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt and
+               XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt default to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN,
+               XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn defaults to a value proportional to the
+               current _x value of the left side of the child divided
+               by the width of the Form, and XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn defaults
+               to a value proportional to the current _y value of the
+               child divided by the height of the Form.  The effect is
+               to position the child relative to the left or top side
+               of the Form and in proportion to the width or height of
+               the Form.
+
+          XXXXmmmmNNNNvvvveeeerrrrttttiiiiccccaaaallllSSSSppppaaaacccciiiinnnngggg
+               Specifies the offset for top and bottom attachments.
+
+                            XXXXmmmmFFFFoooorrrrmmmm CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                  CCCCllllaaaassssssss           TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt         AAAAcccccccceeeessssssss
+     ____________________________________________________________________________
+     XmNbottomAttachment   XmCAttachment   unsigned char   XmATTACH_NONE   CSG
+     XmNbottomOffset       XmCOffset       int             0               CSG
+     XmNbottomPosition     XmCAttachment   int             0               CSG
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+     XmNbottomWidget       XmCWidget       Widget          NULL            CSG
+     XmNleftAttachment     XmCAttachment   unsigned char   XmATTACH_NONE   CSG
+     XmNleftOffset         XmCOffset       int             0               CSG
+     XmNleftPosition       XmCAttachment   int             0               CSG
+     XmNleftWidget         XmCWidget       Widget          NULL            CSG
+     XmNresizable          XmCBoolean      Boolean         True            CSG
+     XmNrightAttachment    XmCAttachment   unsigned char   XmATTACH_NONE   CSG
+     XmNrightOffset        XmCOffset       int             0               CSG
+     XmNrightPosition      XmCAttachment   int             0               CSG
+     XmNrightWidget        XmCWidget       Widget          NULL            CSG
+     XmNtopAttachment      XmCAttachment   unsigned char   XmATTACH_NONE   CSG
+     XmNtopOffset          XmCOffset       int             0               CSG
+     XmNtopPosition        XmCAttachment   int             0               CSG
+     XmNtopWidget          XmCWidget       Widget          NULL            CSG
+
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt
+               Specifies attachment of the bottom side of the child.
+               It can have the following values:
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE - Do not attach the bottom side of the
+                  child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM - Attach the bottom side of the child
+                  to the bottom side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____FFFFOOOORRRRMMMM - Attach the bottom side of
+                  the child to the top side of the Form.
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmOOOOffffffffsssseeeetttt can be used to determine the
+                  visibility of the child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT - Attach the bottom side of the
+                  child to the top side of the widget or gadget
+                  specified in the XXXXmmmmNNNNbbbboooottttttttoooommmmWWWWiiiiddddggggeeeetttt resource.  If
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmWWWWiiiiddddggggeeeetttt is NULL, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT is replaced
+                  by XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM, and the child is attached to the
+                  bottom side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT - Attach the bottom side of
+                  the child to the bottom side of the widget or gadget
+                  specified in the XXXXmmmmNNNNbbbboooottttttttoooommmmWWWWiiiiddddggggeeeetttt resource.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN - Attach the bottom side of the
+                  child to a position that is relative to the top side
+                  of the Form and in proportion to the height of the
+                  Form.  This position is determined by the
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF - Attach the bottom side of the child
+                  to a position that is proportional to the current _y
+                  value of the bottom of the child divided by the
+                  height of the Form.  This position is determined by
+                  the XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn is set to a value proportional to
+                  the current _y value of the bottom of the child
+                  divided by the height of the Form.
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmOOOOffffffffsssseeeetttt
+               Specifies the constant offset between the bottom side
+               of the child and the object to which it is attached.
+               The effect of a nonzero value for this resource is
+               undefined if XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  The relationship established
+               remains, regardless of any resizing operations that
+               occur.
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn
+               This resource is used to determine the position of the
+               bottom side of the child when the child's
+               XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  In
+               this case the position of the bottom side of the child
+               is relative to the top side of the Form and is a
+               fraction of the height of the Form.  This fraction is
+               the value of the child's XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn resource
+               divided by the value of the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.
+               For example, if the child's XXXXmmmmNNNNbbbboooottttttttoooommmmPPPPoooossssiiiittttiiiioooonnnn is 50,
+               the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee is 100, and the Form's
+               height is 200, the position of the bottom side of the
+               child is 100.
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmWWWWiiiiddddggggeeeetttt
+               Specifies the widget or gadget to which the bottom side
+               of the child is attached.  This resource is used if
+               XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to either XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT or
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT.
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt
+               Specifies attachment of the near (left) side of the
+               child.  (NNNNooootttteeee::::  Whether this resource actually applies
+               to the left or right side of the child and its
+               attachment may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  It can have the
+               following values:
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE - Do not attach the left side of the
+                  child.  If XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is also XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE,
+                  this value is ignored and the child is given a
+                  default left attachment.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM - Attach the left side of the child to
+                  the left side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____FFFFOOOORRRRMMMM - Attach the left side of the
+                  child to the right side of the Form.  XXXXmmmmNNNNlllleeeeffffttttOOOOffffffffsssseeeetttt
+                  can be used to determine the visibility of the
+                  child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT - Attach the left side of the child
+                  to the right side of the widget or gadget specified
+                  in the XXXXmmmmNNNNlllleeeeffffttttWWWWiiiiddddggggeeeetttt resource.  If XXXXmmmmNNNNlllleeeeffffttttWWWWiiiiddddggggeeeetttt is
+                  NULL, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT is replaced by XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM,
+                  and the child is attached to the left side of the
+                  Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT - Attach the left side of
+                  the child to the left side of the widget or gadget
+                  specified in the XXXXmmmmNNNNlllleeeeffffttttWWWWiiiiddddggggeeeetttt resource.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN - Attach the left side of the
+                  child to a position that is relative to the left
+                  side of the Form and in proportion to the width of
+                  the Form.  This position is determined by the
+                  XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF - Attach the left side of the child to
+                  a position that is proportional to the current _x
+                  value of the left side of the child divided by the
+                  width of the Form.  This position is determined by
+                  the XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+                  XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn is set to a value proportional to
+                  the current _x value of the left side of the child
+                  divided by the width of the Form.
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNlllleeeeffffttttOOOOffffffffsssseeeetttt
+               Specifies the constant offset between the near (left)
+               side of the child and the object to which it is
+               attached.  (NNNNooootttteeee::::  Whether this resource actually
+               applies to the left or right side of the child and its
+               attachment may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  The effect of a nonzero
+               value for this resource is undefined if
+               XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  The
+               relationship established remains, regardless of any
+               resizing operations that occur.
+
+          XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn
+               This resource is used to determine the position of the
+               near (left) side of the child when the child's
+               XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  (NNNNooootttteeee::::
+               Whether this resource actually applies to the left or
+               right side of the child and its attachment may depend
+               on the value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)
+
+               In this case the position of the left side of the child
+               is relative to the left side of the Form and is a
+               fraction of the width of the Form.  This fraction is
+               the value of the child's XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn resource
+               divided by the value of the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.
+               For example, if the child's XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn is 50, the
+               Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee is 100, and the Form's width is
+               200, the position of the left side of the child is 100.
+
+          XXXXmmmmNNNNlllleeeeffffttttWWWWiiiiddddggggeeeetttt
+               Specifies the widget or gadget to which the near (left)
+               side of the child is attached.  (NNNNooootttteeee::::  Whether this
+               resource actually applies to the left or right side of
+               the child and its attachment may depend on the value of
+               the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  This resource is
+               used if XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to either
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT or XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzaaaabbbblllleeee
+               This Boolean resource specifies whether or not a
+               child's request for a new size is (conditionally)
+               granted by the Form.  If this resource is set to True
+               the request is granted if possible.  If this resource
+               is set to False the request is always refused.
+
+               If a child has both left and right attachments, its
+               width is completely controlled by the Form, regardless
+               of the value of the child's XXXXmmmmNNNNrrrreeeessssiiiizzzzaaaabbbblllleeee resource.  If
+               a child has a left or right attachment but not both,
+               the child's XXXXmmmmNNNNwwwwiiiiddddtttthhhh is used in setting its width if
+               the value of the child's XXXXmmmmNNNNrrrreeeessssiiiizzzzaaaabbbblllleeee resource is True.
+               These conditions are also true for top and bottom
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+               attachments, with height acting like width.
+
+          XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt
+               Specifies attachment of the far (right) side of the
+               child.  (NNNNooootttteeee::::  Whether this resource actually applies
+               to the left or right side of the child and its
+               attachment may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  It can have the
+               following values:
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE - Do not attach the right side of the
+                  child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM - Attach the right side of the child
+                  to the right side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____FFFFOOOORRRRMMMM - Attach the right side of
+                  the child to the left side of the Form.
+                  XXXXmmmmNNNNrrrriiiigggghhhhttttOOOOffffffffsssseeeetttt can be used to determine the
+                  visibility of the child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT - Attach the right side of the child
+                  to the left side of the widget or gadget specified
+                  in the XXXXmmmmNNNNrrrriiiigggghhhhttttWWWWiiiiddddggggeeeetttt resource.  If XXXXmmmmNNNNrrrriiiigggghhhhttttWWWWiiiiddddggggeeeetttt
+                  is NULL, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT is replaced by
+                  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM, and the child is attached to the
+                  right side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT - Attach the right side of
+                  the child to the right side of the widget or gadget
+                  specified in the XXXXmmmmNNNNrrrriiiigggghhhhttttWWWWiiiiddddggggeeeetttt resource.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN - Attach the right side of the
+                  child to a position that is relative to the left
+                  side of the Form and in proportion to the width of
+                  the Form.  This position is determined by the
+                  XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF - Attach the right side of the child
+                  to a position that is proportional to the current _x
+                  value of the right side of the child divided by the
+                  width of the Form.  This position is determined by
+                  the XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+                  XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn is set to a value proportional to
+                  the current _x value of the right side of the child
+                  divided by the width of the Form.
+
+          XXXXmmmmNNNNrrrriiiigggghhhhttttOOOOffffffffsssseeeetttt
+               Specifies the constant offset between the far (right)
+               side of the child and the object to which it is
+               attached.  (NNNNooootttteeee::::  Whether this resource actually
+               applies to the left or right side of the child and its
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+               attachment may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  The effect of a nonzero
+               value for this resource is undefined if
+               XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  The
+               relationship established remains, regardless of any
+               resizing operations that occur.
+
+          XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn
+               This resource is used to determine the position of the
+               far (right) side of the child when the child's
+               XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  (NNNNooootttteeee::::
+               Whether this resource actually applies to the left or
+               right side of the child and its attachment may depend
+               on the value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)
+
+               In this case the position of the right side of the
+               child is relative to the left side of the Form and is a
+               fraction of the width of the Form.  This fraction is
+               the value of the child's XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn resource
+               divided by the value of the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.
+               For example, if the child's XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn is 50, the
+               Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee is 100, and the Form's width is
+               200, the position of the right side of the child is
+               100.
+
+          XXXXmmmmNNNNrrrriiiigggghhhhttttWWWWiiiiddddggggeeeetttt
+               Specifies the widget or gadget to which the far (right)
+               side of the child is attached.  (NNNNooootttteeee::::  Whether this
+               resource actually applies to the left or right side of
+               the child and its attachment may depend on the value of
+               the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.)  This resource is
+               used if XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to either
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT or XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT.
+
+          XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt
+               Specifies attachment of the top side of the child.  It
+               can have following values:
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE - Do not attach the top side of the
+                  child.  If XXXXmmmmNNNNbbbboooottttttttoooommmmAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is also
+                  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____NNNNOOOONNNNEEEE, this value is ignored and the child
+                  is given a default top attachment.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM - Attach the top side of the child to
+                  the top side of the Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____FFFFOOOORRRRMMMM - Attach the top side of the
+                  child to the bottom side of the Form.  XXXXmmmmNNNNttttooooppppOOOOffffffffsssseeeetttt
+                  can be used to determine the visibility of the
+                  child.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT - Attach the top side of the child
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+                  to the bottom side of the widget or gadget specified
+                  in the XXXXmmmmNNNNttttooooppppWWWWiiiiddddggggeeeetttt resource.  If XXXXmmmmNNNNttttooooppppWWWWiiiiddddggggeeeetttt is
+                  NULL, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT is replaced by XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM,
+                  and the child is attached to the top side of the
+                  Form.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT - Attach the top side of
+                  the child to the top side of the widget or gadget
+                  specified in the XXXXmmmmNNNNttttooooppppWWWWiiiiddddggggeeeetttt resource.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN - Attach the top side of the child
+                  to a position that is relative to the top side of
+                  the Form and in proportion to the height of the
+                  Form.  This position is determined by the
+                  XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+
+               +o  XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____SSSSEEEELLLLFFFF - Attach the top side of the child to
+                  a position that is proportional to the current _y
+                  value of the child divided by the height of the
+                  Form.  This position is determined by the
+                  XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn and XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee resources.
+                  XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn is set to a value proportional to the
+                  current _y value of the child divided by the height
+                  of the Form.
+
+          XXXXmmmmNNNNttttooooppppOOOOffffffffsssseeeetttt
+               Specifies the constant offset between the top side of
+               the child and the object to which it is attached.  The
+               effect of a nonzero value for this resource is
+               undefined if XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  The relationship established
+               remains, regardless of any resizing operations that
+               occur.
+
+          XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn
+               This resource is used to determine the position of the
+               top side of the child when the child's XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt
+               is set to XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN.  In this case the position
+               of the top side of the child is relative to the top
+               side of the Form and is a fraction of the height of the
+               Form.  This fraction is the value of the child's
+               XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn resource divided by the value of the
+               Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee.  For example, if the child's
+               XXXXmmmmNNNNttttooooppppPPPPoooossssiiiittttiiiioooonnnn is 50, the Form's XXXXmmmmNNNNffffrrrraaaaccccttttiiiioooonnnnBBBBaaaasssseeee is
+               100, and the Form's height is 200, the position of the
+               top side of the child is 100.
+
+          XXXXmmmmNNNNttttooooppppWWWWiiiiddddggggeeeetttt
+               Specifies the widget or gadget to which the top side of
+               the child is attached.  This resource is used if
+               XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt is set to either XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____WWWWIIIIDDDDGGGGEEEETTTT or
+               XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____OOOOPPPPPPPPOOOOSSSSIIIITTTTEEEE____WWWWIIIIDDDDGGGGEEEETTTT.
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Form inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                               XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                  CCCCllllaaaassssssss                TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt        AAAAcccccccceeeessssssss
+     _________________________________________________________________________________
+     XmNallowOverlap       XmCAllowOverlap      Boolean          True           CSG
+     XmNautoUnmanage       XmCAutoUnmanage      Boolean          True           CG
+     XmNbuttonFontList     XmCButtonFontList    XmFontList       dynamic        CSG
+     XmNcancelButton       XmCWidget            Widget           NULL           SG
+     XmNdefaultButton      XmCWidget            Widget           NULL           SG
+     XmNdefaultPosition    XmCDefaultPosition   Boolean          True           CSG
+     XmNdialogStyle        XmCDialogStyle       unsigned char    dynamic        CSG
+     XmNdialogTitle        XmCDialogTitle       XmString         NULL           CSG
+     XmNfocusCallback      XmCCallback          XtCallbackList   NULL           C
+     XmNlabelFontList      XmCLabelFontList     XmFontList       dynamic        CSG
+     XmNmapCallback        XmCCallback          XtCallbackList   NULL           C
+     XmNmarginHeight       XmCMarginHeight      Dimension        0              CSG
+     XmNmarginWidth        XmCMarginWidth       Dimension        0              CSG
+     XmNnoResize           XmCNoResize          Boolean          False          CSG
+     XmNresizePolicy       XmCResizePolicy      unsigned char    XmRESIZE_ANY   CSG
+     XmNshadowType         XmCShadowType        unsigned char    XmSHADOW_OUT   CSG
+     XmNtextFontList       XmCTextFontList      XmFontList       dynamic        CSG
+     XmNtextTranslations   XmCTranslations      XtTranslations   NULL           C
+     XmNunmapCallback      XmCCallback          XtCallbackList   NULL           C
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    XmTAB_GROUP            CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+
+
+
+
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmFFFFoooorrrrmmmm((((3333XXXX))))
+
+
+
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                N/A
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmForm inherits translations from XmBulletinBoard.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmm, XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmmDDDDiiiiaaaalllloooogggg((((3333XXXX)))),
+          and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+

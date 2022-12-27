@@ -1,0 +1,62 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1990 Carnegie-Mellon University
+ * Copyright (c) 1989 Carnegie-Mellon University
+ * All rights reserved.  The CMU software License Agreement specifies
+ * the terms and conditions for use and redistribution.
+ */
+/*
+ * HISTORY
+ * $Log:	bsd_types.defs,v $
+ * Revision 2.4  90/06/02  15:27:03  rpd
+ * 	Converted to new IPC.
+ * 	[90/03/26  20:09:29  rpd]
+ * 
+ * Revision 2.3  90/05/29  20:24:50  rwd
+ * 	Change path_name_t to a varying-length inline array, to shorten
+ * 	messages.
+ * 	[90/04/06            dbg]
+ * 
+ * 	Added cfname_t to return command processor name and args from
+ * 	exec.
+ * 	[90/03/22            dbg]
+ * 
+ * Revision 2.2  90/05/21  14:01:20  dbg
+ * 	Change path_name_t to a varying-length inline array, to shorten
+ * 	messages.
+ * 	[90/04/06            dbg]
+ * 
+ * 	Added cfname_t to return command processor name and args from
+ * 	exec.
+ * 	[90/03/22            dbg]
+ * 
+ */
+/*
+ * Types for BSD kernel interface.
+ */
+
+#include <mach/std_types.defs>
+#include <mach/mach_types.defs>
+#include <uxkern/bsd_types_gen.h>
+
+type	small_char_array= array[*:SMALL_ARRAY_LIMIT] of char;
+type	char_array	= ^array[] of char;
+type	path_name_t	= array[*:PATH_LENGTH] of char;
+type	timeval_t	= struct[2] of int;
+type	timeval_2_t	= array[2] of timeval_t;
+type	timeval_3_t	= array[3] of timeval_t;
+type	statb_t		= struct[13] of int;
+type	rusage_t	= struct[18] of int;
+type	sockarg_t	= array[*:128] of char;
+type	fd_set		= struct[FD_SET_LIMIT] of int;
+type	entry_array	= array[*:16] of int;
+type	gidset_t	= array[GROUPS_LIMIT] of int;
+type	rlimit_t	= array[2] of int;
+type	sigvec_t	= struct[3] of int;
+type	sigstack_t	= struct[2] of int;
+type	timezone_t	= struct[2] of int;
+type	itimerval_t	= struct[4] of int;
+type	hostname_t	= (MACH_MSG_TYPE_STRING_C, 8*HOST_NAME_LIMIT);
+type	cfname_t	= (MACH_MSG_TYPE_STRING_C, 8*64);
+
+import <uxkern/bsd_types.h>;

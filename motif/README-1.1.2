@@ -1,0 +1,431 @@
+
+
+Purpose of this Release
+
+        The contents of this package comprise the second patch
+	release to OSF/Motif 1.1.  This patch release  
+	is available only to licensees with software support
+	contracts.  It has been designated version 1.1.2.
+	
+	OSF/Motif 1.1.2 contains source code that address about 90 bugs
+	reported against versions 1.1, 1.1.1, and prior releases. 
+
+What to Expect From Motif 1.1.2 Patch Release
+
+	This patch release addresses most of Motif's highest priority
+	bugs.  These bugs were concentrated in the libXm area primarily,
+	and covered just about all the widgets.  There were a few very
+	important bugs resolved in other areas like Mwm, Uil/Mrm and 
+	Makefiles.
+
+
+Installing This Patch Release
+
+
+       Installing the Tape
+
+       OSF/Motif 1.1.2 is provided on magnetic tape, in tar format.  
+       This tape is one of two types, depending on your order:
+
+          * 6250 bpi 9-track tape 
+
+          * QIC-24 cartridge tape
+
+
+       This release contains only files that have changed since the
+       OSF/Motif 1.1 release.  You should install the contents of 
+       this tape in a new directory and follow the instructions in
+       this README-1.1.2 file for patching your release with the
+       source files contained on this tape.
+
+       The following files and directories are contained on the tape:
+
+	./README-1.1.2 ./BUGREPORT ./OPENBUGS ./clients ./lib ./tools
+
+       To install the entire contents of the tape, create the
+       directory that you want to be the root for the sources, make
+       that the current directory, load the tape into the tape
+       drive, and issue this command (for both of the cartridge
+       tapes):
+
+            tar xvf device_name
+
+
+       If you have any problems when installing the tape, call the
+       OSF/Motif support desk at (617) 621-8990.
+
+
+Changes in this Patch Release
+
+
+
+   The following are changes we have provided for the Motif 1.1.2 release:
+
+
+	*  Revised MWM code to have maximize button enforce clients aspect 
+           ratio for client window size. Pir 1754. 
+
+	*  Text widget improved to properly process pastes from other text 
+           widgets.  Pir 1761.
+
+	*  All windows now placed correctly after re-running MWM. Pir 1803.
+
+	*  Modified Text to allow proper cursor movement after a double-click 
+           selection.  Pir 1858. 
+
+	*  Revised Pushbutton Gadget arming procedure to correctly handle
+           a doubleclick release outside the pushbutton. Pir 1861.
+
+	*  Corrected Text widget to work properly when osfCut is used
+           with XmNeditable set to FALSE. Pir 1870.
+
+        *  Corrected clipboard to remove locks when client is killed.
+           Pir 1876. 
+
+	*  Eliminated Segment Fault/Protocol error when XtSetValues is used 
+           to increase SelectionBox items count.  Pir 1982.
+
+	*  Modified manner in which List-tests reset X resources. Pir 2062. 
+
+        *  Corrected Desktop/ExtObject code to prevent accessing an extension
+           widget which has already been deleted. Pirs 2074 & 2820.
+
+	*  Modified code to assure that ToggleButtons and ToggleButton Gadgets 
+           behave the same in response to multi click inputs. Pir 2097. 
+
+        *  Corrected code to prevent crash when _XmString is NULL. Pir 2115.
+
+	*  Revised Scrollbar slider to properly handle small slider 
+           width/heights. Pir 2130. 
+
+	*  Modified Desktop code to destroy objects when their parents are 
+           destroyed. Pir 2145. 
+
+	*  Modified tools/wml/Imakefile to remove target files from UIL 
+           directory. Pir 2154.
+
+	*  Cleared selection inconsistency when deleting items from a list. 
+           Pir 2226. 
+
+        *  Modified Text Widget code so Textfield draws new string at the 
+           correct location after XmNvalue resource is changed. 
+           Pirs 2231 & 2492.
+
+  	*  Revised code to eliminate core dumps when destroying widgets. 
+           Pir 2258.
+
+	*  Eliminated a protocol error when executing a secondary move 
+           inside a primary selection of Text. Pir 2278. 
+
+	*  Revised secondary selection in Text to eliminate interference 
+           with primary move operations. Pir 2283.
+
+	*  Prevented core dump when selection cursor moves near the end of 
+           a List with a large number of items.  Pir 2318.
+
+        *  Eliminated a protocol error when using XtSetValues for the width
+           or height of a Message Box. Pir 2335.
+
+	*  Defined XmIsSelectionBox in SelectioB.h. Pir 2431. 
+
+	*  Eliminated potential for core dumps in ScrollList4 test. Pir 2432.
+
+	*  Modified Scale Widget to enable highlight color to be set using 
+           XtSetValues. Pir 2457.
+
+	*  Improved ScrollBar to allow SetValues to modify ShadowColor
+           resources.  Pir 2467.
+
+	*  Eliminated memory leak in XmFontListCreate. Pir 2473. 
+
+	*  Revised ListKbdActivate action to properly update internal 
+           selection lists. Pir 2476.
+
+	*  Modified code to allow for one ScrollBar to use XmMAX_ON_TOP value
+           for XmNprocessingDirection resource when another ScrollBar sets 
+           XmNshowArrows to False. Pir 2506.
+
+	*  Changed symbols '=' to '==' in two places in UIL compiler warnings.
+           Pir 2531. 
+
+	*  Corrected UIL compiler warning; target_type possibly used before 
+           set. Pir 2532.
+
+	*  Corrected MWM's placement of clients which have a non-zero x border
+           width on initial mapping. Pir 2533. 
+
+	*  Prevented users setting illegal values to stringDirection in a 
+           BulletinBoard.  Pir 2546.
+
+	*  Eliminated problems in MWM explicit mode when a popup menu uses
+           an accelerator with a pointer outside the client window. Pir 2548.
+
+	*  Allowed Scrolled Window scrollBars unitType 100TH_MILLIMETERS.
+           Pir 2562.
+
+	*  Eliminated failures when moving sash by Btn1-Down with
+           a tracking locate cursor. Pir 2566.
+
+	*  Revised traversal translations to enable BeginLine, EndLine, 
+           BeginData, and EndData to work inside a ScrolledWindow. Pir 2568.
+
+	*  Corrected logic problem in XmRemoveFromPostFromList from RowColumn 
+           code.  Pir 2570. 
+
+	*  Modified Vendor GeometryManager to check request flags when updating
+           width and height. Pir 2581.
+
+	*  Revised Xmoption demo so parent RowColumn does not have a 
+           fixed size. Pir 2597.
+
+	*  Modified Xmoption demo to create a larger fixed window size. 
+           Pir 2613.
+
+	*  Allowed XmNwidth, XmNheight, and XmNorientation Scrollbar 
+           resources to be correctly set by XtSetValues.  Pir 2617.
+
+	*  Revised valuechangedCallback policy for Scrollbar. Pir 2626. 
+
+	*  Eliminated Segment Fault when a new shell is created after a 
+           TopLevelShell/DialogShell widget is destroyed. Pir 2628.
+
+	*  Fixed memory leaks in: Traversal's AddTabGroup and RowColumn's 
+           AddtoKeyboardlist and MenuAccelerator. Pir 2635.
+ 
+	*  MWM corrected to handle XSetNormalHints call with min.aspect.y 
+           setting of zero when client has P_ASPECT bit set.  Pir 2639.
+
+	*  Revised code to prevent XmStringCreateLtoR from creating an extra 
+           segment with text of "".  Pir 2652.
+
+	*  Modified Text Widget to allow XmNtextFontList and XmNdefaultFontList
+           to be taken from parent. Pir 2657. 
+
+	*  Corrected selection processing for deleted items in a list. 
+           Pir 2661.
+
+	*  Modified code for option menu layout to allow for multi-column 
+           menus. Pir 2675.
+
+	*  Corrected GetValues() to be able to get correct titleString
+           for Scale Widget. Pir 2688.
+
+	*  Revised MenuBarInitialize of RowColumn to make a copy of 
+           menuAccelerator. Pir 2692.
+
+	*  Modified TextOut/TryResize routine to return XtGeometryNo if 
+           approved geometry was not different from the widget's current 
+           geometry. Pir 2693.
+
+	*  Corrected RowColumn's XmNmnemonicCharSet resource GetValues Hook
+           to get its value from the label instead of Option Menu. Pir 2695.
+
+	*  Revised _XmStringDrawSegment() to correctly handle a 16-bit font.
+           Pir 2699.
+
+	*  Modified Visual.c to prevent _XmSearchColorCache from searching 
+           uninitialized storage. Pir 2726.  
+
+	*  Eliminated X Protocol error generated when PushBG fails to
+           allocate a GC when the parent is a popup or pulldown menu.
+           Pir 2746.
+
+	*  Modified code to eliminate problems when clicking on a modeless 
+           message box when a modal message box is also managed. Pir 2753.
+
+ 	*  Revised FindTransientFocus() of WmWinList.c to search siblings to 
+           fix improper interactions between full application modal and 
+           modeless dialogs.  Pir 2754.
+
+	*  Changed all Test Makefile defaults for consistency. Pir 2784.
+
+	*  Eliminated MWM core dumps when clientList is NULL.  Pir 2793.
+
+	*  Modified TextField to properly erase selected text. Pir 2806.
+
+	*  Improved Scale Widget to remove old values correctly when using 
+           italic fonts. Pir 2808.
+
+	*  Corrected Text so XtIsRealized is properly checked before drawing. 
+           Pir 2815.
+
+	*  MWM now places windows without borders accurately. Pir 2827.
+
+        *  Revised UIL to handle nested widget definitions. Pir 2842.
+
+	*  Eliminated memory leak in MWM Iconbox code. Pir 2860.
+
+	*  Eliminated core dump after restarting MWM with no windows managed.
+           Pir 2861.
+
+	*  Modified MWM colormapFocus element to be initialized to NULL.
+           Pir 2862.
+
+	*  Removed defines in MWM for defaults which are now internally
+           defined. Pir 2866.
+
+ 	*  Corrected UIL compiler to prevent problems when compiling
+           large UIL files. Pir 2869.
+
+	*  Eliminated segmentation fault in RemoveFromKeyboardList wide
+	   border/labelString combinations. Pir 2881.
+
+	*  Corrected invalid memcpy in Desktop.c. Pir 2883.
+
+	*  Corrected Scale's GetValues so when its created without a
+	   titleString, the labelString gets set to NULL instead of
+	   "scale_title". Pir 2901.
+
+	*  Revised validation routine in Scrollbar to always checks values
+	   properly. Pir 2903.
+
+	*  Corrected logic for deciding to send offset message in WmManage.c.
+	   Pir 2905
+
+	*  Corrected Desktop so destroys of BulletinBoard[Dialog]s work
+	   properly. Pir 2909.
+
+	*  Modified OptionMenu creation to copy mnenonicCharset to
+	   labelGadget if mnemonicCharset or mnenonic is set. Pir 2911.
+
+
+
+	
+Overview of the Motif Directory Structure
+
+
+       The Motif directory structure is outlined below.
+
+       The file ./README-1.1.2 summarizes the contents of the top level
+       directories in the directory structure, briefly describes
+       the build process, and describes bug reporting procedures.
+
+       The file ./BUGREPORT is a bug report template.  This tem-
+       plate has changed since the last release to clarify severity
+       levels.
+
+       The file ./OPENBUGS contains a list of the important bugs
+       currently open against OSF/Motif.
+
+       The directory ./lib contains patched files for the toolkit 
+       library and resource manager library:
+
+          * ./lib/Xm contains patched files for the Motif widget library.
+
+          * ./lib/Mrm contains patched files for the Motif resource manager 
+	    library used with the uil compiler.
+
+       The directory ./clients contains the Motif window manager,
+       the User Interface Language (uil) compiler:
+
+          * ./clients/uil contains patched files for the uil compiler and the 
+	    callable uil interface library (libUil.a).
+
+          * ./clients/mwm contains patched files for the Motif window manager.  
+
+       The directory ./tools contains a single tools subdirectory,
+       wml, with patched files for the Widget Meta-Language (WML) facility.  
+
+
+Where to Get Help
+
+       Report problems with this release to the mail alias:
+
+            motif-defect@osf.org
+
+       motif-defect is an alias to a person at OSF who is in charge
+       of receiving and dispatching bugs reported against the
+       latest released version of OSF/Motif.
+
+       Discussions concerning the technology in this release can be
+       directed to the mailing list:
+
+            motif-talk@osf.org
+
+       Note that to report problems with OSF/Motif snapshots, you
+       use the following alias:
+
+            uec-defect@osf.org
+
+       Please do not report snapshot bugs to the motif-defect
+       alias.
+
+       Discussions concerning the technology in snapshots can be
+       directed to the mailing list:
+
+            uec-comment@osf.org
+
+       Licensees with full support contracts can also call OSF for
+       help.  The service number is 1-617-621-8990, and support is
+       available between 8:30 AM and 5:00 PM United States Eastern
+       time, Monday through Friday.  You can obtain an OSF/Motif
+       software support contract for support of released versions
+       of OSF/Motif by contacting OSF Direct Channels at 1-617-
+       621-7300.
+
+Building Motif for Your System
+
+       Motif 1.1.2 uses X11R4 Xlib and X Toolkit Intrinsics
+       libraries.  The versions of these libraries used to build
+       Motif must have all the official MIT patches and the OSF
+       patches applied to them in order for Motif to build and run 
+       properly.  The patches which were distributed with the 1.1
+       and 1.1.1 versions of OSF/Motif are MIT fixes 1 through 18 
+       and OSF patches called fix-osf and fix-osf-1.1.1.  You should
+       have followed the directions in the 1.1 and 1.1.1 releases
+       for applying those patches.
+
+       In order to build Motif 1.1.2 you should use the same 
+       configuration (location of header files, libraries, etc.)
+       as you did when you built Motif 1.1 and 1.1.1.  Any tailoring 
+       that was done to your build configuration will remain the same.
+       For more information on customizing your OSF/Motif build
+       environment consult the Release Notes or ./README that you
+       received with OSF/Motif 1.1.
+ 
+
+       Building Motif 1.1.2
+       
+       To build Motif 1.1.2 you should copy the new files
+       over the files in your existing Motif 1.1.1 source tree. 
+       To do this you will need write permission on the files 
+       which are being overwritten:
+
+	    cd Motif-1.1.1-source-top-level
+
+	    cp -r Motif-1.1.2-source-top-level/* .
+
+       If this command won't work on your system because it complains
+       about overwriting existing directories, then you may need to
+       copy a directory at a time or use a 'find' script.
+
+
+       Once the new files have been placed in your Motif source
+       tree you can begin to recompile.  In most cases, there is no 
+       need to rebuild the Makefiles, the include links, or the dependency
+       lists (make Makefiles, includes, depend).  However, two Imakefiles
+       and the corresponding Makefiles have been updated in the 1.1.2
+       release; you may want to remake those particular Makefiles on your
+       platform to pick up the changes.  To begin the compilation from the 
+       root of the source tree use the command:
+
+            make
+
+       This will compile the entire tree, except for the test suites.  
+
+
+       The command
+
+            make install
+
+       compiles and installs the entire tree, except for the test
+       suites.  The installer must be the superuser.  Make sure the
+       files and directories the superuser creates can be read by
+       all.  Installing Motif overwrites the previous Motif instal-
+       lation.
+
+       If you want to compile and install the test suites, you must 
+       add the word tests to the end of the SUBDIRS list in the top-level 
+       Makefile before running make install.
+
+

@@ -1,0 +1,102 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1991,1990 Carnegie Mellon University
+ * All Rights Reserved.
+ * 
+ * Permission to use, copy, modify and distribute this software and its
+ * documentation is hereby granted, provided that both the copyright
+ * notice and this permission notice appear in all copies of the
+ * software, derivative works or modified versions, and any portions
+ * thereof, and that both notices appear in supporting documentation.
+ * 
+ * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+ * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+ * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Carnegie Mellon requests users of this software to return to
+ * 
+ *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+ *  School of Computer Science
+ *  Carnegie Mellon University
+ *  Pittsburgh PA 15213-3890
+ * 
+ * any improvements or extensions that they make and grant Carnegie the
+ * rights to redistribute these changes.
+ */
+/*
+ * HISTORY
+ * $Log:	machid_types.defs,v $
+ * Revision 2.2  91/08/30  11:04:31  rpd
+ * 	Moved to the include directory.
+ * 	[91/08/29            rpd]
+ * 
+ * 	Added mdefault_pager_t.
+ * 	[91/08/15            rpd]
+ * 
+ * Revision 2.3  91/03/19  12:31:03  mrt
+ * 	Changed to new copyright
+ * 
+ * Revision 2.2  90/09/12  16:32:00  rpd
+ * 	Added mprocessor_set_name_array_t.
+ * 	[90/08/07            rpd]
+ * 
+ * 	Created.
+ * 	[90/06/18            rpd]
+ * 
+ */
+
+#ifndef	_MACHID_TYPES_DEFS_
+#define _MACHID_TYPES_DEFS_
+
+#include <mach/std_types.defs>
+
+type mach_id_t = unsigned;
+type mach_type_t = unsigned;
+
+type mhost_t = mach_id_t;
+type mhost_priv_t = mach_id_t;
+
+type mdefault_pager_t = mach_id_t;
+
+type mprocessor_t = mach_id_t;
+type mprocessor_array_t = ^array[] of mprocessor_t;
+
+type mprocessor_set_t = mach_id_t;
+type mprocessor_set_array_t = ^array[] of mprocessor_set_t;
+type mprocessor_set_name_t = mach_id_t;
+type mprocessor_set_name_array_t = ^array[] of mprocessor_set_name_t;
+
+type mtask_t = mach_id_t;
+type mtask_array_t = ^array[] of mtask_t;
+
+type mthread_t = mach_id_t;
+type mthread_array_t = ^array[] of mthread_t;
+
+type host_basic_info_data_t = struct[5] of int;
+type host_sched_info_data_t = struct[2] of int;
+type host_load_info_data_t = struct[6] of int;
+
+type processor_basic_info_data_t = struct[5] of int;
+
+type processor_set_basic_info_data_t = struct[5] of int;
+type processor_set_sched_info_data_t = struct[2] of int;
+
+type task_basic_info_data_t = struct[8] of int;
+type task_thread_times_info_data_t = struct[4] of int;
+
+type thread_basic_info_data_t = struct[11] of int;
+type thread_sched_info_data_t = struct[7] of int;
+
+type mips_thread_state_t = struct[34] of unsigned;
+type sun3_thread_state_t = struct[47] of unsigned;
+type vax_thread_state_t = struct[17] of unsigned;
+type i386_thread_state_t = struct[17] of unsigned;
+
+type vm_region_info_t = struct[8] of int;
+
+type unix_pid_t = int;
+type unix_command_t = array[*:1024] of char;
+
+import <servers/machid_types.h>;
+
+#endif	_MACHID_TYPES_DEFS_

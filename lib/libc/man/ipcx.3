@@ -1,0 +1,128 @@
+.\"
+.\" $Id: ipcx.3,v 1.1 89/12/28 14:39:35 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	ipcx.3,v $
+.\" Revision 1.1  89/12/28  14:39:35  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 07-May-87  Alessandro Forin (af) and Jeffrey Eppinger (jle) at Carnegie-Mellon
+.\"	Made a mach version of old accent ipcexecd.
+.\"
+.TH IPCX 3 5/7/87
+.SH NAME
+.nf
+init_ipcx \- inititalize interface to ipcexecd server
+startserver \- start a server on a remote machine
+.SH SYNOPSIS
+.nf
+#include <mach.h>
+#include <servers/ipcx.h>
+
+void	init_ipcx(reply_port);
+		port_t	reply_port;
+
+kern_return_t	startserver( 
+		ServPort,userid,password,commandline,server_k_port,server_n_port)
+	port_t		ServPort;
+	a_string	userid;
+	a_string	password;
+	a_string	commandline;
+	port_t		*server_k_port;
+	port_t		*server_n_port;
+
+.SH ARGUMENTS
+.TP 15
+.B reply_port
+port that 
+.I startserver
+will reply on. If set to 
+.I PORT_NULL
+a new port will be allocated.
+.TP 15
+.B ServPort
+port to the ipcexecd server on the remote machine.
+.TP 15
+.B userid
+the userid under which the started server will run.
+.TP 15
+.B password
+the (encrypted) password of the user specified by
+.B userid.
+.TP 15
+.B commandline
+the command line used to startup the requested server.
+The first item should be the name of the program to run, and
+the rest of the line is any arguments to that program.
+.TP 15
+.B server_k_port
+The task_self port of the started program
+.TP 15
+.B server_n_port
+The task_notify port of the started program.
+.i0
+.DT
+.SH DESCRIPTION	
+.I startserver
+will start a task on a remote host. The first word
+of the 
+.B commandline
+must be the name of the program that the remote task is
+to execute. Any other words on that line are passed to
+the task in the argv vector. Words are separated by
+one or more spaces. The remote task will be run under the
+userid that is provided. The passwd is checked for validity
+by su.
+The two ports that are returned allow the caller to control the
+remote task.
+.B server_k_port
+is the remote task's port to the kernel, e.g. its
+.B task_self()
+port.  Using this port, the client can make
+kernel calls on behalf of the remote task.
+.B server_n_port
+is the notification port of the remote task, e.g. its
+.B task_notify()
+port.
+
+For this call to work an
+.I ipcexecd server
+must be running on the target host. The port to this server
+can be found by a call to 
+.I net_name_lookup
+for the name 
+.I <prefix><host_name>.
+.I <prefix>
+is either 
+.B DEFAULT_PREFIX
+defined in the file
+.B <servers/ipcx_types.h>
+or the prefix argument that the ipcexecd server was
+started with.
+.I <host_name>
+is the name of the target machine.
+There is also a program
+.B start_rem_server(1)
+that will prompt for the remote machine name and
+the command line, do the appropriate net_name_lookups
+and call 
+.B startserver.
+.SH RESULTS
+.TP 15
+.B KERN_SUCCESS
+the requested program was successfully started.
+.TP 15
+.B IPCX_FILENOTFOUNT
+the program to run was not found.
+.TP 15
+.B IPCX_WRONGUSER
+either the userid was not found or the password was incorrect.
+.TP 15
+.B KERN_FAILURE
+the ipcexecd server was unable to fork a task for
+the requested program.
+
+
+.SH SEE ALSO
+ipcexecd(1), start_rem_server(1), net_name_lookup(3), ipcexecd(3)

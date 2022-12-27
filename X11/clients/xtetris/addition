@@ -1,0 +1,18 @@
+Plan for a high-score caching system.
+
+This is the way it would work.  When you start the game the first
+time on a machine, it asks you which machine the high scores will be
+kept on (a dialog).  When you reply, it opens a connection to that
+machine and reads the property that contains the history.  If there
+is no value of the property or the connection to the server doesn't
+succeed, it would start afresh without a high score history.
+
+When the game is finished, it would write the name of the server on
+which the property is to be found into a local file (as long as
+it was able to connect to that system), so that later 
+invocations of the program will start without the dialog.
+
+(I have all the pieces of this in other examples - here and
+in Xlib - pieces to create
+dialogs and get their value, pieces to read and write files, pieces
+to read a property (writing is almost the same)).

@@ -1,0 +1,924 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 CONTENTS
+
+
+       Preface............................................       xv
+            Audience......................................       xv
+            Contents......................................       xv
+            Typographical Conventions.....................      xvi
+
+        1.  Introduction to the OSF/Motif
+            Toolkit.......................................      1-1
+            1.1    The OSF/Motif Toolkit and the X Window
+                   System.................................      1-1
+            1.2    Widget Classes and Hierarchy...........      1-1
+            1.3    Compiling Sample Programs..............      1-8
+
+        2.  Widgets, Gadgets, and Convenience Func-
+            tions.........................................      2-1
+            2.1    Widgets................................      2-1
+                   2.1.1    Shell Widgets.................      2-3
+                   2.1.2    Display Widgets...............      2-4
+                   2.1.3    Container Widgets.............      2-8
+                   2.1.4    Dialog Widgets................     2-14
+                   2.1.5    Dialog Widget Descrip-
+                            tions.........................     2-15
+                   2.1.6    Convenience Dialogs...........     2-15
+                   2.1.7    Menu Widgets..................     2-17
+            2.2    Gadgets................................     2-17
+            2.3    Convenience Functions..................     2-19
+
+        3.  Using Motif Widgets in Programs...............      3-1
+            3.1    Introduction to the xmbutton Pro-
+                   gram...................................      3-1
+                   3.1.1    Widget Tree Diagram for the
+                            xmbutton Program..............      3-2
+                   3.1.2    Program Listing for
+                            xmbutton.c....................      3-2
+                   3.1.3    Defaults File XMdemos Partial
+                            Listing.......................      3-3
+                   3.1.4    Output Produced by the xmbut-
+                            ton Program...................      3-3
+            3.2    Including Header Files.................      3-4
+            3.3    Initializing the Xt Intrin-
+                   sics...................................      3-4
+            3.4    Creating Argument Lists for Widg-
+                   ets....................................      3-6
+            3.5    Adding Callback Procedures.............      3-6
+                   3.5.1    Writing a Callback Pro-
+                            cedure........................      3-7
+                   3.5.2    Adding Callbacks..............      3-7
+                   3.5.3    Setting Widgets' Callback
+                            Resources.....................      3-8
+
+
+
+                                  - i -
+
+
+
+
+
+
+
+
+
+
+
+            3.6    Creating the Widget....................      3-9
+            3.7    Making the Widget Visible..............      3-9
+            3.8    Linking Libraries......................     3-10
+            3.9    Creating Defaults Files................     3-10
+                   3.9.1    Application Defaults
+                            Files.........................     3-11
+                   3.9.2    User Defaults Files...........     3-11
+                   3.9.3    Defaults File Exam-
+                            ple...........................     3-11
+            3.10   Using Color............................     3-12
+                   3.10.1   Visual Capabilities and
+                            Attributes....................     3-12
+                   3.10.2   Using the Capabili-
+                            ties..........................     3-13
+            3.11   Advanced Programming Tech-
+                   niques.................................     3-13
+                   3.11.1   Setting Argument
+                            Values........................     3-13
+                   3.11.2   Manipulating Created Widg-
+                            ets...........................     3-15
+            3.12   An Advanced Sample Program.............     3-15
+                   3.12.1   Windows Used in
+                            xmfonts.......................     3-16
+                   3.12.2   Widget Hierarchy..............     3-17
+                   3.12.3   Source Code...................     3-19
+
+        4.  Shell Widgets.................................      4-1
+            4.1    Descriptions of Shell Widgets..........      4-1
+            4.2    Shell Widget Appearance................      4-2
+
+        5.  Dialog Widgets and Functions..................      5-1
+            5.1    Dialog Widgets and Menus...............      5-1
+            5.2    A List of the Dialog Widgets...........      5-1
+            5.3    Convenience Dialogs....................      5-2
+            5.4    Using Dialogs and Convenience Func-
+                   tions..................................      5-3
+                   5.4.1    XmDialogShell.................      5-3
+                   5.4.2    XmBulletinBoard...............      5-4
+                   5.4.3    XmCommand.....................      5-5
+                   5.4.4    XmFileSelectionBox............      5-8
+                   5.4.5    XmForm........................      5-9
+                   5.4.6    XmMessageBox..................     5-12
+                   5.4.7    XmSelectionBox................     5-14
+
+        6.  Menus.........................................      6-1
+            6.1    Overview of the Motif Menu Sys-
+                   tem....................................      6-1
+                   6.1.1    Convenience Functions and
+                            Widgets Used to Create
+                            Menus.........................      6-1
+
+
+
+
+                                  - ii -
+
+
+
+
+
+
+
+
+
+
+
+                   6.1.2    Introducing the Three Menu
+                            Types.........................      6-3
+            6.2    Creating Popup Menu Systems............      6-5
+                   6.2.1    Popup MenuPane Convenience
+                            Function......................      6-6
+                   6.2.2    Event Handlers for Popup Menu
+                            Systems.......................      6-6
+                   6.2.3    Procedure for Creating a
+                            Popup Menu....................      6-6
+                   6.2.4    Interacting with Popup
+                            Menus.........................      6-8
+                   6.2.5    Sample Program................      6-9
+            6.3    Creating a Pulldown Menu Sys-
+                   tem....................................     6-10
+                   6.3.1    MenuBar Create Func-
+                            tion..........................     6-10
+                   6.3.2    Pulldown MenuPane Create
+                            Function......................     6-11
+                   6.3.3    Creating a Help But-
+                            ton...........................     6-11
+                   6.3.4    Procedure for Creating a
+                            Pulldown Menu.................     6-11
+                   6.3.5    Interacting with Pulldown
+                            Menus.........................     6-13
+                   6.3.6    Sample Program................     6-13
+            6.4    Creating Submenus......................     6-16
+                   6.4.1    Procedure for Creating Sub-
+                            menus.........................     6-16
+                   6.4.2    Interacting with Sub-
+                            menus.........................     6-17
+                   6.4.3    Sample Program................     6-17
+            6.5    Creating Option Menu Systems...........     6-19
+                   6.5.1    Option MenuPane Create Func-
+                            tion..........................     6-20
+                   6.5.2    Procedure for Creating an
+                            Option Menu...................     6-20
+                   6.5.3    Interacting with Option
+                            Menus.........................     6-21
+                   6.5.4    Sample Program................     6-21
+            6.6    Selecting a Menu Cursor................     6-23
+            6.7    Creating Menus Without Convenience
+                   Functions..............................     6-25
+                   6.7.1    Functions for Creating
+                            Menus.........................     6-25
+                   6.7.2    Parenting Relation-
+                            ships.........................     6-25
+                   6.7.3    Sample Program................     6-27
+
+        7.  Specialized Widgets...........................      7-1
+            7.1    List Widget............................      7-1
+                   7.1.1    List Functions................      7-1
+
+
+
+                                 - iii -
+
+
+
+
+
+
+
+
+
+
+
+                   7.1.2    Using the List
+                            Widget........................      7-3
+            7.2    RowColumn Widget.......................     7-10
+                   7.2.1    RowColumn Types...............     7-10
+                   7.2.2    RowColumn Functions...........     7-10
+                   7.2.3    Layout........................     7-11
+            7.3    Text Widget............................     7-14
+                   7.3.1    Text Functions................     7-14
+                   7.3.2    Using the Text Widget in a
+                            Program.......................     7-15
+
+        8.  Additional Functionality......................      8-1
+            8.1    Compound Strings.......................      8-1
+                   8.1.1    Components of a Compound
+                            String........................      8-2
+                   8.1.2    Compound String Func-
+                            tions.........................      8-3
+                   8.1.3    A Sample Program..............     8-12
+            8.2     Cut and Paste Functions...............     8-13
+                   8.2.1    Clipboard Copy Func-
+                            tions.........................     8-13
+                   8.2.2    Clipboard Inquire Func-
+                            tions.........................     8-18
+                   8.2.3    Clipboard Retrieve Func-
+                            tions.........................     8-21
+                   8.2.4    Miscellaneous Clipboard Func-
+                            tions.........................     8-23
+            8.3    Dynamic Resource Defaulting............     8-25
+            8.4    Localization...........................     8-25
+            8.5    Pixmap Caching Functions...............     8-27
+            8.6    Resolution Independence................     8-29
+                   8.6.1    The Resolution Independence
+                            Mechanism.....................     8-29
+                   8.6.2    Setting the Font
+                            Units.........................     8-30
+                   8.6.3    Converting Between Unit
+                            Types.........................     8-30
+            8.7    Interacting With the Motif Window
+                   Manager................................     8-31
+                   8.7.1    Protocol Management...........     8-31
+                   8.7.2    Protocol Manager Func-
+                            tions.........................     8-32
+                   8.7.3    Atom Management...............     8-34
+            8.8    Motif Version Number...................     8-35
+            8.9    Motif Window Manager Presence..........     8-35
+
+        9.  Keyboard Interface............................      9-1
+            9.1    Keyboard Focus Models..................      9-1
+            9.2    Grouping Widgets Into Tab
+                   Groups.................................      9-1
+
+
+
+
+                                  - iv -
+
+
+
+
+
+
+
+
+
+
+
+            9.3    Traversal Within and Between Tab
+                   Groups.................................      9-2
+            9.4    Keyboard Input Processing to a
+                   Widget.................................      9-3
+
+       10.  Introduction to the OSF/Motif Window
+            Manager.......................................     10-1
+            10.1   Conventions............................     10-1
+            10.2   Some Window Manager Precau-
+                   tions..................................     10-2
+
+       11.  Understanding the Principles of Window
+            Management....................................     11-1
+            11.1   Getting User Input.....................     11-1
+                   11.1.1   Using a Pointer...............     11-1
+                   11.1.2   Using a Keyboard..............     11-2
+                   11.1.3   Modifying Default
+                            Behavior......................     11-2
+            11.2   Using Focus Policies:  Keyboard Input
+                   and Colormaps..........................     11-3
+                   11.2.1   Setting the Colormap Focus
+                            Policy .......................     11-4
+            11.3   Distinguishing Windows by
+                   Type...................................     11-4
+                   11.3.1   Choosing the Right Type of
+                            Client Window.................     11-4
+                   11.3.2   Input Modes...................     11-5
+                   11.3.3   Understanding Window Manager
+                            Windows.......................     11-5
+            11.4   Understanding the Parts of the MWM
+                   Window Frame...........................     11-7
+                   11.4.1   Coloring Frame Com-
+                            ponents.......................     11-7
+                   11.4.2   Understanding Frame Com-
+                            ponents and Their
+                            Behavior......................     11-8
+                   11.4.3   Selecting From the Window
+                            Menu..........................    11-12
+            11.5   Placing and Sizing Windows.............    11-14
+                   11.5.1   Stacking Windows..............    11-15
+            11.6   Introduction to Icons..................    11-15
+
+       12.  Communicating Between MWM and Clients: MWM
+            Properties....................................     12-1
+            12.1   MWM Programmatic Interface Stan-
+                   dards..................................     12-1
+            12.2   Inter-Client Communication Conven-
+                   tions..................................     12-1
+                   12.2.1   Programming Client
+                            Actions.......................     12-1
+
+
+
+
+                                  - v -
+
+
+
+
+
+
+
+
+
+
+
+                   12.2.2   Client Responses to MWM
+                            Actions.......................     12-6
+            12.3   MWM Specific Information...............     12-7
+                   12.3.1   The _MOTIF_WM_HINTS Pro-
+                            perty.........................     12-7
+                   12.3.2   Window Management
+                            Calls.........................    12-10
+
+       13.  Managing Windows With MWM.....................     13-1
+            13.1   Starting Up MWM........................     13-1
+            13.2   Using Resources to Configure
+                   MWM....................................     13-2
+                   13.2.1   The Hierarchy of Resource
+                            Configuration Files...........     13-2
+                   13.2.2   Classification of
+                            Resources.....................     13-2
+                   13.2.3   Order of Precedence...........     13-3
+                   13.2.4   The Syntax for Declaring
+                            Resources.....................     13-3
+            13.3   Managing Screens.......................     13-4
+            13.4   Setting Focus Policies for Active Win-
+                   dows...................................     13-4
+                   13.4.1   Colormap Focus Pol-
+                            icy...........................     13-4
+                   13.4.2   Keyboard Focus Pol-
+                            icy...........................     13-4
+                   13.4.3   The Syntax of Focus Policy
+                            Resources.....................     13-5
+            13.5   Managing Clients.......................     13-6
+            13.6   Managing the Appearance and Behavior
+                   of Window Frames and Mattes............     13-6
+            13.7   Specifying a Different Font for the
+                   Window Manager.........................     13-7
+            13.8   Coloring Window Frames.................     13-7
+                   13.8.1   Coloring Individual Frame
+                            Elements......................     13-9
+                   13.8.2   Syntax for Resources Control-
+                            ling Frame Appearance Ele-
+                            ment..........................     13-9
+            13.9   Making Window Frame Pixmaps............    13-10
+            13.10  Specifying a Matte for Client Win-
+                   dows...................................    13-11
+                   13.10.1  Coloring Individual Matte
+                            Elements......................    13-12
+                   13.10.2  Changing the Pixmap of
+                            Mattes........................    13-12
+                   13.10.3  The Syntax for Matte
+                            Resources.....................    13-12
+            13.11  Using Frameless or Reduced-Element
+                   Windows................................    13-13
+
+
+
+
+                                  - vi -
+
+
+
+
+
+
+
+
+
+
+
+                   13.11.1  Adding or Removing Ele-
+                            ments.........................    13-14
+                   13.11.2  The Syntax for clientDecora-
+                            tion and transientDecoration
+                            Resources.....................    13-14
+            13.12  Controlling Window Size and Posi-
+                   tion...................................    13-15
+                   13.12.1  Window Size
+                            Resources.....................    13-15
+                   13.12.2  Window Position
+                            Resources.....................    13-16
+                   13.12.3  Other Resources...............    13-17
+                   13.12.4  The Syntax for Size and Posi-
+                            tion Refinement
+                            Resources.....................    13-17
+
+       14.  Managing Menus, Mouse Buttons, and Keyboard
+            Bindings......................................     14-1
+            14.1   MWM Resource Description File..........     14-1
+            14.2   Modifying Menus and Default
+                   Menus..................................     14-2
+            14.3   Making New Menus.......................     14-3
+                   14.3.1   Menu Titles...................     14-3
+                   14.3.2   Menu Items....................     14-3
+                   14.3.3   Mnemonics and Accelera-
+                            tors..........................     14-4
+                   14.3.4   MWM Functions.................     14-4
+                   14.3.5   Size of Menu Window...........     14-8
+                   14.3.6   Binding a Menu to a Mouse
+                            Button or Key.................     14-9
+            14.4   Changing the Menu Associated with the
+                   Window Menu Button.....................     14-9
+                   14.4.1   Size of Menu Window...........    14-11
+                   14.4.2   Binding a Menu to a Mouse
+                            Button or Key.................    14-11
+            14.5   Changing the Menu Associated with the
+                   Window Menu Button.....................    14-11
+            14.6   Mouse Button Bindings..................    14-12
+                   14.6.1   Default Button Bind-
+                            ings..........................    14-12
+                   14.6.2   Button Binding Syntax and
+                            Modifying Button Bind-
+                            ings..........................    14-13
+                   14.6.3   Making a New Button Binding
+                            Set...........................    14-15
+                   14.6.4   Modifying Button Click Tim-
+                            ing...........................    14-16
+            14.7   Keyboard Bindings......................    14-16
+                   14.7.1   Default Keyboard Bind-
+                            ings..........................    14-16
+
+
+
+
+                                 - vii -
+
+
+
+
+
+
+
+
+
+
+
+                   14.7.2   Keyboard Binding Syntax and
+                            Modifying Keyboard Bind-
+                            ings..........................    14-16
+                   14.7.3   Making a New Button Binding
+                            Set...........................    14-18
+                   14.7.4   Modifying Button Click Tim-
+                            ing...........................    14-19
+            14.8   Keyboard Bindings......................    14-19
+                   14.8.1   Default Keyboard Bind-
+                            ings..........................    14-19
+                   14.8.2   Keyboard Binding Syntax and
+                            Modifying Keyboard Bind-
+                            ings..........................    14-19
+                   14.8.3   Making a New Keyboard Binding
+                            Set...........................    14-20
+
+       15.  Working with Icons............................     15-1
+            15.1   Studying Icon Anatomy..................     15-1
+                   15.1.1   The Image.....................     15-1
+                   15.1.2   The Label.....................     15-2
+            15.2   Manipulating Icons.....................     15-2
+                   15.2.1   Controlling Icon Place-
+                            ment..........................     15-4
+                   15.2.2   The Syntax for Icon Placement
+                            Resources.....................     15-5
+            15.3   Controlling Icon Appearance and
+                   Behavior...............................     15-5
+                   15.3.1   Selecting Icon Decora-
+                            tion..........................     15-5
+                   15.3.2   Sizing Icons..................     15-5
+                   15.3.3   The Syntax for Resources that
+                            Control Icon Appear-
+                            ance..........................     15-6
+            15.4   Coloring Icons.........................     15-6
+                   15.4.1   The Syntax for Icon Coloring
+                            Resources.....................     15-7
+            15.5   Using the Icon Box to Hold
+                   Icons..................................     15-8
+                   15.5.1   Controlling Icon Box Appear-
+                            ance and Behavior.............     15-8
+                   15.5.2   Controlling Icons in the Icon
+                            Box...........................     15-9
+
+       16.  Quick Reference Tables........................     16-1
+            16.1   Syntax for Resources...................     16-1
+            16.2   Resource Tables........................     16-1
+                   16.2.1   Coloring Windows, Icons,
+                            Menus, and Mattes.............     16-2
+                   16.2.2   Shading.......................     16-2
+                   16.2.3   Window Decorations............     16-3
+                   16.2.4   Focus Policies................     16-4
+
+
+
+                                 - viii -
+
+
+
+
+
+
+
+
+
+
+
+                   16.2.5   Controlling Windows...........     16-5
+                   16.2.6   Controlling Window Size and
+                            Position......................     16-6
+                   16.2.7   Configuring Icons.............     16-7
+                   16.2.8   Configuring the Icon
+                            Box...........................     16-7
+            16.3   MWM Functions..........................     16-8
+
+       17.  Introduction to the User Interface
+            Language......................................     17-1
+            17.1   Overview of UIL and MRM................     17-1
+            17.2   Benefits of Using UIL and MRM..........     17-1
+                   17.2.1   Easier Coding.................     17-1
+                   17.2.2   Earlier Error Detec-
+                            tion..........................     17-2
+                   17.2.3   Separation of Form and Func-
+                            tion..........................     17-2
+                   17.2.4   Faster Prototype Develop-
+                            ment..........................     17-2
+                   17.2.5   Interface Customiza-
+                            tion..........................     17-2
+            17.3   Features of UIL........................     17-2
+                   17.3.1   Named Values..................     17-3
+                   17.3.2   Compile-Time Expres-
+                            sions.........................     17-3
+                   17.3.3   Identifiers...................     17-3
+                   17.3.4   Lists.........................     17-3
+                   17.3.5   Support for Compound
+                            Strings.......................     17-3
+
+       18.  UIL Language Syntax...........................     18-1
+            18.1   Character Set..........................     18-1
+                   18.1.1   Punctuation Charac-
+                            ters..........................     18-2
+            18.2   Names..................................     18-2
+            18.3   Keywords...............................     18-3
+            18.4   Literals ..............................     18-6
+                   18.4.1   String Literals...............     18-6
+                   18.4.2   Concatenated String
+                            Literals......................     18-8
+                   18.4.3   Integer Literals..............    18-11
+                   18.4.4   Boolean Literals..............    18-12
+                   18.4.5   Floating-Point
+                            Literals......................    18-12
+            18.5   Value-Generating Functions.............    18-12
+                   18.5.1   The CHARACTER_SET Func-
+                            tion..........................    18-13
+                   18.5.2   The KEYSYM Function...........    18-13
+                   18.5.3   Functions for Specifying
+                            Colors........................    18-13
+
+
+
+
+                                  - ix -
+
+
+
+
+
+
+
+
+
+
+
+                   18.5.4   Functions for Specifying Pix-
+                            maps..........................    18-15
+                   18.5.5   The SINGLE_FLOAT Func-
+                            tion..........................    18-17
+                   18.5.6   The FLOAT Function............    18-17
+                   18.5.7   The FONT Function.............    18-17
+                   18.5.8   The FONT_TABLE Func-
+                            tion..........................    18-18
+                   18.5.9   The COMPOUND_STRING Func-
+                            tion..........................    18-18
+                   18.5.10  The COMPOUND_STRING_TABLE
+                            Function......................    18-19
+                   18.5.11  The ASCIZ_STRING_TABLE Func-
+                            tion..........................    18-19
+                   18.5.12  The INTEGER_TABLE Func-
+                            tion..........................    18-19
+                   18.5.13  The ARGUMENT Func-
+                            tion..........................    18-20
+                   18.5.14  The REASON Function...........    18-22
+                   18.5.15  The TRANSLATION_TABLE Func-
+                            tion..........................    18-22
+            18.6   The any Data Type......................    18-23
+            18.7   Compile-Time Value Expres-
+                   sions..................................    18-24
+
+       19.  UIL Module Structure..........................     19-1
+            19.1   Structure of a UIL Module..............     19-1
+                   19.1.1   Version Clause................     19-2
+                   19.1.2   Case-Sensitivity
+                            Clause........................     19-2
+                   19.1.3   Default Character Set
+                            Clause........................     19-2
+                   19.1.4   Default Object Variant
+                            Clause........................     19-3
+            19.2   Scope of References to Values and
+                   Objects................................     19-3
+            19.3   Structure of a Value Section...........     19-4
+            19.4   Structure of a Procedure Sec-
+                   tion...................................     19-5
+            19.5   Structure of a List Section............     19-7
+                   19.5.1   Arguments List Struc-
+                            ture..........................     19-7
+                   19.5.2   Callbacks List Struc-
+                            ture..........................     19-8
+                   19.5.3   Controls List Struc-
+                            ture..........................     19-9
+                   19.5.4   Procedures List Struc-
+                            ture..........................     19-9
+            19.6   Structure of an Object Sec-
+                   tion...................................    19-10
+
+
+
+
+                                  - x -
+
+
+
+
+
+
+
+
+
+
+
+                   19.6.1   Specifying the Object Variant
+                            in the Module Header..........    19-11
+                   19.6.2   Specifying the Object Variant
+                            in the Object Declara-
+                            tion..........................    19-12
+            19.7   Structure of an Identifier Sec-
+                   tion...................................    19-13
+            19.8   Include Directive......................    19-14
+            19.9   Definitions for Constraint Argu-
+                   ments..................................    19-14
+            19.10  Symbolic Referencing of Widget
+                   IDs....................................    19-15
+
+       20.  Using the UIL Compiler .......................     20-1
+            20.1   Invoking the Compiler..................     20-1
+                   20.1.1   Invoking the Compiler by Com-
+                            mand..........................     20-1
+                   20.1.2   Invoking the Compiler by
+                            Function......................     20-2
+            20.2   Default Character Set for String
+                   Literals...............................     20-5
+            20.3   Interpreting Diagnostics Issued by the
+                   Compiler...............................     20-6
+            20.4   Reading the Compiler Listing...........     20-6
+                   20.4.1   Title.........................     20-7
+                   20.4.2   Source Line...................     20-7
+                   20.4.3   Diagnostics...................     20-7
+                   20.4.4   Summaries.....................     20-8
+
+       21.  Motif Resource Manager Functions..............     21-1
+            21.1   Setting Up Storage and Data Struc-
+                   tures..................................     21-1
+            21.2   Obtaining UID Database File
+                   IDs....................................     21-1
+            21.3   Closing a MRM Search Hierar-
+                   chy....................................     21-3
+            21.4   Registering MRM Information and Call-
+                   backs..................................     21-4
+                   21.4.1   Registering MRM Informa-
+                            tion..........................     21-4
+                   21.4.2   Registering a Vector of Call-
+                            back Functions................     21-4
+            21.5   Fetching Widgets.......................     21-6
+                   21.5.1   Fetching Values Stored in UID
+                            Files.........................     21-6
+                   21.5.2   Fetching Indexed Application
+                            Widgets.......................     21-7
+                   21.5.3   Overriding MrmFetchWidget
+                            Arguments.....................     21-8
+            21.6   Fetching Literals......................     21-9
+
+
+
+
+                                  - xi -
+
+
+
+
+
+
+
+
+
+
+
+                   21.6.1   Fetching a Named Color
+                            Literal.......................     21-9
+                   21.6.2   Fetching an Icon
+                            Literal.......................    21-10
+                   21.6.3   Fetching a Literal
+                            Value.........................    21-11
+
+       22.  Creating User Interfaces with UIL and
+            MRM...........................................     22-1
+            22.1   Specifying a User Interface Using
+                   UIL....................................     22-1
+                   22.1.1   Creating a UIL Specification
+                            File..........................     22-1
+                   22.1.2   Declaring the UIL
+                            Module........................     22-2
+                   22.1.3   Using Constants Defined in
+                            the Motif Toolkit.............     22-3
+                   22.1.4   Declaring Procedures..........     22-3
+                   22.1.5   Declaring Values..............     22-5
+                   22.1.6   Declaring Interface Objects
+                            in a UIL Module...............     22-9
+                   22.1.7   Using an Icon as a Widget
+                            Label.........................    22-11
+                   22.1.8   Recommended Coding Tech-
+                            niques........................    22-13
+            22.2   Creating a User Interface at Run Time
+                   with MRM...............................    22-15
+                   22.2.1   Accessing the UID File at Run
+                            Time..........................    22-18
+                   22.2.2   Deferring Fetching............    22-22
+                   22.2.3   Getting Literal Values from
+                            UID Files.....................    22-22
+                   22.2.4   Setting Values at Run Time
+                            Using UID Resources...........    22-23
+                   22.2.5   Using an Object Definition as
+                            a Template....................    22-27
+            22.3   Customizing a Motif Interface Using
+                   UIL and MRM............................    22-28
+            22.4   Using UIL on Large Projects............    22-29
+            22.5   Working with User-Defined Widgets in
+                   UIL....................................    22-30
+                   22.5.1   Defining Arguments and Rea-
+                            sons for a User-Defined
+                            Widget........................    22-30
+                   22.5.2   Using a User-Defined Widget
+                            in an Interface Specifica-
+                            tion..........................    22-31
+                   22.5.3   Accessing a User-Defined
+                            Widget at Run Time............    22-33
+
+       23.  The Widget Meta-Language Facility.............     23-1
+
+
+
+                                 - xii -
+
+
+
+
+
+
+
+
+
+
+
+            23.1   Using WML..............................     23-1
+                   23.1.1   Building WML..................     23-2
+                   23.1.2   Running WML...................     23-2
+                   23.1.3   Installing UIL................     23-3
+                   23.1.4   Building UIL..................     23-3
+            23.2   Modifying WML files....................     23-4
+                   23.2.1   WML Syntax....................     23-4
+
+        A.  Constraint Arguments..........................      A-1
+
+        B.  UIL Built-In Tables...........................      B-1
+
+        C.  UIL Arguments.................................      C-1
+
+        D.  UIL Diagnostic Messages.......................      D-1
+
+       Glossary...........................................     GL-1
+
+       Index..............................................  Index-1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 - xiii -
+
+
+
+

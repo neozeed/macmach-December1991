@@ -1,0 +1,55 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCvtCTToXmString 3X "" "" "" ""
+.SH NAME
+\fBXmCvtCTToXmString \(em a compound string function that converts
+compound text to a compound string.\fP
+.iX "XmCvtCTToXmString"
+.iX "compound string functions" "XmCvtCTToXmString"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmCvtCTToXmString (\fItext\fP)
+.br
+.ta .5i 1.75i
+.br
+	char	\fI* text\fP;
+.fi
+\fP
+.sp
+.ne 3i
+.SH DESCRIPTION
+\fBXmCvtCTToXmString\fP converts a (char *) string in compound text
+format to a compound string.
+.sp 1
+.IP "\fItext\fP" .75i
+Specifies a string in compound text format to be converted to a compound
+string.
+.sp 1
+.SH RETURN VALUE
+Returns a compound string derived from the compound text.
+The compound text is assumed to be NULL-terminated; NULLs within the
+compound text are handled correctly.
+The handling of HORIZONTAL TABULATION (HT) control characters within the
+compound text is undefined.
+The compound text format is described in the X Consortium Standard
+\fICompound Text Encoding\fP.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCvtXmStringToCT(3X)\fP.
+.sp 1
+.ad

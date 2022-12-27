@@ -1,0 +1,57 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	snames.man,v $
+.\" Revision 2.3  91/03/19  12:40:13  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:34:00  rpd
+.\" 	Initial check-in.
+.\" 	[90/09/12  15:53:35  rpd]
+.\" 
+.TH  SNAMES  1 6/18/90
+.CM 4
+.SH NAME
+snames \- simple name server
+.SH SYNOPSIS
+\fBsnames\fP [\fB-d\fP] [command args...]
+.SH DESCRIPTION
+\fIsnames(1)\fR is a simple server implementing the netname name service.
+It is like a netmsgserver which doesn't know about networks.
+.PP
+By default, \fIsnames\fR tries to become the primary name service
+for the machine.  In this mode, it takes no arguments.
+Otherwise, \fIsnames\fR becomes a secondary name service.
+In this mode, it takes a command (often a shell) to run under
+the secondary name service.
+.PP
+\fIsnames\fR interprets the following options:
+.TP 8
+.B \-d
+Turns on debugging.  \fIsnames\fR will print informative messages
+to stderr when clients register and lookup ports.
+.SH "SEE ALSO"
+netname(3), netmsgserver(8).

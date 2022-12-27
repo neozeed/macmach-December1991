@@ -1,0 +1,84 @@
+STD_DEFINES = ServerDefines
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+       SRCS = 	xallowev.c \
+		xchgkbd.c \
+		xchgfctl.c \
+		xchgkmap.c \
+		xchgprop.c \
+		xchgptr.c \
+		xclosedev.c \
+		xexevents.c \
+		xextinit.c \
+		xgetfctl.c \
+		xgetfocus.c \
+		xgetbmap.c \
+		xgetkmap.c \
+		xgetmmap.c \
+		xgetprop.c \
+		xgetselev.c \
+		xgetvers.c \
+		xgtmotion.c \
+		xgrabdev.c \
+		xgrabdevb.c \
+		xgrabdevk.c \
+		xlistdev.c \
+		xopendev.c \
+		xqueryst.c \
+		xselectev.c \
+		xsendexev.c \
+		xsetfocus.c \
+		xsetmode.c \
+		xsetbmap.c \
+		xsetmmap.c \
+		xungrdev.c \
+		xungrdevb.c \
+		xungrdevk.c 
+
+       OBJS =   xallowev.o \
+		xchgkbd.o \
+		xchgfctl.o \
+		xchgkmap.o \
+		xchgprop.o \
+		xchgptr.o \
+		xclosedev.o \
+		xexevents.o \
+		xextinit.o \
+		xgetfctl.o \
+		xgetfocus.o \
+		xgetbmap.o \
+		xgetkmap.o \
+		xgetmmap.o \
+		xgetprop.o \
+		xgetselev.o \
+		xgetvers.o \
+		xgtmotion.o \
+		xgrabdev.o \
+		xgrabdevb.o \
+		xgrabdevk.o \
+		xlistdev.o \
+		xopendev.o \
+		xqueryst.o \
+		xselectev.o \
+		xsendexev.o \
+		xsetfocus.o \
+		xsetmode.o \
+		xsetbmap.o \
+		xsetmmap.o \
+		xungrdev.o \
+		xungrdevb.o \
+		xungrdevk.o 
+CDEBUGFLAGS = ServerCDebugFlags
+   INCLUDES = -I../../include -I../../../server/include -I$(INCLUDESRC)
+   LINTLIBS = ../../../server/dix/llib-ldix.ln ../../../server/os/4.2bsd/llib-los.ln
+
+NormalLibraryTarget(xinput,$(OBJS))
+NormalLibraryObjectRule()
+LintLibraryTarget(xinput,$(SRCS))
+NormalLintTarget($(SRCS))
+
+saber_src:
+	#load $(CFLAGS) $(SRCS)
+
+DependTarget()
+

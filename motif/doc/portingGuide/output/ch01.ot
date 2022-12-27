@@ -1,0 +1,1093 @@
+
+
+
+
+                                                      Porting Guide
+
+
+       1.  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn
+
+       This document provides information for porting Applications
+       to OSF/Motif.  It is of particular interest to developers
+       porting applications from the XUI toolkit.
+
+       In certain areas the OSF/Motif toolkit is different from the
+       XUI toolkit.  In some instances, the functionality present
+       in XUI has been changed; in other instances the functional-
+       ity found in XUI is not present in OSF/Motif.  The purpose
+       of this chapter (and of Appendix A) is to help developers
+       with significant applications on XUI to move those applica-
+       tions, as painlessly as possible, to the OSF/Motif toolkit.
+
+       Developers should be aware that the changes outlined in this
+       document are merely a starting point and are by no means
+       complete.  This is particularly true of the section entitled
+       "Widget Hierarchy Differences by Class" later in this
+       chapter.  A complete version of this document will be avail-
+       able with Motif Release 1.0.
+
+                                   NNNNOOOOTTTTEEEE
+
+       The OSF/Motif toolkit provides some functionality that goes
+       beyond what is present in XUI.  However, since this func-
+       tionality does not conflict with the XUI API, it is not
+       documented here.
+
+       This remainder of this document describes, in general, the
+       changes that were made to XUI in order to produce the
+       OSF/Motif toolkit.  The bulk of these changes were made to
+       incorporate Presentation Manager (PM) behavior and the 3D
+       beveled appearance.  Other changes were made to provide con-
+       sistent naming or to prepare for enhanced functionality.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  1
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       2.  HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy
+
+       XUI defined a DwtCommon class which was a superclass not
+       only for primitive widgets such as DwtLabel and
+       DwtScrollBar, but also for composite widgets such as DwtMenu
+       and DwtMainWindow.  It defined a number of generally useful
+       resources.  These resources were also repeated in the DwtDi-
+       alog widget, and some of them in the DwtSText widget, nei-
+       ther of which were subclasses of DwtCommon.  Figure 1 on the
+       following page outlines the XUI widget hierarchy.
+
+       Motif defines XmManager as the superclass for all Motif com-
+       posite widgets, including both XmMainWindow (which was in
+       XUI's DwtCommon) and XmBulletinBoard (equivalent to DwtDia-
+       log, which was not).  XmPrimitive is the superclass all for
+       primitive widgets, including both XmScrollBar (which was in
+       XUI's DwtCommon), and XmText (equivalent to DwtSText, which
+       was not).  The reorganization of the class hierarchy based
+       on XmManager and XmPrimitive (as well as XmGadget, the
+       superclass for gadgets) was primarily done to simplify cod-
+       ing of PM-style keyboard traversal.  Figure 2 outlines the
+       OSF/Motif widget hierarchy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+                     FFFFiiiigggguuuurrrreeee 1111....  XUI Widget Hierarchy
+
+                  FFFFiiiigggguuuurrrreeee 2222....  OSF/Motif Widget Hierarchy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  3
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       3.  3333DDDD VVVViiiissssuuuuaaaallllssss
+
+       Motif uses consistent visuals for all widgets that support a
+       "3D bevelled" appearance.  The resources which control these
+       are found in XmManager, XmPrimitive, and XmGadget, and
+       include:
+
+       - XmNbottomShadowColor
+       - XmNbottomShadowPixmap
+       - XmNshadowThickness
+       - XmNtopShadowColor
+       - XmNtopShadowPixmap
+
+       These replace some resources used in XUI which had specific
+       visual effects, in particular:
+
+       - DwtNhalfBorder in DwtSText.
+       - DwtNbordHighlight, DwtNfillHighlight, and DwtNshadown in DwtPushButton
+
+       4.  RRRReeeessssoooolllluuuuttttiiiioooonnnn IIIInnnnddddeeeeppppeeeennnnddddeeeennnncccceeee
+
+       XUI provided a resolution independence mechanism which
+       allowed the x,y position of children in dialog boxes (DwtDi-
+       alog or its subclasses) to be specified in either pixel
+       units or font units, based upon a DwtNunits resource in the
+       dialog box.
+
+       Motif provides a resolution independence mechanism (not in
+       the AES, however) for all widgets.  Each widget (or gadget)
+       has an XmNunitType resource, the value of which can be
+       XmPIXELS, Xm100TH_MILLIMETERS, Xm1000TH_INCHES,
+       Xm100TH_POINTS, or Xm100TH_FONT_UNITS.  The unitType of a
+       widget determines the unit used for evaluating its own width
+       and height, and its own (not its children's) x,y position.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       4
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       5.  IIIInnnnppppuuuutttt MMMMooooddddeeeellll
+
+       XUI uses a "Globally Active" input model.  When a user
+       clicks on a widget, that widget determines whether or not
+       the window should take the keyboard focus.  In particular,
+       scrollbars in XUI do not take focus.
+
+       Motif uses a "Passive" input model.  When a user clicks any-
+       where within a window, the window manager determines whether
+       or not that window should have the focus.  In particular,
+       the Motif Window Manager, when operating using an explicit
+       keyboardFocusPolicy, sets focus to the window depending upon
+       which button has been pressed.
+
+       Consequently, Motif widget developers should not explicitly
+       call XSetInputFocus.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  5
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       6.  SSSSccccrrrroooolllllllliiiinnnngggg MMMMooooddddeeeellll
+
+       In XUI, both DwtSText and DwtListBox had scrolling built-in.
+       DwtListBox always provided vertical scrollbars if necessary,
+       and optionally provided horizontal scrollbars based upon
+       DwtNHorizontal.  DwtSText optionally provided a vertical
+       scrollbar based on DwtNscrollVertical, with DwtNscrollLeft-
+       Side determining if the scrollbar should be placed to the
+       left or right of the text.
+
+       In Motif, scrollbars are provided by placing either an
+       XmText or XmList widget inside of an XmScrolledWindow
+       widget, which actually provides the scrollbars.  Scrollbars
+       can be placed vertically on either the left or right, and
+       horizontally on either the top or bottom.
+
+       The convenience function XmCreateScrolledList creates an
+       XmList inside an XmScrolledWindow, and attaches XmList-
+       specific callbacks to the scrollbars.  The argument list
+       provided with XmCreateScrolledList is passed to the XmList
+       widget, which interprets some of its arguments to control
+       the scrollbars, including XmNlistSizePolicy, XmNscrollBar-
+       DisplayPolicy, and XmNscrollBarPlacement.  Depending upon
+       the policies chosen, both horizontal and vertical scrollbars
+       will either always be displayed, or just displayed when
+       needed.
+
+       The convenience function XmCreateScrolledText creates an
+       XmText inside an XmScrolledWindow, and attaches XmText-
+       specific callbacks to the scrollbars.  The argument list
+       provided with XmCreateScrolledText is passed to the XmText
+       widget, which interprets some of its arguments to control
+       the scrollbars.  XmNscrollHorizontal and XmNscrollVertical
+       specify whether or not to provide horizontal or vertical
+       scrollbars, and XmNscrollLeftSide and XmNscrollTopSide
+       specify their placement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       7.  CCCCoooommmmppppoooouuuunnnndddd SSSSttttrrrriiiinnnngggg FFFFuuuunnnnccccttttiiiioooonnnnaaaalllliiiittttyyyy
+
+       The compound string functionality supported in XUI has been
+       altered in Motif to present a more vendor neutral naming
+       scheme, as well as expanded application functionality.
+       Most of the changes are simply name changes.   In the case
+       of certain functions, argument order may have changed, or
+       arguments may be missing. Appendix A lists the name changes,
+       as well as suggested replacements for particular functions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  7
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       8.  GGGGaaaaddddggggeeeetttt FFFFuuuunnnnccccttttiiiioooonnnnaaaalllliiiittttyyyy
+
+       In both XUI and Motif, gadgets (windowless widgets) increase
+       performance by minimizing time for startup, exposure, and
+       resize processing, and by eliminating server space for a
+       window.   Both Motif and XUI subclass gadgets from RectObj,
+       not from Core, so that gadgets are smaller than their
+       corresponding widgets.  The missing Core resources deal with
+       translations and accelerators, and with color and other
+       aspects of the display, i.e.  XtNbackground, XtNbackground-
+       Pixmap, XtNborderColor, XtNborderPixmap, XtNcolormap,
+       XtNdepth, and XtNscreen.  These color-specific resources are
+       taken from the gadget's parents.  That is, all of the gadget
+       children of a manager widget share the same color-related
+       resources.
+
+       In both XUI and Motif, widgets also contain resources which
+       control highlighting--XUI defines DwtNhighlight and
+       DwtNhighlightPixmap in DwtCommon and DwtDialog, Motif
+       defines XmNhighlightColor and XmNhighlightPixmap in XmPrimi-
+       tive and XmManager.  Gadgets do not contain these resources.
+       In both toolkits, the highlighting of a gadget is determined
+       by the resources of its manager parent.
+
+       Motif expands on this model of resource sharing with the
+       other color-specific resources it defines--
+       XmNbottomShadowColor, XmNbottomShadowPixmap, XmNtopSha-
+       dowColor and XmNtopShadowPixmap.  These are defined in
+       XmPrimitive and XmManager, but not in XmGadget.  Gadgets in
+       Motif do not have these resources, and they are taken
+       instead from the manager widget which is the gadget's
+       parent.
+
+       XUI takes a more aggressive approach to reducing gadget
+       size.  In XUI, gadgets have many fewer resources than the
+       corresponding widgets.  In gadgets, the default value of the
+       missing resources are assumed, and cannot be changed.  Widg-
+       ets must be used in those cases where a different value is
+       required.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       8
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       9.  HHHHeeeellllpppp
+
+       The OSF UEC Selection Team did not choose to adopt the XUI
+       DwtHelp widget as part of Motif.  DwtHelp uses file-based
+       technology to provide a text-only help network.  The UEC
+       Selection Team chose to defer this component until the
+       industry could provide a hypermedia-based help system that
+       could support graphics as well as text.
+
+       Help callbacks are now provided as part of every widget and
+       gadget in Motif, and applications can build their own help
+       dialogs using XmCreateBuletinBoardDialog or XmCreateFormDia-
+       log.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  9
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       10.  SSSShhhheeeellllllllssss
+
+       Both XUI and Motif place top-level widgets in Shell widgets.
+       Users generally do not instantiate these shell widgets
+       directly.  Rather, they are instantiated as part of the
+       functions which create their children.  For example,
+       XmCreatePopupMenu creates an XmRowColumn widget inside an
+       XmMenuShell, XmCreateFormDialog creates an XmForm widget
+       inside an XmDialogShell, and XmCreateMainWindow creates an
+       XmMainWindow widget inside an ApplicationShell.
+
+       To speed up menu processing, all pulldown menu children of a
+       menu bar share the same XmMenuShell widget.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       10
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       11.  NNNNaaaammmmeeee CCCChhhhaaaannnnggggeeeessss
+
+       This section lists general rules for changing XUI widget,
+       function, resource and other names to comply with OSF/Motif.
+       Exceptions to each rule appear in Appendix A.
+
+       Many of these changes are simply intended to create a vendor
+       neutral naming scheme. For example, OSF/Motif uses the "Xm"
+       (X Motif) prefix instead of the "Dwt" prefix used in XUI and
+       the "Xaw" prefix used in the Athena Widget Set.
+
+       Certain changes to enumeration literals are intended to
+       reflect more closely the naming conventions set out in the
+       Xt Intrinsics manual.  For example, enumeration literals are
+       all upper case in the Intrinsics, and (except for the Xm
+       prefix), the same convention has been followed in Motif.
+       For example, the literal DwtAttachNone used for constraint
+       resources in DwtAttachedDB widgets has been changed to
+       XmATTACH_NONE.  Callback reasons have been similarly
+       changed, for example, from DwtCRArm to XmCR_ARM.
+
+       The general rules for name changes are as follows:
+
+         1.  Change the prefix Dwt to Xm.
+             For resource manager function names, change the prefix
+             DwtDrm to Mrm.
+             For resource names, change the prefix DwtN to XmN and
+             the prefix DwtNadb to XmN.
+         2.  Make the changes to widget class names specified in
+             "Widget Hierarchy Differences by Class" later in this
+             document.
+
+         3.  Change all create function names from Dwt*Create to
+             XmCreate*, while also keeping in mind the changes to
+             widget class names.
+
+         4.  The XUI create functions that do not use arglists
+             (e.g., DwtLabel) have no counterpart in OSF/Motif.
+
+         5.  Change the enumeration literals of the form
+             DwtAaaaAaaa to the form XmAAAA_AAAA.
+
+         6.  Change callback reasons from DwtCRAaaaAaaa to
+             XmCR_AAAA_AAAA.
+
+         7.  All String functions begin with XmString.
+             All FontList functions begin with XmFontList.
+             All Clipboard functions begin with XmClipboard.
+             All resource manager (Mrm) functions begin with Mrm.
+
+
+
+
+                                                                 11
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       12.  WWWWiiiiddddggggeeeetttt HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy DDDDiiiiffffffffeeeerrrreeeennnncccceeeessss bbbbyyyy CCCCllllaaaassssssss
+
+       This section outlines the changes to the XUI widget hierar-
+       chy to comply with OSF/Motif.  The XUI widget classes are
+       listed alphabetically with their Motif equivalents.  Beneath
+       each widget class appear functionality changes and name
+       changes within the class. Be aware that the listed changes
+       are merely a starting point.  They are not complete at this
+       time.
+       IIIItttteeeemmmm                                           XXXXUUUUIIII                   MMMMoooottttiiiiffff
+       __________________________________________________________________________________
+       Class:                                DwtAttachedDB           XmForm
+         Functionality changes:
+         Resource name changes:              DwtNhorizontal          XmNhorizontalSpacing
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtCommandWindow        XmCommand
+         Functionality changes:
+         Resource name changes:              DwtNprompt              XmNpromptString
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtCommon
+                                             The widget class DwtCommon has
+                                             no equivalent in Motif.  Its
+                                             resources are found in
+                                             XmManager, XmPrimitive, and to
+                                             some extent, XmGadget.
+77777         Functionality changes:
+
+
+
+
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtDialogBox            XmBulletinBoard
+                                             DwtNunits becomes XmNunitType,
+                                             which has been moved to
+                                             XmPrimitive, XmManager, and
+                                             XmGadget.
+                                             DwtModal has been split into
+                                             XmDIALOG_APPLICATION_MODAL and
+                                             XmDIALOG_SYSTEM_MODAL.
+7777777         Functionality changes:
+
+
+
+
+
+
+         Resource name changes:              DwtNstyle               XmNdialogStyle
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtFileSelection        XmFileSelectionBox
+         Functionality changes:
+         Resource name changes:              DwtNfilterLabel         XmNfilterLabelString
+         Enumeration literal name changes:
+
+
+
+
+       12
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       IIIItttteeeemmmm                                           XXXXUUUUIIII                   MMMMoooottttiiiiffff
+       __________________________________________________________________________________
+         Callback reason name changes:
+
+       Class:                                DwtLabel                XmLabel
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtListBox              XmList
+                                             There are now three selection
+                                             callbacks (single_selection,
+                                             multiple_selection, and
+                                             extend_selection) for XmList.
+                                             If XmNselection_policy is
+                                             XmSINGLE_SELECTION then the
+                                             first selection goes to the
+                                             single_selection callback,
+                                             otherwise it goes to the
+                                             multiple_selection callback.
+                                             Unless applications specifi-
+                                             cally set the selection policy
+                                             to XmSINGLE_SELECTION (the
+                                             default is
+                                             XmMULTIPLE_SELECTION), they
+                                             will not get callbacks on
+                                             selections in the list.
+77777777777777777         Functionality changes:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtMainWindow           XmMainWindow
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtMenu                 XmRowColumn
+         Functionality changes:
+         Resource name changes:              DwtNmenuNumColumns      XmNnumColumns
+                                             DwtNmenuPacking         XmNpacking
+                                             DwtNmenuIsHomogeneous   XmNisHomogeneous
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+
+
+
+
+
+
+
+                                                                 13
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       IIIItttteeeemmmm                                            XXXXUUUUIIII                       MMMMoooottttiiiiffff
+       _________________________________________________________________________________________
+       Class:                                DwtMessageBox             XmMessageBox
+         Functionality changes:
+         Resource name changes:              DwtNcancelLabel           XmNcancelLabelString
+                                             DwtNdefaultPushButton     XmNdefaultButtonType
+                                             DwtNhelpLabel             XmNhelpLabelString
+                                             DwtNokLabel               XmNokLabelString
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtMessageBox             XmMessageBox
+         Functionality changes:
+         Resource name changes:              DwtNcancelLabel           XmNcancelLabelString
+                                             DwtNdefaultPushButton     XmNdefaultButtonType
+                                             DwtNhelpLabel             XmNhelpLabelString
+                                             DwtNokLabel               XmNokLabelString
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtPullDownMenuEntry      XmCascadeButton
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtPushButton             XmPushButton
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtScale                  XmScale
+         Functionality changes:
+         Resource name changes:              DwtNtitleLabel            XmNtitleString
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtScrollBar              XmScrollBar
+         Functionality changes:
+         Resource name changes:              DwtNinc                   XmNincrement
+                                             DwtNpageDecCallback       XmNpageDecrementCallback
+                                             DwtNpageInc               XmNpageIncrement
+                                             DwtNpageIncCallback       XmNpageIncrementCallback
+                                             DwtNunitDecCallback       XmNdecrementCallback
+                                             DwtNunitIncCallback       XmNincrementCallback
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+
+
+
+
+       14
+
+
+
+
+
+
+
+
+
+                                                      Porting Guide
+
+
+       IIIItttteeeemmmm                                            XXXXUUUUIIII                       MMMMoooottttiiiiffff
+       _________________________________________________________________________________________
+       Class:                                DwtScrollWindow           XmScrolledWindow
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtSelection              XmSelectionBox
+         Functionality changes:
+         Resource name changes:              DwtNcancelLabel           XmNcancelLabelString
+                                             DwtNhelpLabel             XmNhelpLabelString
+                                             DwtNokLabel               XmNokLabelString
+                                             DwtNselectionLabel        XmNselectionLabelString
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtSeparator              XmSeparator
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtSText                  XmText
+                                             XmNlosingFocusCallback func-
+                                             tionally replaces DwtNlost-
+                                             FocusCallback.
+                                             XmCR_LOSING_FOCUS functionally
+                                             replaces DwtCRLostFocus.  The
+                                             Xm callback is different than
+                                             the Dwt callback in that it is
+                                             issued before focus is lost.
+77777777         Functionality changes:
+
+
+
+
+
+
+
+         Resource name changes:              DwtNautoShowInsertPoint   XmNautoShowCursorPosition
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtToggleButton           XmToggleButton
+         Functionality changes:
+         Resource name changes:              DwtNindicator             XmNindicatorOn
+                                             DwtNshape                 XmNindicatorType
+         Enumeration literal name changes:
+         Callback reason name changes:
+
+       Class:                                DwtWindow                 XmDrawingArea
+         Functionality changes:
+         Resource name changes:
+         Enumeration literal name changes:
+
+
+
+
+
+
+                                                                 15
+
+
+
+
+
+
+
+
+
+       Porting Guide
+
+
+       IIIItttteeeemmmm                                            XXXXUUUUIIII                       MMMMoooottttiiiiffff
+       _________________________________________________________________________________________
+         Callback reason name changes:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       16
+
+
+
+
+

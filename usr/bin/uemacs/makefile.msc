@@ -1,0 +1,83 @@
+CFLAGS=	/AL /c /G2 /Oas /Gs
+OBJ = obj
+SRC = src
+CC = cl
+HFILES = estruct.h edef.h efunc.h epath.h ebind.h evar.h etype.h
+F1 = $(OBJ)\basic.obj $(OBJ)\bind.obj $(OBJ)\buffer.obj $(OBJ)\crypt.obj
+F2 = $(OBJ)\display.obj $(OBJ)\eval.obj $(OBJ)\exec.obj $(OBJ)\file.obj
+F3 = $(OBJ)\fileio.obj $(OBJ)\input.obj $(OBJ)\isearch.obj $(OBJ)\line.obj
+F4 = $(OBJ)\lock.obj $(OBJ)\main.obj $(OBJ)\mouse.obj $(OBJ)\random.obj
+F5 = $(OBJ)\region.obj $(OBJ)\search.obj $(OBJ)\msdos.obj $(OBJ)\ibmpc.obj
+F6 = $(OBJ)\window.obj $(OBJ)\word.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\basic.obj: $(SRC)\basic.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\bind.obj: $(SRC)\bind.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\buffer.obj: $(SRC)\buffer.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\crypt.obj: $(SRC)\crypt.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\display.obj: $(SRC)\display.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\eval.obj: $(SRC)\eval.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\exec.obj: $(SRC)\exec.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\file.obj: $(SRC)\file.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\fileio.obj: $(SRC)\fileio.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\ibmpc.obj: $(SRC)\ibmpc.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\input.obj: $(SRC)\input.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\isearch.obj: $(SRC)\isearch.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\line.obj: $(SRC)\line.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\lock.obj: $(SRC)\lock.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\main.obj: $(SRC)\main.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\mouse.obj: $(SRC)\mouse.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\msdos.obj: $(SRC)\msdos.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\random.obj: $(SRC)\random.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\region.obj: $(SRC)\region.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\search.obj: $(SRC)\search.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\window.obj: $(SRC)\window.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+$(OBJ)\word.obj: $(SRC)\word.c $(HFILES)
+	$(CC) $(CFLAGS) /Fo$(OBJ)\$*.obj $(SRC)\$*.c
+
+emacs.exe: $(F1) $(F2) $(F3) $(F4) $(F5)
+	$(CC) /Feemacs /Fm /F 2000 $(OBJ)\*.obj

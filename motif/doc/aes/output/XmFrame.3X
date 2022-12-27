@@ -1,0 +1,264 @@
+
+
+
+     XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmFFFFrrrraaaammmmeeee ---- tttthhhheeee FFFFrrrraaaammmmeeee wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////FFFFrrrraaaammmmeeee....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Frame is a very simple manager used to enclose a single
+          child in a border drawn by Frame.  It uses the Manager class
+          resources for border drawing and performs geometry
+          management so that its size always matches its child's outer
+          size plus the Frame's margins and shadow thickness.
+
+          Frame is most often used to enclose other managers when the
+          application developer desires the manager to have the same
+          border appearance as the primitive widgets.  Frame can also
+          be used to enclose primitive widgets that do not support the
+          same type of border drawing.  This gives visual consistency
+          when you develop applications using diverse widget sets.
+
+          If the Frame's parent is a Shell widget, XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee
+          defaults to XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____OOOOUUUUTTTT, and Manager's resource
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss defaults to 1.
+
+          If the Frame's parent is not a Shell widget, XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee
+          defaults to XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____IIIINNNN, and Manager's resource
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss defaults to 2.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Frame inherits behavior and resources from the CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr classes.
+
+          The class pointer is xxxxmmmmFFFFrrrraaaammmmeeeeWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmFFFFrrrraaaammmmeeee.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))
+
+
+
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                              XXXXmmmmFFFFrrrraaaammmmeeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+      NNNNaaaammmmeeee              CCCCllllaaaassssssss             TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+      ____________________________________________________________________
+      XmNmarginWidth    XmCMarginWidth    Dimension       0         CSG
+      XmNmarginHeight   XmCMarginHeight   Dimension       0         CSG
+      XmNshadowType     XmCShadowType     unsigned char   dynamic   CSG
+
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the padding space on the left and right sides
+               between Frame's child and Frame's shadow drawing.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the padding space on the top and bottom sides
+               between Frame's child and Frame's shadow drawing.
+
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee
+               Describes the drawing style for Frame.  This resource
+               can have the following values:
+
+          +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____IIIINNNN - draws Frame so that it appears inset. This
+             means that the bottom shadow visuals and top shadow
+             visuals are reversed.
+
+          +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____OOOOUUUUTTTT - draws Frame so that it appears outset.
+             This is the default if Frame's parent is a Shell widget.
+
+          +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____IIIINNNN - draws Frame using a double line
+             giving the effect of a line etched into the window.  The
+             thickness of the double line is equal to the value of
+             XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.  This is the default when Frame's
+             parent is not a Shell widget.
+
+          +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____OOOOUUUUTTTT - draws Frame using a double line
+             giving the effect of a line coming out of the window.
+             The thickness of the double line is equal to the value of
+             XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Frame inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))
+
+
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    XmTAB_GROUP            CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmFrame inherits translations from XmManager.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmFFFFrrrraaaammmmeeee((((3333XXXX))))
+
+
+
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFrrrraaaammmmeeee((((3333XXXX)))),
+          and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+

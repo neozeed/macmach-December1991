@@ -1,0 +1,81 @@
+.\"
+.\" $Id: version.8,v 1.3 89/12/29 17:26:08 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	version.8,v $
+.\" Revision 1.3  89/12/29  17:26:08  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/29            bww]
+.\" 
+.\" 21-Oct-87  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Added description of -k option and use of name list file by default
+.\"	and a longer description of the kernel include version number.
+.\"
+.\" 14-Apr-87  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Updated description of version string contents.
+.\"
+.\" 07-Oct-86  Avadis Tevanian (avie) at Carnegie-Mellon University
+.\"	Documented addition of ability to specify a different file for
+.\"	name list and -i option.
+.\"
+.\" 25-Sep-86  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH VERSION 8 10/21/87
+.CM 4
+.SH NAME
+version \- print kernel version identification string
+.SH SYNOPSIS
+.B version
+[ -i ] [ name-list-file ]
+.br
+.B version
+[ -k ] [ name-list-file [ image-file ] ]
+.SH DESCRIPTION
+This program simply examines the currently installed kernel
+to obtain the version identification string.
+This string is then printed on the standard output.
+
+When the
+.B \-k
+option is used,
+the version string is read from the currently running kernel
+instead of from the namelist file.
+
+When the 
+.B \-i
+option is used, the include version number from the
+kernel name list is printed instead of the version string.
+
+If a name list file argument
+is specified, it is used to find the name list and version
+string instead of the current kernel.
+If an image file argument is provided,
+it is used instead of the currently running kernel.
+
+The kernel version string currently consists of the following five fields:
+the operating system name,
+the version number of the source area from which the kernel was built,
+the date/time of the build,
+the configuration directory in which it was built,
+and the host on which it was built.
+
+The kernel include version number is used to identify
+incompatible changes in exported kernel include files which are imported
+by kernel dependent programs such as
+.IR ps (1).
+The system determines the current kernel include version number at boot
+time and links all such dependent programs to the specific set of binaries
+built with the appropriate version of the exported kernel include files
+using the
+.IR syslink (8)
+script.
+.SH FILES
+.ta +\w'/dev/kmem  'u
+.I /vmunix	
+default kernel name list file
+.br
+.I /dev/kmem	
+default kernel image file
+.SH "SEE ALSO"
+.IR syslink (8)

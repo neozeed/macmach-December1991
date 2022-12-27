@@ -1,0 +1,3590 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       22.  CCCCrrrreeeeaaaattttiiiinnnngggg UUUUsssseeeerrrr IIIInnnntttteeeerrrrffffaaaacccceeeessss wwwwiiiitttthhhh UUUUIIIILLLL aaaannnndddd MMMMRRRRMMMM                |
+
+       This chapter shows how to build a UIL specification file for
+       the Motifburger demo, compile the file, and access it with
+       MRM functions.  It also provides programming tips for         |
+       developing international applications, working on large pro-
+       jects, and using user-defined widgets.
+
+       22.1  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg aaaa UUUUsssseeeerrrr IIIInnnntttteeeerrrrffffaaaacccceeee UUUUssssiiiinnnngggg UUUUIIIILLLL
+
+       The examples in this section are based on the demo applica-
+       tion called Motifburger, shown in Figure 22-1. In this sec-   |
+       tion, only relevant portions of the UIL module for the
+       Motifburger application are shown.  The complete UIL and C
+       source code for the Motifburger application is shipped with
+       the Motif software kit.  You can copy these source files      |
+       from ....////ddddeeeemmmmoooossss////mmmmoooottttiiiiffffbbbbuuuurrrrggggeeeerrrr.
+
+       Note that although the Motifburger application is designed    *
+       to show as many different widgets and UIL coding techniques
+       as possible, this application does not use every feature of
+       UIL.  Figure 22-5 shows the steps involved at run time to     |
+       set up an interface that was specified with UIL.
+
+       To specify an interface using UIL, you create one or more
+       UIL specification files with names that end with the charac-  |
+       ters .uil. Each file contains one UIL module block, or a
+       legal portion of a module block (such as an object defini-
+       tion).  The number of files you use to completely specify
+       the interface depends on the complexity of the application;
+       the need for variations (for example, English and French
+       versions); and the size of the development project team (on
+       large projects, the UIL module can be distributed over
+       several files to avoid access competition).
+
+       For each UIL module, do the following:
+
+         1.  Declare the UIL module (begin a module block).
+
+         2.  Include the supplied UIL constants file.
+
+         3.  Declare the callback procedures referenced in the
+             object declarations.
+
+
+
+                                                               22-1
+
+
+
+
+
+
+
+
+
+
+
+
+         4.  Declare the values (integers, strings, colors, and so   |
+             on) to be used in the object declarations.
+
+         5.  Declare the interface objects (widgets and gadgets).
+
+         6.  End the module block.
+
+       The following sections describe how to write each component
+       of a UIL module.
+
+       22.1.1  CCCCrrrreeeeaaaattttiiiinnnngggg aaaa UUUUIIIILLLL SSSSppppeeeecccciiiiffffiiiiccccaaaattttiiiioooonnnn FFFFiiiilllleeee
+
+       A UIL specification file contains a module block that con-
+       sists of a series of value, identifier, procedure, list, and
+       object sections. There can be any number of these sections    |
+       in a UIL module.  The UIL include directive allows you to     |
+       include the contents of another file in your UIL module.      |
+       To specify one or more complete sections, place the include   |
+       directive wherever a section is valid.  You cannot use an     |
+       include directive to specify a part of a section.
+
+       You can also use the include directive to have access to the
+       supplied UIL constants that are useful for specifying values
+       for some arguments such as XXXXmmmmNNNNddddiiiiaaaallllooooggggSSSSttttyyyylllleeee and XXXXmmmmNNNNaaaalllliiiiggggnnnnmmmmeeeennnntttt.   |
+       Section 22.1.3 describes this constants file.
+
+       The following example shows the overall structure of a UIL    |
+       module.                                                       |
+
+       !+
+       !   Sample UIL module                                         |
+       !-
+
+       module example                  ! Module name                 |
+       !+
+       !   Place module header clauses here.                         |
+       !-
+
+       !+                                                            |
+       !   Declare the VALUES, IDENTIFIERS, PROCEDURES, LISTS, and   |
+       !   OBJECTS here.                                             |
+       !-
+       end module;
+
+       22.1.2  DDDDeeeeccccllllaaaarrrriiiinnnngggg tttthhhheeee UUUUIIIILLLL MMMMoooodddduuuulllleeee
+
+       In the module declaration, you name the module and make
+       module-wide specifications using module header clauses.  The  |
+       following table explains optional UIL module header clauses
+       used in the module declaration.                               |
+
+
+
+       22-2
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+             TTTTAAAABBBBLLLLEEEE 22222222----1111....  Optional UIL Module Header Clauses
+
+       _______________________________________________________________*
+       CCCCllllaaaauuuusssseeee    PPPPuuuurrrrppppoooosssseeee            DDDDeeeeffffaaaauuuulllltttt       EEEExxxxaaaammmmpppplllleeee
+       _______________________________________________________________
+                 Allows you to
+                 ensure the
+                 correct version
+                 of the UIL
+                 module is being
+                 used.
+777777                                                  version = 'v1.1'      |
+7       Version                      None
+
+
+
+
+
+
+       Case                                                          |
+       sensi-                                                        |
+       tivity                                                        |
+777                 Specifies                                           |
+                 whether names in                                    |
+                 the UIL module                                      |
+                 are case sensi-                                     |
+                 tive or not.      |                                 |
+77777                                    Case                             |
+                                    insensi-                         |
+                                    tive                             |
+777                                                  names =            |
+                                                  case_sensitive     |
+77                                                                      |
+
+
+
+
+
+       Default                                                       |
+       charac-                                                       |
+       ter                                                           |
+       set                                                           |
+7777                 Specifies the                                       |
+                 default charac-                                     |
+                 ter set for                                         |
+                 string literals                                     |
+                 in the compiled                                     |
+                 UIL module.       |                                 |
+777777                                    _c_u_r__c_h_a_r_s_e_t                      |
+                                    (see                             |
+                                    Section                          |
+                                    20.3)                            |
+7777                                                  character_set =    |
+                                                  iso_latin6         |
+77                                                                      |
+
+
+
+
+
+
+       Object                                                        |
+       variant                                                       |
+77                 Specifies the                                       |
+                 default variant                                     |
+                 of objects                                          |
+                 defined in the                                      |
+                 module on a                                         |
+                 type-by-type                                        |
+                 basis.                                              |
+7777777                                                  objects = (XmSepara-  ||
+                                                  tor = gadget;         ||
+                                                  XmPushButton =        ||
+                                                  widget;)           |
+7777                                    Widget                            |
+
+
+
+
+
+
+       _______________________________________________________________|
+
+       The following example shows the module declaration for the    |
+       Motifburger UIL module.  The name you specify in the UIL
+       module declaration is stored in the UID file when you com-
+       pile the module.  The module declaration for Motifburger
+       specifies the following:
+
+          +o MRM identifies the Motifburger interface by the name     |
+            _m_o_t_i_f_b_u_r_g_e_r__d_e_m_o.
+
+          +o This is the first version of this module.
+
+          +o Names are case sensitive.
+
+          +o All separator, label, push-button, and toggle-button     |
+            objects are gadgets unless overridden in specific        |
+            object declarations.  All other types of objects are
+            widgets.                                                 *
+
+
+                                                               22-3
+
+
+
+
+
+
+
+
+
+
+
+
+       module motifburger_demo                                       |
+
+       version = 'v1.0'                                              |
+       names = case_sensitive
+       objects = {
+              XmSeparator = gadget ;
+              XmLabel = gadget ;
+              XmPushButton = gadget ;
+              XmToggleButton = gadget ;
+                }
+
+       If you specify that names are case sensitive in your UIL      |
+       module, you must put UIL keywords in lowercase letters.  For  |
+       more information on keywords, see Chapter 18.  Do not use
+       reserved keywords as names in a UIL module.                   |
+
+       22.1.3  UUUUssssiiiinnnngggg CCCCoooonnnnssssttttaaaannnnttttssss DDDDeeeeffffiiiinnnneeeedddd iiiinnnn tttthhhheeee MMMMoooottttiiiiffff TTTToooooooollllkkkkiiiitttt          |
+
+       The UIL module for the Motifburger application makes use of   *
+       some of the constants defined in the Motif Toolkit.  For      |
+       example, the constants XmDIALOG_MODELESS and XmVERTICAL       |
+       shown in the following example come from the toolkit.         |
+
+       object        ! The control panel.  All order entry           |
+                     ! is done through this bulletin board dialog.   |
+        control_box : XmBulletinBoardDialog {                        |
+            arguments {                                              |
+                XmNdialogTitle = k_motifburger_title;                |
+                XmNdialogStyle = XmDIALOG_MODELESS;                  |
+                XmNx = 600;                                          |
+                XmNy = 200;                                          |
+                XmNmarginWidth = 20;                                 |
+                XmNbackground = lightblue;                           |
+            };                                                       |
+            controls {                                               |
+                     ! Some labels and decoration.                   |
+                XmLabel           burger_label;                      |
+                XmLabel           fries_label;                       |
+                XmLabel           drink_label;                       |
+                XmSeparator       {arguments {                       |
+                                    XmNx = 220;                      |
+                                    XmNy = 20;                       |
+                                    XmNunitType = XmPIXELS;          |
+                                    XmNorientation = XmVERTICAL;     |
+                                    XmNheight = 180; };};            |
+
+
+
+
+
+
+
+
+       22-4
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       22.1.4  DDDDeeeeccccllllaaaarrrriiiinnnngggg PPPPrrrroooocccceeeedddduuuurrrreeeessss
+
+       Use a procedure declaration to declare a function that can
+       be used as a callback procedure for an object. You can
+       reference the procedure name in object declarations that      |
+       occur anywhere in the UIL module.
+
+       Callback procedures must be defined to accept three parame-
+       ters: the widget identifier of the widget triggering the
+       callback, a tag for user-defined information, and the call-
+       back data structure (which is unique to each widget). The
+       widget identifier and callback structure parameters are
+       under the control of the Motif Toolkit;  the tag is under
+       the control of the application program.                       |
+
+       In a UIL module, you can specify the data type of the tag to
+       be passed to the corresponding callback procedure at run
+       time by putting the data type in parentheses following the
+       procedure name.  When you compile the module, the UIL com-
+       piler checks that the argument you specify in references to
+       the procedure is of this type.  The data type of the tag
+       must be one of the valid UIL types (see Section 22.1.5).      |
+
+       For example, in the following procedure declaration, the
+       callback procedure named _t_o_g_g_l_e__p_r_o_c is passed an integer     |
+       tag at run time.  The UIL compiler checks that the parameter
+       specified in any reference to procedure _t_o_g_g_l_e__p_r_o_c is an
+       integer.                                                      |
+
+       PROCEDURE
+           toggle_proc (INTEGER);                                    |
+
+       While you can use any UIL data type to specify the type of a  |
+       tag in a procedure declaration, you must be able to
+       represent that data type in the high-level language you are   |
+       using to write your application program.  Some data types
+       (such as integer, Boolean, and string) are common data types
+       recognized by most programming languages.  Other UIL data
+       types (such as string tables) are more complex and may
+       require you to set up an appropriate corresponding data
+       structure in the application to pass a tag of that type to a
+       callback procedure.
+
+       The following table summarizes the rules the UIL compiler     |
+       follows for checking the argument type and count. The way
+       you declare the procedure determines which rule the UIL com-
+       piler uses to perform this checking.                          |
+
+
+
+
+
+
+                                                               22-5
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTTAAAABBBBLLLLEEEE 22222222----2222....  UIL Compiler Rules for Checking Argument Type
+                    and Count
+
+       __________________________________________________            *
+       DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn TTTTyyyyppppeeee       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn ooooffff RRRRuuuulllleeee
+       __________________________________________________
+                              No argument type or          |
+                              argument-count checking.
+                              You can supply no arguments
+                              or one argument in the pro-
+                              cedure reference.
+77777       No parameters
+
+
+
+
+
+                              Checks that the argument     |         |
+                              count is 0.
+77       ( )
+
+
+                              Checks that the argument               |
+                              count is 1.  Does not check            |
+                              the argument type.  Use aaaannnnyyyy  |         |
+                              to prevent type checking on            |
+                              procedure tags.                        |
+77777       (aaaannnnyyyy)                                                         |
+
+
+
+
+
+                              Checks for one argument of             |
+                              the specified value type.              |
+77       (_v_a_l_u_e__t_y_p_e)                                                  |
+
+       __________________________________________________            |
+
+       The following example shows that all procedures in the        *
+       Motifburger UIL module specify that argument type and argu-
+       ment count are to be checked when the module is compiled.     |
+
+       procedure
+           toggle_proc     (integer);
+           activate_proc   (integer);
+           create_proc     (integer);
+           scale_proc      (integer);
+           list_proc       (integer);
+           quit_proc        (string);
+           show_hide_proc  (integer);
+           pull_proc       (integer);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       22-6
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       You can also use a procedure declaration to specify the       |
+       creation function for a user-defined widget.  In this case,
+       you must not specify any parameters.  The procedure is
+       invoked with the standard three arguments passed to all
+       widget creation functions (widget identifier, tag, and call-
+       back structure unique to the calling object).
+
+       22.1.5  DDDDeeeeccccllllaaaarrrriiiinnnngggg VVVVaaaalllluuuueeeessss
+
+       A value declaration is a way of giving a name to a value
+       expression.  The value name can be referenced by declara-
+       tions that occur anywhere in the UIL module in any context    |
+       where a value can be used.
+
+       You should use meaningful names for values to help you
+       recall their purpose easily.  See Section 22.1.8 for recom-   |
+       mended coding techniques.
+
+       The supported data types for UIL values are                   |
+
+          +o any                                                      |
+
+          +o argument                                                 |
+
+          +o asciz_table                                              |
+
+          +o Boolean                                                  |
+
+          +o color                                                    |
+
+          +o color_table                                              |
+
+          +o compound_string                                          |
+
+          +o float                                                    |
+
+          +o font                                                     |
+
+          +o font_table                                               |
+
+          +o integer                                                  |
+
+          +o integer_table                                            |
+
+          +o keysym                                                   |
+
+          +o pixmap                                                   |
+
+          +o reason                                                   |
+
+
+
+
+                                                               22-7
+
+
+
+
+
+
+
+
+
+
+
+
+          +o single_float                                             |
+
+          +o string                                                   |
+
+          +o string_table                                             |
+
+          +o translation_table                                        |
+
+       You can control whether values are local to the UIL module    *
+       or globally accessible by MRM by specifying one of the key-
+       words EXPORTED, IMPORTED, or PRIVATE in the value declara-    |
+       tion.  (Section 19.2 provides details on how these keywords   |
+       determine the scope of references to named values and
+       objects.)
+
+       The Motifburger application makes use of several kinds of     |
+       values, as shown in the following examples.  There is a
+       separate value section for each type of value to make it
+       easier to find the value declaration during debugging.
+
+       22.1.5.1  DDDDeeeeffffiiiinnnniiiinnnngggg IIIInnnntttteeeeggggeeeerrrr VVVVaaaalllluuuueeeessss
+
+       Integer values are defined together in a single value sec-
+       tion of the Motifburger UIL module.   These integers are
+       used as tags in the callback procedures.  A tag provides
+       information to the callback procedure concerning the cir-
+       cumstances under which the procedure is being called.  The
+       following example shows a segment of this value section:      |
+
+       value
+           k_create_order          : 1;
+           k_order_pdme            : 2;
+           k_file_pdme             : 3;
+           k_edit_pdme             : 4;
+           k_nyi                   : 5;
+           k_apply                 : 6;
+           k_dismiss               : 7;
+           k_noapply               : 8;
+           k_cancel_order          : 9;
+           k_submit_order          : 10;
+           k_order_box             : 11;
+           k_burger_rare           : 12;
+           k_burger_medium         : 13;
+
+       22.1.5.2  DDDDeeeeffffiiiinnnniiiinnnngggg SSSSttttrrrriiiinnnngggg VVVVaaaalllluuuueeeessss
+
+       The following example shows the Motifburger value section
+       containing string value declarations.  These strings are the
+       labels for the various widgets used in the interface.  Using
+       values for widget labels rather than hardcoding the labels
+       in the specification makes it easier to modify the interface
+
+
+       22-8
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       (for example, from English to German). Putting all label
+       definitions together at the beginning of the module makes it
+       easier to find a label if you want to change it later.
+       Also, a string resource declared as a value can be shared by
+       many objects, thereby reducing the size of the UID file.      |
+
+       value
+         k_motifburger_title           : "Motifburger Order-Entry Box";|
+         k_nyi_label_text              : "Feature is not yet implemented";|
+         k_file_label_text             : "File";                     |
+           k_quit_label_text           : "Quit";                     |
+         k_edit_label_text             : "Edit";                     |
+           k_cut_dot_label_text        : "Cut";                      |
+           k_copy_dot_label_text       : "Copy";                     |
+
+       All the string values in this value section, except one, are
+       used as labels. Because the XmNlabelString argument requires  |
+       a compound string value, the UIL compiler automatically con-
+       verts these strings to compound strings (although the
+       strings are declared as null-terminated strings).
+
+       The exception, k_0_label_text, is used to define an argument  |
+       for the text widget; since this widget does not accept com-
+       pound strings, the value for k_0_label_text must be a null-   |
+       terminated string.
+
+       Because there is no default character set specified in the
+       module header and the individual string values do not
+       specify a character set, the default character set associ-
+       ated with all these compound strings is the codeset portion   |
+       of the value of the LLLLAAAANNNNGGGG environment variable if it is set,   |
+       or the value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT if LLLLAAAANNNNGGGG is not set or has  |
+       no codeset component (see Section 20.3).
+
+       The indentation shown in the example is not required but
+       improves the readability of the UIL module by giving an
+       indication of the widget tree. For example, the widgets
+       labeled Cut, Copy, Paste, Clear, and Select All are children
+       of the widget labeled Edit.  Section 22.1.6.2 explains how    |
+       to define the widget tree.  Section 22.1.8.2 describes        |
+       recommended coding techniques to improve the readability of
+       your UIL modules.
+
+       By convention, a label followed by ellipses (...) indicates   |
+       that a DialogBox appears when the object bearing this label   |
+       is selected.
+
+
+
+
+
+
+
+                                                               22-9
+
+
+
+
+
+
+
+
+
+
+
+
+       22.1.5.3  DDDDeeeeffffiiiinnnniiiinnnngggg SSSSttttrrrriiiinnnngggg TTTTaaaabbbblllleeee VVVVaaaalllluuuueeeessss
+
+       A string table is a convenient way to express a table of
+       strings.  Some widgets require a _s_t_r_i_n_g__t_a_b_l_e argument (such  |
+       as the list widget, which is used for drink selection in the
+       Motifburger application).
+
+       The following example shows the definition of _s_t_r_i_n_g__t_a_b_l_e    |
+       values in Motifburger. The labels for the types of drinks
+       are elements of the string table named k_drink_list_text.     |
+       Notice that Apple Juice is a single element in the string
+       table named k_drink_list_select.  This value is passed to     |
+       the drink_list_box widget to show apple juice as the default  |
+       drink selection.
+
+       The UIL compiler automatically converts the strings in a
+       string table to compound strings, regardless of whether the
+       strings are delimited by double or single quotation marks.    |
+
+       value
+
+          .                                                          |
+          .
+          .
+
+         k_drinks_label_text       : "Drinks";                       |
+           k_0_label_text          : '0';                            |
+           k_drink_list_text       :                                 |
+              string_table ('Apple Juice', 'Orange Juice',           |
+              'Grape Juice', 'Cola', 'Punch','Root beer',            |
+              'Water', 'Ginger Ale', 'Milk', 'Coffee', 'Tea');       |
+           k_drink_list_select     : string_table('Apple Juice');    |
+
+       22.1.5.4  DDDDeeeeffffiiiinnnniiiinnnngggg FFFFoooonnnntttt VVVVaaaalllluuuueeeessss
+
+       Use the FFFFOOOONNNNTTTT function to declare a UIL value as a font.       |
+       (See Chapter 18 for more information on defining font         |
+       values.)
+
+       The following example shows the declaration of a font value
+       in the Motifburger UIL module.  This value is used later as
+       the value for the XXXXmmmmNNNNffffoooonnnnttttLLLLiiiisssstttt attribute of the apply_button,  |
+       can_button, and dismiss_button push button widgets.           |
+
+       value
+        k_button_font  :                                             |
+          font('-ADOBE-Courier-Bold-R-Normal--14-140-75-75-M-90-ISO8859-1');|
+
+       The UIL compiler converts a font to a font table when the
+       font value is used to specify an argument that requires a     |
+       font-table value.
+
+
+       22-10
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       Font names are server dependent.  If you specify a font name  |
+       that is not defined on your server, the system issues a
+       warning and uses the default font.  (See Chapter 18 for more  |
+       information on defining font values.)
+
+       22.1.5.5  DDDDeeeeffffiiiinnnniiiinnnngggg CCCCoooolllloooorrrr VVVVaaaalllluuuueeeessss
+
+       The following example shows the value section in the
+       Motifburger module containing color declarations.   By using  |
+       the CCCCOOOOLLLLOOOORRRR function, you can designate a string as specifying
+       a color and then use that string for arguments requiring a    |
+       color value. The optional keywords FFFFOOOORRRREEEEGGGGRRRROOOOUUUUNNNNDDDD and BBBBAAAACCCCKKKKGGGGRRRROOOOUUUUNNNNDDDD  |
+       identify how the color is to be displayed on a monochrome
+       device. (See Chapter 18 for more information on defining      |
+       color values.)                                                |
+
+       value
+          yellow        : color('yellow', foreground);               |
+          red           : color('red', background);                  |
+          green         : color('green', foreground);                |
+          magenta       : color('magenta', background);              |
+          gold          : color('gold', foreground);                 |
+          lightblue     : color('lightblue', background);            |
+
+       22.1.5.6  DDDDeeeeffffiiiinnnniiiinnnngggg PPPPiiiixxxxmmmmaaaapppp VVVVaaaalllluuuueeeessss
+
+       Pixmap values let you specify labels that are graphic images
+       rather than text strings.  Pixmap values are not directly
+       supported by UIL.  Instead, UIL supports icons, a simplified
+       form of pixmap (which you define directly in UIL), or xxxxbbbbiiiitttt----   |
+       mmmmaaaapppp files (which you create outside UIL).
+
+       You can generate pixmaps in UIL in two ways:
+
+          +o Define an icon inline using the IIIICCCCOOOONNNN function (and       |
+            optionally use the CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE function to specify       |
+            colors for the icon).   You use a character to describe
+            each pixel in the icon.
+
+          +o Use the XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function, specifying the name of an  |
+            X bitmap file that you created outside UIL to be used
+            as the pixmap value.
+
+       The  following example shows the value section in the
+       Motifburger module containing a color table declaration.
+
+       The colors you specify when defining a color table must have
+       been previously defined with the CCCCOOOOLLLLOOOORRRR function.  For exam-   |
+       ple, the colors yellow and red were previously defined in
+       the example in Section 22.1.5.5.  Color tables must be        |
+       private because the UIL compiler must be able to interpret
+
+
+                                                              22-11
+
+
+
+
+
+
+
+
+
+
+
+
+       their contents at compilation time to construct an icon. The
+       colors within a color table, however, can be imported,
+       exported, or private.                                         |
+
+       value
+           button_ct   : color_table(                                |
+                         yellow='o'                                  |
+                         ,red='.'                                    |
+                         ,background color=' ');                     |
+
+       The following example shows how the button_ct color table is  |
+       used to specify an icon pixmap.  Referring to the color
+       table shown in the previous example, each lowercase "o" in    |
+       the icon definition is replaced with the color yellow, and    |
+       each . (dot) is replaced with the color red.  Whatever color
+       is defined as the background color when the application is
+       run replaces the spaces.
+
+       In UIL, if you define an argument of type pixmap, you should  |
+       specify an icon or an xxxxbbbbiiiittttmmmmaaaapppp file as its value.   For exam-  |
+       ple, the icon defined in the following example is given as
+       the value of the label on the drink quantity push button.
+       (Refer to the definition of the drink_quantity form widget    |
+       in Section 22.1.7.)                                           |
+
+       value
+
+        drink_up_icon: icon(color_table=button_ct,                   |
+                       '                        ',
+                       ' ..........oo.......... ',
+                       ' .........oooo......... ',
+                       ' ........oooooo........ ',
+                       ' .......oo....oo....... ',
+                       ' ......oo......oo...... ',
+                       ' .....oo........oo..... ',
+                       ' ....oo..........oo.... ',
+                       ' ...oo............oo... ',
+                       ' ..oo..............oo.. ',
+                       ' .oo................oo. ',
+                       ' oooooooooooooooooooooo ',
+                       ' oooooooooooooooooooooo ',
+                       ' .........oooo......... ',
+                       ' .........oooo......... ',
+                       ' .........oooo......... ',
+                       ' .........oooo......... ',
+                       ' .........oooo......... ',
+                       ' .........oooo......... ',
+                       '                        ');
+
+       Each row in the icon must contain the same number of pixels   |
+       and therefore must contain the same number of characters.
+
+
+       22-12
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       The height of the icon is dictated by the number of rows.     |
+       For example, the preceding arrow icon is 24 pixels wide and
+       20 pixels tall. (The rows of spaces at the top and bottom of
+       the pixmap and the spaces at the start and end of each row
+       are included in this count and are defined as the background
+       color in the button_ct color table.                           |
+
+       A default color table is used if you omit the color table
+       argument from the IIIICCCCOOOONNNN function. The definition of the        |
+       default color table is as follows:                            |
+
+       color_table( background color = ' ', foreground color = '*'
+
+       You can specify icons as private, imported, or exported.      |
+
+       22.1.6  DDDDeeeeccccllllaaaarrrriiiinnnngggg IIIInnnntttteeeerrrrffffaaaacccceeee OOOObbbbjjjjeeeeccccttttssss iiiinnnn aaaa UUUUIIIILLLL MMMMoooodddduuuulllleeee
+
+       Use an object declaration to define an instance of a widget
+       or gadget that is to be stored in the UID file. You can
+       reference the object name in declarations that occur else-
+       where in the UIL module, usually to specify one object as a
+       child of another object. Some widgets accept a widget name
+       as an argument.  This use of a widget name is called a sym-
+       bolic reference to a widget identifier and is explained in    |
+       Section 19.10.                                                *
+
+       The object declaration contains a sequence of lists that
+       define the arguments (attributes), children, and callback
+       functions for the object.  You can specify only one list of
+       each type for an object.
+
+       Objects can be forward referenced; that is, you can declare
+       an object name after you refer to it.  This is useful for
+       declaring a parent first, followed by the declarations for
+       all its children.  (The declaration of the parent includes a
+       list of the names of its children.)  In this way, the struc-
+       ture of your UIL module resembles the widget tree of your
+       interface.
+
+       All references to an object name must be consistent with the
+       type you specified when you declared the object.  As with
+       values, you can specify an object as exported, imported, or
+       private.
+
+       The following example shows how the file_menu widget is       |
+       declared in the Motifburger UIL module.                       |
+
+       object
+            file_menu : XmPulldownMenu {                             |
+
+                arguments {                                          |
+
+
+                                                              22-13
+
+
+
+
+
+
+
+
+
+
+
+
+                    XmNlabelString = k_file_label_text;              |
+                };                                                   |
+                controls {                                           |
+                    XmPushButton m_print_button;                     |
+                    XmPushButton m_quit_button;                      |
+                };                                                   |
+                callbacks {                                          |
+                    MrmNcreateCallback = procedure create_proc (k_file_menu);|
+                };                                                   |
+            };                                                       |
+
+       Note that the objects and values in this example have mean-
+       ingful names (for example, _f_i_l_e__m_e_n_u and _k__f_i_l_e__l_a_b_e_l__t_e_x_t).
+       Using meaningful names helps you recall the purpose of the
+       object or value in the user interface.  (See Section 22.1.8   |
+       for a summary of recommended coding techniques.)  As shown
+       in this example, a widget declaration generally consists of
+       three parts: an arguments list, a controls list, and a call-
+       backs list. These parts are explained in the following sec-
+       tions.
+
+       22.1.6.1  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg AAAArrrrgggguuuummmmeeeennnnttttssss iiiinnnn aaaannnn OOOObbbbjjjjeeeecccctttt DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn
+
+       Use an arguments list to specify the arguments (attributes)
+       for an object. An arguments list defines the arguments to be
+       specified in the _o_v_e_r_r_i_d_e__a_r_g_l_i_s_t argument when the creation
+       function for a particular object is called at run time.  An
+       arguments list also specifies the values that these argu-
+       ments are to have.  You identify an arguments list to the     |
+       UIL compiler by using the keyword AAAARRRRGGGGUUUUMMMMEEEENNNNTTTTSSSS.
+
+       Each entry in the list consists of the argument name and the
+       argument value. In the previous example, the XmNlabelString   |
+       argument for the _f_i_l_e__m_e_n_u pull-down menu is defined as       |
+       _k__f_i_l_e__l_a_b_e_l__t_e_x_t.  The value _k__f_i_l_e__l_a_b_e_l__t_e_x_t is a com-
+       pound string defined in a value section at the beginning of
+       the module.
+
+       If you use the same argument name more than once in an argu-
+       ments list, the last entry supersedes all previous entries,
+       and the compiler issues a message.
+
+       22.1.6.2  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg CCCChhhhiiiillllddddrrrreeeennnn iiiinnnn aaaannnn OOOObbbbjjjjeeeecccctttt DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn
+
+       You use a controls list to define which widgets are children
+       of, or controlled by, a particular widget. The controls
+       lists for all the widgets in a UIL module define the widget
+       tree for an interface. If you specify that a child is to be   |
+       managed (the default), at run time the widget is created and
+       managed; if you specify that the child is to be unmanaged at  |
+       creation (by including the keyword UUUUNNNNMMMMAAAANNNNAAAAGGGGEEEEDDDD in the controls  |
+
+
+       22-14
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       list entry), the widget is only created.  You identify a
+       controls list to the UIL compiler by using the keyword CCCCOOOONNNN----   |
+       TTTTRRRROOOOLLLLSSSS.
+
+       In the previous example, the objects _m__p_r_i_n_t__b_u_t_t_o_n and       |
+       _m__q_u_i_t__b_u_t_t_o_n are children of the _f_i_l_e__m_e_n_u widget, which is  |
+       a pull-down menu.  The objects _m__p_r_i_n_t__b_u_t_t_o_n and             |
+       _m__q_u_i_t__b_u_t_t_o_n are defined as push buttons, which are valid    |
+       children of the object type XmPulldownMenu.
+
+       In the following example, the bulletin board dialog called    |
+       _c_o_n_t_r_o_l__b_o_x is a top-level composite widget, having a         |
+       variety of widgets as children.  Some of these children are
+       also composite widgets, having children of their own.  For    |
+       example, the _b_u_t_t_o_n__b_o_x and _b_u_r_g_e_r__d_o_n_e_n_e_s_s__b_o_x widgets are   |
+       declared later on in the module, and each of these has its
+       own controls list.                                            |
+
+       object           ! The control panel.  All order entry        |
+                        ! is done through this dialog box.           |
+         control_box : XmBulletinBoardDialog {                       |
+           arguments {                                               |
+               XmNdialogTitle = k_motifburger_title;                 |
+               XmNdialogStyle = XmDIALOG_MODELESS;                   |
+               XmNx = 600;                                           |
+               XmNy = 200;                                           |
+               XmNmarginWidth = 20;                                  |
+               XmNbackground = lightblue;                            |
+           };                                                        |
+           controls {                                                |
+                      ! Some labels and decoration.                  |
+               XmLabel           burger_label;                       |
+               XmLabel           fries_label;                        |
+               XmLabel           drink_label;                        |
+               XmSeparator       {arguments {                        |
+                                   XmNx = 220;                       |
+                                   XmNy = 20;                        |
+                                   XmNunitType = XmPIXELS;           |
+                                   XmNorientation = XmVERTICAL;      |
+                                   XmNheight = 180; };};             |
+               XmSeparator       {arguments {                        |
+                                   XmNx = 410;                       |
+                                   XmNy = 20;                        |
+                                   XmNunitType = XmPIXELS;           |
+                                   XmNorientation = XmVERTICAL;      |
+                                   XmNheight = 180; };};             |
+               XmRowColumn                               button_box; |
+                       ! Command push buttons inside a menu          |
+                       ! across the bottom.                          |
+                       ! For the hamburger, fries, and drink         |
+                       ! entry we use a different mechanism          |
+
+
+                                                              22-15
+
+
+
+
+
+
+
+
+
+
+
+
+                       ! to demonstrate various widgets and          |
+                       ! techniques.                                 |
+                       ! Hamburger 'doneness' uses a radio box       |
+                       ! because although it is a '1 of N' type      |
+                       ! of entry, one (and only one) entry          |
+                       ! is allowed.                                 |
+               XmRadioBox       burger_doneness_box;                 |
+
+       Notice that the separators are defined locally in the con-    |
+       trols list for _c_o_n_t_r_o_l__b_o_x, rather than in object sections
+       of their own.  As a result, the separators do not have names
+       and cannot be referenced by other objects in this UIL
+       module.  However, the local definitions make it easier for
+       someone reading the UIL specification file to tell that the
+       separators are used only by the _c_o_n_t_r_o_l__b_o_x widget.  When
+       you define an object locally, you do not need to create an
+       artificial name for that object.
+
+       Unlike the arguments list (and the callbacks list, described
+       in the next section), when you specify the same widget in a
+       controls list more than once, MRM creates multiple instances
+       of the widget at run time when it creates the parent widget.
+
+       22.1.6.3  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg CCCCaaaallllllllbbbbaaaacccckkkkssss iiiinnnn aaaannnn OOOObbbbjjjjeeeecccctttt DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn
+
+       Use a callbacks list to define which callback reasons are to
+       be processed by a particular widget at application run time.  |
+       As shown in the example in Section 22.1.7, each entry in a    |
+       callbacks list has a reason name (in this example, XmNac-     |
+       tivateCallback) and the name of a callback function
+       (_a_c_t_i_v_a_t_e__p_r_o_c).
+
+       For Motif Toolkit widgets, the reason names are already
+       built into UIL.  For a user-defined widget, you can refer to
+       a user-defined reason name that you previously specified by   |
+       using the RRRREEEEAAAASSSSOOOONNNN function (see Section 18.5.14). If you use
+       a built-in reason name in a widget definition, the UIL com-
+       piler ensures that the reason name is supported by the type
+       of widget you are defining.
+
+       If you use the same reason name more than once in a call-
+       backs list, the last entry that uses that reason name super-
+       sedes all others, and the UIL compiler issues a message.
+
+       The callback procedure names you use in a callbacks list      |
+       must be declared in a procedure section.  In this example,
+       the procedure _a_c_t_i_v_a_t_e__p_r_o_c was declared in the beginning of
+       the UIL module.
+
+       Because the UIL compiler produces a UID file rather than an
+       object module, the binding of the UIL name to the address of
+
+
+       22-16
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       the function entry point is not done by the linker.
+       Instead, the binding is established at run time with the MRM
+       function MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss.  You call this function before     |
+       fetching any widgets, giving it both the UIL names and the
+       function addresses of each callback.   The name you register
+       with MRM in the application program must match the name you
+       specified in the UIL module. Section 22.2 explains how the    |
+       Motifburger callback function names are registered with MRM.
+
+       Each callback function receives three arguments.  The first
+       two arguments have the same form for each callback.  The
+       form of the third argument varies from widget to widget.
+
+       The first argument is the address of the data structure       |
+       maintained by the Motif Toolkit for this widget instance.     |
+       This address is called the widget ID for this widget.
+
+       The second argument is the address of the value you speci-
+       fied in the callbacks list for this function.  If you do not
+       specify an argument, the address is NULL.  This is called     |
+       the ttttaaaagggg____vvvvaaaalllluuuueeee argument.  If you specify a value type for the
+       ttttaaaagggg____vvvvaaaalllluuuueeee argument, this type must match the value type of
+       the parameter in the corresponding procedure declaration      |
+       (see Table 22-2).
+
+       The third argument is a data structure specific to the
+       widget.  The reason name you specified in the UIL module is
+       the first field of this data structure.
+
+       22.1.7  UUUUssssiiiinnnngggg aaaannnn IIIIccccoooonnnn aaaassss aaaa WWWWiiiiddddggggeeeetttt LLLLaaaabbbbeeeellll
+
+       Figure 22-1 highlights the drink quantity selector. This      |
+       widget in the user interface for the Motifburger application
+       uses icons for the labels on its push buttons.  When the      |
+       user clicks on the up-arrow icon, the drink quantity          |
+       increases.  When the user clicks on the down-arrow icon, the
+       drink quantity decreases.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              22-17
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 22222222----1111....  Using an Icon in the Motifburger Application
+                     Interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The icon named _d_r_i_n_k__u_p__i_c_o_n was defined in the example in    |
+       Section 22.1.5.6.  The following example shows how to
+       specify this icon as a push-button label in a widget          |
+       declaration. In the Motifburger UIL module, the icon named    |
+       _d_r_i_n_k__u_p__i_c_o_n is a pixmap label argument to the _u_p__v_a_l_u_e      |
+       push-button widget. In turn, the _u_p__v_a_l_u_e widget is con-
+       trolled by the _d_r_i_n_k__q_u_a_n_t_i_t_y form widget.                    |
+
+       object
+         drink_quantity : XmForm {                                   |
+           arguments {                                               |
+               XmNx = 460;                                           |
+               XmNy = 170;                                           |
+               XmNunitType = XmPIXELS;                               |
+               };
+           controls {                                                |
+               XmLabel           quantity_label;                     |
+               XmLabel           value_label;                        |
+               XmPushButton     up_value;                            |
+               XmPushButton     down_value;                          |
+               };                                                    |
+           };                                                        |
+
+
+       22-18
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+          .
+          .
+          .
+
+       object                                                        |
+         up_value : XmPushButton widget {                            |
+           arguments {                                               |
+               XmNy = 00 ;                                           |
+               XmNleftAttachment = XmATTACH_WIDGET;                  |
+               XmNleftOffset = 20 ;                                  |
+               XmNleftWidget = XmLabel value_label ;                 |
+                XmNlabelType = XmPIXMAP;                             |
+               XmNlabelPixmap = drink_up_icon;                       |
+               };
+           callbacks {                                               |
+               XmNactivateCallback = procedure activate_proc (k_drink_add);|
+               };                                                    |
+           };                                                        |
+
+       22.1.8  RRRReeeeccccoooommmmmmmmeeeennnnddddeeeedddd CCCCooooddddiiiinnnngggg TTTTeeeecccchhhhnnnniiiiqqqquuuueeeessss
+
+       The Motifburger UIL module shows recommended coding prac-     |
+       tices that should improve your productivity and increase the
+       flexibility of your programs.  This section explains how
+       these practices can help you write better UIL modules.  The
+       language elements and semantics of UIL are similar to those
+       in other high-level programming languages.
+
+       22.1.8.1  NNNNaaaammmmiiiinnnngggg VVVVaaaalllluuuueeeessss aaaannnndddd OOOObbbbjjjjeeeeccccttttssss MMMMeeeeaaaannnniiiinnnnggggffffuuuullllllllyyyy
+
+       The names of constants, labels, colors, icons, and widgets
+       in the Motifburger UIL module indicate their purpose in the
+       application.  For example, the name for the constant having
+       integer value 12 is _k__b_u_r_g_e_r__r_a_r_e.  From its name, you can
+       tell that this constant represents the choice Rare on the
+       Hamburgers menu.  Similarly, the names for objects (widgets   *
+       and gadgets) indicate their purpose in the application.       |
+       Object names should, in addition, reflect the object type.
+       For example, you can tell by its name that _m__c_o_p_y__b_u_t_t_o_n is   |
+       a button of some kind on a menu and is associated with the
+       Copy option.
+
+       22.1.8.2  GGGGrrrroooouuuuppppiiiinnnngggg VVVVaaaalllluuuueeee,,,, IIIIddddeeeennnnttttiiiiffffiiiieeeerrrr,,,, aaaannnndddd PPPPrrrroooocccceeeedddduuuurrrreeee DDDDeeeeccccllllaaaarrrraaaa----
+                 ttttiiiioooonnnnssss
+
+       You should group value declarations according to purpose and
+       list them near the beginning of the module.  Although you     |
+       could have a value section to declare a value immediately
+       preceding an object section in which the value is used, you   |
+       can look up the definition of a particular value more easily
+       if all declarations are in one place in the module. In the    *
+
+
+                                                              22-19
+
+
+
+
+
+
+
+
+
+
+
+
+       Motifburger UIL module, separate value sections are used to
+       group values as follows:
+
+          +o Constants for positioning within forms
+
+          +o Constants for callback functions
+
+          +o Labels
+
+          +o Fonts
+
+          +o Colors
+
+          +o Color tables
+
+          +o Icons
+
+       Constants for callback procedures must be defined in the
+       program as well as in the UIL module.  Therefore, if these
+       constants are in a single value section, it is easier to cut
+       the section from the module and paste it into the applica-
+       tion program.
+
+       By setting up all labels as compound string values, rather
+       than hardcoding them in the object declarations, you can
+       more easily change the labels from one language to another.
+       Specify a string as a compound string by using the UIL
+       built-in function CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG.  (Some arguments for the   |
+       simple text widget and the command window widget accept only
+       null-terminated strings. Labels for these widgets must be
+       declared as null-terminated (ASCIZ) strings, delimited with
+       single quotation marks.)
+
+       The same technique applies to procedure declarations.  In
+       the Motifburger UIL module, all procedure declarations are
+       listed in a single procedure section at the beginning of the
+       module, immediately following the module declaration and
+       include directive.  The Motifburger application does not use  *
+       identifiers (which function like global variables). Treat     |
+       identifier sections as you treat value sections.  Identif-    |
+       iers are described in Section 19.7.
+
+       22.1.8.3  OOOOrrrrddddeeeerrrriiiinnnngggg OOOObbbbjjjjeeeecccctttt DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnnssss ttttoooo RRRReeeefffflllleeeecccctttt tttthhhheeee WWWWiiiiddddggggeeeetttt
+                 TTTTrrrreeeeeeee
+
+       Once all your values, identifiers, and procedures are
+       declared, the rest of the UIL module consists of object
+       declarations.  You should structure your module to reflect
+       the widget tree of the application interface.  For example,
+       in the Motifburger UIL module, the choices for how the ham-
+       burger should be cooked are presented in a radio box having
+
+
+       22-20
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       three children, which are toggle buttons.  The following      |
+       figure shows how this radio box looks in the Motifburger
+       application interface.
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 22222222----2222....  Radio Box with Toggle Buttons in the
+                     Motifburger Application
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following figure shows how these widgets are arranged in  |
+       a hierarchy, which is defined by the controls list for the
+       radio box named _b_u_r_g_e_r__d_o_n_e_n_e_s_s__b_o_x.                          |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              22-21
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+         FFFFiiiigggguuuurrrreeee 22222222----3333....  Widget Tree for the Motifburger Radio Box
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following example shows the object declaration in the     |
+       UIL module for the _b_u_r_g_e_r__d_o_n_e_n_e_s_s__b_o_x widget.  Notice that   |
+       the children of the radio box (the three toggle button widg-
+       ets named in the controls list) are declared immediately
+       following the radio box declaration.  By ordering your
+       object declarations in this way, you can get an idea of the
+       overall widget tree for your interface by scanning the UIL
+       module.                                                       |
+
+       object
+         burger_doneness_box : XmRadioBox {                          |
+             arguments {                                             |
+
+          .
+          .
+          .
+
+                 };                                                  |
+             controls {                                              |
+                 XmToggleButton   burger_rare;                       |
+                 XmToggleButton   burger_medium;                     |
+                 XmToggleButton   burger_well;                       |
+                 };                                                  |
+             };                                                      |
+
+       object
+         burger_rare : XmToggleButton {                              |
+
+          .
+          .
+          .
+
+
+
+       22-22
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+             };                                                      |
+
+       object
+         burger_medium : XmToggleButton {                            |
+
+          .
+          .
+          .
+
+             };                                                      |
+
+       object
+         burger_well : XmToggleButton {                              |
+          .
+          .
+          .
+             };                                                      |
+
+       22.1.8.4  UUUUssssiiiinnnngggg LLLLooooccccaaaallll DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss ffffoooorrrr CCCCeeeerrrrttttaaaaiiiinnnn OOOObbbbjjjjeeeeccccttttssss
+
+       If you need to define an object that is used as a child of a
+       single parent and is not be referred to by any other object   |
+       in the UIL module, define the object in the controls list
+       for its parent rather than in an object section of its own.
+       This simplifies the UIL module and saves you from having to
+       create an artificial name for that object.  The example in    |
+       Section 22.1.6.2 shows a separator defined locally.
+
+       22.2  CCCCrrrreeeeaaaattttiiiinnnngggg aaaa UUUUsssseeeerrrr IIIInnnntttteeeerrrrffffaaaacccceeee aaaatttt RRRRuuuunnnn TTTTiiiimmmmeeee wwwwiiiitttthhhh MMMMRRRRMMMM          |
+
+       MRM creates interface objects based on definitions in UID     |
+       files, which are the compiled form of UIL specification
+       files.  You call MRM functions in your application to ini-
+       tialize MRM, to provide information required by MRM to
+       interpret information in UID files, and to create objects
+       using UID file definitions.
+
+       MRM allows you to defer fetching top-level objects until the
+       application needs to display them.  By deferring fetching,
+       you can improve the start-up performance of your applica-     |
+       tion.  Section 22.2.2 explains how to defer fetching.
+
+       MRM also has functions that allow an application to read
+       literal definitions from UID files.  You create these         |
+       literal definitions when you declare a literal value to be
+       exported in UIL.  You can use these literals in your appli-   |
+       cation program for any purpose.  Section 22.2.3 explains how
+       to read literals from UID files.
+
+       You can use an MRM function to override values you specified
+       for widget attributes.  In effect, a single object
+
+
+                                                              22-23
+
+
+
+
+
+
+
+
+
+
+
+
+       definition can be used like a template to create multiple
+       widget instances from a single UIL definition.  Section       |
+       22.2.4 describes this function.  All definitions required to  |
+       use MRM are contained in the MMMMrrrrmmmmAAAAppppppppllll....hhhh file.
+
+       MRM does not replace the X Resource Manager, but complements  |
+       it. The X Resource Database (an in-memory database, stored    |
+       in the ....XXXXddddeeeeffffaaaauuuullllttttssss file) supplies default values. When you
+       use UIL to specify a user interface, you do not need to
+       specify all argument values (resources); you need only
+       specify an argument when you want to override the default
+       value stored in the X Resource Database. The MRM generates    |
+       the _o_v_e_r_r_i_d_e__a_r_g_l_i_s_t argument for the appropriate widget
+       creation functions at run time.
+
+       Figure 22-4 shows how widget argument values are applied      |
+       inside the MRM fetch operation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       22-24
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+                                                                     *
+         FFFFiiiigggguuuurrrreeee 22222222----4444....  Widget Creation in an MRM Fetch Operation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The examples in this section are based on the C program for   |
+       the Motifburger application.  The Motifburger application is
+
+
+                                                              22-25
+
+
+
+
+
+
+
+
+
+
+
+
+       part of the Motif software kit.  Section 22.1 explains how    |
+       you can access the source files for this application.  The
+       Motifburger application demonstrates the most commonly used   |
+       MRM functions.  The following table briefly describes the
+       available MRM functions.  See Chapter 21 for a complete       |
+       description of these functions.                               |
+
+                       TTTTAAAABBBBLLLLEEEE 22222222----3333....  MRM Functions
+
+       _______________________________________________________________________
+       FFFFuuuunnnnccccttttiiiioooonnnn NNNNaaaammmmeeee                 DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _______________________________________________________________________
+       MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy             Closes a UID hierarchy                   |
+
+                                     Fetches a named color literal from a UID|
+                                     hierarchy                       |
+77       MMMMrrrrmmmmFFFFeeeettttcccchhhhCCCCoooolllloooorrrrLLLLiiiitttteeeerrrraaaallll                                                   |
+
+
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll           Fetches a named icon from a UID hierarchy|
+
+                                     Fetches all the objects defined in some|
+                                     interface module in the UID hierarchy|
+77       MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIInnnntttteeeerrrrffffaaaacccceeeeMMMMoooodddduuuulllleeee                                                |
+
+
+                                     Fetches a named string literal from a UID|
+                                     hierarchy                       |
+77       MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll                                                        |
+
+
+                                     Fetches the values to be set from|
+                                     literals stored in a UID hierarchy|
+77       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss                                                      |
+
+
+                                     Fetches any named widget in a UID hierar-|
+                                     chy                             |
+77       MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt                                                         |
+
+
+                                     Fetches any named widget and overrides|
+                                     values stored in the UID hierarchy with|
+                                     those supplied in the function call|
+777       MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee                                                 |
+
+
+
+                                     Prepares an application to use MRM widget|
+                                     fetching facilities             |
+77       MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee                                                          |
+
+
+                                     Allocates a hierarchy descriptor and|
+                                     opens all the files in the UID hierarchy|
+77       MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy                                                       |
+
+
+                                     Saves the information needed to access|
+                                     the widget creation function using the|
+                                     information in a UID hierarchy and to|
+                                     perform type conversion of arguments|
+                                     lists                           |
+77777       MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss                                                       |
+
+
+
+
+
+                                     Registers a vector of names and associ-|
+                                     ated values for access by MRM in the glo-  ||
+                                     bal namespace                   |
+777       MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss                                                       |
+
+
+
+
+
+       22-26
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       _______________________________________________________________________|
+       FFFFuuuunnnnccccttttiiiioooonnnn NNNNaaaammmmeeee                 DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                              |
+       _______________________________________________________________________|
+                                     Registers a vector of names and associ-|
+                                     ated values for access by MRM in a|
+                                     namespace attached to a particular UIL|
+                                     hierarchy                       |
+7777       MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy                                            |
+
+
+
+       _______________________________________________________________________
+
+       22.2.1  AAAAcccccccceeeessssssssiiiinnnngggg tttthhhheeee UUUUIIIIDDDD FFFFiiiilllleeee aaaatttt RRRRuuuunnnn TTTTiiiimmmmeeee
+
+       As Figure 22-5 shows, setting up an interface specified with  |
+       UIL requires the following steps:
+
+         1.  IIIInnnniiiittttiiiiaaaalllliiiizzzzaaaattttiiiioooonnnn                                          |
+             In the initialization step, the application program
+             must make calls to the MRM and Motif Toolkit intrin-
+             sics functions in the following sequence:
+
+                +o Initialize MRM.                                    |
+             The MRM function MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee prepares your applica-   |
+             tion to use MRM widget-fetching facilities.  This call
+             must come before the call to initialize the Motif
+             Toolkit.                                                |
+
+                +o Initialize the Motif Toolkit.                      |
+             The intrinsics function XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee parses the      |
+             command line used to invoke the application, opens the  |
+             display, and initializes the Motif Toolkit.             |
+
+                +o Open the UID hierarchy.                            |
+             The UID hierarchy is the set of UID files containing
+             the widget definitions for the user interface.  The
+             MRM function MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy opens these UID files.    |
+
+                +o Register names for MRM.                            |
+             The MRM functions MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss and MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrr----     |
+             NNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy register names and associated values   |
+             for access by the MRM.  The values may be callback      |
+             functions, pointers to user-defined data, or any other  |
+             values.  MRM uses this information to resolve symbolic
+             references in UID files to their run-time values.       *
+
+         2.  CCCCrrrreeeeaaaattttiiiioooonnnn                                                |
+             In the creation step, you call the MRM function         |
+             MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt to fetch the user interface.  Fetching
+             is a combination of widget creation and child manage-
+             ment.  The MRM function MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt performs the     |
+             following tasks:
+
+
+
+
+                                                              22-27
+
+
+
+
+
+
+
+
+
+
+
+
+                +o Locates a widget description in the UID hierarchy
+
+                +o Creates the widget and recursively creates the
+                  widget's children
+
+                +o Manages all children as specified in the UID
+                  hierarchy
+
+                +o Returns the widget identifier
+             You specify the top-level widget of the application     |
+             (usually the main window) and its parent (the widget
+             identifier returned by the call to XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee) in  |
+             the call to MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.  As a result of this sin-   |
+             gle call, MRM fetches all widgets in the widget tree
+             below the top-level widget.  You can defer fetching     |
+             portions of an application interface until they are
+             requested by the end user.  For example, you can defer
+             fetching a pull-down menu until the user activates the
+             corresponding cascade button.  Consider deferring
+             fetching of some portions of your interface if you
+             need to improve the start-up performance of your        |
+             application.  Deferred fetching is explained in Sec-    |
+             tion 22.2.2.                                            |
+
+         3.  RRRReeeeaaaalllliiiizzzzaaaattttiiiioooonnnn                                             |
+             The steps to manage and realize a user interface
+             created using UIL and MRM are the same as those for an
+             interface created with Motif Toolkit functions:
+
+                +o Manage the top-level widget.                       |
+             The intrinsics function XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd adds a child to   |
+             the top-level widget returned by the call to XXXXttttAAAAppppppppIIIInnnniiii----  |
+             ttttiiiiaaaalllliiiizzzzeeee.  The entire widget tree below the top-level
+             widget in the interface (usually the main window) is
+             automatically managed as a result of this call to       |
+             XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd.                                          |
+
+                +o Realize the top-level widget.                      |
+             The intrinsics function XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt displays the    |
+             entire interface (the widget tree below the top-level
+             widget) on the screen.                                  |
+
+
+
+
+
+
+
+
+
+
+
+
+       22-28
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 22222222----5555....  Setting Up a User Interface Specified with UIL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The role of MRM in a Motif application is limited primarily   |
+       to widget creation.  MRM makes run-time calls that create
+       widgets from essentially invariant information (information
+       that does not change from one invocation of the application
+       to the next).  After MRM fetches a widget (creates it and
+       manages its children), it provides no further services.  All
+       subsequent operations on the widget, such as realization,
+       managing and unmanaging children after initialization, and
+       getting and setting resource values, must be done by run-
+       time calls. After widget creation, you modify widgets during
+       application execution by using widget manipulation func-
+       tions.
+
+       The call to the MMMMrrrrmmmmIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee function must come before the   |
+       call to the XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee function.  The following example  |
+       shows the initialization of MRM and the Motif Toolkit in the
+       Motifburger application.                                      |
+
+       unsigned int main(argc, argv)
+         unsigned int argc;                                          |
+         char *argv[];                                               |
+       {
+         Widget toplevel_widget;                                     |
+         XtAppContext app_context;                                   |
+         MrmInitialize();                                            |
+
+
+                                                              22-29
+
+
+
+
+
+
+
+
+
+
+
+
+         toplevel_widget = XtAppInitialize(&app_context, "example",  |
+                             NULL, 0, &argc, argv, NULL, NULL, 0);   |
+
+       The compiled interface, described in one or more UIL
+       modules, is connected to the application when the UID
+       hierarchy is set up at run time.  The names of the UID files
+       containing the compiled interface definitions are stored in
+       an array. Because compiled UIL files are not object files,
+       this run-time connection is necessary to bind an interface
+       with an application program. The Motifburger application has
+       a single UIL module, so the MRM hierarchy consists of one
+       file.  The following example shows the declaration of the
+       UID hierarchy for Motifburger.                                |
+
+       static MrmHierarchy s_MrmHierarchy;
+       static MrmType *dummy_class;
+       static char *db_filename_vec[] =
+         {"motifburger.uid"
+         };
+
+       The name of the UID hierarchy is _s__M_r_m_H_i_e_r_a_r_c_h_y.  The array   |
+       containing the names of the UID files in the UID hierarchy
+       is _d_b__f_i_l_e_n_a_m_e__v_e_c.  In the following example, the applica-   |
+       tion opens this UID hierarchy.  At this point in the
+       application's execution, MRM has access to the Motifburger
+       interface definition and can fetch widgets.                   |
+
+       if (MrmOpenHierarchy(db_filename_num,                         |
+         db_filename_vec,                                            |
+         NULL,                                                       |
+         &s_MrmHierarchy)                                            |
+         !=MrmSUCCESS)                                               |
+         s_error("can't open hierarchy");                            |
+
+       The final step in preparing to use MRM to fetch widgets is
+       to register a vector of names and associated values.  These
+       values can be the names of callback functions, pointers to
+       user-defined data, or any other values.  MRM uses the infor-
+       mation provided in this vector to resolve symbolic refer-
+       ences that occur in UID files to their run-time values.
+       For callback procedures, the vector provides procedure
+       addresses required by the Motif Toolkit.  For names used as
+       variables in UIL (identifiers), this information provides
+       whatever mapping the application requires.  The use of iden-
+       tifiers is explained in Section 19.7.  The following example  |
+       shows the declaration of the names vector in the Motifburger
+       C program.  In the Motifburger application, the names vector
+       contains only names of callback procedures and their
+       addresses.                                                    |
+
+
+
+
+       22-30
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       static MRMRegisterArg reglist[] = {
+           {"activate_proc", (caddr_t) activate_proc},
+           {"create_proc", (caddr_t) create_proc},
+           {"list_proc", (caddr_t) list_proc},
+           {"pull_proc", (caddr_t) pull_proc},
+           {"quit_proc", (caddr_t) quit_proc},
+           {"scale_proc", (caddr_t) scale_proc},
+           {"show_hide_proc", (caddr_t) show_hide_proc},
+           {"show_label_proc", (caddr_t) show_label_proc},
+           {"toggle_proc", (caddr_t) toggle_proc}
+       };
+       static int reglist_num = (sizeof reglist / sizeof reglist [0]);|
+
+       The names are registered in a call to the MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss    |
+       function, as shown in the following example:                  |
+
+       MrmRegisterNames(reglist, reglist_num);                       |
+
+       22.2.2  DDDDeeeeffffeeeerrrrrrrriiiinnnngggg FFFFeeeettttcccchhhhiiiinnnngggg
+
+       MRM allows you to defer fetching off-screen widgets until
+       the application needs to display these widgets. There are
+       two types of off-screen widgets: pull-down menus and dia-
+       logs.  Whenever MRM fetches an off-screen widget, it also
+       fetches the entire widget tree below that widget.  By defer-
+       ring the fetching of off-screen widgets, you can reduce the   |
+       time taken to start up your application.
+
+       The Motifburger application makes use of deferred fetching.
+       The pull-down menus for the File, Edit, and Order options
+       are not fetched when the main window is fetched.  Instead,
+       these menus are fetched and created by individual calls to
+       the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt function when the corresponding cascade    |
+       button is activated (selected by the end user).  You can use
+       the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt function at any time to fetch a widget     |
+       that was not fetched at application startup.
+
+       The UIL module for the Motifburger application is set up to
+       allow either deferred fetching or a single fetch to create
+       the entire widget tree.  To fetch the entire interface at
+       once, remove the comment character (!) from the controls      |
+       list for the _f_i_l_e__m_e_n_u__e_n_t_r_y, _e_d_i_t__m_e_n_u__e_n_t_r_y, and            |
+       _o_r_d_e_r__m_e_n_u__e_n_t_r_y widgets.  As long as the comment characters  |
+       remain on the controls list for the pull-down menu entries,   |
+       their associated pull-down menus are no longer children;
+       they are top-level widgets and can be fetched individually.
+       The following example shows the object declaration for the    |
+       XmCascadeButton named _f_i_l_e__m_e_n_u__e_n_t_r_y.                        |
+
+       object
+         file_menu_entry : XmCascadeButton {                         |
+
+
+                                                              22-31
+
+
+
+
+
+
+
+
+
+
+
+
+             arguments {                                             |
+                 XmNlabelString = k_file_label_text;                 |
+             };                                                      |
+              controls {                                             |
+                  XmPulldownMenu file_menu;                          |
+              };                                                     |
+             callbacks {                                             |
+                 XmNcascadingCallback = procedure pull_proc (k_file_pdme);|
+                 MrmNcreateCallback = procedure create_proc (k_file_pdme);|
+             };                                                      |
+         };                                                          |
+
+       When you remove the comment characters, the controls list on  |
+       each XmCascadeButton specifies the pull-down menu as a
+       child. The pull-down menus are no longer top-level widgets;
+       instead, they are loaded when the XmCascadeButton is
+       created.
+
+       22.2.3  GGGGeeeettttttttiiiinnnngggg LLLLiiiitttteeeerrrraaaallll VVVVaaaalllluuuueeeessss ffffrrrroooommmm UUUUIIIIDDDD FFFFiiiilllleeeessss
+
+       Using the literal fetching functions (MMMMrrrrmmmmFFFFeeeettttcccchhhhCCCCoooolllloooorrrrLLLLiiiitttteeeerrrraaaallll,   |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll, and MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll), you can retrieve   |
+       any named, exported UIL value from a UID file at run time.    |
+       This is useful when you want to use a literal value in a      |
+       context other than fetching an object. These functions allow  |
+       you to treat the UID file as a repository for all the pro-
+       gramming variables you need to specify your application
+       interface.
+
+       The MRM literal fetching functions have a wide variety of
+       uses.  For example, you can store the following as named,
+       exported literals in a UIL module for run-time retrieval:
+
+          +o All the error messages to be displayed in a message box
+            (stored in a string table)
+
+          +o All string tables used to query the operating system
+
+          +o Language-dependent strings
+
+       In the C program for the Motifburger application, the text    |
+       string displayed in the title bar of the main window is sup-
+       plied directly to the XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee function, as shown in   |
+       the following example:                                        |
+
+         toplevel_widget = XtAppInitialize(&app_context, "example",  |
+                             NULL, 0, &argc, argv, NULL, NULL, 0);   |
+
+       Alternatively, this string could be specified in a UIL
+       module as a named, exported compound string, and retrieved
+       from the UID file at run time with the MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll        |
+
+
+       22-32
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       function.  Since this string appears in the interface, you
+       should declare it as a compound string.  Compound strings
+       can be displayed in a variety of character sets, as required
+       by the language of the interface.
+
+       22.2.4  SSSSeeeettttttttiiiinnnngggg VVVVaaaalllluuuueeeessss aaaatttt RRRRuuuunnnn TTTTiiiimmmmeeee UUUUssssiiiinnnngggg UUUUIIIIDDDD RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The MRM function MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss allows you to modify at    |
+       run time an object that has already been created. The         |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function works like the XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss func-   |
+       tion except that MRM fetches the values to be set from
+       named, exported values (literals) in the UID file. The        |
+       fetched values are converted to the correct data type, if
+       necessary, and placed in the _a_r_g_s argument for a call to the  |
+       function XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.  Since the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function
+       looks for the literal values in a UID file, the argument
+       names you provide to the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function must be   |
+       UIL argument names (not Motif Toolkit attribute names).
+
+       You can think of MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss as a convenience function  |
+       that packages the functions provided by MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll and   |
+       XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+       The value member of the name and value pairs passed to        |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss is the UIL name of the value, not an
+       explicit value. When the application calls MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeetttt----       |
+       VVVVaaaalllluuuueeeessss, MRM looks up the names in the UID file, then uses
+       the values corresponding to those names to override the ori-
+       ginal values in the object declaration.  Therefore, the       |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function allows you to keep all values
+       used in an application in the UIL module and not in the
+       application program. (The values you pass to the              |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function must be named, exported literals
+       in the UIL module.)
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function offers the following advan-    |
+       tages:
+
+          +o It performs all the necessary UIL resource manipulation
+            to make the fetched UIL values usable by the Motif
+            Toolkit.  (For example, the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function   |
+            performs address recomputation for tables of strings
+            and enables a UIL icon to act as a pixmap.)
+
+          +o It lets you isolate a greater amount of interface
+            information from the application program, to achieve     |
+            further separation of form and function.
+
+       There are some limitations to the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss func-     |
+       tion:
+
+
+
+                                                              22-33
+
+
+
+
+
+
+
+
+
+
+
+
+          +o All values in the _a_r_g_s argument must be names of         |
+            exported resources listed in a UIL module (UID hierar-
+            chy); therefore, the application cannot provide com-     |
+            puted values from within the program itself as part of
+            the argument list.
+
+          +o It uses the XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss function, ignoring the possi-    |
+            bility of the less costly high-level function that the
+            widget itself may provide.
+
+       The examples in this section are based on a simple applica-
+       tion that displays text in two list widgets.  The text
+       displayed in the second list widget depends on what the user
+       selected in the first. Figure 22-6 shows the interface for    |
+       this application.
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 22222222----6666....  Sample Application Using the MrmFetchSetValues
+                     Function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       This application is well-suited to using the MRM function     |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss for the following reasons:
+
+          +o The data (list widget contents) are all known in
+            advance; the values themselves do not need to be com-
+            puted at run time.
+
+          +o The data consists of tables of compound strings that     |
+            appear in the user interface and, therefore, must be
+            translated for international markets.  (Strings that
+            must be translated should be stored in a UID file.)
+
+
+       22-34
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+          +o The structure of compound string tables, if retrieved
+            from the UID file using the MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll function,    |
+            must be modified by the application program due to the
+            nature of MRM storage methods.  (Since string tables
+            are stored in contiguous blocks, indexes to string-      |
+            table values are offsets, not true addresses, and must
+            be added together to compute the actual address at run
+            time.)  The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function performs this     |
+            address computation automatically and deallocates        |
+            memory used to store the fetched tables.  Since the      |
+            program does not use the fetched string table directly,  |
+            but intends only to modify the visual appearance of a
+            widget based on items in the table, the MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll  |
+            function is less convenient to use.
+
+       The following examples show the UIL module for this applica-
+       tion and excerpts from the C program. The segment of the UIL
+       module shown assumes that the module header, procedure
+       declarations, include files, and value declarations for each
+       of the names used in the example are in place.                |
+
+       value
+       (1) cs_wood     : compound_string("Wood");
+           cst_materials_selected : string_table(cs_wood);
+       (2) cst_materials : exported string_table(
+                     cs_wood,     ! material type 1                  |
+                     "Metal",     ! material type 2                  |
+                     "Waste");    ! material type 3                  |
+       (3)  cst_type_1  : exported string_table( ! Materials for type 1 (wood)|
+                     "Redwood","Dogwood","Birch","Pine","Cherry");   |
+           l_count_type_1 : exported 5;                              |
+           cst_type_2 : exported string_table(   ! Materials for type 2 (metal)|
+               "Aluminum","Steel","Titanium","Iron","Linoleum");     |
+           l_count_type_2 : exported 5;                              |
+           cst_type_3 : exported string_table(   ! Materials for type 3 (waste)|
+                      "Toxic","Solid","Biodegradable","Party Platforms");|
+           l_count_type_3 : exported 4;                              |
+           k_zero : exported 0;                                      |
+        object
+           materials_ListBox  : XmList                               |
+           {                                                         |
+               arguments                                             |
+               {                                                     |
+                   XmNx = k_tst_materials_ListBox_x;                 |
+                   XmNy = k_tst_materials_ListBox_y;                 |
+                   XmNwidth = k_tst_materials_ListBox_wid;           |
+                   XmNvisibleItemCount = 4;                          |
+                   XmNitems = cst_materials;                         |
+                   XmNselectedItems = cst_materials_selected;        |
+               };                                                    |
+               callbacks                                             |
+
+
+                                                              22-35
+
+
+
+
+
+
+
+
+
+
+
+
+               {                                                     |
+                   MrmNcreateCallback =                              |
+                     procedure tst_create_proc(k_tst_materials_ListBox);|
+                   XmNsingleSelectionCallback =                      |
+                     procedure tst_single_proc(k_tst_materials_ListBox);|
+               };                                                    |
+           };                                                        |
+           types_ListBox      : XmList                               |
+           {                                                         |
+               arguments                                             |
+               {                                                     |
+                   XmNx = k_tst_types_ListBox_x;                     |
+                   XmNy = k_tst_types_ListBox_y;                     |
+                   XmNwidth = k_tst_types_ListBox_wid;               |
+                   XmNvisibleItemCount = 4;                          |
+                   XmNitems = cst_type_1;                            |
+               };                                                    |
+               callbacks                                             |
+               {                                                     |
+                   MrmNcreateCallback =                              |
+                     procedure tst_create_proc(k_tst_types_ListBox); |
+                   XmNsingleSelectionCallback =                      |
+                     procedure tst_single_proc(k_tst_types_ListBox); |
+               };                                                    |
+           };                                                        |
+
+       NNNNOOOOTTTTEEEESSSS::::
+
+         1.  Prefixes on value names indicate the type of value.
+             For example, _c_s_ means compound string, _c_s_t_ means      |
+             compound string table, and _l_ means long integer.
+
+         2.  This string table provides the contents for the
+             Materials list box widget (on the left in Figure 22-    |
+             6).  This string table does not need to follow the
+             naming scheme for the string table in the Material
+             Types list widget (that is, _c_s_t__t_y_p_e__n) because the     |
+             contents of the Materials list does not change once
+             the application is realized.  (The numbering of the
+             string tables (3)) is vital to the proper functioning
+             of the Material Types list widget.  The string table
+             for the Materials list box widget could have been
+             named anything.)
+
+         3.  These string tables provide the contents for the vari-
+             ous versions of the Materials Types list box widget     |
+             (on the right in Figure 22-6).  Each one of these
+             lists of strings corresponds (in order) to the string
+             names in the first list widget (Materials).  These
+             tables are numbered to facilitate programming.  When
+             the user selects an item in the Materials list widget,
+
+
+       22-36
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+             the index of the selected item is concatenated with     |
+             the string _c_s_t__t_y_p_e_ to form the name of one of these   |
+             tables. This named table is retrieved with the          |
+             MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function and placed in the Materials
+             Type list widget.
+
+             Note that in addition to the string table, a count of   |
+             the number of items in the table is declared as an
+             exported value.  This is done because using the XXXXttttSSSSeeeetttt----  |
+             VVVVaaaalllluuuueeeessss function on a list widget requires that three
+             arguments be set: XXXXmmmmNNNNiiiitttteeeemmmmssss, XXXXmmmmNNNNiiiitttteeeemmmmCCCCoooouuuunnnntttt, and           |
+             XXXXmmmmNNNNsssseeeelllleeeecccctttteeeeddddIIIItttteeeemmmmssssCCCCoooouuuunnnntttt (which must be set to 0).
+
+       In the following C program segment, note the activation       |
+       function named _t_s_t__s_i_n_g_l_e__p_r_o_c, where the user's selection    |
+       causes the program to act.                                    |
+
+        #define k_zero_name  "k_zero"
+        #define k_table_name_prefix  "cst_type_"
+        #define k_table_count_name_prefix  "l_count_type_"
+       (1) void tst_single_proc(w,object_index,callbackdata)
+           Widget      w;
+           int         *object_index;
+           XmListCallbackStruct    *callbackdata;
+        {
+       (2) char *t_number;
+       (3) char t_table_name[32] = k_table_name_prefix;
+           char t_table_count_name[32] = k_table_count_name_prefix;
+       (4) Arg r_override_arguments[3] =
+           {{XmNitems,NULL},{XmNitemsCount,NULL},{XmNselectedItemsCount,k_zero_name}};
+          switch (*object_index)
+          {
+       (5)     case    k_tst_materials_ListBox:
+            {
+       (6)         sprintf(&t_number,"%d",callbackdata->item_number);
+       (7)         strcpy(&t_table_name[sizeof(k_table_name_prefix)-1],&t_number);
+                XtSetArg(r_override_arguments[0],XmNitems,&t_table_name);
+       (8)         strcpy(&t_table_count_name[sizeof(k_table_count_name_prefix)-1],|
+                                                                          &t_number);|
+                XtSetArg(r_override_arguments[1],XmNitemsCount,&t_table_count_name);
+       (9)         MrmFetchSetValues(ar_MRMHierarchy,
+                    object_ids[k_tst_types_ListBox],
+                    r_override_arguments,3);
+                break;
+              };
+       (10)      case    k_tst_types_ListBox:
+              {
+          .                                                          *
+          .
+          .
+                    break;                                           *
+
+
+                                                              22-37
+
+
+
+
+
+
+
+
+
+
+
+
+              };
+          };
+        };
+
+       NNNNOOOOTTTTEEEESSSS::::                                                        |
+
+         1.  Function that handles the XmNsingleSelectionCallback    |
+             callback functions for any object. When the user        |
+             selects an item in a list widget, the contents of the   |
+             neighboring list widget are replaced.  This function    |
+             uses the list widget callback structure named           |
+             XXXXmmmmLLLLiiiissssttttCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt. This structure contains the fol-
+             lowing fields: reason, event, item, item_length, and
+             item_number.
+
+         2.  Used to form the string version of the item number.
+
+         3.  Local character storage.
+
+         4.  Override argument list for the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss func-  |
+             tion.
+
+         5.  User has selected an item from the Materials list       |
+             widget. The application needs to place a new items
+             list in the Types list widget. The string tables
+             stored in the UID file are named _c_s_t__t_y_p_e_"_i_n_d_e_x        |
+             _n_u_m_b_e_r" and their count names are _l__c_o_u_n_t__t_y_p_e_"_i_n_d_e_x   |
+             _n_u_m_b_e_r"  (where _i_n_d_e_x _n_u_m_b_e_r corresponds to the item's
+             position in the list widget). Using the index of the
+             selected item from this list, the application forms
+             the name of the appropriate compound string table.      |
+
+             Using the item number instead of the text value of the
+             selection separates the function of the application
+             from the form (in this case, the contents of the list
+             widgets) and reduces complexity.  If the program used
+             the text value of the selected item as the means to     |
+             determine what to display, it must deal with possible   |
+             invalid characters for a UIL name in the text and con-  |
+             vert the text value (a compound string) to a null-      |
+             terminated string so that the string could be passed
+             to the function XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.                            |
+
+         6.  Used to form the string version of the item number.     |
+
+         7.  Used to form the name of the string table.              |
+
+         8.  Used to form the name of the string table count.        |
+
+         9.  Used to fill the types list widget with a new list of   |
+             items.
+
+
+       22-38
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+        10.  Similar selection recording code goes here.
+
+       22.2.5  UUUUssssiiiinnnngggg aaaannnn OOOObbbbjjjjeeeecccctttt DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn aaaassss aaaa TTTTeeeemmmmppppllllaaaatttteeee
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function is useful if you have to  |
+       create several similar widgets.  Consider an application      |
+       interface that has a lot of push buttons contained in a bul-  |
+       letin board.  The push buttons are the same except for their  |
+       XXXXmmmmNNNNyyyy position and label. Instead of declaring each push but-
+       ton individually, you can declare one push button and use
+       the MRM function MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee to use that declara-  |
+       tion as a template, modifying the XXXXmmmmNNNNyyyy position and label at  |
+       run time.
+
+       By calling the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function instead of     |
+       the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt function, the application program creates  |
+       the widget and overrides the original values in the declara-
+       tion with the values specified in the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee  |
+       call.  The argument list you supply to the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOO----   |
+       vvvveeeerrrrrrrriiiiddddeeee function must contain Motif Toolkit attribute names;
+       therefore, it is also possible to override the callbacks for
+       an object using the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function, since    |
+       callbacks are Motif Toolkit attributes.
+
+       To use the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function in an applica-     |
+       tion, you should use UIL identifiers to specify the tag
+       value for each callback procedure.  The tag is specified in
+       the callback structure and cannot be changed unless the
+       callback is deleted and replaced.  The callback structure is
+       not stored in the widget data, but by the X Toolkit intrin-
+       sics.
+
+       If you do not use identifiers for tag values, your callback
+       procedures must contain a check for the parent of the cal-
+       ling widget or some other field of the widget (as opposed to
+       checking only the tag value) because it is not possible to
+       override the tag value with the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee func-  |
+       tion. If you do not use an identifier for the tag value, all
+       instances of the fetched object return identical tag values
+       for all callbacks.  If the callback function checks only the
+       tag value,  the callback function could not distinguish
+       which instance made the call.  Section 19.7 explains how to   |
+       use UIL identifiers.
+
+       Another practical use of the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function  |
+       is to create objects with arguments whose values can only be
+       determined at run time (that is, are not known at UIL compi-
+       lation time).
+
+       The MRM function MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss works like the             |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function.  The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss       |
+
+
+                                                              22-39
+
+
+
+
+
+
+
+
+
+
+
+
+       function, like the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function, accepts   |
+       a vector of name and value pairs.  This vector is passed as
+       the _o_v_e_r_r_i_d_e__a_r_g_s argument for the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee     |
+       function and as the _a_r_g_s argument for the MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss   |
+       function. For the MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee function, the name   |
+       and value pairs consist of the Motif Toolkit attributes name
+       and an explicit value for that attribute.
+
+       The value member of the name and value pairs passed to        |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss is the UIL name of the value, not an        |
+       explicit value. When the application calls MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeetttt----       |
+       VVVVaaaalllluuuueeeessss, MRM looks up the names in the UID file, then uses
+       the values corresponding to those names to override the ori-
+       ginal values in the object declaration.  The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeetttt----     |
+       VVVVaaaalllluuuueeeessss function, therefore, allows you to keep all values
+       used in an application in the UIL module, and not in the      |
+       application program.  (The values you pass to the             |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function must be named, exported literals   |
+       in the UIL module.)
+
+       The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function is a convenience function      |
+       that packages the functions provided by the MMMMrrrrmmmmFFFFeeeettttcccchhhhLLLLiiiitttteeeerrrraaaallll   |
+       and MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeettttOOOOvvvveeeerrrrrrrriiiiddddeeee functions.                         |
+
+       22.3  CCCCuuuussssttttoooommmmiiiizzzziiiinnnngggg aaaa MMMMoooottttiiiiffff IIIInnnntttteeeerrrrffffaaaacccceeee UUUUssssiiiinnnngggg UUUUIIIILLLL aaaannnndddd MMMMRRRRMMMM
+
+       UIL offers the advantage of separating the form an interface
+       takes from the functions of the application.  The form of
+       the interface can change, while the functions the applica-
+       tion performs remain the same.  By specifying these varying
+       forms of the interface in separate UIL modules, you can
+       change the interface by changing the definition of the UID
+       hierarchy (the set of UID files) in the application program,
+       and recompiling and relinking the application.
+
+       Consider the UIL module in the following example, which
+       shows the compound string literals for the Motifburger
+       interface translated into French.  This is a separate UIL
+       module, not an edited version of the original Motifburger
+       UIL module.                                                   |
+
+       module french_literals
+              version = 'v1.0'
+              names = case_sensitive
+       value
+          k_motifburger_title    : exported "Motifburger - Commandes";
+          k_nyi_label_text     : exported "Fonction non disponible";
+          k_file_label_text    : exported "Fichier";
+            k_quit_label_text  : exported "Quitter";
+          k_edit_label_text    : exported "Edition";
+            k_cut_dot_label_text      : exported "Couper";
+
+
+       22-40
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+            k_copy_dot_label_text     : exported "Copier";
+            k_paste_dot_label_text    : exported "Coller";
+            k_clear_dot_label_text    : exported "Effacer tout";
+            k_select_all_label_text   : exported "Se'lectionner tout";
+          k_order_label_text            : exported "Commande";
+            k_show_controls_label_text  : exported "Voir codes...";
+            k_cancel_order_label_text   : exported "Annuler commande";
+            k_submit_order_label_text   : exported "Transmettre commande";
+          k_hamburgers_label_text         : exported "Hamburgers";
+            k_rare_label_text           : exported "Saignant";
+            k_medium_label_text         : exported "A point";
+            k_well_done_label_text      : exported "Tre`s cuit";
+            k_ketchup_label_text        : exported "Ketchup";
+            k_mustard_label_text        : exported "Moutarde";
+            k_onion_label_text          : exported "Oignons";
+            k_mayonnaise_label_text     : exported "Mayonnaise";
+            k_pickle_label_text         : exported "Cornichons";
+            k_quantity_label_text       : exported "Quantite'";
+          k_fries_label_text              : exported "Frites";
+            k_size_label_text           : exported "Taille";
+            k_tiny_label_text           : exported "Minuscule";
+            k_small_label_text          : exported "Petit";
+            k_large_label_text          : exported "Gros";
+            k_huge_label_text           : exported "Enorme";
+          k_drinks_label_text             : exported "Boissons";
+            k_0_label_text              : exported '0';
+            k_drink_list_text           : exported
+                   string_table ('Jus de pomme', 'Jus d'orange',
+                   'Jus de raisin', 'Cola', 'Punch',
+                   'Root beer', 'Eau', 'Ginger Ale',
+                   'Lait', 'Cafe'', 'The'');
+            k_drink_list_select    : exported string_table("Jus de pomme");
+            k_u_label_text         : exported "U";
+            k_d_label_text         : exported "D";
+          k_apply_label_text       : exported "Appliquer";
+          k_reset_label_text       : exported "Remise a` 0";
+          k_cancel_label_text      : exported "Annulation";
+          k_dismiss_label_text     : exported "Termine'";
+
+       end module;                                                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              22-41
+
+
+
+
+
+
+
+
+
+
+
+
+       In order to generate a French version of the Motifburger      |
+       application, perform the following steps:
+
+         1.  Change all string literal declarations in the original
+             Motifburger UIL module to be imported compound
+             strings. For example, change the value declaration for  |
+             the Fries label as follows:                             |
+             k_fries_label_text     : imported compound_string;
+             As shown in the previous example, the French UIL        |
+             module specifies the corresponding values as exported
+             and gives their definitions.
+
+         2.  In the original C program for the Motifburger applica-
+             tion, specify the name of the UID file containing the
+             compiled French UIL module as the first element of the
+             UID hierarchy array.  Assume the name of the UIL
+             specification file containing the French strings is     |
+             french_literals.uil. Change the UID hierarchy array     |
+             definition as follows:                                  |
+             static char *db_filename_vec[] =
+               {"french_literals.uid",
+                "motifburger.uid"
+               };
+
+         3.  Add a line to the script that compiles the French UIL   |
+             module, and execute the script.
+
+       22.4  UUUUssssiiiinnnngggg UUUUIIIILLLL oooonnnn LLLLaaaarrrrggggeeee PPPPrrrroooojjjjeeeeccccttttssss
+
+       When several programmers are working together to specify the
+       interface for a Motif application, contention for access to
+       the UIL module can develop.  The UIL module can be broken up
+       into several small files, each containing a segment of the
+       total interface specification, to allow several people to
+       work on it at one time.
+
+       One approach is to construct a main UIL file containing the
+       following information; once you create a main UIL file, you
+       should rarely need to change its contents:
+
+          +o Comments describing copyright information, module his-
+            tory, project information, and other relevant informa-
+            tion.
+
+          +o Global declarations, such as case sensitivity, objects
+            clause, and procedure declarations.
+
+          +o A series of include directives. Each include directive
+            points to a UIL specification file containing some por-
+            tion of the interface specification.
+
+
+
+       22-42
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       The UIL specification for an application interface might be
+       divided into four files, as follows:
+
+          +o Shared literals                                          |
+
+            This file defines all literals shared between the UIL
+            module and the application source code.  These are the
+            constants used as tags to the callback procedures.       |
+
+          +o Main window                                              |
+
+            This file defines the main window for the application.   |
+            This might include a menu bar with associated cascade
+            buttons, the work region, and other relevant pieces.
+
+          +o Bulletin board dialogs                                   |
+
+            This file defines all the bulletin board dialogs used    |
+            in the application.
+
+          +o Other interface objects                                  |
+
+            This file defines all the other objects that do not fit
+            into the first three categories.  This file might
+            include display windows with their menu bars and work
+            regions, pop-up menus, and the command dialog box.
+
+       The purpose of using multiple UIL files is simply to make it
+       easier for large programming project teams to work con-
+       currently on the same application interface. It is a matter
+       of style whether the included files themselves contain
+       include directives.
+
+       Some programmers prefer to work with a single main UIL file,
+       and know that this file names all of the remaining files
+       needed to complete the interface specification.  Having a
+       list of all needed files visible in the main UIL file can be
+       helpful, for example, to someone translating the user inter-
+       face into another language.  All files can be accounted for
+       easily and included in the translation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              22-43
+
+
+
+
+
+
+
+
+
+
+
+
+       22.5  WWWWoooorrrrkkkkiiiinnnngggg wwwwiiiitttthhhh UUUUsssseeeerrrr----DDDDeeeeffffiiiinnnneeeedddd WWWWiiiiddddggggeeeettttssss iiiinnnn UUUUIIIILLLL
+
+       You can extend the Motif Toolkit by building your own widg-
+       ets.  In UIL, such a user-defined widget is identified by
+       the UIL object type uuuusssseeeerrrr____ddddeeeeffffiiiinnnneeeedddd. A user-defined widget can
+       accept any UIL built-in argument or callback reason.  If
+       needed, you can use UIL to define your own arguments and
+       callback reasons for a user-defined widget. You can specify
+       any object as a child of a user-defined widget.
+
+       To use a user-defined widget in an application interface,
+       follow these steps in the UIL module:
+
+         1.  Define the arguments and callback reasons for the
+             user-defined widget that are not UIL built-ins. This    |
+             can be done inline when declaring an instance of the
+             user-defined widget or in one or more value sections.
+
+         2.  Declare the creation function for the user-defined
+             widget.
+
+         3.  Declare an instance of the user-defined widget. Use
+             uuuusssseeeerrrr____ddddeeeeffffiiiinnnneeeedddd as the object type and include the name
+             of the widget creation function in the declaration.
+
+       In the application program, you must register the class of
+       the user-defined widget using the MRM function MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrr----   |
+       CCCCllllaaaassssssss.  Part of the information you provide to the MMMMrrrrmmmmRRRReeee----     |
+       ggggiiiisssstttteeeerrrrCCCCllllaaaassssssss function is the name of the widget creation
+       function. By registering the class (and creation function),
+       you allow MRM to create a user-defined widget using the same
+       mechanisms used to create Motif Toolkit objects.  You can
+       specify the widget using UIL and fetch the widget with MRM.
+
+       The examples in this section are based on a previously built
+       user-defined widget called the XYZ widget.  The following
+       sections explain how to include the XYZ widget in an appli-
+       cation interface using UIL and how to create the widget at
+       run time using MRM.
+
+       22.5.1  DDDDeeeeffffiiiinnnniiiinnnngggg AAAArrrrgggguuuummmmeeeennnnttttssss aaaannnndddd RRRReeeeaaaassssoooonnnnssss ffffoooorrrr aaaa UUUUsssseeeerrrr----DDDDeeeeffffiiiinnnneeeedddd
+               WWWWiiiiddddggggeeeetttt
+
+       The UIL compiler has built-in arguments and callback reasons
+       that are supported by objects in the Motif Toolkit.  A
+       user-defined widget can be built having only standard Motif
+       Toolkit arguments and reasons as its resources.  If your
+       application interface uses a user-defined widget of this
+       type, you can use the UIL built-in argument names and call-
+       back reasons directly when you declare an instance of the
+       user-defined widget.  If the user-defined widget supports
+
+
+       22-44
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       arguments and reasons that are not built into the UIL com-
+       piler, you need to define these arguments and reasons using   |
+       the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT and RRRREEEEAAAASSSSOOOONNNN functions, respectively, before
+       specifying them.
+
+       The following example shows a UIL specification file that
+       defines arguments and callback reasons and declares the       |
+       creation function for the XYZ widget.  This UIL specifica-
+       tion file should be included in any UIL module in which you
+       declare an instance of the XYZ widget.                        |
+
+       (1)  value
+            xyz_font_level_0 :       argument ('fontLevel0' , font);
+            xyz_font_level_1 :       argument ('fontLevel1' , font);
+            xyz_font_level_2 :       argument ('fontLevel2' , font);
+            xyz_font_level_3 :       argument ('fontLevel3' , font);
+            xyz_font_level_4 :       argument ('fontLevel4' , font);
+            xyz_indent_margin :      argument ('indentMargin' , integer);
+            xyz_unit_level :         argument ('unitLevel' , integer);
+            xyz_page_level :         argument ('pageLevel' , integer);
+            xyz_root_widget:         argument ('rootWidget' , integer );
+            xyz_root_entry:          argument ('rootEntry' , integer);
+            xyz_display_mode:        argument ('displayMode' , integer);
+            xyz_fixed_width_entries: argument ('fixedWidthEntries' , Boolean);
+       (2)  value
+            xyz_select_and_confirm : reason ('selectAndConfirmCallback');
+            xyz_extend_confirm :     reason ('extendConfirmCallback');
+            xyz_entry_selected :     reason ('entrySelectedCallback');
+            xyz_entry_unselected :   reason ('entryUnselectedCallback');
+            xyz_help_requested:      reason ('helpCallback');
+            xyz_attach_to_source :   reason ('attachToSourceCallback');
+            xyz_detach_from_source : reason ('detachFromSourceCallback');
+            xyz_alter_root :         reason ('alterRootCallback');
+            xyz_selections_dragged : reason ('selectionsDraggedCallback');
+            xyz_get_entry :          reason ('getEntryCallback');
+            xyz_dragging :           reason ('draggingCallback');
+            xyz_dragging_end :       reason ('draggingEndCallback');
+            xyz_dragging_cancel :    reason ('draggingCancelCallback');
+       (3)  value
+            XyzPositionTop :       1;
+            XyzPositionMiddle :    2;
+            XyzPositionBottom :    3;
+            XyzDisplayOutline :    1;
+            XyzDisplayTopTree :    2;
+       (4)  procedure XyzCreate();
+
+       NNNNOOOOTTTTEEEESSSS::::                                                        |
+
+         1.  Defines UIL argument names for the XYZ widget that are  |
+             not built-in Toolkit arguments.  The strings you pass
+             to the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function must match the names listed    |
+
+
+                                                              22-45
+
+
+
+
+
+
+
+
+
+
+
+
+             in the resource list structure in the widget class
+             record for the XYZ widget. In addition to the string,   *
+             specify the data type of the argument.   Just as for
+             built-in arguments, when you declare an instance of
+             the XYZ widget in a UIL module, the UIL compiler
+             checks the data type of the values you specify for
+             these arguments.  For example, the UIL compiler checks
+             that the value you specify for the _x_y_z__i_n_d_e_n_t__m_a_r_g_i_n    |
+             argument is an integer.
+
+         2.  Defines the XYZ widget's callback reason names that
+             are not UIL built-in reasons.  The strings you pass to  |
+             the RRRREEEEAAAASSSSOOOONNNN function must match the names listed in the
+             resource list structure in the widget class record for
+             the XYZ widget.  (Callback reasons, like UIL argu-
+             ments, are considered to be widget-specific attributes
+             in the Motif Toolkit and are defined as resources.)
+
+         3.  Defines some integer literals for specifying arguments
+             of the XYZ widget.
+
+         4.  Declares the widget creation function for the XYZ
+             widget.  This creation function is registered with MRM
+             through the MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss function (see the example  |
+             in Section 22.5.3).
+
+       22.5.2  UUUUssssiiiinnnngggg aaaa UUUUsssseeeerrrr----DDDDeeeeffffiiiinnnneeeedddd WWWWiiiiddddggggeeeetttt iiiinnnn aaaannnn IIIInnnntttteeeerrrrffffaaaacccceeee SSSSppppeeeecccciiiiffffiiii----
+               ccccaaaattttiiiioooonnnn
+
+       The following example shows how to specify the XYZ widget in
+       a UIL module.  This UIL module includes the UIL specifica-
+       tion file shown in the previous example as xxxxyyyyzzzz____wwwwiiiiddddggggeeeetttt....uuuuiiiillll.    |
+
+            module xyz_example                                       |
+                names = case_sensitive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       22-46
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+            include file 'XmAppl.uil';                               |
+       (1)  include file 'xyz_widget.uil';
+       (2)      procedure
+                 XyzAttach       ();
+                 XyzDetach       ();
+                 XyzExtended     ();
+                 XyzConfirmed    ();
+                 XyzGetEntry     ();
+                 XyzSelected     ();
+                 XyzUnselected   ();
+                 XyzDragged      ();
+                 XyzDragging     ();
+                 XyzDraggingEnd  ();
+                 create_proc     ();
+                 MenuQuit        ();
+                 MenuExpandAll   ();
+                 MenuCollapseAll ();
+       (3)      object
+                 main : XmMainWindow
+                     { arguments
+                         {
+                            XmNx = 0;
+                            XmNy = 0;
+                            XmNheight = 0;
+                            XmNwidth = 0;
+                         };
+                       controls
+                         {  XmMenuBar main_menu;
+                            user_defined xyz_widget;
+                         };
+                     };
+       (4)        xyz_widget : user_defined procedure XyzCreate
+                     { arguments
+                         {
+                            XmNx = 0;
+                            XmNy = 0;
+                            XmNheight = 600;
+                            XmNwidth = 400;
+       (5)                  xyz_display_mode = XyzDisplayOutline;
+                         };
+                       callbacks
+                         {  xyz_attach_to_source =   procedure XyzAttach();
+                            xyz_detach_from_source = procedure XyzDetach();
+                            xyz_get_entry =          procedure XyzGetEntry();
+                            xyz_select_and_confirm = procedure XyzConfirmed();
+                            xyz_extend_confirm =     procedure XyzExtended();
+                            xyz_entry_selected =     procedure XyzSelected();
+                            xyz_entry_unselected =   procedure XyzUnselected();
+                            xyz_selections_dragged = procedure XyzDragged();
+                            xyz_dragging =           procedure XyzDragging();
+                            xyz_dragging_end =       procedure XyzDraggingEnd();
+
+
+                                                              22-47
+
+
+
+
+
+
+
+
+
+
+
+
+       (6)                  MrmNcreateCallback =      procedure create_proc();|
+                         };
+                     };
+       (7)          main_menu: XmMenuBar
+                     { arguments
+                         {  XmNorientation = XmHORIZONTAL;
+                         };
+                       controls
+                         {  XmCascadeButton file_menu;
+                         };
+                     };
+                 file_menu: XmCascadeButton
+                     { arguments
+                         {  XmNlabelString = 'File';
+                         };
+                       controls
+                         {  XmPulldownMenu
+                             { controls
+                                 { XmPushButton expand_all_button;
+                                   XmPushButton collapse_all_button;
+                                   XmPushButton quit_button;
+                                 };
+                             };
+                         };
+                     };
+                 expand_all_button: XmPushButton
+                     { arguments
+                         {  XmNlabelString = "Expand All";
+                         };
+                       callbacks
+                         {  XmNactivateCallback = procedure MenuExpandAll();
+                         };
+                     };
+                 collapse_all_button: XmPushButton
+                     { arguments
+                         {  XmNlabelString = "Collapse All";
+                         };
+                       callbacks
+                         {  XmNactivateCallback = procedure MenuCollapseAll();
+                         };
+                     };
+                 quit_button: XmPushButton
+                     { arguments
+                         {  XmNlabelString = "Quit";
+                         };
+                       callbacks
+                         {  XmNactivateCallback = procedure MenuQuit();
+                         };
+                     };
+         end module;
+
+
+
+       22-48
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+       NNNNOOOOTTTTEEEESSSS::::                                                        |
+
+         1.  Includes a directive to include the definition of the   |
+             XYZ widget shown in the example in Section 22.5.1.
+
+         2.  Declarations for the callback functions defined in the
+             application program.
+
+         3.  Declaration for the main window widget.  The main win-
+             dow widget has two children: a menu bar widget and the
+             XYZ widget.
+
+         4.  Declaration for the XYZ widget.  Note that the object
+             type is uuuusssseeeerrrr____ddddeeeeffffiiiinnnneeeedddd and that the creation function,    |
+             _X_y_z_C_r_e_a_t_e, is included in the declaration.
+
+         5.  The _x_y_z__d_i_s_p_l_a_y__m_o_d_e argument, defined with the AAAARRRRGGGGUUUU----   |
+             MMMMEEEENNNNTTTT function in the example in Section 22.5.1, is      |
+             specified using one of the integer literals also
+             defined in that example.
+
+         6.  All widgets support the MMMMrrrrmmmmNNNNccccrrrreeeeaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk reason.      |
+
+         7.  The remaining objects declarations comprise the menu
+             bar widget and its pull-down menu widgets.
+
+       22.5.3  AAAAcccccccceeeessssssssiiiinnnngggg aaaa UUUUsssseeeerrrr----DDDDeeeeffffiiiinnnneeeedddd WWWWiiiiddddggggeeeetttt aaaatttt RRRRuuuunnnn TTTTiiiimmmmeeee
+
+       The following example shows a C application program that
+       displays the XYZ widget (defined in the example in Section    |
+       22.5.1 and declared in the example in Section 22.5.2).        |
+
+            #include <Mrm/MrmAppl.h>
+       (1)  #include <XmWsXyz.h>
+       (2)  globalref int xyzwidgetclassrec;
+       (3)   extern void XyzAttach       ();
+             extern void XyzDetach       ();
+             extern void XyzGetEntry     ();
+             extern void XyzConfirmed    ();
+             extern void XyzExtended     ();
+             extern void XyzSelected     ();
+             extern void XyzUnselected   ();
+             extern void XyzHelpRoutine  ();
+             extern void XyzDragged      ();
+             extern void XyzDragging     ();
+             extern void XyzDraggingEnd  ();
+             extern void create_proc     ();
+             extern void MenuQuit        ();
+             extern void MenuExpandAll   ();
+             extern void MenuCollapseAll ();
+       (4)  static MrmRegisterArglist   register_vector[] =
+
+
+                                                              22-49
+
+
+
+
+
+
+
+
+
+
+
+
+             {
+                 { "XyzAttach",                  (caddr_t) XyzAttach },
+                 { "XyzDetach",                  (caddr_t) XyzDetach },
+                 { "XyzGetEntry",                (caddr_t) XyzGetEntry },
+                 { "XyzConfirmed",               (caddr_t) XyzConfirmed },
+                 { "XyzExtended",                (caddr_t) XyzExtended },
+                 { "XyzSelected",                (caddr_t) XyzSelected },
+                 { "XyzUnselected",              (caddr_t) XyzUnselected },
+                 { "XyzHelpRoutine",             (caddr_t) XyzHelpRoutine },
+                 { "XyzDragged",                 (caddr_t) XyzDragged },
+                 { "XyzDragging",                (caddr_t) XyzDragging },
+                 { "XyzDraggingEnd",             (caddr_t) XyzDraggingEnd },
+                 { "create_proc,                 (caddr_t) create_proc },
+                 { "MenuQuit",                   (caddr_t) MenuQuit },
+                 { "MenuExpandAll",              (caddr_t) MenuExpandAll },
+                 { "MenuCollapseAll",            (caddr_t) MenuCollapseAll }
+             };
+         #define register_vector_length ( (sizeof register_vector) /  \|
+                                          (sizeof register_vector[0]))
+       (5)  static MrmHierarchy     hierarchy_id ;
+            static char             *vec[]={"xyz_example.uid"};
+            static MrmCode          class ;
+              Widget toplevel;
+              XtAppContext app_context;                              |
+              Widget mainwindow;
+       (6)    int main (argc, argv)
+              unsigned int argc;
+              char **argv;
+         {
+       (7)       Arg arguments[1];
+       (8)       MrmInitialize();
+       (9)       toplevel = XtAppInitialize (&app_context, "xyz", NULL, 0,|
+                                             &argc, argv, NULL, NULL, 0);|
+       (10)      if( MrmRegisterClass                                |
+                      ( MRMwcUnknown,
+                        XyzClassName,
+                        "XyzCreate",
+                        XyzCreate,
+                        &xyzwidgetclassrec )
+                  != MrmSUCCESS )
+              {
+                  printf ("Can't register XYZ widget");
+              }
+       (11)      if( MrmOpenHierarchy                                *
+                      ( 1,
+                        vec,
+                        NULL,
+                        &hierarchy_id )
+                   != MrmSUCCESS )
+              {
+                  printf ("Can't open hierarchy");
+
+
+       22-50
+
+
+
+
+
+
+
+
+
+                          Creating User Interfaces with UIL and MRM
+
+
+              }
+       (12)     MrmRegisterNames( register_vector, register_vector_length );
+                XtSetArg (arguments[0], XmNallowShellResize, TRUE);
+                XtSetValues (toplevel, arguments, 1);
+       (13)     if( MrmFetchWidget
+                      ( hierarchy_id,
+                        "main",
+                        toplevel,
+                        &mainwindow,
+                        &class )
+                   != MrmSUCCESS )
+              {
+                  printf ("Can't fetch interface ");
+              }
+              XtManageChild (mainwindow);
+              XtRealizeWidget (toplevel);
+              XtAppMainLoop(app_context);                            |
+              return (0);
+          }
+
+          .                                                          |
+          .
+          .
+
+       NNNNOOOOTTTTEEEESSSS::::                                                        |
+
+         1.  Includes XYZ declarations.
+
+         2.  Provides a reference to the widget class record for
+             the XYZ widget (named _x_y_z_w_i_d_g_e_t_c_l_a_s_s_r_e_c).               |
+
+         3.  Declares callback routines defined (but not shown)
+             later in the program.
+
+         4.  Defines the mapping between UIL procedure names and
+             their addresses.
+
+         5.  Specifies the UID hierarchy list.  The UID hierarchy
+             for this application consists of a single UID file,
+             the compiled version of xxxxyyyyzzzz____eeeexxxxaaaammmmpppplllleeee....uuuuiiiillll.  (Assume the   |
+             UIL specification file has the same name as the UIL
+             module; see the module header.  The file named          |
+             xxxxyyyyzzzz____eeeexxxxaaaammmmpppplllleeee....uuuuiiiillll includes the file xxxxyyyyzzzz____wwwwiiiiddddggggeeeetttt....uuuuiiiillll,       |
+             shown in Section 22.5.1.)
+
+         6.  Main routine.
+
+         7.  Arguments for the widgets.
+
+         8.  Initializes MRM.
+
+
+
+                                                              22-51
+
+
+
+
+
+
+
+
+
+
+
+
+         9.  Initializes the Motif Toolkit.                          |
+
+        10.  Registers the XYZ widget class with MRM.  This allows
+             MRM to use standard creation mechanisms to create the
+             XYZ widget (see (13)). The arguments passed to the      |
+             MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrCCCCllllaaaassssssss routine are as follows:
+
+                +o MRMwcUnknown -- Indicates that the class is user   |
+                  defined
+
+                +o XyzClassName -- Class name of XYZ widget, defined
+                  in XXXXmmmmWWWWssssXXXXyyyyzzzz....hhhh.                                      |
+
+                +o "XyzCreate" -- Name of the creation routine
+
+                +o _X_y_z_C_r_e_a_t_e -- Address of the creation routine
+
+                +o &xyzwidgetclassrec -- Pointer to the widget class
+                  record
+
+        11.  Defines the UID hierarchy.                              *
+
+        12.  Registers callback routine names with MRM.
+
+        13.  Fetches the interface (the main window widget with a
+             menu bar widget and the XYZ widget in the work area).
+             Note that the XYZ widget is treated like any Motif
+             Toolkit widget.  MRM calls the XYZ widget's creation
+             routine (_X_y_z_C_r_e_a_t_e) and passes this routine the values  |
+             for the XmNx, XmNy, XmNwidth, XmNheight, and            |
+             _x_y_z__d_i_s_p_l_a_y__m_o_d_e) arguments as specified in the UID
+             file, using the standard creation routine format.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       22-52
+
+
+
+
+

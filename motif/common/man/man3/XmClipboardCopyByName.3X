@@ -1,0 +1,89 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardCopyByName 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardCopyByName \(em A clipboard
+function that copies a data item passed by 
+name.\fP
+.iX "XmClipboardCopyByName"
+.iX "clipboard functions" "XmClipboardCopyByName"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardCopyByName\fP (\fIdisplay, window, data_id, 
+buffer, length, private_id\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	int	\fIdata_id\fP;
+.br
+	char	\fI* buffer\fP;
+.br
+	unsigned long	\fIlength\fP;
+.br
+	int	\fIprivate_id\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardCopyByName\fP copies the actual data for a data item that was
+previously passed by name to the clipboard.  
+Data is considered to be passed by name when a call to \fBXmClipboardCopy\fP
+is made with a NULL buffer parameter.
+Additional calls to this
+function append new data to the existing data.  
+.sp 1
+.IP "\fIdisplay\fP" 1i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each
+clipboard function it calls.
+.IP "\fIdata_id\fP" 1i
+Specifies an identifying number assigned to the data item that uniquely
+identifies the data item and the format.  This number was assigned by
+\fBXmClipboardCopy\fP to the data item.
+.IP "\fIbuffer\fP" 1i
+Specifies the buffer from which the clipboard copies the data.
+.IP "\fIlength\fP" 1i
+Specifies the number of bytes in the data item.
+.IP "\fIprivate_id\fP" 1i
+Specifies the private data that the application wants to store with the
+data item.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardCopy(3X)\fP, \fBXmClipboardLock(3X)\fP,
+\fBXmClipboardStartCopy(3X)\fP, and \fBXmClipboardUnlock(3X)\fP.
+.sp 1
+.ad

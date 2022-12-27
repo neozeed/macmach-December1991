@@ -1,0 +1,78 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateFileSelectionBox 3X "" "" "" ""
+.SH NAME
+\fBXmCreateFileSelectionBox \(em the FileSelectionBox widget creation function.\fP
+.iX "XmCreateFileSelectionBox"
+.iX "creation functions" "XmCreateFileSelectionBox"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/FileSB.h>
+.sp 1
+Widget XmCreateFileSelectionBox (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateFileSelectionBox\fP creates an unmanaged FileSelectionBox.
+A FileSelectionBox is used to select a file
+and includes the following:
+.IP \(bu 3
+An editable text field for the directory mask
+.IP \(bu 3
+A scrolling list of filenames
+.IP \(bu 3
+An editable text field for the selected file
+.IP \(bu 3
+Labels for the list and text fields
+.IP \(bu 3
+Four buttons
+.PP
+The default button labels are \fBOK\fP, \fBFilter\fP, \fBCancel\fP, and
+\fBHelp\fP.  One additional \fBWorkArea\fP child may be added to the
+FileSelectionBox after creation.
+.PP
+If the parent of the FileSelectionBox is a DialogShell, use \fBXtManageChild\fP
+to pop up the FileSelectionDialog (passing the 
+FileSelectionBox as the widget parameter);
+use \fBXtUnmanageChild\fP to pop it down.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of FileSelectionBox and its associated resources, see
+\fBXmFileSelectionBox(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the FileSelectionBox widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmFileSelectionBox(3X)\fP.

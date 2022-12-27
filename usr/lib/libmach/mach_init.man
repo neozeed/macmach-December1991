@@ -1,0 +1,63 @@
+.TH mach_init 3 11/19/86
+.SH NAME
+mach_init \- exports global variables and ports 
+.SH SYNOPSIS
+#include <mach_init.h>
+.SH DESCRIPTION
+.I mach_init.h
+exports the following standard system and server ports and
+global variables to the user:
+.PP
+.TP 20
+task_self_	 
+the port to which a task sends its kernel requests
+.TP 20
+thread_reply_
+a port on which a thread may receive messages
+.TP 20
+task_notify_
+the port on which a task receives notify messages from the kernel
+.TP 20
+name_server_port
+the service port for the network name server
+.TP 20
+environment_port
+the service port for the task's environment manager
+.TP 20
+service_port
+the service port for the service server
+.TP 20
+mach_init_ports
+set of server ports initially handed to a task
+.TP 20
+mach_init_ports_count
+number of mach_init_ports
+.TP 20
+vm_page_size
+size of the virtual memory pages in bytes
+.PP
+.I mach_init.c
+is called before the main program is entered to intitalize
+the exported values and to initialize any of the standard
+server interfaces. The standard server interfaces are:
+.I init_mach, init_msgn, init_netname
+and
+.I init_env_mgr.
+The service server should only be called by other servers, so it 
+is not initialized here for the general user.
+
+.I mach_init 
+also initialzes the value of
+.I vm_page_size
+which is the virtual memory page size in bytes. Kernel requests dealing
+with virtual memory are always rounded up to virtual pages. Occasionally
+a user needs to know how big this is.
+
+.SH FILES
+/usr/mach/include/mach_init.h
+
+
+.HISTORY
+.TP
+19-Nov-86  Mary Thompson (mrt) at Carnegie Mellon University
+Created.

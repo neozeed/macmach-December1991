@@ -1,0 +1,29 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1990 Carnegie-Mellon University
+ * All rights reserved.  The CMU software License Agreement specifies
+ * the terms and conditions for use and redistribution.
+ */
+/*
+ * HISTORY
+ * $Log:	bsd_2.defs,v $
+ * Revision 2.2  90/06/21  13:42:26  rpd
+ * 	Created.
+ * 
+ */
+
+/*
+ * IPC interface for UX server functions.
+ * The UX server is both the client and server for these functions.
+ */
+
+subsystem bsd_2 102000;
+
+UserPrefix ubsd_;
+ServerPrefix sbsd_;
+
+#include <mach/mach_types.defs>
+
+simpleroutine psignal_retry(
+		proc_port	: mach_port_t;
+	in	sig		: int);

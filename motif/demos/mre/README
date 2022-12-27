@@ -1,0 +1,394 @@
+MRE
+---
+
+This directory contains the current version of MRE, the Motif Resource Editor.
+
+	[Note to DECstation 3100 users:
+
+		You may wish to add the definition
+
+			#define USE_RE_COMP
+
+		to mre.h prior to running make.
+
+		Setting this flag will eliminate
+		a large number of "fixup" messages
+		when starting MRE on a DECstation 3100.
+		This flag is set automatically if you have
+		set NO_REGEX at a higher level.]
+
+
+	[Note to all users:
+
+		You may wish to modify the constant MAX_XDEF_LINES
+		in the file mre.h prior to running make.  This is
+		currently defined to be 5000.
+
+
+MRE allows you to conveniently view and edit your resource files.  MRE's
+internal rules, which may be extended by a user-supplied file, allow it
+to determine whether resources are colors, fonts, files, or other types.
+Based on its determination of the type of a resource, MRE provides an
+appropriate editing mechanism: colorbars for colors, a font selection window
+for fonts, a file selection window for files, and a simple text window
+for others.
+
+
+The Basics
+----------
+
+	Run mre from its own directory by typing "mre" or "mre filename".  
+If you are not in the directory containing mre's uid files, you must set
+the environment variable UIDPATH to point to mre's uid files, for example:
+
+		UIDPATH=/motif/demos/mre/%N  (the %N is necessary)
+
+	If MRE is invoked with no command line arguments, it will search for 
+the file named .Xdefaults in your home directory.  If a file is specified on
+the command line, MRE will use that file instead.
+
+	MRE will load the resource file you specify (or .Xdefaults) 
+and present all resource lines in a listbox.  Using options from 
+the view menu, you may sort the listbox based on:
+
+        resource --       sm*file*sensitive: on
+                                  ^^^^^^^^^
+
+        specification --  sm*file*sensitive: on
+                          ^^^^^^^^^^^^^^^^^
+
+	value --          sm*file*sensitive: on
+                                             ^^
+	You may toggle the display of various categories of resources using 
+the toggle buttons in the lower half of the view menu.  You may also use the
+"short cut" pixmap buttons to the left of the list to quickly restrict
+display to ONLY colors, ONLY fonts, or ONLY booleans (true/false).
+
+	You may select a particular resource to edit by double-clicking 
+the resource in the list, or by pressing the "Edit" button under the list.
+In the case of font or color resources, an appropriate editing window
+will open.  For boolean resources, the value will simply flip to its opposite.
+For other types of resources, this version of MRE provides a text window.
+
+	To "clone" a resource, edit the text in the selection window beneath
+the listbox and press the "add" button.  To delete a resource, select
+it and press the "delete" button.
+
+
+Editing Colors
+--------------
+
+	If you have a color system, MRE will allow you to edit colors
+using scale widgets and a list of named colors.  The scales work as you'd
+expect.  Selecting a named color from the list beneath will set the scale
+values properly for the named color, and update the color in the patch.
+
+	The "Set Root Window Background" button will set the background
+of your whole display if you have selected a named color; you cannot use it 
+to set a "hex value string" as the background.
+
+	Pressing mouse button 3 in the color patch window will allow you 
+to take the current background color of that window and assign it to 
+the window's foreground, topShadow, and bottomShadow.  You can use this 
+to get a feel for how color combinations work (or don't) in maintaining 
+Motif's 3D illusion.
+
+
+Editing Fonts
+-------------
+
+	The font edit window allows you to locate fonts matching criteria
+you have set.  You may specify a fontname mask directly by editing
+the contents of the "current selection criteria" window, or you may use
+the banks of radio-style toggle buttons above.  The toggle buttons will
+generate usable fontname masks only if your system has fonts which conform to
+the comparitively new X Logical Font Description Conventions.
+
+	Once you have established search criteria you are comfortable with,
+press "Filter to Criteria" and the listbox beneath the button will be filled
+with matching fonts.  (Depending on your configuration, this may take some
+time.)
+
+	Pressing "Display all matches" will present a vpaned widget with
+a pane for each matching font.  You may type into the panes to see how
+particular character combinations are handled by each font.  Select
+any of the displayed fonts by clicking the "Select" button appearing to 
+the left of its name.  To make the selection stick, press "OK" in the
+main font selection window.
+
+	Selecting a single font, either from the listbox or from a pane,
+will present a window containing just that font.  To get rid of that window,
+press its OK button.
+
+	The toggle button banks may be changed by editing the UIL specs.
+
+
+Editing Filenames
+-----------------
+
+	MRE uses Motif's File Selection Dialog to allow you to locate
+files used as resources.  (Don't be alarmed when the file selection dialog
+appears -- you aren't about to save your file.)  
+
+
+Editing Boolean (True/False) Resources
+--------------------------------------
+
+	Pressing the "Edit" button when the currently selected resource
+is a boolean type causes the value to flip.  No window will open.  Pressing
+"Edit" again will flip the value back.  In this version, the pairs
+"true/false", "yes/no", and "on/off" are recognized and supported.
+
+Editing Translation Tables
+--------------------------
+
+	This version of MRE provides no special support for editing
+translation tables.
+
+
+The Options Menu
+----------------
+
+	You can use MRE as a front end to xrdb.  Using the options menu,
+you can merge or load either the current selection or the current listbox
+contents into the RESOURCE_MANAGER property of your server.  Note that
+current listbox contents is NOT the entire loaded database -- it is the
+set of items currently eligible for display in the listbox.
+
+	"Dump database to stdout" is purely for debugging MRE.  It puts
+MRE's "line information" structures to the screen.
+
+	"Command entry" toggle a command entry window on and off.
+See below for valid commands.
+
+	"Show widget hierarchy and values" is mostly for debugging, but may
+be of use to those wishing to study the behavior of individual MRE widgets.
+Selecting this option will present you with a bulletin board containing
+a button for each fetched widget and gadget making up MRE.  The buttons
+are indented to indicate parent child relationships.  Pressing any button
+will present the complete set of resource names and values for the widget
+whose name appears on the button.  Above the resource names and values
+there is an OK button and two text fields.  Pressing the OK button calls
+XtSetValues with the string in the first text field used as the resource
+name and the string in the second text field treated as an integer value.
+For example, you can resize a widget by pressing OK with the first text
+field containing "width" and the second containing "1000".  BE CAREFUL --
+MRE will not screen your calls for you.  Setting values on, say, a destroy
+callback *will* cause problems.  (To eliminate access to this option,
+simply comment it out of mre_menu.uil and recompile mre_menu.uid.  No
+recompilation of c files is necessary to disable this or any option.)
+
+
+Command Entry
+-------------
+
+	Selecting the command entry toggle button from the Options menu
+will add a command entry window to MRE's main window.  (It's at the top
+in this version but may descend as time goes by.)  Acceptable commands
+as of this version are:
+
+	SORT (by) [RESource|SPECification|VALue] ([Ascending|Descending])
+	HELP (subject)
+	SAVE ((as)(filename))
+	EXIT
+
+where lower case indicates optional characters in a word, parentheses 
+surround optional words in a command, and brackets surround choices.
+						
+
+Help
+----
+
+	This version has no help text -- pressing Help buttons will bring
+up empty help windows.  Requesting help on version will bring up an
+information dialog containing version information for MRE and your server,
+and your font path information.
+
+
+The Edit Menu
+-------------
+
+	Cut, copy, and paste functions are provided to demonstrate how
+to interact with the Motif clipboard functions.  They are of no particular
+use in MRE, duplicating functions available through the "Add" and "Delete"
+buttons of the main window.  Material cut or copied to the clipboard is
+held as a regular string and can be pasted into a text editor -- xmeditor,
+for example.
+
+
+Adding Custom Types; Associating Resources with Types
+-----------------------------------------------------
+
+	The file mre_types (or any file whose specification you provide
+in the resource "mreTypeFile") is read by MRE at startup.  Entries in 
+this file can indicate how MRE should treat various resource names, and
+can define new resource categories.  To associate a resource with a type,
+add a line like the following to mre_types.
+
+		TYPE  regular_expression
+
+where TYPE is from MISC COLOR FONT BOOLEAN FILE TRANSLATION
+and regular_expression is a regular expression as used by ed.
+
+	For example, the line
+
+		COLOR sheen$
+
+indicates that any resource specification whose left hand side ends in 
+"sheen" should be assumed to be a color specification.  One such resource 
+definition might be "mre*sheen: blue"
+
+	You can also DEFINE enumerated and range types to MRE.  For example,
+the lines
+
+		DEFINE TRIPLET mickey;mighty;minnie
+		TRIPLET mousename$
+
+will cause MRE to treat resource specifications ending in "mousename" as
+having three potential values: mickey, mighty, and minnie.  If you select
+such a resource, MRE will build a radio box with the appropriate toggle
+buttons, to simplify your choice.  You will also be provided with a text
+field, if you wish to enter an exception to the rule.
+
+	To define a range, use digits and a hyphen.  The lines
+
+		DEFINE BORDERSIZE 0-10
+		BORDERSIZE borderWidth$
+
+will cause MRE to edit borderWidth resources by presenting a scale
+widget.
+
+	The more type definitions you provide, the longer MRE will
+take to start up.  Therefore, a good strategy would be to provide
+multiple "mreTypeFile" files for different applications, and use aliases
+to run mre for different applications:
+
+	alias mre.emacs "mre -xrm mreTypeFile:mre_emacstypes"
+
+
+Resources which modify MRE behavior
+-----------------------------------
+
+	MRE's behavior, like those of all Motif programs, may be modified 
+by setting various resources.  Resources special to MRE are:
+
+	mergeOnSave: on|off [default: off]
+
+		If on, MRE will call "xrdb -merge" when information is
+		being saved to file.  Xrdb stores resources in a property
+		in your server.  If this RESOURCE_MANAGER property exists
+		on your server, applications will use the resource information
+		from this property in place of that in $HOME/.Xdefaults.
+		Thus, if you have a RESOURCE_MANAGER property set but don't 
+		merge your updated .Xdefaults into it, you may not see your
+		updates reflected in application behavior.
+
+	fontText: [default: "This is a sample."]
+
+		When editing a font resource, MRE can be asked to display
+		all fonts matching certain criteria.  This resource is the
+		text which will be presented in each font.  The text is
+		presented in editable text widgets, so it may also be modified
+		when displayed.
+
+	printHierarchy: on|off  [default: off]
+
+		if on, dump the widget hierarchy to standard output on startup.
+		This information may be used by the terminally-customizing 
+		to play with the resource values of individual widgets. 
+		Note that the widget hierarchy may be printed from the option
+		menu as well.
+
+	rgbTextFile: [default: /usr/lib/X11/rgb.txt]
+
+		specifies the file whose contents will be placed in 
+		the color edit window's named colors listbox; do not
+		change from the default unless you know what you are doing!
+
+	internalPixmaps: on|off [default: off]
+
+		specifies whether MRE should substitute hard-coded bitmap
+		data from its C source files for the pixmaps otherwise
+		loaded from uid files.  This resource should not be needed;
+		if you need it, you will know that you need it.
+
+	mreTypeFile: [default: mre_types]
+
+		(Note: mre has internal rules, and can operate w/o this file.)
+		specifies the file in which MRE will search for resource
+		type rules; in the present version, each line in this file
+		must be of the form:
+
+			TYPE  regular_expression
+		or
+			DEFINE TYPENAME choice1;choice2;...choicen
+		or
+			DEFINE TYPENAME lowvalue-highvalue
+
+		where TYPE is from MISC COLOR FONT BOOLEAN FILE TRANSLATION
+		and regular_expression is a regular expression as used by ed;
+		TYPENAME is your choice of name for a custom type,
+		choice1...choicen are enumerations of that type,
+		lowvalue and highvalue are decimal integer strings.
+
+		For example, the line
+
+			COLOR sheen$
+
+		indicates that any resource specification whose left hand side
+		ends in "sheen" should be assumed to be a color specification.
+		One such resource definition might be "mre*sheen: blue"
+
+		The lines
+
+		DEFINE TRIPLET mickey;mighty;minnie
+		DEFINE BORDERSIZE 0-10
+		TRIPLET mousename$
+		BORDERSIZE borderWidth$
+
+		indicate that resource specifications ending "mousename"
+		are to be edited by presenting the choices mickey, mighty,
+		and minnie and resource specs ending "borderWidth" are to
+		be edited by presenting a scale ranging from zero to ten.
+
+	font:
+	fontList: [default: fixed]
+
+		MRE uses Motif's resolution independence feature.  In order
+		for windows to be sized appropriately for a given font, 
+		both the font and fontList resources must be set to the
+		same font.
+
+
+Enjoy!
+
+Mitch Trachtenberg
+August 1989
+
+
+
+
+
+
+
+Known Problems:
+
+MRE's main selection box does not handle vertical resizes intelligently.
+
+Both "font" and "fontList" resources must specify the same font in order
+for MRE windows to be presented at sizes appropriate to any given font.
+
+In those windows using Xm100TH_FONT_UNITS resolution independence mode, 
+scrollbar sliders may not be visible.
+
+The File Selection Dialogs used in editing file resources do not properly
+display the existing filename specified for the resource; pressing "OK" 
+without selecting a filename will set the resource to an incomplete 
+specification.
+
+Keyboard traversal is not complete in all windows.
+
+MRE does not handle multiline resource specifications well.
+
+If you notice any other bugs in this demo, please see the bug list in
+the Release Notes to see if the problem is a known Toolkit defect.

@@ -1,0 +1,189 @@
+.\"
+.\" $Id: env_list.3,v 1.1 89/12/28 14:39:17 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	env_list.3,v $
+.\" Revision 1.1  89/12/28  14:39:17  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 12-Nov-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH ENV_LIST 3 11/12/86
+.CM 4
+.SH NAME
+.nf
+env_list_strings  \-  return  names and values of all the string variables
+env_list_ports  \-  return names and value of all port variables
+env_set_stlist   \-  set a number of string variables
+env_set_ptlist  \-  set a number of port variables
+.SH SYNOPSIS
+.nf
+.ft B
+#include <servers/env_mgr.h>
+
+.nf
+.ft B
+kern_return_t env_list_strings(env_port,env_names,name_cnt,
+			       env_string_vals,string_cnt)
+    port_t	   env_port;
+    env_name_list *env_names
+    int		  *name_cnt;
+    env_str_list  *env_string_vals;
+    int		  *string_cnt);
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_list_ports(env_port,env_names,name_cnt,
+			       env_port_vals,port_cnt)
+    port_t	   env_port;
+    env_name_list *env_names
+    int		  *name_cnt;
+    port_array_t  *env_port_vals;
+    int		  *port_cnt);
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_set_stlist(env_port,env_names,name_cntf,
+			     env_string_vals,string_cnt)
+    port_t	   env_port;
+    env_name_list  env_names
+    int		   name_cnt;
+    env_str_list   env_string_vals;
+    int		   string_cnt);
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_set_ptlist(env_port,env_names,name_cnt,
+			     env_port_vals,port_cnt)
+    port_t	   env_port;
+    env_name_list  env_names;
+    int		   name_cnt;
+    port_array_t   env_port_vals;
+    int		   port_cnt);
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+env_port
+port identifying environment
+.TP 15
+.B
+env_names
+pointer to list of names of all string variables
+.TP 15
+.B
+name_cnt
+number of names 
+.TP 15
+.B
+env_string_vals
+pointer to values of string variables (for 
+.B env_list_strings
+)
+list of values of string variables ( for 
+.B env_set_stlist
+)
+.TP 15
+.B
+string_cnt
+number of string values (equal to 
+.B name_cnt
+)
+.TP 15
+.B
+env_port_vals
+pointer to values of port variables (for 
+.B env_list_ports
+)
+list of values of port variables  (for 
+.B env_set_ptlist
+)
+.TP 15
+.B
+port_cnt
+number of port values  (equal to  
+.B name_cnt
+)
+
+.SH DESCRIPTION
+.B env_list_string
+returns a complete list of all the string variables in the
+environment specified by 
+.B env_port
+. The two arrays
+.B env_names
+and 
+.B env_string_vals
+are returned in newly
+allocated virtual memory. This memory should be released by
+a call to 
+.B vm_deallocate
+once the items are no longer needed.
+
+.B env_list_ports
+returns a complete list of all the port variables in the
+environment specified by 
+.B env_port
+. The two arrays
+.B env_names
+and 
+.B env_port_vals
+are returned in newly
+allocated virtual memory. This memory should be released by
+a call to 
+.B vm_deallocate
+once the items are no longer needed.
+
+.B env_set_stlist
+sets a number of string variables
+environment specified by 
+.B env_port
+. This primitive
+is provided for efficiency and is mainly intended to be
+used to set a Mach environment to be the same as the
+Unix 
+.B environ
+area.
+
+.B env_set_ptlist
+sets a number of port variables
+environment specified by 
+.B env_port
+. This primitive
+is provided for efficiency.
+
+.SH DIAGNOSTICS
+.TP 25
+KERN_SUCCESS
+operation succeeded
+.TP 25
+ENV_UNKNOWN_PORT
+.B env_port
+does not reference a known environment
+.TP 25
+ENV_READ_ONLY
+.B env_port
+only allows read access to the 
+environment ( for env_set_stlist and env_set_plist).
+.TP 25
+ENV_WRONG_VAR_TYPE
+one of the variables was already defined as
+a port variable (for env_set_stlist) or as as
+string variable ( for env_set_ptlist).
+
+.SH FILES
+/usr/include/servers/env_mgr.h,
+/usr/include/servers/emdefs.h
+
+.SH SEE ALSO
+.B env_string(3), env_port(3), env_conn(3)

@@ -1,0 +1,275 @@
+
+
+								12/19/89
+
+
+		  Changes to the Athena Widget Set.
+
+
+
+     I have put a lot of work into the Athena widgets since R3, this
+includes reworking many of the existing widgets, as well as adding
+some new widgets.  I have tried to remain 100% compatible for
+appplication programmers, but gave up on compatability for widget
+programmers who subclassed off of the Athena widgets.
+
+     This file contains a detailed list of all changes made to the widget
+set since R3.  I have sperated the comments out by widget for readability.
+The R3 widgets are listed first followed by the widgets that are new for R4.
+
+ 
+The following changes have been made to this directory since R3:
+
+Compatability:
+
+      o To acheive full R3 compatabilty the Athena widget set and the
+	application that uses the widget set must be built with the flag
+	XAW_BC defined.  This flag builds a few compatibility features
+	into the widget set, and defines a number of compatibilty macros
+	for application use.  When writing new applications, be sure to
+	turn this flag OFF to assure that you are not depending on any
+	compatability features that may disappear in the next release
+	of the Athena widget set.
+
+General Comments:
+
+      o Include files now install in /usr/include/X11/Xaw/ to help keep 
+	them seperate from the "offical" X Consortium standards.
+
+      o All convenience functions now are named Xaw* rather than Xt* for 
+	example XtTextReplace becomes XawTextReplace.
+
+      o All enumerated types are now prefixed with Xaw instead of Xt.
+
+
+AsciiStringWidget:
+AsciiDiskWidget:
+
+      o These widgets have been replaced with the AsciiText widget.  The
+	AsciiText widget is fully compatible with both of these widget when
+	XAW_BC is turned on.  See below for details of the AsciiText widget.
+
+Box:
+
+      o Added an orientation resource so we can have hboxes as well 
+	as vboxes.
+
+      o Don't use win_gravity on children so that resizes with 
+	constant width don't lose.  
+
+      o We will do a re-layout, even if the parent gives too
+	little space when requesting a geometry change.
+
+Form:
+
+      o replaced a move an resize with configure to be more efficient.
+
+      o Allow query-only calls to the geometry manager.
+
+      o Added layout class method & resize_in_layout instance state to
+	provide more control to subclasses.
+
+      o Remove undocumented restriction that SetValues on a constraint 
+	had to refer to a widget earlier in the list.
+
+Viewport:
+
+      o Scrolling a non-existant child no longer causes a de-reference.
+
+      o Forcebars now works as advertised.
+
+      o Scrollbars now are created correctly the first time they are needed.
+
+      o Better interaction when calling child's query geometry proceedure.
+
+Dialog:
+
+      o Changing all resources via XtSetValues() now works correctly.
+
+      o An icon may now be placed to the left of the Dialog's label.
+
+VPaned:
+
+      o This widget has be remove from the widget set, and replaced with the
+	"Paned" widget.
+Grip:
+
+      o This widget is now a subclass if the Simple widget.  The programming
+	interface has not changed, however.
+
+Command:
+
+      o Supports multi-line labels.
+
+      o Shaped Command buttons are now supported, using the Shape Extension.
+	A variety of different shapes are avaliable.
+
+Label:
+
+      o Supports multi-line labels.
+
+List:
+
+      o The "index" entry in the ListReturnStruct is now called "list_index"
+	This is an INCOMPATIBLE change, but was necessary as the name "index"
+	is used as a macro on some systems.
+
+Scrollbar:
+
+      o The include files have been changed from Scroll[P].h to 
+	Scrollbar[P].h.  This makes them consistent with the naming 
+	conventions specified by the Intrinsics.
+
+      o The minium size of the Thumb can now be controlled by a the
+	"MinThumb" resource.
+
+      o The top resources has been renamed "topOfThumb" since in conflicted
+	with the top resource in the name
+
+      o This resources uses XtUnspecifiedPixmap as the default, this
+	allows no pixmap to be specified, displaying a solid thumb.
+
+Simple:
+
+      o This widget is now documented.
+
+Text:
+
+    The Text widget got a major face lift, I have made a number of changes
+to the Text widget itself, as well as the Sources, Sinks and their interfaces.
+While the application programmer interface has been maintained.  Anyone who
+has created their own Source or Sink, or who has subclassed the Text widget
+will have to modify their code.
+
+      o Sources and Sinks are now Toolkit "Objects".
+
+      o Searching is now avalible through the default key binding ^R and ^S.
+
+      o Transpose Characters is now avaliable with the default action ^T.
+
+      o ^U now multiplies the action that will follow by 4.  ^U^U multiplies
+	the action by 16.
+
+      o ^G resets the multiple to 1.
+
+      o <Meta>-q now performs a fill-paragraph.
+
+      o a no-op action has been added.
+
+      o Horizontal scrolling is avaliable.
+
+      o Scrollbars are able to be specified "WhenNeeded".  This causes then
+	to appear only when the text will not fit on the display.
+
+      o The R3 "text options" have been broken into seperate resources.
+
+		"text option"		"new resource"
+		----------------------------------------
+		editable 		editMode
+		resizeHeight		resize
+		resizeWidth		resize
+		scrollHorizontal	scrollHorizontal
+		scrollVertical		scrollVertical
+		workBreak		wrap
+
+      o Added end of line mark (rectangle in foreground color 
+	fills right margin).
+
+      o Added line break in addition to work break.
+
+      o Added an auto fill mode.
+
+      o all margins may now be specified as resources, not just the 
+	left one.
+
+AsciiText:
+
+    This widget is a combination of the AsciiSink, AsciiSource, and Text
+Widgets, see those widgets for details.
+
+AsciiSink:
+
+      o Now supports full IsoLatin1 fonts.
+
+      o This is now a toolkit "Object" and a subclass of the TextSink Object.
+
+      o reverse video is handled correctly.
+
+      o echo resource added that will cause the text widget not to echo
+	characters to the screen.
+
+      o All routines used by the text widget form manipulting the sink
+	are now exported, allowing applications more flexabilty in 
+	controlling text sources.
+
+AsciiSource:
+
+      o Source can be dynamically changed from a file to a string 
+	via resources.
+
+      o Disk sources are now editable.
+
+      o Default behavior does not use string in place, but manages
+	the memory for you.  
+
+      o XtSetValues() will work on the "string" resource now.
+
+      o several new resources have been added, see the "X Toolkit 
+	Athena Widgets - C Language Interface" for details.
+
+	      o dataCompression
+	      o pieceSize
+	      o type
+	      o useStringInPlace
+
+      o All routines used by the text widget form manipulting the source
+	are now exported, allowing applications more flexabilty in 
+	controlling text sources.
+
+------------------------------
+
+TextSink:
+
+      o This is now a Toolkit "Object".
+
+      o All new Text Sinks should be subclasses of this widget.
+
+TextSource:
+
+      o This is now a Toolkit "Object".
+
+      o All new Text Sources should be subclasses of this widget.
+
+MenuButton:
+
+      o New widget for R4.
+Paned:
+
+      o New widget for R4.
+
+      o Fully compatible with R3 VPaned widget.
+
+      o Supports both horizontal and vertical paning.
+
+      o New, more robust layout semantics.
+
+SimpleMenu:
+	
+      o This widget is new for R4.
+
+Sme: 
+SmeBSB: 
+SmeLine:
+
+      o These are new Toolkit "Objects" are to be used by the SimpleMenu
+	widget as individual menu entries.
+
+StripChart:
+
+      o This widget is new for R4, and is a stripped down version of the 
+	R3 Load widget, with the parts specific to getting the load average
+	removed.
+
+Toggle:
+
+      o This widget is new for R4.

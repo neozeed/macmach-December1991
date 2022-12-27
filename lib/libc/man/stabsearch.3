@@ -1,0 +1,90 @@
+.\"
+.\" $Id: stabsearch.3,v 1.3 89/12/26 11:22:30 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	stabsearch.3,v $
+.\" Revision 1.3  89/12/26  11:22:30  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 11-Nov-83  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Stabsearch now detects an exact match with a string, even if it is
+.\"	a substring of some other table entries, and returns without asking
+.\"	you to select one of the matching strings.
+.\"	Changes made by Leonard Hamey.
+.\"
+.\" 27-Jan-81  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Added better handling of long string tables.
+.\"
+.\" 15-Mar-80  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Stabsearch now detects a unique match with the initial characters
+.\"	of a table entry, and returns the index without asking "Did you
+.\"	mean X?"
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Based on Dave McKeown's string matching routines.
+.\"
+.TH STABSEARCH 3 11/11/83
+.CM 3
+.SH "NAME"
+stabsearch \- best-match string table lookup
+.SH "SYNOPSIS"
+.B
+int stabsearch (string,table,quiet);
+.br
+.B
+char *string,**table;
+.br
+.B
+int quiet;
+.SH "DESCRIPTION"
+.I
+Stabsearch
+searches in the string table
+.IR table ,
+looking for a string which best matches
+.IR string .
+If exactly one such string is found, then the index
+of that string is returned.
+If no such strings are found,
+then \-1 is returned.
+.sp
+If
+.I
+quiet
+is false and several strings match reasonably, the user is given
+the option to approve or disapprove of the choice of matching
+strings.  If he disapproves, then the few best matches are listed
+and \-1 is returned.
+.sp
+If several strings match, then \-2 will be returned.
+Before
+returning, if
+.I
+quiet
+is 0, then the user will be asked if he wants a list
+of matching strings; if he says "yes", then a list is printed.
+.sp
+The string table may be declared like this:
+.sp
+.nf
+.RS
+char *stable[] = {
+	"first string",
+	"second string",
+	...
+	"n-th string",
+	0};
+.RE
+.fi
+.sp
+Note that the last entry of the table must be a zero.
+.SH "SEE ALSO"
+.IR stablk (3), 
+.IR srchscore (3)
+.SH "DIAGNOSTICS"
+If nothing matches at all, or if the user does not approve
+the choice of the best matching string, \-1 is returned.

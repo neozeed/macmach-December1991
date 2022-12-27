@@ -1,0 +1,12 @@
+# $XConsortium: Imakefile,v 1.18 89/12/02 14:21:27 rws Exp $
+HEADERS = Xext.h multibuf.h shape.h XShm.h MITMisc.h XI.h XInput.h XIproto.h \
+	xtestext1.h
+INSTALLFLAGS = -m 0444
+
+all:
+
+BuildIncludes($(HEADERS),extensions,..)
+MakeDirectories(install,$(INCDIR)/extensions)
+InstallMultiple($(HEADERS),$(INCDIR)/extensions)
+
+depend:

@@ -1,0 +1,501 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  (c) Copyright 1989 Mitch Trachtenberg
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+!++
+! Motif Demo Resource Editor -- font selection uil file
+!				included by mre.uil
+!
+! Created June 89 Mitch Trachtenberg
+!
+!--
+
+
+value horizontal_offset : 10;
+value vertical_offset : 10;
+
+! These values are used in UIL file calculations to determine 
+! placement of various subwidgets within the form.  
+value num_radio_columns : 4;
+value num_upper_pushbuttons : 3;
+
+! This string is read by XmGetLiteral and placed in the text widget
+! which displays the current font.
+value one_font_string : exported 'This is the current font...';
+
+value spec_components: exported asciz_table('nomatch',
+'r','i','o','ri','*',
+'medium','bold','demi','book',
+'Times','Helvetica','*Avant Garde*',
+'10','12','14','18');
+
+object
+    font_dialog : XmFormDialog {
+	arguments {
+		XmNdialogTitle = 'Font Selection';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+		XmNdefaultPosition = false;
+		XmNx = stagger_x;
+		XmNy = stagger_y;
+		XmNwidth = 420;
+		XmNheight = 580;
+		XmNautoUnmanage = false;
+		XmNresizable = true;
+	};
+	controls {
+		XmForm font_toggle_box;
+		XmPushButton font_filter_button;
+		XmPushButton font_display_one_button;
+		XmPushButton font_display_button;
+		XmLabel font_spec_label;
+		XmText font_spec_mask;
+		XmSelectionBox font_selection_box;
+	};
+};
+
+object font_toggle_box : XmForm {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNleftOffset = horizontal_offset;
+		XmNrightOffset = horizontal_offset;
+	};
+	controls {
+		XmRowColumn rc1;
+		XmRowColumn rc2;
+		XmRowColumn rc3;
+		XmRowColumn rc4;
+	};
+};
+
+object rc1 :	XmRowColumn {
+			arguments {
+				XmNleftAttachment = XmATTACH_POSITION;
+				XmNleftPosition = 0 * 100 / num_radio_columns;
+				XmNrightAttachment = XmATTACH_POSITION;
+				XmNrightPosition = 1 * 100 / num_radio_columns;
+				XmNuserData = 4; /* FONT_SLANT in C code */
+			};
+			controls {
+				XmLabel font_italics_label;
+				XmSeparator {};
+				XmRadioBox font_rb1;
+			};
+		};
+
+object rc2:	XmRowColumn {
+			arguments {
+				XmNleftAttachment = XmATTACH_POSITION;
+				XmNleftPosition = 1 * 100 / num_radio_columns;
+				XmNrightAttachment = XmATTACH_POSITION;
+				XmNrightPosition = 2 * 100 / num_radio_columns;
+				XmNuserData = 3; /* FONT_WEIGHT in C code */
+			};
+			controls {
+				XmLabel font_weight_label;
+				XmSeparator {};
+				XmRadioBox font_rb2;
+			};
+		};
+
+object rc3:	XmRowColumn {
+			arguments {
+				XmNleftAttachment = XmATTACH_POSITION;
+				XmNleftPosition = 2 * 100 / num_radio_columns;
+				XmNrightAttachment = XmATTACH_POSITION;
+				XmNrightPosition = 3 * 100 / num_radio_columns;
+				XmNuserData = 2; /* FONT_FAMILY in C code */
+			};
+			controls {
+				XmLabel font_family_label;
+				XmSeparator {};
+				XmRadioBox font_rb3;
+			};
+		};
+
+object rc4:	XmRowColumn {
+			arguments {
+				XmNleftAttachment = XmATTACH_POSITION;
+				XmNleftPosition = 3 * 100 / num_radio_columns;
+				XmNrightAttachment = XmATTACH_POSITION;
+				XmNrightPosition = 4 * 100 / num_radio_columns;
+				XmNuserData = 7; /* FONT_POINTSIZE in C code */
+			};
+			controls {
+				XmLabel font_point_size_label;
+				XmSeparator {};
+				XmRadioBox font_rb4;
+			};
+		};
+
+object font_weight_label: XmLabel {
+	arguments {
+		XmNlabelString = compound_string('Weight');
+	};
+};
+
+object font_italics_label: XmLabel {
+	arguments {
+		XmNlabelString = compound_string('Italics');
+	};
+};
+object font_point_size_label: XmLabel {
+	arguments {
+		XmNlabelString = compound_string('Point Size');
+	};
+};
+object font_family_label: XmLabel {
+	arguments {
+		XmNlabelString = compound_string('Family');
+	};
+};
+
+object font_rb1 : XmRadioBox {
+	arguments {
+		XmNisHomogeneous = false;		
+		XmNpacking = XmPACK_TIGHT;
+	};
+	controls {
+		XmToggleButton {
+			arguments {
+				XmNlabelString = dont_care_string;
+				XmNuserData = 5;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_slant('*');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = normal_string;
+				XmNuserData = 1;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_slant('r');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = oblique_string;
+				XmNuserData = 3;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_slant('o');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = italic_string;
+				XmNuserData = 2;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_slant('i');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = reverse_italic_string;
+				XmNuserData = 4;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_slant('ri');
+			};
+		};
+	};
+};
+
+object font_rb2 : XmRadioBox {
+	arguments {
+		XmNisHomogeneous = false;		
+	};
+	controls {
+		XmToggleButton {
+			arguments {
+				XmNlabelString = dont_care_string;
+				XmNuserData = 5;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure restrict_weight('*');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = normal_string;
+				XmNuserData = 6;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure 
+						restrict_weight('medium');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = bold_string;
+				XmNuserData = 7;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure 
+						restrict_weight('bold');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = demi_string;
+				XmNuserData = 8;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure 
+						restrict_weight('demi');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = book_string;
+				XmNuserData = 9;
+			};
+			callbacks {
+				XmNvalueChangedCallback = procedure 
+						restrict_weight('book');
+			};
+		};
+	};
+};
+object font_rb3 : XmRadioBox {
+	arguments {
+		XmNisHomogeneous = false;		
+	};
+	controls {
+		XmToggleButton {
+			arguments {
+				XmNlabelString = dont_care_string;
+				XmNuserData = 5;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_family('*');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = times_string;
+				XmNuserData = 10;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_family('Times');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = helvetica_string;
+				XmNuserData = 11;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_family('Helvetica');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = avant_garde_string;
+				XmNuserData = 12;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_family('*Avant Garde*');
+			};
+		};
+	};
+};
+object font_rb4 : XmRadioBox {
+	arguments {
+		XmNisHomogeneous = false;		
+	};
+	controls {
+		XmToggleButton {
+			arguments {
+				XmNlabelString = dont_care_string;
+				XmNuserData = 5;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_point_size('*');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = point_string_10;
+				XmNuserData = 13;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_point_size('10');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = point_string_12;
+				XmNuserData = 14;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_point_size('12');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = point_string_14;
+				XmNuserData = 15;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_point_size('14');
+			};
+		};
+		XmToggleButton { 
+			arguments {
+				XmNlabelString = point_string_18;
+				XmNuserData = 16;
+			};
+			callbacks {
+				XmNvalueChangedCallback = 
+				procedure restrict_point_size('18');
+			};
+		};
+	};
+};
+
+object font_spec_label: XmLabel {
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmForm font_toggle_box;
+		XmNtopOffset = vertical_offset;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = horizontal_offset;
+		XmNlabelString = compound_string('Current selection criteria');
+	};
+};
+
+object font_spec_mask : XmText {
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmLabel font_spec_label;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = horizontal_offset;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNrightOffset = horizontal_offset;
+	};
+};
+
+object font_filter_button : XmPushButton {
+	arguments {	
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmText font_spec_mask;
+		XmNtopOffset = vertical_offset;
+		XmNleftAttachment = XmATTACH_POSITION;
+		XmNleftOffset = horizontal_offset;
+		XmNleftPosition = 0 * 100 / num_upper_pushbuttons;
+		XmNlabelString = compound_string('Filter',separate=true) &
+			compound_string('to criteria',separate=true);
+!		XmNmnemonic = 70; /* F */
+!		XmNmnemonic = keysym("F"); /* F */
+	};
+	callbacks {
+		XmNactivateCallback = procedure font_refilter();
+	};
+};
+
+object font_display_button : XmPushButton {
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmText font_spec_mask;
+		XmNtopOffset = vertical_offset;
+		XmNleftAttachment = XmATTACH_POSITION;
+		XmNleftOffset = horizontal_offset;
+		XmNleftPosition = 1 * 100 / num_upper_pushbuttons;
+		XmNlabelString = compound_string('Display',separate=true) & 
+			compound_string('all matches',separate=true);
+!		XmNmnemonic = 65; /* A */
+!		XmNmnemonic = keysym("A"); /* A */
+	};
+	callbacks {
+		XmNactivateCallback = procedure display_fonts_from_list();
+	};
+};
+
+object font_display_one_button : XmPushButton {
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmText font_spec_mask;
+		XmNtopOffset = vertical_offset;
+		XmNleftAttachment = XmATTACH_POSITION;
+		XmNleftOffset = horizontal_offset;
+		XmNleftPosition = 2 * 100 / num_upper_pushbuttons;
+		XmNlabelString = compound_string('Display',separate=true) & 
+			compound_string('selection',separate=true);
+!		XmNmnemonic = 83; /* S */
+!		XmNmnemonic = keysym("S"); /* S */
+	};
+	callbacks {
+		XmNactivateCallback = procedure display_one_font();
+	};
+};
+
+object font_selection_box : XmSelectionBox { 
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmPushButton font_filter_button;
+		XmNtopOffset = vertical_offset;
+		XmNdialogStyle = XmDIALOG_WORK_AREA;
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNlistLabelString = 
+			compound_string('Fonts matching criteria');
+	};
+	callbacks {
+		MrmNcreateCallback = procedure prepare_font_selection_box();
+		XmNokCallback = procedure ok_button_pressed('F');
+		XmNcancelCallback = procedure cancel_button_pressed('F');
+		XmNhelpCallback = procedure help_proc('Fonts');
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

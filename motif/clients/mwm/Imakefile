@@ -1,0 +1,72 @@
+DEFINES = $(MWM_DEFINES)
+INCLUDES = -I. -I$(TOP) -I$(INCLUDESRC)
+LOCAL_LIBRARIES = $(XMLIB) 
+
+OBJS1=	WmCDecor.o\
+	WmColormap.o\
+	WmCDInfo.o\
+	WmCEvent.o\
+	WmCPlace.o\
+	WmError.o\
+	WmEvent.o\
+	WmFeedback.o\
+	WmFunction.o\
+	WmGraphics.o\
+	WmIconBox.o\
+	WmIDecor.o\
+	WmImage.o\
+	WmInitWs.o\
+	WmIPlace.o\
+	WmKeyFocus.o\
+	WmMain.o\
+	WmManage.o\
+	WmMenu.o\
+	WmProperty.o\
+	WmProtocol.o\
+	WmResCvt.o\
+	WmResource.o\
+	WmResParse.o\
+	WmSignal.o\
+	WmWinConf.o\
+	WmWinInfo.o\
+	WmWinList.o\
+	WmWinState.o\
+	version.o \
+
+SRCS1=	WmCDecor.c\
+	WmColormap.c\
+	WmCDInfo.c\
+	WmCEvent.c\
+	WmCPlace.c\
+	WmError.c\
+	WmEvent.c\
+	WmFeedback.c\
+	WmFunction.c\
+	WmGraphics.c\
+	WmIconBox.c\
+	WmIDecor.c\
+	WmImage.c\
+	WmInitWs.c\
+	WmIPlace.c\
+	WmKeyFocus.c\
+	WmMain.c\
+	WmManage.c\
+	WmMenu.c\
+	WmProperty.c\
+	WmProtocol.c\
+	WmResCvt.c\
+	WmResource.c\
+	WmResParse.c\
+	WmSignal.c\
+	WmWinConf.c\
+	WmWinInfo.c\
+	WmWinList.c\
+	WmWinState.c\
+	version.c \
+
+PROGRAMS=mwm
+
+NormalLibraryObjectRule()
+ComplexProgramTarget_1(mwm,$(LOCAL_LIBRARIES),-lXext $(SYSLIBS))
+InstallNonExec(system.mwmrc,$(LIBDIR))
+InstallAppDefaults(Mwm)

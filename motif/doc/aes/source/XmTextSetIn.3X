@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990. 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetInsertionPosition 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetInsertionPosition \(em a Text function that sets the
+position of the insert cursor\fP
+.iX "XmTextSetInsertionPosition"
+.iX "Text functions" "XmTextSetInsertionPosition"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetInsertionPosition (\fIwidget, position\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextSetInsertionPosition\fP sets the insertion cursor position of the
+Text widget.
+This routine also calls the widget's \fBXmNmotionVerifyCallback\fP
+callbacks if the insertion cursor position changes.
+.sp 1
+.ne 2i
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIposition\fP" .75i
+Specifies the position of the insertion cursor.  This is an integer number
+of characters from the beginning of the text buffer.  The first
+character position is 0.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

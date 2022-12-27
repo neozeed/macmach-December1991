@@ -1,0 +1,958 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  (c) Copyright 1989 Mitch Trachtenberg
+!*  (c) Copyright 1989 Keith Morgan
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+!
+! Motif Demo Resource Editor -- main uil file
+!
+! Created June 89 Mitch Trachtenberg
+! Pixmaps by Keith Morgan
+!
+!--
+
+module mre
+    version = 'v1.0'
+    names = case_sensitive
+
+! these argument definitions will be removed when UIL supports them
+!value 
+! XmNapplyCallback: reason('applyCallback');
+
+value point_string_10: compound_string('10 point');
+value point_string_12: compound_string('12 point');
+value point_string_14: compound_string('14 point');
+value point_string_18: compound_string('18 point');
+value helvetica_string: compound_string('Helvetica');
+value times_string: compound_string('Times');
+value avant_garde_string: compound_string('Avant Garde');
+value italic_string: compound_string('Italic');
+value oblique_string: compound_string('Oblique');
+value reverse_italic_string: compound_string('Reverse',separate=true) & 
+				compound_string('Italic');
+value normal_string: compound_string('Normal');
+value bold_string: compound_string('Bold');
+value book_string: compound_string('Book');
+value demi_string: compound_string('Demi');
+value dont_care_string: compound_string("Don't care");
+
+! error and warning messages are kept in UIL and fetched as needed
+! note that these messages are passed to printf, and include format commands
+value mre_id: exported "Motif Resource Editor\n%s\n";
+value fail_cant_open : exported "Couldn't open %s.\n";
+value fail_cant_read : exported "Couldn't read %s.\n";
+value fail_cant_output : exported "Couldn't open %s for output.\n";
+value fail_cant_xrdb : exported "Couldn't open xrdb -merge.\n";
+value fail_not_resource: exported "Invalid resource specification: %s.\n";
+value fail_resource_string: 
+	exported "Type file has improper type definition.\n";
+value warn_needs_saving: exported "File %s needs saving.\n";
+value fail_alloc_colors: exported "Couldn't allocate colors.\n";
+value fail_missing_main: exported "Couldn't locate main selection box.\n";
+value fail_cant_fetch: exported "Cannot fetch %s\n";
+value fail_cant_find_radiobox: exported "Cannot fetch path to radio boxes.\n";
+value fail_paned_window: exported "Cannot find paned window.\n";
+value fail_form: exported "Cannot find form for pane.\n";
+value fail_button: exported "Cannot find button for pane.\n";
+value fail_label: exported "Cannot find label for pane.\n";
+value fail_text: exported "Cannot find text for pane.\n";
+value fail_find_color_text: exported "Cannot find color text.\n";
+value fail_empty_font_name: exported "Empty font name.\n";
+value fail_font_no_match: exported "No font on this server matches\n %s\n";
+value fail_font_load: exported "Couldn't load or query font\n %s\n";
+value fail_no_parent: "Unmanage parent was called \nwithout a valid parent.\n";
+value info_saving_file: exported "Saving %s.\n";
+value info_pass_string: exported "%s";
+
+! these identifiers allow the program to pass x and y info for popup windows
+! at the time the popups are fetched
+identifier stagger_x;
+identifier stagger_y;
+
+! the major procedures used within this module.
+! note that other procedures can be (and are) defined near the widget(s)
+! which use them.
+procedure
+    edit_resource(integer);
+    add_resource();
+    delete_resource();
+    help_on_resources();
+    load_rgb_text();
+    ok_button_pressed(string);
+    cancel_button_pressed(string);
+    setbg_button_pressed();
+    setcolor_button_pressed(string);
+    display_one_font();
+    helloworld_button_activate();
+    menu_button_activate();
+    paned_button_activate();
+    prepare_main_selection_box();
+    prepare_font_selection_box();
+    restrict_point_size(string);
+    restrict_family(string);
+    restrict_slant(string);
+    restrict_weight(string);
+    font_refilter();
+    display_fonts_from_list();
+    multiple_fonts_clear_pressed();
+    mainwindow_map();
+    main_restriction(string);
+    scale_value_changed(string);
+    help_proc(string);
+    destroy_parent();
+    kill_global(string);
+    exit();
+
+! icons for use in main window buttons, and associated color info
+value black  : color('black',foreground);
+value white  : color('white',background);
+value green  : color('green',background);
+value blue   : color('blue',background);
+value yellow : color('yellow',background);
+value orange : color('orange',background);
+value violet : color('violet',background);
+value red    : color('red',background);
+
+value mre_colors : color_table(black = ' ',
+	white='x',
+	red='r',
+	green='g',
+	blue='b',
+	yellow='y',
+	orange='o',
+	violet='v');
+
+value motif_icon : icon(color_table = mre_colors,
+'                                                  ',
+'  xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'   xxxxxxxxxxxxxxxxxx        xxxxxxxxxxxxxxxxxx   ',
+'x                      x  x                      x',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'x                      x  x                      x',
+'   xxxxxxxxxxxxxxxxxx        xxxxxxxxxxxxxxxxxx   ',
+'  xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'                                                  ',
+'                                                  ',
+'  xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'   xxxxxxxxxxxxxxxxxx        xxxxxxxxxxxxxxxxxx   ',
+'x                      x  x                      x',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'xx xxxxxxxxxxxxxxxxxx xx  xx xxxxxxxxxxxxxxxxxx xx',
+'x                      x  x                      x',
+'   xxxxxxxxxxxxxxxxxx        xxxxxxxxxxxxxxxxxx   ',
+'  xxxxxxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxxxx  ',
+'                                                  ');
+
+value
+
+        palette: icon(color_table=mre_colors,
+'                                ',
+'                                ',
+'           xxxxxxxxxx           ',
+'         xx          xx         ',
+'       xx              x        ',
+'      x     rrrr        x       ',
+'    xx      rrr        x        ',
+'   x   b    r       xxx         ',
+'   x  bbb         xx            ',
+'  x   bbb        xx             ',
+' x     b         x              ',
+' x           xxx  x     xxxxxx  ',
+'x  ggg      x   x  xxxxx      x ',
+'x  gggg    x    x              x',
+'x   g      x    x              x',
+'x          xx  x       oooo    x',
+'x           xxx        ooo     x',
+'x  yyyy                 o      x',
+'x  yyy                         x',
+'x   y                          x',
+' x                 xxxx       x ',
+' x     ooo          xx        x ',
+'  x    ooo    v      xx      x  ',
+'   x         vvv            x   ',
+'    x        vvv           x    ',
+'     x       v            x     ',
+'      x                  x      ',
+'       xx              xx       ',
+'         xx          xx         ',
+'           xxxxxxxxxx           ',
+'                                ',
+'                                ');
+value bool_icon: icon(color_table=mre_colors,
+'                               x',
+' xxxxxxxxxxxxx                xx',
+' xxxxxxxxxxxx                xxx',
+' xxxxxxxxxxx                xxxx',
+' xxxxxxxxxx                xxxxx',
+
+' xxxxxxxxxx               xxxxxx',
+' xxxxxxxxxxx             xxxxxxx',
+' xxxxxxxxxxxx           xxxxxxxx',
+' xxxxxxxxxxxxx         xxxxxxxxx',
+' xxxx  xxxxxxxx       xxxxxxxxxx',
+
+' xxx    xxxxxxxx     xxxxxxxxxxx',
+' xx      xxxxxxxx   xxxxxxxxxxxx',
+' x        xxxxxxx  xxxxxxxxxxxxx',
+'           xxxxxx  xxxxxxxxxxxxx',
+'            xxx     xxxxxxxxxxxx',
+'             x       xxxxxxxxxxx',
+'            xxx       xxxxxxxxxx',
+'           xxxxx       xxxxxxxxx',
+'          xxxxxxx       xxxxxxx ',
+'         xxxxxxxxx       xxxxx  ',
+'        xxxxxxxxxxx       xxx   ',
+'       xxxxxxxxxxxxx       x    ',
+'      xxxxxxxxxxxxxxx           ',
+'     xxxxxxxxxxxxxxxxx          ',
+'    xxxxxxxxxxxxxxxxxxx         ',
+'   xxxxxxxxxxxxxxxxxxxxx        ',
+'  xxxxxxxxxxxxxxxxxxxxx         ',
+' xxxxxxxxxxxxxxxxxxxxx          ',
+' xxxxxxxxxxxxxxxxxxxx           ',
+'xxxxxxxxxxxxxxxxxxxx            ',
+'xxxxxxxxxxxxxxxxxxx             ',
+'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+value
+
+        letter_a: icon(color_table=mre_colors,
+'              xx    xxxxxxxxxxxx',
+'              x      xxxxxxxxxxx',
+'              x      xxxxxxxxxxx',
+'             x        xxxxxxxxxx',
+'             x        xxxxxxxxxx',
+'             x        xxxxxxxxxx',
+'            x          xxxxxxxxx',
+'            x   x      xxxxxxxxx',
+'            x   x       xxxxxxxx',
+'           x    x       xxxxxxxx',
+'           x    xx      xxxxxxxx',
+'          xx    xx       xxxxxxx',
+'          x     xx       xxxxxxx',
+'          x     xxx      xxxxxxx',
+'         xx     xxx       xxxxxx',
+'         x                xxxxxx',
+
+'         x                xxxxxx',
+'        xxxxxxxx           xxxxx',
+'        xx                 xxxxx',
+'        x                   xxxx',
+'       x        xxxxx       xxxx',
+'       x        xxxxxx      xxxx',
+'       x        xxxxxx       xxx',
+'      x         xxxxxx       xxx',
+'      x         xxxxxxx       xx',
+'     xx         xxxxxxxx      xx',
+'     x          xxxxxxxx      xx',
+'     x          xxxxxxxx       x',
+'    x           xxxxxxxxx      x',
+'    x           xxxxxxxxx      x',
+'   xx           xxxxxxxxx       ',
+' xxxxxx         xxxxxxxxxx      ');
+
+value
+
+        unrestrict_icon: icon(color_table=mre_colors,
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'        xx           xx         ',
+'      xx  xx       xxyyxx       ',
+'    xx      xx   xxyy    xx     ',
+'   x          x x          x    ',
+'  x            x            x   ',
+'  x            x            x   ',
+'   x          x x          x    ',
+'    xx      xxy  xx      xx     ',
+'      xx  xxyy     xx  xx       ',
+'        xxyy         xx         ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ',
+'                                ');
+
+
+! the menu_bar is defined in a separate uil file
+! which is loaded as a separate hierarchy;
+! the awkward name is used to evade the old to new name conversion utility
+object main_menu_bar : imported XmMenuBar;
+
+! Most applications will have a main window, which provides "slots"
+! for a work area, a main menu bar, scrollbars, and a command entry widget.
+object mre_main : XmMainWindow {
+	controls {
+		XmMenuBar	main_menu_bar;
+		XmForm		main_form;
+! the command window is created, but only managed at the users' request
+		unmanaged XmCommand 	main_command;
+	};
+};
+
+procedure command_issue_proc();
+object main_command : XmCommand {
+	arguments {
+		XmNhistoryVisibleItemCount = 2;
+	};
+	callbacks {
+		XmNcommandEnteredCallback = procedure command_issue_proc();
+	};
+};
+
+! The work area of MRE's main window is a form which contains a column
+! of push buttons and a selection box widget.
+! The selection box  widget retrieves items for its list at run time.  
+! For prototyping, it can be provided with sample list items.
+object main_form : XmForm {
+	arguments {
+		XmNheight = 300;
+		XmNwidth  = 400;
+	};
+	controls {
+		XmRowColumn  main_button_box;
+		XmSeparator main_separator;
+		XmSelectionBox main_selection;
+	};
+};
+
+object main_button_box : XmRowColumn {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNleftOffset = 5;
+		XmNrightOffset = 5;
+		XmNtopOffset = 10;
+	};	
+	controls {
+		XmPushButton main_restrict_to_colors;
+		XmPushButton main_restrict_to_fonts;
+		XmPushButton main_restrict_to_booleans;
+		XmPushButton main_unrestrict;
+	};
+};
+
+object main_restrict_to_colors : XmPushButton {
+	arguments {
+		XmNlabelType = XmPIXMAP;
+		XmNlabelPixmap = palette;
+	};
+	callbacks {
+		XmNactivateCallback = procedure main_restriction('C');
+	};
+};
+object main_restrict_to_fonts : XmPushButton {
+	arguments {
+		XmNlabelType = XmPIXMAP;
+		XmNlabelPixmap = letter_a;
+	};
+	callbacks {
+		XmNactivateCallback = procedure main_restriction('F');
+	};
+};
+object main_restrict_to_booleans : XmPushButton {
+	arguments {
+		XmNlabelType = XmPIXMAP;
+		XmNlabelPixmap = bool_icon;
+	};
+	callbacks {
+		XmNactivateCallback = procedure main_restriction('B');
+	};
+};
+
+object main_unrestrict : XmPushButton {
+	arguments {
+		XmNlabelType = XmPIXMAP;
+		XmNlabelPixmap = unrestrict_icon;
+		XmNlabelString = 'On/Off';
+	};
+	callbacks {
+		XmNactivateCallback = procedure main_restriction('A');
+	};
+};
+
+object main_separator : XmSeparator {
+	arguments {
+		XmNorientation = XmVERTICAL;
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftWidget = XmRowColumn main_button_box;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_FORM;
+	};
+};
+
+
+object main_selection: XmSelectionBox {
+	arguments {
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftWidget = XmRowColumn main_button_box;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNlistItems = string_table("d:v","d:v","d:v","d:v","d:v");
+		XmNlistItemCount = 5;
+		XmNlistVisibleItemCount = 5;
+		XmNokLabelString=compound_string('Edit');
+		XmNapplyLabelString=compound_string('Add');
+		XmNcancelLabelString=compound_string('Delete');
+	};
+	callbacks {
+		MrmNcreateCallback = procedure prepare_main_selection_box();
+		XmNokCallback = procedure edit_resource(1);
+		XmNnoMatchCallback = procedure edit_resource(0);
+		XmNapplyCallback = procedure add_resource();
+		XmNcancelCallback =  procedure delete_resource();
+		XmNhelpCallback = procedure help_proc('Main');
+	};
+};
+
+! the following components provide a dialog interface for editing
+! "generic" resources; those resources for which no special handling
+! is provided by mre
+
+procedure set_generic_resource();
+procedure destroy_self();
+object generic_dialog: XmPromptDialog {
+	arguments {
+		XmNdialogTitle = 'Generic Selection';
+	};
+	callbacks {
+		XmNokCallback = procedure set_generic_resource();
+		XmNcancelCallback = procedure destroy_self();
+		XmNhelpCallback = procedure help_proc('Generic');
+	};
+};
+
+procedure set_enum_resource();
+object ed_ok: XmPushButton{
+	arguments {
+		XmNlabelString = compound_string('OK');
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNshowAsDefault = 1;
+		XmNbottomOffset = 10;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 10;
+	};
+	callbacks {
+		XmNactivateCallback = procedure set_enum_resource();
+	};		
+};
+
+object ed_cancel: XmPushButton{
+	arguments {
+		XmNlabelString = compound_string('Cancel');
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNbottomOffset = 14;
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftOffset = 10;
+		XmNleftWidget = XmPushButton ed_ok;
+	};
+	callbacks {
+		XmNactivateCallback = procedure destroy_parent();
+	};		
+};
+
+object ed_text: XmText {
+	arguments{
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftWidget = XmLabel ed_label;
+		XmNleftOffset = 10;
+	};
+};
+
+object ed_label: XmLabel {
+};
+
+object ed_sep1 : XmSeparator {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmLabel ed_label;
+		XmNtopOffset = 10;
+	};
+};
+
+object ed_sep2 : XmSeparator {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNbottomWidget = XmPushButton ed_ok;
+		XmNbottomOffset = 10;
+	};
+};
+
+procedure enumeration_chosen();
+object ed_rc : XmRowColumn {
+	arguments {
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNtopWidget = XmSeparator ed_sep1;
+		XmNbottomWidget = XmSeparator ed_sep2;
+		XmNradioBehavior = true;
+		XmNy = 20;
+	};
+	callbacks {
+		XmNentryCallback = procedure enumeration_chosen();
+	};
+};
+
+object enumerated_dialog :  XmFormDialog {
+	arguments {
+		XmNdialogTitle = 'Edit Choice/Range';
+		XmNwidth = 150;
+		XmNheight = 150;
+	};
+	controls {
+		XmLabel ed_label;
+		XmSeparator ed_sep1;
+		XmRowColumn ed_rc;
+		XmPushButton ed_ok;
+		XmPushButton ed_cancel;
+		XmSeparator ed_sep2;
+		XmText ed_text;
+	};
+};
+
+! include definitions for the color selection box hierarchy
+include file 'mre_color.uil';
+
+
+! include definitions for the font selection hierarchy
+include file 'mre_font.uil';
+
+
+object one_font_ok: XmPushButton {
+	arguments {
+		XmNlabelString = 'OK';
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNbottomOffset = 10;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 10;
+		XmNshowAsDefault = 1;
+	};
+	callbacks {
+		XmNactivateCallback = procedure destroy_parent();
+	};
+};
+
+object one_font_stextSW: XmScrolledWindow {
+	arguments {
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNbottomOffset = 10;
+		XmNbottomWidget = XmSeparator one_font_sep;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNvisualPolicy = XmVARIABLE;
+	};
+	controls {
+		XmText one_font_stext;
+	};
+};
+
+object one_font_stext : XmText {
+	arguments {
+		XmNeditable = true;
+		XmNeditMode = XmMULTI_LINE_EDIT;
+		XmNrows = 5;
+	};
+};
+
+object one_font_sep : XmSeparator {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNbottomWidget = XmPushButton one_font_ok;
+		XmNbottomOffset = 10;
+	};
+};
+
+object one_font_shell: XmFormDialog {
+	arguments {
+		XmNdialogTitle = 'Selected Font';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+		XmNdefaultPosition = false;
+		XmNwidth = 300;
+		XmNheight = 200;
+	};
+	controls {
+		XmScrolledWindow one_font_stextSW;
+		XmSeparator one_font_sep;
+		XmPushButton one_font_ok;
+	};
+	callbacks {
+		XmNdestroyCallback = procedure kill_global('one_font_shell');
+	};
+};
+
+
+! provide dialogs to handle file input and output, error and warning messages,
+! help, exit, etc...
+
+object help_ok: XmPushButton {
+	arguments {
+		XmNlabelString = 'OK';
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNbottomOffset = 10;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 10;
+		XmNshowAsDefault = 1;
+	};
+	callbacks {
+		XmNactivateCallback = procedure destroy_parent();
+	};
+};
+
+object help_sep : XmSeparator {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNbottomWidget = XmPushButton help_ok;
+		XmNbottomOffset = 10;
+	};
+};
+object help_stextSW: XmScrolledWindow {
+	arguments {
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNbottomAttachment = XmATTACH_WIDGET;
+		XmNbottomWidget = XmSeparator help_sep;
+		XmNbottomOffset = 10;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNvisualPolicy = XmVARIABLE;
+	};
+	controls {
+		XmText help_stext;
+	};
+};
+
+object help_stext : XmText {
+	arguments {
+		XmNeditable = false;
+		XmNeditMode = XmMULTI_LINE_EDIT;
+		XmNrows = 5;
+	};
+};
+object help_shell: XmFormDialog {
+	arguments {
+		XmNdialogTitle = 'Motif Resource Editor Help';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+		XmNwidth = 300;
+		XmNheight = 200;
+	};
+	controls {
+		XmScrolledWindow help_stextSW;
+		XmSeparator help_sep;
+		XmPushButton help_ok;
+	};
+};
+
+procedure file_new_confirmed();
+object new_dialog: XmWarningDialog {
+	arguments {
+		XmNdialogTitle = 'Unsaved changes';
+!		XmNdialogStyle = XmDIALOG_PRIMARY_APPLICATION_MODAL;
+		XmNdialogStyle = 1;
+		XmNdefaultButtonType = XmDIALOG_CANCEL_BUTTON;
+		XmNmessageString = 
+		  compound_string('You have unsaved changes.',separate=true) &
+			compound_string('Start a new file anyway?');
+		XmNautoUnmanage = false;
+	};
+	callbacks {
+		XmNokCallback = procedures {
+					file_new_confirmed();
+					destroy_self();
+				};
+		XmNcancelCallback = procedure destroy_self();
+		XmNhelpCallback = procedure help_proc('Newfile');
+	};
+};
+
+procedure file_open_confirmed();
+object open_dialog: XmWarningDialog {
+	arguments {
+		XmNdialogTitle = 'Unsaved changes';
+!		XmNdialogStyle = XmDIALOG_PRIMARY_APPLICATION_MODAL;
+		XmNdialogStyle = 1;
+		XmNdefaultButtonType = XmDIALOG_CANCEL_BUTTON;
+		XmNmessageString = 
+		  compound_string('You have unsaved changes.',separate=true) &
+			compound_string('Open a new file anyway?');
+		XmNautoUnmanage = false;
+	};
+	callbacks {
+		XmNokCallback = procedures {
+					file_open_confirmed();
+					destroy_self();
+				};
+		XmNcancelCallback = procedure destroy_self();
+		XmNhelpCallback = procedure help_proc('Openfile');
+	};
+};
+
+procedure file_save_proc();
+procedure exit_app();
+object exit_dialog: XmWarningDialog {
+	arguments {
+		XmNdialogTitle = 'Exit MRE';
+!		XmNdialogStyle = XmDIALOG_PRIMARY_APPLICATION_MODAL;
+		XmNdialogStyle = 1;
+		XmNdefaultButtonType = XmDIALOG_OK_BUTTON;
+		XmNmessageString = 
+		compound_string('You have unsaved changes.',separate=true) &
+			compound_string('Save them, or exit anyway?');
+		XmNokLabelString = 'Save';
+		XmNcancelLabelString = 'Exit';
+		XmNhelpLabelString = 'Cancel';
+	};
+	callbacks {
+		XmNokCallback = procedure file_save_proc();
+		XmNhelpCallback = procedure destroy_self();
+		XmNcancelCallback = procedure exit();
+	};
+};
+
+object warning_print: XmWarningDialog {
+	arguments {
+		XmNdialogTitle = 'Warning';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+	};
+};
+
+object error_print: XmErrorDialog {
+	arguments {
+		XmNdialogTitle = 'Error';
+!		XmNdialogStyle = XmDIALOG_PRIMARY_APPLICATION_MODAL;
+		XmNdialogStyle = 1;
+	};
+};
+
+object info_print: XmInformationDialog {
+	arguments {
+		XmNdialogTitle = 'Information';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+	};
+};
+
+procedure save_the_file();
+procedure cancel_selection_box();
+object file_save_as_shell: XmFileSelectionDialog {
+		arguments {
+			XmNautoUnmanage = true;
+			XmNdialogTitle = 'Save file as...';
+			XmNdialogStyle = XmDIALOG_MODELESS;
+		};
+		callbacks {
+			XmNokCallback = procedure save_the_file();
+			XmNcancelCallback = procedure cancel_selection_box();
+		};
+};
+
+
+procedure open_the_file();
+object file_open_shell: XmFileSelectionDialog {
+		arguments {
+			XmNautoUnmanage = true;
+			XmNdialogTitle = 'Open file';
+			XmNdialogStyle = XmDIALOG_MODELESS;
+		};
+		callbacks {
+			XmNokCallback = procedure open_the_file();
+			XmNcancelCallback = procedure cancel_selection_box();
+		};
+};
+
+procedure set_file_resource();
+object file_resource_shell: XmFileSelectionDialog {
+	arguments {
+		XmNautoUnmanage = true;
+		XmNdialogTitle = 'Find filename for resource...';
+		XmNdialogStyle = XmDIALOG_MODELESS;
+	};
+	callbacks {
+		XmNokCallback = procedure set_file_resource();
+		XmNcancelCallback = procedure cancel_selection_box();
+	};
+};
+
+! the templates which follow are fetched repeatedly as 
+! panes are added to the multiple font display paned window;
+! each time the label templates are fetched, different strings are used
+object form_template : XmForm {
+	arguments{
+		XmNheight = 100;
+! this constraint argument will generate a warning, because the UIL compiler
+! does not know that this form will be parented by a paned window
+		XmNpaneMinimum = 45;
+	};
+};
+
+procedure font_select_button();
+object button_template : XmPushButton {
+	arguments {
+		XmNlabelString = compound_string('Select');
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 10;
+	};
+	callbacks {
+		XmNactivateCallback = procedure font_select_button();
+	};
+};
+object name_template : XmLabel {
+	arguments {
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 40;
+		XmNalignment = XmALIGNMENT_BEGINNING;
+	};
+};
+object text_template : XmText {
+	arguments {
+		XmNx = 0;
+		XmNy = 24;
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = 10;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNrightOffset = 10;
+	};
+};
+
+
+object multiple_fonts_shell: XmFormDialog { 
+	arguments {
+		XmNdialogStyle = XmDIALOG_MODELESS;
+		XmNdialogTitle = 'Matching Fonts';
+		XmNdefaultPosition = false;
+		XmNwidth = 400;
+		XmNheight=300;
+	};
+	controls {
+		XmPushButton  multiple_fonts_ok;
+		XmSeparator    multiple_fonts_separator;
+		XmPanedWindow mf_paned_window;
+	};
+};
+object multiple_fonts_ok : XmPushButton {
+	arguments {
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNleftOffset = 10;
+	    XmNbottomAttachment = XmATTACH_FORM;
+	    XmNbottomOffset = 10;
+	    XmNlabelString = compound_string('OK');
+	    XmNshowAsDefault = 1;
+	};
+	callbacks {
+	    XmNactivateCallback = procedure destroy_parent();
+	};
+};
+
+object multiple_fonts_separator : XmSeparator {
+	arguments {
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNrightAttachment = XmATTACH_FORM;
+	    XmNbottomAttachment = XmATTACH_WIDGET;
+	    XmNbottomWidget = XmPushButton multiple_fonts_ok;
+	    XmNbottomOffset = 10;
+	    XmNorientation = XmHORIZONTAL;
+	};
+};
+object
+    mf_paned_window : XmPanedWindow {
+	arguments {
+	    XmNheight = 300;
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNrightAttachment = XmATTACH_FORM;
+	    XmNtopAttachment = XmATTACH_FORM;
+	    XmNbottomAttachment = XmATTACH_WIDGET;
+	    XmNbottomWidget = XmSeparator multiple_fonts_separator;
+	};
+	callbacks {
+	    XmNdestroyCallback = procedure kill_global('mf_paned_window');
+	};
+};
+
+! must include end statement or will not compile
+end module;
+
+
+
+
+

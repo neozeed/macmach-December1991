@@ -1,0 +1,652 @@
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss ---- BBBBiiiinnnnddddiiiinnnnggggssss ffffoooorrrr vvvviiiirrrrttttuuuuaaaallll mmmmoooouuuusssseeee aaaannnndddd kkkkeeeeyyyy eeeevvvveeeennnnttttssss....
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The OSF/Motif manual pages describe translations in terms of
+          _v_i_r_t_u_a_l _b_i_n_d_i_n_g_s, based on those described in the _O_S_F/_M_o_t_i_f
+          _S_t_y_l_e _G_u_i_d_e.  Mouse events are described in terms of _v_i_r_t_u_a_l
+          _b_u_t_t_o_n_s, and key events are described in terms of _v_i_r_t_u_a_l
+          _k_e_y_s.  The term _v_i_r_t_u_a_l implies that the events as described
+          do not necessarily correspond to a fixed set of X Window
+          System events.  Instead, virtual buttons and keys are linked
+          to actual events by means of virtual bindings.
+
+
+        VVVViiiirrrrttttuuuuaaaallll MMMMooooddddiiiiffffiiiieeeerrrrssss
+          Both virtual buttons and virtual keys may contain _v_i_r_t_u_a_l
+          _m_o_d_i_f_i_e_r_s.  Each virtual modifier corresponds to one or more
+          actual modifiers.  The following table lists the bindings of
+          virtual modifiers to actual modifiers in OSF/Motif:
+
+                           VVVViiiirrrrttttuuuuaaaallll MMMMooooddddiiiiffffiiiieeeerrrr BBBBiiiinnnnddddiiiinnnnggggssss
+                      VVVViiiirrrrttttuuuuaaaallll MMMMooooddddiiiiffffiiiieeeerrrr   AAAAccccttttuuuuaaaallll MMMMooooddddiiiiffffiiiieeeerrrrssss
+                      ___________________________________
+                      MMMMAAAAlllltttt               MMMMoooodddd1111
+                      MMMMCCCCttttrrrrllll              CCCCttttrrrrllll
+                      MMMMSSSShhhhiiiifffftttt             SSSShhhhiiiifffftttt
+
+          MMMMoooodddd1111 refers to the first modifier key.  OSF/Motif requires
+          that it correspond to either AAAAlllltttt or MMMMeeeettttaaaa.
+
+          The virtual modifier MMMMAAAAnnnnyyyy indicates that any modifier can be
+          used.  If MMMMAAAAnnnnyyyy is not specified and the user presses an
+          actual modifier that is not explicitly included in a
+          translation, that modifier may prevent the translation from
+          being matched.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBuuuuttttttttoooonnnnssss
+          Each virtual button corresponds to one or more actual button
+          event descriptions.  Each button event description contains
+          a button name and possibly modifiers.  These button event
+          descriptions, appropriately ordered and possibly further
+          modified, are used in translation tables.  The following
+          table lists the bindings of virtual buttons to actual button
+          event descriptions in OSF/Motif:
+
+                            VVVViiiirrrrttttuuuuaaaallll BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnnggggssss
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                     VVVViiiirrrrttttuuuuaaaallll BBBBuuuuttttttttoooonnnn   AAAAccccttttuuuuaaaallll BBBBuuuuttttttttoooonnnn EEEEvvvveeeennnnttttssss
+                     _____________________________________
+                     BBBBCCCCuuuussssttttoooommmm          <<<<BBBBttttnnnn3333>>>>
+                     BBBBDDDDrrrraaaagggg            <<<<BBBBttttnnnn2222>>>>
+                     BBBBEEEExxxxtttteeeennnndddd          SSSShhhhiiiifffftttt<<<<BBBBttttnnnn1111>>>>
+                     BBBBMMMMeeeennnnuuuu            <<<<BBBBttttnnnn3333>>>>
+                     BBBBSSSSeeeelllleeeecccctttt          <<<<BBBBttttnnnn1111>>>>
+                     BBBBTTTToooogggggggglllleeee          CCCCttttrrrrllll<<<<BBBBttttnnnn1111>>>>
+
+
+        VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyyssss
+          Each virtual key corresponds to one or more actual key event
+          descriptions.  Each key event description contains a keysym
+          name and possibly modifiers.  These key event descriptions,
+          appropriately ordered and possibly further modified, are
+          used in translation tables.  The following table lists the
+          bindings of virtual keys to actual key event descriptions in
+          OSF/Motif:
+
+                              VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy BBBBiiiinnnnddddiiiinnnnggggssss
+                      ____________________________________
+                      VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy    AAAAccccttttuuuuaaaallll KKKKeeeeyyyy EEEEvvvveeeennnnttttssss
+                      ________________________________________________________________________
+                      KKKKAAAAccccttttiiiivvvvaaaatttteeee      <<<<KKKKeeeeyyyy>>>>RRRReeeettttuuuurrrrnnnn
+                                     CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>RRRReeeettttuuuurrrrnnnn
+                                     <<<<KKKKeeeeyyyy>>>>oooossssffffAAAAccccttttiiiivvvvaaaatttteeee
+                      ____________________________________
+                      KKKKAAAAddddddddMMMMooooddddeeee       <<<<KKKKeeeeyyyy>>>>oooossssffffAAAAddddddddMMMMooooddddeeee
+                      ____________________________________
+                      KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee     <<<<KKKKeeeeyyyy>>>>oooossssffffBBBBaaaacccckkkkSSSSppppaaaacccceeee
+                      ____________________________________
+                      KKKKBBBBaaaacccckkkkTTTTaaaabbbb       SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                      ____________________________________
+                      KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa     CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee
+                      ____________________________________
+                      KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee     <<<<KKKKeeeeyyyy>>>>oooossssffffBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee
+                      ____________________________________
+                      KKKKCCCCaaaannnncccceeeellll        <<<<KKKKeeeeyyyy>>>>oooossssffffCCCCaaaannnncccceeeellll
+                      ____________________________________
+                      KKKKCCCClllleeeeaaaarrrr         <<<<KKKKeeeeyyyy>>>>oooossssffffCCCClllleeeeaaaarrrr
+                      ____________________________________
+                      KKKKCCCCooooppppyyyy          <<<<KKKKeeeeyyyy>>>>oooossssffffCCCCooooppppyyyy
+                                     CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffIIIInnnnsssseeeerrrrtttt
+                      ____________________________________
+                      KKKKCCCCuuuutttt           <<<<KKKKeeeeyyyy>>>>oooossssffffCCCCuuuutttt
+                                     SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffDDDDeeeelllleeeetttteeee
+                      ____________________________________
+                      KKKKDDDDeeeelllleeeetttteeee        <<<<KKKKeeeeyyyy>>>>oooossssffffDDDDeeeelllleeeetttteeee
+7                                  |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                      ____________________________________
+                      KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll   CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>bbbbaaaacccckkkkssssllllaaaasssshhhh
+                      ____________________________________
+                      KKKKDDDDoooowwwwnnnn          <<<<KKKKeeeeyyyy>>>>oooossssffffDDDDoooowwwwnnnn
+                      ____________________________________
+                      KKKKEEEEnnnnddddDDDDaaaattttaaaa       CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffEEEEnnnnddddLLLLiiiinnnneeee
+                      ____________________________________
+                      KKKKEEEEnnnnddddLLLLiiiinnnneeee       <<<<KKKKeeeeyyyy>>>>oooossssffffEEEEnnnnddddLLLLiiiinnnneeee
+                      ____________________________________
+                      KKKKEEEEnnnntttteeeerrrr         <<<<KKKKeeeeyyyy>>>>RRRReeeettttuuuurrrrnnnn
+                      ____________________________________
+                      KKKKEEEEssssccccaaaappppeeee        <<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee
+                      ____________________________________
+                      KKKKEEEExxxxtttteeeennnndddd        CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>ssssppppaaaacccceeee
+                                     SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffSSSSeeeelllleeeecccctttt
+                      ____________________________________
+                      KKKKHHHHeeeellllpppp          <<<<KKKKeeeeyyyy>>>>oooossssffffHHHHeeeellllpppp
+                      ____________________________________
+                      KKKKIIIInnnnsssseeeerrrrtttt        <<<<KKKKeeeeyyyy>>>>oooossssffffIIIInnnnsssseeeerrrrtttt
+                      ____________________________________
+7                                  |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                        VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy BBBBiiiinnnnddddiiiinnnnggggssss ((((CCCCoooonnnnttttiiiinnnnuuuueeeedddd))))
+                    ________________________________________
+                    VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy     AAAAccccttttuuuuaaaallll KKKKeeeeyyyy EEEEvvvveeeennnnttttssss
+                    ________________________________________________________________________________
+                    KKKKLLLLeeeefffftttt           <<<<KKKKeeeeyyyy>>>>oooossssffffLLLLeeeefffftttt
+                    ________________________________________
+                    KKKKMMMMeeeennnnuuuu           <<<<KKKKeeeeyyyy>>>>oooossssffffMMMMeeeennnnuuuu
+                    ________________________________________
+                    KKKKMMMMeeeennnnuuuuBBBBaaaarrrr        <<<<KKKKeeeeyyyy>>>>oooossssffffMMMMeeeennnnuuuuBBBBaaaarrrr
+                    ________________________________________
+                    KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd      <<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                                    CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                    ________________________________________
+                    KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu       CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffDDDDoooowwwwnnnn
+                                    CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffRRRRiiiigggghhhhtttt
+                    ________________________________________
+                    KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn       <<<<KKKKeeeeyyyy>>>>oooossssffffPPPPaaaaggggeeeeDDDDoooowwwwnnnn
+                    ________________________________________
+                    KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt       CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffPPPPaaaaggggeeeeUUUUpppp
+                    ________________________________________
+                    KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt      CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffPPPPaaaaggggeeeeDDDDoooowwwwnnnn
+                    ________________________________________
+                    KKKKPPPPaaaaggggeeeeUUUUpppp         <<<<KKKKeeeeyyyy>>>>oooossssffffPPPPaaaaggggeeeeUUUUpppp
+                    ________________________________________
+                    KKKKPPPPaaaasssstttteeee          <<<<KKKKeeeeyyyy>>>>oooossssffffPPPPaaaasssstttteeee
+                                    SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffIIIInnnnsssseeeerrrrtttt
+                    ________________________________________
+                    KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd      SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                                    CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                    ________________________________________
+                    KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu       CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffUUUUpppp
+                                    CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffLLLLeeeefffftttt
+                    ________________________________________
+                    KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy    CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee
+                                    MMMMoooodddd1111<<<<KKKKeeeeyyyy>>>>oooossssffffCCCCooooppppyyyy
+                                    MMMMoooodddd1111 CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffIIIInnnnsssseeeerrrrtttt
+                    ________________________________________
+                    KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt     MMMMoooodddd1111<<<<KKKKeeeeyyyy>>>>oooossssffffPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee
+                                    MMMMoooodddd1111<<<<KKKKeeeeyyyy>>>>oooossssffffCCCCuuuutttt
+                                    MMMMoooodddd1111 SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffDDDDeeeelllleeeetttteeee
+                    ________________________________________
+                    KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee   <<<<KKKKeeeeyyyy>>>>oooossssffffPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee
+                    ________________________________________
+                    KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy      CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>oooossssffffQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee
+                    ________________________________________
+                    KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt       MMMMoooodddd1111<<<<KKKKeeeeyyyy>>>>oooossssffffQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee
+                    ________________________________________
+                    KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd    SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee
+7                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                    ________________________________________
+7                                 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                        VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy BBBBiiiinnnnddddiiiinnnnggggssss ((((CCCCoooonnnnttttiiiinnnnuuuueeeedddd))))
+                     ______________________________________
+                     VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   AAAAccccttttuuuuaaaallll KKKKeeeeyyyy EEEEvvvveeeennnnttttssss
+                     ____________________________________________________________________________
+                     KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee   <<<<KKKKeeeeyyyy>>>>oooossssffffQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee
+                     ______________________________________
+                     KKKKRRRReeeesssseeeelllleeeecccctttt     CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffSSSSeeeelllleeeecccctttt
+                     ______________________________________
+                     KKKKRRRReeeessssttttoooorrrreeee      CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>oooossssffffIIIInnnnsssseeeerrrrtttt
+                     ______________________________________
+                     KKKKRRRRiiiigggghhhhtttt        <<<<KKKKeeeeyyyy>>>>oooossssffffRRRRiiiigggghhhhtttt
+                     ______________________________________
+                     KKKKSSSSeeeelllleeeecccctttt       <<<<KKKKeeeeyyyy>>>>ssssppppaaaacccceeee
+                                   CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>ssssppppaaaacccceeee
+                                   <<<<KKKKeeeeyyyy>>>>oooossssffffSSSSeeeelllleeeecccctttt
+                     ______________________________________
+                     KKKKSSSSeeeelllleeeeccccttttAAAAllllllll    CCCCttttrrrrllll<<<<KKKKeeeeyyyy>>>>ssssllllaaaasssshhhh
+                     ______________________________________
+                     KKKKSSSSppppaaaacccceeee        <<<<KKKKeeeeyyyy>>>>ssssppppaaaacccceeee
+                     ______________________________________
+                     KKKKTTTTaaaabbbb          <<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb
+                     ______________________________________
+                     KKKKUUUUnnnnddddoooo         <<<<KKKKeeeeyyyy>>>>oooossssffffUUUUnnnnddddoooo
+                                   MMMMoooodddd1111<<<<KKKKeeeeyyyy>>>>oooossssffffBBBBaaaacccckkkkSSSSppppaaaacccceeee
+                     ______________________________________
+                     KKKKUUUUpppp           <<<<KKKKeeeeyyyy>>>>oooossssffffUUUUpppp
+                     ______________________________________
+                     KKKKAAAAnnnnyyyy          <<<<KKKKeeeeyyyy>>>>
+                     ______________________________________
+7                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        BBBBiiiinnnnddddiiiinnnnggggssss ffffoooorrrr oooossssffff KKKKeeeeyyyyssssyyyymmmmssss
+          Keysym strings that begin with "osf" are not part of the X
+          server's keyboard mapping.  Instead, these keysyms are
+          produced on the client side at run time and are used by the
+          translation manager when the server delivers an actual key
+          event.  A mapping is maintained between "osf" keysyms and
+          actual keysyms.  This mapping is based on information
+          obtained from one of the following sources, listed in order
+          of precedence:
+
+          +o  A _MOTIF_BINDINGS property on the root window of screen
+             0.  The Motif Window Manager sets this property when it
+             starts up, taking the contents from the ....mmmmoooottttiiiiffffbbbbiiiinnnndddd file
+             in the user's home directory.
+
+          +o  An XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttVVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss application resource in the
+             resource database.
+
+          +o  A fixed default based on the vendor string returned by
+             the X server during the call to XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy.
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+          +o  A fixed fallback default.
+
+          The format of the specification for mapping "osf" keysyms to
+          actual keysyms is similar to that of a specification for an
+          event translation.  The syntax is specified here in EBNF
+          notation using the following conventions:
+
+             [_a]       Means either nothing or _a
+             {_a}       Means zero or more occurrences of _a
+
+          Terminals are enclosed in double quotation marks.
+
+          The syntax of an "osf" keysym binding specification is as
+          follows:
+
+             binding_spec   = {line "\n"} [line]
+             line           = virtual_keysym ":" key_event
+             key_event      = {modifier_name} "<Key>" actual_keysym
+             virtual_keysym = keysym
+             actual_keysym  = keysym
+             keysym         = A valid X11 keysym name that is
+                              mapped by XXXXSSSSttttrrrriiiinnnnggggTTTTooooKKKKeeeeyyyyssssyyyymmmm
+
+          As with event translations, more specific event descriptions
+          must precede less specific descriptions.  For example, an
+          event description for a key with a modifier must precede a
+          description for the same key without the same modifier.
+
+          Following is an example of a specification for the
+          XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttVVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss resource in a resource file:
+
+             *defaultVirtualBindings: \
+                  osfBackSpace   :    <Key>BackSpace\n\
+                  osfInsert      :    <Key>InsertChar\n\
+                  osfDelete      :    <Key>DeleteChar
+
+          The format of a ....mmmmoooottttiiiiffffbbbbiiiinnnndddd file is the same, except that the
+          binding specification for each keysym is placed on a
+          separate line.  The example specification above appears as
+          follows in a ....mmmmoooottttiiiiffffbbbbiiiinnnndddd file:
+
+             osfBackSpace   :    <Key>BackSpace
+             osfInsert      :    <Key>InsertChar
+             osfDelete      :    <Key>DeleteChar
+
+          The following table lists the fixed fallback default
+          bindings for "osf" keysyms:
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX))))
+
+
+
+                  FFFFaaaallllllllbbbbaaaacccckkkk DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss ffffoooorrrr """"oooossssffff"""" KKKKeeeeyyyyssssyyyymmmmssss
+                  """"oooossssffff"""" KKKKeeeeyyyyssssyyyymmmm       FFFFaaaallllllllbbbbaaaacccckkkk DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnngggg
+                  ___________________________________________
+                  oooossssffffAAAAccccttttiiiivvvvaaaatttteeee        <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffAAAAddddddddMMMMooooddddeeee         SSSShhhhiiiifffftttt FFFF8888
+                  oooossssffffBBBBaaaacccckkkkSSSSppppaaaacccceeee       BBBBaaaacccckkkkssssppppaaaacccceeee
+                  oooossssffffBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee       HHHHoooommmmeeee
+                  oooossssffffCCCClllleeeeaaaarrrr           CCCClllleeeeaaaarrrr
+                  oooossssffffCCCCooooppppyyyy            <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffCCCCuuuutttt             <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffDDDDeeeelllleeeetttteeee          DDDDeeeelllleeeetttteeee
+                  oooossssffffDDDDoooowwwwnnnn            DDDDoooowwwwnnnn
+                  oooossssffffEEEEnnnnddddLLLLiiiinnnneeee         EEEEnnnndddd
+                  oooossssffffCCCCaaaannnncccceeeellll          EEEEssssccccaaaappppeeee
+                  oooossssffffHHHHeeeellllpppp            FFFF1111
+                  oooossssffffIIIInnnnsssseeeerrrrtttt          IIIInnnnsssseeeerrrrtttt
+                  oooossssffffLLLLeeeefffftttt            LLLLeeeefffftttt
+                  oooossssffffMMMMeeeennnnuuuu            FFFF4444
+                  oooossssffffMMMMeeeennnnuuuuBBBBaaaarrrr         FFFF11110000
+                  oooossssffffPPPPaaaaggggeeeeDDDDoooowwwwnnnn        NNNNeeeexxxxtttt
+                  oooossssffffPPPPaaaaggggeeeeUUUUpppp          PPPPrrrriiiioooorrrr
+                  oooossssffffPPPPaaaasssstttteeee           <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee    <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee      <<<<uuuunnnnbbbboooouuuunnnndddd>>>>
+                  oooossssffffRRRRiiiigggghhhhtttt           RRRRiiiigggghhhhtttt
+                  oooossssffffSSSSeeeelllleeeecccctttt          SSSSeeeelllleeeecccctttt
+                  oooossssffffUUUUnnnnddddoooo            UUUUnnnnddddoooo
+                  oooossssffffUUUUpppp              UUUUpppp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+

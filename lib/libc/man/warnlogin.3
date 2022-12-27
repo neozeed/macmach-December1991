@@ -1,0 +1,89 @@
+.\"
+.\" $Id: warnlogin.3,v 1.3 89/12/26 11:23:22 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	warnlogin.3,v $
+.\" Revision 1.3  89/12/26  11:23:22  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 14-Jun-82  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH WARNLOGIN 3 6/14/82
+.CM 3
+.SH "NAME"
+warnlogin \- warn of impendening account expiration
+.SH "SYNOPSIS"
+.ft B
+.nf
+#include <sys/types.h>
+.br
+.B
+#include <sys/time.h>
+.br
+.B
+#include <stdio.h>
+.br
+.B
+#include <acc.h>
+.sp
+.B
+warnlogin(account, ac)
+.br
+.B
+char *account;
+.br
+.B
+struct account *ac;
+.sp
+.fi
+.ft R
+.SH "DESCRIPTION"
+.I
+Warnlogin
+prints a warning message of the form
+.sp
+.RS
+[ Your <account-name> group account will expire on <date> ]
+.RE
+.sp
+on the diagnostic output if the expiration
+time in the
+.I
+ac
+account entry
+is within one month of the current date.
+The account name used
+in the message is as supplied in
+.I account
+but folded to upper-case.
+If
+.I
+account
+is NULL
+(not simply an empty string),
+no message is printed, and 
+a status value is simply returned.
+.sp
+This routine is used by
+.IR login (1),
+.IR newgrp (1),
+and
+.IR su(1)
+to provide a consistent warning
+message for all methods of accessing an
+expiring account.
+.SH "SEE ALSO"
+.IR login (1),
+.IR newgrp (1),
+.IR su (1),
+.IR getacent (3),
+.IR oklogin (3),
+.IR account (5)
+.SH "DIAGNOSTICS"
+Returns 1 if the account will expire in the next month
+and 0 otherwise.

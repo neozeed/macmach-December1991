@@ -1,0 +1,198 @@
+
+
+
+     MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy - Allocates a hierarchy ID and opens all
+          the UID files in the hierarchy.
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Trial-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>>>>
+          CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((_n_u_m__f_i_l_e_s,,,, _f_i_l_e__n_a_m_e_s__l_i_s_t,,,,
+          _a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t,,,, _h_i_e_r_a_r_c_h_y__i_d))))
+               MMMMrrrrmmmmCCCCoooouuuunnnntttt _n_u_m__f_i_l_e_s;;;;
+               SSSSttttrrrriiiinnnngggg _f_i_l_e__n_a_m_e_s__l_i_s_t[[[[]]]];;;;
+               MMMMrrrrmmmmOOOOssssOOOOppppeeeennnnPPPPaaaarrrraaaammmmPPPPttttrrrr ****_a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t;;;;
+               MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy ****_h_i_e_r_a_r_c_h_y__i_d;;;;
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy function allows the user to specify the
+          list of UID files that MRM searches in subsequent fetch
+          operations.  All subsequent fetch operations return the
+          first occurrence of the named item encountered while
+          traversing the UID hierarchy from the first list element
+          (UID file specification) to the last list element.  This
+          function also allocates a hierarchy ID and opens all the UID
+          files in the hierarchy. It initializes the optimized search
+          lists in the hierarchy.  If MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy encounters any
+          errors during its execution, any files that were opened are
+          closed.
+
+          The application must call XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee before calling
+          MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.
+
+          _n_u_m__f_i_l_e_s        Specifies the number of files in the name
+                           list.
+
+          _f_i_l_e__n_a_m_e_s__l_i_s_t  Specifies an array of character strings
+                           that identify the UID files.
+
+          _a_n_c_i_l_l_a_r_y__s_t_r_u_c_t_u_r_e_s__l_i_s_t
+                           A list of operating-system-dependent
+                           ancillary structures corresponding to such
+                           things as filenames, clobber flag, and so
+                           forth.  This argument should be NULL for
+                           most operations.  If you need to reference
+                           this structure, see the definition of
+                           MMMMrrrrmmmmOOOOssssOOOOppppeeeennnnPPPPaaaarrrraaaammmmPPPPttttrrrr in MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh for more
+                           information.
+
+          _h_i_e_r_a_r_c_h_y__i_d     Returns the search hierarchy ID.  The
+                           search hierarchy ID identifies the list of
+                           UID files that MRM searches (in order) when
+                           performing subsequent fetch calls.
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))
+
+
+
+          Each UID file string in _f_i_l_e__n_a_m_e_s__l_i_s_t can specify either a
+          full pathname or a filename.  If a UID file string has a
+          leading slash (/), it specifies a full pathname, and MRM
+          opens the file as specified.  Otherwise, the UID file string
+          specifies a filename.  In this case MRM looks for the file
+          along a search path specified by the UUUUIIIIDDDDPPPPAAAATTTTHHHH environment
+          variable or by a default search path, which varies depending
+          on whether or not the XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR environment variable is
+          set.  The filename is substituted for each occurrence of %U
+          in the search path.
+
+          The UUUUIIIIDDDDPPPPAAAATTTTHHHH environment variable specifies a search path and
+          naming conventions associated with UID files.  It can
+          contain the substitution field %U, where the UID file string
+          from the _f_i_l_e__n_a_m_e_s__l_i_s_t argument to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy is
+          substituted for %U.  It can also contain the substitution
+          fields accepted by XXXXttttRRRReeeessssoooollllvvvveeeePPPPaaaatttthhhhnnnnaaaammmmeeee.  For example, the
+          following UUUUIIIIDDDDPPPPAAAATTTTHHHH value and MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy call cause MRM
+          to open two separate UID files:
+
+           UIDPATH=/uidlib/%L/%U.uid:/uidlib/%U/%L
+            static char *uid_files[] = {"/usr/users/me/test.uid", "test2"};
+             MrmHierarchy  *Hierarchy_id;
+             MrmOpenHierarchy((MrmCount)2,uid_files, NULL, Hierarchy_id)
+
+          MRM opens the first file, ////uuuussssrrrr////uuuusssseeeerrrrssss////mmmmeeee////tttteeeesssstttt....uuuuiiiidddd, as
+          specified in the _f_i_l_e__n_a_m_e_s__l_i_s_t argument to
+          MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy, because the UID file string in the
+          _f_i_l_e__n_a_m_e_s__l_i_s_t argument specifies a full pathname.  MRM
+          looks for the second file, tttteeeesssstttt2222, first as
+          ////uuuuiiiiddddlllliiiibbbb////%%%%LLLL////tttteeeesssstttt2222....uuuuiiiidddd and second as ////uuuuiiiiddddlllliiiibbbb////tttteeeesssstttt2222////%%%%LLLL, where
+          the current setting of the xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or the LLLLAAAANNNNGGGG
+          environment variable is substituted for %L.
+
+          After MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy opens the UID hierarchy, you should
+          not delete or modify the UID files until you close the UID
+          hierarchy by calling MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.
+
+          If UUUUIIIIDDDDPPPPAAAATTTTHHHH is not set but the environment variable
+          XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR is set, MRM searches the following pathnames:
+
+                    %%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////uuuuiiiidddd////%%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////uuuuiiiidddd////%%%%UUUU
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////uuuuiiiidddd////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))
+
+
+
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////uuuuiiiidddd////%%%%UUUU
+
+
+          If neither UUUUIIIIDDDDPPPPAAAATTTTHHHH nor XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR is set, MRM searches the
+          following pathnames:
+
+                    %%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////uuuuiiiidddd////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%llll////uuuuiiiidddd////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////uuuuiiiidddd////%%%%UUUU
+                    $$$$HHHHOOOOMMMMEEEE////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%NNNN////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////uuuuiiiidddd////%%%%UUUU
+                    ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////uuuuiiiidddd////%%%%UUUU
+
+
+          The following substitutions are used in these paths:
+
+          %%%%UUUU   The UID file string, from the _f_i_l_e__n_a_m_e_s__l_i_s_t argument.
+
+          %%%%NNNN   The class name of the application.
+
+          %%%%LLLL   The value of the xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or the LLLLAAAANNNNGGGG
+               environment variable.
+
+          %%%%llll   The language component of the xxxxnnnnllllLLLLaaaannnngggguuuuaaaaggggeeee resource or
+               the LLLLAAAANNNNGGGG environment variable.
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          This function returns one of these status return constants:
+
+          MMMMrrrrmmmmSSSSUUUUCCCCCCCCEEEESSSSSSSS          The function executed successfully.
+
+          MMMMrrrrmmmmNNNNOOOOTTTT____FFFFOOOOUUUUNNNNDDDD        File not found.
+
+          MMMMrrrrmmmmFFFFAAAAIIIILLLLUUUURRRREEEE          The function failed.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          MMMMrrrrmmmmCCCClllloooosssseeeeHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy((((3333XXXX))))
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+

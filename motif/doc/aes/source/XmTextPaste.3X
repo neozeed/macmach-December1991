@@ -1,0 +1,50 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextPaste 3X "" "" "" ""
+.SH NAME
+\fBXmTextPaste \(em a Text function that inserts the clipboard selection\fP
+.iX "XmTextPaste"
+.iX "Text functions" "XmTextPaste"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+Boolean XmTextPaste (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextPaste\fP inserts the clipboard selection at the destination cursor.
+If \fBXmNpendingDelete\fP is True and the destination cursor is inside
+the current selection, the clipboard selection replaces the selected text.
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks if there is a clipboard selection.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+This function returns False if the \fIwidget\fP doesn't own the primary
+selection.  Otherwise, it returns True.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

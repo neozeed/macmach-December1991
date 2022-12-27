@@ -1,0 +1,335 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH WMShell 3X "" "" "" ""
+.SH NAME
+\fBWMShell \(em The WMShell widget class.\fP
+.iX "WMShell"
+.iX "widget class" "WMShell"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Shell.h>\fP
+.sp 1
+.SH DESCRIPTION
+WMShell is a top-level widget that encapsulates the interaction with the
+window manager.  
+.sp 1
+.ne 2.5i
+.SS "Classes"
+WMShell inherits behavior and resources from \fBCore\fP, \fBComposite\fP,
+and \fBShell\fP classes.
+.IP
+The class pointer is \fBwmShellWidgetClass\fP.
+.IP
+The class name is \fBWMShell\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+WMShell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbaseHeight	XmCBaseHeight	int	XtUnspecifiedShellInt	CSG
+XmNbaseWidth	XmCBaseWidth	int	XtUnspecifiedShellInt	CSG
+XmNheightInc	XmCHeightInc	int	XtUnspecifiedShellInt	CSG
+XmNiconMask	XmCIconMask	Pixmap	NULL	CSG
+XmNiconPixmap	XmCIconPixmap	Pixmap	NULL	CSG
+XmNiconWindow	XmCIconWindow	Window	NULL	CSG
+XmNiconX	XmCIconX	int	\-1	CSG
+XmNiconY	XmCIconY	int	\-1	CSG
+XmNinitialState	XmCInitialState	int	NormalState	CSG
+XmNinput	XmCInput	Boolean	False	CSG
+XmNmaxAspectX	XmCMaxAspectX	int	XtUnspecifiedShellInt	CSG
+XmNmaxAspectY	XmCMaxAspectY	int	XtUnspecifiedShellInt	CSG
+XmNmaxHeight	XmCMaxHeight	int	XtUnspecifiedShellInt	CSG
+XmNmaxWidth	XmCMaxWidth	int	XtUnspecifiedShellInt	CSG
+.tH
+XmNminAspectX	XmCMinAspectX	int	XtUnspecifiedShellInt	CSG
+XmNminAspectY	XmCMinAspectY	int	XtUnspecifiedShellInt	CSG
+XmNminHeight	XmCMinHeight	int	XtUnspecifiedShellInt	CSG
+XmNminWidth	XmCMinWidth	int	XtUnspecifiedShellInt	CSG
+XmNtitle	XmCTitle	String	dynamic	CSG
+XmNtitleEncoding	XmCTitleEncoding	Atom	XA_STRING	CSG
+XmNtransient	XmCTransient	Boolean	False	CSG
+XmNwaitForWm	XmCWaitForWm	Boolean	True	CSG
+XmNwidthInc	XmCWidthInc	int	XtUnspecifiedShellInt	CSG
+XmNwindowGroup	XmCWindowGroup	Window	dynamic	CSG
+XmNwinGravity	XmCWinGravity	int	dynamic	CSG
+XmNwmTimeout	XmCWmTimeout	int	5000 ms	CSG
+.TE
+.IP \fBXmNbaseHeight\fP
+Specifies the base for a progression of preferred heights for the
+window manager to use in sizing the widget.
+The preferred heights are \fBXmNbaseHeight\fP plus integral multiples of
+\fBXmNheightInc\fP, with a minimum of \fBXmNminHeight\fP and a maximum
+of \fBXmNmaxHeight\fP.
+If an initial value is not supplied for \fBXmNbaseHeight\fP but is
+supplied for \fBXmNbaseWidth\fP, the value of \fBXmNbaseHeight\fP
+is set to 0 when the widget is realized.
+.IP \fBXmNbaseWidth\fP
+Specifies the base for a progression of preferred widths for the
+window manager to use in sizing the widget.
+The preferred widths are \fBXmNbaseWidth\fP plus integral multiples of
+\fBXmNwidthInc\fP, with a minimum of \fBXmNminWidth\fP and a maximum of
+\fBXmNmaxWidth\fP.
+If an initial value is not supplied for \fBXmNbaseWidth\fP but is
+supplied for \fBXmNbaseHeight\fP, the value of \fBXmNbaseWidth\fP
+is set to 0 when the widget is realized.
+.IP \fBXmNheightInc\fP
+Specifies the increment for a progression of preferred heights for the
+window manager to use in sizing the widget.
+The preferred heights are \fBXmNbaseHeight\fP plus integral multiples of
+\fBXmNheightInc\fP, with a minimum of \fBXmNminHeight\fP and a maximum
+of \fBXmNmaxHeight\fP.
+If an initial value is not supplied for \fBXmNheightInc\fP but is
+supplied for \fBXmNwidthInc\fP, the value of \fBXmNheightInc\fP
+is set to 1 when the widget is realized.
+.IP \fBXmNiconMask\fP
+Specifies a bitmap that could be used by the window manager to clip the
+\fBXmNiconPixmap\fP bitmap to make the icon nonrectangular.
+.IP \fBXmNiconPixmap\fP
+Specifies a bitmap that could be used by the window manager as the
+application's icon.
+.IP \fBXmNiconWindow\fP
+Specifies the ID of a window that could be used by the window manager
+as the application's icon.
+.IP \fBXmNiconX\fP
+Specifies a suitable place to put the application's icon; this is a hint
+to the window manager in root window coordinates.  Since the window manager
+controls icon placement policy, this may be ignored.
+If no initial value is specified, the value is set to \-1 when the
+widget is realized.
+.sp 
+.ne 2i
+.IP \fBXmNiconY\fP
+Specifies a suitable place to put the application's icon; this is a hint
+to the window manager in root window coordinates.  
+Since the window manager
+controls icon placement policy, this may be ignored.
+If no initial value is specified, the value is set to \-1 when the
+widget is realized.
+.IP \fBXmNinitialState\fP
+Specifies the state in which the application wishes the widget instance to
+start.
+It must be one of the constants \fBNormalState\fP or \fBIconicState\fP.
+.IP \fBXmNinput\fP
+Specifies the application's input model for this widget and its
+descendants.
+The meaning of a True or False value for this resource depends on the
+presence or absence of a \fBWM_TAKE_FOCUS\fP atom in the
+\fBWM_PROTOCOLS\fP property:
+.sp 1
+.ne 1.5i
+.TS
+center,allbox,tab(@);
+lb lb lb
+l l l.
+Input Model@XmNinput@WM_TAKE_FOCUS
+_
+No input@False@Absent
+Passive@True@Absent
+Locally active@True@Present
+Globally active@False@Present
+.TE
+.sp 1
+For more information on input models, see the X Consortium Standard
+\fIInter-Client Communication Conventions Manual.\fP
+.IP \fBXmNmaxAspectX\fP
+Specifies the numerator of the maximum aspect ratio (X/Y) that the
+application wishes the widget instance to have.
+.IP \fBXmNmaxAspectY\fP
+Specifies the denominator of the maximum aspect ratio (X/Y) that the
+application wishes the widget instance to have.
+.IP \fBXmNmaxHeight\fP
+Specifies the maximum height that the application wishes the widget
+instance to have.
+If an initial value is not supplied for \fBXmNmaxHeight\fP but is
+supplied for \fBXmNmaxWidth\fP, the value of \fBXmNmaxHeight\fP
+is set to 32767 when the widget is realized.
+.sp
+.ne 6
+.IP \fBXmNmaxWidth\fP
+Specifies the maximum width that the application wishes the widget
+instance to have.
+If an initial value is not supplied for \fBXmNmaxWidth\fP but is
+supplied for \fBXmNmaxHeight\fP, the value of \fBXmNmaxWidth\fP
+is set to 32767 when the widget is realized.
+.IP \fBXmNminAspectX\fP
+Specifies the numerator of the minimum aspect ratio (X/Y) that the
+application wishes the widget instance to have.
+.IP \fBXmNminAspectY\fP
+Specifies the denominator of the minimum aspect ratio (X/Y) that the
+application wishes the widget instance to have.
+.IP \fBXmNminHeight\fP
+Specifies the minimum height that the application wishes the widget
+instance to have.
+If an initial value is not supplied for \fBXmNminHeight\fP but is
+supplied for \fBXmNminWidth\fP, the value of \fBXmNminHeight\fP
+is set to 1 when the widget is realized.
+.IP \fBXmNminWidth\fP
+Specifies the minimum width that the application wishes the widget
+instance to have.
+If an initial value is not supplied for \fBXmNminWidth\fP but is
+supplied for \fBXmNminHeight\fP, the value of \fBXmNminWidth\fP
+is set to 1 when the widget is realized.
+.IP \fBXmNtitle\fP
+Specifies the application name to be displayed by the window manager.
+The default is the icon name if specified, otherwise the name of the
+application.
+.IP \fBXmNtitleEncoding\fP
+Specifies a property type that represents the encoding of the
+\fBXmNtitle\fP string.
+.sp
+.ne 3i
+.IP \fBXmNtransient\fP
+Specifies a Boolean value that is True if the widget instance is
+transient, typically a popup on behalf of another widget.
+The window manager may treat a transient widget's window differently
+from other windows.
+For example, a window manager may 
+not iconify a transient window
+separately from its associated application.
+Applications and users should not normally alter this resource.  
+.IP \fBXmNwaitForWm\fP
+When True, specifies that the Intrinsics waits the length of time given
+by the \fBXmNwmTimeout\fP resource for the window manager to respond to
+certain actions before assuming that there is no window manager present.
+This resource is altered by the Intrinsics as it receives, or fails
+to receive, responses from the window manager.
+.IP \fBXmNwidthInc\fP
+Specifies the base for a progression of preferred widths for the
+window manager to use in sizing the widget.
+The preferred widths are \fBXmNbaseWidth\fP plus integral multiples of
+\fBXmNwidthInc\fP, with a minimum of \fBXmNminWidth\fP and a maximum of
+\fBXmNmaxWidth\fP.
+If an initial value is not supplied for \fBXmNwidthInc\fP but is
+supplied for \fBXmNheightInc\fP, the value of \fBXmNwidthInc\fP
+is set to 1 when the widget is realized.
+.IP \fBXmNwindowGroup\fP
+Specifies the ID of a window with which this widget instance is
+associated.
+By convention, this window is the "leader" of a group of windows.
+A window manager may treat all windows in a group in some way; for
+example, it may always move or iconify them together.
+.IP
+If no initial value is specified, the value is set to the window of the
+first realized ancestor widget in the parent hierarchy when the widget
+is realized.
+If a value of \fBXtUnspecifiedWindowGroup\fP is specified, no window
+group is set.
+.IP \fBXmNwinGravity\fP
+Specifies the window gravity for use by the window manager in
+positioning the widget.
+If no initial value is specified, the value is set when the widget is
+realized.
+If \fBXmNgeometry\fP is not NULL, \fBXmNwinGravity\fP is 
+set to the
+window gravity returned by \fBXmWMGeometry\fP.
+Otherwise, \fBXmNwinGravity\fP is set to \fBNorthWestGravity\fP.
+.IP \fBXmNwmTimeout\fP
+Specifies the length of time that the Intrinsics waits for the window
+manager to respond to certain actions before assuming that there is no 
+window manager present.
+The value is in milliseconds and must not be negative.
+.sp 1
+.SS "Inherited Resources"
+WMShell inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Shell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowShellResize	XmCAllowShellResize	Boolean	False	CG
+XmNcreatePopupChildProc	XmCCreatePopupChildProc	(*)()	NULL	CSG
+XmNgeometry	XmCGeometry	String	NULL	CSG
+XmNoverrideRedirect	XmCOverrideRedirect	Boolean	False	CSG
+XmNpopdownCallback	XmCCallback	XtCallbackList	NULL	C
+XmNpopupCallback	XmCCallback	XtCallbackList	NULL	C
+XmNsaveUnder	XmCSaveUnder	Boolean	False	CSG
+XmNvisual	XmCVisual	Visual *	CopyFromParent	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	1	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for WMShell.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBCore(3X)\fP, and \fBShell(3X)\fP.

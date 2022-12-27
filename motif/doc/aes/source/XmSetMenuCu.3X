@@ -1,0 +1,52 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmSetMenuCursor 3X "" "" "" ""
+.SH NAME
+\fBXmSetMenuCursor \(em a RowColumn function that modifies the menu cursor
+for a client.\fP
+.iX "XmSetMenuCursor"
+.iX "RowColumn functions" "XmSetMenuCursor"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+void XmSetMenuCursor (\fIdisplay, cursorId\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Cursor	\fIcursorId\fP;
+.fi
+\fP
+.br
+.ne 15
+.SH DESCRIPTION
+\fBXmSetMenuCursor\fP programmatically modifies the menu cursor for a client; 
+after the cursor has been created
+by the client, this function registers the cursor with the menu system.  After
+calling this function, the specified cursor is displayed whenever
+this client displays a Motif menu on the indicated display.  The client can
+then specify different cursors on different displays. 
+.sp 1
+.IP "\fIdisplay\fP" .75i
+Specifies the display to which the cursor is to be associated
+.IP "\fIcursorId\fP" .75i
+Specifies the \fBX\fP cursor ID
+.sp 1
+.PP
+For a complete definition of the menu cursor resource, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmRowColumn(3X)\fP.
+.sp 1

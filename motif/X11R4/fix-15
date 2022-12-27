@@ -1,0 +1,2295 @@
+You must apply fix-16 and fix-17 at the same time you apply this patch.
+
+This patch, together with fix-16 and fix-17, fixes the following Xt problems:
+
+    small reductions in memory usage
+    permit a destroyCallback procedure to destroy an ancestor
+    better handling of widget destruction with nested XtDispatchEvent()
+    plug memory leaks in XtDestroyApplicationContext()
+    make XtPointer be void* in STDC environments **may cause compiler errors
+	in non-portable source code **
+    better handling of String to Pixel conversions with typos in string
+    fix bug in destroying widgets with multiple accelerator sources installed
+    fix duplicate destroy callbacks when both popup child and parent are
+	targets of XtDestroyWidget()
+    don't call CompositePart destroy method on popup children
+    fix bug in XtSetKeyboardFocus after destroying widget which had input
+    export pointers to default error/warning handlers, per spec
+    fix bug in XtNameToWidget when hierarachy contains non-widgets
+    fix function prototype for XtTranslateCoords()
+    fix bug in XtSetKeyboardFocus(widget,None)
+    move gettimeofday() emulation to lib/X/sysV/Berklib.c
+    fix bugs when select() is interrupted while blocking for input
+    don't stop scanning arglist when XtNinitialResourcesPersistent is used
+    ignore XtOwnSelection for unrealized widgets
+    Fix change of selection owner while value transfer is in-progress
+    make quoted key sequences work again in translation tables
+    allow repeat counts on Key events in translation tables
+    fix bug if XtInstallAccelerators is called multiple times with same
+	arguments and the destination widget is subsequently destroyed
+
+cd to the top of the X tree and apply with "patch -p0".
+
+*** /tmp/,RCSt1a12791	Fri Sep 28 14:17:37 1990
+--- mit/lib/Xt/CallbackI.h	Fri Sep 28 14:17:38 1990
+***************
+*** 1,5 ****
+! /* $XConsortium: CallbackI.h,v 1.9 90/04/13 20:10:52 swick Exp $ */
+! /* $oHeader: CallbackI.h,v 1.2 88/08/18 15:53:53 asente Exp $ */
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+  and the Massachusetts Institute of Technology, Cambridge, Massachusetts.
+--- 1,4 ----
+! /* $XConsortium: CallbackI.h,v 1.11 90/08/29 13:09:40 swick Exp $ */
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+  and the Massachusetts Institute of Technology, Cambridge, Massachusetts.
+***************
+*** 38,47 ****
+  
+  typedef struct _CallbackRec *CallbackList;
+  typedef struct _CallbackStruct CallbackStruct;
+- 
+- extern CallbackList *_XtDestroyList;
+- 
+- #define _XtSafeToDestroy (_XtDestroyList == NULL)
+  
+  extern void _XtRemoveAllCallbacks(
+  #if NeedFunctionPrototypes
+--- 37,42 ----
+*** /tmp/,RCSt1a12918	Fri Sep 28 14:18:08 1990
+--- mit/lib/Xt/Convert.c	Fri Sep 28 14:18:09 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Convert.c,v 1.40 90/06/04 15:06:37 kit Exp $";
+! /* $oHeader: Convert.c,v 1.4 88/09/01 11:10:44 asente Exp $ */
+! #endif /*lint*/
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+--- 1,5 ----
+! /* $XConsortium: Convert.c,v 1.43 90/09/04 10:45:55 swick Exp $ */
+! 
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+***************
+*** 84,89 ****
+--- 82,88 ----
+  	for (i = 0; i < CONVERTHASHSIZE; i++) {
+  	    for (p = table[i]; p != NULL;) {
+  		register ConverterPtr next = p->next;
++ 		if (p->num_args) XtFree((char*)p->convert_args);
+  		XtFree((char*)p);
+  		p = next;
+  	    }
+***************
+*** 307,313 ****
+      p->hash	    = hash;
+      p->converter    = converter;
+      p->from.size    = from->size;
+!     p->from.addr = (XtPointer) _XtHeapAlloc(heap, from->size);
+      XtBCopy(from->addr, p->from.addr, from->size);
+      p->num_args = num_args;
+      if (num_args == 0) {
+--- 306,312 ----
+      p->hash	    = hash;
+      p->converter    = converter;
+      p->from.size    = from->size;
+!     p->from.addr = (caddr_t)_XtHeapAlloc(heap, from->size);
+      XtBCopy(from->addr, p->from.addr, from->size);
+      p->num_args = num_args;
+      if (num_args == 0) {
+***************
+*** 316,328 ****
+  	p->args = (XrmValuePtr) _XtHeapAlloc(heap, num_args * sizeof(XrmValue));
+  	for (i = 0; i < num_args; i++) {
+  	    p->args[i].size = args[i].size;
+! 	    p->args[i].addr = (XtPointer) _XtHeapAlloc(heap, args[i].size);
+  	    XtBCopy(args[i].addr, p->args[i].addr, args[i].size);
+  	}
+      }
+      p->to.size  = to->size;
+      if (succeeded && to->addr != NULL) {
+! 	p->to.addr  = (XtPointer) _XtHeapAlloc(heap, to->size);
+  	XtBCopy(to->addr, p->to.addr, to->size);
+      }
+      else {
+--- 315,327 ----
+  	p->args = (XrmValuePtr) _XtHeapAlloc(heap, num_args * sizeof(XrmValue));
+  	for (i = 0; i < num_args; i++) {
+  	    p->args[i].size = args[i].size;
+! 	    p->args[i].addr = (caddr_t)_XtHeapAlloc(heap, args[i].size);
+  	    XtBCopy(args[i].addr, p->args[i].addr, args[i].size);
+  	}
+      }
+      p->to.size  = to->size;
+      if (succeeded && to->addr != NULL) {
+! 	p->to.addr  = (caddr_t)_XtHeapAlloc(heap, to->size);
+  	XtBCopy(to->addr, p->to.addr, to->size);
+      }
+      else {
+***************
+*** 433,441 ****
+  	case XtBaseOffset:
+  #ifdef CRAY1
+  	    args[i].addr =
+! 		(XtPointer)((int)widget + (int)convert_args[i].address_id);
+  #else
+! 	    args[i].addr = (XtPointer)widget + (int)convert_args[i].address_id;
+  #endif
+  	    break;
+  
+--- 432,440 ----
+  	case XtBaseOffset:
+  #ifdef CRAY1
+  	    args[i].addr =
+! 		(caddr_t)((int)widget + (int)convert_args[i].address_id);
+  #else
+! 	    args[i].addr = (caddr_t)((char *)widget + (int)convert_args[i].address_id);
+  #endif
+  	    break;
+  
+***************
+*** 449,463 ****
+  
+  #ifdef CRAY1
+  	    args[i].addr =
+! 		(XtPointer)((int)ancestor + (int)convert_args[i].address_id);
+  #else
+  	    args[i].addr =
+! 		(XtPointer)ancestor + (int)convert_args[i].address_id;
+  #endif
+  	    break;
+  
+  	case XtImmediate:
+! 	    args[i].addr = (XtPointer) &(convert_args[i].address_id);
+  	    break;
+  
+  	case XtProcedureArg:
+--- 448,462 ----
+  
+  #ifdef CRAY1
+  	    args[i].addr =
+! 		(caddr_t)((int)ancestor + (int)convert_args[i].address_id);
+  #else
+  	    args[i].addr =
+! 		(caddr_t)((char *)ancestor + (int)convert_args[i].address_id);
+  #endif
+  	    break;
+  
+  	case XtImmediate:
+! 	    args[i].addr = (caddr_t) &(convert_args[i].address_id);
+  	    break;
+  
+  	case XtProcedureArg:
+***************
+*** 484,492 ****
+  		offset = 0;
+  	    }
+  #ifdef CRAY1
+! 	    args[i].addr = (XtPointer)((int)widget + offset);
+  #else
+! 	    args[i].addr = (XtPointer)widget + offset;
+  #endif
+  	    break;
+  	default:
+--- 483,491 ----
+  		offset = 0;
+  	    }
+  #ifdef CRAY1
+! 	    args[i].addr = (caddr_t)((int)widget + offset);
+  #else
+! 	    args[i].addr = (caddr_t)((char *)widget + offset);
+  #endif
+  	    break;
+  	default:
+***************
+*** 605,611 ****
+  
+      if (cP == NULL
+       || ((cP->cache_type == XtCacheNone) && (cP->destructor == nullProc))) {
+! 	char* closure;
+  	if (cache_ref_return != NULL) *cache_ref_return = NULL;
+  	return (*(XtTypeConverter)converter)
+  	    (dpy, args, &num_args, from, to, &closure);
+--- 604,610 ----
+  
+      if (cP == NULL
+       || ((cP->cache_type == XtCacheNone) && (cP->destructor == nullProc))) {
+! 	XtPointer closure;
+  	if (cache_ref_return != NULL) *cache_ref_return = NULL;
+  	return (*(XtTypeConverter)converter)
+  	    (dpy, args, &num_args, from, to, &closure);
+***************
+*** 658,664 ****
+      /* No cache entry, call converter procedure and enter result in cache */
+      {
+  	Heap *heap;
+! 	char* closure;
+  	XtCacheType cache_type = cP->cache_type & 0xff;
+  	int ref_flags =
+  	    ((cP->cache_type & XtCacheRefCount) && (cache_ref_return != NULL))
+--- 657,663 ----
+      /* No cache entry, call converter procedure and enter result in cache */
+      {
+  	Heap *heap;
+! 	XtPointer closure;
+  	XtCacheType cache_type = cP->cache_type & 0xff;
+  	int ref_flags =
+  	    ((cP->cache_type & XtCacheRefCount) && (cache_ref_return != NULL))
+*** /tmp/,RCSt1a12955	Fri Sep 28 14:18:21 1990
+--- mit/lib/Xt/Converters.c	Fri Sep 28 14:18:22 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Converters.c,v 1.53 89/12/20 16:32:37 swick Exp $";
+! /* $oHeader: Converters.c,v 1.6 88/09/01 09:26:23 asente Exp $ */
+! #endif /*lint*/
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+--- 1,4 ----
+! /* "$XConsortium: Converters.c,v 1.56 90/08/31 14:09:11 swick Exp $"; */
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+***************
+*** 37,42 ****
+--- 34,48 ----
+  #include	"IntrinsicI.h"
+  #include	"Quarks.h"
+  
++ #ifdef __STDC__
++ #define Const const
++ #else
++ #define Const /**/
++ #endif
++ 
++ static Const String XtNwrongParameters = "wrongParameters";
++ static Const String XtNconversionError = "conversionError";
++ 
+  #define	done(type, value) \
+  	{							\
+  	    if (toVal->addr != NULL) {				\
+***************
+*** 98,104 ****
+  	params[0] = from;
+  	params[1] = toType;
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		   "conversionError","string","XtToolkitError",
+  		   "Cannot convert string \"%s\" to type %s",
+  		    params,&num_params);
+      }
+--- 104,110 ----
+  	params[0] = from;
+  	params[1] = toType;
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		   XtNconversionError,"string",XtCXtToolkitError,
+  		   "Cannot convert string \"%s\" to type %s",
+  		    params,&num_params);
+      }
+***************
+*** 111,117 ****
+  	Cardinal num_params = 2;
+  	params[0] = from;
+  	params[1] = toType;
+! 	XtWarningMsg("conversionError","string","XtToolkitError",
+  		   "Cannot convert string \"%s\" to type %s",
+  		    params,&num_params);
+  }
+--- 117,123 ----
+  	Cardinal num_params = 2;
+  	params[0] = from;
+  	params[1] = toType;
+! 	XtWarningMsg(XtNconversionError,"string",XtCXtToolkitError,
+  		   "Cannot convert string \"%s\" to type %s",
+  		    params,&num_params);
+  }
+***************
+*** 199,205 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtIntToBoolean","XtToolkitError",
+                    "Integer to Boolean conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(Boolean, (*(int *)fromVal->addr != 0));
+--- 205,211 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtIntToBoolean",XtCXtToolkitError,
+                    "Integer to Boolean conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(Boolean, (*(int *)fromVal->addr != 0));
+***************
+*** 217,223 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtIntToShort","XtToolkitError",
+                    "Integer to Short conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(short, (*(int *)fromVal->addr));
+--- 223,229 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtIntToShort",XtCXtToolkitError,
+                    "Integer to Short conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(short, (*(int *)fromVal->addr));
+***************
+*** 236,242 ****
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToBoolean","XtToolkitError",
+                    "String to Boolean conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+  
+--- 242,248 ----
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToBoolean",XtCXtToolkitError,
+                    "String to Boolean conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 266,272 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtIntToBool","XtToolkitError",
+                    "Integer to Bool conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(Bool, (*(int *)fromVal->addr != 0));
+--- 272,278 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtIntToBool",XtCXtToolkitError,
+                    "Integer to Bool conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+      done(Bool, (*(int *)fromVal->addr != 0));
+***************
+*** 285,292 ****
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		"wrongParameters","cvtStringToBool",
+! 		"XtToolkitError",
+                   "String to Bool conversion needs no extra arguments",
+                    (String *)NULL, (Cardinal *)NULL);
+  
+--- 291,298 ----
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		XtNwrongParameters,"cvtStringToBool",
+! 		XtCXtToolkitError,
+                   "String to Bool conversion needs no extra arguments",
+                    (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 304,310 ****
+      return False;
+  }
+  
+! XtConvertArgRec colorConvertArgs[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen),  sizeof(Screen *)},
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.colormap),sizeof(Colormap)}
+  };
+--- 310,316 ----
+      return False;
+  }
+  
+! XtConvertArgRec Const colorConvertArgs[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen),  sizeof(Screen *)},
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.colormap),sizeof(Colormap)}
+  };
+***************
+*** 325,331 ****
+  
+      if (*num_args != 2)
+        XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	 "wrongParameters","cvtIntOrPixelToXColor","XtToolkitError",
+           "Pixel to color conversion needs screen and colormap arguments",
+            (String *)NULL, (Cardinal *)NULL);
+      screen = *((Screen **) args[0].addr);
+--- 331,337 ----
+  
+      if (*num_args != 2)
+        XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	 XtNwrongParameters,"cvtIntOrPixelToXColor",XtCXtToolkitError,
+           "Pixel to color conversion needs screen and colormap arguments",
+            (String *)NULL, (Cardinal *)NULL);
+      screen = *((Screen **) args[0].addr);
+***************
+*** 356,363 ****
+      Cardinal	    num_params=1;
+  
+      if (*num_args != 2)
+!      XtAppErrorMsg(pd->appContext, "wrongParameters", "cvtStringToPixel",
+! 		   "XtToolkitError",
+  	"String to pixel conversion needs screen and colormap arguments",
+          (String *)NULL, (Cardinal *)NULL);
+  
+--- 362,369 ----
+      Cardinal	    num_params=1;
+  
+      if (*num_args != 2)
+!      XtAppErrorMsg(pd->appContext, XtNwrongParameters, "cvtStringToPixel",
+! 		   XtCXtToolkitError,
+  	"String to pixel conversion needs screen and colormap arguments",
+          (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 380,386 ****
+          status = XParseColor(DisplayOfScreen(screen), colormap,
+  			     (char*)str, &screenColor);
+  
+!         if (status != 0)
+             status = XAllocColor(DisplayOfScreen(screen), colormap,
+                                  &screenColor);
+      } else  /* some color name */
+--- 386,401 ----
+          status = XParseColor(DisplayOfScreen(screen), colormap,
+  			     (char*)str, &screenColor);
+  
+!         if (status == 0) {
+! 	    params[0] = str;
+! 	    XtAppWarningMsg(pd->appContext, "badFormat", "cvtStringToPixel",
+! 			    XtCXtToolkitError,
+! 		  "RGB color specification \"%s\" has invalid format",
+! 		  params, &num_params);
+! 	    *closure_ret = False;
+! 	    return False;
+! 	}
+! 	else
+             status = XAllocColor(DisplayOfScreen(screen), colormap,
+                                  &screenColor);
+      } else  /* some color name */
+***************
+*** 388,398 ****
+          status = XAllocNamedColor(DisplayOfScreen(screen), colormap,
+                                    (char*)str, &screenColor, &exactColor);
+      if (status == 0) {
+  	params[0] = str;
+! 	XtAppWarningMsg(pd->appContext, "noColormap", "cvtStringToPixel",
+! 			"XtToolkitError",
+!                  "Cannot allocate colormap entry for \"%s\"",
+!                   params,&num_params);
+  	return False;
+      } else {
+  	*closure_ret = (char*)True;
+--- 403,425 ----
+          status = XAllocNamedColor(DisplayOfScreen(screen), colormap,
+                                    (char*)str, &screenColor, &exactColor);
+      if (status == 0) {
++ 	String msg, type;
+  	params[0] = str;
+! 	/* Server returns a specific error code but Xlib discards it.  Ugh */
+! 	if (*str == '#' ||
+! 	    XLookupColor(DisplayOfScreen(screen), colormap, (char*)str,
+! 			 &exactColor, &screenColor)) {
+! 	    type = "noColormap";
+! 	    msg = "Cannot allocate colormap entry for \"%s\"";
+! 	}
+! 	else {
+! 	    type = "badValue";
+! 	    msg = "Color name \"%s\" is not defined in server database";
+! 	}
+! 
+! 	XtAppWarningMsg(pd->appContext, type, "cvtStringToPixel",
+! 			XtCXtToolkitError, msg, params, &num_params);
+! 	*closure_ret = False;
+  	return False;
+      } else {
+  	*closure_ret = (char*)True;
+***************
+*** 412,418 ****
+      Colormap	    colormap;
+  
+      if (*num_args != 2)
+!      XtAppErrorMsg(app, "wrongParameters","freePixel","XtToolkitError",
+  	"Freeing a pixel requires screen and colormap arguments",
+          (String *)NULL, (Cardinal *)NULL);
+  
+--- 439,445 ----
+      Colormap	    colormap;
+  
+      if (*num_args != 2)
+!      XtAppErrorMsg(app, XtNwrongParameters,"freePixel",XtCXtToolkitError,
+  	"Freeing a pixel requires screen and colormap arguments",
+          (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 428,434 ****
+  
+  
+  /* no longer used by Xt, but it's in the spec */
+! XtConvertArgRec screenConvertArg[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen), sizeof(Screen *)}
+  };
+  
+--- 455,461 ----
+  
+  
+  /* no longer used by Xt, but it's in the spec */
+! XtConvertArgRec Const screenConvertArg[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen), sizeof(Screen *)}
+  };
+  
+***************
+*** 439,445 ****
+      XrmValue* value;
+  {
+      if (widget == NULL) {
+! 	XtErrorMsg("missingWidget", "fetchDisplayArg", "XtToolkitError",
+  		   "FetchDisplayArg called without a widget to reference",
+  		   (String*)NULL, (Cardinal*)NULL);
+      }
+--- 466,472 ----
+      XrmValue* value;
+  {
+      if (widget == NULL) {
+! 	XtErrorMsg("missingWidget", "fetchDisplayArg", XtCXtToolkitError,
+  		   "FetchDisplayArg called without a widget to reference",
+  		   (String*)NULL, (Cardinal*)NULL);
+      }
+***************
+*** 447,453 ****
+      value->addr = (caddr_t)&DisplayOfScreen(XtScreenOfObject(widget));
+  }
+  
+! static XtConvertArgRec displayConvertArg[] = {
+      {XtProcedureArg, (XtPointer)FetchDisplayArg, 0},
+  };
+  
+--- 474,480 ----
+      value->addr = (caddr_t)&DisplayOfScreen(XtScreenOfObject(widget));
+  }
+  
+! static XtConvertArgRec Const displayConvertArg[] = {
+      {XtProcedureArg, (XtPointer)FetchDisplayArg, 0},
+  };
+  
+***************
+*** 461,468 ****
+  
+      XtPointer	*closure_ret;
+  {
+!     static struct _CursorName {
+! 	char		*name;
+  	unsigned int	shape;
+      } cursor_names[] = {
+  			{"X_cursor",		XC_X_cursor},
+--- 488,495 ----
+  
+      XtPointer	*closure_ret;
+  {
+!     static Const struct _CursorName {
+! 	Const char	*name;
+  	unsigned int	shape;
+      } cursor_names[] = {
+  			{"X_cursor",		XC_X_cursor},
+***************
+*** 543,555 ****
+  			{"watch",		XC_watch},
+  			{"xterm",		XC_xterm},
+      };
+!     struct _CursorName *nP;
+      char *name = (char *)fromVal->addr;
+      register int i;
+  
+      if (*num_args != 1)
+  	XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "wrongParameters","cvtStringToCursor","XtToolkitError",
+               "String to cursor conversion needs display argument",
+                (String *)NULL, (Cardinal *)NULL);
+  
+--- 570,582 ----
+  			{"watch",		XC_watch},
+  			{"xterm",		XC_xterm},
+      };
+!     Const struct _CursorName *nP;
+      char *name = (char *)fromVal->addr;
+      register int i;
+  
+      if (*num_args != 1)
+  	XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     XtNwrongParameters,"cvtStringToCursor",XtCXtToolkitError,
+               "String to cursor conversion needs display argument",
+                (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 576,582 ****
+  
+      if (*num_args != 1)
+       XtAppErrorMsg(app,
+! 	     "wrongParameters","freeCursor","XtToolkitError",
+               "Free Cursor requires display argument",
+                (String *)NULL, (Cardinal *)NULL);
+  
+--- 603,609 ----
+  
+      if (*num_args != 1)
+       XtAppErrorMsg(app,
+! 	     XtNwrongParameters,"freeCursor",XtCXtToolkitError,
+               "Free Cursor requires display argument",
+                (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 597,603 ****
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToDisplay","XtToolkitError",
+                    "String to Display conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+  
+--- 624,630 ----
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToDisplay",XtCXtToolkitError,
+                    "String to Display conversion needs no extra arguments",
+                     (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 623,629 ****
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		 "wrongParameters","cvtStringToFile","XtToolkitError",
+                   "String to File conversion needs no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+--- 650,656 ----
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		 XtNwrongParameters,"cvtStringToFile",XtCXtToolkitError,
+                   "String to File conversion needs no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 645,651 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(app,
+! 		 "wrongParameters","freeFile","XtToolkitError",
+                   "Free File requires no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+--- 672,678 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(app,
+! 		 XtNwrongParameters,"freeFile",XtCXtToolkitError,
+                   "Free File requires no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 666,672 ****
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		 "wrongParameters","cvtStringToFloat","XtToolkitError",
+                   "String to Float conversion needs no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+--- 693,699 ----
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		 XtNwrongParameters,"cvtStringToFloat",XtCXtToolkitError,
+                   "String to Float conversion needs no extra arguments",
+                   (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 688,694 ****
+  
+      if (*num_args != 1)
+  	XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "wrongParameters","cvtStringToFont","XtToolkitError",
+               "String to font conversion needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+--- 715,721 ----
+  
+      if (*num_args != 1)
+  	XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     XtNwrongParameters,"cvtStringToFont",XtCXtToolkitError,
+               "String to font conversion needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 738,744 ****
+  	goto Done;
+  
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "noFont","cvtStringToFont","XtToolkitError",
+               "Unable to load any useable ISO8859-1 font",
+                (String *) NULL, (Cardinal *)NULL);
+      
+--- 765,771 ----
+  	goto Done;
+  
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "noFont","cvtStringToFont",XtCXtToolkitError,
+               "Unable to load any useable ISO8859-1 font",
+                (String *) NULL, (Cardinal *)NULL);
+      
+***************
+*** 756,762 ****
+      Display *display;
+      if (*num_args != 1)
+  	XtAppErrorMsg(app,
+! 	     "wrongParameters","freeFont","XtToolkitError",
+               "Free Font needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+--- 783,789 ----
+      Display *display;
+      if (*num_args != 1)
+  	XtAppErrorMsg(app,
+! 	     XtNwrongParameters,"freeFont",XtCXtToolkitError,
+               "Free Font needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 775,781 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 	   "wrongParameters","cvtIntToFont","XtToolkitError",
+             "Integer to Font conversion needs no extra arguments",
+              (String *) NULL, (Cardinal *)NULL);
+      done(Font, *(int*)fromVal->addr);
+--- 802,808 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 	   XtNwrongParameters,"cvtIntToFont",XtCXtToolkitError,
+             "Integer to Font conversion needs no extra arguments",
+              (String *) NULL, (Cardinal *)NULL);
+      done(Font, *(int*)fromVal->addr);
+***************
+*** 797,803 ****
+  
+      if (*num_args != 1)
+       XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "wrongParameters","cvtStringToFontStruct","XtToolkitError",
+               "String to font conversion needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+--- 824,830 ----
+  
+      if (*num_args != 1)
+       XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     XtNwrongParameters,"cvtStringToFontStruct",XtCXtToolkitError,
+               "String to font conversion needs display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 850,856 ****
+  	goto Done;
+  
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "noFont","cvtStringToFontStruct","XtToolkitError",
+               "Unable to load any useable ISO8859-1 font",
+                (String *) NULL, (Cardinal *)NULL);
+      
+--- 877,883 ----
+  	goto Done;
+  
+      XtAppErrorMsg(XtDisplayToApplicationContext(dpy),
+! 	     "noFont","cvtStringToFontStruct",XtCXtToolkitError,
+               "Unable to load any useable ISO8859-1 font",
+                (String *) NULL, (Cardinal *)NULL);
+      
+***************
+*** 868,874 ****
+      Display *display;
+      if (*num_args != 1)
+       XtAppErrorMsg(app,
+! 	     "wrongParameters","freeFontStruct","XtToolkitError",
+               "Free FontStruct requires display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+--- 895,901 ----
+      Display *display;
+      if (*num_args != 1)
+       XtAppErrorMsg(app,
+! 	     XtNwrongParameters,"freeFontStruct",XtCXtToolkitError,
+               "Free FontStruct requires display argument",
+                (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 889,895 ****
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToInt","XtToolkitError",
+                    "String to Integer conversion needs no extra arguments",
+                    (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i))
+--- 916,922 ----
+  
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToInt",XtCXtToolkitError,
+                    "String to Integer conversion needs no extra arguments",
+                    (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i))
+***************
+*** 912,918 ****
+  
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 	  "wrongParameters","cvtStringToShort","XtToolkitError",
+            "String to Integer conversion needs no extra arguments",
+             (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i))
+--- 939,945 ----
+  
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 	  XtNwrongParameters,"cvtStringToShort",XtCXtToolkitError,
+            "String to Integer conversion needs no extra arguments",
+             (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i))
+***************
+*** 935,941 ****
+  
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToUnsignedChar","XtToolkitError",
+                    "String to Integer conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i)) {
+--- 962,968 ----
+  
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToUnsignedChar",XtCXtToolkitError,
+                    "String to Integer conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      if (IsInteger((String)fromVal->addr, &i)) {
+***************
+*** 960,966 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtXColorToPixel","XtToolkitError",
+                    "Color to Pixel conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixel, ((XColor *)fromVal->addr)->pixel);
+--- 987,993 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtXColorToPixel",XtCXtToolkitError,
+                    "Color to Pixel conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixel, ((XColor *)fromVal->addr)->pixel);
+***************
+*** 977,983 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtIntToPixel","XtToolkitError",
+                    "Integer to Pixel conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixel, *(int*)fromVal->addr);
+--- 1004,1010 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtIntToPixel",XtCXtToolkitError,
+                    "Integer to Pixel conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixel, *(int*)fromVal->addr);
+***************
+*** 994,1000 ****
+  {
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtIntToPixmap","XtToolkitError",
+                    "Integer to Pixmap conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixmap, *(Pixmap*)fromVal->addr);
+--- 1021,1027 ----
+  {
+      if (*num_args != 0)
+          XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtIntToPixmap",XtCXtToolkitError,
+                    "Integer to Pixmap conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(Pixmap, *(Pixmap*)fromVal->addr);
+***************
+*** 1012,1018 ****
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToGeometry","XtToolkitError",
+                    "String to Geometry conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(String, *(String*)fromVal->addr);
+--- 1039,1045 ----
+  {
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToGeometry",XtCXtToolkitError,
+                    "String to Geometry conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+      done(String, *(String*)fromVal->addr);
+***************
+*** 1079,1085 ****
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToInitialState","XtToolkitError",
+                    "String to InitialState conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+--- 1106,1112 ----
+      String str = (String)fromVal->addr;
+      if (*num_args != 0)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToInitialState",XtCXtToolkitError,
+                    "String to InitialState conversion needs no extra arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 1093,1099 ****
+      return False;
+  }
+  
+! XtConvertArgRec visualConvertArgs[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen), sizeof(Screen *)},
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.depth), sizeof(Cardinal)}
+  };
+--- 1120,1126 ----
+      return False;
+  }
+  
+! XtConvertArgRec Const visualConvertArgs[] = {
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.screen), sizeof(Screen *)},
+      {XtWidgetBaseOffset, (XtPointer)XtOffset(Widget, core.depth), sizeof(Cardinal)}
+  };
+***************
+*** 1113,1119 ****
+      XVisualInfo vinfo;
+      if (*num_args != 2)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToVisual","XtToolkitError",
+                    "String to Visual conversion needs screen and depth arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+--- 1140,1146 ----
+      XVisualInfo vinfo;
+      if (*num_args != 2)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToVisual",XtCXtToolkitError,
+                    "String to Visual conversion needs screen and depth arguments",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+***************
+*** 1141,1147 ****
+  	params[0] = str;
+  	params[1] = DisplayString(dpy);
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "conversionError", "stringToVisual", "XtToolkitError",
+                    "Cannot find Visual of class %s for display %s",
+  		  params, &num_params );
+  	return False;
+--- 1168,1174 ----
+  	params[0] = str;
+  	params[1] = DisplayString(dpy);
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNconversionError, "stringToVisual", XtCXtToolkitError,
+                    "Cannot find Visual of class %s for display %s",
+  		  params, &num_params );
+  	return False;
+***************
+*** 1162,1168 ****
+      Atom atom;
+      if (*num_args != 1)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  "wrongParameters","cvtStringToAtom","XtToolkitError",
+                    "String to Atom conversion needs Display argument",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+--- 1189,1195 ----
+      Atom atom;
+      if (*num_args != 1)
+  	XtAppWarningMsg(XtDisplayToApplicationContext(dpy),
+! 		  XtNwrongParameters,"cvtStringToAtom",XtCXtToolkitError,
+                    "String to Atom conversion needs Display argument",
+                     (String *) NULL, (Cardinal *)NULL);
+  
+*** /tmp/,RCSt1a12992	Fri Sep 28 14:18:33 1990
+--- mit/lib/Xt/Core.c	Fri Sep 28 14:18:33 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: Core.c,v 1.41 90/07/12 17:49:14 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Core.c,v 1.42 90/08/17 15:23:04 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 250,256 ****
+      XtFree((char *) widget->core.tm.proc_table);
+      if (widget->core.tm.translations &&
+          widget->core.tm.translations->accProcTbl) {
+! 	  XtFree( (char*)widget->core.tm.translations );
+      }
+      _XtUnregisterWindow(widget->core.window, widget);
+  
+--- 250,256 ----
+      XtFree((char *) widget->core.tm.proc_table);
+      if (widget->core.tm.translations &&
+          widget->core.tm.translations->accProcTbl) {
+! 	  _XtUninstallAccelerators(widget);
+      }
+      _XtUnregisterWindow(widget->core.window, widget);
+  
+***************
+*** 353,358 ****
+--- 353,359 ----
+  	    _XtBindActions(new, &new->core.tm);
+  	    _XtInstallTranslations((Widget) new, new->core.tm.translations);
+  	    _XtRegisterGrabs(new, False);
++ 	    if (translations->accProcTbl) _XtRegisterAccRemoveCallbacks(new);
+  	}
+      } /* if realized */
+  
+*** /tmp/,RCSt1a13030	Fri Sep 28 14:18:41 1990
+--- mit/lib/Xt/Create.c	Fri Sep 28 14:18:42 1990
+***************
+*** 1,6 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Create.c,v 1.74 90/07/02 16:47:25 swick Exp $";
+! #endif /*lint*/
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Create.c,v 1.78 90/09/04 10:50:33 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 34,40 ****
+  #include <stdio.h>
+  
+  static String XtNxtCreateWidget = "xtCreateWidget";
+- static String XtNremovePopupFromParent = "removePopupFromParent";
+  static String XtNxtCreatePopupShell = "xtCreatePopupShell";
+  
+  extern void bcopy();
+--- 32,37 ----
+***************
+*** 214,222 ****
+      };
+      if (XtIsApplicationShell(widget)) {
+  	ApplicationShellWidget a = (ApplicationShellWidget) widget;
+! 	if (class != NULL) a->application.class = XtNewString(class);
+! 	else a->application.class = widget_class->core_class.class_name;
+! 	a->application.xrm_class = StringToClass(a->application.class);
+      }
+  
+      /* fetch resources */
+--- 211,222 ----
+      };
+      if (XtIsApplicationShell(widget)) {
+  	ApplicationShellWidget a = (ApplicationShellWidget) widget;
+! 	if (class != NULL)
+! 	    a->application.xrm_class = StringToClass(class);
+! 	else
+! 	    a->application.xrm_class =
+! 		StringToClass(widget_class->core_class.class_name);
+! 	a->application.class = XrmQuarkToString(a->application.xrm_class);
+      }
+  
+      /* fetch resources */
+***************
+*** 240,246 ****
+  	 offsetList != NULL;
+  	 offsetList = offsetList->next) {
+  	 pCallbacks = (XtCallbackList *)
+! 	     ((XtPointer)widget - offsetList->offset - 1);
+  	if (*pCallbacks != NULL) {
+  	    extern CallbackStruct* _XtCompileCallbackList();
+  	    *pCallbacks =
+--- 240,246 ----
+  	 offsetList != NULL;
+  	 offsetList = offsetList->next) {
+  	 pCallbacks = (XtCallbackList *)
+! 	     ((char *)widget - offsetList->offset - 1);
+  	if (*pCallbacks != NULL) {
+  	    extern CallbackStruct* _XtCompileCallbackList();
+  	    *pCallbacks =
+***************
+*** 400,451 ****
+  {
+      register Widget	    widget;
+  
+      widget = XtCreateWidget(name, widget_class, parent, args, num_args);
+      XtManageChild(widget);
+      return widget;
+  }
+  
+- /*ARGSUSED*/
+- static void RemovePopupFromParent(widget,closure,call_data)
+-     Widget  widget;
+-     XtPointer closure;
+-     XtPointer call_data;
+- {
+-     int i;
+-     Boolean found = FALSE;
+-     register Widget parent;
+-     parent = widget->core.parent;
+-     if (parent == NULL || parent->core.num_popups == 0)
+-         XtAppErrorMsg(XtWidgetToApplicationContext(widget),
+- 		"invalidParameter",XtNremovePopupFromParent,XtCXtToolkitError,
+-                 "RemovePopupFromParent requires non-NULL popuplist",
+-                   (String *)NULL, (Cardinal *)NULL);
+- 
+-     for (i=0; i<parent->core.num_popups; i++)
+-         if (parent->core.popup_list[i] == widget){
+-             found = TRUE; break;
+-         }
+-     if (found == FALSE) {
+-         XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+- 		  "invalidWidget",XtNremovePopupFromParent,XtCXtToolkitError,
+-                   "RemovePopupFromParent, widget not on parent list",
+-                    (String *)NULL, (Cardinal *)NULL);
+-         return;
+-     }
+-     if (parent->core.being_destroyed) {
+- 	return;
+- 	/* don't update parent's popup_list, as we won't then be able to find
+- 	 * this child for Phase2Destroy.  This also allows for the possibility
+- 	 * that a destroy callback higher up in the hierarchy may care to
+- 	 * know that this popup child once existed.
+- 	 */
+-     }
+-     parent->core.num_popups--;
+-     for (/*i=i*/; i<parent->core.num_popups; i++)
+-         parent->core.popup_list[i]= parent->core.popup_list[i+1];
+- 
+- }
+- 
+  Widget _XtCreatePopupShell(name, widget_class, parent, args, num_args,
+  			   typed_args, num_typed_args)
+      String      name;
+--- 400,411 ----
+  {
+      register Widget	    widget;
+  
++     XtCheckSubclass(parent, compositeWidgetClass, "in XtCreateManagedWidget");
+      widget = XtCreateWidget(name, widget_class, parent, args, num_args);
+      XtManageChild(widget);
+      return widget;
+  }
+  
+  Widget _XtCreatePopupShell(name, widget_class, parent, args, num_args,
+  			   typed_args, num_typed_args)
+      String      name;
+***************
+*** 469,474 ****
+--- 429,435 ----
+                  "XtCreatePopupShell requires non-NULL widget class",
+                    (String *)NULL, (Cardinal *)NULL);
+      }
++     XtCheckSubclass(parent, coreWidgetClass, "in XtCreatePopupShell");
+      default_screen = parent->core.screen;
+      widget = _XtCreate(
+  		       name, (char *)NULL, widget_class, parent,
+***************
+*** 479,486 ****
+  	(WidgetList) XtRealloc((char*) parent->core.popup_list,
+                 (unsigned) (parent->core.num_popups+1) * sizeof(Widget));
+      parent->core.popup_list[parent->core.num_popups++] = widget;
+-     XtAddCallback(
+-        widget,XtNdestroyCallback,RemovePopupFromParent, (XtPointer)NULL);
+      return(widget);
+  }
+  
+--- 440,445 ----
+*** /tmp/,RCSt1a13049	Fri Sep 28 14:18:48 1990
+--- mit/lib/Xt/Destroy.c	Fri Sep 28 14:18:48 1990
+***************
+*** 1,6 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Destroy.c,v 1.27 90/06/25 12:10:55 swick Exp $";
+! #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Destroy.c,v 1.37 90/09/28 10:21:32 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 28,33 ****
+--- 26,36 ----
+  
+  #include "IntrinsicI.h"
+  
++ struct _DestroyRec {
++     int dispatch_level;
++     Widget widget;
++ };
++ 
+  static void Recursive(widget, proc)
+      Widget       widget;
+      XtWidgetProc proc;
+***************
+*** 98,122 ****
+      }
+  } /* Phase2Destroy */
+  
+! /*ARGSUSED*/
+! static void XtPhase2Destroy (widget, closure, call_data)
+      register Widget widget;
+-     XtPointer	    closure;
+-     XtPointer	    call_data;
+  {
+      Display	    *display;
+      Window	    window;
+      Widget          parent;
+-     CallbackList    *oldDestroyList = _XtDestroyList;
+-     CallbackList    newDestroyList = NULL;
+      XtAppContext    app = XtWidgetToApplicationContext(widget);
+!     Boolean	    outerInPhase2Destroy = app->in_phase2_destroy;
+  
+!     _XtDestroyList = &newDestroyList;
+  
+      parent = widget->core.parent;
+  
+!     if (parent != NULL && XtIsComposite(parent)) {
+  	XtWidgetProc delete_child =
+  	    ((CompositeWidgetClass) parent->core.widget_class)->
+  		composite_class.delete_child;
+--- 101,142 ----
+      }
+  } /* Phase2Destroy */
+  
+! static Boolean IsDescendant(widget, root)
+!     register Widget widget, root;
+! {
+!     while ((widget = XtParent(widget)) != root) {
+! 	if (widget == NULL) return False;
+!     }
+!     return True;
+! }
+! 
+! static void XtPhase2Destroy (widget)
+      register Widget widget;
+  {
+      Display	    *display;
+      Window	    window;
+      Widget          parent;
+      XtAppContext    app = XtWidgetToApplicationContext(widget);
+!     Widget	    outerInPhase2Destroy = app->in_phase2_destroy;
+!     int		    starting_count = app->destroy_count;
+!     Boolean	    isPopup = False;
+  
+!     /* invalidate focus trace cache for this display */
+!     _XtGetPerDisplay(XtDisplayOfObject(widget))->pdi.traceDepth = 0;
+  
+      parent = widget->core.parent;
+  
+!     if (parent && parent->core.num_popups) {
+! 	int i;
+! 	for (i = 0; i < parent->core.num_popups; i++) {
+! 	    if (parent->core.popup_list[i] == widget) {
+! 		isPopup = True;
+! 		break;
+! 	    }
+! 	}
+!     }
+! 
+!     if (!isPopup && parent && XtIsComposite(parent)) {
+  	XtWidgetProc delete_child =
+  	    ((CompositeWidgetClass) parent->core.widget_class)->
+  		composite_class.delete_child;
+***************
+*** 151,170 ****
+      }
+  
+      Recursive(widget, Phase2Callbacks);
+!     while (newDestroyList != NULL) {
+! 	CallbackList newerList = NULL;
+! 	_XtDestroyList = &newerList;
+! 	_XtCallCallbacks(&newDestroyList, (XtPointer)NULL);
+! 	_XtRemoveAllCallbacks(&newDestroyList);
+! 	newDestroyList = newerList;
+      }
+  
+!     _XtDestroyList = oldDestroyList;
+! 
+!     app->in_phase2_destroy = TRUE;
+      Recursive(widget, Phase2Destroy);
+      app->in_phase2_destroy = outerInPhase2Destroy;
+  
+      /* %%% the following parent test hides a more serious problem,
+         but it avoids breaking those who depended on the old bug
+         until we have time to fix it properly. */
+--- 171,208 ----
+      }
+  
+      Recursive(widget, Phase2Callbacks);
+!     if (app->destroy_count > starting_count) {
+! 	int i = starting_count;
+! 	while (i < app->destroy_count) {
+! 	    if (IsDescendant(app->destroy_list[i].widget, widget)) {
+! 		Widget descendant = app->destroy_list[i].widget;
+! 		int j;
+! 		app->destroy_count--;
+! 		for (j = i; j < app->destroy_count; j++)
+! 		    app->destroy_list[j] = app->destroy_list[j+1];
+! 		XtPhase2Destroy(descendant);
+! 	    }
+! 	    else i++;
+! 	}
+      }
+  
+!     app->in_phase2_destroy = widget;
+      Recursive(widget, Phase2Destroy);
+      app->in_phase2_destroy = outerInPhase2Destroy;
+  
++     if (isPopup) {
++ 	int i;
++ 	for (i = 0; i < parent->core.num_popups; i++)
++ 	    if (parent->core.popup_list[i] == widget) {
++ 		parent->core.num_popups--;
++ 		while (i < parent->core.num_popups) {
++ 		    parent->core.popup_list[i] = parent->core.popup_list[i+1];
++ 		    i++;
++ 		}
++ 		break;
++ 	    }
++     }
++ 
+      /* %%% the following parent test hides a more serious problem,
+         but it avoids breaking those who depended on the old bug
+         until we have time to fix it properly. */
+***************
+*** 174,202 ****
+  } /* XtPhase2Destroy */
+  
+  
+  void XtDestroyWidget (widget)
+      Widget    widget;
+  {
+-     CallbackList tempDestroyList = NULL;
+      XtAppContext app = XtWidgetToApplicationContext(widget);
+  
+      if (widget->core.being_destroyed) return;
+  
+-     if (_XtSafeToDestroy || app->in_phase2_destroy)
+- 	_XtDestroyList = &tempDestroyList;
+- 
+      Recursive(widget, Phase1Destroy);
+-     _XtAddCallback(widget, _XtDestroyList, XtPhase2Destroy, (XtPointer)NULL);
+  
+!     if (_XtDestroyList == &tempDestroyList) {
+! 	while (tempDestroyList != NULL) {
+! 	    CallbackList newList = NULL;
+! 	    _XtDestroyList = &newList;
+! 	    _XtCallCallbacks(&tempDestroyList, (XtPointer)NULL);
+! 	    _XtRemoveAllCallbacks(&tempDestroyList);
+! 	    tempDestroyList = newList;
+  	}
+! 	_XtDestroyList = NULL;
+      }
+  	
+  } /* XtDestroyWidget */
+--- 212,288 ----
+  } /* XtPhase2Destroy */
+  
+  
++ void _XtDoPhase2Destroy(app, dispatch_level)
++     XtAppContext app;
++     int dispatch_level;
++ {
++     /* Phase 2 must occur in fifo order.  List is not necessarily
++      * contiguous in dispatch_level.
++      */
++ 
++     int i = 0;
++     DestroyRec* dr = app->destroy_list;
++     while (i < app->destroy_count) {
++ 	if (dr->dispatch_level >= dispatch_level)  {
++ 	    Widget w = dr->widget;
++ 	    if (--app->destroy_count)
++ 		bcopy( (char*)(dr+1), (char*)dr,
++ 		       app->destroy_count*sizeof(DestroyRec)
++ 		      );
++ 	    XtPhase2Destroy(w);
++ 	}
++ 	else {
++ 	    i++;
++ 	    dr++;
++ 	}
++     }
++ }
++ 
++ 
++ 
+  void XtDestroyWidget (widget)
+      Widget    widget;
+  {
+      XtAppContext app = XtWidgetToApplicationContext(widget);
+  
+      if (widget->core.being_destroyed) return;
+  
+      Recursive(widget, Phase1Destroy);
+  
+!     if (app->in_phase2_destroy &&
+! 	IsDescendant(widget, app->in_phase2_destroy))
+!     {
+! 	XtPhase2Destroy(widget);
+! 	return;
+!     }
+! 
+!     if (app->destroy_count == app->destroy_list_size) {
+! 	app->destroy_list_size += 10;
+! 	app->destroy_list = (DestroyRec*)
+! 	    XtRealloc( (char*)app->destroy_list,
+! 		       (unsigned)sizeof(DestroyRec)*app->destroy_list_size
+! 		      );
+!     }
+!     app->destroy_list[app->destroy_count].dispatch_level = app->dispatch_level;
+!     app->destroy_list[app->destroy_count++].widget = widget;
+! 
+!     if (app->dispatch_level > 1) {
+! 	int i;
+! 	for (i = app->destroy_count - 1; i;) {
+! 	    /* this handles only one case of nesting difficulties */
+! 	    if (app->destroy_list[--i].dispatch_level < app->dispatch_level &&
+! 		IsDescendant(app->destroy_list[i].widget, widget)) {
+! 		app->destroy_list[app->destroy_count-1].dispatch_level =
+! 		    app->destroy_list[i].dispatch_level;
+! 		break;
+! 	    }
+  	}
+!     }
+! 
+!     if (_XtSafeToDestroy(app)) {
+! 	app->dispatch_level = 1; /* avoid nested _XtDoPhase2Destroy */
+! 	_XtDoPhase2Destroy(app, 0);
+! 	app->dispatch_level = 0;
+      }
+  	
+  } /* XtDestroyWidget */
+*** /tmp/,RCSt1a13069	Fri Sep 28 14:18:54 1990
+--- mit/lib/Xt/Display.c	Fri Sep 28 14:18:54 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Display.c,v 1.46 90/07/15 21:39:36 swick Exp $";
+! /* $oHeader: Display.c,v 1.9 88/09/01 11:28:47 asente Exp $ */
+! #endif /*lint*/
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Display.c,v 1.50 90/08/31 08:15:10 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 255,260 ****
+--- 252,266 ----
+  	pd->tm_context = NULL;
+  	pd->mapping_callbacks = NULL;
+  
++ 	pd->pdi.grabList = NULL;
++ 	pd->pdi.trace = NULL;
++ 	pd->pdi.traceDepth = 0;
++ 	pd->pdi.traceMax = 0;
++ 	pd->pdi.focusWidget = NULL;
++ 	pd->pdi.activatingKey = 0;
++ 	pd->pdi.keyboard.grabType = XtNoServerGrab;
++ 	pd->pdi.pointer.grabType  = XtNoServerGrab;
++ 
+  	_XtDisplayInitialize(dpy, pd, name, classname, urlist, 
+  			     num_urs, argc, argv);
+  }
+***************
+*** 281,287 ****
+  	_XtSetDefaultSelectionTimeout(&app->selectionTimeout);
+  	_XtSetDefaultConverterTable(&app->converterTable);
+  	app->sync = app->being_destroyed = app->error_inited = FALSE;
+! 	app->in_phase2_destroy = FALSE;
+  	app->fds.nfds = app->fds.count = 0;
+  	FD_ZERO(&app->fds.rmask);
+  	FD_ZERO(&app->fds.wmask);
+--- 287,293 ----
+  	_XtSetDefaultSelectionTimeout(&app->selectionTimeout);
+  	_XtSetDefaultConverterTable(&app->converterTable);
+  	app->sync = app->being_destroyed = app->error_inited = FALSE;
+! 	app->in_phase2_destroy = NULL;
+  	app->fds.nfds = app->fds.count = 0;
+  	FD_ZERO(&app->fds.rmask);
+  	FD_ZERO(&app->fds.wmask);
+***************
+*** 290,295 ****
+--- 296,303 ----
+  	app->fallback_resources = NULL;
+  	_XtPopupInitialize(app);
+  	app->action_hook_list = NULL;
++ 	app->destroy_list_size = app->destroy_count = app->dispatch_level = 0;
++ 	app->destroy_list = NULL;
+  #ifndef NO_IDENTIFY_WINDOWS
+  	app->identify_windows = False;
+  #endif
+***************
+*** 307,317 ****
+  	if (app->list != NULL) XtFree((char *)app->list);
+  	_XtFreeConverterTable(app->converterTable);
+  	_XtCacheFlushTag(app, (XtPointer)&app->heap);
+! 	_XtHeapFree(&app->heap);
+  	if (app->destroy_callbacks != NULL) {
+  	    _XtCallCallbacks(&app->destroy_callbacks, (XtPointer)app);
+  	    _XtRemoveAllCallbacks(&app->destroy_callbacks);
+  	}
+  	while (*prev_app != app) prev_app = &(*prev_app)->next;
+  	*prev_app = app->next;
+  	if (app->process->defaultAppContext == app)
+--- 315,330 ----
+  	if (app->list != NULL) XtFree((char *)app->list);
+  	_XtFreeConverterTable(app->converterTable);
+  	_XtCacheFlushTag(app, (XtPointer)&app->heap);
+! 	_XtFreeActions(app->action_table);
+  	if (app->destroy_callbacks != NULL) {
+  	    _XtCallCallbacks(&app->destroy_callbacks, (XtPointer)app);
+  	    _XtRemoveAllCallbacks(&app->destroy_callbacks);
+  	}
++ 	while (app->timerQueue) XtRemoveTimeOut((XtIntervalId)app->timerQueue);
++ 	while (app->workQueue) XtRemoveWorkProc((XtWorkProcId)app->workQueue);
++ 	if (app->input_list) _XtRemoveAllInputs(app);
++ 	XtFree((char*)app->destroy_list);
++ 	_XtHeapFree(&app->heap);
+  	while (*prev_app != app) prev_app = &(*prev_app)->next;
+  	*prev_app = app->next;
+  	if (app->process->defaultAppContext == app)
+***************
+*** 324,330 ****
+  {
+  	if (app->being_destroyed) return;
+  
+! 	if (_XtSafeToDestroy) DestroyAppContext(app);
+  	else {
+  	    app->being_destroyed = TRUE;
+  	    _XtAppDestroyCount++;
+--- 337,343 ----
+  {
+  	if (app->being_destroyed) return;
+  
+! 	if (_XtSafeToDestroy(app)) DestroyAppContext(app);
+  	else {
+  	    app->being_destroyed = TRUE;
+  	    _XtAppDestroyCount++;
+***************
+*** 523,529 ****
+              xtpd->modsToKeysyms = NULL;
+  	    XDestroyRegion(xtpd->region);
+  	    _XtCacheFlushTag(xtpd->appContext, (XtPointer)&xtpd->heap);
+- 	    _XtHeapFree(&xtpd->heap);
+  	    _XtGClistFree(xtpd->GClist);
+  	    {
+  		int i;
+--- 536,541 ----
+***************
+*** 531,536 ****
+--- 543,550 ----
+  		for (i=0, d=xtpd->drawable_tab; i<ScreenCount(dpy); i++, d++)
+  		    XtFree((char*)d->drawables);
+  	    }
++ 	    XtFree((char*)xtpd->pdi.trace);
++ 	    _XtHeapFree(&xtpd->heap);
+          }
+  	XtFree((char*)pd);
+  	XrmDestroyDatabase(dpy->db);
+***************
+*** 545,551 ****
+  	
+  	if (pd->being_destroyed) return;
+  
+! 	if (_XtSafeToDestroy) CloseDisplay(dpy);
+  	else {
+  	    pd->being_destroyed = TRUE;
+  	    _XtDpyDestroyCount++;
+--- 559,565 ----
+  	
+  	if (pd->being_destroyed) return;
+  
+! 	if (_XtSafeToDestroy(pd->appContext)) CloseDisplay(dpy);
+  	else {
+  	    pd->being_destroyed = TRUE;
+  	    _XtDpyDestroyCount++;
+*** /tmp/,RCSt1a13086	Fri Sep 28 14:19:00 1990
+--- mit/lib/Xt/Error.c	Fri Sep 28 14:19:01 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Error.c,v 1.24 90/03/19 12:58:53 swick Exp $";
+! /* $oHeader: Error.c,v 1.6 88/08/31 17:46:14 asente Exp $ */
+! #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Error.c,v 1.28 90/09/26 13:10:33 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 42,48 ****
+  #if GLOBALERRORS
+  static XrmDatabase errorDB = NULL;
+  static Boolean error_inited = FALSE;
+! static void _XtDefaultErrorMsg(), _XtDefaultWarningMsg(), 
+  	_XtDefaultError(), _XtDefaultWarning();
+  static XtErrorMsgHandler errorMsgHandler = _XtDefaultErrorMsg;
+  static XtErrorMsgHandler warningMsgHandler = _XtDefaultWarningMsg;
+--- 39,45 ----
+  #if GLOBALERRORS
+  static XrmDatabase errorDB = NULL;
+  static Boolean error_inited = FALSE;
+! void _XtDefaultErrorMsg(), _XtDefaultWarningMsg(), 
+  	_XtDefaultError(), _XtDefaultWarning();
+  static XtErrorMsgHandler errorMsgHandler = _XtDefaultErrorMsg;
+  static XtErrorMsgHandler warningMsgHandler = _XtDefaultWarningMsg;
+***************
+*** 118,125 ****
+      } else (void) XrmGetResource(db, temp, class, &type_str, &result);
+      if (result.addr) {
+          (void) strncpy (buffer, result.addr, nbytes);
+!         if (result.size < nbytes) buffer[result.size] = 0;
+!     } else (void) strncpy(buffer, defaultp, nbytes);
+  }
+  
+  _XtInitErrorHandling (db)
+--- 115,127 ----
+      } else (void) XrmGetResource(db, temp, class, &type_str, &result);
+      if (result.addr) {
+          (void) strncpy (buffer, result.addr, nbytes);
+!         if (result.size > nbytes) buffer[nbytes-1] = 0;
+!     } else {
+! 	int len = strlen(defaultp);
+! 	if (len >= nbytes) len = nbytes-1;
+! 	bcopy(defaultp, buffer, len);
+! 	buffer[len] = '\0';
+!     }
+  }
+  
+  _XtInitErrorHandling (db)
+***************
+*** 131,137 ****
+      XrmMergeDatabases(errordb, db);
+  }
+  
+! static void _XtDefaultErrorMsg (name,type,class,defaultp,params,num_params)
+      String name,type,class,defaultp;
+      String* params;
+      Cardinal* num_params;
+--- 133,139 ----
+      XrmMergeDatabases(errordb, db);
+  }
+  
+! void _XtDefaultErrorMsg (name,type,class,defaultp,params,num_params)
+      String name,type,class,defaultp;
+      String* params;
+      Cardinal* num_params;
+***************
+*** 155,161 ****
+      }
+  }
+  
+! static void _XtDefaultWarningMsg (name,type,class,defaultp,params,num_params)
+      String name,type,class,defaultp;
+      String* params;
+      Cardinal* num_params;
+--- 157,163 ----
+      }
+  }
+  
+! void _XtDefaultWarningMsg (name,type,class,defaultp,params,num_params)
+      String name,type,class,defaultp;
+      String* params;
+      Cardinal* num_params;
+***************
+*** 288,294 ****
+      return old;
+  }
+  
+! static void _XtDefaultError(message)
+      String message;
+  {
+      extern void exit();
+--- 290,296 ----
+      return old;
+  }
+  
+! void _XtDefaultError(message)
+      String message;
+  {
+      extern void exit();
+***************
+*** 297,305 ****
+      exit(1);
+  }
+  
+! static void _XtDefaultWarning(message)
+      String message;
+  {
+         (void)fprintf(stderr, "%sWarning: %s\n", XTWARNING_PREFIX, message); 
+      return;
+  }
+--- 299,308 ----
+      exit(1);
+  }
+  
+! void _XtDefaultWarning(message)
+      String message;
+  {
++     if (message && *message)
+         (void)fprintf(stderr, "%sWarning: %s\n", XTWARNING_PREFIX, message); 
+      return;
+  }
+*** /tmp/,RCSt1a13104	Fri Sep 28 14:19:12 1990
+--- mit/lib/Xt/Event.c	Fri Sep 28 14:19:14 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Event.c,v 1.112 89/12/15 23:51:06 swick Exp $";
+  /* $oHeader: Event.c,v 1.9 88/09/01 11:33:51 asente Exp $ */
+- #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,5 ----
+! /* $XConsortium: Event.c,v 1.118 90/08/23 14:43:42 swick Exp $ */
+  /* $oHeader: Event.c,v 1.9 88/09/01 11:33:51 asente Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 31,36 ****
+--- 29,40 ----
+  #include "Shell.h"
+  #include "StringDefs.h"
+  
++ #ifdef __STDC__
++ #define Const const
++ #else
++ #define Const /**/
++ #endif
++ 
+  /*
+   * These are definitions to make the code that handles exposure compresssion
+   * easier to read.
+***************
+*** 48,64 ****
+  			  (XtExposeGraphicsExposeMerged & COMP_EXPOSE))
+  #define NO_EXPOSE        (XtExposeNoExpose & COMP_EXPOSE)
+  
+- 
+- 
+  extern void 			bzero();
+- typedef struct XtPerDisplayInputRec *XtPerDisplayInput;
+- extern XtPerDisplayInput 	_XtGetPerDisplayInput();
+- extern XtGrabList *		_XtGetGrabList();
+  
+- 
+- 
+- CallbackList *_XtDestroyList;
+- 
+  EventMask XtBuildEventMask(widget)
+      Widget widget;
+  {
+--- 52,59 ----
+***************
+*** 76,82 ****
+  }
+  
+  static void
+! RemoveEventHandler(widget, eventMask, other, proc, closure, raw, check_closure)
+  Widget	        widget;
+  EventMask       eventMask;
+  Boolean	        other;
+--- 71,77 ----
+  }
+  
+  static void
+! RemoveEventHandler(widget, eventMask, other, proc, closure, raw)
+  Widget	        widget;
+  EventMask       eventMask;
+  Boolean	        other;
+***************
+*** 83,89 ****
+  XtEventHandler  proc;
+  XtPointer	closure;
+  Boolean	        raw;
+- Boolean	        check_closure;
+  {
+      XtEventRec *p, **pp;
+      EventMask oldMask = XtBuildEventMask(widget);
+--- 78,83 ----
+***************
+*** 94,100 ****
+      if (p == NULL) return;	                    /* No Event Handlers. */
+  
+      /* find it */
+!     while (p->proc != proc || (check_closure && p->closure != closure)) {
+          pp = &p->next;
+          p = *pp;
+  	if (p == NULL) return;	                     /* Didn't find it */
+--- 88,94 ----
+      if (p == NULL) return;	                    /* No Event Handlers. */
+  
+      /* find it */
+!     while (p->proc != proc || p->closure != closure) {
+          pp = &p->next;
+          p = *pp;
+  	if (p == NULL) return;	                     /* Didn't find it */
+***************
+*** 138,154 ****
+   *                                      list, this will force it to the 
+   *                                      beginning or end depending on position.
+   *                 raw - If FALSE call XSelectInput for events in mask.
+-  *                 check_closure - check to see if closures match as
+-  *                                 as well as proceedure.
+   *	Returns: none
+   */
+  
+  static void 
+  AddEventHandler(widget, eventMask, other, proc, 
+! 		closure, position, force_new_position, raw, check_closure)
+  Widget	        widget;
+  EventMask       eventMask;
+! Boolean         other, force_new_position, raw, check_closure;
+  XtEventHandler  proc;
+  XtPointer	closure;
+  XtListPosition  position;
+--- 132,146 ----
+   *                                      list, this will force it to the 
+   *                                      beginning or end depending on position.
+   *                 raw - If FALSE call XSelectInput for events in mask.
+   *	Returns: none
+   */
+  
+  static void 
+  AddEventHandler(widget, eventMask, other, proc, 
+! 		closure, position, force_new_position, raw)
+  Widget	        widget;
+  EventMask       eventMask;
+! Boolean         other, force_new_position, raw;
+  XtEventHandler  proc;
+  XtPointer	closure;
+  XtListPosition  position;
+***************
+*** 164,170 ****
+      prev = NULL;
+  
+      while ((p != NULL) &&
+! 	   (p->proc != proc || (check_closure && (p->closure != closure)))) {
+  	prev = p;
+  	p = p->next;
+      }
+--- 156,162 ----
+      prev = NULL;
+  
+      while ((p != NULL) &&
+! 	   (p->proc != proc || p->closure != closure)) {
+  	prev = p;
+  	p = p->next;
+      }
+***************
+*** 213,219 ****
+  	p->non_filter = p->non_filter || other;
+  	p->select |= ! raw;
+  	p->raw |= raw;
+- 	if (!check_closure) p->closure = closure;
+      }
+  
+      if (XtIsRealized(widget) && !raw) {
+--- 205,210 ----
+***************
+*** 232,238 ****
+      XtEventHandler  proc;
+      XtPointer	    closure;
+  {
+!     RemoveEventHandler(widget, eventMask, other, proc, closure, FALSE, TRUE);
+  }
+  
+  void XtAddEventHandler(widget, eventMask, other, proc, closure)
+--- 223,229 ----
+      XtEventHandler  proc;
+      XtPointer	    closure;
+  {
+!     RemoveEventHandler(widget, eventMask, other, proc, closure, FALSE);
+  }
+  
+  void XtAddEventHandler(widget, eventMask, other, proc, closure)
+***************
+*** 243,249 ****
+      XtPointer	    closure;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, XtListTail, FALSE, FALSE, TRUE);
+  }
+  
+  void XtInsertEventHandler(widget, eventMask, other, proc, closure, position)
+--- 234,240 ----
+      XtPointer	    closure;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, XtListTail, FALSE, FALSE);
+  }
+  
+  void XtInsertEventHandler(widget, eventMask, other, proc, closure, position)
+***************
+*** 255,261 ****
+      XtListPosition  position;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, position, TRUE, FALSE, TRUE);
+  }
+  
+  void XtRemoveRawEventHandler(widget, eventMask, other, proc, closure)
+--- 246,252 ----
+      XtListPosition  position;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, position, TRUE, FALSE);
+  }
+  
+  void XtRemoveRawEventHandler(widget, eventMask, other, proc, closure)
+***************
+*** 265,271 ****
+      XtEventHandler  proc;
+      XtPointer	    closure;
+  {
+!     RemoveEventHandler(widget, eventMask, other, proc, closure, TRUE, TRUE);
+  }
+  
+  void XtInsertRawEventHandler(widget, eventMask, other, proc, closure, position)
+--- 256,262 ----
+      XtEventHandler  proc;
+      XtPointer	    closure;
+  {
+!     RemoveEventHandler(widget, eventMask, other, proc, closure, TRUE);
+  }
+  
+  void XtInsertRawEventHandler(widget, eventMask, other, proc, closure, position)
+***************
+*** 277,283 ****
+      XtListPosition  position;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, position, TRUE, TRUE, TRUE);
+  }
+  
+  void XtAddRawEventHandler(widget, eventMask, other, proc, closure)
+--- 268,274 ----
+      XtListPosition  position;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, position, TRUE, TRUE);
+  }
+  
+  void XtAddRawEventHandler(widget, eventMask, other, proc, closure)
+***************
+*** 288,294 ****
+      XtPointer	    closure;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, XtListTail, FALSE, TRUE, TRUE);
+  }
+  
+  typedef struct _HashRec *HashPtr;
+--- 279,285 ----
+      XtPointer	    closure;
+  {
+      AddEventHandler(widget, eventMask, other, 
+! 		    proc, closure, XtListTail, FALSE, TRUE);
+  }
+  
+  typedef struct _HashRec *HashPtr;
+***************
+*** 326,332 ****
+  	    if (hp->widget != widget)
+  		XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+  			"registerWindowError","xtRegisterWindow",
+!                          "XtToolkitError",
+                          "Attempt to change already registered window.",
+                            (String *)NULL, (Cardinal *)NULL);
+  	    return;
+--- 317,323 ----
+  	    if (hp->widget != widget)
+  		XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+  			"registerWindowError","xtRegisterWindow",
+!                          XtCXtToolkitError,
+                          "Attempt to change already registered window.",
+                            (String *)NULL, (Cardinal *)NULL);
+  	    return;
+***************
+*** 358,364 ****
+  	    if (hp->widget != widget) {
+                  XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+  			"registerWindowError","xtUnregisterWindow",
+!                          "XtToolkitError",
+                          "Attempt to unregister invalid window.",
+                            (String *)NULL, (Cardinal *)NULL);
+  
+--- 349,355 ----
+  	    if (hp->widget != widget) {
+                  XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+  			"registerWindowError","xtUnregisterWindow",
+!                          XtCXtToolkitError,
+                          "Attempt to unregister invalid window.",
+                            (String *)NULL, (Cardinal *)NULL);
+  
+***************
+*** 428,433 ****
+--- 419,425 ----
+  }
+  
+  static Region nullRegion;
++ static void CompressExposures();
+  
+  static Boolean DispatchEvent(event, widget, mask, pd)
+      register XEvent    *event;
+***************
+*** 457,463 ****
+  		(*widget->core.widget_class->core_class.expose)
+  		    (widget, event, (Region)NULL);
+  	    else {
+- 		static void CompressExposures();
+  		CompressExposures(event, widget, pd);
+  	    }
+  	    was_dispatched = True;
+--- 449,454 ----
+***************
+*** 557,562 ****
+--- 548,556 ----
+   *      NOTE: Event must be of type Expose or GraphicsExpose.
+   */
+  
++ static void SendExposureEvent();
++ static Bool CheckExposureEvent();
++ 
+  static void
+  CompressExposures(event, widget, pd)
+  Widget widget;
+***************
+*** 564,570 ****
+  XtPerDisplay pd;
+  {
+      CheckExposeInfo info;
+-     static void SendExposureEvent();
+      int count;
+  
+      XtAddExposureToRegion(event, pd->region);
+--- 558,563 ----
+***************
+*** 612,618 ****
+      count = 0;
+      while (TRUE) {
+  	XEvent event_return;
+- 	static Bool CheckExposureEvent();
+  
+  	if (XCheckIfEvent(XtDisplay(widget), &event_return, 
+  			  CheckExposureEvent, (char *) &info)) {
+--- 605,610 ----
+***************
+*** 707,713 ****
+      GrabType    *grabType;
+  {
+  
+! static struct {
+      EventMask   mask;
+      GrabType    grabType;
+  } masks[] = {
+--- 699,705 ----
+      GrabType    *grabType;
+  {
+  
+! static Const struct {
+      EventMask   mask;
+      GrabType    grabType;
+  } masks[] = {
+***************
+*** 807,818 ****
+      XtPerDisplayInput pdi;
+      XtGrabList  grabList;
+  
+-     extern XtPerDisplayInput _XtGetPerDisplayInput();
+-     
+      widget = XtWindowToWidget (event->xany.display, event->xany.window);
+      pd = _XtGetPerDisplay(event->xany.display);
+      pdi = _XtGetPerDisplayInput(event->xany.display);
+!     grabList = *(XtGrabList *)_XtGetGrabList(pdi);
+      
+      
+      /* Lint complains about &grabType not matching the declaration.
+--- 799,808 ----
+      XtPerDisplayInput pdi;
+      XtGrabList  grabList;
+  
+      widget = XtWindowToWidget (event->xany.display, event->xany.window);
+      pd = _XtGetPerDisplay(event->xany.display);
+      pdi = _XtGetPerDisplayInput(event->xany.display);
+!     grabList = *_XtGetGrabList(pdi);
+      
+      
+      /* Lint complains about &grabType not matching the declaration.
+***************
+*** 878,884 ****
+  		
+  		/* Also dispatch to nearest accessible spring_loaded. */
+  		/* Fetch this afterward to reflect modal list changes */
+! 		grabList = *(XtGrabList *)_XtGetGrabList(pdi);
+  		widget = LookupSpringLoaded(grabList);
+  		if (widget != NULL && widget != dspWidget) {
+  		    was_dispatched |= DispatchEvent(event, widget,
+--- 868,874 ----
+  		
+  		/* Also dispatch to nearest accessible spring_loaded. */
+  		/* Fetch this afterward to reflect modal list changes */
+! 		grabList = *_XtGetGrabList(pdi);
+  		widget = LookupSpringLoaded(grabList);
+  		if (widget != NULL && widget != dspWidget) {
+  		    was_dispatched |= DispatchEvent(event, widget,
+***************
+*** 895,936 ****
+  Boolean XtDispatchEvent (event)
+      XEvent  *event;
+  {
+-     CallbackList *oldDestroyList, destroyList;
+      Boolean was_dispatched;
+  
+      /*
+       * To make recursive XtDispatchEvent work, we need to do phase 2 destroys
+       * only on those widgets destroyed by this particular dispatch.
+-      * The "right" way to do this is by passing a local variable through to
+-      * each recursive instance, and passing the list to XtDestroy, but that
+-      * causes unwieldy proliferation of arguments. We could do all this stuff
+-      * with signals (if we had them), but instead we have a global pointer
+-      * to the "current" destroy list, and XtDispatchEvent and XtDestroy
+-      * conspire to keep it up to date, and use the right one.
+       *
+-      * This is pretty gross.
+       */
+  
+-     oldDestroyList = _XtDestroyList;
+-     _XtDestroyList = &destroyList;
+-     destroyList = NULL;
+- 
+      was_dispatched = DecideToDispatch(event);
+  
+!     /* To accomodate widgets destroying other widgets in their destroy
+!      * callbacks, we have to make this a loop */
+  
+!     while (destroyList != NULL) {
+! 	CallbackList newList = NULL;
+! 	_XtDestroyList = &newList;
+! 	_XtCallCallbacks (&destroyList, (XtPointer) NULL);
+! 	_XtRemoveAllCallbacks (&destroyList);
+! 	destroyList = newList;
+!     }
+  
+!     _XtDestroyList = oldDestroyList;
+! 
+!     if (_XtSafeToDestroy) {
+  	if (_XtAppDestroyCount != 0) _XtDestroyAppContexts();
+  	if (_XtDpyDestroyCount != 0) _XtCloseDisplays();
+      }
+--- 885,909 ----
+  Boolean XtDispatchEvent (event)
+      XEvent  *event;
+  {
+      Boolean was_dispatched;
++     XtAppContext app = XtDisplayToApplicationContext(event->xany.display);
++     int dispatch_level = ++app->dispatch_level;
++     int starting_count = app->destroy_count;
+  
+      /*
+       * To make recursive XtDispatchEvent work, we need to do phase 2 destroys
+       * only on those widgets destroyed by this particular dispatch.
+       *
+       */
+  
+      was_dispatched = DecideToDispatch(event);
+  
+!     if (app->destroy_count > starting_count)
+! 	_XtDoPhase2Destroy(app, dispatch_level);
+  
+!     app->dispatch_level = dispatch_level - 1;
+  
+!     if (_XtSafeToDestroy(app)) {
+  	if (_XtAppDestroyCount != 0) _XtDestroyAppContexts();
+  	if (_XtDpyDestroyCount != 0) _XtCloseDisplays();
+      }
+***************
+*** 980,986 ****
+  
+      if (spring_loaded && !exclusive) {
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"grabError", "grabDestroyCallback", "XtToolkitError",
+  		"XtAddGrab requires exclusive grab if spring_loaded is TRUE",
+  		(String *) NULL, (Cardinal *) NULL);
+  	exclusive = TRUE;
+--- 953,959 ----
+  
+      if (spring_loaded && !exclusive) {
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"grabError", "grabDestroyCallback", XtCXtToolkitError,
+  		"XtAddGrab requires exclusive grab if spring_loaded is TRUE",
+  		(String *) NULL, (Cardinal *) NULL);
+  	exclusive = TRUE;
+***************
+*** 1011,1017 ****
+  
+      if (gl == NULL) {
+  	    XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		       "grabError","xtRemoveGrab","XtToolkitError",
+  		       "XtRemoveGrab asked to remove a widget not on the list",
+  		       (String *)NULL, (Cardinal *)NULL);
+  	    return False;
+--- 984,990 ----
+  
+      if (gl == NULL) {
+  	    XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		       "grabError","xtRemoveGrab",XtCXtToolkitError,
+  		       "XtRemoveGrab asked to remove a widget not on the list",
+  		       (String *)NULL, (Cardinal *)NULL);
+  	    return False;
+***************
+*** 1057,1063 ****
+      if (initialized) return;
+      initialized = TRUE;
+  
+-     _XtDestroyList = NULL;
+      nullRegion = XCreateRegion();
+      InitializeHash();
+  }
+--- 1030,1035 ----

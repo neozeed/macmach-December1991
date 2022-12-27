@@ -1,0 +1,129 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmVaCreateSimpleRadioBox 3X "" "" "" ""
+.SH NAME
+\fBXmVaCreateSimpleRadioBox \(em a RowColumn widget convenience creation
+function.\fP
+.iX "XmVaCreateSimpleRadioBox"
+.iX "creation functions" "XmVaCreateSimpleRadioBox"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmVaCreateSimpleRadioBox (\fIparent, name, button_set, callback,
+arg...\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	int	\fIbutton_set\fP;
+.br
+	XtCallbackProc	\fIcallback\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmVaCreateSimpleRadioBox\fP creates an instance of a RowColumn widget
+of type \fBXmWORK_AREA\fP and returns the associated widget ID.
+This routine uses the ANSI C variable-length argument list (varargs)
+calling convention.
+.PP
+This routine creates a RadioBox and its ToggleButtonGadget children.
+The name of each button is button_\fIn\fP, where \fIn\fP is an integer
+from 0 to one minus the number of buttons in the menu.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID.
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget.
+.IP "\fIbutton_set\fP" .75i
+Specifies which button is initially set.
+The value is the integer \fIn\fP in the button name button_\fIn\fP.
+.IP "\fIcallback\fP" .75i
+Specifies a callback procedure to be called when a button's value
+changes.
+This callback function is added to each button after creation as the
+button's \fBXmNvalueChangedCallback\fP.
+The callback function is called when a button's value changes, and the
+button number is returned in the \fIclient_data\fP field.
+.sp 1
+.PP
+The variable portion of the argument list consists of groups of
+arguments.
+The first argument in each group is a constant or a string and
+determines which arguments follow in that group.
+The last argument in the list must be NULL.
+Following are the possible first arguments in each group of varargs:
+.sp 1
+.IP "\fBXmVaRADIOBUTTON\fP" .75i
+This is followed by four additional arguments.  The set specifies one
+button in the RadioBox and some of its resource values.  Following are
+the additional four arguments, in this order:
+.RS .75i
+.IP "\fIlabel\fP" .75i
+The label string, of type XmString.
+.IP "\fImnemonic\fP" .75i
+The mnemonic, of type KeySym.  This is ignored in this release.
+.IP "\fIaccelerator\fP" .75i
+The accelerator, of type String.  This is ignored in this release.
+.IP "\fIaccelerator_text\fP" .75i
+The accelerator text, of type XmString.  This is ignored in this
+release.
+.RE
+.IP "\fIresource_name\fP" .75i
+This is followed by one additional argument, the value of the resource,
+of type XtArgVal.  The pair specifies a resource and its value for the
+RowColumn widget.
+.IP "\fBXtVaTypedArg\fP" .75i
+This is followed by four additional arguments.  The set specifies a
+resource and its value for the RowColumn widget.  A resource type
+conversion is performed if necessary.  Following are the additional four
+arguments, in this order:
+.RS .75i
+.IP "\fIname\fP" .75i
+The resource name, of type String.
+.IP "\fItype\fP" .75i
+The type of the resource value supplied, of type String.
+.IP "\fIvalue\fP" .75i
+The resource value (or a pointer to the resource value, depending on the
+type and size of the value), of type XtArgVal.
+.IP "\fIsize\fP" .75i
+The size of the resource value in bytes, of type int.
+.RE
+.IP "\fBXtVaNestedList\fP" .75i
+This is followed by one additional argument of type XtVarArgsList.  This
+argument is a nested list of varargs returned by
+\fBXtVaCreateArgsList\fP.
+.sp 1
+.PP
+For more information on variable-length argument lists, see the X
+Toolkit Intrinsics documentation.
+.PP
+A number of resources exist specifically for use with this and
+other simple menu creation routines.
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCreateRadioBox(3X)\fP,
+\fBXmCreateRowColumn(3X)\fP,
+\fBXmCreateSimpleCheckBox(3X)\fP,
+\fBXmCreateSimpleRadioBox(3X)\fP,
+\fBXmRowColumn(3X)\fP, and
+\fBXmVaCreateSimpleCheckBox(3X)\fP,
+.ad

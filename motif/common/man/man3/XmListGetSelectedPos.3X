@@ -1,0 +1,54 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListGetSelectedPos 3X "" "" "" ""
+.SH NAME
+\fBXmListGetSelectedPos \(em a List function that returns the position
+of every selected item in the list.\fP
+.iX "XmListGetSelectedPos"
+.iX "List functions" "XmListGetSelectedPos"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+Boolean XmListGetSelectedPos (\fIwidget, position_list, position_count\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	int	**\fIposition_list\fP;
+.br
+	int	*\fIposition_count\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListGetSelectedPos\fP is a Boolean function that returns an
+array of the positions of the selected items in a List.
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the List widget.
+.IP "\fIposition_list\fP" .75i
+Returns an array of the positions of the selected items in the List.
+The position of the first item in the list is 1; the position of the
+second item is 2; and so on.
+When the return value is TRUE, \fBXmListGetSelectedPos\fP allocates
+memory for this array.
+The caller is responsible for freeing this memory.
+.IP "\fIposition_count\fP" .75i
+Returns the number of elements in the \fIposition_list\fP.
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns TRUE if the list has any selected items, and FALSE if it does
+not.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

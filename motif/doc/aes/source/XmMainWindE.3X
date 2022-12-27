@@ -1,0 +1,90 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmMainWindowSetAreas 3X "" "" "" ""
+.SH NAME
+\fBXmMainWindowSetAreas \(em a MainWindow function that identifies manageable
+children for each area.\fP
+.iX "XmMainWindowSetAreas"
+.iX "MainWindow functions" "XmMainWindowSetAreas"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/MainW.h>
+.sp 1
+void XmMainWindowSetAreas (\fIwidget, menu_bar, command_window, 
+.br
+horizontal_scrollbar, vertical_scrollbar, work_region\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	Widget	\fImenu_bar\fP;
+.br
+	Widget	\fIcommand_window\fP;
+.br
+	Widget	\fIhorizontal_scrollbar\fP;
+.br
+	Widget	\fIvertical_scrollbar\fP;
+.br
+	Widget	\fIwork_region\fP;
+\fP
+.fi
+.SH DESCRIPTION
+\fBXmMainWindowSetAreas\fP identifies which of the valid children for each 
+area (such as the MenuBar and work region) are to be actively managed by MainWindow.
+This function also sets up or adds the MenuBar, work window, command
+window, and ScrollBar widgets to the application's main window widget.  
+.PP
+Each area is optional; therefore, the user can pass NULL to one or more
+of the following arguments.  The window manager provides the title bar.
+.sp 1
+.IP "\fIwidget\fP" 1.25i
+Specifies the MainWindow widget ID.
+.IP "\fImenu_bar\fP" 1.25i
+Specifies the widget ID for the MenuBar to be associated 
+with the MainWindow widget.  Set this ID only after creating an instance
+of the MainWindow widget.  The attribute name associated with this
+argument is \fBXmNmenuBar\fP.
+.IP "\fIcommand_window\fP" 1.25i
+Specifies the widget ID for the command window 
+to be associated 
+with the MainWindow widget.  Set this ID only after creating an instance
+of the MainWindow widget.  The attribute name associated with this
+argument is \fBXmNcommandWindow\fP.
+.IP "\fIhorizontal_scrollbar\fP" 1.25i
+Specifies the ScrollBar widget ID for the 
+horizontal ScrollBar to be associated 
+with the MainWindow widget.  Set this ID only after creating an instance
+of the MainWindow widget.  The attribute name associated with this
+argument is \fBXmNhorizontalScrollBar\fP.
+.IP "\fIvertical_scrollbar\fP" 1.25i
+Specifies the ScrollBar widget ID for the 
+vertical ScrollBar to be associated 
+with the MainWindow widget.  Set this ID only after creating an instance
+of the MainWindow widget.  The attribute name associated with this
+argument is \fBXmNverticalScrollBar\fP.
+.IP "\fIwork_region\fP" 1.25i
+Specifies the widget ID for the work window to be associated 
+with the MainWindow widget.  Set this ID only after creating an instance
+of the MainWindow widget.  The attribute name associated with this
+argument is \fBXmNworkWindow\fP.
+.sp 1
+.PP
+For a complete definition of MainWindow and its associated resources, see
+\fBXmMainWindow(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmMainWindow(3X)\fP.
+.sp 1

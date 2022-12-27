@@ -1,0 +1,58 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	netmemoryserver.1,v $
+.\" Revision 2.2  91/07/06  18:31:08  jsb
+.\" 	First checkin.
+.\" 
+.\" 
+.TH  NETMEMORYSERVER  1 7/6/91
+.CM 4
+.SH NAME
+netmemoryserver \- provides shared memory among unrelated tasks
+.SH SYNOPSIS
+\fBnetmemoryserver\fR [\fB-d\fR] [\fB-D\fR] [\fB-pf\fR pagingfile]
+.SH DESCRIPTION
+\fInetmemoryserver(1)\fR provides the netmemory service, which allows
+tasks on the same or different kernels to share memory.
+See
+.I netmemory(3)
+for a description of this service.
+.PP
+\fInetmemoryserver\fR interprets the following options:
+.TP 8
+.B \-pf \fIpagingfile\fR
+Specify a paging file. If no pagingfile is supplied, the file
+.I /usr/tmp/nm_paging_file
+will be used.
+.TP 8
+.B \-d
+Provide debugging output.
+.TP 8
+.B \-D
+Provide more debugging output.
+.SH "SEE ALSO"
+netmemory(3), libxmm(3).

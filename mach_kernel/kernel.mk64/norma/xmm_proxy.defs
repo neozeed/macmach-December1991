@@ -1,0 +1,155 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1991 Carnegie Mellon University
+ * All Rights Reserved.
+ * 
+ * Permission to use, copy, modify and distribute this software and its
+ * documentation is hereby granted, provided that both the copyright
+ * notice and this permission notice appear in all copies of the
+ * software, derivative works or modified versions, and any portions
+ * thereof, and that both notices appear in supporting documentation.
+ * 
+ * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+ * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+ * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Carnegie Mellon requests users of this software to return to
+ * 
+ *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+ *  School of Computer Science
+ *  Carnegie Mellon University
+ *  Pittsburgh PA 15213-3890
+ * 
+ * any improvements or extensions that they make and grant Carnegie the
+ * rights to redistribute these changes.
+ */
+/*
+ * HISTORY
+ * $Log:	xmm_proxy.defs,v $
+ * Revision 2.2  91/06/17  15:48:31  jsb
+ * 	First checkin.
+ * 	[91/06/17  13:45:41  jsb]
+ * 
+ */
+/*
+ *	File:	norma/xmm_proxy.defs
+ *	Author:	Joseph S. Barrera III
+ *	Date:	1991
+ *
+ *	Mig interface for communication between xmm_export.c and xmm_import.c.
+ */
+
+subsystem
+#if	KERNEL_USER
+	  KernelUser
+#endif	KERNEL_USER
+#if	KERNEL_SERVER
+	  KernelServer
+#endif	KERNEL_SERVER
+		proxy 923000;
+
+serverprefix _;
+
+#include <mach/std_types.defs>
+#include <mach/mach_types.defs>
+
+/*
+ * Calls from memory manager to kernel (adopted from mach.defs).
+ */
+
+simpleroutine proxy_data_provided(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		offset		: vm_offset_t;
+		data		: pointer_t;
+		lock_value	: vm_prot_t);
+
+simpleroutine proxy_data_unavailable(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		offset		: vm_offset_t;
+		size		: vm_size_t);
+
+routine proxy_get_attributes(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+	out	object_ready	: boolean_t;
+	out	may_cache	: boolean_t;
+	out	copy_strategy	: memory_object_copy_strategy_t);
+
+simpleroutine proxy_lock_request(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		offset		: vm_offset_t;
+		size		: vm_size_t;
+		should_clean	: boolean_t;
+		should_flush	: boolean_t;
+		lock_value	: vm_prot_t;
+		reply_to	: port_t);
+
+simpleroutine proxy_data_error(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		offset		: vm_offset_t;
+		size		: vm_size_t;
+		error_value	: kern_return_t);
+
+simpleroutine proxy_set_attributes(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		export_master	: mach_port_t;
+		export_kobj	: vm_offset_t;
+		object_ready	: boolean_t;
+		may_cache	: boolean_t;
+		copy_strategy	: memory_object_copy_strategy_t;
+		error_value	: kern_return_t);
+
+simpleroutine proxy_destroy(
+		import_master	: mach_port_t;
+		kobj		: vm_offset_t;
+		reason		: kern_return_t);
+
+/*
+ * Calls from kernel to memory manager (adopted from memory_object.defs).
+ */
+
+simpleroutine	proxy_init(
+		export_master		: mach_port_t;
+		import_master		: mach_port_t;
+		kobj			: vm_offset_t;
+		memory_object		: mach_port_t;
+		memory_object_page_size	: vm_size_t);
+
+simpleroutine	proxy_terminate(
+		export_master		: mach_port_t;
+		kobj			: vm_offset_t);
+
+/* XXX not implemented yet */
+simpleroutine	proxy_copy(
+		export_master		: mach_port_t);
+
+simpleroutine	proxy_data_request(
+		export_master		: mach_port_t;
+		kobj			: vm_offset_t;
+		offset			: vm_offset_t;
+		length			: vm_size_t;
+		desired_access		: vm_prot_t);
+
+simpleroutine	proxy_data_unlock(
+		export_master		: mach_port_t;
+		kobj			: vm_offset_t;
+		offset			: vm_offset_t;
+		length			: vm_size_t;
+		desired_access		: vm_prot_t);
+
+simpleroutine	proxy_data_write(
+		export_master		: mach_port_t;
+		kobj			: vm_offset_t;
+		offset			: vm_offset_t;
+		data			: pointer_t);
+
+simpleroutine	proxy_lock_completed(
+		export_master		: mach_port_t;
+		kobj			: vm_offset_t;
+		offset			: vm_offset_t;
+		length			: vm_size_t);

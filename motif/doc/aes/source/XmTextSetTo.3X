@@ -1,0 +1,54 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetTopCharacter 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetTopCharacter \(em a Text function that sets the
+position of the first character displayed\fP
+.iX "XmTextSetTopCharacter"
+.iX "Text functions" "XmTextSetTopCharacter"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetTopCharacter (\fIwidget, top_character\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fItop_character\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextSetTopCharacter\fP sets the position of the text at the top
+of the Text widget.
+If the \fBXmNeditMode\fP is \fBXmMULTI_LINE_EDIT\fP, the line of text
+that contains \fItop_character\fP is displayed at the top of the widget
+without shifting the text left or right.
+.sp 1
+.ne 2i
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fItop_character\fP" .75i
+Specifies the position in the text to display at the top of the widget.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

@@ -1,0 +1,1850 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2.  WWWWiiiiddddggggeeeettttssss,,,, GGGGaaaaddddggggeeeettttssss,,,, aaaannnndddd CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       Motif has a variety of widgets and gadgets, each designed to
+       accomplish a specific set of tasks, either individually or
+       in combination with others.  Convenience functions create     |
+       certain widgets or sets of widgets for a specific purpose.
+       This chapter explains widgets, gadgets, and convenience
+       functions.
+
+       2.1  WWWWiiiiddddggggeeeettttssss
+
+       Widgets are used either individually or in combination to
+       make the creation of complex applications easier and faster.
+       Some widgets display information, others are merely con-
+       tainers for other widgets.  Some widgets are restricted to    |
+       displaying information and do not react to keyboard or mouse  |
+       input.  Others change their display in response to input and  |
+       can invoke functions when instructed to do so.  You can cus-  |
+       tomize some aspects of a widget, such as fonts, foreground    |
+       and background colors, border widths and colors, and sizes.
+
+       An iiiinnnnssssttttaaaannnncccceeee of a widget class is composed of a data struc-    |
+       ture containing values and procedures for that particular
+       widget instance. There is also a class structure that con-    |
+       tains values and procedures applicable to all widgets of
+       that class.
+
+       Widgets are grouped into several classes, depending on the
+       function of the widget.  Logically, a widget class consists
+       of the procedures and data associated with all widgets        |
+       belonging to that class.  These procedures and data can be    |
+       inherited by subclasses.  Physically, a widget class is a     |
+       pointer to a structure.  The contents of this structure are   |
+       constant for all widgets of the widget class.  A widget       |
+       instance is allocated and initialized by XXXXmmmmCCCCrrrreeeeaaaatttteeee_w_i_d_g_e_t_n_a_m_e,,,,  |
+       XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt, or XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt.  See Chapter 3,     |
+       "Using Motif Widgets in Programs," for specific examples of   |
+       creating widgets.
+
+       This section provides an overview of the available widgets.   |
+       The manpages in the _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e contain
+       detailed information for each of the widgets.  The following  |
+       figure shows how widgets might be combined in an applica-     |
+       tion.
+
+
+                                                                2-1
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+                  FFFFiiiigggguuuurrrreeee 2222----1111....  Widget Application Screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Several types of widgets are shown in Figure 2-1.  The large  |
+       window is a MainWindow widget containing a menu bar and some  |
+       push buttons, a RowColumn widget with a number of push but-   |
+       ton gadgets, and a vertical scroll bar.  The program that
+       produces this window is called xxxxmmmmffffoooonnnnttttssss and is described in    |
+       Chapter 3.
+
+       The sections in this chapter divide the widgets into five
+       categories as shown in the table below.                       |
+
+                    TTTTAAAABBBBLLLLEEEE 2222----1111....  Categories of Widgets                *
+
+            CCCCllllaaaassssssss NNNNaaaammmmeeee           WWWWiiiiddddggggeeeetttt CCCCllllaaaassssssss                        ||
+7                              |                                      ||
+            __________________________________________________
+            SSSShhhheeeellllllll WWWWiiiiddddggggeeeettttssss
+            XmDialogShell        xmDialogShellWidgetClass
+            XmMenuShell          xmMenuShellWidgetClass              |
+            VendorShell          vendorShellWidgetClass              |
+            __________________________________________________
+            DDDDiiiissssppppllllaaaayyyy WWWWiiiiddddggggeeeettttssss
+            Core                 widgetClass                         |
+            XmPrimitive          xmPrimitiveWidgetClass
+            XmArrowButton        xmArrowButtonWidgetClass
+            XmDrawnButton        xmDrawnButtonWidgetClass
+            XmLabel              xmLabelWidgetClass
+7                              |7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7                              |7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-2
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+            CCCCllllaaaassssssss NNNNaaaammmmeeee           WWWWiiiiddddggggeeeetttt CCCCllllaaaassssssss                        |
+7                              |                                      |
+            XmList               xmListWidgetClass
+            XmPushButton         xmPushButtonWidgetClass
+            XmScrollBar          xmScrollBarWidgetClass
+            XmSeparator          xmSeparatorWidgetClass
+            XmText               xmTextWidgetClass
+            XmTextField          xmTextFieldWidgetClass              |
+            XmToggleButton       xmToggleButtonWidgetClass
+            __________________________________________________
+            CCCCoooonnnnttttaaaaiiiinnnneeeerrrr WWWWiiiiddddggggeeeettttssss
+            XmManager            xmManagerWidgetClass
+            XmDrawingArea        xmDrawingAreaWidgetClass
+            XmFrame              xmFrameWidgetClass
+            XmMainWindow         xmMainWindowWidgetClass
+            XmPanedWindow        xmPanedWindowWidgetClass            |
+            XmRowColumn          xmRowColumnWidgetClass
+            XmScale              xmScaleWidgetClass
+            XmScrolledWindow     xmScrolledWindowWidgetClass
+            __________________________________________________
+            DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeettttssss
+            XmBulletinBoard      xmBulletinBoardWidgetClass
+            XmCommand            xmCommandWidgetClass
+            XmFileSelectionBox   xmFileSelectionBoxWidgetClass
+            XmForm               xmFormWidgetClass
+            XmMessageBox         xmMessageBoxWidgetClass
+            XmSelectionBox       xmSelectionBoxWidgetClass
+            __________________________________________________
+            MMMMeeeennnnuuuu WWWWiiiiddddggggeeeettttssss
+            XmCascadeButton      xmCascadeButtonWidgetClass
+7                              |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+
+       2.1.1  SSSShhhheeeellllllll WWWWiiiiddddggggeeeettttssss
+
+       Shell widgets are top-level widgets that provide the neces-
+       sary interface with the window manager.  Different Shell
+       widget classes are provided for the various categories of
+       top-level widgets.  The Xt Intrinsics provide some underly-
+       ing shells and the Motif toolkit provides the remaining
+       shells.  The Xt Intrinsics provide the following shell
+       classes:
+
+          +o SSSShhhheeeellllllll - This is the base class for shell widgets.  It
+            is a subclass of Composite and provides resources for
+            all other types of shells.
+
+          +o OOOOvvvveeeerrrrrrrriiiiddddeeeeSSSShhhheeeellllllll - This class is used for shell windows     |
+            that completely bypass the window manager.  It is a
+            subclass of Shell.
+
+          +o WWWWMMMMSSSShhhheeeellllllll - This class contains resources that are neces-
+            sary for the common window manager protocol.  It is a
+            subclass of Shell.
+
+
+                                                                2-3
+
+
+
+
+
+
+
+
+
+
+
+
+          +o VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll - This class contains resources used by
+            vendor-specific window managers. It is a subclass of
+            WMShell.
+
+          +o TTTTrrrraaaannnnssssiiiieeeennnnttttSSSShhhheeeellllllll - This class is used for shell windows
+            that can be manipulated by the window manager but can-
+            not be iconified.  It is a subclass of VendorShell.
+
+          +o TTTTooooppppLLLLeeeevvvveeeellllSSSShhhheeeellllllll - This class is used for normal top-level
+            windows.  It is a subclass of VendorShell.
+
+          +o AAAApppppppplllliiiiccccaaaattttiiiioooonnnnSSSShhhheeeellllllll - This class is used for an
+            application's top-level window.  It is a subclass of
+            TopLevelShell.
+
+       The classes Shell, WMShell, and VendorShell are internal and
+       cannot be instantiated.
+
+       The Motif toolkit provides the following widgets:             |
+
+       XmDialogShell (xmDialogShellWidgetClass)                      |
+            The DialogShell widget class is a subclass of Tran-
+            sientShell.  Instances of this class are used as the
+            parents of modal and modeless Dialogs associated with
+            other top-level windows.  DialogShell provides proper
+            communication with the Motif window manager in accor-
+            dance with the _I_n_t_e_r-_C_l_i_e_n_t _C_o_m_m_u_n_i_c_a_t_i_o_n_s _C_o_n_v_e_n_t_i_o_n_s   |
+            _M_a_n_u_a_l (ICCCM) for secondary top-level windows, such as  |
+            Dialogs.  See Chapter 5, ``Dialog Widgets,'' for more    |
+            information about how this widget is used.               |
+
+       XMenuShell (xmMenuShellWidgetClass)                           |
+            The MenuShell widget class is a subclass of Override-
+            Shell.  Instances of this class are used as the parents  |
+            of menu panes.  See Chapter 6, ``Menus,'' for the
+            specifications of menu widgets and menu shells.          |
+
+       VendorShell (vendorShellWidgetClass)                          |
+            The VendorShell widget class is a subclass of WMShell.
+            It provides the common state information and services
+            needed by the window-manager visible shells.  See        |
+            Chapter 4, ``Shell Widgets,'' for more information.      |
+
+       2.1.2  DDDDiiiissssppppllllaaaayyyy WWWWiiiiddddggggeeeettttssss
+
+       NNNNOOOOTTTTEEEE::::  A complete list of resources for each class can be     |
+       found in the appropriate man page in the _O_S_F/_M_o_t_i_f            |
+       _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.  Motif provides the following
+       display widgets:                                              |
+
+
+
+
+       2-4
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+       Core (widgetClass)                                            |
+            The Core class is used as a supporting superclass for
+            other widget classes.  It provides common resources
+            that are needed by all widgets, including _x and _y loca-  |
+            tion, height, width, window border width, and so on.     |
+
+       XmPrimitive (xmPrimitiveWidgetClass)                          |
+            The XmPrimitive class is also used as a supporting
+            superclass for other widget classes.  It provides
+            resources for border drawing and highlighting, traver-
+            sal activation and deactivation, and so on.              |
+
+       XmArrowButton (xmArrowButtonWidgetClass)                      |
+            The ArrowButton widget consists of a directional arrow
+            surrounded by a border shadow.  When the arrow button    |
+            is selected, the shadow moves to give the appearance     |
+            that the arrow button has been pressed.  When the arrow  |
+            button is unselected, the shadow moves to give the       |
+            appearance that the arrow button is released, or out.    |
+            The arrow button has the same functionality as the push  |
+            button.  The following figure shows four arrow buttons
+            arranged within a RowColumn widget.                      |
+                                                                     *
+                        FFFFiiiigggguuuurrrreeee 2222----2222....  ArrowButtons
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            The direction of the arrow is specified by setting the   |
+            XXXXmmmmNNNNaaaarrrrrrrroooowwwwDDDDiiiirrrreeeeccccttttiiiioooonnnn resource to the appropriate value.
+            The spacing between the ArrowButtons in Figure 2-2 was   |
+            obtained by setting the RowColumn resources XXXXmmmmNNNNmmmmaaaarrrr----
+            ggggiiiinnnnWWWWiiiiddddtttthhhh, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt, and XXXXmmmmNNNNssssppppaaaacccciiiinnnngggg to 20.         |
+
+       XmDrawnButton (xmDrawnButtonWidgetClass)                      |
+            The DrawnButton widget consists of an empty widget win-
+            dow surrounded by a shadow border.  It provides the
+            application developer with a graphics area that can      |
+
+
+                                                                2-5
+
+
+
+
+
+
+
+
+
+
+
+
+            have the input semantics of push buttons.                |
+
+            Callback types are defined for widget exposure and
+            resize to allow the application to redraw or reposition
+            its graphics.  If the DrawnButton widget has a
+            highlight and shadow thickness, the application should
+            take care not to draw in this area.  This can be done
+            by creating the graphics context to be used for drawing
+            in the widget with a clipping rectangle.  The clipping
+            rectangle should take into account the size of the
+            widget's highlight thickness and shadow.                 |
+
+       XmLabel (xmLabelWidgetClass)                                  |
+            A Label widget consists of either text or graphics.  It  |
+            can be instantiated but it is also used as a superclass  |
+            for button widgets.  A label's text is a compound
+            string and can be multidirectional, multiline, multi-
+            font, or any combination of these.  A label is con-      |
+            sidered static because it does not accept any button or
+            key input other than the help button on the widget.      |
+            The help callback is the only callback defined for
+            Label.                                                   |
+
+       XmList (xmListWidgetClass)                                    |
+            The List widget allows you to make a selection from a
+            list of items.  The application defines an array of
+            compound strings, each of which becomes an item in the
+            list.  You can set the number of items in the list that  |
+            are to be visible.  You can also choose to have the      |
+            list appear with a scroll bar so that you can scroll     |
+            through the list of items.  Items are selected by mov-
+            ing the pointer to the desired item and pressing the
+            mouse button or key defined as select.  The selected     |
+            item is displayed in inverse colors. The following fig-  |
+            ure shows the List Widget.                               |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-6
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+                                                                     *
+                         FFFFiiiigggguuuurrrreeee 2222----3333....  List Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XmPushButton(xmPushButtonWidgetClass)                         |
+            The PushButton widget consists of a text label or pix-   |
+            map surrounded by a border shadow.  You select the but-
+            ton by moving the mouse cursor to the button and press-
+            ing mouse button 1.  When the mouse button is pressed,
+            the widget and shadow colors will invert, giving the     |
+            appearance that the push button has been pressed.  When  |
+            the mouse button is released, the colors will revert to
+            the original color scheme, giving the appearance that    |
+            the push button is out.  Push buttons are used to        |
+            invoke actions, such as run, cancel, stop, and so on.    |
+
+       XmScrollBar (xmScrollBarWidgetClass)                          |
+            The ScrollBar widget allows you to view data that is
+            too large to be viewed in its entirety.  Scroll bars     |
+            are combined with a widget that contains the data to be  |
+            viewed.  When you interact with the scroll bar, the      |
+            data scrolls.  The viewable portion of the data is
+            called the work area.                                    |
+
+            A scroll bar consists of two arrows pointing in oppo-    |
+            site directions at each end of a small rectangle.  The
+            rectangle is called the ssssccccrrrroooollllllll rrrreeeeggggiiiioooonnnn.  A smaller rec-
+            tangle called a slider is positioned within the scroll
+            region.  The slider is normally colored to contrast
+            with that of the scroll region.  The ratio of the
+
+
+                                                                2-7
+
+
+
+
+
+
+
+
+
+
+
+
+            slider size to the scroll region size corresponds to
+            the relationship between the visible data and the total
+            data.  For example, if 10 percent of the data is visi-   |
+            ble in the work area, the slider takes up 10 percent of
+            the scroll region.                                       |
+
+            You may place the scroll bar horizontally, vertically,   |
+            or both.  Horizontal scroll bars are placed at the bot-  |
+            tom edge of the work area and vertical scroll bars are   |
+            placed on the right edge. The ScrollBar widget is shown  |
+            in the following figure.                                 |
+                                                                     |
+                         FFFFiiiigggguuuurrrreeee 2222----4444....  ScrollBars                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XmSeparator (xmSeparatorWidgetClass)                          |
+            Separator is a primitive widget to be used as an item
+            separator placed between items in a display.  Several
+            different line-drawing styles are provided as well as    |
+            horizontal or vertical orientation.                      |
+
+            The line drawing done within the separator is automati-  |
+            cally centered within the height of the widget for a
+            horizontal orientation, and centered within the width
+            of the widget for a vertical orientation.                |
+
+            The XmNseparatorType of XmNO_LINE is provided as an
+            escape to the application programmer who needs a dif-
+            ferent style of drawing.  A pixmap the height of the
+            widget can be created and used as the background pixmap
+            by building an argument list using the XmNbackground-
+            Pixmap argument type as defined by Core.  Whenever the   |
+            widget is redrawn, its background containing the         |
+            desired separator drawing is displayed.                  |
+
+       XmText (xmTextWidgetClass)                                    |
+            The Text widget provides a single-line or multiline      |
+
+
+       2-8
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+            text editor that has a user and programmer interface
+            that you can customize.  It can be used for single-line
+            string entry, forms entry with verification procedures,
+            multipage document viewing, and full-screen editing.     |
+            The following figure shows the Text widget.              |
+                                                                     *
+                         FFFFiiiigggguuuurrrreeee 2222----5555....  Text Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XmTextField (xmTextFieldWidgetClass)                          |
+            The TextField widget is similar to the Text widget, but  |
+            is restricted to and optimized for single-line text      |
+            editing.  As with the Text widget, you can customize     |
+            the user and programmer interface.                       |
+
+       XmToggleButton (xmToggleButtonWidgetClass)                    |
+            This widget consists of a text or graphics button face
+            with an indicator (a square or diamond-shaped box)
+            placed to the left of the text or graphics.  Select the  |
+            toggle button by moving the mouse cursor inside the      |
+            rectangle and pressing mouse button 1.  The indicator
+            is then filled with the selection color, indicating      |
+            that the toggle button is selected.   Toggle buttons     |
+            are used for setting nontransitory data within an        |
+            application.  The following figure shows Toggle But-     |
+            tons.                                                    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-9
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+                        FFFFiiiigggguuuurrrreeee 2222----6666....  ToggleButtons                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2.1.3  CCCCoooonnnnttttaaaaiiiinnnneeeerrrr WWWWiiiiddddggggeeeettttssss
+
+       Container widgets are Composite widgets that provide appli-
+       cations with general layout functionality.  Since they are
+       Composite widgets, Container widgets can have children.  All
+       of the container widgets are built from the Core, Composite,  |
+       Constraint, and XmManager widget classes.                     |
+
+       Motif provides the following container widgets:               |
+
+       XmManager (xmManagerWidgetClass)                              |
+            The XmManager class is a Motif widget meta class and is
+            therefore never instantiated as a widget.  Its sole
+            purpose is to act as a supporting superclass for other
+            widget classes.  It supports the visual resources,       |
+            graphics contexts, and traversal resources necessary     |
+            for the graphics and traversal mechanisms.  XmManager
+            is built from Core, Composite, and Constraint.           |
+
+       XmDrawingArea (xmDrawingAreaWidgetClass)                      |
+            The DrawingArea widget is an empty widget that easily    |
+            adapts to a variety of purposes.  DrawingArea does no
+            drawing and defines no behavior except for invoking
+            callbacks.  Callbacks notify the application when
+            graphics need to be drawn (exposure events or widget
+            resize), and when the widget receives input from the
+            keyboard or mouse.  Applications are responsible for
+            defining appearance and behavior as needed in response
+            to DrawingArea callbacks.                                |
+
+            DrawingArea is a Composite widget and is a subclass of
+            XmManager.  It supports minimal geometry management for
+
+
+       2-10
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+            multiple widget or gadget children.                      |
+
+       XmFrame (xmFrameWidgetClass)                                  |
+            The XmFrame widget is a manager used to enclose a sin-   |
+            gle child within a border drawn by the XmFrame widget.
+            It is most often used to enclose other Managers when it
+            is desired to have the same border appearance for the
+            XmManager and XmPrimitive widgets it manages.            |
+
+       XmMainWindow (xmMainWindowWidgetClass)                        |
+            The XmMainWindow widget provides a standard layout for
+            the primary window of an application.  This layout       |
+            includes a menu bar, a command window, a work region,    |
+            and scroll bars.  Any or all of these areas are          |
+            optional.  The work region and scroll bars in the main   |
+            window behave exactly the same as their counterparts in
+            the ScrolledWindow widget.  You can think of the main    |
+            window as an extended scrolled window with an optional   |
+            menu bar and an optional command window.                 |
+
+            In a fully loaded main window, the menu bar spans the    |
+            top of the window horizontally.  The command window      |
+            spans the main window horizontally and is placed just    |
+            below the menu bar.  Any space below the command window  |
+            is managed exactly the same as the scrolled window.  To  |
+            create a fully loaded main window, you create a menu     |
+            bar, a command window, two scroll bars (one horizontal
+            and one vertical), and a widget to use as the work
+            region. You then call XXXXmmmmMMMMaaaaiiiinnnnWWWWiiiinnnnddddoooowwwwSSSSeeeettttAAAArrrreeeeaaaassss with those    |
+            widget IDs.                                              |
+
+       XmRowColumn (xmRowColumnWidgetClass)                          |
+            The RowColumn widget is a general-purpose RowColumn      |
+            manager capable of containing any widget type as a
+            child.  It requires no special knowledge about how its
+            children function and provides nothing above and beyond
+            support for several different layout styles.             |
+
+            The type of layout performed is controlled by how the
+            application has set the various layout resources.  It
+            can be configured to lay out its children in either a
+            row or a column fashion.  In addition, the application
+            can specify whether the children should be packed
+            tightly together (not into organized rows and columns),
+            or whether each child should be placed in an identi-
+            cally sized box (thus producing a symmetrical look), or
+            whether specific layout should be done (the current _x    |
+            and _y positions of the children control their loca-
+            tion).                                                   |
+
+            In addition, the application has control over both the
+
+
+                                                               2-11
+
+
+
+
+
+
+
+
+
+
+
+
+            spacing that occurs between each row and column, and
+            the margin spacing between the edges of the RowColumn
+            widget and any children that are placed against it.      |
+
+            The RowColumn widget has no 3-dimensional visuals asso-  |
+            ciated with it. If you want an application to have a     |
+            3-dimensional shadow placed around the RowColumn         |
+            widget, then you should create the RowColumn widget as
+            a child of a Frame widget.                               |
+                                                                     *
+                      FFFFiiiigggguuuurrrreeee 2222----7777....  RowColumn Widget
+
+
+
+
+
+
+
+
+
+       XmScale (xmScaleWidgetClass)                                  |
+            The Scale widget has two basic functions.                |
+
+               +o It is used by an application to indicate a value
+                 from within a range of values.
+
+               +o It allows the user to input or modify a value from
+                 the same range.
+
+            A Scale widget allows you to select a value from a       |
+            range of displayed values by adjusting an arrow to a
+            position along a line. A scale has an elongated rec-     |
+            tangular region similar to that of a scroll bar.         |
+            Inside this region is a slider that is used to indicate  |
+            the current value along the scale.  You can modify the   |
+            value of the scale by moving the slider within the rec-  |
+            tangular region of the scale.  A scale can also include  |
+            a set of labels and "tick marks" located outside of the  |
+            scale region.  These can be used to indicate the rela-
+            tive value at various positions along the scale.         |
+
+            A scale can be either input and output or output only.   |
+            An input/output scale is one whose value can be set by   |
+            the application and also modified by the user by using   |
+            the slider.  An output-only scale is one that is used
+            strictly as an indicator of the current value of some-
+            thing and cannot be modified interactively by the user.
+            The Core resource XXXXmmmmNNNNsssseeeennnnssssiiiittttiiiivvvveeee is used to specify        |
+            whether the user can interactively modify the value of   |
+            the scale.                                               |
+
+
+
+       2-12
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+                                                                     *
+                        FFFFiiiigggguuuurrrreeee 2222----8888....  Scale Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XmScrolledWindow (xmScrolledWindowWidgetClass)                |
+            The ScrolledWindow widget combines one or more scroll    |
+            bar widgets and a viewing area to implement a visible
+            window onto some other (usually larger) data display.
+            The visible part of the window can be scrolled through
+            the larger display by the use of scroll bars.            |
+
+            To use the scrolled window, an application first         |
+            creates a ScrolledWindow widget, the needed ScrollBar
+            widgets, and a widget capable of displaying any desired  |
+            data as the work area of the scrolled window.  The       |
+            scrolled window will position the work area widget and   |
+            display the scroll bars if so requested.  When the user  |
+            performs some action on the scroll bar, the application  |
+            will be notified through the normal scroll bar callback
+            interface.                                               |
+
+            The scrolled window can be configured to operate in an   |
+            automatic manner, so that it performs all scrolling and
+            display actions with no need for application program
+            involvement. It can also be configured to provide a
+            minimal support framework in which the application is
+            responsible for processing all user input and making
+
+
+                                                               2-13
+
+
+
+
+
+
+
+
+
+
+
+
+            all visual changes to the displayed data in response to
+            that input.                                              |
+
+            When the scrolled window is performing automatic scrol-  |
+            ling, it will create a clipping window. Conceptually,
+            this window becomes the viewport through which the user
+            examines the larger underlying data area. The applica-
+            tion simply creates the desired data, then makes that
+            data the work area of the scrolled window.  When the     |
+            user moves the slider to change the displayed data, the
+            workspace is moved under the viewing area so that a new
+            portion of the data becomes visible.                     |
+
+            There are situations where it is impractical for an
+            application to create a large data space and simply
+            display it through a small clipping window. An example
+            of this is a text editor  --  there would be an
+            undesirable amount of overhead involved with creating a
+            single data area that consisted of a large file. The     |
+            application should use the concept of a scrolled window
+            (a small viewport onto some larger data), but it should
+            be notified when the user scrolls the viewport so it
+            can bring in more data from storage and update the       |
+            display area.  For this situation, the scrolled window   |
+            can be configured so that it provides only visual lay-
+            out support.  No clipping window is created and the
+            application must maintain the data displayed in the      |
+            work area as well as respond to user input on the        |
+            scroll bars.  The figure below shows a scrolled window   |
+            with some text in it.  Note that the scroll bars indi-   |
+            cate that scrolling is possible either vertically or     |
+            horizontally.                                            |
+                                                                     *
+                    FFFFiiiigggguuuurrrreeee 2222----9999....  ScrolledWindow Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-14
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+            Figure 2-10 shows the same window after partially        |
+            scrolling down.  Compare the positions of the vertical   |
+            scroll bar and the text with those of Figure 2-9.        |
+                                                                     |
+               FFFFiiiigggguuuurrrreeee 2222----11110000....  ScrolledWindow After Scrolling          |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XmPanedWindow (xmPanedWindowWidgetClass)                      |
+            The PanedWindow manager widget is a Composite widget
+            that lays out children in a vertically tiled format.     |
+            Children appear from top to bottom, with the first
+            child inserted appearing at the top of the PanedWindow
+            manager and the last child inserted appearing at the
+            bottom.  The PanedWindow manager will grow to match the
+            width of its widest child, and all other children are
+            forced to this width. The height of the PanedWindow
+            manager will be equal to the sum of the heights of all
+            its children, the spacing between them, and the size of
+            the top and bottom margins.                              |
+
+            The PanedWindow manager widget is also a constraint
+            widget, which means that it creates and manages a set    |
+            of constraints for each child.  You can specify a
+            minimum and maximum size for each pane.  The PanedWin-
+            dow manager will not allow a pane to be resized below
+            its minimum size nor beyond its maximum size.  Also,
+            when the minimum size of a pane is equal to its maximum
+            size, then no control sash will be presented for that
+            pane or for the lowest pane.  The following figure       |
+            shows an example of a PanedWindow widget with three      |
+            arrow buttons as its children.                           |
+
+
+
+
+                                                               2-15
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+                     FFFFiiiigggguuuurrrreeee 2222----11111111....  PanedWindow Widget                |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       You can adjust the size of the panes.  To facilitate this     |
+       adjustment, a pane control sash is created for most chil-
+       dren.  The sash appears as a square box positioned on the
+       bottom of the pane that it controls (see Figure 2-11).  You   |
+       can adjust the size of a pane by using the mouse.  Position
+       the pointer inside the sash and a crosshair appears.  Press
+       and hold mouse button 1 and the pointer changes to an arrow
+       pointing up and down.  Continue holding mouse button 1 down
+       while you move the pointer to achieve the desired size of
+       the pane.  Release mouse button 1 and the panes will be
+       resized.  Figure 2-12 shows the PanedWindow after a pane has  |
+       been resized.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-16
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+                                                                     |
+           FFFFiiiigggguuuurrrreeee 2222----11112222....  PanedWindow Widget After Pane Resizing      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2.1.4  DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeettttssss
+
+       Dialog widgets are container widgets that provide applica-    |
+       tions with layout functionality typically used for pop-up     |
+       dialogs.  These widgets are used for interaction tasks such
+       as displaying messages, setting properties, and providing
+       selection from a list of items.  Dialog widgets are thus
+       used primarily as an interface between the user and the       |
+       application. A Dialog widget will normally ask a question or
+       present the user with some information that requires a
+       response.  In some cases, the application will be suspended   |
+       until the user provides the response.                         |
+
+       A DDDDiiiiaaaalllloooogggg is a collection of widgets, including a dialog       |
+       shell, a bulletin board (or subclass of BulletinBoard or      |
+       some other container widget), plus various children of the    |
+       bulletin board, such as the Label, PushButton, and Text
+       widgets.  All of the dialog widgets are built from the Core,
+       Composite, Constraint, and Manager widget classes.            |
+
+       The collection of widgets that compose a Dialog can be built
+       from scratch by building up the necessary argument lists and
+       creating each individual widget in the Dialog.  For common
+       interaction tasks, ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee ffffuuuunnnnccccttttiiiioooonnnnssss are defined that     |
+       create the collection of widgets that comprise a particular   |
+
+
+                                                               2-17
+
+
+
+
+
+
+
+
+
+
+
+
+       dialog.  The collections of widgets created by Dialog con-
+       venience functions are referred to as CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaallllooooggggssss.    |
+
+       Convenience Dialogs are either modal or modeless.  A modal
+       dialog stops the work session and solicits input from the
+       user.  A modeless dialog solicits input from the user, but    |
+       does not interrupt interaction with any application.          |
+
+       Each dialog has one or more convenience functions that
+       create any of the subwidgets in that dialog.  For example, a  |
+       message box has several convenience functions:
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg                                    |
+
+          ++++oooo XXXXmmmmCCCCrrrreeeeaaaatttteeeeEEEErrrrrrrroooorrrrDDDDiiiiaaaalllloooogggg                                      ||||
+
+          ++++oooo XXXXmmmmCCCCrrrreeeeaaaatttteeeeIIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnnDDDDiiiiaaaalllloooogggg                                ||||
+
+          ++++oooo XXXXmmmmCCCCrrrreeeeaaaatttteeeeQQQQuuuueeeessssttttiiiioooonnnnDDDDiiiiaaaalllloooogggg                                   ||||
+
+          ++++oooo XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg                                    ||||
+
+          ++++oooo XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaalllloooogggg                                    ||||
+
+       Each of these convenience functions creates a dialog shell    |
+       and a message box.  Refer to Chapter 5, ``Dialog Widgets and  |
+       Functions,'' and the individual manpages for more informa-    |
+       tion.
+
+       2.1.5  DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeetttt DDDDeeeessssccccrrrriiiippppttttiiiioooonnnnssss
+
+       The following list gives an overview of the Dialog widget
+       set.  See the next section for an overview of the conveni-
+       ence dialogs.                                                 |
+
+       XmBulletinBoard (xmBulletinBoardWidgetClass)                  |
+            The BulletinBoard widget is a composite widget that
+            provides simple geometry management for children widg-
+            ets.  It does not force positioning on its children,
+            but can be set to reject geometry requests that would
+            result in overlapping children.  The bulletin board is   |
+            the base widget for most dialog widgets, but is also     |
+            used as a general container widget.                      |
+
+       XmCommand (xmCommandWidgetClass)                              |
+            The Command widget is a subclass of SelectionBox that
+            includes a command history region and a command input
+            region.  The Command widget also provides a command      |
+            history mechanism.                                       |
+
+
+
+
+       2-18
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+       XmFileSelectionBox (xmFileSelectionBoxWidgetClass)            |
+            The FileSelectionBox widget is a subclass of Selection-
+            Box and BulletinBoard used to get a selection from a
+            list of alternatives.  FileSelectionBox includes an      |
+            editable text field for the directory mask, scrolling    |
+            lists of filenames and directories, and an editable      |
+            text field for the selected file.  Four buttons are      |
+            available: OOOOKKKK, FFFFiiiilllltttteeeerrrr, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.      |
+
+       XmForm (xmFormWidgetClass)                                    |
+            The Form widget is a constraint-based manager that pro-
+            vides a layout language used to establish spatial rela-
+            tionships between its children.  It maintains these      |
+            relationships when the form is resized, new children     |
+            are added to the form, or its children are resized,      |
+            unmanaged, remanaged, or destroyed.  Since it is a sub-  |
+            class of BulletinBoard, a form includes the base level   |
+            of dialog support.  Form can also be used as a general
+            container widget.                                        |
+
+       XmMessageBox (xmMessageBoxWidgetClass)                        |
+            The MessageBox widget is a subclass of BulletinBoard
+            used to give information to the user.  A message box     |
+            includes a symbol and a message.  Three buttons are      |
+            available: OOOOKKKK, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.              |
+
+       XmSelectionBox (xmSelectionBoxWidgetClass)                    |
+            The SelectionBox widget is a subclass of BulletinBoard
+            used to get a selection from a list of alternatives.  A  |
+            selection box includes a message, an editable text       |
+            field, and a scrolling list of choices.  Four buttons    |
+            are available: OOOOKKKK, CCCCaaaannnncccceeeellll, AAAAppppppppllllyyyy, and HHHHeeeellllpppp by default.   |
+
+       2.1.6  CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaallllooooggggssss
+
+       Convenience dialogs are collections of widgets that can be    |
+       created by using convenience functions.  Each convenience
+       dialog instantiates a dialog widget as a child of a dialog    |
+       shell.  This section lists the convenience dialogs.           |
+
+       BulletinBoardDialog                                           |
+            The BulletinBoardDialog convenience function instan-     |
+            tiates a bulletin board and a dialog shell.  The Bul-
+            letinBoardDialog is used for interactions not supported
+            by the standard dialog set.  Necessary dialog com-
+            ponents are added as children of the BulletinBoard.      |
+
+       ErrorDialog                                                   |
+            The ErrorDialog convenience function instantiates a      |
+            message box and a dialog shell.  The ErrorDialog is
+            used to warn the user of an invalid or potentially
+
+
+                                                               2-19
+
+
+
+
+
+
+
+
+
+
+
+
+            dangerous condition.  ErrorDialog includes a symbol and
+            a message.  Three buttons are available: OOOOKKKK, CCCCaaaannnncccceeeellll,     |
+            and HHHHeeeellllp by default.  The default ErrorDialog symbol is
+            a hexagon with a hand inside.                            |
+
+       FileSelectionDialog                                           |
+            The FileSelectionDialog convenience function instan-     |
+            tiates a file selection box and a dialog shell.  The
+            FileSelectionDialog is used to select a file.            |
+            FileSelectionDialog includes an editable text field for  |
+            the directory mask, scrolling lists of filenames and     |
+            directories, and an editable text field for the          |
+            selected file.  Four buttons are available: OOOOKKKK, FFFFiiiilllltttteeeerrrr,  |
+            CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.                             |
+
+       FormDialog                                                    |
+            The FormDialog convenience function instantiates a form  |
+            and a dialog shell.  The FormDialog is used for
+            interactions not supported by the standard dialog set.   |
+            Necessary dialog components are added as children of     |
+            the form.                                                |
+
+       InformationDialog                                             |
+            The InformationDialog convenience function instantiates  |
+            a message box and a dialog shell.  The InformationDia-
+            log is used to give information to the user, such as
+            the status of an action.  InformationDialog includes a
+            symbol and a message.  Three buttons are available: OOOOKKKK,  |
+            CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.  The default Information-
+            Dialog symbol is a square icon with an ``i'' in the
+            center.                                                  |
+
+       MessageDialog                                                 |
+            The MessageDialog convenience function instantiates a    |
+            message box and a dialog shell.  The MessageDialog is
+            used to give information to the user.  MessageDialog
+            may include a symbol and a message.  There is no symbol
+            by default.  Three buttons are available: OOOOKKKK, CCCCaaaannnncccceeeellll,    |
+            and HHHHeeeellllpppp by default.                                     |
+
+       PromptDialog                                                  |
+            The PromptDialog convenience function instantiates a     |
+            selection box and a dialog shell.  The PromptDialog is
+            used to prompt the user for text input.  PromptDialog
+            includes a message and a text input region.  Four but-   |
+            tons are available: OOOOKKKK, AAAAppppppppllllyyyy, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by       |
+            default.                                                 |
+
+       QuestionDialog                                                |
+            The QuestionDialog convenience function instantiates a   |
+            message box and a dialog shell.  The Question Dialog is
+
+
+       2-20
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+            used to get the answer to a question from the user.
+            QuestionDialog includes a symbol and a message.  Three   |
+            buttons are available: OOOOKKKK, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.
+            A ``?'' is the default QuestionDialog symbol.            |
+
+       SelectionDialog                                               |
+            The SelectionDialog convenience function instantiates a  |
+            selection box and a dialog shell.  The SelectionDialog
+            is used to get a selection from a list of alternatives.
+            SelectionDialog includes a message, an editable text
+            field, and a scrolling list of choices.  Four buttons    |
+            are available: OOOOKKKK, AAAAppppppppllllyyyy, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.   |
+
+       WarningDialog                                                 |
+            The WarningDialog convenience function instantiates a    |
+            message box and a dialog shell.  The WarningDialog is
+            used to warn the user of the consequences of an action,
+            and give the user a choice of resolutions.  WarningDia-
+            log includes a symbol and a message.  Three buttons are  |
+            available: OOOOKKKK, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by default.  A ``!'' is
+            the default WarningDialog symbol.                        |
+
+       WorkingDialog                                                 |
+            The WorkingDialog convenience function instantiates a    |
+            message box and a dialog shell.  The WorkingDialog is    |
+            used to inform users that there is a time-consuming      |
+            operation in progress and allow them to cancel the       |
+            operation. WorkingDialog includes a symbol and a mes-
+            sage.  Three buttons are available: OOOOKKKK, CCCCaaaannnncccceeeellll, and      |
+            HHHHeeeellllpppp by default.  The WorkingDialog symbol is a square
+            icon with an hourglass in the center.                    |
+
+       2.1.7  MMMMeeeennnnuuuu WWWWiiiiddddggggeeeettttssss
+
+       The RowColumn widget is the basis for most of the menu sys-
+       tem components.  It has a built-in ability to behave like a
+       RowColumn manager, a radio box, a menu bar, a pull-down menu  |
+       pane, a pop-up menu pane, and an option menu.  Convenience
+       functions have been provided to easily create these special
+       versions of the RowColumn widget.
+
+       The Motif menu system is composed of the following widgets
+       and convenience functions:
+
+          +o XmRowColumn  (Widget)
+
+          +o MenuBar    (Convenience Function)
+
+          +o OptionMenu (Convenience Function)
+
+
+
+
+                                                               2-21
+
+
+
+
+
+
+
+
+
+
+
+
+          +o Pulldown Menupane  (Convenience Function)
+
+          +o Popup Menupane (Convenience Function)
+
+          +o XmMenuShell   (Widget)
+
+          +o XmCascadeButton  (Widget and Gadget)                     |
+
+          +o XmSeparator    (Widget and Gadget)
+
+          +o XmLabel    (Widget and Gadget)
+
+          +o XmToggleButton     (Widget and Gadget)
+
+          +o XmPushButton (Widget and Gadget)
+
+       Applications are not required to use all of these components
+       to use the menu system.
+
+       2.2  GGGGaaaaddddggggeeeettttssss
+
+       Gadgets provide essentially the same functionality as the
+       equivalent primitive widgets.  The primary motivation behind
+       providing a set of gadgets is to improve performance, both
+       in execution time and data space.  This applies to both the
+       application and server processes and minimizes the amount of
+       lost functionality.  The performance difference between
+       widgets and gadgets is dramatic, so it is highly recommended
+       that applications use gadgets whenever possible.
+
+       Gadgets can be thought of as windowless widgets.  This means  |
+       that they do not have windows, translations, actions, or      |
+       pop-up children.  Also, gadgets do not have any of the        |
+       visual resources found in the XmPrimitive class for primi-
+       tive widgets.  These visuals are referenced by a gadget from
+       its parent.
+
+       Examples of display gadgets include buttons, labels and
+       separators. All of these gadgets are built from the classes
+       of Object, RectObj, and XmGadget.  The table below shows the
+       gadgets and their class names.                                |
+
+
+
+
+
+
+
+
+
+
+
+
+       2-22
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+                           TTTTAAAABBBBLLLLEEEE 2222----2222....  Gadgets
+
+            GGGGaaaaddddggggeeeetttt NNNNaaaammmmeeee             GGGGaaaaddddggggeeeetttt CCCCllllaaaassssssss
+            __________________________________________________
+            Object                  objectClass                      |
+            RectObj                 rectObjClass                     |
+            XmGadget                xmGadgetClass
+            XmArrowButtonGadget     xmArrowButtonGadgetClass
+            XmSeparatorGadget       xmSeparatorGadgetClass           |
+            XmLabelGadget           xmLabelGadgetClass
+            XmCascadeButtonGadget   xmCascadeButtonGadgetClass       |
+            XmPushButtonGadget      xmPushButtonGadgetClass
+            XmToggleButtonGadget    xmToggleButtonGadgetClass        *
+7                                 |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+       The following list provides an overview of the set of
+       display gadgets.                                              |
+
+       Object (objectClass)                                          |
+            The Object class is an Xt Intrinsics meta class and is
+            therefore never instantiated.  It is used as a support-
+            ing superclass to provide common resources to other
+            classes.                                                 |
+
+       RectObj (rectObjClass)                                        |
+            The RectObj class is an Xt Intrinsics meta class and is
+            therefore never instantiated.  It is used as a support-
+            ing superclass to provide common resources to other
+            classes.                                                 |
+
+       XmGadget (xmGadgetClass)                                      |
+            XmGadget is a Motif meta class and is therefore never
+            instantiated.  It is used as a supporting superclass to
+            provide common resources to other gadget classes.        |
+
+       XmArrowButtonGadget (xmArrowButtonGadgetClass)                |
+            An arrow button gadget has the same functionality as a   |
+            push button gadget, but displays a directional arrow
+            within itself.                                           |
+
+       XmSeparatorGadget (xmSeparatorGadgetClass)                    |
+            A separator gadget is used to provide a visual separa-   |
+            tion between groups of widgets.  It can draw horizontal  |
+            and vertical lines in several different styles.          |
+
+       XmLabelGadget (xmLabelGadgetClass)                            |
+            A label gadget consists of either text or graphics.  It  |
+            can be instantiated, but it is also used as a super-     |
+            class for button widgets.  The label gadget's text is a
+            compound string and can be multidirectional, multiline,
+            multifont, or any combination of these.  The Label       |
+            gadget is considered static because it does not accept
+
+
+                                                               2-23
+
+
+
+
+
+
+
+
+
+
+
+
+            any button or key input other than the Help button on    |
+            the widget.  The help callback is the only callback      |
+            defined for the Label gadget.                            |
+
+       XmCascadeButtonGadget (xmCascadeButtonGadgetClass)            |
+            Cascade button gadgets appear in MenuBars or in Popup    |
+            or Pulldown MenuPanes.  A cascade button gadget usually  |
+            has an associated submenu.  When the gadget is armed,    |
+            by moving the pointer over the gadget and pressing a     |
+            mouse button, its appearance becomes three dimensional   |
+            and it displays its submenu.  When the gadget is         |
+            activated, by releasing the mouse button while the       |
+            pointer is over the gadget or by pressing a mnemonic     |
+            key, the submenu remains posted.  A cascade button       |
+            gadget has a text or graphical label and, when in a      |
+            menu, an arrow indicator to the right of the text or     |
+            graphics that points to the area where the submenu is    |
+            displayed.                                               |
+
+       XmPushButtonGadget (xmPushButtonGadgetClass)                  |
+            Push button gadgets are used to issue commands within    |
+            an application.  A push button gadget displays a label   |
+            with a border-shadowing graphic.  When the push button   |
+            is selected, the shadow moves to give the appearance     |
+            that the push button has been pressed.  When the push    |
+            button is unselected, the shadow moves to give the       |
+            appearance that the push button is out.                  |
+
+       XmToggleButtonGadget (xmToggleButtonGadgetClass)              |
+            A toggle button gadget consists of a text or graphics    |
+            button face with an indicator (a square or diamond-
+            shaped box) placed to the left of the text or graphics.
+            You select the toggle button gadget by placing the       |
+            mouse cursor inside the rectangle and pressing mouse
+            button 1.  The indicator is then filled with the selec-
+            tion color, indicating that the toggle button gadget is  |
+            selected.  Toggle button gadgets are used for setting
+            nontransitory data within an application.                |
+
+       2.3  CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       Convenience functions are functions that enable you to
+       create certain widgets or gadgets, or groups of widgets or
+       gadgets, by making just one function call.  A convenience     |
+       function creates a predetermined set of widgets and returns   |
+       the parent widget's ID.  Convenience functions are of the     |
+       form:
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeee_W_i_d_g_e_t_N_a_m_e                                            |
+
+
+
+
+       2-24
+
+
+
+
+
+
+
+
+
+                        Widgets, Gadgets, and Convenience Functions
+
+
+       for widgets and gadgets other than Dialog widgets.  For dia-  |
+       logs, convenience functions are referred to as ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee    |
+       ddddiiiiaaaallllooooggggssss, and are of the form:                                 |
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeee_D_i_a_l_o_g_W_i_d_g_e_t_N_a_m_eDDDDiiiiaaaalllloooogggg                                |
+
+       It is very easy to use a convenience function to create a     |
+       widget.  For example, you can use the following code segment
+       to create a Label widget:                                     |
+
+       WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLaaaabbbbeeeellll (_p_a_r_e_n_t,_n_a_m_e,_a_r_g_l_i_s_t,_a_r_g_c_o_u_n_t)           |
+
+       WWWWiiiiddddggggeeeetttt _p_a_r_e_n_t;                                                |
+       SSSSttttrrrriiiinnnngggg _n_a_m_e;                                                  |
+       AAAArrrrgggglllliiiisssstttt _a_r_g_l_i_s_t;                                              |
+       CCCCaaaarrrrddddiiiinnnnaaaallll _a_r_g_c_o_u_n_t;                                            |
+
+
+       _p_a_r_e_n_t   Specifies the parent widget for the Label.           |
+
+       _n_a_m_e     Specifies the resource name for the Label.  This
+                name is used for retrieving resources, and there-
+                fore it should not be the same as any widget that    |
+                is a child of the same parent, unless identical      |
+                resource values are to be used for the child widg-
+                ets.
+
+       _a_r_g_l_i_s_t  Specifies the argument list used to override the
+                default values for the Label's resources.
+
+       _a_r_g_c_o_u_n_t Specifies the number of arguments in the arglist.
+
+       The XXXXmmmmCCCCrrrreeeeaaaatttteeee_W_i_d_g_e_t_N_a_m_e functions create unmanaged widgets.    |
+       Your application must manage the set of widgets before they   |
+       will be displayed.  You can manage each widget separately or
+       as a group.  Use this code segment to create and manage each
+       widget separately:                                            |
+
+       Widget w;                                                     *|
+
+       w = XmCreate<widgetname>(parent, name, arglist, argcount);    |
+       XtManageChild(w);                                             |
+
+       Use this code segment to create and manage widgets with the   |
+       same parent as a group:                                       |
+
+
+
+
+
+
+
+
+                                                               2-25
+
+
+
+
+
+
+
+
+
+
+
+
+       int child_count = 0;                                          *|
+       Widget w[10];                                                 |
+
+       w[child_count++] = XmCreate<widgetname>(parent, name, arglist, argcount)||
+       w[child_count++] = XmCreate<widgetname>(parent, name, arglist, argcount)||
+       w[child_count++] = XmCreate<widgetname>(parent, name, arglist, argcount)||
+                                                               .     ||
+                                                               .     ||
+                                                               .     ||
+       XtManageChildren(w, child_count);                             |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-26
+
+
+
+
+

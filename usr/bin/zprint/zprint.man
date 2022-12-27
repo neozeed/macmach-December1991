@@ -1,0 +1,77 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	zprint.man,v $
+.\" Revision 2.4  91/03/19  13:04:55  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.3  90/12/16  15:54:16  jsb
+.\" 	Documented new -c and -h options, as well as -(uppercase) trick.
+.\" 
+.\" Revision 2.2  90/09/12  16:34:44  rpd
+.\" 	Initial check-in.
+.\" 	[90/09/12  16:01:12  rpd]
+.\" 
+.TH ZPRINT 1 27/02/87
+.CM 4
+.SH NAME
+zprint \- show information about kernel zones
+.SH SYNOPSIS
+\fBzprint\fP [\fB-w\fP] [\fB-s\fP] [\fB-c\fP] [\fB-h\fP] [name]
+.SH DESCRIPTION
+\fIzprint(1)\fR displays data about Mach zones.  By default,
+\fIzprint\fR will print out information about all Mach zones.  If the
+optional \fIname\fR is specified, \fIzprint\fR will print information
+about each zone for which \fIname\fR is a substring of the zone's
+name.
+.PP
+\fIzprint\fR interprets the following options:
+.TP 8
+.B \-w
+For each zone, \fIzprint\fR calculates how much space is allocated but
+not currently in use, the space wasted by the zone.
+.TP 8
+.B \-s
+\fIzprint\fR sorts the zones, showing the wasting the most memory first.
+.TP 8
+.B \-c
+(Default)
+\fIzprint\fR prints zone info in columns. Long zone names are truncated
+with '$', and spaces are replaced with '.', to allow for sorting by column.
+Pageable and collectible zones are shown with 'P' and 'C'
+on the far right. Zones with preposterously large maximum
+sizes are shown with '----' in the max size and max num elts fields.
+.TP 8
+.B \-h
+(Default)
+Shows headings for the columns printed with the -c option.
+It may be useful to override this option when sorting by column.
+.PP
+Any option (including default options) can be overridden
+by specifying the option in upper-case; for example, -C overrides
+the (default) option -c.
+.SH "SEE ALSO"
+host_zone_info(2).

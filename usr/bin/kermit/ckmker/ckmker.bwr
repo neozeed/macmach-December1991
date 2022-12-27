@@ -1,0 +1,1049 @@
+FILE CKMKER.BWR       MACINTOSH KERMIT "BEWARE" FILE                July 1991
+
+F. da Cruz, Columbia University, fdc@watsun.cc.columbia.edu
+
+Mac Kermit 0.99(91) is an ALPHA version of the software.  It is has many
+bugs, limitations, missing features, and so forth.  This file lists the
+ones that have been found so far.
+
+Mac Kermit 0.99(91) is the first version to have been built with the C-Kermit
+5A file transfer protocol modules, so it incorporates all the latest protocol
+features of C-Kermit.  However, in many cases the user interface lacks the
+menu items to let you get at them.  The major exception is the sliding window
+feature, which you can select in the protocol settings menu.
+
+There is no documentation for the new version except this file.  Documentation
+will appear by the time the program is ready for release.
+
+The new version of Mac Kermit can be built using MPW C 3.0 on the Macintosh.
+
+Some of the source files contain 8-bit characters.  Make sure you have
+transferred them to your Mac correctly.
+
+  ckmker.r
+  ckmkr2.r
+  ckmscr.c
+  kermit.make    (= ckmker.mak)
+  my_fonttypes.r (= ckmmft.r)
+
+The programmer for the Mac-specific parts of Mac Kermit has been Paul
+Placeway.  He will not have much (perhaps any) time to continue working on
+this program.  One or more new Mac Kermit developers are needed.  All work
+should be coordinated through Columbia University. 
+
+NEW FEATURES
+
+Sliding windows.
+
+File transfer thermometer.
+
+Inverted screen now works.
+
+Cut and paste during terminal emulation, including double click to select
+a word, triple click to select a line.
+
+Screen rollback using the scroll bar.
+
+Screen sizing (vertically only) using the size box.
+
+Many others...
+
+Works OK with Novell server disks (maybe it did before too).
+
+FILE TRANSFER CHARACTER-SET TRANSLATION
+
+There is no way to select file and transfer character set and language rules
+for file transfer.  Paul said he tried to implement this, but it was buggy, so
+he backed out.  The translation code is in the modules ckcxla.h (universal),
+ckmxla.h and ckmxla.c (Mac-specific).  The ckmxla.* files are straightforward
+adaptations of the UNIX/VMS equivalents, ckuxla.*, which work fine.  It should
+be fairly easy to get the Mac translations to work once the user interface is
+in place to select them.  The ckmxla.* files support US Mac, ASCII, and
+Latin-1 as file character sets (is "US Mac" the same as Quickdraw?) and ASCII,
+Latin-1, and Transparent as transfer character sets.
+
+Probably the easiest way to make these available is to add them to a new
+section at the bottom of the Character Sets... Settings menu (the x's are the
+prechecked defaults):
+
+File Character Set     Transfer Character Set      Language rules
+
+[ ] ASCII              [ ] ASCII                   [ ] German
+[ ] ISO Latin-1        [ ] ISO Latin-1             [ ] Scandinavian
+[x] US Macintosh       [x] Transparent             [x] None
+
+This should make it pretty simple -- just set the variables fcharset,
+tcharset, and language.  German and Scandinavian are the only languages we
+have special rules for, so we don't need all the others in the menu.
+The language variable requires a table lookup; here's the code from UNIX/VMS
+C-Kermit:
+
+    for (i = 0; (i < nlangs) && (langs[i].id != y); i++) ;
+    if (i >= nlangs) {
+	printf("internal error, sorry\n");
+	return(success = 0);
+    }
+    language = i;			/* All good, set the language, */
+
+
+MISSING OR DESIRABLE FEATURES
+
+Ability to move the file transfer display window, or make it go away.
+
+Set Key dialog box should show what a key sends if it is "unbound".
+
+Set Key Macros should allow decimal and hex escapes as well as octal, like
+MS-DOS Kermit: \onnn = octal, \dnnn = decimal, \xnn = hex, \nnn defaults to
+decimal (of course changing the default will cause problems).  C-Kermit
+already has code to parse these forms, as well as to handle grouping, e.g
+\{27}2 to send ESC 2.
+
+A way to run C-Kermit's command parser, to allow script programs, DIAL
+commands, etc, to be executed.  Ideally we'd have a pop up, scrolling text
+window to run script programs in, and maybe even be able to type commands
+at the prompt.
+
+Tektronix and/or ReGis graphics emulation.
+
+Addition of missing VT320 features, including VT220, VT102, VT100, and VT52
+submodes.
+
+Better mechanism for selecting multiple files to send (shift-drag, etc).
+
+Move Print menu to File menu, and add "Print selection" and "Print screen"
+options selectable by mouse clicks.
+
+Add text editing to server response window.
+
+BUGS
+
+Terminal fonts: VT100 font does not scale well to any size other than 9.
+The only solution for this is to create separate fonts in the other sizes Mac
+Kermit supports: 10, 12, 14, and 18.  Truetype isn't a good solution because
+it won't work on pre-System 7 Macs, and even on System 7 (reportedly) it
+results in some overhead.
+
+A point size of 7 is listed in the Font menu, but it can't be selected.
+
+The VT100 terminal font does not behave correctly under System 7.  It acts
+as if it were proportional rather than monospace.
+
+Mac Kermit's VT100 font has entirely different character codes than all the
+other Mac fonts for the special (8-bit) characters.  If you switch to, say,
+Courier for terminal emulation, all the special characters (accented vowels,
+etc) come out wrong.
+
+The VT100 font is built into Mac Kermit, which means it can't be hooked in to
+Key Caps, so you can never find out what keys to type in order to send special
+characters.  The font should be externalized, but then it becomes difficult to
+install Mac Kermit -- you can't just stick in the disk and run it, you have to
+install fonts first.  Maybe it would be possible to keep it defined in Mac
+Kermit, but also have an external copy for the benefit of Key Caps.  But then
+we have to worry about keeping the internal and external copies in sync.
+
+Maybe it would be possible to ditch the VT100 font altogether and just use
+Courier for text -- it contains all the characters of Latin-1 and DEC-MCS, it
+looks better, it's scaleable, and it works with Key caps.  But unfortunately
+neither the Quickdraw nor Symbol Apple character sets contain the characters
+needed for DEC Special Graphics.  Symbol has about half of them (pi, diamond,
+box corners, math operators, center dot, degree, etc), but lacks the "parity
+error blob", the control character names (HT, FF, CR, LF, etc), box tops and
+bottoms, etc.  So we'd still need a "DEC Special Graphics" font.
+
+Proportional fonts can be selected during terminal emulation, but of course
+they don't look right because terminals use fixed-width fonts.  Maybe
+proportional characters could be displayed within fixed-size boxes.  Or maybe
+Kermit should only allow monospace fonts in its font menu.  Is there a way
+for Kermit to check this when it's building its Font menu?
+
+The Font menu should be moved to the Terminal Settings menu, since it only
+applies to terminal emulation.
+
+There is no character set translation during copy/paste.
+
+Screen height can be changed, but not width.  Need (at least) 132 column
+mode, and a terminal width menu selection (and correct response to VT "set
+width" escape sequences").
+
+Host-controlled screen printing works ok, but is it transparent print or
+autoprint?  The two work differently: transparent print (ESC [ 5 i) sends
+all received characters, including escape sequences, to the printer (which
+doesn't make much sense for an Apple printer), whereas autoprint sends each
+screen line to the printer after it has been fully formed and the cursor
+leaves it.  I think Mac Kermit treats both kinds of host directives the same
+and uses autoprint, which is probably the only way that makes sense.
+
+Kermit always drops DTR on Quit, regardless of what the check box says.
+
+Bad default mappings for many keys: Ctrl-1, Ctrl-2, etc, thru Ctrl-0.  (Also
+Shift-Ctrl-1, etc).  Ctrl-2 and Ctrl-Shift-2 should send NUL (ASCII 0).
+Ctrl-6 and Ctrl-Shift-6 should send Ctrl-^ (ASCII 30).  The other top-rank
+number keys should send nothing when pressed with Ctrl.  Reportedly, under
+System 7 some of these key combinations aren't even noticed.
+
+Others too: Ctrl-+, Ctrl-; have codes when they shouldn't, etc etc.  
+
+Cosmetics: Wording in the menus should be changed.  "Toggle DTR" should
+be "Hangup".  The communications-related items should be moved from the
+Edit menu to a new, top-level Communications menu.
+
+FILE TRANSFER PROTOCOL PROBLEMS
+
+If a file server disk goes away (e.g. because the connection dropped) in the
+middle of a file transfer, Mac Kermit hangs and has to be rebooted with the
+programmer button.  zminchar() should get and return an error code when this
+happens so Kermit can recover.
+
+The file transfer display / dialog-box needs a button for "retransmit the
+last packet" to let the user wake up a transfer that seems to be stuck.
+Maybe also a "send XON" button to let the user try to break an XOFF deadlock.
+
+1. Mac Kermit server mode in general:
+
+Sending a text file to the Mac Kermit server works fine.  Getting a text file
+from the Mac Kermit server also works fine, except the status screen still
+says "Receiving".
+
+REMOTE SET FILE TYPE BINARY, sent by a client to the Mac Kermit server, works.
+Binary file transfers in both directions work fine.
+
+There is, of course, no way for the client to put the Mac Kermit server into
+MacBinary mode, because as far as the Kermit protocol is concerned, MacBinary
+is an unknown file type.
+
+REMOTE DIRECTORY and REMOTE HELP, sent to the Mac Kermit server, don't work.
+(They used to.)
+
+FINISH works, the file transfer status screen disappears, but the word
+"REMOTE" in Mac Kermit's menu remains highlighted.
+
+There's no "nice" way for the Mac user to take Mac Kermit out of server mode.
+There should probably be a button to click on or something.
+
+2. MacBinary transfers with the server.
+
+OK, now we want to transfer files in MacBinary mode with a Mac Kermit server.
+We click on MacBinary in the File Settings menu, then put Mac Kermit in
+server mode.
+
+GETting a file from the Mac Kermit server: screen display says "Receiving"
+(instead of sending) and "Binary mode" (instead of MacBinary) and "data fork".
+The file arrives at the client end, but much too small.  Apparently Mac Kermit
+really did send only the data fork.  Sending this file back to Mac Kermit
+makes it say "Not a MacBinary file" -- which is interesting, because this
+makes it look like setting MacBinary mode takes effect for receiving but not
+for sending.
+
+3. MacBinary transfers with Mac Kermit as a local-mode client
+
+To confirm this, I made Mac Kermit the client.  I selected MacBinary in the
+File Settings menu, and then sent a Mac application (a MacDraw document).  The
+Send menu popped up, and the Text box was checked (instead of MacBinary).  I
+checked MacBinary and then sent the file.  Then I removed the original file
+from the current folder, and sent the copy back to Mac Kermit (receiving in
+attended mode).  But I noticed the name was full of garbage characters, so I
+gave it a new name.  Mac Kermit removed the first letter of the new name,
+received the file in MacBinary mode.  But it didn't have its MacDraw icon
+back, so I did Get Info on it, and saw that it also was 0 bytes long.
+
+Tried the same thing again, but this time I did not rename the file.  An alert
+box popped up and said "file does not exist".
+
+Tried the same thing again, but this time in unattended receive mode.  This
+worked OK, except:
+
+  - When the transfer was complete, Mac Kermit said "Could not rename file to
+    MacBinary name".
+
+  - 2 copies of the file were created: one an ordinary document with the name
+    from the file header packet, and another a MacDraw document with its
+    original (MacBinary) name, except with one garbage character prepended to
+    it, which shows up as a square.
+
+When I did Get Info on the non-MacDraw-looking copy of the file, its icon
+suddenly turned into a MacDraw icon.  But its name didn't change.  So now I
+have two identical copies of the file with different names.  Clicking on
+either one works fine -- MacDraw starts, and the correct picture appears.
+
+So when sending files, whether in server mode or regular local mode, Mac
+Kermit apparently ignores or misinterprets the global file mode.
+
+By the way, after playing with this for some time, I got the file settings
+menu into a state where the text button no longer worked, and neither of the
+fork buttons worked.
+
+------------------------------
+
+Here is a collection of reports about earlier Mac Kermit releases,
+particularly with reference to System 7.  A mixed bag...
+
+Date: Tue, 16 Jul 91 12:48:32 EDT
+From: Jill Williams <jill@cunixf.cc.columbia.edu>
+To: fdc@cunixf.cc.columbia.edu, cmg@cunixf.cc.columbia.edu
+Subject: mackermit and sys7
+Message-Id: <CMM.0.90.2.679682912.jill@cunixf.cc.columbia.edu>
+
+Thought this might be of interest...
+==================================
+Date: Mon, 01 Jul 91 16:01:53 CDT
+From: JOHNSON%TWSUVM.bitnet@ricevm1.rice.edu
+Subject: MacKermit and System 7
+
+It has been requested that I submit a summary of the responses I got to
+my question on MacKermit and System 7.  Many lines have been deleted but
+I believe the gist of the responses is still there.  Apologies for such a
+large file but the responses varied as you will see.
+Brenda F. Johnson
+Wichita State University
+johnson@twsuvm
+=========================================================================
+I use the .98 version on an SE and it works fine on an IBM mainframe. Of
+course it's brain dead, but that the price to pay for 3270 emulation.
+Gordon
+Dohle@Vax2.Concordia.ca
+Dohle@Conu2.Bitnet
+=========================================================================
+I saw your question about MacKermit in the info-mac digest.  I use
+0.98 on a Mac Plus with no problem. However, older Macs with the
+old ROMs will not run that version of Kermit.  Instead, you need the
+0.8x version.
+Eloise Kleban                   eloise@maine   (BITNET)
+University of Maine System      eloise@maine.maine.edu  (Internet)
+=========================================================================
+Here's some answers to the question about MacKermit 0.98:
+1) Before you do anything, make sure you have the latest version, 0.98(63).
+2) I know of only a few genuine problems/incompatibilities:
+Mac (original 128K), Mac 512: Documentation claims that it doesn't work at all.
+			      My own experience concurs.
+Mac +, Mac Portable: While there is no technical machine incompatibility, the
+		     small keyboards on these machines can cause surprising
+		     problems. Many key macros have to be rewritten to make
+		     them work.
+Mac SE, SE/30, II, IIx, IIcx, IIci, IIfx : No known problems.
+Mac LC, Mac IIsi, Classic: ???? I've heard uncomfirmed reports of MacKermit
+			   locking up without warning on the IIsi; not sure
+			   about the others.
+Anything with System 7: Watch out! Kermit has locked up every machine I've
+                        tried to use it on with Sys7.
+Hope this helps,
+Rick Russell
+wrr@ricevm1.rice.edu
+=========================================================================
+Saw your inquiry on the Info-Mac system.  I've been using MacKermit 0.98
+for the better part of a year now, with few problems.  It does work on a
+Mac Plus (that's what I'm using right now).  The Plus won't permit you
+to do some things that the extended keyboard would make easier, but most
+commands work fine.  I'm also using System 7 and the only problem I've
+found so far is that MacKermit doesn't like to let you use Apple Menu items
+while running the program in System 7.  That's a hassle, but you can use
+MultiFinder (or its Sys7 equivalent) to return to the finder, then access
+the Apple Menu.
+-------------------------------------------------------------------
+Tim Myers              |        BITNET: MYERST@OUACCVMB
+Ohio University        |      INTERNET: tmyers@oucsace.cs.ohiou.edu
+=========================================================================
+Let me quantify the situation more exactly:
+Using either a Mac II w/Sys7 or a IIfx w/Sys7, MacKermit 0.98(63) will lock
+up badly if you try to modify the key settings using the "Set Macro Keys..."
+menu option.
+Very few inits were running on the test systems; ATM is the only large one.
+Virtual memory and 32-bit addressing were OFF.
+I suspect Kermit would lock like this on any machine w/Sys7, but I've only
+tested it on the II and IIfx.
+A side note about IIsi incompatibility: I heard about this from a IIsi owner
+who came into our User Clinic and reported that Kermit wouldn't run on her
+IIsi. I don't know anything else about her system setup.
+Rick Russell
+wruss00@ricevm1.rice.edu
+=========================================================================
+I am using Kermit .98 on Mac+s and an SE with no problems.  I find it the
+most reliable and closest to true VT100 emulation.
+-- Doug
+=========================================================================
+The very lastest version of MacKermit may always be obtained via
+anonymous FTP from 'watsun.cc.columbia.edu' in the directory
+'kermit/test'. It is called 'ckmker.hqx', and it needs to be de-
+binhexed with Binhex 4.0 or an equivalent.
+Documentation and related files may be obtained from the directory
+'kermit/b'. All MacKermit-related files are prefaced with the letters
+'ckm'. Useful and/or interesting files include:
+In the kermit/b directory:
+ckmker.bwr		Potential Kermit Problems
+ckmker.doc		A documentation file
+ckmker.ps		Same docs, in PostScript
+ckmvt1.doc		Info on VT100 term emulation
+ckmvt1.hqx		Binhexed VT100 term settings file
+ckmker.hqx		Version 0.9(40) of MacKermit. Don't get it confused
+			with version 0.98(63), in the kermit/test
+			directory.
+ckm834.*		Version 0.8(34) of MacKermit. Known to work on
+			Mac 512's and original Mac 128's.
+Rick Russell
+wrr@ricevm1.rice.edu
+=========================================================================
+I guess I'm as stumped as you are on the Kermit problem.  I'm using
+version 0.98 of MacKermit.  At work I use a Mac Classic, connecting
+through a Shiva Net Modem 2400.  At home on my trusty Mac Plus, I'm
+using the same settings, but with an external modem.  I'm dialing in
+at 2400 baud, with pretty general settings.  The only problem I've
+found, aside from the Apple menu problems in system 7, is that when
+using the Net Modem, MacKermit doesn't like to make a Kermit file
+transfer.  I presume that the program doesn't like to use the printer
+port and expects to see the regular Mac modem port used.  I also get
+a funky dialogue box when I quit the program, with it telling me that
+it couldn't successfully close the port.  At work, I just have to use
+another program for file transfer (Quick Link II).  But I use
+MacKermit for about everything else.
+Like everyone using it, I yearn for better features:  better window
+control, scripting, better cut and paste, sending ASCII directly to
+the terminal window and many more, but the price (free) is right.
+Tim
+=========================================================================
+ We have had MacKermit 0.98(63) running on mac Pluses since it's release.
+As a matter of fact our default is the plus for public transfers with
+kermit. It might be that your keyboard configuration file is odd on the
+mac+. I am attaching at the end a binhex4 version of our mac+ configuration
+file.
+Mike Stark
+--------------begin binhex4 cut here or use stuffit's other menu-------
+
+Mike Stark    UC San Diego, Instructional Computing Center
+Software Library & Mac Lab Support        (619) 534-4060
+internet: mstark@ucsd.edu  / bitnet: mstark@ucsd.bitnet
+Compuserve:[70425,1164]/ Applelink:Stark4/ Delphi&AOL:MWS85/GENIE:M.STARK
+(This file must be converted with BinHex 4.0)
+:#8eKBdYPFQeTG!",49*65e)`13%!!!!!!!!!"5TaY3!!!!!"!!!!",`!!!1m!!!
+!EJ!!SQm!!!)!!!!)!!!1!!!&X`%9!5%K)@&'FQ&YC5!b#8eKBdYPFQeTG!)!!!"
+,49*65e)`13%!!#S!%Irq!!!!!%Y&8P0,8M!j!3!!+J!4rrjeZ3!!!!!!!!!!!!!
+!!!!!RPe[l3!!!!!!!!8U!!!!!!!&&!!!!!++!!!!!!!!!!!!"43!!SS#LJ!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!'`!!!!D!!!PJ!!!!!!!!!!!!!!!"3!!!!!!!!!!!!!!"`!!!!S!!!"D!!!
+!@J!!!"%!!!!!!!!!!3!!!!S!!!!!!!!!!!!!!!!!!!!"!!!!!!!!!!%!!!!!!!!
+!!3!!!!!!!!!!!!!!!!!!!!%!!!!*#!!!$3d"!3%!!!!#!!!!!!!!!$!!)i`!!!!
+!!"i!!!!!!!!J!!!)!!!!!!!!!!!!!!!!!!!JK!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!J!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!"0`%#!%%-CJ!!rrm!!+!M!!S@aJ!*Gii!%J"
+"$'B!!2rr!!#J)`!+&XB!#AH1!!!!33aQ!!$rr`!!S#-!#KE'!!PhMJ!!!%%-CJ!
+!rrm!!+!M!!S@aJ!*Gii!%J!c!!&r!$)!!4X!XJ!"B!"q!!-E6d%!I3!$'dp#!(`
+!!aY23`"l!!-E6d3!4J!$'dp%!%d!!aY233")!!-E6d)!3J!$'dp$#$)!!@!!6!!
+$'cp0!%F!!KY3!8J!!KY4!8d!!KY5!8)!!KY6!-`"A'*bC@&V!1B!33)m!%!IRJ!
+*H#J!!0[Q!!!!8rrr!*3!!0[NJ!!J#)!!i))!M3#$!!!!J!!,!")!!0[N!!ZD(J"
+"$'B!!!!!!!#J)`!*rM)!#AHd!%%"!J#0!)-!!!!*Gc3!!!!!!!!!#B"!!!!!!!!
+"!!!!",`!!!1m!!!!EJ!*,0`&*J!!!"`!EJ!$8d&@53!!!#*639C$!!!!,NY6493
+!!!!k690&9!!!!%B!"Irr!!!!!!!*Gk!!"Irr!!!!F!!*Gi`!"2rr!!!!I3!*GjJ
+!"Irr!!!#J3!*Gj`&[3:
+=========================================================================
+Version .8(40) is the most recent "complete" version released as finished
+by Columbia. The .9(xx) versions are all developmental.
+The verion 0.98(62) has some font problems, version .98(63) has problems
+with macbinary. DONT use macbinary under edit 63 or you will randomly get
+empty files!!
+We distribute it for file transfers from VMS, Unix and other machines. The
+problems you may be having are possibly from the CMS side. Have you gotten
+the latest CMS Kermit? It may be a timing or sync problem between the two.
+The only problem I know is that you need to go back to .8(36) to run on a
+128k mac. The 0.8(40) version runs on 512k's and 98(63) runs on everything
+with a 128k ROM or better.
+I am using System7 on my Mac+ at home and have had no changes with Kermit
+or any of the other Comm programs I use. (Except Zterm needs the KCHR
+resource moved to the system for it's mac+ keyboard mapping). I am not yet
+running system 7 on my mac's here as I am waiting for the real system 7
+version of MAC/TCP to be released before moving.
+See my comments about edit 63 above.
+Mike Stark    UC San Diego, Instructional Computing Center
+=========================================================================
+  Well, I'm using MacKermit 0.98(63) just fine on my Plus.  Used it
+since back when it had 1 meg (now has 4).  Works ok under multi-finder
+(I'm still running 6.0.2) altho file transfers in the background under
+MF can sometimes fail if the foreground programs aren't "well-behaved".
+All in all very good software, and stable.  (Using it right now to connect
+to a 3090 with a front end that allows vt100 emulation -> 3270).
+   Bob
+=========================================================================
+I am using MacKermit 0.98 on my Mac IIsi running system 7.0.
+I have performed all of the standard functions, including
+downloading, using FTP, and sending and receiving e-mail
+with no problems whatever. There seem to be no performance
+differences on this Kermit between 6.0.7 and 7.0.
+                                       Larry Hardin
+=========================================================================
+Hi.  I'm using MacKermit (0.98) under System 7.  It seems to
+work O.K., at least on the transactional level.  I haven't tried
+printing yet.  I have found that it *hates* changing the keyboard
+scan by loading a different config file after it's running - that
+used to never be a problem.
+It works well enough to get me through until the next release (which,
+according to the last I-KERMIT newsletter, should be in the "near(?)
+future.").
+Jeff Luck
+JFL4@PSUVM
+=========================================================================
+I occasionally use MacKermit .98(62) under System 7 from a Mac SE.  I have
+not experienced any problems with it.  I have used it for terminal
+emulation only, not file transfer, since I generally use Telnet/FTP.
+=========================================================================
+I make use of MacKermit V0.98(62) under system 7.  So far it has worked quite
+will.  It is not my primary terminal software, but it gets used several times
+a month.
+In case its important, im running System 7 on a 4meg SE/30.
+-Mark
+=========================================================================
+In Info-Mac Digest V9 #147 you ask if anyone is using MacKermit with System
+7. I am, and have had no trouble. My version is 0.98(62).
+Mike Dustan
+Technical Specialist
+=========================================================================
+I've used MacKermit version 0.98 with system 7 on a Mac SE/30 with no problems.
+Karen Lukas
+=========================================================================
+I use MacKermit 0.98 on MacPlus, Mac LC, Mac SE and Mac IIsi. No problems.
+As far as I know, MacKermit has no compatibility problems worth mentioning.
+Doesn't it work on Mac 512?
+
+/Ingemar (ingemar@isy.liu.se. This is mailed from my wife's account, so
+don't reply to her.)
+=========================================================================
+I have used in the last 6 months MacKermit 0.98(63) on a Macintosh Plus,
+Macintosh SE, and Macintosh IIci. I haven't had any real problems and will
+be installing this version in our labs at Humboldt State University for use
+this fall. MacKermit 1.0 is going to be Beta tested starting in a couple
+weeks. I use MacKermit to connect to DEC VAX's, unix machines, and CDC Cyber's.
+-Rocky Waters
+=========================================================================
+I am using a version of Kermit for the Mac, but it's not explicitly called
+"MacKermit." It is Kermit 0.98(63), and it works fine on my SE, 4MB RAM under
+System 7.0. It actually works better than Red Ryder at downloading files
+from a VAX.
+Chris
+culy@uncvx1.oit.unc.edu
+=========================================================================
+I'm using Kermit 0.98 under system 7 on an SE.  Right now.  Works great!
+I can't say for sure, but I'm fairly certain I've also used 0.98 on a
+Mac  +, but one of your postings said that wasn't suposed to work.  Any
+idea why?  Isn't much difference between a + and an SE, is there?
+williams@oyster.smcm.edu
+=========================================================================
+
+------------------------------
+
+Date: Tue, 23 Jul 91 10:40:07 EET
+From: Heikki Jussila <PSTL-HJ%finou.oulu.fi@cuvmb.cc.columbia.edu>
+Subject: Problems Using Kermit 0.97 (57) 06/27/89 on MAC se sys 6.0.7
+         Finnish keyboard
+
+Hi there|
+
+I've got a problem using the mac kermit 0.97 (57) on our mainframe.
+I mostly use MicroPhone II, but since its kermit protocoll does not accept
+extended packets I'll use mackermit for retreaval of big files. The problem
+is it does not stay on. When I'll connect to IBM7171 protocoll unit
+kermit dies. (uniexpectidely quit 1) and the when i'll try to load kermits
+settings file kermit does not load at all. If I'll load kermit on its own
+it loads up, but without any settings at all. One must load them separately.
+The most annoying thing is that it does not accept the at code of @ in any
+form. neither in 7 bit or 8 bit mode. We use 8 bit on MicroPhone. What is
+the problem. IBM??, IBM7171?? or MacKermit 0.97. ??
+
+If you have a new and more reliable version of kermit for mac
+please could you email me. An FTP address or something ?? Is there a
+version that will be compatible with sys 7.00 in the near future.
+
+Here is the most pressing questions. When I'll find or get new I'll
+be in touch.
+
+Heikki Jussila
+
+Address: Research Institute of Northern Finland, University of Oulu
+         SF-90570 Oulu, Finland
+Email: Pstl-HJ@Finou.oulu.fi (EARN/INTERNET)
+Telephone: +358-81-35 3556, Telefax: +358-81-35 3231
+
+------------------------------
+
+From: Jones*Peter <jones@mips1.info.uqam.ca>
+Subject: MAC Kermit 0.99(91) - 06/30/91
+To: fdc@watsun.cc.columbia.edu (Frank da Cruz)
+Date: Mon, 29 Jul 91 13:52:01 EDT
+
+I wish to report a couple of problems with MAC Kermit 0.99(91) - 06/30/91,
+running with edit 172 of C-Kermit on the MIPS:
+
+1) Parity doesn't automatically change to even when the comm line is in fact
+even parity instead of NONE. This does work in MS KERMIT. Maybe not implemented
+yet.
+
+2) If a value of 700 is entered for TIMEOUT, the PROTOCOL window seems to take
+it without complaining. However, when re-displaying the window, the value of 70
+appears (or was it truncated by the window boundary?).
+
+3) You don't get a warning message if selecting block 1 and long packets.
+
+4) A ghost cursor appears in the terminal session window. This seems to occur
+after using the menu at the top of the screen to select an option, and then
+returning to the terminal session. Maybe this will be fixed in the August
+version.
+
+Bye for now. Keep up the great work.
+ 
+
+------------------------------
+
+Date: Wed, 31 Jul 91 16:41:04 -0400
+From: Jones*Peter <jones@mips1.info.uqam.ca>
+Apparently-To: fdc@watsun.cc.columbia.edu
+
+Compilation report of Kermit 0.99(91) for Macintosh
+using MPW version 3.0
+
+by Michel Robitaille
+
+   University of Quebec
+   Service de l'informatique
+   P.O.Box 8888 Station A
+   Montreal, Quebec
+   CANADA
+   H3C 3P8
+
+ Voice: (514) 987-3114
+   FAX: (514) 987-7098
+e-mail: jones@info.uqam.ca
+
+NOTE: for a while talk to Peter Jones
+      at the fololowing phone number
+	  (514) 987-3542
+	  (same Fax and e-mail address).
+	  
+Every file has been compiled through the following loop
+except for ckmini.c which has errors (see compilation at the end)
+
+Every file has been compiled according to the following
+define (-d) options:
+   -d MAC -d MPW -d TLOG -u PROFILE
+
+for F in 	.c
+    echo Compiling file: {F}
+    c -d MAC -d MPW -d TLOG -u PROFILE {F} -o {Boot}Kmit:Objets:{F}.o
+end
+
+
+Compiling file: ckcfn2.c
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 703
+#--------------------------------------------------------------------------------------------------------------------------------
+#/* New way */
+#    if (spackets < 3) return;
+#                            ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1056
+#--------------------------------------------------------------------------------------------------------------------------------
+#    numerrs = 0;
+#    return;
+#          ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1067
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1183
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1387
+#--------------------------------------------------------------------------------------------------------------------------------
+#
+#    if (filcnt < 1) return;		/* If no files, done. */
+#                          ?		                         
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1399
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn2.c"; Line 1435
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckcfn3.c
+### Warning 238 Parameter "s" not used within the body of the function :  inibufs
+### Warning 238 Parameter "r" not used within the body of the function :  inibufs
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn3.c"; Line 154
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfn3.c"; Line 411
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckcfns.c
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 295
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 782
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 802
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 812
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 940
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcfns.c"; Line 1115
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckcmai.c
+Compiling file: ckcmdb.c
+Compiling file: ckcnet.c
+### Warning 238 Parameter "name" not used within the body of the function :  netopen
+### Warning 238 Parameter "lcl" not used within the body of the function :  netopen
+### Warning 238 Parameter "nett" not used within the body of the function :  netopen
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcnet.c"; Line 77
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+### Warning 238 Parameter "timo" not used within the body of the function :  netinc
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcnet.c"; Line 96
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "c" not used within the body of the function :  nettoc
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcnet.c"; Line 105
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "s" not used within the body of the function :  nettol
+### Warning 238 Parameter "n" not used within the body of the function :  nettol
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcnet.c"; Line 109
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckcpro.c
+#	screen(9 ,0,0l,"Sorry, you must 'set speed' first");
+#	return;
+#	      ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcpro.c"; Line 872
+#--------------------------------------------------------------------------------------------------------------------------------
+#	screen(9 ,0,0l,"Can't open line");
+#	return;
+#	      ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcpro.c"; Line 878
+#--------------------------------------------------------------------------------------------------------------------------------
+#	screen(9 ,0,0l,"Can't condition line");
+#	return;
+#	      ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckcpro.c"; Line 886
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmco2.c
+### Warning 254 Local variable "r" not used within the body of the function :  flushbuf
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmco2.c"; Line 1068
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "ticks" not used within the body of the function :  termmouse
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmco2.c"; Line 1422
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "newupdateRgn" not used within the body of the function :  scroll_screen
+### Warning 254 Local variable "currWindow" not used within the body of the function :  scroll_screen
+### Warning 254 Local variable "opened_r" not used within the body of the function :  scroll_screen
+### Warning 254 Local variable "r" not used within the body of the function :  scroll_screen
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmco2.c"; Line 2322
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "j" not used within the body of the function :  grow_term_to
+### Warning 254 Local variable "i" not used within the body of the function :  grow_term_to
+### Warning 254 Local variable "savedline" not used within the body of the function :  grow_term_to
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmco2.c"; Line 2688
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmcon.c
+### Warning 254 Local variable "i" not used within the body of the function :  printem
+### Warning 254 Local variable "cp" not used within the body of the function :  printem
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmcon.c"; Line 976
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "r" not used within the body of the function :  erase_char
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmcon.c"; Line 1289
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "r" not used within the body of the function :  clear_line
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmcon.c"; Line 1741
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmfio.c
+### Warning 238 Parameter "name" not used within the body of the function :  zchko
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1190
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "q" not used within the body of the function :  fnparse
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1336
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "f" not used within the body of the function :  zchkspa
+### Warning 238 Parameter "n" not used within the body of the function :  zchkspa
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1349
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "filespec" not used within the body of the function :  iswild
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1887
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "p" not used within the body of the function :  zmail
+### Warning 238 Parameter "f" not used within the body of the function :  zmail
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1984
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "p" not used within the body of the function :  zprint
+### Warning 238 Parameter "f" not used within the body of the function :  zprint
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 1988
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "dirname" not used within the body of the function :  tilde_expand
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 2337
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "f" not used within the body of the function :  zstime
+### Warning 238 Parameter "yy" not used within the body of the function :  zstime
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmfio.c"; Line 2344
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmkey.c
+Compiling file: ckmpri.c
+Compiling file: ckmrem.c
+Compiling file: ckmsav.c
+Compiling file: ckmscr.c
+### Warning 254 Local variable "oldpenstate" not used within the body of the function :  scrcreate
+### Warning 254 Local variable "r" not used within the body of the function :  scrcreate
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmscr.c"; Line 72
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "win" not used within the body of the function :  draw_screen_xfr_therm
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmscr.c"; Line 194
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmsfp.c
+### Warning 238 Parameter "THEDIALOG" not used within the body of the function :  sendfilter
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmsfp.c"; Line 300
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmtio.c
+### Warning 238 Parameter "ttname" not used within the body of the function :  ttopen
+### Warning 238 Parameter "modem" not used within the body of the function :  ttopen
+### Warning 238 Parameter "timeo" not used within the body of the function :  ttopen
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 304
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "spd" not used within the body of the function :  ttpkt
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 361
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "spd" not used within the body of the function :  ttvt
+### Warning 238 Parameter "flow" not used within the body of the function :  ttvt
+### Warning 238 Parameter "parity" not used within the body of the function :  ttvt
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 375
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "cps" not used within the body of the function :  ttsspd
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 521
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "f" not used within the body of the function :  conint
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 546
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 254 Local variable "err" not used within the body of the function :  ttinl
+### Warning 254 Local variable "j" not used within the body of the function :  ttinl
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmtio.c"; Line 1007
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmusr.c
+### Warning 238 Parameter "n" not used within the body of the function :  intmsg
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmusr.c"; Line 919
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmutl.c
+### Warning 238 Parameter "p" not used within the body of the function :  setserial
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmutl.c"; Line 602
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "c" not used within the body of the function :  rdebu
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmutl.c"; Line 1612
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 238 Parameter "l" not used within the body of the function :  sdebu
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmutl.c"; Line 1621
+#--------------------------------------------------------------------------------------------------------------------------------
+Compiling file: ckmxla.c
+Compiling file: ckwart.c
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 158
+#--------------------------------------------------------------------------------------------------------------------------------
+#	      rdstates(infp,outfp);
+#	    else if (strcmp(wordbuf,"%") == 0) return;
+#	                                             ? 
+### Warning 269 This function has an explicit return type and deserves a return value
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 215
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 250
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 268
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 348
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 378
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 403
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 412
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 417
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 433
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 477
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 488
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 494
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 500
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 565
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 593
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckwart.c"; Line 638
+#--------------------------------------------------------------------------------------------------------------------------------
+### MPW Shell - Execution of input terminated.
+
+
+Compiling file: ckmini.c
+#	if (k >= 0) {			/* If found, */
+#	    *(mactab[k].kwd) = NUL;	/* poke its name from the table, */
+#	            ?              	                                    
+### Error 246 Can't use an incomplete struct definition in this context
+#	              ?            	                                    
+### Error 24 ')' expected
+#	              ?            	                                    
+### Error 30 ';' expected
+#	              ?            	                                    
+### Error 22 error in factor
+#	                  ?        	                                    
+### Error 212 Struct or Union type required
+#	                  ?        	                                    
+### Error 30 ';' expected
+#	                  ?        	                                    
+### Error 23 identifier not declared
+#	                   ?       	                                    
+### Error 30 ';' expected
+#	                   ?       	                                    
+### Error 22 error in factor
+#	                         ? 	                                    
+### Error 23 identifier not declared
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmini.c"; Line 711
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmini.c"; Line 741
+#--------------------------------------------------------------------------------------------------------------------------------
+### Warning 237 Function had an explicit return type but no return statement
+#--------------------------------------------------------------------------------------------------------------------------------
+    File "ckmini.c"; Line 764
+#--------------------------------------------------------------------------------------------------------------------------------
+### MPW Shell - Execution of input terminated.
+
+------------------------------
+
+Date: Thu, 22 Aug 1991 14:31:30 -0500 (CDT)
+From: PERRY@BEACH.GAL.UTEXAS.EDU (John Perry KG5RG)
+Subject: Problems with Mac Kermit..
+To: cmg@watsun.cc.columbia.edu
+
+We are having a newly discovered problem with MacKermit on our campus and were
+wondering if someone (Frank??) could help us out.
+
+We have recently started using TexSearch, a medical database facility, for
+collecting certain medical information. When "LOG SESSION" is activated in
+MacKermit, everything appears to work. When the user tries to go back and view
+the capture file, it is a 0-byte file with no information in it. I have
+discovered that the TexSearch screens viewed by the faculty contain an escape
+sequence that clears the screen every 24 lines. This escape sequence is also
+clearing the contents of the capture buffer every 24 lines! This problem only
+crops up when a user is using TexSearch. Any other application on any host can
+be captured with success. Needless to say, this is a MAJOR problem for all of
+the people that have been using MacKermit as a terminal program. Any help,
+advice, suggestions, etc. would be greatly appreciated.
+
+ John Perry KG5RG                    | perry@beach.gal.utexas.edu - Internet
+ University of Texas Medical Branch  | PERRY@UTMBEACH             - BITnet
+ Galveston, Texas  77550-2772       
+
+From: jbthoo@ucdavis.edu ( John Thoo )
+Date: Sun, 25 Aug 91 00:25:34 PDT
+Subject: Re: Kermit 0.98(62)
+
+(... complaints about HANGUP not working deleted, you already know about
+this, right? )
+
+I switched to System 7.0 two Fridays ago. So far, the only problem
+that I'm having with MacKermit/System 7.0 is that I can't open anything
+(the Note Pad, for example) from the Apple menu without first hiding
+MacKermit or going to the Finder. I didn't have this problem while
+running System 6.0.5. I'll let you know if I discover anything else.
+
+------------------------------
+
+(End of CKMKER.BWR)

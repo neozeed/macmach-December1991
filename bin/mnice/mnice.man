@@ -1,0 +1,75 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	mnice.man,v $
+.\" Revision 2.3  91/03/19  12:31:40  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:32:44  rpd
+.\" 	Created.
+.\" 	[90/06/18            rpd]
+.\" 
+.TH MNICE 1 6/18/90
+.CM 4
+.SH NAME
+mnice \- change priorities
+.SH SYNOPSIS
+\fBmnice\fP [\fB-host\fP machine] [\fB-change\fP|\fB-setmax\fP|\fB-maxpri\fP pset] [\fB-<priority>\fP] ids...
+.SH DESCRIPTION
+\fImnice(1)\fR changes the priorities of threads, tasks, and processor sets.
+A list of MachIDs specifies the objects, which may be
+of different types.  A numeric option specifies the priority, which
+defaults to twelve.
+.PP
+Given the MachID of a processor set name port, \fImnice\fR will
+attempt to convert to the MachID of the corresponding processor
+set port.
+.PP
+\fImnice\fR must run as root or a member of group kmem
+to gain access to the target objects.
+.PP
+\fImnice\fP interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-change
+When changing the priority of tasks and processor sets, specifies
+that the priority of the threads in the task or processor set
+should also be changed.
+.TP 8
+.B \-setmax
+When changing the priority of a thread, specifies that the
+maximum priority of the thread should also be changed.
+.TP 8
+.B \-maxpri \fIpset\fR
+Used to increase the maximum priority of a thread.
+The argument to the option is the MachID of the processor set
+containing the thread.
+.SH "SEE ALSO"
+ms(1), mkill(1), machid(1), thread_priority(2), thread_max_priority(2),
+task_priority(2), processor_set_max_priority(2)

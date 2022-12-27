@@ -1,0 +1,73 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH UilDumpSymbolTable 3X
+.SH NAME
+\fBUilDumpSymbolTable\fP - Dumps the contents of a named UIL
+symbol table to standard output.
+.iX "UilDumpSymbolTable"
+.iX "uil functions" "UilDumpSymbolTable"
+.SH SYNOPSIS
+.B "#include <uil/UilDef.h>
+.br
+.BI "void UilDumpSymbolTable (" "root_ptr" ")"
+.br
+.in +5n
+.BI "sym_entry_type *" "root_ptr" ";"
+.in -5n
+.SH DESCRIPTION
+.PP
+The \fBUilDumpSymbolTable\fP function dumps
+the contents of a 
+UIL symbol table pointer to standard output.
+.IP "\fIroot_ptr\fP" 10n
+Specifies a pointer to the the symbol table root entry.  
+This value can be taken from the \fBparse_tree_root\fP part of
+the \fBUil_compile_desc_type\fP data structure returned by \fBUil\fP.
+.PP
+.ne 20
+By following the link from the root entry, 
+you can traverse the entire parse tree. 
+Symbol table entries are in the following format:
+.PP
+ \fIhex.address\fP 
+.br
+ \fIsymbol.type\fP 
+.br
+ \fIsymbol.data\fP
+.br
+  \fIprev.source.position\fP
+.br
+  \fIsource.position\fP
+.br
+  \fImodification.record\fP
+.PP
+where:
+.IP \fIhex.address\fP 20n
+Specifies the hexadecimal address of this entry in the symbol table.
+.IP \fIsymbol.type\fP
+Specifies the type of this symbol table entry.  Some possible types
+are \fBroot\fP, \fBmodule\fP, \fBvalue\fP, \fBprocedure\fP, and \fBwidget\fP.
+.IP \fIsymbol.data\fP
+Specifies data for the symbol table entry.  The data varies with the
+type of the entry.  Often it contains pointers to other symbol table entries,
+or the actual data for the data type.
+.IP \fIprev.source.position\fP
+Specifies the end point in the source code for the previous source item.
+.IP \fIsource.position\fP
+Specifies the range of positions in the source code for this symbol.
+.PP
+The exact data structures for each symbol type are defined in the 
+include file \fBUilSymDef.h\fP. 
+Note that this file is automatically included when
+an application includes the file \fBUilDef.h\fP.
+.SH RELATED INFORMATION
+\fBUil(3X)\fP

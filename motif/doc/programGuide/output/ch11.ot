@@ -1,0 +1,2189 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11.  UUUUnnnnddddeeeerrrrssssttttaaaannnnddddiiiinnnngggg tttthhhheeee PPPPrrrriiiinnnncccciiiipppplllleeeessss ooooffff WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeemmmmeeeennnntttt
+
+       This chapter provides you with background information.  It    |
+       gives you a conceptual foundation upon which to build your
+       understanding of the more technical aspects of window         |
+       management that you encounter in the following chapters.
+
+       This chapter discusses the following topics:                  |
+
+          +o Getting user input                                       |
+
+          +o Focus policies: keyboard input and colormaps             |
+
+          +o Distinguishing windows by type                           |
+
+          +o Understanding the parts of the MWM window frame          |
+
+          +o Placing and sizing windows                               |
+
+          +o Introduction to icons                                    |
+
+       11.1  GGGGeeeettttttttiiiinnnngggg UUUUsssseeeerrrr IIIInnnnppppuuuutttt
+
+       The default user interface behavior of MWM is based on the
+       _O_S_F/_M_o_t_i_f _S_t_y_l_e _G_u_i_d_e.  MWM provides all of the required      _|
+       elements of OSF/Motif behavior, but it is also customizable   |
+       so you can modify window appearance and behavior to suit the  |
+       specific needs of you and your application.
+
+       11.1.1  UUUUssssiiiinnnngggg aaaa PPPPooooiiiinnnntttteeeerrrr
+
+       The pointer cursor (as distinguished from the text cursor)
+       is controlled with a pointer device.  In most cases, the
+       pointer device is a mouse.  In this guide, the term ppppooooiiiinnnntttteeeerrrr   |
+       refers to the pointer cursor and the term mmmmoooouuuusssseeee refers to
+       the pointer device.
+
+       A mouse has one or more buttons and is capable of the fol-
+       lowing actions:
+
+       Pointing       Sliding the mouse on the desktop to position   |
+                      the pointer on an object on the screen         |
+
+
+
+
+                                                               11-1
+
+
+
+
+
+
+
+
+
+
+
+
+       Pressing       Holding down a mouse button                    |
+
+       Clicking       Pressing and releasing a mouse button without  |
+                      moving the pointer
+
+       Double-Clicking Clicking a mouse button twice in rapid suc-   |
+                      cession
+
+       Dragging       Pressing and holding down a mouse button       |
+                      while moving the pointer
+
+       MWM has a resource, doubleClickTime, for controlling the
+       maximum time (in milliseconds) that can elapse between but-
+       ton clicks before a double-click becomes just two clicks in   |
+       a row.  This resource is discussed in Section 14.5.
+
+       In conformance with OSF/Motif behavior, a mouse under MWM     |
+       has the uses described in the following table:
+
+               TTTTAAAABBBBLLLLEEEE 11111111----1111....  Mouse Actions and Their Effects
+
+       TTTThhhhiiiissss aaaaccccttttiiiioooonnnn............      DDDDooooeeeessss tttthhhhiiiissss............      FFFFoooorrrr eeeexxxxaaaammmmpppplllleeee............
+       _____________________________________________________         |
+       Pressing Select
+       button. (Button
+       1)
+777                           Initiates a      |
+                           drag operation.
+77                                             Pressing the     |
+                                             Select button    |
+                                             on the window    |
+                                             menu button of   |
+                                             a client's win-  |
+                                             dow frame        |
+                                             brings up the    |
+                                             window menu.     |
+77777777
+
+
+
+
+
+
+
+       _____________________________________________________
+       Releasing Select                                              |
+       button.                                                       |
+77                           Completes an                              |
+                           action started                            |
+                           with a press                              |
+                           and drag of the                           |
+                           Select button.                            |
+77777                                             Releasing the    |      |
+                                             Select button    |      |
+                                             after dragging   |      |
+                                             the button on a  |      |
+                                             title bar repo-  |      |
+                                             sitions the      |      |
+                                             window and ends  |      |
+                                             the move opera-  |      |
+                                             tion.            |      |
+777777777                                                                     |
+
+
+
+
+
+
+
+
+       _____________________________________________________         |
+       Clicking Select                                               |
+       button.                                                       |
+77                           Selects an                                |
+                           object or                                 |
+                           action.                                   |
+777                                             Clicking the     |      |
+                                             Select button    |      |
+                                             on a client's    |      |
+                                             Window-frame     |      |
+                                             Minimize button  |      |
+                                             turns the        |      |
+                                             client window    |      |
+7777777                                                                     |
+
+
+
+
+
+
+
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+7                                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+
+
+       11-2
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+                                             into an icon.           ||
+7
+       _____________________________________________________         |
+       Double-clicking                                               |
+       Select button.                                                |
+77                           Provides a       |                        |
+                           shortcut for     |                        |
+                           doing a default  |                        |
+                           action associ-   |                        |
+                           ated with an     |                        |
+                           object.                                   |
+777777                                             Double-clicking  |      |
+                                             the Select but-  |      |
+                                             ton on an icon   |      |
+                                             turns the icon   |      |
+                                             into the window         |
+                                             associated with         |
+                                             the icon.               |
+7777777                                                                     |
+
+
+
+
+
+
+       _____________________________________________________         |
+       Dragging Select                                               |
+       button.                                                       |
+77                           Performs a drag  |                        |
+                           function such    |                        |
+                           as resizing a    |                        |
+                           window, or       |                        |
+                           browsing a       |                        |
+                           menu.            |                        |
+777777                                             Pointing to the         |
+                                             title area of a         |
+                                             client's window         |
+                                             frame and drag-         |
+                                             ging the Select         |
+                                             button performs         |
+                                             a move opera-           |
+                                             tion.                   |
+77777777                                                                     |
+
+
+
+
+
+
+
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+7                                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+       11.1.2  UUUUssssiiiinnnngggg aaaa KKKKeeeeyyyybbbbooooaaaarrrrdddd                                      |
+
+       In conformity with OSF/Motif behavior, MWM allows you to      |
+       perform window management functions without using a mouse.    |
+
+       For example, pressing <SSSShhhhiiiifffftttt> <EEEEsssscccc> pops up the window menu   |
+       for the active window.  The arrow keys are used to browse
+       the menu items, then pressing <SSSSeeeelllleeeecccctttt> selects an item.       |
+       Pressing <EEEEsssscccc> cancels the current window management opera-   |
+       tion.
+
+       Window management functions performed from the keyboard gen-
+       erally apply to the active window, the window that is get-    |
+       ting keyboard input. However, you can also use the keyboard   |
+       for nonspecific window management functions such as changing  |
+       the focus or stacking order of windows on the screen.
+
+       11.1.3  MMMMooooddddiiiiffffyyyyiiiinnnngggg DDDDeeeeffffaaaauuuulllltttt BBBBeeeehhhhaaaavvvviiiioooorrrr
+
+       While the default window management behavior is recommended
+       for the sake of consistency, MWM allows users to modify the   |
+       default behavior to suit their needs.  Users can modify the
+       default behavior of MWM by changing the entries in the        |
+       resource files that it uses to configure its appearance and   |
+       behavior.                                                     |
+
+       Table 11-2 summarizes the resource files used by MWM.  Some   |
+       of the filenames in the table represent customary locations   |
+       for the resource files described.  In some cases the actual   |
+       location can depend on environment variables and on the       |
+       current language environment.  For more information see the   |
+       ``Creating Defaults Files'' section in Chapter 3, the         |
+
+
+                                                               11-3
+
+
+
+
+
+
+
+
+
+
+
+
+       ``Localization'' section in Chapter 8, and the description    |
+       of the MWM ccccoooonnnnffffiiiiggggFFFFiiiilllleeee resource in Chapter 14.                 *
+
+              TTTTAAAABBBBLLLLEEEE 11111111----2222....  MWM Resource Configuration Files          |
+
+          FFFFiiiilllleeee NNNNaaaammmmeeee                         DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+          ______________________________________________________     |
+                                            Contains system-wide     |
+                                            MWM resource confi-      |
+                                            guration informa-        |
+                                            tion.  The actual        |
+                                            file location may        |
+                                            depend on the            |
+                                            XFILESEARCHPATH          |
+                                            environment variable     |
+                                            and the current          |
+                                            language environ-        |
+                                            ment.                    |
+77777777777          /usr/lib/X11/app-defaults/Mwm                              |
+
+
+
+
+
+
+
+
+
+
+          ______________________________________________________     |
+                                            Contains user-           |
+                                            specific MWM             |
+                                            resource configura-      |
+                                            tion information.        |
+                                            The actual file          |
+                                            location may depend      |
+                                            on the XUSER-            |
+                                            FILESEARCHPATH and       |
+                                            XAPPLRESDIR environ-     |
+                                            ment variables and       |
+                                            the current language     |
+                                            environment.             |
+777777777777          $HOME/Mwm                                                  |
+
+
+
+
+
+
+
+
+
+
+
+          ______________________________________________________     |
+                                            Contains user-        |
+                                            specific resource
+                                            configuration infor-
+                                            mation about MWM and
+                                            other clients used
+                                            by this user.         |
+777777          $HOME/.Xdefaults
+
+
+
+
+
+          ______________________________________________________
+                                            Contains user-           |
+                                            specific and host-       |
+                                            specific resource        |
+                                            configuration infor-     |
+                                            mation about MWM and     |
+                                            other clients used       |
+                                            by this user.  The       |
+                                            actual file location     |
+                                            may depend on the        |
+                                            XENVIRONMENT             |
+7777777777          $HOME/.Xdefaults-_h_o_s_t                                      |
+
+
+
+
+
+
+
+
+
+
+7                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+
+
+
+       11-4
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+                                            environment vari-        ||
+                                            able.                    ||
+77
+
+          ______________________________________________________     |
+                                            Contains user-           |
+                                            specific virtual key     |
+                                            bindings.                |
+777          $HOME/.motifbind                                           |
+
+
+          ______________________________________________________     |
+          /usr/lib/X11/$LANG/system.mwmrc                            |
+          or                                                         |
+          /usr/lib/X11/system.mwmrc                                  |
+777                                            Contains system-wide     |
+                                            configuration infor-     |
+                                            mation about MWM         |
+                                            menus and keyboard       |
+                                            and button bindings.     |
+77777                                                                     |
+
+
+
+
+          ______________________________________________________     |
+          $HOME/$LANG/.mwmrc or                                      |
+          $HOME/.mwmrc                                               |
+77                                            Contains user-           |
+                                            specific configura-      |
+                                            tion information         |
+                                            about MWM menus and      |
+                                            keyboard and button      |
+                                            bindings used by         |
+                                            this user.            |  |
+7777777                                                                     |
+
+
+
+
+
+
+7                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+
+       Menus, mouse button bindings, and keyboard bindings are dis-
+       cussed in Chapter 14.                                         |
+
+       11.2  UUUUssssiiiinnnngggg FFFFooooccccuuuussss PPPPoooolllliiiicccciiiieeeessss::::  KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnnppppuuuutttt aaaannnndddd CCCCoooolllloooorrrrmmmmaaaappppssss
+
+       The input focus policy determines how and when a window
+       becomes the active window.  An active window has the follow-
+       ing characteristics:
+
+          +o What you type appears in the window                      |
+
+          +o The color of the window frame changes to indicate the
+            active focus                                             |
+
+          +o Input from extended input devices goes to the window     |
+
+       The default methods of changing the keyboard input focus are  |
+       shown in Tables 11-3 and 11-4.
+
+        TTTTAAAABBBBLLLLEEEE 11111111----3333....  MWM Default Keyboard Input Focus with a Mouse   |
+
+                DDDDooooiiiinnnngggg tttthhhhiiiissss............        DDDDooooeeeessss tttthhhhiiiissss............
+                _________________________________________            |
+                Clicking the mouse
+                Select button with
+                the pointer on the
+                window or window
+                frame.
+7                                  |7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+                                                               11-5
+
+
+
+
+
+
+
+
+
+
+
+
+                                     Selects that window
+                                     as the focus of key-
+                                     board input.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7                                  |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11-6
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+                _________________________________________
+                Clicking the mouse
+                Select button with
+                the pointer on an
+                icon.
+7777                                     Selects that icon as
+                                     the focus of key-
+                                     board input.
+777
+
+
+
+7                                  |7|7|7|7|
+
+
+
+
+
+       TTTTAAAABBBBLLLLEEEE 11111111----4444....  MWM Default Keyboard Input Focus with a Key-     |
+                    board                                            |
+
+       PPPPrrrreeeessssssssiiiinnnngggg tttthhhhiiiissss kkkkeeeeyyyy sssseeeeqqqquuuueeeennnncccceeee............   DDDDooooeeeessss tttthhhhiiiissss............
+       ______________________________________________________________*
+       <_A_l_t> <_T_a_b>                     Moves the keyboard input focus|
+                                       to the next window in the     |
+                                       window stack.                 |
+       ______________________________________________________________|
+       <_A_l_t> <_S_h_i_f_t> <_T_a_b>             Moves the keyboard input focus|
+                                       to the previous window in the |
+                                       window stack.                 |
+7                                    |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       The default input focus policy is an "explicit" selection
+       policy; the user must perform a mouse button action or a key
+       action to change the input focus.  A "track pointer" policy,
+       which changes the input focus to match the pointer's posi-
+       tion (no other action is required), is also available.        |
+       These policies are explained further in Chapter 13.
+
+       11.2.1  SSSSeeeettttttttiiiinnnngggg tttthhhheeee CCCCoooolllloooorrrrmmmmaaaapppp FFFFooooccccuuuussss PPPPoooolllliiiiccccyyyy
+
+       The colormap focus policy dictates which client window has
+       its colormap installed.  A ccccoooolllloooorrrrmmmmaaaapppp is a display resource
+       that controls the set of colors appearing on the display.
+       Colormap focus policy is explained in Chapter 13.             |
+
+       11.3  DDDDiiiissssttttiiiinnnngggguuuuiiiisssshhhhiiiinnnngggg WWWWiiiinnnnddddoooowwwwssss bbbbyyyy TTTTyyyyppppeeee
+
+       As you design your client application and write the code,     |
+       you use particular types of windows to fulfill the specific
+       needs of your design plan.
+
+       11.3.1  CCCChhhhoooooooossssiiiinnnngggg tttthhhheeee RRRRiiiigggghhhhtttt TTTTyyyyppppeeee ooooffff CCCClllliiiieeeennnntttt WWWWiiiinnnnddddoooowwww
+
+       When you design your client application, remember that MWM
+       recognizes the following types of client windows:
+
+       Primary      A primary window is a top-level window, a        |
+                    direct descendent of the root window.  MWM pro-
+                    vides this type of client window with a window   |
+                    frame.  By default, this frame is decorated      |
+                    with the full set of functional frame com-       |
+                    ponents (resize frame handles, title bar, and    |
+                    window control buttons).  You can change the     |
+
+
+                                                               11-7
+
+
+
+
+
+
+
+
+
+
+
+
+                    window decoration on primary windows either      |
+                    programmatically from your client or by using    |
+                    the clientDecoration resource, as explained in   |
+                    Section 13.11.                                   |
+
+       Secondary    A secondary window is a window that is tran-
+                    sient in nature.  A secondary window is associ-
+                    ated with another window, usually a primary      |
+                    window, and is always over that window in the    |
+                    window stack.  Secondary windows are iconified   |
+                    (minimized) together with their associated win-  |
+                    dows.  A secondary window may also receive key-  |
+                    board or pointer input that it does not pass on  |
+                    to its associated window.  This is known as      |
+                    being "modal" with respect to the associated     |
+                    window.  For example, you might design a secon-  |
+                    dary window as an application modal dialog box   |
+                    that requires an action by the user before the   |
+                    application continues.
+
+                    The WM_TRANSIENT_FOR property indicates that a
+                    window is a secondary window and identifies the
+                    associated window.  The _MOTIF_WM_HINTS pro-
+                    perty indicates the input mode of a secondary
+                    window.  Window properties are discussed in
+                    more detail in the next chapter.  A secondary    |
+                    window typically receives less window-frame
+                    decoration than a primary window, and, typi-
+                    cally, fewer window management functions are
+                    available to control the window.   For example,
+                    a secondary window may not have a minimize but-
+                    ton in the window frame or resize frame han-
+                    dles.
+
+                    You can configure a secondary window either
+                    programmatically, with the _MOTIF_WM_HINTS pro-  |
+                    perty (Chapter 12), or with the tran-            |
+                    sientDecoration resource, (Chapter 13).
+
+       Client Icon  A client icon is supplied by a client for use
+                    as an image in an MWM icon.
+
+       Client Icon Window                                            |
+                    A client icon window is supplied by a client
+                    for use as an alternative to a pixmap image in
+                    MWM icons (minimized windows).  This window can
+                    be used while the window is in its iconic
+                    state.                                           |
+
+       Override-redirect                                             |
+                    An override-redirect window is typically
+
+
+       11-8
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+                    visible for only a short time and, while in
+                    use, the pointer should be grabbed by the        |
+                    client.  A common example of this type of win-   |
+                    dow is a pop-up menu.  MWM does not place        |
+                    override-redirect windows in a window frame,     |
+                    nor does MWM support window management opera-    |
+                    tions on override-redirect windows.
+
+       11.3.2  IIIInnnnppppuuuutttt MMMMooooddddeeeessss
+
+       Certain windows constrain the user's input.  There are four   |
+       levels of window constraints, called "modes."
+
+          +o MMMMooooddddeeeelllleeeessssssss wwwwiiiinnnnddddoooowwwwssss do not constrain user input to other
+            windows.  Client primary windows are generally mode-
+            less.
+
+          +o PPPPrrrriiiimmmmaaaarrrryyyy AAAApppppppplllliiiiccccaaaattttiiiioooonnnn MMMMooooddddaaaallll WWWWiiiinnnnddddoooowwwwssss "prevent" input from   |
+            going to any of the window's ancestors.  Secondary       |
+            client windows are sometimes application modal with
+            respect to their associated primary window.              |
+
+          +o FFFFuuuullllllll AAAApppppppplllliiiiccccaaaattttiiiioooonnnn MMMMooooddddaaaallll WWWWiiiinnnnddddoooowwwwssss "prevent" input from      |
+            going to any of the window's ancestors or to any other   |
+            windows in the same application that are not in the      |
+            window's hierarchy.                                      |
+
+          +o SSSSyyyysssstttteeeemmmm MMMMooooddddaaaallll WWWWiiiinnnnddddoooowwwwssss are similar to application modal    |
+            windows except that they prevent input from going to     |
+            any other window on the screen.  For example, restart
+            confirmation messages are displayed in system modal
+            windows.
+
+       11.3.3  UUUUnnnnddddeeeerrrrssssttttaaaannnnddddiiiinnnngggg WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr WWWWiiiinnnnddddoooowwwwssss
+
+       MWM uses the following window types to provide window
+       management services to your client application:
+
+       Client Frames       A client frame is placed around the       |
+                           client area.
+
+       Icon Frames         An icon is a small graphic representa-
+                           tion of your client application window.   |
+                           When the window manager minimizes (icon-  |
+                           ifies) a full-sized client window, it
+                           uses an icon window frame to represent
+                           the client.  Icons can be arranged on
+                           the screen by the window manager or       |
+                           placed in an icon box.                    |
+
+
+
+
+                                                               11-9
+
+
+
+
+
+
+
+
+
+
+
+
+       Icon Box            An icon box is a window used by the win-
+                           dow manager to contain icons.  An icon
+                           box window is decorated with a window
+                           frame that is typically the same as a
+                           primary window's frame.                   |
+
+       Feedback Window     A feedback window appears at the center   |
+                           of the screen when a primary client win-
+                           dow is being either resized or reposi-
+                           tioned by the window manager.  If the
+                           client is being resized, the feedback
+                           window contains the size (width and
+                           height) of the client.  If the client is
+                           being relocated, the feedback window
+                           contains the new location (x-offset and
+                           y-offset).
+
+                           A configuration feedback window is
+                           displayed whenever MWM is restarted or a
+                           behavior switch is requested.  The con-
+                           firmation window is system modal and is
+                           displayed in the center of the screen.
+                           Explicit user confirmation is required
+                           for MWM to continue the restart or
+                           behavior switch.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11-10
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+       11.4  UUUUnnnnddddeeeerrrrssssttttaaaannnnddddiiiinnnngggg tttthhhheeee PPPPaaaarrrrttttssss ooooffff tttthhhheeee MMMMWWWWMMMM WWWWiiiinnnnddddoooowwww FFFFrrrraaaammmmeeee
+
+       MWM surrounds client windows with a functional frame.  Posi-  |
+       tioning the pointer on a part of the frame and performing
+       the appropriate mouse button action or key action executes
+       the function of that frame part.  The following figure shows  |
+       the components of the frame.
+
+                                                                     *
+        FFFFiiiigggguuuurrrreeee 11111111----1111....  MWM Surrounds a Client's Window with a Frame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The parts of the MWM window manager frame and their func-     |
+       tions are listed in the following table:                      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              11-11
+
+
+
+
+
+
+
+
+
+
+
+
+             TTTTAAAABBBBLLLLEEEE 11111111----5555....  Window Frame Parts and What They Do
+
+             TTTThhhhiiiissss ffffrrrraaaammmmeeee ppppaaaarrrrtttt............      IIIIssss uuuusssseeeedddd ttttoooo............
+             ________________________________________________        |
+             Title area.             Move a window.
+             ________________________________________________
+             Window menu button.     Display the window menu.
+             ________________________________________________
+             Minimize button.        Iconify a window.
+             ________________________________________________
+                                     Expand a window to max-
+                                     imum size.
+77             Maximize button.
+
+             ________________________________________________
+                                     Stretch or shrink a win-
+                                     dow horizontally, verti-
+                                     cally, or diagonally (in
+                                     two directions).
+7777             Resize frame handles.
+
+
+
+7                                  |7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11.4.1  CCCCoooolllloooorrrriiiinnnngggg FFFFrrrraaaammmmeeee CCCCoooommmmppppoooonnnneeeennnnttttssss
+
+       MWM gives you the option of selecting varied color schemes
+       for active and inactive client windows.  Additionally, you
+       may specify the color of a 3D matte frame.  This topic is     |
+       covered in Section 13.8.
+
+       11.4.2  UUUUnnnnddddeeeerrrrssssttttaaaannnnddddiiiinnnngggg FFFFrrrraaaammmmeeee CCCCoooommmmppppoooonnnneeeennnnttttssss aaaannnndddd TTTThhhheeeeiiiirrrr BBBBeeeehhhhaaaavvvviiiioooorrrr
+
+       The components of the client window frame provide users with
+       visual cues for direct manipulation of the window.  You can
+       configure the basic frame layout for your client application  |
+       programmatically by using the _MOTIF_WM_HINTS property        |
+       (Chapter 12).  Users can set the clientDecoration (Chapter    |
+       13) and clientFunction (Chapter 14) resources to configure    |
+       the client window frame.
+
+       11.4.2.1  RRRReeeessssiiiizzzzeeee HHHHaaaannnnddddlllleeeessss
+
+       The function of the resize handles is to resize the window
+       frame and your client application with it.
+
+       A user initiates a resize operation by positioning the
+       pointer on one of the "handles," pressing the mouse Select
+       button, and dragging the window to the desired size.  A wire  |
+       outline shows changing dimensions as the mouse is dragged.
+       Also, a small configuration feedback window displays the
+       current dimensions of the frame.  The resize operation stops
+       when the user releases the Select button.  It is also can-    |
+       celed when the user presses <<<<EEEEsssscccc>>>>.
+
+       The resize handles form a frame composed of eight distinct
+       pieces:
+
+
+       11-12
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+          +o Top                                                      |
+
+          +o Bottom                                                   |
+
+          +o Left side                                                |
+
+          +o Right side                                               |
+
+          +o Lower right corner                                       |
+
+          +o Lower left corner                                        |
+
+          +o Upper right corner                                       |
+
+          +o Upper left corner                                        |
+
+       Each handle has a distinct cursor shape.  The following fig-  |
+       ure illustrates these shapes.
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 11111111----2222....  Resize Handles Have Distinctive Cursor Shapes
+
+
+
+
+
+
+
+
+
+
+
+       Which handle a user drags, and in which direction the user    |
+       drags it, affects the outcome of the resize operation.  The   |
+       following table lists where to grab a handle for the desired  |
+       result.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              11-13
+
+
+
+
+
+
+
+
+
+
+
+
+             TTTTAAAABBBBLLLLEEEE 11111111----6666....  Where to Grab an MWM Resize Handle
+
+       TTTToooo ssssttttrrrreeeettttcccchhhh oooorrrr
+       sssshhhhrrrriiiinnnnkkkk tttthhhheeee wwwwiiiinnnnddddoooowwww............|7|
+                              PPPPoooossssiiiittttiiiioooonnnn tttthhhheeee ppppooooiiiinnnntttteeeerrrr oooonnnn tttthhhheeee............
+       ____________________________________________________________  *
+       vvvveeeerrrrttttiiiiccccaaaallllllllyyyy ffffrrrroooommmm tttthhhheeee............                                        |
+       ____________________________________________________________  |
+               top            top of the frame, above the title bar
+       ____________________________________________________________
+              bottom       |7|7|7|
+
+
+                              bottom of the frame
+       ____________________________________________________________
+       hhhhoooorrrriiiizzzzoooonnnnttttaaaallllllllyyyy ffffrrrroooommmm tttthhhheeee............                                      |
+       ____________________________________________________________
+              right           right side of the frame
+       ____________________________________________________________
+               left        |7|7|7|
+
+
+                              left side of the frame
+       ____________________________________________________________
+       ddddiiiiaaaaggggoooonnnnaaaallllllllyyyy ffffrrrroooommmm tttthhhheeee............                                        |
+       ____________________________________________________________
+        bottom left corner    frame's lower left corner
+       ____________________________________________________________
+             top left         frame's upper left corner
+       ____________________________________________________________
+            top right         frame's upper right corner
+       ____________________________________________________________
+           bottom right       frame's lower right corner
+7                           |7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+       As an application programmer, you have several ways to con-
+       trol a user's ability to resize your client window:
+
+          +o A window cannot be resized smaller than the minimum
+            size specified by your client.
+
+          +o A window cannot be resized smaller than the minimum
+            size dictated by the components you select for the win-
+            dow frame.
+
+          +o A window cannot be resized larger than the maximum win-
+            dow size specified by your client.
+
+          +o A client can indicate that the resize function should
+            not apply (use the _MOTIF_WM_HINTS property, Chapter     |
+            12).
+
+       Window frames can be configured to omit resize handles.  The  |
+       frame can then be configured to have a border or to be bord-
+       erless.
+
+
+
+
+
+
+       11-14
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+       11.4.2.2  TTTThhhheeee TTTTiiiittttlllleeee AAAArrrreeeeaaaa
+
+       The title area has two functions:
+
+          +o It usually lists the name of the application appearing
+            within the client area of the window.
+
+          +o It provides the user with a "handle" to grab during a
+            move operation.
+
+       A user initiates a move operation by positioning the pointer
+       anywhere in the title area, pressing the mouse Select but-
+       ton, and then dragging the pointer to a new location.  A
+       wire frame outline represents the location of the window
+       during the move.  The user completes the move operation by
+       releasing the Select button at the desired location.  When
+       the button is released, the window moves to that location.    |
+       A move in progress is canceled when the user presses <<<<EEEEsssscccc>>>>.
+
+       11.4.2.3  TTTThhhheeee TTTTiiiittttlllleeee BBBBaaaarrrr
+
+       The title bar, which may include a title area, window menu    |
+       button, and minimize and maximize buttons, is constrained so  |
+       that all components in the title bar are always visible.
+       This necessitates a minimum frame size and, by extension, a
+       minimum size for your application's window.  The size of the
+       components in the title bar depends upon the size of the
+       font you choose for the title area text.
+
+       As a user shrinks your client window horizontally, space is
+       removed from the title area first.  As the window is resized
+       smaller, title text is clipped from the right.  The absolute
+       minimum size of the title bar is equal to the size of the
+       buttons in the title bar, plus a title area equivalent to
+       the width of one title bar button.                            |
+
+       11.4.2.4  WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu BBBBuuuuttttttttoooonnnn
+
+       The function of the window menu button is to display the
+       window menu.  There are two ways to display the window menu:
+
+         1.  UUUUssssiiiinnnngggg tttthhhheeee wwwwiiiinnnnddddoooowwww mmmmeeeennnnuuuu bbbbuuuuttttttttoooonnnn....  Position the pointer on
+             the window-menu button of the window frame and press    |
+             the mouse Select button.  (If you want the menu to
+             remain posted, click the mouse Select button.)  Once    |
+             the menu appears, browse the menu by dragging the
+             pointer down the menu.  As the pointer encounters an    |
+             available selection, the selection is highlighted.  To
+             choose a selection, highlight the desired selection
+             and release the mouse Select button.
+
+
+
+                                                              11-15
+
+
+
+
+
+
+
+
+
+
+
+
+         2.  UUUUssssiiiinnnngggg tttthhhheeee kkkkeeeeyyyybbbbooooaaaarrrrdddd....  Set the keyboard input focus to a
+             window and press <SSSShhhhiiiifffftttt> <EEEEsssscccc>, or <AAAAlllltttt> <SSSSppppaaaacccceeee>.  Use  |
+             arrow keys to browse the menu and <SSSSeeeelllleeeecccctttt> to choose    |
+             menu items.  Cancel the posted menu using <SSSShhhhiiiifffftttt>       |
+             <EEEEsssscccc> again, or just <EEEEsssscccc>.
+
+       There are two resources used to configure the behavior of
+       the window menu button with respect to mouse clicks.  The
+       wMenuButtonClick resource indicates whether a click of the
+       mouse when the pointer is over the window menu button posts   |
+       and leaves posted the window menu. The wMenuButtonClick2
+       resource indicates whether a double-click action on the win-  |
+       dow menu button closes the window and terminates the appli-   |
+       cation.  Both resources are discussed in Chapter 14, "Chang-  |
+       ing the Menu Associated with the Window Menu Button."
+
+       11.4.2.5  MMMMiiiinnnniiiimmmmiiiizzzzeeee BBBBuuuuttttttttoooonnnn
+
+       The function of a window's minimize button is to iconify the
+       window.
+
+       A user minimizes your client window by positioning the
+       pointer on the minimize button and then clicking the mouse
+       Select button.  As a result of the minimize operation, your
+       client window changes into an icon on the screen.  If you
+       use an icon box, the icon in the box displays its iconified
+       client appearance.
+
+       11.4.2.6  MMMMaaaaxxxxiiiimmmmiiiizzzzeeee BBBBuuuuttttttttoooonnnn
+
+       The function of a window's maximize button is to make the
+       window its largest allowable size.
+
+       A user maximizes your client window by positioning the
+       pointer on the maximize button and then clicking the mouse
+       Select button.  As a result of the maximize operation, the
+       client window expands to the maximum size set by either the   |
+       client or the configured resources.  By default, the client   |
+       fills the screen.
+
+       If a maximum size other than the default (full screen) size
+       is important to your application, you can set the maximum
+       size for your client by specifying values in the appropriate
+       fields in the WM_NORMAL_HINTS property (see Chapter 12.)      |
+       Users can also set a maximum size for windows by using the
+       maximumClientSize resource and the maximumMaximumSize         |
+       resource (see Chapter 13).
+
+       MWM tries to maximize your client window without moving it
+       if your client fits on the screen at its current location.    |
+       If the maximized window extends off the screen, MWM moves     |
+
+
+       11-16
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+       the maximized window onscreen, placing the window with the
+       title bar showing so that the user still has access to the
+       window control buttons.  When a maximized window extends
+       beyond the screen boundaries, MWM places the upper left-hand
+       portion of the maximized window in the upper left-hand
+       corner of the screen.
+
+       Once your client is maximized, the large square image on the  |
+       maximize button appears recessed.  In this state, the maxim-
+       ize button functions as a "restore" button.  Clicking the
+       mouse Select button on the recessed maximize button restores
+       your client to its previous size.                             |
+
+       11.4.2.7  MMMMaaaannnniiiippppuuuullllaaaattttiiiinnnngggg tttthhhheeee WWWWiiiinnnnddddoooowwww FFFFrrrraaaammmmeeee wwwwiiiitttthhhh aaaa MMMMoooouuuusssseeee oooorrrr aaaa
+                 KKKKeeeeyyyybbbbooooaaaarrrrdddd
+
+       The following table summarizes the default frame manipula-    |
+       tions available for mouse operations.
+
+                  TTTTAAAABBBBLLLLEEEE 11111111----7777....  Default Mouse Operations              |
+
+                                           WWWWiiiitttthhhh tttthhhheeee ppppooooiiiinnnntttteeeerrrr
+       DDDDooooiiiinnnngggg tttthhhhiiiissss............                       oooonnnn tttthhhhiiiissss ccccoooommmmppppoooonnnneeeennnntttt............   DDDDooooeeeessss tttthhhhiiiissss............
+       _______________________________________________________________________________|
+                                                                  Selects current key-|
+                                                                  board input focus|
+                                                                  and brings window to|
+                                                                  top of the stack|
+7777       Clicking the Select button          Frame or window                            |
+
+
+
+       _______________________________________________________________________________|
+       Clicking the Select button          Frame or window        Brings window to top|
+       _______________________________________________________________________________
+       Dragging the Select button          Resize frame handles   Resizes the window  |
+       _______________________________________________________________________________
+                                                                  Posts window menu|
+7       Clicking the Select button          Window menu button                         |
+       _______________________________________________________________________________|
+                                                                  Pulls down window|
+                                                                  menu|
+77       Dragging the Select button          Window menu button                         |
+
+       _______________________________________________________________________________|
+                                                                  Closes the window|
+7       Double-clicking the Select button   Window menu button                         |
+       _______________________________________________________________________________|
+       Dragging the Select button          Title area             Moves the window    |
+       _______________________________________________________________________________
+       Clicking the Select button          Minimize button        Iconifies the window|
+       _______________________________________________________________________________
+       Clicking the Select button          Maximize button        Maximizes the window|
+7                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              11-17
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table summarizes the default frame manipula-    |
+       tions available for keyboard operations.                      |
+
+                 TTTTAAAABBBBLLLLEEEE 11111111----8888....  Default Keyboard Operations            |
+
+       PPPPrrrreeeessssssssiiiinnnngggg tttthhhhiiiissss
+       kkkkeeeeyyyy sssseeeeqqqquuuueeeennnncccceeee............       DDDDooooeeeessss tttthhhhiiiissss............
+       ____________________________________________________________  *
+       <SSSShhhhiiiifffftttt> <EEEEsssscccc>         Posts or unposts                        |
+       the window menu                                               |
+       ____________________________________________________________
+       <AAAAlllltttt> <SSSSppppaaaacccceeee>         Posts or unposts                        |
+       the window menu                                               |
+       ____________________________________________________________
+       WWWWhhhheeeennnn wwwwiiiinnnnddddoooowwww                                                   |
+       mmmmeeeennnnuuuu iiiissss ppppoooosssstttteeeedddd............                                             |
+       ____________________________________________________________
+       <EEEEsssscccc> menu            Unposts the window                      |
+       ____________________________________________________________
+       <|v>                   Moves to the next selection             |
+       selection on a menu                                           |
+       ____________________________________________________________
+       <|^>                   Moves to the previous selection         |
+       selection on a menu                                           |
+       ____________________________________________________________
+       <->>                  Displays a submenu                      |
+       cascade button                                                |
+       ____________________________________________________________
+       <<->                  Unposts a submenu                       |
+       cascade button                                                |
+       ____________________________________________________________  |
+       <SSSSeeeelllleeeecccctttt>              Selects the highlighted menu selection  |
+7                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11-18
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+       11.4.3  SSSSeeeelllleeeeccccttttiiiinnnngggg FFFFrrrroooommmm tttthhhheeee WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu                        |
+
+       The window menu contains selections that provide consistent   |
+       functionality from one MWM application to another.  This
+       consistency reduces the time it takes a user to learn to
+       manage your application windows.
+
+       The window menu provides an additional way to access window
+       manager functionality.  You can select items in the window
+       menu with either the mouse or the keyboard.  The following    |
+       figure shows the default menu window.
+                                                                     *
+               FFFFiiiigggguuuurrrreeee 11111111----3333....  OSF/Motif Default Window Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              11-19
+
+
+
+
+
+
+
+
+
+
+
+
+       11.4.3.1  LLLLooooooookkkkiiiinnnngggg aaaatttt tttthhhheeee CCCCoooonnnntttteeeennnnttttssss ooooffff tttthhhheeee WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu
+
+       The following table describes the window menu selections.     |
+
+                 TTTTAAAABBBBLLLLEEEE 11111111----9999....  The Window Menu Selections             *
+
+       TTTThhhhiiiissss sssseeeelllleeeeccccttttiiiioooonnnn............   DDDDooooeeeessss tttthhhhiiiissss............
+       __________________________________________________________________________|
+                           Restores a window to its normal size from an icon or
+                           after maximizing.
+77       Restore
+
+       __________________________________________________________________________
+       Move                Changes the location of a window.
+       __________________________________________________________________________
+       Size                Changes the width and height of a window.
+       __________________________________________________________________________
+       Minimize            Shrinks a window to its icon (graphic representation).
+       __________________________________________________________________________
+       Maximize            Enlarges a window to its maximum size.
+       __________________________________________________________________________
+                           Places a window at the bottom of the window stack.      |
+7       Lower
+       __________________________________________________________________________
+       Close               Terminates the client.
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Menu selections for functions that are not immediately
+       applicable when the menu is displayed are grayed out.  This
+       is the case for the Restore selection when your client is in  |
+       its normal state (see Figure 11-3).
+
+       11.4.3.2  SSSSeeeelllleeeeccccttttiiiinnnngggg wwwwiiiitttthhhh tttthhhheeee MMMMoooouuuusssseeee                            |
+
+       The mouse can be used in 2 ways to select items from the      |
+       window menu:  1) press to open, drag to highlight, release    |
+       to select, or, 2) click to open and post, move to desired     |
+       item, and click to select.                                    |
+
+       11.4.3.3  SSSSeeeelllleeeeccccttttiiiinnnngggg wwwwiiiitttthhhh tttthhhheeee KKKKeeeeyyyybbbbooooaaaarrrrdddd                         |
+
+       Key actions can be used to select items from the window menu
+       and to access functions of the window frame components.
+       Once the menu is displayed, using the <SSSShhhhiiiifffftttt> <EEEEsssscccc>           |
+       sequence, the user presses the <<<<||||^^^^>>>> and <<<<||||vvvv>>>> keys to highlight  |
+       the appropriate selection and the <SSSSeeeelllleeeecccctttt> key to make the
+       choice.                                                       |
+
+
+
+
+
+
+
+
+
+
+       11-20
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+       While this completes the operation in the case of the Minim-  |
+       ize, Maximize, and Lower operations, the Resize and Move      |
+       operations require further input from the user.  When the
+       user chooses a move or resize operation, the pointer changes  |
+       to a 4-headed arrow centered on the client area of the win-
+       dow.  The user moves or resizes the window by pressing the    |
+       arrow keys.  Pressing <CCCCttttrrrrllll> simultaneously with the arrow    |
+       keys moves the pointer in multiple increments.  Once the      |
+       window is in the desired location or has the desired size,    |
+       the user presses <SSSSeeeelllleeeecccctttt> to complete the operation.  Press-  |
+       ing <EEEEsssscccc> cancels a move or resize operation.
+
+       11.4.3.4  AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss aaaannnndddd MMMMnnnneeeemmmmoooonnnniiiiccccssss
+
+       Window menu items can also be selected using accelerators
+       and mnemonics.  Accelerators are key bindings that cause a
+       menu item to be selected, and the associated function done,
+       without posting the menu.  For example, <AAAAlllltttt> <FFFF9999> is used    |
+       to minimize (iconify) a window.  Accelerators appear in the
+       menu to the right of their associated menu items.  Mnemonics
+       are used to select a menu item once the window menu is
+       posted.  Mnemonic keys are indicated in a menu item by an
+       underlined character in the menu item label.
+
+       11.4.3.5  CCCClllloooossssiiiinnnngggg YYYYoooouuuurrrr CCCClllliiiieeeennnntttt''''ssss WWWWiiiinnnnddddoooowwww
+
+       When a user chooses the Close selection from the window       |
+       menu, the window manager executes an f.kill function on the
+       client window.  You can configure the f.kill function either
+       to send a message to the client window or to terminate the
+       client's X connection.  Refer to WM_SAVE_YOURSELF,
+       WM_PROTOCOLS, and WM_COMMAND in Chapter 12, and to the MWM    |
+       function f.kill in Chapter 14.
+
+       Another way to close a window is to double-click the mouse
+       Select button with the pointer on the window menu button.
+       This behavior is enabled with the wMenuButtonClick2           |
+       resource.  (See Section 14.4 for more information on window   |
+       menus.)
+
+       11.5  PPPPllllaaaacccciiiinnnngggg aaaannnndddd SSSSiiiizzzziiiinnnngggg WWWWiiiinnnnddddoooowwwwssss
+
+       In the OSF/Motif environment you can think of client windows
+       as existing in a stack on the screen.  A new client window
+       is initially placed on top of the window stack with a size
+       and position specified by the client or the user.
+
+       A user can establish a different initial size and position
+       for windows by using the procedures presented in Chapter 13,  |
+       "Controlling Window Size and Position."
+
+
+
+                                                              11-21
+
+
+
+
+
+
+
+
+
+
+
+
+       Users can enable interactive placement by setting the         |
+       interactivePlacement resource.  During interactive place-     |
+       ment, the following visual clues appear on the screen:
+
+          +o The pointer changes to an upper-left-corner bracket for  |
+            the duration of the placement operation
+
+          +o A wire frame outline shows the current size and loca-
+            tion of the window                                       |
+
+          +o A configuration feedback window appears in the center    |
+            of the screen, relating location and size information
+
+       To interactively set the initial position of your client
+       without changing its size, the user moves the pointer (and
+       with it the wire outline) to the desired location and clicks
+       the mouse Select button.
+
+       To interactively set the initial position _a_n_d change the
+       size of your client, the user performs the following steps:
+
+         1.  Establishes the upper left-hand corner of your client
+             window by moving the pointer to the desired location
+             and pressing the mouse Select button.
+
+         2.  With the mouse Select button pressed, resizes your      |
+             client window to the desired size by dragging the
+             Select button to the desired location of the lower
+             right-hand corner of the window.  The pointer changes   |
+             to a lower-right-hand corner bracket for the duration
+             of the sizing operation.
+
+       Interactive placement can also be done from the keyboard.     |
+       The following table summarizes interactive placement
+       behavior when using the keyboard.                             |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       11-22
+
+
+
+
+
+
+
+
+
+                  Understanding the Principles of Window Management
+
+
+         TTTTAAAABBBBLLLLEEEE 11111111----11110000....  Interactive Placement Using the Keyboard.
+
+       TTTThhhhiiiissss kkkkeeeeyyyy pppprrrreeeessssssss............                 PPPPeeeerrrrffffoooorrrrmmmmssss tttthhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn............
+       _________________________________________________________________________*
+       wwwwhhhhiiiilllleeee ppppoooossssiiiittttiiiioooonnnniiiinnnngggg tttthhhheeee wwwwiiiinnnnddddoooowwww............                                          |
+       _________________________________________________________________________
+       <|^>                               Moves up one pixel                     |
+       _________________________________________________________________________
+       <|v>                               Moves down one pixel                   |
+       _________________________________________________________________________
+       <<->                              Moves left one pixel                   |
+       _________________________________________________________________________
+       <->>                              Moves right one pixel                  |
+       _________________________________________________________________________
+       <CCCCttttrrrrllll> <_a_r_r_o_w _k_e_y>                Move several pixels                    |
+       _________________________________________________________________________
+       <SSSSppppaaaacccceeee>                           End positioning, start sizing operation|
+       _________________________________________________________________________
+       wwwwhhhhiiiilllleeee ssssiiiizzzziiiinnnngggg tttthhhheeee wwwwiiiinnnnddddoooowwww............                                               |
+       _________________________________________________________________________
+       <|^>                               Decreases the height one pixel         |
+       _________________________________________________________________________
+       <|v>                               Increases the height one pixel         |
+       _________________________________________________________________________
+       <<->                              Decreases the width one pixel          |
+       _________________________________________________________________________
+       <->>                              Increases the width one pixel          |
+       _________________________________________________________________________|
+                                         Changes the height or width several|
+                                         pixels                      |
+77       <CCCCttttrrrrllll> <_a_r_r_o_w _k_e_y>                                                       |
+
+       _________________________________________________________________________|
+       <SSSSeeeelllleeeecccctttt>                          Completes the interactive placementI   |
+7                                      |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The arrow keys move the pointer in the direction of the
+       arrow.  Holding down <CCCCttttrrrrllll> moves the pointer in larger       |
+       increments.  The space bar is used to complete positioning    |
+       and switch to sizing the window.  Pressing <SSSSeeeelllleeeecccctttt> com-      |
+       pletes the interactive placement operation.
+
+       The configuration feedback window provides position and size
+       information as the pointer moves.  The size feedback is in
+       units that depend on the client.  You can specify the units
+       with the WM_NORMAL_HINTS property (see Chapter 12).           |
+
+       If window position information is specified by the user with
+       the command-line geometry option when the client is invoked,  |
+       no interactive placement takes place.  The window is simply
+       placed on the screen with the size and position specified.    |
+       If the user specifies only the size of the window, MWM uses
+       that size as the default during the interactive placement
+       operation.                                                    |
+
+
+                                                              11-23
+
+
+
+
+
+
+
+
+
+
+
+
+       MWM does not support interactive placement on secondary win-
+       dows or on the initial placement of icons.
+
+       11.5.1  SSSSttttaaaacccckkkkiiiinnnngggg WWWWiiiinnnnddddoooowwwwssss
+
+       With the default MWM configuration, you can change the
+       stacking order of windows on the screen using the following
+       methods:
+
+          +o By setting the keyboard input focus so that the active
+            window rises to the top of the stack.  Set the keyboard
+            input focus either by clicking the mouse Select button
+            on the window or by pressing the <AAAAlllltttt> <TTTTaaaabbbb> accelera-   |
+            tor sequence.  For this feature to work, the focusAu-
+            toRaise resource should be set to "True." (See Chapter   |
+            13, "Setting Focus Policies.")
+
+          +o By iconifying a window, thus effectively taking it off
+            the stack until the icon is normalized.
+
+          +o By performing a window manager stacking function such
+            as f.circle_up, f.circle_down, f.raise, f.raise_lower,
+            or f.lower.  (Functions are explained and defined in     |
+            Chapter 14.)
+
+       11.6  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn ttttoooo IIIIccccoooonnnnssss
+
+       Icons are small graphic representations of windows that are
+       used to reduce clutter on the screen.  A primary client win-
+       dow can be turned into an icon and restored to window form    |
+       when desired.  Icons can be arranged on the screen in a pat-
+       tern you select, or in the default pattern (bottom left to
+       right).
+
+       Icons can be placed into an "icon box."  The icon box is an
+       MWM window, similar to other windows, that holds icons.  The
+       icon box itself can be minimized (turned into an icon).
+
+       Information on using and configuring icons and the icon box
+       is found in Chapter 15.                                       |
+
+       The following chapters discuss communications between your
+       client and MWM, how a user can configure MWM resources and
+       functions (which might affect your client application), and
+       how to work with icons.
+
+
+
+
+
+
+
+
+       11-24
+
+
+
+
+

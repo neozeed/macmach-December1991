@@ -1,0 +1,15 @@
+#if SystemV
+     BUTIL_SRCS = butil.c
+     BUTIL_OBJS = butil.o
+#else
+     BUTIL_SRCS = 
+     BUTIL_OBJS = 
+#endif
+DEPLIBS = $(DEPXAUTHLIB) $(DEPXMULIB)
+LOCAL_LIBRARIES = $(XAUTHLIB) $(XMULIB)
+           SRCS = xauth.c gethost.c process.c parsedpy.c $(BUTIL_SRCS) 
+           OBJS = xauth.o gethost.o process.o parsedpy.o $(BUTIL_OBJS) 
+        DEFINES = ConnectionFlags $(SIGNAL_DEFINES)
+
+ComplexProgramTarget(xauth)
+

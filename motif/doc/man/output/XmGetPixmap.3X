@@ -1,0 +1,198 @@
+
+
+
+     XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp ---- aaaa ppppiiiixxxxmmmmaaaapppp ccccaaaacccchhhhiiiinnnngggg ffffuuuunnnnccccttttiiiioooonnnn tttthhhhaaaatttt ggggeeeennnneeeerrrraaaatttteeeessss aaaa
+          ppppiiiixxxxmmmmaaaapppp,,,, ssssttttoooorrrreeeessss iiiitttt iiiinnnn aaaa ppppiiiixxxxmmmmaaaapppp ccccaaaacccchhhheeee,,,, aaaannnndddd rrrreeeettttuuuurrrrnnnnssss tttthhhheeee ppppiiiixxxxmmmmaaaapppp....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+
+          PPPPiiiixxxxmmmmaaaapppp XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp ((((_s_c_r_e_e_n, _i_m_a_g_e__n_a_m_e, _f_o_r_e_g_r_o_u_n_d,
+          _b_a_c_k_g_r_o_u_n_d))))
+               SSSSccccrrrreeeeeeeennnn    * _s_c_r_e_e_n;;;;
+               cccchhhhaaaarrrr      * _i_m_a_g_e__n_a_m_e;;;;
+               PPPPiiiixxxxeeeellll     _f_o_r_e_g_r_o_u_n_d;;;;
+               PPPPiiiixxxxeeeellll     _b_a_c_k_g_r_o_u_n_d;;;;
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp uses the parameter data to perform a lookup in
+          the pixmap cache to see if a pixmap has already been
+          generated that matches the data.  If one is found, a
+          reference count is incremented and the pixmap is returned.
+          Applications should use XXXXmmmmDDDDeeeessssttttrrrrooooyyyyPPPPiiiixxxxmmmmaaaapppp when the pixmap is
+          no longer needed.
+
+          If a pixmap is not found, _i_m_a_g_e__n_a_m_e is used to perform a
+          lookup in the image cache.  If an image is found, it is used
+          to generate the pixmap, which is then cached and returned.
+
+          If an image is not found, the _i_m_a_g_e__n_a_m_e is used as a
+          filename, and a search is made for an XXXX11110000 or XXXX11111111 bitmap
+          file.  If it is found, the file is read, converted into an
+          image, and cached in the image cache.  The image is then
+          used to generate a pixmap, which is cached and returned.
+
+          If _i_m_a_g_e__n_a_m_e begins with a slash character (////), it is taken
+          to be a full pathname specification and is the only pathname
+          searched to find the file.  Otherwise, several paths are
+          searched.  The user can specify an environment variable
+          XXXXBBBBMMMMLLLLAAAANNNNGGGGPPPPAAAATTTTHHHH, which is used to generate one set of paths.  If
+          XXXXBBBBMMMMLLLLAAAANNNNGGGGPPPPAAAATTTTHHHH is not set but the environment variable
+          XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR is set, the following path names are searched:
+
+                    %%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))
+
+
+
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+
+
+          If neither XXXXBBBBMMMMLLLLAAAANNNNGGGGPPPPAAAATTTTHHHH nor XXXXAAAAPPPPPPPPLLLLRRRREEEESSSSDDDDIIIIRRRR is set, the following
+          path names are searched:
+
+                    %%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    $$$$HHHHOOOOMMMMEEEE////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%NNNN////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%LLLL////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////%%%%llll////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+                    ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////bbbbiiiittttmmmmaaaappppssss////%%%%BBBB
+
+
+          The following substitutions are used in these paths:
+
+          %%%%BBBB   The image name, from the _i_m_a_g_e__n_a_m_e argument.
+
+          %%%%NNNN   The class_name of the application.
+
+          %%%%LLLL   The value of the LLLLAAAANNNNGGGG environment variable.
+
+          %%%%llll   The language component of the LLLLAAAANNNNGGGG environment
+               variable.
+
+          Parameter descriptions are listed below:
+
+
+          _s_c_r_e_e_n    Specifies the display screen on which the pixmap
+                    is to be drawn.  The depth of the pixmap is the
+                    default depth for this screen.
+
+          _i_m_a_g_e__n_a_m_e
+                    Specifies the name of the image to be used to
+                    generate the pixmap
+
+          _f_o_r_e_g_r_o_u_n_d
+                    Combines the image with the _f_o_r_e_g_r_o_u_n_d color to
+                    create the pixmap if the image referenced is a
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmGGGGeeeettttPPPPiiiixxxxmmmmaaaapppp((((3333XXXX))))
+
+
+
+                    bit-per-pixel image
+
+          _b_a_c_k_g_r_o_u_n_d
+                    Combines the image with the _b_a_c_k_g_r_o_u_n_d color to
+                    create the pixmap if the image referenced is a
+                    bit-per-pixel image
+
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          Returns a pixmap when successful; returns
+          XXXXmmmmUUUUNNNNSSSSPPPPEEEECCCCIIIIFFFFIIIIEEEEDDDD____PPPPIIIIXXXXMMMMAAAAPPPP if the image corresponding to the
+          _i_m_a_g_e__n_a_m_e cannot be found.
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmDDDDeeeessssttttrrrrooooyyyyPPPPiiiixxxxmmmmaaaapppp((((3333XXXX)))), XXXXmmmmIIIInnnnssssttttaaaallllllllIIIImmmmaaaaggggeeee((((3333XXXX)))), and
+          XXXXmmmmUUUUnnnniiiinnnnssssttttaaaallllllllIIIImmmmaaaaggggeeee((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+

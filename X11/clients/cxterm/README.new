@@ -1,0 +1,72 @@
+Well, here it is, finally.  This is basically an R4 xterm with lots of
+changes.  The major changes are listed below.  I should emphasize that
+no differences from the raw R4 xterm are in any way official MIT stuff.
+
+A lot of this was done in our spare time, and Silicon Graphics takes
+absolutely no responsibility for any of this.  The authors of the
+major pieces of code are listed purely to give credit where credit
+is due.  Please don't bother anyone but me about this, as Erik and Paul
+are both extremely busy guys.
+
+It is conceivable that I will continue to work on the color stuff now
+that I'm going to be back at school, so if anyone wants to fix
+something, or enhance something I'll be happy to take your patches.
+
+Here are the major changes we've made:
+
+1) Rearranged and rewrote most of main.c
+
+     Paul Shupak (shupak@esd.sgi.com) did most of this.
+
+2) Added ISO 6429 support for color text.  You can set the foreground
+   and background color for text using SGR.  For example, to make the
+   foreground red, you do:  "^[[31m".  The values from 30 to 37 set
+   foreground, those from 40 to 47 set background.  The default colors
+   are:
+	0) black   1) red   2) green  3) yellow  4) blue  5) magenta
+	6) cyan    7) white
+
+   These are settable with the resources "color0" to "color1".
+
+3) Added a resource, menu option, and command line flag for selecting
+   between scrolling by bliting the window, and scrolling by redrawing
+   the whole window.  On some servers (most notably SGI's ;-) redrawing
+   is faster than bliting.  The command line flags are -blt/+blt, and
+   the resource is "bltScroll".
+
+     Both 2) and 3) are the fault of me, Tom Weinstein.
+				(tomw@esd.sgi.com, tom@bears.ucsb.edu)
+
+		NOTE:  I'll be back at ucsb after Sept 19th, and my sgi
+		       address will no longer be valid.
+
+4) Added escape sequences to set the primary rendition text foreground
+   color, background color, text cursor color,  mouse foreground and
+   background colors and the Tektronix mode Foreground and Background
+   colors.  These are done with a 'Set Text Parameters' control sequence
+   (^[]Ps^G) where Ps is 10-16 followed by a list of color names.  For
+   more details, see the cltseqs document.  This feature can be enabled
+   with the dynamicColor resource.  One useful trick you can do with
+   this feature is to have different color backgrounds depending on what
+   machine you are logged onto.  A simple escape sequence in your prompt
+   string ensures that the color is right, even when you rlogin to
+   another machine.
+
+    This was designed and implemented by Erik Fortune (erik@esd.sgi.com).
+
+
+One thing to note is that the ANSI color, and the dynamic color features
+are totally orthogonal and use completely different color
+representations.  The ANSI color uses eight predefined colors, and the
+dynamic color uses color names, include #NNN specifications.
+
+Tom Weinstein
+Silicon Graphics, Inc., Entry Systems Division, Window Systems
+tomw@orac.esd.sgi.com
+Any opinions expressed above are mine, not sgi's.
+
+****************************************************************
+*                                                              *
+* NOTE: After Sept 19th, my address will be tom@bears.ucsb.edu *
+*                                                              *
+****************************************************************

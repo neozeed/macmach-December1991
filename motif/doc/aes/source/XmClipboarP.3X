@@ -1,0 +1,77 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardUnlock 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardUnlock \(em A clipboard function that unlocks the clipboard.\fP
+.iX "XmClipboardUnlock"
+.iX "clipboard functions" "XmClipboardUnlock"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardUnlock\fP (\fIdisplay, window, remove_all_locks\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	Boolean	\fIremove_all_locks\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardUnlock\fP unlocks the clipboard, 
+enabling it to be accessed by other applications.
+.PP
+If multiple calls to \fBXmClipboardLock\fP have occurred, the same
+number of calls to \fBXmClipboardUnlock\fP is necessary to unlock the clipboard,
+unless \fIremove_all_locks\fP is set to True.
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIremove_all_locks\fP" 1.2i
+When True, indicates that all nested locks should be removed.  When False,
+indicates that only one level of lock should be removed.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardFail\fP" 1.2i
+The function failed because the clipboard was not locked or was locked
+by another application.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardCancelCopy(3X)\fP, \fBXmClipboardCopy(3X)\fP, 
+\fBXmClipboardEndCopy(3X)\fP, \fBXmClipboardEndRetrieve(3X)\fP,
+\fBXmClipboardInquireCount(3X)\fP, \fBXmClipboardInquireFormat(3X)\fP,
+\fBXmClipboardInquireLength(3X)\fP, \fBXmClipboardInquirePendingItems(3X)\fP,
+\fBXmClipboardLock(3X)\fP, \fBXmClipboardRegisterFormat(3X)\fP,
+\fBXmClipboardRetrieve(3X)\fP, \fBXmClipboardStartCopy(3X)\fP,
+\fBXmClipboardStartRetrieve(3X)\fP, \fBXmClipboardUndoCopy(3X)\fP,
+and \fBXmClipboardWithdrawFormat(3X)\fP.
+.sp 1
+.ad

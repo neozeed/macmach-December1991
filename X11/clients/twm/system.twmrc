@@ -1,0 +1,75 @@
+# default .twmrc for MacMach
+
+WarpCursor
+BorderWidth	1
+TitleFont	"6x13"
+MenuFont	"6x13"
+IconFont	"6x13"
+ResizeFont	"6x13"
+Color
+{
+    BorderColor "slategrey"
+    DefaultBackground "maroon"
+    DefaultForeground "gray85"
+    TitleBackground "maroon"
+    TitleForeground "gray85"
+    MenuBackground "maroon"
+    MenuForeground "gray85"
+    MenuTitleBackground "gray70"
+    MenuTitleForeground "maroon"
+    IconBackground "maroon"
+    IconForeground "gray85"
+    IconBorderColor "gray85"
+    IconManagerBackground "maroon"
+    IconManagerForeground "gray85"
+}
+
+# functions for motion-based actions.
+MoveDelta 3
+Function "move-or-raise" { f.move f.deltastop f.raise }
+Function "move-or-iconify" { f.move f.deltastop f.iconify }
+
+Button1 =      : root    : f.menu "main"
+Button1 =  m   : window  : f.menu "main"
+Button1 =      : title   : f.function "move-or-raise"
+Button1 =  m   : title   : f.menu "main"
+Button1 =      : icon    : f.function "move-or-iconify"
+Button1 =  m   : icon    : f.menu "main"
+Button1 =      : iconmgr : f.iconify
+Button1 =  m   : iconmgr : f.menu "main"
+
+NoTitle
+{
+  "xclock"
+}
+
+menu "main"
+{
+"MacMach (twm)"	f.title
+"xterm"		!"xterm -sb -sl 100 -fn 6x13 -title $USER@`hostname`[$$] -geometry =80x24+0+0 &"
+"micro emacs"	!"xterm -sb -sl 100 -fn 6x13 -title emacs -geometry =80x24+0+0 -e uemacs &"
+"gnu emacs"	!"emacs -fn 6x13 -title $USER@`hostname` -geometry =80x24+0+0 &"
+"vi"		!"xterm -sb -sl 100 -fn 6x13 -title vi -geometry =80x24+0+0 -e vi &"
+"mail"		!"readmail &"
+"refresh"	f.refresh
+"logout"	f.quit
+"more menu =>"	f.menu "more"
+}
+
+menu "more"
+{
+"other:"	f.title
+"kill"		f.destroy
+"focus"		f.focus
+"unfocus"	f.unfocus
+"iconify"	f.iconify
+"move"		f.move
+"raise"		f.raise
+"lower"		f.lower
+"resize"	f.resize
+"delete"	f.delete
+"iconmgr on"	f.showiconmgr
+"iconmgf off"	f.hideiconmgr
+"restart twm"	f.twmrc
+"exit twm"	f.quit
+}

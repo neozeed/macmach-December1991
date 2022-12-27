@@ -1,0 +1,136 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmConvertUnits 3X "" "" "" ""
+.SH NAME
+\fB
+XmConvertUnits \(em a function that converts a value in one unit type
+to another unit type.\fP
+.iX "XmConvertUnits"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+int XmConvertUnits (\fIwidget, orientation, from_unit_type,
+from_value, to_unit_type\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	int	\fIorientation\fP;
+.br
+	int	\fIfrom_unit_type\fP;
+.br
+	int	\fIfrom_value\fP;
+.br
+	int	\fIto_unit_type\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmConvertUnits\fP converts the value and returns it as the return value from
+the function.  
+.sp 1
+.IP "\fIwidget\fP" 1.2i
+Specifies the widget for which the data is to be converted
+.br
+.ne 6
+.IP "\fIorientation\fP"1.2i
+Specifies whether the converter uses the horizontal or vertical screen
+resolution when performing the conversions.  \fIorientation\fR can have values of
+\fBXmHORIZONTAL\fP or \fBXmVERTICAL\fP.
+.IP "\fIfrom_unit_type\fP"1.2i
+Specifies the current unit type of the supplied value
+.IP "\fIfrom_value\fP"1.2i
+Specifies the value to be converted
+.IP "\fIto_unit_type\fP"1.2i
+Converts the value to the unit type specified
+.sp 1
+.PP
+The parameters \fIfrom_unit_type\fP and \fIto_unit_type\fP can have the 
+following values:
+.IP \(bu 3
+\fBXmPIXELS\fP \(em
+all values provided to the widget are treated as normal pixel values.  This
+is the default for the resource.
+.IP \(bu 3
+\fBXm100TH_MILLIMETERS\fP \(em
+all values provided to the widget are treated as 1/100 millimeter.
+.IP \(bu 3
+\fBXm1000TH_INCHES\fP \(em
+all values provided to the widget are treated as 1/1000 inch.
+.IP \(bu 3
+\fBXm100TH_POINTS\fP \(em
+all values provided to the widget are treated as 1/100 point.
+A point is a unit typically used in text processing applications and
+is defined as 1/72 inch.
+.IP \(bu 3
+\fBXm100TH_FONT_UNITS\fP \(em
+all values provided to the widget are treated as 1/100 of a font unit.
+The value to be used for the font unit is determined in one of three
+ways:
+.RS
+.IP \(bu 3
+The application can use \fBXmSetFontUnits\fP to specify the font unit
+values.
+.IP \(bu 3
+If the application has not called \fBXmSetFontUnits\fP, the font units
+can be derived from a font.
+The user specifies this font by using the font resource in a
+defaults file or on the command line, or by using the standard command
+line options \fB\-fn\fP and \fB\-font\fP.
+.IP \(bu 3
+If the application has not called \fBXmSetFontUnits\fP and the user has
+not specified a font resource, the horizontal and vertical font units
+default to 10.
+.RE
+.ne 4
+.IP
+A horizontal font unit is derived from a font as follows:
+.RS
+.IP \(bu 3
+If the font has an \fBAVERAGE_WIDTH\fP property, the horizontal font
+unit is the \fBAVERAGE_WIDTH\fP property divided by 10.
+.IP \(bu 3
+If the font has no \fBAVERAGE_WIDTH\fP property but has a
+\fBQUAD_WIDTH\fP property, the horizontal font unit is the
+\fBQUAD_WIDTH\fP property.
+.IP \(bu 3
+If the font has no \fBAVERAGE_WIDTH\fP or \fBQUAD_WIDTH\fP property, the
+horizontal font unit is the sum of the font struct's min_bounds.width
+and max_bounds.width divided by 2.3.
+.RE
+.IP
+A vertical font unit is derived from a font as follows:
+.RS
+.IP \(bu 3
+If the font has a \fBPIXEL_SIZE\fP property, the vertical font unit is
+the \fBPIXEL_SIZE\fP property divided by 1.8.
+.IP \(bu 3
+If the font has no \fBPIXEL_SIZE\fP property but has \fBPOINT_SIZE\fP
+and \fBRESOLUTION_Y\fP properties, the vertical font unit is the product
+of the \fBPOINT_SIZE\fP and \fBRESOLUTION_Y\fP properties divided by
+1400.
+.IP \(bu 3
+If the font has no \fBPIXEL_SIZE\fP, \fBPOINT_SIZE\fP, or
+\fBRESOLUTION_Y\fP properties, the vertical font unit is the sum of the
+font struct's max_bounds.ascent and max_bounds.descent divided by 2.2.
+.RE
+.RE
+.sp 1
+.SH RETURN VALUE
+Returns the converted value.
+If a NULL widget, incorrect \fIorientation\fR, or incorrect \fIunit_type\fP 
+is supplied as parameter data, 0 is returned.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmSetFontUnits(3X)\fP
+.sp 1

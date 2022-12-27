@@ -1,0 +1,82 @@
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardInquireCount 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardInquireCount \(em A clipboard function that returns the number of
+data item formats.\fP
+.iX "XmClipboardInquireCount"
+.iX "clipboard functions" "XmClipboardInquireCount"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardInquireCount\fP (\fIdisplay, window, count,
+max_format_name_length\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	int	\fI* count\fP;
+.br
+	int	\fI* max_format_name_length\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardInquireCount\fP returns the number of data item formats available
+for the data item in the clipboard.  This function also returns the
+maximum name-length for all formats in which the data item is
+stored.
+.sp 1
+.IP "\fIdisplay\fP" 1.65i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.65i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIcount\fP" 1.65i
+Returns the number of data item formats available for the data item
+in the clipboard.  If no formats are available, this argument equals zero.
+The count includes the formats that were passed by name.
+.IP "\fImax_format_name_length\fP" 1.65i
+Specifies the maximum length of all format names for the data item in
+the clipboard. 
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.65i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.65i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.IP "\fBClipboardNoData\fP" 1.65i
+The function could not find data on the clipboard corresponding to the
+format requested.
+This could occur because the clipboard is empty; there is data
+on the clipboard but not in the requested format; or the data in
+the requested format was passed by name and is no longer available. 
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

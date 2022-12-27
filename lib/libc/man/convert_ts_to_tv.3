@@ -1,0 +1,66 @@
+.\"
+.\" $Id: convert_ts_to_tv.3,v 1.1 89/12/28 14:39:09 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	convert_ts_to_tv.3,v $
+.\" Revision 1.1  89/12/28  14:39:09  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 03-Apr-87  David L. Black (dlb) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH CONVERT_TS_TO_TV 3 4/3/87
+.CM 4
+.SH NAME
+.nf
+convert_ts_to_tv \- convert timestamp to timeval
+.SH SYNOPSIS
+.nf
+.ft B
+#include <sys/time.h>
+#include <sys/time_stamp.h>
+
+.nf
+.ft B
+convert_ts_to_tv(ts_format, tsp, tvp)
+    int			ts_format;
+    struct tsval	*tsp;
+    struct timeval	*tvp;
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+ts_format
+identifies (machine dependent) timestamp format
+.TP 15
+.B
+tsp
+pointer to (machine dependent) timestamp
+.TP 15
+.B
+tvp
+pointer to (machine independent) timeval [Returned].
+
+.SH DESCRIPTION
+.B convert_ts_to_tv
+converts the timestamp pointed to by
+.B tsp
+into a timeval according to
+.B ts_format
+and puts the resultant value in the timeval pointed to by
+.B tvp
+.  
+
+.B ts_format
+should be the value of the symbol TS_FORMAT at the time that the timestamps
+were taken.
+
+.SH DIAGNOSTICS
+No value is returned.  If ts_format is not valid, the timeval pointed to
+by tvp will be zeroed.
+
+.SH SEE ALSO
+.B kern_timestamp(2)

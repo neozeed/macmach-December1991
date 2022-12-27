@@ -1,0 +1,58 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	xptest.man,v $
+.\" Revision 2.3  91/03/19  12:55:43  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/11/05  23:34:43  rpd
+.\" 	Created.
+.\" 	[90/10/31            rpd]
+.\" 
+.TH  XPTEST  1 6/18/90
+.CM 4
+.SH NAME
+xptest \- test external-pager functionality
+.SH SYNOPSIS
+\fBxptest\fR [\fB-random\fR seed]
+.SH DESCRIPTION
+\fIxptest(1)\fR tests the kernel's external-pager functionality.
+It runs a series of tests, printing a running commentary
+to stdout.  If it encounters an anomaly it prints a message
+flagged with "****".
+.PP
+When run in random mode, \fIxptest\fR randomly tries operations.
+It exits only when it encounters an anomaly.  In addition
+to the normal commentary printed to stdout, it will dump
+to stderr a log of the last 100 operations preceding the anomaly.
+.PP
+\fIxptest\fR interprets the following options:
+.TP 8
+.B \-random \fIseed\fR
+Run in random mode, using the argument as a seed for the random
+number generator.
+.SH "SEE ALSO"
+ipc_test(1).

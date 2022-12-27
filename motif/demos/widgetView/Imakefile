@@ -1,0 +1,15 @@
+INCLUDES = -I. -I$(LIBSRC) -I$(MTOOLKITSRC)
+LOCAL_LIBRARIES = $(XMLIB) 
+
+NormalLibraryObjectRule()
+
+PROGRAMS = widgetView 
+
+SRCS1 =	widgetView.c callbacks.c utils.c widgets.c sequence.c
+
+OBJS1 = widgetView.o callbacks.o utils.o widgets.o sequence.o
+
+ComplexProgramTarget_1(widgetView, $(LOCAL_LIBRARIES),$(SYSLIBS))
+InstallProgram(widgetView, $(BINDIR))
+
+DependTarget ()

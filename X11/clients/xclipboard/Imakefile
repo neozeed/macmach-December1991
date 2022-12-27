@@ -1,0 +1,16 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+          SRCS1 = xclipboard.c
+          OBJS1 = xclipboard.o
+          SRCS2 = xcutsel.c
+          OBJS2 = xcutsel.o
+       PROGRAMS = xclipboard xcutsel
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+
+ComplexProgramTarget_1(xclipboard,$(LOCAL_LIBRARIES), /**/)
+ComplexProgramTarget_2(xcutsel,$(LOCAL_LIBRARIES), /**/)
+
+InstallAppDefaults(XClipboard)

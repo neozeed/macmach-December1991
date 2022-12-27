@@ -1,0 +1,22 @@
+        DEFINES = ConnectionFlags -DBINDIR=\"$(BINDIR)\"
+        DEPLIBS = $(DEPXMULIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XMULIB) $(XLIB)
+          SRCS1 = xinit.c 
+          OBJS1 = xinit.o 
+  SAMPLECONFIGS = xinitrc /* xserverrc */
+       PROGRAMS = xinit startx.script $(SAMPLECONFIGS)
+
+ComplexProgramTarget_1(xinit,$(LOCAL_LIBRARIES), /**/)
+
+MakeScriptFromCpp(startx.script, -DXINITDIR=$(XINITDIR))
+MakeScriptFromCpp(xinitrc, -DXINITDIR=$(XINITDIR))
+/* MakeScriptFromCpp(xserverrc, -DXINITDIR=$(XINITDIR)) */
+
+
+InstallScript(startx,$(BINDIR))
+
+#if InstallXinitConfig
+MakeDirectories(install,$(XINITDIR))
+
+InstallMultiple($(SAMPLECONFIGS),$(XINITDIR))
+#endif

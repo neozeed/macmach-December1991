@@ -1,0 +1,167 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH Shell 3X "" "" "" ""
+.SH NAME
+\fBShell \(em The Shell widget class.\fP
+.iX "Shell"
+.iX "widget class" "Shell"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/Xm.h>
+.br
+\&#include <X11/Shell.h>\fP
+.sp 1
+.SH DESCRIPTION
+Shell is a top-level widget (with only one managed child) that encapsulates
+the interaction with the window manager.  
+.PP
+When the width of both the shell and its child are specified, the larger
+of the shell's width and the child's width is used for both widgets.
+When either the shell's width or the child's width, but not the other,
+is specified, the specified width is used for both widgets.
+The same relations hold for the height of the shell and its child.
+.sp 1
+.SS "Classes"
+Shell inherits behavior and resources from \fBComposite\fP and \fBCore\fP.
+.IP
+The class pointer is \fBshellWidgetClass\fP.
+.IP
+The class name is \fBShell\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Shell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowShellResize	XmCAllowShellResize	Boolean	False	CG
+XmNcreatePopupChildProc	XmCCreatePopupChildProc	(*)()	NULL	CSG
+XmNgeometry	XmCGeometry	String	NULL	CSG
+XmNoverrideRedirect	XmCOverrideRedirect	Boolean	False	CSG
+XmNpopdownCallback	XmCCallback	XtCallbackList	NULL	C
+XmNpopupCallback	XmCCallback	XtCallbackList	NULL	C
+XmNsaveUnder	XmCSaveUnder	Boolean	False	CSG
+XmNvisual	XmCVisual	Visual *	CopyFromParent	CSG
+.TE
+.sp 1
+.IP \fBXmNallowShellResize\fP
+Specifies that if this resource is False, the Shell widget instance
+returns \fBXtGeometryNo\fP to all geometry requests from its children.
+.IP \fBXmNcreatePopupChildProc\fP
+Specifies the pointer to a function that is called when the Shell
+widget instance is popped up by \fBXtPopup\fP.
+The function creates the child widget when the shell is popped up
+instead of when the application starts up.
+This can be used if the child needs to be reconfigured each time the
+shell is popped up.
+The function takes one argument, the popup shell, and returns no result.
+It is called after the popup callbacks specified by
+\fBXmNpopupCallback\fP.
+.sp
+.ne 1.5i
+.IP \fBXmNgeometry\fP
+Specifies the desired geometry for the widget instance.  This resource
+is examined only when the widget instance is unrealized and the number
+of its managed children is changed.  It is to change the values
+of the \fBXmNx\fP, \fBXmNy\fP, \fBXmNwidth\fP, and \fBXmNheight\fP
+resources.
+.IP \fBXmNoverrideRedirect\fP
+Specifies this is True if the widget instance is a temporary
+window which should be ignored by the window manager.  Applications and
+users should not normally alter this resource.
+.IP \fBXmNpopdownCallback\fP
+Specifies a list of callbacks that is called when the widget instance
+is popped down by \fBXtPopdown\fP.
+.IP \fBXmNpopupCallback\fP
+Specifies a list of callbacks that is called when the widget instance
+is popped up by \fBXtPopup\fP.
+.IP \fBXmNsaveUnder\fP
+Specifies a True value if it is desirable to save the contents of the 
+screen beneath this widget instance, avoiding expose events when the
+instance is unmapped.  This is a hint, and an implementation may save
+contents whenever it desires, including always or never.
+.IP \fBXmNvisual\fP
+Specifies the visual used in creating the widget.
+.sp 1
+.ne 3i
+.SS "Inherited Resources"
+Shell inherits behavior and resources from the following   
+superclass.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	1	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for Shell.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP and \fBCore(3X)\fP.

@@ -1,0 +1,62 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextGetSelectionPosition 3X "" "" "" ""
+.SH NAME
+\fBXmTextGetSelectionPosition \(em a Text function that accesses the
+position of the primary selection\fP
+.iX "XmTextGetSelectionPosition"
+.iX "Text functions" "XmTextGetSelectionPosition"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+Boolean XmTextGetSelectionPosition (\fIwidget, left, right\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fI*left\fP;
+.fi
+.br
+	XmTextPosition	\fI*right\fP;
+\fP
+.SH DESCRIPTION
+\fBXmTextGetSelectionPosition\fP accesses the left and right position of
+the primary selection in the text buffer of the Text widget.
+.sp 1
+.sp
+.ne 3i
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIleft\fP" .75i
+Specifies the pointer in which the position of the left boundary of the
+primary selection is returned.  This is an integer number of characters
+from the beginning of the buffer.  The first character position is 0.
+.IP "\fIright\fP" .75i
+Specifies the pointer in which the position of the right boundary of the
+primary selection is returned.  This is an integer number of characters
+from the beginning of the buffer.  The first character position is 0.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+This function returns True if the widget owns the primary selection;
+otherwise, it returns False.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

@@ -1,0 +1,100 @@
+.\" Copyright (c) 1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND CARNEGIE MELLON UNIVERSITY
+.\" DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.  IN NO EVENT
+.\" SHALL CARNEGIE MELLON UNIVERSITY BE LIABLE FOR ANY SPECIAL, DIRECT,
+.\" INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+.\" RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+.\" CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+.\" CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Users of this software agree to return to Carnegie Mellon any
+.\" improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" Export of this software is permitted only after complying with the
+.\" regulations of the U.S. Deptartment of Commerce relating to the
+.\" Export of Technical Data.
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" HISTORY
+.\" $Log:	quit.man,v $
+.\" Revision 2.2  91/04/11  11:11:13  mrt
+.\" 	Copied from libcs
+.\" 
+.\" Revision 1.2  90/12/12  15:56:30  mja
+.\" 	Add copyright/disclaimer for distribution.
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\" 	Revised for 4.3.
+.\" 
+.\" 20-Mar-81  Dale Moore (dwm) at Carnegie-Mellon University
+.\" 	Changed to call _doprnt instead of fprintf.
+.\" 
+.\" 06-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\" 	Created.
+.\" 
+.TH QUIT 3 3/20/81
+.CM 2
+.SH "NAME"
+quit \- print message and exit
+.SH "SYNOPSIS"
+.B
+quit (status, format
+[, arg ] ...
+.B
+)
+.br
+.B
+int status;
+.br
+.B
+char *format;
+.SH "DESCRIPTION"
+.I
+quit
+is a means of terminating a process with an error message.
+.sp
+This call should never return.
+.sp
+.I
+quit
+prints on standard error the message specified by the
+.IR printf (3)
+argument list
+.I
+format [, arg]...
+then exits.
+.sp
+The first argument,
+.IR status ,
+will be the argument passed to
+.IR exit (2)
+and this is the process's return code.
+All of the process's files will be closed.
+.SH "SEE ALSO"
+.IR printf (3), 
+.IR exit (2), 
+.IR wait (2)
+.SH "BUGS"
+The implementation of
+.I
+quit
+depends on a routine named
+.IR _doprnt .
+Although 
+.I
+fprintf
+and
+.I
+printf
+on Vax and PDP11 
+UNIX are implemented with this routine,
+other UNIX systems might not implement them this way.

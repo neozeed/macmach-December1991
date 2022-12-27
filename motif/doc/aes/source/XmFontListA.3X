@@ -1,0 +1,61 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFontListAdd 3X "" "" "" ""
+.SH NAME
+\fBXmFontListAdd \(em a compound string function that creates a new font list.\fP
+.iX "XmFontListAdd"
+.iX "compound string functions" "XmFontListAdd"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmFontList XmFontListAdd (\fIoldlist, font, charset\fP)
+.br
+.ta .5i 1.75i
+.br
+	XmFontList	\fIoldlist\fP;
+.br
+	XFontStruct	\fI* font\fP;
+.br
+	XmStringCharSet	\fIcharset\fP;
+.fi
+\fP
+.sp
+.ne 3i
+.SH DESCRIPTION
+\fBXmFontListAdd\fP creates a new font list consisting of the contents of
+the \fIoldlist\fP and the new font-list element being added.  This
+function deallocates the \fIoldlist\fP after extracting the required
+information; therefore, do not reference \fIoldlist\fP thereafter.
+.sp 1
+.IP "\fIoldlist\fP" .75i
+Specifies a pointer to the font list to which an entry will be added.
+.IP "\fIfont\fP" .75i
+Specifies a pointer to a font structure for which the new font list is
+generated.  This is the structure returned by the XLib \fBXLoadQueryFont\fP
+function.
+.IP "\fIcharset\fP" .75i
+Specifies the character set identifier for the font.
+.sp 1
+.SH RETURN VALUE
+Returns NULL if \fIoldlist\fP is NULL; returns \fIoldlist\fP if
+\fIfont\fP or \fIcharset\fP is NULL; otherwise, returns a new font list.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmFontListCreate(3X)\fP.
+.sp 1
+.ad

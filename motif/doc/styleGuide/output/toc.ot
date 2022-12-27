@@ -1,0 +1,396 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 CONTENTS
+
+
+       Preface............................................      vii
+           Audience.......................................      vii
+           Contents.......................................      vii
+           Typographic Conventions........................     viii
+           Compliance Conventions.........................       ix
+
+       1.  User Interface Design Principles...............      1-1
+           1.1  Adopt the User's Perspective..............      1-1
+           1.2  Give the User Control.....................      1-2
+                1.2.1  Keep Interfaces Flexible...........      1-2
+                1.2.2  Use Progressive Disclo-
+                       sure...............................      1-2
+           1.3  Use Real-World Metaphors..................      1-2
+                1.3.1  Allow Direct Manipulation..........      1-2
+                1.3.2  Provide Rapid Response.............      1-3
+                1.3.3  Provide Output as Input............      1-3
+           1.4  Keep Interfaces Natural...................      1-3
+                1.4.1  Make Navigation Easy...............      1-3
+                1.4.2  Provide Natural Shades and
+                       Colors.............................      1-4
+           1.5  Keep Interfaces Consistent................      1-4
+           1.6  Communicate Application Actions to the
+                User......................................      1-5
+                1.6.1  Give the User Feedback.............      1-5
+                1.6.2  Anticipate Errors..................      1-5
+                1.6.3  Use Explicit Destruction...........      1-5
+           1.7  Avoid Common Design Pitfalls..............      1-6
+
+       2.  Input and Navigation Models....................      2-1
+           2.1  The Keyboard Focus Model..................      2-1
+                2.1.1  Implicit Focus.....................      2-1
+                2.1.2  Explicit Focus.....................      2-2
+           2.2  The Input Device Model....................      2-3
+                2.2.1  Pointing Devices...................      2-3
+                2.2.2  Pointer Shapes.....................      2-5
+                2.2.3  Warp Pointer Only If Explicitly
+                       Enabled............................      2-7
+           2.3  The Navigation Model......................      2-7
+                2.3.1  Mouse-Based Navigation.............      2-7
+                2.3.2  Keyboard-Based Navigation..........      2-8
+                2.3.3  Menu Traversal.....................     2-14
+                2.3.4  Scrollable Component Naviga-
+                       tion...............................     2-16
+
+       3.  Selection and Component Activation.............      3-1
+           3.1  Selection Models..........................      3-1
+                3.1.1  Mouse-Based Single Selec-
+                       tion...............................      3-2
+
+
+
+                                  - i -
+
+
+
+
+
+
+
+
+
+
+
+                3.1.2  Mouse-Based Browse Selec-
+                       tion...............................      3-3
+                3.1.3  Mouse-Based Multiple Selec-
+                       tion...............................      3-3
+                3.1.4  Mouse-Based Range Selec-
+                       tion...............................      3-3
+                3.1.5  Mouse-Based Discontiguous Selec-
+                       tion...............................      3-4
+                3.1.6  Keyboard Selection.................      3-5
+                3.1.7  Canceling a Selection..............      3-6
+                3.1.8  Selecting and Deselecting All Ele-
+                       ments..............................      3-6
+                3.1.9  Using Mnemonics for Ele-
+                       ments..............................      3-7
+           3.2  Selection Actions.........................      3-7
+                3.2.1  The Drag-and-Drop Model............      3-7
+                3.2.2  Using Primary Selection............      3-8
+                3.2.3  Using Quick Transfer...............      3-9
+                3.2.4  Using Keyboard Clipboard Selection
+                       Actions and Deletion...............     3-11
+           3.3  Component Activation......................     3-11
+                3.3.1  Basic Activation...................     3-12
+                3.3.2  Accelerators.......................     3-12
+                3.3.3  Mnemonics..........................     3-13
+                3.3.4  Help Activation....................     3-13
+                3.3.5  Default Activation.................     3-13
+                3.3.6  Expert Activation..................     3-14
+                3.3.7  Previewing and Autorepeat..........     3-14
+
+       4.  Application Design Principles..................      4-1
+           4.1  Choosing Components.......................      4-1
+                4.1.1  Guidelines for Choosing a Main
+                       Component Group....................      4-3
+                4.1.2  Guidelines for Choosing Interac-
+                       tive Methods.......................      4-4
+           4.2  Layout....................................      4-6
+                4.2.1  Common Client Areas................      4-6
+                4.2.2  Grouping Components................     4-18
+                4.2.3  Menu Design........................     4-19
+                4.2.4  DialogBox Design...................     4-21
+           4.3  Interaction...............................     4-24
+                4.3.1  Supplying Indications of
+                       Actions............................     4-24
+                4.3.2  Providing Feedback.................     4-27
+                4.3.3  Allowing User Flexibility..........     4-27
+           4.4  Component Design..........................     4-28
+
+       5.  Window Manager Design Principles...............      5-1
+           5.1  Configurability...........................      5-1
+           5.2  Window Support............................      5-1
+                5.2.1  Primary Window.....................      5-2
+
+
+
+                                  - ii -
+
+
+
+
+
+
+
+
+
+
+
+                5.2.2  Secondary Windows (Dia-
+                       log)...............................      5-3
+                5.2.3  Menu Windows.......................      5-3
+           5.3  Window Decorations........................      5-3
+                5.3.1  Client Area........................      5-4
+                5.3.2  Title Area.........................      5-5
+                5.3.3  Maximize Button....................      5-5
+                5.3.4  Minimize Button....................      5-5
+                5.3.5  Other Buttons......................      5-5
+                5.3.6  Resize Borders.....................      5-5
+                5.3.7  Window Menu........................      5-6
+           5.4  Window Navigation.........................      5-7
+           5.5  Icons.....................................      5-8
+                5.5.1  Icon Decoration....................      5-8
+                5.5.2  Icon Menu..........................      5-8
+                5.5.3  Icon Box...........................      5-9
+
+       6.  Designing for International Markets............      6-1
+           6.1  Collating Sequences.......................      6-1
+           6.2  Country-Specific Data Formats.............      6-2
+                6.2.1  Thousands Separators...............      6-2
+                6.2.2  Decimal Separators.................      6-2
+                6.2.3  Grouping Separators................      6-2
+                6.2.4  Positive and Negative
+                       Values.............................      6-2
+                6.2.5  Currency...........................      6-3
+                6.2.6  Date Formats.......................      6-3
+                6.2.7  Time Formats.......................      6-3
+                6.2.8  Telephone Numbers..................      6-3
+                6.2.9  Proper Names and
+                       Addresses..........................      6-3
+           6.3  Icons, Symbols, and Pointer
+                Shapes....................................      6-4
+           6.4  Scanning Direction........................      6-4
+           6.5  Designing Modularized Software............      6-4
+           6.6  Translating Screen Text...................      6-5
+
+       7.  Controls, Groups, and Models Reference
+           Pages..........................................      7-1
+           Accelerators...................................      7-3
+           Activation.....................................      7-4
+           Basic Controls.................................      7-6
+           Basic Groups...................................      7-7
+           Canvas.........................................      7-8
+           CascadeButton..................................      7-9
+           CheckButton....................................     7-10
+           CommandBox.....................................     7-12
+           CommandDialog..................................     7-13
+           Composition....................................     7-14
+           Default Activation.............................     7-15
+           DialogBox......................................     7-16
+
+
+
+                                 - iii -
+
+
+
+
+
+
+
+
+
+
+
+           Drag and Drop..................................     7-18
+           Edit Menu......................................     7-19
+           ErrorDialog....................................     7-21
+           Field Controls.................................     7-22
+           File Menu......................................     7-23
+           FileSelectionBox...............................     7-25
+           FileSelectionDialog............................     7-27
+           Focus..........................................     7-28
+           Frame..........................................     7-29
+           Framing Groups.................................     7-30
+           Help Menu......................................     7-31
+           Icon Menu......................................     7-32
+           IconBox........................................     7-33
+           Icons..........................................     7-34
+           InformationDialog..............................     7-35
+           Input Devices..................................     7-36
+           Label..........................................     7-37
+           Layout Groups..................................     7-38
+           List...........................................     7-39
+           MainWindow.....................................     7-41
+           MenuBar........................................     7-42
+           Menus..........................................     7-44
+           MessageDialogs.................................     7-45
+           Mnemonics......................................     7-46
+           Navigation.....................................     7-47
+           OptionButton...................................     7-49
+           PanedWindow....................................     7-51
+           Panel..........................................     7-52
+           Pointer Shapes.................................     7-53
+           Primary Selection..............................     7-55
+           PromptDialog...................................     7-56
+           PushButton.....................................     7-57
+           QuestionDialog.................................     7-58
+           Quick Transfer.................................     7-59
+           RadioButton....................................     7-60
+           Sash...........................................     7-62
+           Scale..........................................     7-64
+           ScrollBar......................................     7-66
+           ScrolledWindow.................................     7-68
+           Selection......................................     7-69
+           SelectionBox...................................     7-70
+           SelectionDialog................................     7-71
+           Separator......................................     7-72
+           Text...........................................     7-73
+           ToggleButton...................................     7-77
+           WarningDialog..................................     7-78
+           Window Menu....................................     7-79
+           WorkingDialog..................................     7-81
+
+       A.  Common Bindings for Virtual Buttons and
+           Keys...........................................      A-1
+
+
+
+                                  - iv -
+
+
+
+
+
+
+
+
+
+
+
+       B.  OSF/Motif Widgets and Components
+           Correspondence.................................      B-1
+
+       Glossary...........................................     GL-1
+
+       Index..............................................  Index-1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - v -
+
+
+
+

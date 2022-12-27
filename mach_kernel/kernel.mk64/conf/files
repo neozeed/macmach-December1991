@@ -1,0 +1,301 @@
+#
+# Mach Operating System
+# Copyright (c) 1991,1990,1989 Carnegie Mellon University
+# All Rights Reserved.
+# 
+# Permission to use, copy, modify and distribute this software and its
+# documentation is hereby granted, provided that both the copyright
+# notice and this permission notice appear in all copies of the
+# software, derivative works or modified versions, and any portions
+# thereof, and that both notices appear in supporting documentation.
+# 
+# CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS" 
+# CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+# ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+# 
+# Carnegie Mellon requests users of this software to return to
+# 
+#  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+#  School of Computer Science
+#  Carnegie Mellon University
+#  Pittsburgh PA 15213-3890
+# 
+# any improvements or extensions that they make and grant Carnegie Mellon
+# the rights to redistribute these changes.
+#
+#
+# HISTORY
+# $Log:	files,v $
+# Revision 2.24  91/09/12  16:36:30  bohman
+# 	Added ufs_pager option.
+# 	Made boot_ufs/def_pager_setup.c optional on ufs_pager.
+# 	[91/09/11  17:01:20  bohman]
+# 
+# Revision 2.23  91/08/28  11:10:27  jsb
+# 	Removed mach/norma_task_user.c.
+# 	Added mach_user.c and mach_norma_user.c.
+# 	Added norma/xmm_copy.c.
+# 	[91/08/15  13:00:43  jsb]
+# 
+# Revision 2.22  91/08/03  18:17:09  jsb
+# 	Replaced NORMA_BOOT with NORMA_DEVICE.
+# 	[91/07/27  18:25:13  jsb]
+# 
+# 	NORMA_IPC: added norma/ipc_net.c.
+# 	NORMA_ETHER: added norma/ipc_ether.c.
+# 	[91/07/24  22:43:57  jsb]
+# 
+# 	Removed norma/ipc_vm.c (functionality moved to vm/vm_map.c).
+# 	[91/07/04  09:53:11  jsb]
+# 
+# Revision 2.21  91/08/01  14:34:02  dbg
+# 	Add mach_machine_routines.h options file.
+# 	[91/08/01            dbg]
+# 
+# Revision 2.20  91/07/31  17:28:24  dbg
+# 	Added db_ext_symtab.c.
+# 	[91/07/30  16:41:37  dbg]
+# 
+# Revision 2.19  91/06/17  15:43:39  jsb
+# 	Moved files from ipc to norma; added norma xmm files.
+# 	[91/06/17  13:51:16  jsb]
+# 
+# Revision 2.18  91/06/06  17:03:38  jsb
+# 	More NORMA_xxx files.
+# 	[91/06/06  16:16:55  jsb]
+# 
+# Revision 2.17  91/05/14  15:29:19  mrt
+# 	Correcting copyright
+# 
+# Revision 2.16  91/05/08  12:22:21  dbg
+# 	Remove individual 'VOLATILE' switches, since 'VOLATILE' is
+# 	defined in the master Makefile.template.
+# 	[91/04/30            dbg]
+# 
+# 	Added 'VOLATILE' for kern/{machine,syscall_subr,thread}.c.
+# 	[91/03/21            dbg]
+# 
+# Revision 2.15  91/03/16  14:42:16  rpd
+# 	Added MACH_COUNTERS and kern/counters.c.
+# 	[91/02/24            rpd]
+# 
+# Revision 2.14  91/02/05  17:05:09  mrt
+# 	Removed /device/subr_rmap.c since it is only
+# 	needed by some machine types.
+# 	[91/01/25            mrt]
+# 
+# Revision 2.13  91/01/08  15:08:55  rpd
+# 	Removed ./mach/exc_user.c.
+# 	[90/12/26            rpd]
+# 	Removed FAST_CSW.
+# 	[90/12/08            rpd]
+# 	Removed MACH_IPC_GENNOS.
+# 	[90/11/08            rpd]
+# 
+# Revision 2.12  90/12/14  10:59:21  jsb
+# 	Added ./mach/dev_forward.c (for cross-node device support).
+# 	[90/12/14  08:26:07  jsb]
+# 
+# Revision 2.11  90/10/25  14:43:27  rwd
+# 	Added ddb/db_watch.c.
+# 	[90/10/16            rpd]
+# 
+# Revision 2.10  90/09/28  16:53:17  jsb
+# 	Added preliminary NORMA support.
+# 	[90/09/28  14:01:11  jsb]
+# 
+# Revision 2.9  90/08/27  21:46:58  dbg
+# 	Add debugger support for multiple symbol tables and different
+# 	formats (ddb/db_aout.c).
+# 	[90/08/17            dbg]
+# 	Switch to new kernel debugger (ddb).
+# 	[90/07/20            dbg]
+# 
+# 	Remove sasys.c.  Add file_io.c.
+# 	[90/07/17            dbg]
+# 
+# 	Remove clist.c and ufs_dsort.c.  Add cirbuf.c.
+# 	[90/07/09            dbg]
+# 
+# Revision 2.8  90/06/19  22:57:29  rpd
+# 	Removed mach_user.c, mach_port_user.c.
+# 	[90/06/03            rpd]
+# 
+# Revision 2.7  90/06/02  14:46:48  rpd
+# 	Added kdb/kdb_aout.c.
+# 	[90/05/11  16:47:17  rpd]
+# 
+# 	Added MACH_VM_DEBUG, vm/vm_debug.c.
+# 	[90/04/20            rpd]
+# 	Converted to new IPC.
+# 	Removed mdb files.
+# 	Updated options to agree with MASTER.
+# 	[90/03/26  21:40:35  rpd]
+# 
+#
+# Condensed history:
+#	Changes for MACH_KERNEL (dbg, rwd).
+#	Changes for new scheduling code (dlb).
+#	Created mach directory (rpd).
+#	Options cleanup (mwyoung).
+#	Split up IPC files (rpd).
+#	Added MACH and CMUCS options (mja).
+#	Cleaned up, removed old history (avie).
+#
+
+#
+# N.B. "kern/lock.c" is listed as "optional cpus" so that config will
+# create a "cpus.h" file.
+#
+
+OPTIONS/cmucs_disk		optional cmucs_disk
+OPTIONS/dli			optional dli
+OPTIONS/mach_assert		optional mach_assert
+OPTIONS/mach_debug		optional mach_debug
+OPTIONS/mach_machine_routines.h	optional mach_machine_routines
+OPTIONS/norma_device		optional norma_device
+OPTIONS/norma_ipc		optional norma_ipc
+OPTIONS/norma_vm		optional norma_vm
+OPTIONS/norma_task		optional norma_task
+OPTIONS/norma_ether		optional norma_ether
+OPTIONS/mach_fixpri		optional mach_fixpri
+OPTIONS/mach_host		optional mach_host
+OPTIONS/mach_ipc_compat		optional mach_ipc_compat
+OPTIONS/mach_ipc_debug		optional mach_ipc_debug
+OPTIONS/mach_ipc_test		optional mach_ipc_test
+OPTIONS/mach_kdb		optional mach_kdb
+OPTIONS/mach_ldebug		optional mach_ldebug
+OPTIONS/mach_pagemap		optional mach_pagemap
+OPTIONS/mach_counters		optional mach_counters
+OPTIONS/mach_vm_debug		optional mach_vm_debug
+OPTIONS/hw_footprint		optional hw_footprint
+OPTIONS/simple_clock		optional simple_clock
+OPTIONS/stat_time		optional stat_time
+OPTIONS/xpr_debug		optional xpr_debug
+OPTIONS/ufs_pager		optional ufs_pager
+ddb/db_access.c			optional mach_kdb
+ddb/db_aout.c			optional mach_kdb
+ddb/db_break.c			optional mach_kdb
+ddb/db_command.c		optional mach_kdb
+ddb/db_examine.c		optional mach_kdb
+ddb/db_expr.c			optional mach_kdb
+ddb/db_ext_symtab.c		optional mach_kdb
+ddb/db_input.c			optional mach_kdb
+ddb/db_lex.c			optional mach_kdb
+ddb/db_output.c			optional mach_kdb
+ddb/db_print.c			optional mach_kdb
+ddb/db_run.c			optional mach_kdb
+ddb/db_sym.c			optional mach_kdb
+ddb/db_trap.c			optional mach_kdb
+ddb/db_variables.c		optional mach_kdb
+ddb/db_watch.c			optional mach_kdb
+ddb/db_write_cmd.c		optional mach_kdb
+ipc/ipc_entry.c			standard
+ipc/ipc_hash.c			standard
+ipc/ipc_init.c			standard
+ipc/ipc_kmsg.c			standard
+ipc/ipc_marequest.c		standard
+ipc/ipc_mqueue.c		standard
+ipc/ipc_notify.c		standard
+ipc/ipc_object.c		standard
+ipc/ipc_port.c			standard
+ipc/ipc_pset.c			standard
+ipc/ipc_right.c			standard
+ipc/ipc_space.c			standard
+ipc/ipc_splay.c			standard
+ipc/ipc_table.c			standard
+ipc/ipc_thread.c		standard
+ipc/mach_debug.c		optional mach_ipc_debug
+ipc/mach_msg.c			standard
+ipc/mach_port.c			standard
+kern/ast.c			standard
+kern/bootstrap.c		standard
+kern/counters.c			standard
+kern/debug.c			standard
+kern/exception.c		standard
+kern/host.c			standard
+kern/ipc_host.c			standard
+kern/ipc_kobject.c		standard
+kern/ipc_mig.c			standard
+kern/ipc_sched.c		standard
+kern/ipc_tt.c			standard
+kern/kalloc.c			standard
+kern/lock.c			optional cpus
+kern/mach_clock.c		standard
+kern/mach_factor.c		standard
+kern/machine.c			standard
+kern/printf.c			standard
+kern/priority.c			standard
+kern/processor.c		standard
+kern/queue.c			standard
+kern/sched_prim.c		standard
+kern/startup.c			standard
+kern/syscall_emulation.c	standard
+kern/syscall_subr.c		standard
+kern/syscall_sw.c		standard
+kern/task.c			standard
+kern/thread.c			standard
+kern/thread_swap.c		standard
+kern/time_stamp.c		standard
+kern/timer.c			standard
+kern/xpr.c			optional xpr_debug
+kern/zalloc.c			standard
+./mach/mach_host_server.c	standard
+./mach/mach_port_server.c	standard
+./mach/mach_server.c		standard
+./mach/memory_object_default_user.c	standard
+./mach/memory_object_user.c		standard
+./mach_debug/mach_debug_server.c	optional mach_debug
+vm/memory_object.c		standard
+vm/vm_debug.c			optional mach_vm_debug
+vm/vm_fault.c			standard
+vm/vm_init.c			standard
+vm/vm_kern.c			standard
+vm/vm_map.c			standard
+vm/vm_object.c			standard
+vm/vm_pageout.c			standard
+vm/vm_resident.c		standard
+vm/vm_user.c			standard
+device/blkio.c			standard
+device/chario.c			standard
+device/cirbuf.c			standard
+device/dev_lookup.c		standard
+device/dev_name.c		standard
+device/dev_pager.c		standard
+./device/device_reply_user.c	standard
+./device/device_server.c	standard
+./device/device_user.c		standard
+device/device_init.c		standard
+device/ds_routines.c		standard
+device/net_io.c			standard
+device/subrs.c			standard
+boot_ufs/boot_printf.c		standard
+boot_ufs/default_pager.c	standard
+boot_ufs/def_pager_setup.c	optional ufs_pager
+boot_ufs/file_io.c		standard
+boot_ufs/load.c			standard
+./mach/dev_forward.c		optional norma_device
+./mach/mach_norma_server.c	optional norma_ipc
+norma/ipc_input.c		optional norma_ipc
+norma/ipc_output.c		optional norma_ipc
+norma/ipc_xxx.c			optional norma_ipc
+norma/ipc_kserver.c		optional norma_ipc
+norma/ipc_wait.c		optional norma_ipc
+norma/ipc_net.c			optional norma_ipc
+./mach/proxy_user.c		optional norma_vm
+./mach/proxy_server.c		optional norma_vm
+norma/xmm_user.c		optional norma_vm
+norma/xmm_server.c		optional norma_vm
+norma/xmm_invalid.c		optional norma_vm
+norma/xmm_debug.c		optional norma_vm
+norma/xmm_import.c		optional norma_vm
+norma/xmm_export.c		optional norma_vm
+norma/xmm_svm.c			optional norma_vm
+norma/xmm_interpose.c		optional norma_vm
+norma/xmm_split.c		optional norma_vm
+norma/xmm_copy.c		optional norma_vm
+norma/xmm.c			optional norma_vm
+./mach/mach_norma_user.c	optional norma_task
+./mach/mach_user.c		optional norma_task
+norma/kern_task.c		optional norma_ipc
+norma/ipc_ether.c		optional norma_ether

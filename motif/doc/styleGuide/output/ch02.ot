@@ -1,0 +1,1914 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2.  IIIInnnnppppuuuutttt aaaannnndddd NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn MMMMooooddddeeeellllssss
+
+       Consistent models increase the user's sense of control of a
+       system.  By implementing consistent models across systems
+       and applications, you encourage that sense of control.  This
+       chapter describes the models OSF/Motif uses to move among
+       windows and components and to interact with the components.
+
+          +o The keyboard focus model, which determines which com-
+            ponent on the screen receives keyboard events.
+
+          +o The input device model, which describes how different
+            input devices, such as the keyboard and the mouse,
+            interact with applications.
+
+          +o The navigation model, which determines how the keyboard
+            focus is moved among components.
+
+       The activation and selection models, also important for sys-
+       tem and application consistency, are described in Chapter 3.
+
+       2.1  TTTThhhheeee KKKKeeeeyyyybbbbooooaaaarrrrdddd FFFFooooccccuuuussss MMMMooooddddeeeellll
+
+       A typical workspace can contain many windows.  Each window
+       expects to receive input from the keyboard, the mouse, or
+       both.  The window that receives keyboard events has the
+       input focus.  Indeed, when keyboard input is directed to a
+       window it is actually received by some control within the
+       window.  The kkkkeeeeyyyybbbbooooaaaarrrrdddd ffffooooccccuuuussss model determines which window in
+       the workspace and which component within that window gets
+       each keyboard input.  The keyboard focus may also be
+       referred to as the input focus.
+
+       The window with the keyboard focus must be highlighted in
+       some way, usually by a change in shade or color to the win-
+       dow border.  The component with the keyboard focus must be
+       highlighted by a location cursor.  The location cursor is
+       usually a box drawn around the component with the keyboard
+       focus, but can be indicated in a number of ways, like show-
+       ing or blinking a text insertion cursor, outlining an ele-
+       ment of a list, or changing the background shading of a
+       drawing area.  Location cursors are described in detail in
+       Section 2.3.2.1.
+
+
+
+                                                                2-1
+
+
+
+
+
+
+
+
+
+
+
+
+       In order to avoid conflicts, the window manager must allow
+       only one window to have the keyboard focus at a time.  Each
+       application must allow only one component at a time to have
+       the keyboard focus within the window that has the keyboard
+       focus.
+
+       The keyboard focus model is defined by a focus policy.  A
+       focus policy is a specific mechanism for moving the focus
+       among windows and components.  This section only attempts to
+       describe the focus policies; however, their impact on window
+       managers, applications, and components is described in
+       detail where it applies.  It is sufficient at this point to
+       note that window managers, applications, and new components
+       must support both explicit and implicit focus policies.
+       Chapter 5 describes in detail how to move the focus among
+       windows using explicit and implicit focus policies.
+
+       2.1.1  IIIImmmmpppplllliiiicccciiiitttt FFFFooooccccuuuussss
+
+       In the iiiimmmmpppplllliiiicccciiiitttt ffffooooccccuuuussss policy, the keyboard focus moves to
+       the window into which a user moves the mouse pointer.  No
+       explicit action is performed to set the keyboard focus in
+       the implicit focus model.  Keyboard events are sent to the
+       window that the mouse pointer is in, more specifically to
+       the component that the mouse pointer is in.  In implicit
+       mode, the keyboard focus tracks the mouse pointer.  Because
+       of this, there is no way to move the keyboard focus from the
+       keyboard using implicit mode.  Implicit focus is sometimes
+       referred to as pointer, track pointer, or track listener
+       policy, or as being real-estate driven. In this focus pol-
+       icy, the location cursor for keyboard events does not need
+       to be shown except in components like Text, in which key-
+       board input is common; however, the application can show it.
+
+       The mouse pointer always behaves as if the focus policy is
+       implicit.  That is, mouse events always go to the window and
+       component that the mouse pointer is in.
+
+       2.1.2  EEEExxxxpppplllliiiicccciiiitttt FFFFooooccccuuuussss
+
+       The eeeexxxxpppplllliiiicccciiiitttt ffffooooccccuuuussss policy requires the user to explicitly
+       select which window receives the keyboard focus.  Mouse
+       events are sent to the component that the pointer is over,
+       so the mouse pointer must always behave as if the focus pol-
+       icy is implicit, even when the focus policy is explicit.  In
+       explicit focus mode, a user moves the keyboard focus to a
+       window by pressing BBBBSSSSeeeelllleeeecccctttt while the mouse pointer is over
+       the window.  Simply moving the mouse pointer over a window
+       does not give the window the keyboard focus.  Because of
+       this, explicit mode is often called click-to-type.  In
+       explicit mode, a user moves the keyboard focus to a specific
+
+
+       2-2
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       component within a window by pressing BBBBSSSSeeeelllleeeecccctttt over the com-
+       ponent.  Pressing BBBBSSSSeeeelllleeeecccctttt must not move focus to a component
+       that is not traversable or does not accept input.  Pressing
+       BBBBSSSSeeeelllleeeecccctttt in a component that is only used to change the visi-
+       ble portion of another component, such as a ScrollBar or
+       Sash, can either give that component focus or not.  In this
+       focus policy, the location of keyboard focus must be shown
+       by a location cursor.
+
+       In explicit mode, focus can also be moved among windows by
+       the keyboard using KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww, KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww, KKKKPPPPrrrreeeevvvvWWWWiiiinnnn----
+       ddddoooowwww, and KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww.  These keys are usually bound to
+       MMMMAAAAlllltttt <<<<FFFF6666>>>>, MMMMAAAAlllltttt KKKKTTTTaaaabbbb, MMMMAAAAlllltttt KKKKBBBBaaaacccckkkkTTTTaaaabbbb, and MMMMAAAAlllltttt MMMMSSSShhhhiiiifffftttt <<<<FFFF6666>>>>,
+       respectively as shown in the table at the end of this sec-
+       tion.
+
+       In explicit mode, keyboard focus moves explicitly among the
+       components in a window as well as among the windows.  Moving
+       the keyboard focus among components in a window using the
+       keyboard is called ccccoooommmmppppoooonnnneeeennnntttt nnnnaaaavvvviiiiggggaaaattttiiiioooonnnn.  Keyboard events go
+       to the component in the window with the keyboard focus.
+       Keyboard focus is moved among components using KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd,
+       KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd, KKKKMMMMeeeennnnuuuuBBBBaaaarrrr, KKKKMMMMeeeennnnuuuu, KKKKDDDDoooowwwwnnnn, KKKKLLLLeeeefffftttt, KKKKRRRRiiiigggghhhhtttt, and KKKKUUUUpppp.
+       These keys are usually bound to KKKKTTTTaaaabbbb, KKKKBBBBaaaacccckkkkTTTTaaaabbbb, <<<<FFFF11110000>>>>, <<<<FFFF4444>>>>,
+       or <<<<MMMMeeeennnnuuuu>>>>, and the arrow keys as shown in the table at the
+       end of this section.  Internal window navigation is
+       described in detail later in this chapter.
+
+       If the focus policy is implicit, an implementation can still
+       enable keyboard-based operations that explicitly move the
+       location cursor.  It must at least implement the special
+       cases for Menu traversal as described later in this chapter.
+       KKKKMMMMeeeennnnuuuuBBBBaaaarrrr moves the cursor to the MenuBar.  KKKKMMMMeeeennnnuuuu pops up a
+       Popup Menu.
+
+       When an implicit focus policy is in use within a window and
+       a keyboard operation moves the cursor to another component,
+       the application must temporarily switch to an explicit focus
+       policy.  It must revert to an implicit focus policy when:
+
+          +o A mouse button is pressed.
+
+          +o A keyboard operation moves the cursor out of a Menu
+            system.
+
+          +o A button, other than a CascadeButton, is activated.
+
+          +o KKKKCCCCaaaannnncccceeeellll is typed, except when KKKKCCCCaaaannnncccceeeellll leaves the loca-
+            tion cursor in a Menu system.  KKKKCCCCaaaannnncccceeeellll is usually bound
+            to <<<<CCCCaaaannnncccceeeellll>>>> or <<<<EEEEssssccccaaaappppeeee>>>>.
+
+
+
+                                                                2-3
+
+
+
+
+
+
+
+
+
+
+
+
+          +o A modal operation, like keyboard-driven dragging, is
+            completed.
+
+                 TTTTAAAABBBBLLLLEEEE 2222----1111....  Keyboard Navigation Bindings
+
+                __________________________________________
+               | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy         DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss    |
+               |__________________________________________|
+               | KKKKTTTTaaaabbbb                <<<<TTTTaaaabbbb>>>>               |
+               | KKKKBBBBaaaacccckkkkTTTTaaaabbbb            MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>>        |
+               | KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMAAAAlllltttt KKKKTTTTaaaabbbb           |
+               | KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMAAAAlllltttt KKKKBBBBaaaacccckkkkTTTTaaaabbbb       |
+               | KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt <<<<FFFF6666>>>>           |
+               | KKKKPPPPrrrreeeevvvvWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt MMMMSSSShhhhiiiifffftttt <<<<FFFF6666>>>>    |
+               | KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd          KKKKTTTTaaaabbbb                |
+               |                     MMMMCCCCttttrrrrllll KKKKTTTTaaaabbbb          |
+               | KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd          KKKKBBBBaaaacccckkkkTTTTaaaabbbb            |
+               |                     MMMMCCCCttttrrrrllll KKKKBBBBaaaacccckkkkTTTTaaaabbbb      |
+               | KKKKMMMMeeeennnnuuuuBBBBaaaarrrr            <<<<FFFF11110000>>>>               |
+               | KKKKMMMMeeeennnnuuuu               <<<<MMMMeeeennnnuuuu>>>> oooorrrr <<<<FFFF4444>>>>      |
+               | KKKKDDDDoooowwwwnnnn               <<<<|vv|||vv>>>>                 |
+               | KKKKLLLLeeeefffftttt               <<<<<<<<---->>>>                |
+               | KKKKRRRRiiiigggghhhhtttt              <<<<---->>>>>>>>                |
+               | KKKKUUUUpppp                 <<<<|^^|||^^>>>>                 |
+               | KKKKCCCCaaaannnncccceeeellll             <<<<CCCCaaaannnncccceeeellll>>>> oooorrrr <<<<EEEEssssccccaaaappppeeee>>>>|
+               |__________________________________________|
+
+       2.2  TTTThhhheeee IIIInnnnppppuuuutttt DDDDeeeevvvviiiicccceeee MMMMooooddddeeeellll
+
+       User interface applications can take input from both point-
+       ing devices and keyboards.  For whatever reason a user may
+       prefer to interact with an application by using either a
+       keyboard or a pointing device.  Some users may even be res-
+       tricted to using only a keyboard.  Because of these prefer-
+       ences and possible restrictions, all features of an applica-
+       tion must be available from the keyboard.
+
+       Design your application so that the user can control it
+       using a pointing device, the keyboard, or both.  Although
+       you may decide to make the pointing device the primary means
+       of control, you must provide the user with keyboard methods
+       to control the application.  Designing applications for dual
+       accessibility enables users to choose the input device they
+       find best suited to their particular work situation and per-
+       sonal preferences.
+
+
+
+
+
+
+
+
+       2-4
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       2.2.1  PPPPooooiiiinnnnttttiiiinnnngggg DDDDeeeevvvviiiicccceeeessss
+
+       A pointing device is a tool that lets the user move a
+       pointer around on the screen.  A pointing device also has
+       some means of activating the object under the pointer.  A
+       pointing device allows the user to directly manipulate
+       screen objects.  Rather than entering a keyboard command for
+       each action, a user can point to an object and directly
+       manipulate it using the pointing device.
+
+       The most typical pointing device is a mouse, although a
+       graphics tablet, track ball, joystick, and other tools also
+       work as pointing devices.  Throughout this guide we use the
+       term mouse to refer to all pointing devices.  You can use
+       any pointing device in place of a mouse.
+
+       With a mouse, objects on the screen can be manipulated by
+       combining the mouse pointer with the mouse buttons.  This
+       guide assumes that a mouse, or any pointing device, has
+       three buttons:
+
+       BBBBSSSSeeeelllleeeecccctttt   Used for selection, activation, and setting the
+                 location cursor.  This button must be the leftmost
+                 button, except for left-handed users where it can
+                 be the rightmost button.
+
+       BBBBDDDDrrrraaaagggg     Used for moving and copying elements.  This button
+                 must be the middle mouse button.
+
+       BBBBCCCCuuuussssttttoooommmm   Used for additional user interactions, including
+                 popping up Menus and special dialogs, and for
+                 application-specific interactions.  This button
+                 must be the rightmost button, except for left-
+                 handed users where it can be the leftmost button.
+                 This guide also mentions the BBBBMMMMeeeennnnuuuu button, which
+                 must be bound to BBBBCCCCuuuussssttttoooommmm on a three-button mouse.
+                 BBBBMMMMeeeennnnuuuu is used for popping up Menus.
+
+       If your pointing device only has two buttons, BBBBSSSSeeeelllleeeecccctttt still
+       must be bound to the leftmost button.  There are a number of
+       alternatives to properly binding BBBBDDDDrrrraaaagggg, BBBBCCCCuuuussssttttoooommmm, and BBBBMMMMeeeennnnuuuu.
+
+          +o BBBBDDDDrrrraaaagggg can be bound to the rightmost button, and BBBBCCCCuuuussssttttoooommmm
+            and BBBBMMMMeeeennnnuuuu are then bound to chording both buttons.
+            Chording a button means to press, click, or release two
+            or more buttons simultaneously.
+
+          +o Alternatively, BBBBDDDDrrrraaaagggg can be bound to the rightmost but-
+            ton, BBBBCCCCuuuussssttttoooommmm is undefined, and BBBBMMMMeeeennnnuuuu is then bound to
+            MMMMCCCCttttrrrrllll MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt.
+
+
+
+                                                                2-5
+
+
+
+
+
+
+
+
+
+
+
+
+          +o Finally, BBBBDDDDrrrraaaagggg can be left undefined, and BBBBCCCCuuuussssttttoooommmm and
+            BBBBMMMMeeeennnnuuuu are then bound to the rightmost button.
+
+       As with a 3-button mouse, the actions of the rightmost and
+       leftmost mouse buttons can be switched for left-handed
+       users.
+
+       If your mouse has only one button, BBBBSSSSeeeelllleeeecccctttt must be bound to
+       it, BBBBDDDDrrrraaaagggg and BBBBCCCCuuuussssttttoooommmm must be left undefined, and BBBBMMMMeeeennnnuuuu must
+       be bound to MMMMCCCCttttrrrrllll MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt.
+
+       If your mouse has more than three buttons, the first three
+       correspond to those on a 3-button mouse.
+
+       Users can combine mouse button press and release actions
+       along with mouse movements to activate elements of applica-
+       tions and components.  Various mouse button actions are
+       described as follows, along with this _S_t_y_l_e _G_u_i_d_e'_s usage
+       conventions.
+
+       PPPPrrrreeeessssssss          Indicates pressing a mouse button without
+                      releasing it.  This mouse action is often
+                      used to select an object for action.  This
+                      guide uses BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss to indicate a press
+                      on the first mouse button.
+
+       RRRReeeelllleeeeaaaasssseeee        Indicates releasing a mouse button after
+                      pressing it.  This mouse action is often used
+                      to perform the action initiated by a press or
+                      a drag.  This guide uses BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee to
+                      indicate a release on the first mouse button.
+
+       CCCClllliiiicccckkkk          Indicates pressing and releasing a mouse but-
+                      ton without moving the pointer.  This mouse
+                      action is used to select an object or perform
+                      an action.  The activation action actually
+                      occurs on the release of the mouse button.
+                      This guide uses BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk to indicate a
+                      click on the first mouse button.
+
+       DDDDrrrraaaagggg           Indicates pressing a mouse button without
+                      releasing it and then moving the position of
+                      the pointer.  The action of a drag operation
+                      tracks the position of the mouse pointer.
+                      The drag action ends with a release action.
+                      This mouse action is commonly used to select
+                      a range of objects, or move a selected
+                      object.  This guide uses BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg to
+                      indicate a drag using the first mouse button.
+
+
+
+
+       2-6
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       MMMMuuuullllttttiiiiCCCClllliiiicccckkkk     Indicates a number of clicks in quick succes-
+                      sion.  MultiClicks are often referred to by
+                      the actual number of clicks, as in double-
+                      click or triple-click.  A double-click is
+                      often used to perform the default action of
+                      an object.  This guide uses BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222
+                      to indicate a double-click on the first mouse
+                      button, BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 3333 to indicate a
+                      triple-click, and so on.  This guide uses
+                      BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++ to indicate two or more
+                      clicks on the first mouse button.
+
+       MMMMuuuullllttttiiiiPPPPrrrreeeessssssss     Indicates a number of clicks in quick succes-
+                      sion without a final release.  As in Multi-
+                      Click, MultiPresses are often referred to by
+                      the actual number of presses.  This guide
+                      uses BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss 2222 and the variations men-
+                      tioned in MultiClick to indicate MultiPress
+                      actions on the first mouse button.
+
+       MMMMuuuullllttttiiiiDDDDrrrraaaagggg      Indicates a MultiPress action followed by
+                      moving the position of the pointer.  The
+                      action of a MulitDrag operation tracks the
+                      position of the mouse pointer.  The MultiDrag
+                      action ends with a release action.  As in
+                      MultiClick, MultiDrags are often referred to
+                      by the actual number of presses.  This guided
+                      uses BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg 2222 and the variations men-
+                      tioned in MultiClick to indicate MultiDrag
+                      actions using the first mouse button.
+
+       2.2.2  PPPPooooiiiinnnntttteeeerrrr SSSShhhhaaaappppeeeessss
+
+       The shape of the mouse pointer provides the user with an
+       important visual cue, indicating the functionality of the
+       area in which the mouse pointer is currently located.  You
+       should not create new mouse pointer shapes for functions
+       that already have mouse pointer shapes associated with them,
+       except for localization, but you can create new mouse
+       pointer shapes for functions not already associated with a
+       pointer shape.  You must not use a predefined shape to sym-
+       bolize a function that it was not designed to represent.
+
+       A list of the defined pointer shapes follows, along with
+       their usage and hotspots.  A pointer's hotspot is the actual
+       position on the pointer that tracks the movements of the
+       mouse.  As the pointer changes from one shape to another,
+       the location of the hotspot must not move on the screen.
+       The hotspot is the precise location on the pointer where
+       mouse actions occur.
+
+
+
+                                                                2-7
+
+
+
+
+
+
+
+
+
+
+
+
+       Arrow          The upper left pointing arrow pointer is a
+                      general-purpose pointer.  It is used in most
+                      window areas for single object selection and
+                      activation.  The hotspot for the arrow
+                      pointer should be in the point of the arrow.
+
+
+       I-beam         You can optionally use an I-beam pointer in
+                      any Text component.  It is used to change the
+                      location of the text insertion cursor and to
+                      perform actions on text.  If the I-beam is
+                      used, it can be hidden during the time
+                      between any keyboard action and a mouse move-
+                      ment.  This helps the user distinguish the I
+                      beam pointer from the text insertion cursor,
+                      which can also be an I-beam.  The hotspot for
+                      the I-beam pointer should be on the vertical
+                      bar of the I-beam about one-third up from the
+                      bottom.
+
+
+       X              The X pointer can indicate when the pointer
+                      is outside of any application area.  The
+                      hotspot for the X pointer should be where the
+                      lines intersect.
+
+
+       Resize         The resize pointers indicate positions for
+                      area resize, and they remain during a resize
+                      operation.  The direction of the arrow in the
+                      pointer indicates the direction of increasing
+                      size.  The horizontal and vertical pointers
+                      indicate resize in either the horizontal or
+                      vertical direction.  The diagonal pointers
+                      indicate resize in both the horizontal and
+                      vertical directions simultaneously.  The
+                      hotspot for the resizing pointers should be
+                      on the elbow or the line at the position
+                      pointed to by the arrow.
+
+
+       Hourglass      The hourglass pointer, a working pointer,
+                      indicates that an action is in progress in
+                      the area, and that the pointer has no effect
+                      in the area.  While the hourglass pointer is
+                      active, all mouse button and keyboard events
+                      are ignored in the area.  The hotspot for the
+                      hourglass pointer should be located at the
+                      center of the hourglass, though it should not
+                      be used for activation.  The hourglass
+                      pointer can be used interchangeably with the
+
+
+       2-8
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+                      watch pointer.
+
+
+       Watch          The watch pointer, a working pointer, indi-
+                      cates that an action is in progress in the
+                      area, and that the pointer has no effect in
+                      the area.  While the watch pointer is active,
+                      all mouse button and keyboard events are
+                      ignored in the area.  The hotspot for the
+                      watch pointer should be located at the top of
+                      the watch, though it should not be used for
+                      activation.  The watch pointer can be used
+                      interchangeably with the hourglass pointer.
+
+
+       Moving         The 4-directional arrow pointer indicates a
+                      move operation in progress, or a resize
+                      operation before the resize direction has
+                      been determined.  During a move operation,
+                      the object, or an outline of the object
+                      should move to track the location of the
+                      pointer.  During a resize operation, the
+                      pointer is used to indicate a direction for
+                      resizing.  The 4-directional arrow pointer
+                      should change to the appropriate resize arrow
+                      when the resize direction is determined,
+                      either by crossing an object boundary with
+                      the pointer or by pressing a keyboard direc-
+                      tion key.  The hotspot for the 4-directional
+                      arrow pointer should be at the spot where the
+                      arrows intersect.
+
+
+       Sighting       The sighting pointer is used to make fine
+                      position selections.  For example, in a draw-
+                      ing program it may be used to indicate a
+                      pixel to fill or the connecting points of
+                      lines.  The hotspot for the sighting pointer
+                      should be at the spot where the lines inter-
+                      sect.
+
+
+       Caution        The caution pointer is used to indicate that
+                      action is expected in another area before
+                      input can be given to the current area, and
+                      that the pointer has no effect in the area.
+                      While the caution pointer is active, all
+                      mouse button and keyboard events are ignored
+                      in the area.  The hotspot for the caution
+                      pointer should be located at the center of
+                      the caution symbol, though it should not be
+
+
+                                                                2-9
+
+
+
+
+
+
+
+
+
+
+
+
+                      used for activation.
+
+
+       Question       The question pointer is used to request an
+                      input position or component from the user.
+                      This is often used to input an object for
+                      interactive help.  The user requests interac-
+                      tive help, then the question pointer is
+                      displayed to allow the user to indicate what
+                      position or component help is requested for.
+                      The hotspot for the question pointer should
+                      be at the bottom of the question mark.
+
+
+       Other Arrow    You can optionally use an arrow pointing to
+                      the upper right corner to indicate a pending
+                      Menu action.  This shape indicates that a
+                      Menu is popped up or pulled down and waiting
+                      for a Menu item to be activated or the Menu
+                      to be removed.  The hotspot for this arrow
+                      pointer should be in the point of the arrow.
+
+       If you need to design a new mouse pointer shape, keep the
+       following in mind:
+
+          +o The shape of the pointer should give a hint to its pur-
+            pose.
+
+          +o The hotspot should be easy to locate, and obvious.
+
+          +o The shape should be easy to see.
+
+          +o The shape should not create visual clutter.
+
+       The details of how the pointer tracks the motion of the
+       mouse are not handled at the level of the application, but
+       they are worth noting here.  There are two concepts that
+       define how the pointer tracks the motion of the mouse: gain
+       and acceleration.
+
+       Gain refers to the ratio of the distance the pointer moves
+       to the distance the mouse moves.  If the gain is increased,
+       the mouse pointer moves farther for a given mouse movement.
+       The gain should not change across the environment.  Instead,
+       if your application requires finer motion, it should include
+       a zoom feature.  A zoom feature changes the relative size of
+       an area of your application.  Zooming in on an area allows
+       the user to make finer adjustments than normal.  Zooming out
+       from an area allows the user to move through the application
+       more quickly.
+
+
+
+       2-10
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       Acceleration is a temporary change in the gain.  It is com-
+       monly used to change the gain, based on the speed of the
+       mouse movements.  The acceleration could be set so that if
+       the mouse moves slowly, the gain is reduced to allow for
+       finer adjustments of pointer position, or if the mouse moves
+       quickly, the gain is increased to allow quicker screen move-
+       ment.  This can be very confusing to new users.  Gain and
+       acceleration are handled on a global scale in the system,
+       outside of the application.  Applications should not change
+       the gain and acceleration characteristics of mouse movement.
+
+       2.2.3  WWWWaaaarrrrpppp PPPPooooiiiinnnntttteeeerrrr OOOOnnnnllllyyyy IIIIffff EEEExxxxpppplllliiiicccciiiittttllllyyyy EEEEnnnnaaaabbbblllleeeedddd
+
+       The pointer position is intended only as input to applica-
+       tions.  It is not intended as an output mechanism for appli-
+       cations.  Changing the location of the mouse pointer is
+       known as warping the pointer.  Your application must not
+       warp the pointer, unless you provide the user with a means
+       of disabling this behavior.
+
+       Warping the pointer is confusing to users, and reduces their
+       sense of control.  Also, warping the pointer can cause prob-
+       lems for users of absolute location pointing devices (like
+       graphics tablets).  Graphics tablets map pointer device
+       locations to absolute screen locations, so if the pointer is
+       warped, the pointer loses synchronization with the pointing
+       device, making some screen locations impossible to reach.
+       Note that for these types of devices, accelerating the
+       pointer has the same effect as warping the pointer, but this
+       can be handled by the pointer driver software.
+
+       2.3  TTTThhhheeee NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn MMMMooooddddeeeellll
+
+       Regardless of whether they use a mouse, a keyboard, or both,
+       users needs to move the mouse pointer or the location cursor
+       to new positions.  That is, they will need to navigate
+       around the workspace.  The model is simple for mouse users,
+       and more complicated for keyboard users.  This section
+       describes the general navigation model for mouse and key-
+       board users, describes the more complicated Menu navigation
+       model, and then describes navigation within scrollable com-
+       ponents.
+
+       2.3.1  MMMMoooouuuusssseeee----BBBBaaaasssseeeedddd NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn
+
+       In mouse-based navigation, the pointer tracks the motions of
+       the pointing devices. This is described earlier in this
+       chapter, and is known as the implicit focus policy.  The
+       mouse must always behave as if the focus policy is implicit.
+       Components that are used to adjust the size and location of
+       other elements need not move the location cursor when they
+
+
+                                                               2-11
+
+
+
+
+
+
+
+
+
+
+
+
+       receive the keyboard focus.  Instead, after the mouse has
+       acted on the component, the focus should remain on the com-
+       ponent that previously had it.
+
+       The only exception to the simple model of pointer navigation
+       is a Menu system because Menus are not available on the
+       screen until activated.  Activating a Menu causes it to be
+       shown on the screen.  There are three types of Menus:  Pull-
+       Down Menus, Popup Menus, and Option Menus.  The MenuBar is
+       also a special kind of Menu.  A MMMMeeeennnnuuuu ssssyyyysssstttteeeemmmm consists of all
+       the Menus cascading from a single CascadeButton, OptionBut-
+       ton, or Popup Menu.  The MMMMeeeennnnuuuuBBBBaaaarrrr ssssyyyysssstttteeeemmmm consists of the
+       MenuBar and all of its associated Cascade Menus.
+
+       A PullDown Menu is generally activated by pressing BBBBSSSSeeeelllleeeecccctttt
+       on a CascadeButton, which displays the PullDown Menu.  A
+       Popup Menu is generally activated by pressing BBBBMMMMeeeennnnuuuu in an
+       area with a Popup Menu, which displays the Popup Menu.  An
+       Option Menu is generally activated by pressing BBBBSSSSeeeelllleeeecccctttt on an
+       OptionButton, which displays the Option Menu.  A PullDown
+       Menu pulled down from a CascadeButton within a PullDown,
+       Popup, or Option Menu is called a CascadeMenu.  A MenuBar is
+       generally activated by moving the input focus to the Menu-
+       Bar.  Since a MenuBar is always visible, activating the
+       MenuBar does not change its appearance.  Navigating to a
+       Menu is equivalent to activating a Menu. BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss with
+       the pointer on a Menu must activate the Menu in a spring-
+       loaded manner.  Spring loaded means that the Menu is removed
+       when the button is released, except on a CascadeButton.
+       BBBBMMMMeeeennnnuuuu PPPPrrrreeeessssssss with the pointer in an area with a Popup Menu
+       must activate the Menu in a spring-loaded manner.  Once a
+       Popup Menu is posted, BBBBMMMMeeeennnnuuuu must behave just as BBBBSSSSeeeelllleeeecccctttt is
+       described for any Menu system.  BBBBSSSSeeeelllleeeecccctttt must also be avail-
+       able from within a posted Popup Menu system, and must behave
+       just as in any Menu system.  BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee within a
+       spring-loaded Menu system must activate the button under the
+       pointer at the time of the release.  Note that if the
+       release is on a CascadeButton, the associated Cascade Menu
+       must be posted.
+
+       Whenever any Menu is popped up or pulled down, the location
+       cursor must be placed on the Menu's default entry, or on the
+       first entry in the Menu if there is no default entry.  Sup-
+       port for default entries in Menus is optional.
+
+       A spring-loaded Menu must be removed when the mouse button
+       that activated it is released.  While a spring-loaded Menu
+       system is popped up or pulled down, moving the pointer
+       within the Menu system must move the location cursor to
+       track the pointer.  If the pointer rests on a CascadeButton,
+       the Menu must be pulled down and must also become
+
+
+       2-12
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       traversable.  The Menu must be removed once the pointer
+       moves to a Menu item outside of the Menu or its CascadeBut-
+       ton.  If the Menu system is part of a MenuBar, moving the
+       pointer to any other element on the MenuBar must unpost the
+       current Menu system and post the PullDown Menu associated
+       with the new element.  Releasing the button must activate
+       any component in the Menu system, including a CascadeButton.
+       Note that releasing the mouse button in a CascadeButton,
+       even a CascadeButton in the MenuBar, causes the associated
+       Menu to remain posted.
+
+       BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee with the pointer on a CascadeButton or
+       OptionButton must activate the associated Menu in a posted
+       manner.  BBBBMMMMeeeennnnuuuu RRRReeeelllleeeeaaaasssseeee with the pointer in an area with a
+       Popup Menu must activate the Menu in a posted manner.  A
+       posted Menu remains visible until explicitly unposted.  The
+       keyboard focus model is forced to explicit, and the Menu
+       system can be traversed using the keyboard as described
+       later in this section.  A posted Menu must not be unposted
+       until one of the following events occurs:
+
+          +o A mouse button is pressed
+
+          +o A keyboard operation moves the cursor out of a Menu
+            system
+
+          +o A keyboard operation moves the cursor to a parent of
+            the posted Menu.
+
+          +o A Menu item, other than a CascadeButton, is activated
+
+          +o KKKKCCCCaaaannnncccceeeellll is typed from the top of the Menu system
+
+       If a mouse button is pressed outside of the Menu to unpost
+       the Menu, the button press and it's release can also effect
+       the underlying component, otherwise both the press and the
+       release must have no additional effect.  Either both the
+       press and release must effect the underlying component, or
+       neither the press nor the release must effect the underlying
+       component.
+
+       Once a PullDown or Option Menu is posted, BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss in
+       the Menu system must cause the Menu to behave as a spring-
+       loaded Menu.  Once a Popup Menu is posted, BBBBMMMMeeeennnnuuuu PPPPrrrreeeessssssss in
+       the Menu system must cause the Menu to behave as a spring-
+       loaded Menu.  Because of this, the pointer driven activation
+       behavior of spring-loaded Menus fully describes pointer
+       driven activation behavior in Menus.
+
+
+
+
+
+                                                               2-13
+
+
+
+
+
+
+
+
+
+
+
+
+       2.3.2  KKKKeeeeyyyybbbbooooaaaarrrrdddd----BBBBaaaasssseeeedddd NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn
+
+       The navigation model for keyboard users is more complicated
+       than the pointer navigation model.  As described earlier,
+       keyboard navigation is only required when the focus policy
+       is explicit.  Since window managers, applications, and com-
+       ponents must support the explicit focus policy, they must
+       also support keyboard navigation.  The keyboard navigation
+       model is composed of the following:
+
+          +o A focus identifier (the location cursor)
+
+          +o Navigating among windows
+
+          +o Navigating within windows
+
+       2.3.2.1  LLLLooooccccaaaattttiiiioooonnnn CCCCuuuurrrrssssoooorrrr
+
+       The window with the focus is identified by highlighting the
+       window border as described in Chapter 5.  Within the window
+       with the focus, the component with the keyboard focus is
+       identified by the location cursor.  The term location cursor
+       refers to any visual element that indicates the location
+       where keyboard events are sent.  The location cursor is not
+       strictly a cursor.  The name cursor simply refers to its use
+       as indicating the location of input.
+
+       The location cursor is shown in a number of ways, depending
+       on the type of component with the keyboard focus.  Possible
+       location cursor types and their uses are described in the
+       following text.  When designing new components, you should
+       try to use one of the existing styles of location cursor,
+       but you can create your own if it is appropriate.
+
+       BBBBooooxxxx                 The box cursor must be the default loca-
+                           tion cursor.  It is shown as a box drawn
+                           around the object.  Figure 2-1 shows the
+                           first ToggleButton in a group with a box
+                           style location cursor.
+
+                 FFFFiiiigggguuuurrrreeee 2222----1111....  A Box Style Location Cursor
+
+
+
+
+
+
+
+
+
+
+
+
+       2-14
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       OOOOuuuuttttlllliiiinnnneeee HHHHiiiigggghhhhlllliiiigggghhhhtttt   This cursor style is similar to the box
+                           style cursor.  The outline is shown of a
+                           component whose outline is not normally
+                           shown.  This form of location cursor is
+                           commonly used within Menu systems to
+                           show the Menu item with the location
+                           cursor.  Figure 2-2 shows a Menu with an
+                           outline highlight style location cursor.
+
+         FFFFiiiigggguuuurrrreeee 2222----2222....  An Outline Highlight Style Location Cursor
+
+
+
+
+
+
+
+
+
+
+
+       TTTTeeeexxxxtttt CCCCuuuurrrrssssoooorrrr         In Text components, the text cursor acts
+                           as the location cursor to indicate that
+                           the Text component has the keyboard
+                           focus.  Figure 2-3 shows possible text
+                           cursor shapes.
+
+                     FFFFiiiigggguuuurrrreeee 2222----3333....  Text Cursor Shapes
+
+
+
+
+
+
+
+
+                           A text cursor must be shown differently
+                           when the the Text has the keyboard
+                           focus.  This can be done by graying and
+                           emboldening, making it static and blink-
+                           ing, or shown and hidden.  If the text
+                           cursor is hidden when the Text component
+                           does not have the focus, then when it is
+                           traversed to, the text cursor must
+                           appear in the same location that it was
+                           in the last time it was traversed out
+                           of.  The initial position of the text
+                           cursor must be at the beginning of the
+                           text.  A caret is also used to show the
+                           destination cursor in Text components.
+                           A Text component can optionally include
+
+
+                                                               2-15
+
+
+
+
+
+
+
+
+
+
+
+
+                           an outline highlight style location cur-
+                           sor to reinforce the location of the
+                           keyboard focus.  Figure 2-4 shows a Text
+                           component with the keyboard focus.
+
+             FFFFiiiigggguuuurrrreeee 2222----4444....  A Text Cursor Style Location Cursor
+
+
+
+
+
+
+
+
+
+
+       IIIItttteeeemmmm CCCCuuuurrrrssssoooorrrr         A component that manages groups of non-
+                           component objects, like a list box,
+                           should indicate that it has the keyboard
+                           focus with an item cursor style location
+                           cursor.  An item cursor highlights a
+                           single object, or group of objects, that
+                           the component acts on.  In the case of a
+                           List, the item cursor should be a box
+                           around an item.  In the case of a Draw-
+                           ing area, it could be a box with resize
+                           handles around a drawn object.  Com-
+                           ponents that use an item cursor to indi-
+                           cate keyboard focus can optionally
+                           include an outline highlight style loca-
+                           tion cursor to reinforce the location of
+                           the keyboard focus.  Figure 2-5 shows a
+                           List component with the keyboard focus.
+
+            FFFFiiiigggguuuurrrreeee 2222----5555....  An Item Cursor Style Location Cursor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FFFFiiiillllllll                Some very small components, like a Sash
+                           for resizing Panes, should indicate the
+
+
+       2-16
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+                           keyboard focus by filling.  Where this
+                           is the case, there must be no other
+                           meaning associated with the filled
+                           state.  Filling avoids the problem
+                           caused by other styles of location cur-
+                           sor that make the small component too
+                           large.  Figure 2-6 shows the first of
+                           two Sashes with the keyboard focus.
+
+                FFFFiiiigggguuuurrrreeee 2222----6666....  A Fill Style Location Cursor
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Components must be designed and positioned within applica-
+       tions so that adding and removing the component's location
+       cursor does not change the amount of space that the com-
+       ponent takes up on the screen.  That is, there is always
+       room for the location cursor.
+
+       2.3.2.2  WWWWiiiinnnnddddoooowwww NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn
+
+       A typical environment has several applications in operation
+       simultaneously.  Each application typically has a main or
+       primary window that displays data and in which the user car-
+       ries on primary interaction with the application.  Applica-
+       tions can have additional windows to communicate context-
+       specific interactions with the user of the application.
+       These additional windows are called secondary windows, or
+       transient windows.  DialogBoxes are often used to create
+       secondary windows.
+
+       The wwwwiiiinnnnddddoooowwww nnnnaaaavvvviiiiggggaaaattttiiiioooonnnn model can be divided into two levels:
+
+          +o Moving among window families (among primary windows)
+
+          +o Moving within a window family (among secondary windows)
+
+       A window family consists of a single primary window and all
+       of its associated secondary windows.  KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww and
+       KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww move the focus among windows in a window
+       family.  KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww and KKKKPPPPrrrreeeevvvvWWWWiiiinnnnddddoooowwww move the focus among
+
+
+                                                               2-17
+
+
+
+
+
+
+
+
+
+
+
+
+       window families.  Window navigation is described in more
+       detail in Chapter 5.  The following table summarizes the
+       common window navigation bindings.
+
+                  TTTTAAAABBBBLLLLEEEE 2222----2222....  Window Navigation Bindings
+
+                  ______________________________________
+                 | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy         DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                 |______________________________________|
+                 | KKKKTTTTaaaabbbb                <<<<TTTTaaaabbbb>>>>           |
+                 | KKKKBBBBaaaacccckkkkTTTTaaaabbbb            MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>>    |
+                 | KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMAAAAlllltttt <<<<FFFF6666>>>>       |
+                 | KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMSSSShhhhiiiifffftttt MMMMAAAAlllltttt <<<<FFFF6666>>>>|
+                 | KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt KKKKTTTTaaaabbbb       |
+                 | KKKKPPPPrrrreeeevvvvWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt KKKKBBBBaaaacccckkkkTTTTaaaabbbb   |
+                 |______________________________________|
+
+       2.3.2.3  CCCCoooommmmppppoooonnnneeeennnntttt NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn
+
+       Component navigation moves the location cursor, and there-
+       fore the keyboard focus, among components within a window.
+       Some components, like Text, Menus, and List, have additional
+       keyboard methods of traversal, which are described in the
+       behavior descriptions of those components. The model for
+       component navigation organizes components into traversable
+       groups called fields or tab groups.  Components that have
+       their own iiiinnnntttteeeerrrrnnnnaaaallll nnnnaaaavvvviiiiggggaaaattttiiiioooonnnn, such as a List, must be a
+       Field.  Groups must be fields, unless the group has no con-
+       trols in it.  When a component is used as a Pane of a
+       PanedWindow it must be a field.  Top level components in a
+       window must be fields.  The following components have their
+       own internal navigation, and should be fields within a win-
+       dow.
+
+          +o Canvases
+
+          +o Text
+
+          +o Lists
+
+          +o Sashes
+
+          +o ScrollBars
+
+          +o Scales
+
+       Single line Text components can be part of another field,
+       rather than a field of their own.
+
+       Menu systems, including the MenuBar, follow a different
+       traversal model that is described later in this section.
+
+
+       2-18
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       Moving the location cursor among field components and fields
+       in a window must be done with KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd and KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd.
+       Fields are often called tab groups because KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd and
+       KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd are usually bound to <<<<TTTTaaaabbbb>>>> and <<<<BBBBaaaacccckkkkTTTTaaaabbbb>>>> as shown
+       in the following table.  Some controls, such as Text, use
+       <<<<TTTTaaaabbbb>>>> and <<<<BBBBaaaacccckkkkTTTTaaaabbbb>>>> internally.  These controls must use the
+       <<<<CCCCttttrrrrllll>>>> modified bindings for KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd and KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd.
+
+                  TTTTAAAABBBBLLLLEEEE 2222----3333....  Field Navigation Bindings
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKTTTTaaaabbbb          <<<<TTTTaaaabbbb>>>>           |
+                    | KKKKBBBBaaaacccckkkkTTTTaaaabbbb      MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>>    |
+                    | KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd    KKKKTTTTaaaabbbb            |
+                    |               MMMMCCCCttttrrrrllll KKKKTTTTaaaabbbb      |
+                    | KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd    KKKKBBBBaaaacccckkkkTTTTaaaabbbb        |
+                    |               MMMMCCCCttttrrrrllll KKKKBBBBaaaacccckkkkTTTTaaaabbbb  |
+                    |________________________________|
+
+       KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must move the location cursor forward through
+       fields according to the following rules.
+
+          +o If the next field is a field control, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must
+            move the location cursor to it.
+
+          +o If the next field is a field group, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must
+            move the location cursor to the first traversable com-
+            ponent within the field group, unless the field con-
+            tains a default component.
+
+          +o If the field contains a traversable default component,
+            KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must move the location cursor to the default
+            component instead of the first component, unless the
+            application arranges for the cursor to be placed on
+            some other component in the field.
+
+       Application developers should generally make a default com-
+       ponent the first component in a field.  Section 3.3.6
+       describes the use of default components in detail.  If the
+       next field contains no traversable components, the com-
+       ponents are fields, or the components are inside nested
+       fields, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must skip the field.
+
+       KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd must move the location cursor backward through
+       fields using the same rules as KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd.
+
+       Developers should follow these general rules for field navi-
+       gation:
+
+
+
+                                                               2-19
+
+
+
+
+
+
+
+
+
+
+
+
+          +o Fields should be traversed from the upper-left to the
+            lower-right in a left-to-right direction language
+            environment.  In a right-to-left direction language
+            environment, fields should be traversed from upper-
+            right to the lower-left.
+
+          +o Field navigation must wrap between the first and last
+            field.
+
+          +o If one field is the child of another field, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd
+            should traverse the parent field before the child.
+
+          +o In the case of a PanedWindow, each Sash and Pane must
+            be a field, and must be traversed in top-to-bottom
+            order.  Any fields within a Pane must be traversed
+            before the next sash.
+
+          +o If the field's default component is in a nested field,
+            these rules can be relaxed to make sure that the filed
+            and all of its descendents are traversed by KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd
+            before traversing to another field.
+
+       When using an explicit keyboard focus policy, and a window
+       gets the focus, the location cursor should be placed in the
+       last component in that window to have the location cursor.
+       If that component is no longer traversable, or if the window
+       has never had the location cursor before, the cursor should
+       be placed in the first traversable component in the window.
+       If the window is a DialogBox, the location cursor should be
+       placed on the default component in the DialogBox, though an
+       application can place the cursor on any specific component
+       in the DialogBox.  If the default component is not travers-
+       able, or if there is no default component the location cur-
+       sor should be placed as for any other window.
+
+       When using an explicit keyboard focus policy, and a field
+       gets the focus, the location cursor should be placed in the
+       first traversable component in the field.  If the field is a
+       DialogBox nested in a window (that is, a field with a
+       default control), the location cursor should be placed on
+       the default component in the DialogBox, though an applica-
+       tion can place the cursor on any specific component in the
+       DialogBox.  If the default component is not traversable, or
+       if there is no default component the location cursor should
+       be placed as for any other field.
+
+       KKKKDDDDoooowwwwnnnn, KKKKLLLLeeeefffftttt, KKKKRRRRiiiigggghhhhtttt, and KKKKUUUUpppp must move the location cursor
+       among components in a field group, or among elements of a
+       field control.  In a graphics, these keys can move the loca-
+       tion cursor by an element or by a pixel.  These keys modi-
+       fied with MMMMCCCCttttrrrrllll can move the cursor in a large increment.
+
+
+       2-20
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       Whan an increment and a large increment is depends on the
+       type of the component.  For example, in a scale an increment
+       could be a unit of the scale, and a large increment could be
+       a number of units, or the distance between major tick marks
+       on the scale.  KKKKDDDDoooowwwwnnnn, KKKKLLLLeeeefffftttt, KKKKRRRRiiiigggghhhhtttt, and KKKKUUUUpppp usually are
+       bound to the arrow keys as shown in the following table.
+
+                TTTTAAAABBBBLLLLEEEE 2222----4444....  Component Navigation Bindings
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKDDDDoooowwwwnnnn         <<<<|vv|||vv>>>>             |
+                    | KKKKLLLLeeeefffftttt         <<<<<<<<---->>>>            |
+                    | KKKKRRRRiiiigggghhhhtttt        <<<<---->>>>>>>>            |
+                    | KKKKUUUUpppp           <<<<|^^|||^^>>>>             |
+                    |________________________________|
+
+       Navigation within a field must behave as described in the
+       following text.  Note that KKKKDDDDoooowwwwnnnn and KKKKRRRRiiiigggghhhhtttt do not need to
+       traverse components or elements in the same order.
+
+       KKKKDDDDoooowwwwnnnn          in a left-to-right direction language
+                      environment must move the location cursor
+                      through all traversable components or ele-
+                      ments in the field, starting at the upper-
+                      left and ending at the lower-right then wrap-
+                      ping back up to the upper-left.  In a right-
+                      to-left direction language environment the
+                      location cursor can move, starting at the
+                      upper-right and moving to the lower-left.
+
+       KKKKUUUUpppp            must move the location cursor through all
+                      traversable components or elements in the
+                      opposite direction of KKKKDDDDoooowwwwnnnn.
+
+       KKKKRRRRiiiigggghhhhtttt         must move the location cursor through all
+                      traversable components or elements in the
+                      field, starting at the upper-left and ending
+                      at the lower-right then wrapping back up to
+                      the upper-left.
+
+       KKKKLLLLeeeefffftttt          must move the location cursor through all
+                      traversable components or elements in the
+                      opposite direction of KKKKRRRRiiiigggghhhhtttt.
+
+       Separators and Labels should not be traversable.  Labels can
+       be traversable if the system supports quick transfer of the
+       Label text or graphic.  The ScrollBars of ScrolledWindow
+       need not be traversable.
+
+
+
+                                                               2-21
+
+
+
+
+
+
+
+
+
+
+
+
+       Field controls should also support the following behavior.
+       Component navigation in field groups can also support this
+       behavior.
+
+       KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee     In a left-to-right direction language
+                      environment, this action should move the
+                      location cursor to the leftmost edge of the
+                      data.
+
+       KKKKEEEEnnnnddddLLLLiiiinnnneeee       In a left-to-right direction language
+                      environment, this action should move the
+                      location cursor to the rightmost edge of the
+                      data.
+
+       KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa     Should move the location cursor to the first
+                      element or the topmost or topleftmost edge of
+                      the data.
+
+       KKKKEEEEnnnnddddDDDDaaaattttaaaa       Should move the location cursor to the last
+                      element or the bottommost or bottomrightmost
+                      edge of the data.
+
+       These keys are usually bound as shown in the following
+       table.
+
+                TTTTAAAABBBBLLLLEEEE 2222----5555....  Component Navigation Bindings
+
+                    _________________________________
+                   | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss |
+                   |_________________________________|
+                   | KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa    MMMMCCCCttttrrrrllll KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee |
+                   | KKKKEEEEnnnnddddDDDDaaaattttaaaa      MMMMCCCCttttrrrrllll KKKKEEEEnnnnddddLLLLiiiinnnneeee   |
+                   | KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee    <<<<BBBBeeeeggggiiiinnnn>>>> oooorrrr <<<<HHHHoooommmmeeee>>>>|
+                   | KKKKEEEEnnnnddddLLLLiiiinnnneeee      <<<<EEEEnnnndddd>>>>            |
+                   |_________________________________|
+
+       2.3.3  MMMMeeeennnnuuuu TTTTrrrraaaavvvveeeerrrrssssaaaallll
+
+       The Menu traversal model is different from the field traver-
+       sal model.  This is so that Menus are traversable even when
+       the focus policy is implicit.  If a Menu is traversed to
+       while the focus policy in the application is implicit, the
+       focus policy must temporarily change to explicit.  The focus
+       policy must revert to implicit whenever any one of the fol-
+       lowing occurs:
+
+          +o A mouse button is pressed
+
+          +o A keyboard operation moves the cursor out of a Menu
+            system
+
+
+
+       2-22
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+          +o A Menu item, other than a CascadeButton, is activated
+
+          +o KKKKCCCCaaaannnncccceeeellll is typed from the top of the Menu system
+
+       Traversing to a Menu system is the same as activating the
+       Menu system.  If the MenuBar is inactive, KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must
+       traverse to, or activate, the MenuBar system.  The location
+       cursor must be placed on the first traversable Menu in the
+       MenuBar.  If there are no traversable Menus in the MenuBar,
+       KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must do nothing.  If the MenuBar system is active,
+       KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must unpost all Menus in the MenuBar system and
+       return the location cursor to the component that previously
+       had it.
+
+       If the keyboard focus is in an area with an inactive Popup
+       Menu, KKKKMMMMeeeennnnuuuu must post (activate) the Popup Menu.  The loca-
+       tion cursor must be placed on the first traversable item in
+       the Popup Menu.  If there are no traversable items in the
+       Popup Menu, it is up to the system and the application
+       whether to post the Menu or not.  If there is an active
+       Popup Menu, KKKKMMMMeeeennnnuuuu must unpost the Popup Menu system and
+       return the location cursor to the component that previously
+       had it.
+
+       If the keyboard focus is in an OptionButton, KKKKAAAAccccttttiiiivvvvaaaatttteeee or
+       KKKKSSSSeeeelllleeeecccctttt must post, or activate, the Option Menu.  The loca-
+       tion cursor must be placed on the previously selected item
+       in the Option Menu.  If the Option Menu is pulled down for
+       the first time, the location cursor must be placed on the
+       default item in the Menu.  If there are no traversable items
+       in the Option Menu, the application should decide whether to
+       post the Menu or not.  If there is an active Option Menu,
+       KKKKAAAAccccttttiiiivvvvaaaatttteeee or KKKKSSSSeeeelllleeeecccctttt must select the current item in the
+       Option Menu, unpost the active Option Menu system, and
+       return the location cursor to the OptionButton.
+
+       KKKKMMMMeeeennnnuuuuBBBBaaaarrrr and KKKKMMMMeeeennnnuuuu are usually bound to <<<<FFFF11110000>>>>, and <<<<FFFF4444>>>> or
+       <<<<MMMMeeeennnnuuuu>>>>, respectively.  KKKKAAAAccccttttiiiivvvvaaaatttteeee is usually bound to
+       <<<<RRRReeeettttuuuurrrrnnnn>>>> or <<<<EEEEnnnntttteeeerrrr>>>>.  KKKKSSSSeeeelllleeeecccctttt is usually bound to <<<<SSSSeeeelllleeeecccctttt>>>>,
+       <<<<SSSSppppaaaacccceeee>>>>, and MMMMCCCCttttrrrrllll <<<<SSSSppppaaaacccceeee>>>>, The following table shows the
+       common Menu traversal bindings.
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-23
+
+
+
+
+
+
+
+
+
+
+
+
+                   TTTTAAAABBBBLLLLEEEE 2222----6666....  Menu Traversal Bindings
+
+                     ________________________________
+                    | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+                    |________________________________|
+                    | KKKKMMMMeeeennnnuuuuBBBBaaaarrrr      <<<<FFFF11110000>>>>           |
+                    | KKKKMMMMeeeennnnuuuu         <<<<FFFF4444>>>>            |
+                    | KKKKAAAAccccttttiiiivvvvaaaatttteeee     <<<<RRRReeeettttuuuurrrrnnnn>>>>        |
+                    |               <<<<EEEEnnnntttteeeerrrr>>>>         |
+                    |               MMMMCCCCttttrrrrllll <<<<RRRReeeettttuuuurrrrnnnn>>>>  |
+                    |               MMMMCCCCttttrrrrllll <<<<EEEEnnnntttteeeerrrr>>>>   |
+                    | KKKKSSSSeeeelllleeeecccctttt       <<<<SSSSeeeelllleeeecccctttt>>>>        |
+                    |               <<<<SSSSppppaaaacccceeee>>>>         |
+                    |               MMMMCCCCttttrrrrllll <<<<SSSSppppaaaacccceeee>>>>   |
+                    |________________________________|
+
+       Once a Menu system is posted the Menu items can be traversed
+       using KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu, KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu, KKKKDDDDoooowwwwnnnn, KKKKLLLLeeeefffftttt, KKKKRRRRiiiigggghhhhtttt, and KKKKUUUUpppp.
+       A posted Menu system behaves somewhat like a field with the
+       addition of traversing among Menus in the system.  All Menu
+       keyboard traversal actions wrap between the first and last
+       elements.  The system must support the Menu traversal
+       behavior described in the following text.
+
+       KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu   If the component with the keyboard focus is a
+                   CascadeButton, traverse to the default entry in
+                   the associated Cascade Menu, or to the first
+                   traversable entry in the Menu if the Menu has no
+                   default.
+
+                   Otherwise, if the current Menu has a horizontal
+                   Menu ancestor including the MenuBar, unpost the
+                   current Menu system pulled down from that ances-
+                   tor and traverse to the next entry in the hor-
+                   izontal Menu.  If that entry is a CascadeButton,
+                   post its associated PullDown Menu and traverse
+                   to the default entry in the Menu, or to the
+                   first traversable entry in the Menu if the Menu
+                   has no default.
+
+                   KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu is usually bound to MMMMCCCCttttrrrrllll <<<<|vv|||vv>>>> and
+                   MMMMCCCCttttrrrrllll <<<<---->>>>>>>>.
+
+       KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu   If the current Menu is the child of a vertical
+                   or 2-dimensional Menu, traverse to the parent
+                   CascadeButton.
+
+                   Otherwise, if the current Menu is the child of a
+                   horizontal Menu or the MenuBar, unpost the
+                   current Menu system pulled down from that parent
+                   and traverse to the previous entry in the
+
+
+       2-24
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+                   horizontal Menu.  If that entry is a CascadeBut-
+                   ton, post its associated PullDown Menu and
+                   traverse to the default entry in the Menu, or
+                   the first traversable entry in the Menu if the
+                   Menu has no default.
+
+                   KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu is usually bound to MMMMCCCCttttrrrrllll <<<<|^^|||^^>>>> and
+                   MMMMCCCCttttrrrrllll <<<<<<<<---->>>>.
+
+       KKKKDDDDoooowwwwnnnn       If the component is in a vertical Menu or a 2-
+                   dimensional Menu, traverse down to the next
+                   traversable component.  If the component is in a
+                   horizontal Menu or a MenuBar, perform the same
+                   action as for KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu.
+
+       KKKKUUUUpppp         If the component is in a vertical Menu or a 2-
+                   dimensional Menu, traverse up to the next
+                   traversable component.  If the component is in a
+                   horizontal Menu, perform the same action as for
+                   KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu.
+
+       KKKKLLLLeeeefffftttt       If the component is in a vertical Menu, perform
+                   the action of KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu.  If the component is in
+                   a horizontal Menu, MenuBar, or 2-dimensional
+                   Menu, traverse left to the next traversable com-
+                   ponent.
+
+       KKKKRRRRiiiigggghhhhtttt      If the component is in a vertical Menu, perform
+                   the same action as for KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu.  If the com-
+                   ponent is in a horizontal Menu, MenuBar, or 2-
+                   dimensional Menu, traverse right to the next
+                   traversable component.  KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu.
+
+       KKKKCCCCaaaannnncccceeeellll is used with posted Menus to back out of the Menu
+       hierarchy.  Its effect depends upon the location of the cur-
+       sor:
+
+          +o In a PullDown Menu, KKKKCCCCaaaannnncccceeeellll must dismiss the Menu and
+            move the location cursor to the CascadeButton used to
+            pull it down.
+
+          +o In a Popup Menu or Option Menu, KKKKCCCCaaaannnncccceeeellll must dismiss
+            the Menu.  If an explicit focus policy is in use, the
+            location cursor must be moved back to the component
+            that previously had it.
+
+          +o In a MenuBar, if an explicit focus policy is in use,
+            KKKKCCCCaaaannnncccceeeellll must move the location cursor to the component
+            that previously had it.
+
+
+
+
+                                                               2-25
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table shows the common internal Menu naviga-
+       tion bindings.
+
+                   TTTTAAAABBBBLLLLEEEE 2222----7777....  Menu Navigation Bindings
+
+                   ____________________________________
+                  | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss    |
+                  |____________________________________|
+                  | KKKKNNNNeeeexxxxttttMMMMeeeennnnuuuu     MMMMCCCCttttrrrrllll <<<<|vv|||vv>>>>           |
+                  |               MMMMCCCCttttrrrrllll <<<<---->>>>>>>>          |
+                  | KKKKPPPPrrrreeeevvvvMMMMeeeennnnuuuu     MMMMCCCCttttrrrrllll <<<<|^^|||^^>>>>           |
+                  |               MMMMCCCCttttrrrrllll <<<<<<<<---->>>>          |
+                  | KKKKDDDDoooowwwwnnnn         <<<<|vv|||vv>>>>                 |
+                  | KKKKLLLLeeeefffftttt         <<<<<<<<---->>>>                |
+                  | KKKKRRRRiiiigggghhhhtttt        <<<<---->>>>>>>>                |
+                  | KKKKUUUUpppp           <<<<|^^|||^^>>>>                 |
+                  | KKKKCCCCaaaannnncccceeeellll       <<<<EEEEssssccccaaaappppeeee>>>> oooorrrr <<<<CCCCaaaannnncccceeeellll>>>>|
+                  |____________________________________|
+
+       2.3.4  SSSSccccrrrroooollllllllaaaabbbblllleeee CCCCoooommmmppppoooonnnneeeennnntttt NNNNaaaavvvviiiiggggaaaattttiiiioooonnnn
+
+       Certain components, such as List and Text, have built-in
+       support for scrolling.  However, any component or group of
+       components can be associated with scrolling components or
+       placed inside a ScrolledWindow and made scrollable.
+
+       A scrollable component generally has ScrollBars or some
+       other type of scrolling component associated with it.  When
+       a component does not have a scrolling component associated
+       with it, it generally should not be scrollable; however com-
+       ponents whose visible contents alone indicate that addi-
+       tional items exist beyond the bounds of the visible area,
+       like Text, can be scrollable even if they do not have an
+       associated scrolling component.
+
+       Any scrollable component must support appropriate navigation
+       and scrolling operations.  You must use the page navigation
+       keys KKKKPPPPaaaaggggeeeeUUUUpppp, KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn, KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt, and KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt for
+       page-at-a-time scrolling within components or groups of com-
+       ponents that support scrolling.  A page is the portion of
+       data that is visible, not any underlying structure of the
+       data.  When scrolling by a page, you must leave at least one
+       unit of overlap between the old and new pages; for example,
+       a line in a Text component.
+
+       You should use the directional keys KKKKUUUUpppp, KKKKDDDDoooowwwwnnnn, KKKKLLLLeeeefffftttt, and
+       KKKKRRRRiiiigggghhhhtttt for either moving the location cursor among its ele-
+       ments, moving it by increments, or for scrolling the visible
+       region by a regular increment.  In general, keyboard opera-
+       tions should traverse through the entire scrollable com-
+       ponent, not just through the visible portion.  If the
+
+
+       2-26
+
+
+
+
+
+
+
+
+
+                                        Input and Navigation Models
+
+
+       directional keys only traverse through the visible portion,
+       the ScrollBar (or other scrolling component) that components
+       the visible portion of the scrollable component must be
+       traversable.
+
+       In a vertically scrollable component you should support KKKKBBBBeeee----
+       ggggiiiinnnnDDDDaaaattttaaaa and KKKKEEEEnnnnddddDDDDaaaattttaaaa to move to the beginning and end of the
+       scrollable component.  In a horizontally scrollable com-
+       ponent you should support KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee and KKKKEEEEnnnnddddLLLLiiiinnnneeee to move to
+       the leftmost and rightmost edge of the scrollable component.
+
+       The following table shows the common bindings for the vir-
+       tual keys used for scrolled region navigation.
+
+             TTTTAAAABBBBLLLLEEEE 2222----8888....  Scrolled Region Navigation Bindings
+
+                    _________________________________
+                   | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss |
+                   |_________________________________|
+                   | KKKKUUUUpppp           <<<<|^^|||^^>>>>              |
+                   | KKKKDDDDoooowwwwnnnn         <<<<|vv|||vv>>>>              |
+                   | KKKKLLLLeeeefffftttt         <<<<<<<<---->>>>             |
+                   | KKKKRRRRiiiigggghhhhtttt        <<<<---->>>>>>>>             |
+                   | KKKKPPPPaaaaggggeeeeUUUUpppp       <<<<PPPPaaaaggggeeeeUUUUpppp>>>>         |
+                   | KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn     <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>>       |
+                   | KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt     MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeUUUUpppp>>>>   |
+                   | KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt    MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>> |
+                   | KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa    MMMMCCCCttttrrrrllll KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee |
+                   | KKKKEEEEnnnnddddDDDDaaaattttaaaa      MMMMCCCCttttrrrrllll KKKKEEEEnnnnddddLLLLiiiinnnneeee   |
+                   | KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee    <<<<BBBBeeeeggggiiiinnnn>>>> oooorrrr <<<<HHHHoooommmmeeee>>>>|
+                   | KKKKEEEEnnnnddddLLLLiiiinnnneeee      <<<<EEEEnnnndddd>>>>            |
+                   |_________________________________|
+
+       When a mouse button is pressed initiating a selection opera-
+       tion within a scrollable component, and the pointer is then
+       dragged outside of the scrollable component, the component
+       should scroll towards the pointer.  Drag and drop operations
+       should produce similar scrolling behavior within scrollable
+       components that force dragged elements to remain within the
+       component.
+
+       When the location cursor is within a scrollable component,
+       scrolling, either by dragging if the cursor is within the
+       scrollable component, by using a ScrollBar, or by using the
+       page navigation keys, may move the cursor out of view; how-
+       ever, if the location cursor is within the scrollable com-
+       ponent, any keyboard operation that moves the cursor or that
+       inserts, deletes, or modifies items at the cursor location
+       must scroll the component so that the cursor is visible when
+       the operation is complete.  When scrolling using the mouse,
+       the location cursor can be allowed to scroll out of the
+
+
+                                                               2-27
+
+
+
+
+
+
+
+
+
+
+
+
+       visible region.  When scrolling using the keyboard, the
+       location cursor should be moved so that it remains within
+       the visible region.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-28
+
+
+
+
+

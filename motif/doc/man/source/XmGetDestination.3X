@@ -1,0 +1,47 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmGetDestination 3X "" "" "" ""
+.SH NAME
+\fBXmGetDestination \(em A function that returns the widget ID of the widget to
+be used as the current destination for quick paste and certain clipboard 
+operations.\fP
+.iX "XmGetDestination"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Widget XmGetDestination (\fIdisplay\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI*display\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmGetDestination\fP returns the widget that is the current destination 
+on the specified display.
+The destination is generally the last editable widget on which a
+select, edit, insert, or paste operation was performed and is the
+destination for quick paste and certain clipboard functions.
+The destination is NULL if the application makes this call before
+any of the specified operations have been performed on an editable
+widget.
+.sp 1
+.IP "\fIdisplay\fP" .75i
+Specifies the display whose destination widget is to be queried
+.sp 1
+.PP
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID for the current destination or NULL if there is 
+no current destination.
+.sp 1

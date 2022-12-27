@@ -1,0 +1,46 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldSetMaxLength 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldSetMaxLength \(em a TextField function that sets the value of the
+current maximum allowable length of a text string entered from the keyboard.\fP
+.iX "XmTextFieldSetMaxLength"
+.iX "TextField functions" "XmTextFieldSetMaxLength"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldSetMaxLength (\fIwidget, max_length\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	int	\fImax_length\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldSetMaxLength\fP sets the value of the current maximum allowable
+length of the text string in the TextField widget.  The maximum allowable length
+prevents the user from entering a text string from the keyboard
+that is larger than this limit.  Strings that are entered using the
+\fBXmNvalue\fP resource or the \fBXmTextFieldSetString\fP function ignore this
+resource.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fImax_length\fP" .75i
+Specifies the maximum allowable length of the text string
+.PP
+.ne 3
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP and \fBXmTextFieldSetString(3X)\fP.

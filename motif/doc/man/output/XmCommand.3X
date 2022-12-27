@@ -1,0 +1,462 @@
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmCCCCoooommmmmmmmaaaannnndddd ---- TTTThhhheeee CCCCoooommmmmmmmaaaannnndddd wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////CCCCoooommmmmmmmaaaannnndddd....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Command is a special-purpose composite widget for command
+          entry that provides a built-in command-history mechanism.
+          Command includes a command-line text-input field, a
+          command-line prompt, and a command-history list region.
+
+          One additional WWWWoooorrrrkkkkAAAArrrreeeeaaaa child may be added to the Command
+          after creation.
+
+          Whenever a command is entered, it is automatically added to
+          the end of the command-history list and made visible.  This
+          does not change the selected item in the list, if there is
+          one.
+
+          Many of the new resources specified for Command are actually
+          SelectionBox resources that have been renamed for clarity
+          and ease of use.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Command inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd, and
+          XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx classes.
+
+          The class pointer is xxxxmmmmCCCCoooommmmmmmmaaaannnnddddWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmCCCCoooommmmmmmmaaaannnndddd.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+                                    XXXXmmmmCCCCoooommmmmmmmaaaannnndddd RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                         CCCCllllaaaassssssss                 TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________
+     XmNcommand                   XmCTextString         XmString         ""        CSG
+     XmNcommandChangedCallback    XmCCallback           XtCallbackList   NULL      C
+     XmNcommandEnteredCallback    XmCCallback           XtCallbackList   NULL      C
+     XmNhistoryItems              XmCItems              XmStringTable    NULL      CSG
+     XmNhistoryItemCount          XmCItemCount          int              0         CSG
+     XmNhistoryMaxItems           XmCMaxItems           int              100       CSG
+     XmNhistoryVisibleItemCount   XmCVisibleItemCount   int              dynamic   CSG
+     XmNpromptString              XmCPromptString       XmString         dynamic   CSG
+
+
+          XXXXmmmmNNNNccccoooommmmmmmmaaaannnndddd
+               Contains the current command-line text.  This is the
+               XXXXmmmmNNNNtttteeeexxxxttttSSSSttttrrrriiiinnnngggg resource in SelectionBox, renamed for
+               Command. This resource can also be modified via
+               XXXXmmmmCCCCoooommmmmmmmaaaannnnddddSSSSeeeettttVVVVaaaalllluuuueeee and XXXXmmmmCCCCoooommmmmmmmaaaannnnddddAAAAppppppppeeeennnnddddVVVVaaaalllluuuueeee functions.
+               The command area is a Text widget.
+
+          XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               value of the command changes.  The callback reason is
+               XXXXmmmmCCCCRRRR____CCCCOOOOMMMMMMMMAAAANNNNDDDD____CCCCHHHHAAAANNNNGGGGEEEEDDDD.  This is equivalent to the
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk of the Text widget, except that
+               a pointer to an XXXXmmmmCCCCoooommmmmmmmaaaannnnddddCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuuccccttttuuuurrrreeee is passed,
+               and the structure's _v_a_l_u_e member contains the XXXXmmmmSSSSttttrrrriiiinnnngggg.
+
+          XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddEEEEnnnntttteeeerrrreeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when a
+               command is entered in the Command.  The callback reason
+               is XXXXmmmmCCCCRRRR____CCCCOOOOMMMMMMMMAAAANNNNDDDD____EEEENNNNTTTTEEEERRRREEEEDDDD.  A pointer to an
+               XXXXmmmmCCCCoooommmmmmmmaaaannnnddddCCCCaaaallllllllbbbbaaaacccckkkk structure is passed.
+
+          XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyIIIItttteeeemmmmssss
+               Lists XXXXmmmmSSSSttttrrrriiiinnnngggg items that make up the contents of the
+               history list.  This is the XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmssss resource in
+               SelectionBox, renamed for Command.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for
+               this resource returns the list items themselves, not a
+               copy of the list items.  The application must not free
+               the returned items.
+
+          XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of XXXXmmmmSSSSttttrrrriiiinnnnggggssss in XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyIIIItttteeeemmmmssss.
+               This is the XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt resource in SelectionBox,
+               renamed for Command.  The value must not be negative.
+
+          XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyMMMMaaaaxxxxIIIItttteeeemmmmssss
+               Specifies the maximum number of items allowed in the
+               history list.  Once this number is reached, an existing
+               list item must be removed before a new item can be
+               added to the list.  For each command entered, the first
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+               list item is removed from the list, so the new command
+               can be added to the list. The value must be greater
+               than 0.
+
+          XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyVVVViiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items in the history list that
+               should be visible at one time.  In effect, it sets the
+               height (in lines) of the history list window.  This is
+               the XXXXmmmmNNNNlllliiiissssttttVVVViiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt resource in SelectionBox,
+               renamed for Command.  The value must be greater than 0.
+               The default is dynamic based on the height of the list.
+
+          XXXXmmmmNNNNpppprrrroooommmmppppttttSSSSttttrrrriiiinnnngggg
+               Specifies a prompt for the command line.  This is the
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg resource in SelectionBox,
+               renamed for Command.  The default may vary depending on
+               the value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Command inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                       XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt             AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________
+     XmNapplyCallback          XmCCallback               XtCallbackList   NULL                N/A
+     XmNapplyLabelString       XmCApplyLabelString       XmString         "Apply"             N/A
+     XmNcancelCallback         XmCCallback               XtCallbackList   NULL                N/A
+     XmNcancelLabelString      XmCCancelLabelString      XmString         "Cancel"            N/A
+     XmNdialogType             XmCDialogType             unsigned char    XmDIALOG_COMMAND    G
+     XmNhelpLabelString        XmCHelpLabelString        XmString         "Help"              N/A
+     XmNlistItemCount          XmCItemCount              int              0                   CSG
+     XmNlistItems              XmCItems                  XmStringTable    NULL                CSG
+     XmNlistLabelString        XmCListLabelString        XmString         NULL                N/A
+     XmNlistVisibleItemCount   XmCVisibleItemCount       int              dynamic             CSG
+     XmNminimizeButtons        XmCMinimizeButtons        Boolean          False               N/A
+     XmNmustMatch              XmCMustMatch              Boolean          False               N/A
+     XmNnoMatchCallback        XmCCallback               XtCallbackList   NULL                N/A
+     XmNokCallback             XmCCallback               XtCallbackList   NULL                N/A
+     XmNokLabelString          XmCOkLabelString          XmString         "OK"                N/A
+     XmNselectionLabelString   XmCSelectionLabelString   XmString         ">"                 CSG
+     XmNtextAccelerators       XmCTextAccelerators       XtAccelerators   default             C
+     XmNtextColumns            XmCColumns                short            dynamic             CSG
+     XmNtextString             XmCTextString             XmString         ""                  CSG
+
+                                XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+     NNNNaaaammmmeeee                  CCCCllllaaaassssssss                TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt         AAAAcccccccceeeessssssss
+     __________________________________________________________________________________
+     XmNallowOverlap       XmCAllowOverlap      Boolean          True            CSG
+     XmNautoUnmanage       XmCAutoUnmanage      Boolean          False           N/A
+     XmNbuttonFontList     XmCButtonFontList    XmFontList       dynamic         N/A
+     XmNcancelButton       XmCWidget            Widget           NULL            N/A
+     XmNdefaultButton      XmCWidget            Widget           NULL            N/A
+     XmNdefaultPosition    XmCDefaultPosition   Boolean          False           CSG
+     XmNdialogStyle        XmCDialogStyle       unsigned char    dynamic         CSG
+     XmNdialogTitle        XmCDialogTitle       XmString         NULL            CSG
+     XmNfocusCallback      XmCCallback          XtCallbackList   NULL            C
+     XmNlabelFontList      XmCLabelFontList     XmFontList       dynamic         CSG
+     XmNmapCallback        XmCCallback          XtCallbackList   NULL            C
+     XmNmarginHeight       XmCMarginHeight      Dimension        10              CSG
+     XmNmarginWidth        XmCMarginWidth       Dimension        10              CSG
+     XmNnoResize           XmCNoResize          Boolean          False           CSG
+     XmNresizePolicy       XmCResizePolicy      unsigned char    XmRESIZE_NONE   CSG
+     XmNshadowType         XmCShadowType        unsigned char    XmSHADOW_OUT    CSG
+     XmNtextFontList       XmCTextFontList      XmFontList       dynamic         CSG
+     XmNtextTranslations   XmCTranslations      XtTranslations   NULL            C
+     XmNunmapCallback      XmCCallback          XtCallbackList   NULL            C
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    dynamic                CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                N/A
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg _v_a_l_u_e;
+            iiiinnnntttt      _l_e_n_g_t_h;
+          } XXXXmmmmCCCCoooommmmmmmmaaaannnnddddCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback
+
+          _v_a_l_u_e  Specifies the XXXXmmmmSSSSttttrrrriiiinnnngggg in the CommandArea
+
+          _l_e_n_g_t_h Specifies the size of the command in XXXXmmmmSSSSttttrrrriiiinnnngggg
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmCommand inherits translations from XmSelectionBox.
+
+
+        AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+          The XXXXmmmmNNNNtttteeeexxxxttttAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss from XmSelectionBox are added to the
+          Text descendant of XmCommand.
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmCommand action routines are described below:
+
+          SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((0000||||1111||||2222||||3333)))):
+               When called with a 0 argument, selects the previous
+               item in the history list and replaces the text with
+               that item.
+
+               When called with a 1 argument, selects the next item in
+               the history list and replaces the text with that item.
+
+               When called with a 2 argument, selects the first item
+               in the history list and replaces the text with that
+               item.
+
+               When called with a 3 argument, selects the last item in
+               the history list and replaces the text with that item.
+
+               Calls the callbacks for XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          The Command widget has the additional behavior described
+          below:
+
+          <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in Text:
+               Calls the Text widget's XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+               If the text is empty, this action then returns.
+               Otherwise, if the history list has XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyMMMMaaaaxxxxIIIItttteeeemmmmssss
+               items, it removes the first item in the list.  It adds
+               the text to the history list as the last item, clears
+               the text, and calls the XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddEEEEnnnntttteeeerrrreeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.
+
+          <<<<KKKKeeeeyyyy>>>> in Text:
+               When any change is made to the text edit widget, this
+               action calls the callbacks for
+               XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          <<<<DDDDoooouuuubbbblllleeeeCCCClllliiiicccckkkk>>>> or <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in List:
+               Calls the List widget's XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.  If the history list has XXXXmmmmNNNNhhhhiiiissssttttoooorrrryyyyMMMMaaaaxxxxIIIItttteeeemmmmssss
+               items, this action removes the first item in the list.
+               It adds the selected List item to the history list as
+               the last item, clears the text, and calls the
+               XXXXmmmmNNNNccccoooommmmmmmmaaaannnnddddEEEEnnnntttteeeerrrreeeeddddCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+
+          <<<<FFFFooooccccuuuussssIIIInnnn>>>>:
+               Calls the callbacks for XXXXmmmmNNNNffffooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          <<<<MMMMaaaappppWWWWiiiinnnnddddoooowwww>>>>:
+               When a Command that is the child of a DialogShell is
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmCCCCoooommmmmmmmaaaannnndddd((((3333XXXX))))
+
+
+
+               mapped, this action calls the callbacks for
+               XXXXmmmmNNNNmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          <<<<UUUUnnnnmmmmaaaappppWWWWiiiinnnnddddoooowwww>>>>:
+               When a Command that is the child of a DialogShell is
+               unmapped, this action calls the callbacks for
+               XXXXmmmmNNNNuuuunnnnmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd((((3333XXXX)))), XXXXmmmmCCCCoooommmmmmmmaaaannnnddddAAAAppppppppeeeennnnddddVVVVaaaalllluuuueeee((((3333XXXX)))),
+          XXXXmmmmCCCCoooommmmmmmmaaaannnnddddEEEErrrrrrrroooorrrr((((3333XXXX)))), XXXXmmmmCCCCoooommmmmmmmaaaannnnddddGGGGeeeettttCCCChhhhiiiilllldddd((((3333XXXX)))),
+          XXXXmmmmCCCCoooommmmmmmmaaaannnnddddSSSSeeeettttVVVVaaaalllluuuueeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeCCCCoooommmmmmmmaaaannnndddd((((3333XXXX)))), XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))),
+          and XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+

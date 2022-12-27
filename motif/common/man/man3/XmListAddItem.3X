@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListAddItem 3X "" "" "" ""
+.SH NAME
+\fBXmListAddItem \(em a List function that adds an item to the list.\fP
+.iX "XmListAddItem"
+.iX "List functions" "XmListAddItem"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+void XmListAddItem (\fIwidget, item, position\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	XmString	\fIitem\fP;
+.br
+	int	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListAddItem\fP adds an item to the list at the given position.
+When the item is inserted into the list, it is compared with the current
+\fBXmNselectedItems\fP list.
+If the new item matches an item on the selected list, it appears
+selected.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the List to which an item is added.
+.IP "\fIitem\fP" .75i
+Specifies the item to be added to the list.
+.IP "\fIposition\fP" .75i
+Specifies the position of the new item in the list.
+A value of 1 makes the new item the first item in the list; a value of 2
+makes it the second item; and so on.
+A value of 0 makes the new item the last item in the list.
+.sp 1
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

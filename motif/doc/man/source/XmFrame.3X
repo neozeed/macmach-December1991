@@ -1,0 +1,182 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmFrame 3X "" "" "" ""
+.SH NAME
+\fBXmFrame \(em the Frame widget class.\fP
+.iX "XmFrame"
+.iX "widget class" "Frame"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/Frame.h>\fP
+.sp 1
+.SH DESCRIPTION
+Frame is a very simple manager used to enclose a
+single child in a border drawn by Frame.  It uses the
+Manager class resources for border drawing and performs geometry
+management so that its size always matches its child's outer size
+plus the Frame's margins and shadow thickness.
+.PP
+Frame is most often used to enclose other managers when the
+application developer desires the manager to have the same border
+appearance as the primitive widgets.  Frame can also be
+used to enclose primitive widgets that do not support the same
+type of border drawing.  This gives visual consistency when
+you develop applications using diverse widget sets.
+.PP
+If the Frame's parent is a Shell widget,
+\fBXmNshadowType\fP defaults to \fBXmSHADOW_OUT\fP, and
+Manager's resource \fBXmNshadowThickness\fP defaults to 1.
+If the Frame's parent is not a Shell widget,
+\fBXmNshadowType\fP defaults to \fBXmSHADOW_ETCHED_IN\fP, and
+Manager's resource \fBXmNshadowThickness\fP defaults to 2.
+.sp 1
+.SS "Classes"
+Frame inherits behavior and 
+resources from the \fBCore\fP, \fBComposite\fP,
+\fBConstraint\fP, and \fBXmManager\fP classes.
+.PP
+The class pointer is \fBxmFrameWidgetClass\fP.
+.PP
+The class name is \fBXmFrame\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmFrame Resource Set
+Name	Class	Type	Default	Access
+_
+XmNmarginWidth	XmCMarginWidth	Dimension	0	CSG
+XmNmarginHeight	XmCMarginHeight	Dimension	0	CSG
+XmNshadowType	XmCShadowType	unsigned char	dynamic	CSG
+.TE
+.sp 1
+.ne 6
+.IP "\fBXmNmarginWidth\fP"
+Specifies the padding space on the left and right
+sides between Frame's child and Frame's shadow drawing.
+.IP "\fBXmNmarginHeight\fP"
+Specifies the padding space on the top and bottom
+sides between Frame's child and Frame's shadow drawing.
+.IP "\fBXmNshadowType\fP"
+Describes the drawing style for Frame.  This resource can have the
+following values:
+.IP \(bu 3
+\fBXmSHADOW_IN\fP \(em draws Frame so that it appears inset.   
+This means that the bottom shadow visuals and top shadow visuals 
+are reversed.
+.IP \(bu 3
+\fBXmSHADOW_OUT\fP \(em draws Frame so that it appears outset.
+This is the default if Frame's parent is a Shell widget.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_IN\fP \(em draws Frame using a double line giving the
+effect of a line etched into the window.  The thickness of the double
+line is equal to the value of \fBXmNshadowThickness\fP.
+This is the default when Frame's parent is not a Shell widget.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_OUT\fP \(em draws Frame using a double line giving the
+effect of a line coming out of the window.  The thickness of the double
+line is equal to the value of \fBXmNshadowThickness\fP.
+.sp 1
+.SS "Inherited Resources"
+Frame inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmFrame inherits translations from XmManager.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, \fBCore(3X)\fP, 
+\fBXmCreateFrame(3X)\fP, and \fBXmManager(3X)\fP.

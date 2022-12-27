@@ -1,0 +1,248 @@
+.\"
+.\" $Id: fdate.3,v 1.3 89/12/26 11:16:38 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	fdate.3,v $
+.\" Revision 1.3  89/12/26  11:16:38  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 11-Sep-84   Leonard Hamey (lgh) at Carnegie-Mellon University
+.\"	Documented.
+.\"
+.TH FDATE 3 9/11/84
+.CM 3
+.SH "NAME"
+fdate \- format date specification
+.SH "SYNOPSIS" 
+.B
+#include <sys/types.h> 
+.br
+.B
+#include <sys/time.h> 
+.PP
+.br
+.B
+char *fdate(buffer,format,tm)
+.br
+.B
+char *buffer, *format;
+.br
+.B
+struct tm *tm;
+.SH "DESCRIPTION"
+.I
+Fdate
+formats the information supplied in a
+.I
+tm
+structure
+into an ASCII date specification. The formatting is controlled by the
+.I
+format
+string (described below).
+The result is stored in
+.IR buffer ,
+and a pointer to it returned as the function value.
+.I
+Buffer
+should be pre-allocated to be large enough for the result string.
+.SH "FORMATS"
+This section describes the format specification options which
+may be used in the
+.I format
+string.
+These patterns resemble those used
+by
+.IR printf (3).
+.PP
+The percent sign indicates that a field of the
+.I
+tm
+structure
+is to be inserted into the result at that point.
+The fields are named as follows:
+.PP
+.RS
+.PD 0
+.TP 10
+%wday
+name of the week day
+.TP 10
+%day
+number of the month day
+.TP 10
+%month
+name of the month
+.TP 10
+%nmonth
+number of the month
+.TP 10
+%year
+year
+.TP 10
+%yday
+number of the day within the year
+.TP 10
+%hour
+hour of the day
+.TP 10
+%min
+minutes
+.TP 10
+%sec
+seconds
+.TP 10
+%noon
+generates the word "noon" at noon, fails otherwise
+.TP 10
+%midnight
+generates "00:00" at midnight, fails otherwise
+.TP 10
+%am
+generates "am" or "pm" as appropriate
+.TP 10
+%time
+generates the time in a format explained below
+.TP 10
+%th
+.B
+st, nd, rd
+or
+.B
+th
+as appropriate.
+.RE
+.PD
+.PP
+Simply naming the field will insert it in the result. Thus,
+.IP
+.B
+"Today is %wday"
+.PP
+will result in
+.IP
+.B
+"Today is tuesday"
+.PP
+on Tuesday. Of course, it would be better if the weekday was indicated with a
+capital letter. The alphabetic fields are
+capitalised in the same manner as the field was named, so
+.B
+%Wday
+inserts
+.B
+Tuesday
+and
+.B
+%WDAY
+inserts
+.B
+TUESDAY.
+.PP
+You can also specify variable formats, allowing the format of the result to
+vary depending on the date/time being formatted.  This is done by surrounding
+part of the format string in brackets or braces.  If a format string is
+enclosed
+in square brackets, then the entire string will produce no result if any
+field enclosed within the brackets itself failed to produce a result.  A
+field will fail to produce a result if it is unspecified in the date and cannot
+be computed from the date (e.g. when the time is not specified).
+.PP
+Thus, for example, in the format string,
+.IP
+.B
+"hello {how are you %sec %min} goodbye"
+.PP
+the result will be simply
+.IP
+.B
+"hello goodbye"
+.PP
+if either seconds or minutes
+are undefined.  Otherwise, it will result in
+something like
+.IP
+.B
+"hello how are you 34 23 goodbye".
+.PP
+Square
+brackets function almost identically, except that the
+entire string is not inserted only if
+.B
+all
+of the fields are undefined.  Thus, 
+.IP
+.B
+"hello [how are you %sec %min] goodbye"
+.PP
+will result in
+.IP
+.B
+"hello goodbye"
+.PP
+if both seconds
+and minutes are undefined, but will otherwise insert the middle part as well.
+.PP
+Within brackets, alternatives can be specified by separating them with vertical
+bars ("|").  The first alternative to succeed is the one that is used.
+.PP
+While %field generally gives the value of the field, %?field may
+be used to query the
+nature of the field; if it has a reasonable default
+value, then the field fails.  Reasonable defaults are zero for the minutes and
+seconds, and the current year.
+.PP
+Additionally, a numeric field width may be specified between the % and the
+field name.  If the field width begins with a zero, the field will be
+inserted with leading zeroes. For the hour field, a leading zero also serves to
+indicate 24-hour notation.
+.SH "EXAMPLES"
+As a simple case, the 
+.I format
+string
+.IP
+.B
+"Today is the %yday%th day of %year."
+.PP
+will result in something like
+.IP
+.B
+"Today is the 101st day of 1987."
+.PP
+Similarly,
+.IP
+.B
+"%3Wday %2day %3Month %year %0hour:%min:%sec %yday"
+.PP
+will result in something like
+.IP
+.B
+"Sat  7 Apr 1984 16:32:00 97"
+.PP
+As a final, more complex example, if the format given is:
+.IP
+.B
+"[%midnight|%noon|%0hour:%min:%?sec|{%hour{:%?min}%am}]"
+.PP
+This will insert "00:00" if it is midnight, or "noon" if
+it is noon.  Otherwise,
+if the seconds are defined it will insert the hour (in 24-hour format
+because of the field width zero), minute, and second, separated by colons.
+If the seconds are not defined or are equal to zero, it will insert the hour (in
+12 hour format), the minutes if they are defined (omitting the relevant colon
+if they aren't defined), and "am" or "pm".  This format, incidentally, is
+precisely what you can get with the rather simpler field "%time".
+.SH "SEE ALSO"
+.IR whenis (1),
+.IR time (2),
+.IR ctime (3),
+.IR gtime (3),
+.IR localtime (3),
+.IR parsedate (3)
+.SH "DIAGNOSTICS"
+There are no error conditions. An invalid field name will be treated as
+literal text.

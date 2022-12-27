@@ -1,0 +1,22 @@
+.TH slot_name 3 3/25/87
+.CM 4
+.SH NAME
+.nf
+slot_name \- Convert machine slot values to human readable strings
+.SH SYNOPSIS
+#include <mach.h>
+
+slot_name(cpu_type, cpu_subtype, cpu_name, cpu_subname)
+	cpu_type_t	cpu_type;
+	cpu_subtype_t	cpu_subtype;
+	char		**cpu_name, **cpu_subname;
+.SH DESCRIPTION
+The
+.I slot_name
+library function converts the specified cpu_type/cpu_subtype pair to
+their human readable conterparts.  This call is used, for example, by the
+.I hostinfo(1)
+program to print out human readable descriptions of slots in a Mach host.
+Two strings, which are statically allocated (and unchanging) in the library,
+corresponding to the type and subtype are passed back to the user in the
+cpu_name and cpu_subname parameters.

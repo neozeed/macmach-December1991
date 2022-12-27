@@ -1,0 +1,91 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmCreateScrolledList 3X "" "" "" ""
+.SH NAME
+\fBXmCreateScrolledList \(em the List ScrolledList convenience
+creation function.\fP
+.iX "XmCreateScrolledList"
+.iX "creation functions" "XmCreateScrolledList"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+Widget XmCreateScrolledList (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateScrolledList\fP creates an instance of a List widget
+that is contained within a ScrolledWindow.  All ScrolledWindow subarea
+widgets are automatically created by this function. The ID returned
+by this function is that of the List widget.
+Use this ID for all normal List operations, as well as those that
+are relevant for the ScrolledList widget.  
+.PP
+All arguments to either the List or the ScrolledWindow widget can be
+specified at creation time using this function.
+Changes to initial position and size are sent only to the ScrolledWindow
+widget.
+Other resources are sent to the List or the ScrolledWindow widget as
+appropriate.
+.PP
+This function forces the following initial values for ScrolledWindow
+resources:
+.IP \(bu 3
+\fBXmNscrollingPolicy\fP is set to \fBXmAPPLICATION_DEFINED\fP.
+.IP \(bu 3
+\fBXmNvisualPolicy\fP is set to \fBXmVARIABLE\fP.
+.IP \(bu 3
+\fBXmNscrollBarDisplayPolicy\fP is set to \fBXmSTATIC\fP.
+(No initial value is forced for the List's
+\fBXmNscrollBarDisplayPolicy\fP.)
+.IP \(bu 3
+\fBXmNshadowThickness\fP is set to 0.
+.PP
+To obtain the ID of the
+ScrolledWindow widget associated with the ScrolledList, use
+the Xt Intrinsics \fBXtParent\fP function.
+The name of the ScrolledWindow
+created by this function is formed by concatenating the letters \fBSW\fP
+onto the end of the \fIname\fP specified in the parameter list.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.sp
+.ne 3i
+.SH RETURN VALUE
+Returns the List widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP and \fBXmScrolledWindow(3X)\fP.
+.sp 1

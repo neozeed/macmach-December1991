@@ -1,0 +1,71 @@
+.\"
+.\" $Id: makepath.3,v 1.4 89/12/26 20:13:07 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	makepath.3,v $
+.\" Revision 1.4  89/12/26  20:13:07  bww
+.\" 	Updated version macro.
+.\" 	[89/12/26  20:11:59  bww]
+.\" 
+.\" Revision 1.3  89/12/26  11:19:24  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" Revision 1.2  89/05/26  12:12:09  bww
+.\" 	CMU CS as of 89/05/15
+.\" 	[89/05/26  09:46:50  bww]
+.\" 
+.\" Revision 2.2  89/02/22  17:58:59  gm0w
+.\" 	Created.
+.\" 	[89/02/22            gm0w]
+.\" 
+.TH MAKEPATH 3 2/22/89
+.CM 4
+.SH NAME
+makepath \- create intermediate directories for a path
+.SH SYNOPSIS
+.nf
+.B
+char *makepath(path, refpath, trace, showerrs);
+.br
+.B
+char *path, *refpath;
+.br
+.B
+int trace, showerrs;
+.SH DESCRIPTION
+.I Makepath
+creates any directories missing in
+.IR path.
+If
+.I refpath
+is non-null, then it must have a non-null trailing subpath that is common
+to
+.IR path.
+The entire path will be created if
+.I refpath
+is given and
+.I refpath
+is the path of a directory, otherwise only the
+components preceding the final component will be created for
+.IR path.
+.PP
+If
+.I trace
+is non-zero, diagnostics will be printed to stderr.  If
+.I showerrs
+is non-zero error messages will be printed to stderr.
+.PP
+.I Makepath
+return 0 if successfull, 1 otherwise.
+.SH EXAMPLES
+.PP
+\fImakepath\fR(\fI"/foo/bar/baz"\fR,
+.IR NULL ,
+.IR 1 ,
+.IR 1 );
+.PP
+will attempt create \fI"/foo"\fR and \fI"/foo/bar"\fR, if they do not
+exist, printing out changes as they are made and errors, if they occur.
+.SH "SEE ALSO"
+mkdir(2)

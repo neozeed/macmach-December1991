@@ -1,0 +1,68 @@
+# Makefile for the Xlib manpages.
+
+TROFF= psroff -t
+PRINTER= lpr
+
+MANPAGES = \
+	XtAddCbk.3Xt \
+	XtAddEHand.3Xt \
+	XtAddETReg.3Xt \
+	XtAddGrab.3Xt \
+	XtAppAAct.3Xt \
+	XtAppAC.3Xt \
+	XtAppAI.3Xt \
+	XtAppATO.3Xt \
+	XtAppAWP.3Xt \
+	XtAppCSh.3Xt \
+	XtAppE.3Xt \
+	XtAppEM.3Xt \
+	XtAppGEDB.3Xt \
+	XtAppGSTO.3Xt \
+	XtAppNEv.3Xt \
+	XtBEMask.3Xt \
+	XtCallAFoc.3Xt \
+	XtCallCbks.3Xt \
+	XtClass.3Xt \
+	XtConfWid.3Xt \
+	XtConvert.3Xt \
+	XtCreACon.3Xt \
+	XtCrePSh.3Xt \
+	XtCreWid.3Xt \
+	XtCreWin.3Xt \
+	XtDisplay.3Xt \
+	XtDisplayI.3Xt \
+	XtGetGC.3Xt \
+	XtGetRList.3Xt \
+	XtGetSVal.3Xt \
+	XtGetSres.3Xt \
+	XtMakGReq.3Xt \
+	XtMalloc.3Xt \
+	XtManChild.3Xt \
+	XtMapWid.3Xt \
+	XtNameTWid.3Xt \
+	XtOffset.3Xt \
+	XtOwnSel.3Xt \
+	XtParATab.3Xt \
+	XtParTTab.3Xt \
+	XtPopdown.3Xt \
+	XtPopup.3Xt \
+	XtQueryGeo.3Xt \
+	XtRealize.3Xt \
+	XtSetArg.3Xt \
+	XtSetKFoc.3Xt \
+	XtSetKTr.3Xt \
+	XtSetSens.3Xt \
+	XtSetVal.3Xt \
+	XtStrCW.3Xt \
+	XtTransC.3Xt
+
+INSTALLFLAGS = $(INSTMANFLAGS)
+
+all: $(MANPAGES)
+
+man.PS:
+	eqn $(MANPAGES)| $(TROFF) -man - > man.PS
+
+InstallMultipleMan($(MANPAGES),$(LIBMANDIR))
+
+depend:

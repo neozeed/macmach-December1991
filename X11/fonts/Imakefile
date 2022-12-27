@@ -1,0 +1,8 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+/* make sure that bdftosnf and mkfontdir come before bdf */
+        SUBDIRS = bdftosnf mkfontdir bdf
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

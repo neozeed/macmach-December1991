@@ -1,0 +1,68 @@
+.\"
+.\" $Id: getdomainname.2,v 2.2 89/12/27 13:00:52 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getdomainname.2,v $
+.\" Revision 2.2  89/12/27  13:00:52  bww
+.\" 	Sun Microsystems Rel 3.0
+.\" 	[89/12/27  12:59:57  bww]
+.\" 
+.\"
+.\" @(#)getdomainname.2 1.1 85/12/28 SMI
+.\"
+.TH GETDOMAINNAME 2 "19 August 1985"
+.SU
+.SH NAME
+getdomainname, setdomainname \- get/set name of current domain
+.SH SYNOPSIS
+.nf
+.ft B
+getdomainname(name, namelen)
+char *name;
+int namelen;
+.sp .5
+.ft B
+setdomainname(name, namelen)
+char *name;
+int namelen;
+.fi
+.SH DESCRIPTION
+.LP
+.I Getdomainname
+returns the name of the domain for the current processor, as previously
+set by
+.IR setdomainname .
+The parameter
+.I namelen
+specifies the size of the
+.I name
+array.  The returned name is null-terminated unless insufficient space
+is provided.
+.LP
+.I Setdomainname
+sets the domain of the host machine to be
+.IR name ,
+which has length
+.IR namelen .
+This call is restricted to the super-user and is normally used only
+when the system is bootstrapped.
+.LP
+The purpose of domains is to enable two distinct networks that may have
+host names in common to merge.  Each network would be distinguished by
+having a different domain name.  At the current time, only the yellow
+pages service makes use of domains.
+.SH "RETURN VALUE
+If the call succeeds a value of 0 is returned.  If the call fails, then
+a value of \-1 is returned and an error code is placed in the global
+location \fIerrno\fP.
+.SH "ERRORS
+The following errors may be returned by these calls:
+.TP 15
+[EFAULT]
+The \fIname\fP parameter gave an invalid address.
+.TP 15
+[EPERM]
+The caller was not the super-user.  This error only applies to 
+\fBsetdomainname\fR.
+.SH BUGS
+Domain names are limited to 255 characters.

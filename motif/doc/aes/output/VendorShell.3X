@@ -1,0 +1,330 @@
+
+
+
+     VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll ---- TTTThhhheeee VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXX11111111////SSSShhhheeeellllllll....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          VendorShell is a Motif widget class used as a supporting
+          superclass for all shell classes that are visible to the
+          window manager and that are not override redirect.  It
+          contains the subresources that describe the MWM-specific
+          look and feel.  It also manages the MWM-specific
+          communication needed by all VendorShell subclasses. See the
+          mmmmwwwwmmmm(1X) man page for more information.
+
+          Setting XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt, XXXXmmmmNNNNwwwwiiiiddddtttthhhh, or XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh for either a
+          VendorShell or its child sets that resource to the same
+          value in both the parent and the child.  An application
+          should always specify these resources for the child, not the
+          parent.
+
+          For a child of a VendorShell, setting XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy sets the
+          corresponding resource of the parent but does not change the
+          child's position relative to the parent.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for
+          the child's XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy yields the value of the
+          corresponding resource in the parent.  The _x and _y
+          coordinates of the child's upper left outside corner
+          relative to the parent's upper left inside corner are both
+          zero minus the value of XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh.
+
+          Note that the _I_n_t_e_r-_C_l_i_e_n_t _C_o_m_m_u_n_i_c_a_t_i_o_n _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l
+          allows a window manager to change or control the border
+          width of a reparented top-level window.
+
+
+        CCCCllllaaaasssssssseeeessss
+          VendorShell inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, SSSShhhheeeellllllll, and WWWWMMMMSSSShhhheeeellllllll classes.
+
+               The class pointer is vvvveeeennnnddddoooorrrrSSSShhhheeeellllllllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+               The class name is VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a subresource by
+          name or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a subresource in a .Xdefaults file,
+          remove the XXXXmmmm prefix and use the remaining letters (in
+          either lowercase or uppercase, but include any underscores
+          between words).  The codes in the access column indicate if
+          the given subresource can be set at creation time (CCCC), set
+          by using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss
+          (GGGG), or is not applicable (NNNN////AAAA).
+
+                                   VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                     CCCCllllaaaassssssss                    TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt      AAAAcccccccceeeessssssss
+     _____________________________________________________________________________________
+     XmNdefaultFontList       XmCDefaultFontList       XmFontList      dynamic      C
+     XmNdeleteResponse        XmCDeleteResponse        unsigned char   XmDESTROY    CSG
+     XmNkeyboardFocusPolicy   XmCKeyboardFocusPolicy   unsigned char   XmEXPLICIT   CSG
+     XmNmwmDecorations        XmCMwmDecorations        int             -1           CSG
+     XmNmwmFunctions          XmCMwmFunctions          int             -1           CSG
+     XmNmwmInputMode          XmCMwmInputMode          int             -1           CSG
+     XmNmwmMenu               XmCMwmMenu               String          NULL         CSG
+
+
+          XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttFFFFoooonnnnttttLLLLiiiisssstttt
+               Specifies a default font list for its children.  This
+               font list is used whenever a font list is not
+               specifically set for a Text, Label or Button child of
+               the VendorShell.
+
+          XXXXmmmmNNNNddddeeeelllleeeetttteeeeRRRReeeessssppppoooonnnnsssseeee
+               Determines what action the shell takes in response to a
+               WWWWMMMM____DDDDEEEELLLLEEEETTTTEEEE____WWWWIIIINNNNDDDDOOOOWWWW message.  The setting can be one of
+               three values: XXXXmmmmDDDDEEEESSSSTTTTRRRROOOOYYYY, XXXXmmmmUUUUNNNNMMMMAAAAPPPP, and XXXXmmmmDDDDOOOO____NNNNOOOOTTTTHHHHIIIINNNNGGGG.
+               The resource is scanned, and the appropriate action is
+               taken, after the WWWWMMMM____DDDDEEEELLLLEEEETTTTEEEE____WWWWIIIINNNNDDDDOOOOWWWW callback list (if
+               any) that is registered with the Protocol manager has
+               been called.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNkkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy
+               Determines allocation of keyboard focus within the
+               widget hierarchy rooted at this shell.  The X keyboard
+               focus must be directed to somewhere in the hierarchy
+               for this client-side focus management to take effect.
+               Possible values are XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, specifying a click-to-
+               type policy, and XXXXmmmmPPPPOOOOIIIINNNNTTTTEEEERRRR, specifying a pointer-driven
+               policy.
+
+          XXXXmmmmNNNNmmmmwwwwmmmmDDDDeeeeccccoooorrrraaaattttiiiioooonnnnssss
+               Includes the decoration flags (specific decorations to
+               add or remove from the window manager frame) for
+               MMMMWWWWMMMM____HHHHIIIINNNNTTTTSSSS.
+
+          XXXXmmmmNNNNmmmmwwwwmmmmFFFFuuuunnnnccccttttiiiioooonnnnssss
+               Includes the function flags (specific window manager
+               functions to include or exclude from the system menu)
+               for MMMMWWWWMMMM____HHHHIIIINNNNTTTTSSSS.
+
+          XXXXmmmmNNNNmmmmwwwwmmmmIIIInnnnppppuuuuttttMMMMooooddddeeee
+               Includes the input mode flag (application modal or
+               system modal input focus constraints) for MMMMWWWWMMMM____HHHHIIIINNNNTTTTSSSS.
+
+          XXXXmmmmNNNNmmmmwwwwmmmmMMMMeeeennnnuuuu
+               Specifies the menu items that the Motif window manager
+               should add to the end of the system menu.  The string
+               contains a list of items separated by \\\\nnnn with the
+               following format:
+
+               llllaaaabbbbeeeellll [[[[mmmmnnnneeeemmmmoooonnnniiiicccc]]]] [[[[ aaaacccccccceeeelllleeeerrrraaaattttoooorrrr]]]] ffffuuuunnnnccccttttiiiioooonnnn
+
+               If more than one item is specified, the items should be
+               separated by a newline character.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          VendorShell inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                  WWWWMMMMSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee               CCCCllllaaaassssssss              TTTTyyyyppppeeee      DDDDeeeeffffaaaauuuulllltttt                 AAAAcccccccceeeessssssss
+     ______________________________________________________________________________
+     XmNbaseHeight      XmCBaseHeight      int       XtUnspecifiedShellInt   CSG
+     XmNbaseWidth       XmCBaseWidth       int       XtUnspecifiedShellInt   CSG
+     XmNheightInc       XmCHeightInc       int       XtUnspecifiedShellInt   CSG
+     XmNiconMask        XmCIconMask        Pixmap    NULL                    CSG
+     XmNiconPixmap      XmCIconPixmap      Pixmap    NULL                    CSG
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     XmNiconWindow      XmCIconWindow      Window    NULL                    CSG
+     XmNiconX           XmCIconX           int       -1                      CSG
+     XmNiconY           XmCIconY           int       -1                      CSG
+     XmNinitialState    XmCInitialState    int       NormalState             CSG
+     XmNinput           XmCInput           Boolean   True                    CSG
+     XmNmaxAspectX      XmCMaxAspectX      int       XtUnspecifiedShellInt   CSG
+     XmNmaxAspectY      XmCMaxAspectY      int       XtUnspecifiedShellInt   CSG
+     XmNmaxHeight       XmCMaxHeight       int       XtUnspecifiedShellInt   CSG
+     XmNmaxWidth        XmCMaxWidth        int       XtUnspecifiedShellInt   CSG
+     XmNminAspectX      XmCMinAspectX      int       XtUnspecifiedShellInt   CSG
+     XmNminAspectY      XmCMinAspectY      int       XtUnspecifiedShellInt   CSG
+     XmNminHeight       XmCMinHeight       int       XtUnspecifiedShellInt   CSG
+     XmNminWidth        XmCMinWidth        int       XtUnspecifiedShellInt   CSG
+     XmNtitle           XmCTitle           String    dynamic                 CSG
+     XmNtitleEncoding   XmCTitleEncoding   Atom      XA_STRING               CSG
+     XmNtransient       XmCTransient       Boolean   False                   CSG
+     XmNwaitForWm       XmCWaitForWm       Boolean   True                    CSG
+     XmNwidthInc        XmCWidthInc        int       XtUnspecifiedShellInt   CSG
+     XmNwindowGroup     XmCWindowGroup     Window    dynamic                 CSG
+     XmNwinGravity      XmCWinGravity      int       dynamic                 CSG
+     XmNwmTimeout       XmCWmTimeout       int       5000 ms                 CSG
+
+                                          SSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt          AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________________
+     XmNallowShellResize       XmCAllowShellResize       Boolean          False            CG
+     XmNcreatePopupChildProc   XmCCreatePopupChildProc   (*)()            NULL             CSG
+     XmNgeometry               XmCGeometry               String           NULL             CSG
+     XmNoverrideRedirect       XmCOverrideRedirect       Boolean          False            CSG
+     XmNpopdownCallback        XmCCallback               XtCallbackList   NULL             C
+     XmNpopupCallback          XmCCallback               XtCallbackList   NULL             C
+     XmNsaveUnder              XmCSaveUnder              Boolean          False            CSG
+     XmNvisual                 XmCVisual                 Visual *         CopyFromParent   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        1                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          There are no translations for VendorShell.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))), mmmmwwwwmmmm((((1111XXXX)))), SSSShhhheeeellllllll((((3333XXXX)))), WWWWMMMMSSSShhhheeeellllllll((((3333XXXX)))),
+          XXXXmmmmAAAAccccttttiiiivvvvaaaatttteeeePPPPrrrroooottttooooccccoooollll((((3333XXXX)))), XXXXmmmmAAAAccccttttiiiivvvvaaaatttteeeeWWWWMMMMPPPPrrrroooottttooooccccoooollll((((3333XXXX)))),
+          XXXXmmmmAAAAddddddddPPPPrrrroooottttooooccccoooollllCCCCaaaallllllllbbbbaaaacccckkkk((((3333XXXX)))), XXXXmmmmAAAAddddddddWWWWMMMMPPPPrrrroooottttooooccccoooollllCCCCaaaallllllllbbbbaaaacccckkkk((((3333XXXX)))),
+          XXXXmmmmAAAAddddddddPPPPrrrroooottttooooccccoooollllssss((((3333XXXX)))), XXXXmmmmAAAAddddddddWWWWMMMMPPPPrrrroooottttooooccccoooollllssss((((3333XXXX)))),
+          XXXXmmmmDDDDeeeeaaaaccccttttiiiivvvvaaaatttteeeePPPPrrrroooottttooooccccoooollll((((3333XXXX)))), XXXXmmmmDDDDeeeeaaaaccccttttiiiivvvvaaaatttteeeeWWWWMMMMPPPPrrrroooottttooooccccoooollll((((3333XXXX)))),
+          XXXXmmmmGGGGeeeettttAAAAttttoooommmmNNNNaaaammmmeeee((((3333XXXX)))), XXXXmmmmIIIInnnntttteeeerrrrnnnnAAAAttttoooommmm((((3333XXXX)))), XXXXmmmmIIIIssssMMMMoooottttiiiiffffWWWWMMMMRRRRuuuunnnnnnnniiiinnnngggg((((3333XXXX)))),
+          XXXXmmmmRRRReeeemmmmoooovvvveeeePPPPrrrroooottttooooccccoooollllCCCCaaaallllllllbbbbaaaacccckkkk((((3333XXXX)))),
+          XXXXmmmmRRRReeeemmmmoooovvvveeeeWWWWMMMMPPPPrrrroooottttooooccccoooollllCCCCaaaallllllllbbbbaaaacccckkkk((((3333XXXX)))), XXXXmmmmRRRReeeemmmmoooovvvveeeePPPPrrrroooottttooooccccoooollllssss((((3333XXXX)))),
+          XXXXmmmmRRRReeeemmmmoooovvvveeeeWWWWMMMMPPPPrrrroooottttooooccccoooollllssss((((3333XXXX)))), XXXXmmmmSSSSeeeettttPPPPrrrroooottttooooccccoooollllHHHHooooooookkkkssss((((3333XXXX)))), and
+          XXXXmmmmSSSSeeeettttWWWWMMMMPPPPrrrroooottttooooccccoooollllHHHHooooooookkkkssss((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+

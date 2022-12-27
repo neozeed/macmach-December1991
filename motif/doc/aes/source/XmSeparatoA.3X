@@ -1,0 +1,201 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmSeparator 3X "" "" "" ""
+.SH NAME
+\fBXmSeparator \(em the Separator widget class.\fP
+.iX "XmSeparator"
+.iX "widget class" "Separator"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/Separator.h>\fP
+.sp 1
+.SH DESCRIPTION
+Separator is a primitive widget that
+separates items in a display.  Several different
+line drawing styles are provided, as well as horizontal or vertical
+orientation.
+.PP
+The Separator line drawing is automatically
+centered within the height of the widget for a horizontal orientation
+and centered within the width of the widget for a vertical orientation.
+An \fBXtSetValues\fP with a new \fBXmNseparatorType\fP resizes the
+widget to its minimal height (for horizontal orientation) or its
+minimal width (for
+vertical orientation) unless height or width is explicitly set in the
+\fBXtSetValues\fP call.
+.PP
+.ne 2i
+Separator does not draw shadows around the separator.  
+The Primitive resource \fBXmNshadowThickness\fP is used for the
+Separator's thickness when \fBXmNseparatorType\fP is \fBXmSHADOW_ETCHED_IN\fP
+or \fBXmSHADOW_ETCHED_OUT\fP.
+.PP
+Separator does not highlight and allows no traversing.  The primitive
+resource \fBXmNtraversalOn\fP is forced to False.
+.PP
+The \fBXmNseparatorType\fP of \fBXmNO_LINE\fP provides an escape 
+to the application
+programmer who needs a different style of drawing. 
+A pixmap the height of the widget can be created and used as the 
+background pixmap by building an argument list using the 
+\fBXmNbackgroundPixmap\fP
+argument type as defined by \fBCore\fP.
+Whenever the widget is redrawn, 
+its background is displayed containing the desired separator drawing.
+.sp 1
+.SS "Classes"
+Separator inherits behavior and resources from \fBCore\fP 
+and \fBXmPrimitive\fP Classes.
+.PP
+The class pointer is \fBxmSeparatorWidgetClass\fP.
+.PP
+The class name is \fBXmSeparator\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmSeparator Resource Set
+Name	Class	Type	Default	Access
+_
+XmNmargin	XmCMargin	Dimension	0	CSG
+XmNorientation	XmCOrientation	unsigned char	XmHORIZONTAL	CSG
+XmNseparatorType	XmCSeparatorType	unsigned char	XmSHADOW_ETCHED_IN	CSG
+.TE 
+.sp 1
+.IP "\fBXmNmargin\fP" 
+For horizontal orientation, specifies the space on the left and right 
+sides between the border of the Separator and the line drawn.  
+For vertical orientation, specifies the space on the top and 
+bottom between the border of the Separator and the line drawn.
+.IP "\fBXmNorientation\fP"
+Displays Separator vertically or horizontally.
+This resource can have values of \fBXmVERTICAL\fP and \fBXmHORIZONTAL\fP.
+.IP "\fBXmNseparatorType\fP"
+Specifies the type of line drawing to be done in the Separator widget.  
+.RS
+.IP \(bu 3
+\fBXmSINGLE_LINE\fP \(em single line.
+.IP \(bu 3
+\fBXmDOUBLE_LINE\fP \(em double line.
+.IP \(bu 3
+\fBXmSINGLE_DASHED_LINE\fP \(em single-dashed line.
+.IP \(bu 3
+\fBXmDOUBLE_DASHED_LINE\fP \(em double-dashed line.
+.IP \(bu 3
+\fBXmNO_LINE\fP \(em no line.
+.br
+.ne 15
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_IN\fP \(em double line giving the effect
+of a line etched into the window.   
+The thickness of the double line is equal to the value of
+\fBXmNshadowThickness\fP.
+For horizontal orientation, the top line is drawn in \fBXmNtopShadowColor\fP 
+and the bottom line is drawn in \fBXmNbottomShadowColor\fP.  
+For vertical orientation, 
+the left line is drawn in \fBXmNtopShadowColor\fP 
+and the right line is drawn in  \fBXmNbottomShadowColor\fP.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_OUT\fP \(em double line giving the effect of an
+etched line 
+coming out from the window.   
+The thickness of the double line is equal to the value of
+\fBXmNshadowThickness\fP.
+For horizontal orientation, the top line is drawn in \fBXmNbottomShadowColor\fP 
+and the bottom line is drawn in \fBXmNtopShadowColor\fP.  
+For vertical orientation, the left line is drawn in \fBXmNbottomShadowColor\fP 
+and the right line is drawn in \fBXmNtopShadowColor\fP. 
+.RE
+.sp 1
+.SS "Inherited Resources"
+Separator inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmPrimitive Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	0	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmNONE	G
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNtopShadowColor	XmCTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	False	G
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for XmSeparator.
+.SH RELATED INFORMATION
+\fBCore(3X)\fP, \fBXmCreateSeparator(3X)\fP,  
+and \fBXmPrimitive(3X)\fP. 

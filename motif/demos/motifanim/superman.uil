@@ -1,0 +1,60 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+module superman
+!**********************************************************************
+! anim_XXX variables must be changed to adapt the new animation
+! stuff, at least the number of icons must be the right one.
+!**********************************************************************
+
+value
+	anim_width     : exported 700 ;
+	anim_height    : exported 200 ;
+          ! prefered values for default initial animation frame size,  
+	  ! used in motifanim.uil for the geometry of the drawingarea
+	anim_number    : exported 6 ;
+	  ! number of image in the animation, read by motifanim.c (by a
+	  ! MrmFetchLiteral) at run time
+	anim_step      : exported 4 ;
+	  ! number of horizontal pixels add before next icon drawing, 
+	  ! read by motifanim.c (by a MrmFetchLiteral) at run time
+	anim_backcolor 	  : exported color('black',  background);
+	  ! used in motifanim.uil for the color of the drawingarea
+
+value
+     ! the following icon must have the syntax 
+     ! <NAME>icon<N> and must be exported since they are read 
+     ! by motifanim.c at run time.
+     ! here we have : NAME=superman and N=[1,2,3,4,5,6]
+
+        supermanicon1 : exported xbitmapfile("superman1.xbm");
+        supermanicon2 : exported xbitmapfile("superman2.xbm");
+        supermanicon3 : exported xbitmapfile("superman3.xbm");
+        supermanicon4 : exported xbitmapfile("superman4.xbm");
+        supermanicon5 : exported xbitmapfile("superman5.xbm");
+        supermanicon6 : exported xbitmapfile("superman6.xbm");
+
+end module ;

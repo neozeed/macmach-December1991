@@ -1,0 +1,15 @@
+INCLUDES = -I. -I$(LIBSRC) -I$(MTOOLKITSRC)
+LOCAL_LIBRARIES = $(XMLIB) 
+
+SRCS1 =	motifgif.c
+SRCS2 =	pict.c xgifload.c
+
+OBJS1 = motifgif.o
+OBJS2 = pict.o xgifload.o
+
+PROGRAMS = motifgif pict
+
+NormalLibraryObjectRule()
+
+ComplexProgramTarget_1(motifgif,$(LOCAL_LIBRARIES),$(SYSLIBS))
+ComplexProgramTarget_2(pict,$(LOCAL_LIBRARIES),$(SYSLIBS))

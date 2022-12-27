@@ -1,0 +1,221 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmDialogShell 3X  "" "" "" ""
+.SH NAME
+\fBXmDialogShell \(em the DialogShell widget class.\fP
+.iX "XmDialogShell"
+.iX "widget class" "DialogShell"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/DialogS.h>\fP
+.sp 1
+.SH DESCRIPTION
+Modal and modeless dialogs use DialogShell as the Shell parent.  
+DialogShell widgets cannot
+be iconified.  Instead, all secondary DialogShell widgets
+associated with an ApplicationShell widget are iconified and
+de-iconified as a group with the primary widget.
+.PP
+The client indirectly manipulates DialogShell via the convenience 
+interfaces during creation, and it can directly manipulate its 
+BulletinBoard-derived child.  
+Much of the functionality of DialogShell assumes
+that its child is a BulletinBoard subclass, although it
+can potentially stand alone.  
+.PP
+Setting \fBXmNheight\fP, \fBXmNwidth\fP, or \fBXmNborderWidth\fP for
+either a DialogShell or its child sets that resource to the same value
+in both the parent and the child.
+An application should always specify these resources for the child, not
+the parent.
+.PP
+For a child of a DialogShell, setting \fBXmNx\fP or \fBXmNy\fP sets the
+corresponding resource of the parent but does not change the child's
+position relative to the parent.
+\fBXtGetValues\fP for the child's \fBXmNx\fP or \fBXmNy\fP yields the
+value of the corresponding resource in the parent.
+The \fIx\fP and \fIy\fP coordinates of the child's upper left outside
+corner relative to the parent's upper left inside corner are both zero
+minus the value of \fBXmNborderWidth\fP.
+.PP
+Note that the \fIInter-Client Communication Conventions Manual\fP allows
+a window manager to change or control the border width of a reparented
+top-level window.
+.sp 1
+.SS "Classes"
+DialogShell inherits behavior and resources from \fBCore\fP, 
+\fBComposite\fP, \fBShell\fP, 
+\fBWMShell\fP, \fBVendorShell\fP, and \fBTransientShell\fP classes.
+.PP
+The class pointer is \fBxmDialogShellWidgetClass\fP.
+.PP
+The class name is \fBXmDialogShell\fP.
+.sp 1
+.SS "New Resources"
+DialogShell defines no new resources but overrides the \fBXmNdeleteResponse\fP
+resource in the \fBVendorShell\fP class.
+.sp 1
+.SS "Inherited Resources"
+DialogShell inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.PP
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable 
+(\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+TransientShell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNtransientFor	XmCTransientFor	Widget	NULL	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+VendorShell Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNdefaultFontList	XmCDefaultFontList	XmFontList	dynamic	C
+XmNdeleteResponse	XmCDeleteResponse	unsigned char	XmUNMAP	CSG
+XmNkeyboardFocusPolicy	XmCKeyboardFocusPolicy	unsigned char	XmEXPLICIT	CSG
+XmNmwmDecorations	XmCMwmDecorations	int	-1	CSG
+XmNmwmFunctions	XmCMwmFunctions	int	-1	CSG
+XmNmwmInputMode	XmCMwmInputMode	int	-1	CSG
+XmNmwmMenu	XmCMwmMenu	String	NULL	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+WMShell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbaseHeight	XmCBaseHeight	int	XtUnspecifiedShellInt	CSG
+XmNbaseWidth	XmCBaseWidth	int	XtUnspecifiedShellInt	CSG
+XmNheightInc	XmCHeightInc	int	XtUnspecifiedShellInt	CSG
+XmNiconMask	XmCIconMask	Pixmap	NULL	CSG
+XmNiconPixmap	XmCIconPixmap	Pixmap	NULL	CSG
+XmNiconWindow	XmCIconWindow	Window	NULL	CSG
+XmNiconX	XmCIconX	int	\-1	CSG
+XmNiconY	XmCIconY	int	\-1	CSG
+XmNinitialState	XmCInitialState	int	NormalState	CSG
+XmNinput	XmCInput	Boolean	True	CSG
+XmNmaxAspectX	XmCMaxAspectX	int	XtUnspecifiedShellInt	CSG
+XmNmaxAspectY	XmCMaxAspectY	int	XtUnspecifiedShellInt	CSG
+XmNmaxHeight	XmCMaxHeight	int	XtUnspecifiedShellInt	CSG
+XmNmaxWidth	XmCMaxWidth	int	XtUnspecifiedShellInt	CSG
+.tH
+XmNminAspectX	XmCMinAspectX	int	XtUnspecifiedShellInt	CSG
+XmNminAspectY	XmCMinAspectY	int	XtUnspecifiedShellInt	CSG
+XmNminHeight	XmCMinHeight	int	XtUnspecifiedShellInt	CSG
+XmNminWidth	XmCMinWidth	int	XtUnspecifiedShellInt	CSG
+XmNtitle	XmCTitle	String	dynamic	CSG
+XmNtitleEncoding	XmCTitleEncoding	Atom	XA_STRING	CSG
+XmNtransient	XmCTransient	Boolean	True	CSG
+XmNwaitForWm	XmCWaitForWm	Boolean	True	CSG
+XmNwidthInc	XmCWidthInc	int	XtUnspecifiedShellInt	CSG
+XmNwindowGroup	XmCWindowGroup	Window	dynamic	CSG
+XmNwinGravity	XmCWinGravity	int	dynamic	CSG
+XmNwmTimeout	XmCWmTimeout	int	5000 ms	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Shell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowShellResize	XmCAllowShellResize	Boolean	False	CG
+XmNcreatePopupChildProc	XmCCreatePopupChildProc	(*)()	NULL	CSG
+XmNgeometry	XmCGeometry	String	NULL	CSG
+XmNoverrideRedirect	XmCOverrideRedirect	Boolean	False	CSG
+XmNpopdownCallback	XmCCallback	XtCallbackList	NULL	C
+XmNpopupCallback	XmCCallback	XtCallbackList	NULL	C
+XmNsaveUnder	XmCSaveUnder	Boolean	True	CSG
+XmNvisual	XmCVisual	Visual *	CopyFromParent	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	1	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for XmDialogShell.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBCore(3X)\fP, \fBShell(3X)\fP, 
+\fBTransientShell(3X)\fP, \fBWMShell(3X)\fP, \fBVendorShell(3X)\fP, 
+and \fBXmCreateDialogShell(3X)\fP. 

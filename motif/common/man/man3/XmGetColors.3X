@@ -1,0 +1,68 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmGetColors 3X "" "" "" ""
+.SH NAME
+\fBXmGetColors \(em a function that generates foreground, select, and
+shadow colors.\fP
+.iX "XmGetColors"
+.iX "Color functions" "XmGetColors"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmGetColors (\fIscreen, colormap, background, foreground,
+top_shadow, bottom_shadow, select\fP)
+.br
+.ta .5i 1.5i
+	Screen	\fI* screen\fP;
+.br
+	Colormap	\fIcolormap\fP;
+.br
+	Pixel	\fIbackground\fP;
+.br
+	Pixel	\fI* foreground\fP;
+.br
+	Pixel	\fI* top_shadow\fP;
+.br
+	Pixel	\fI* bottom_shadow\fP;
+.br
+	Pixel	\fI* select\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmGetColors\fP takes a screen, a colormap, and a background pixel,
+and it returns pixel values for foreground, select, and shadow colors.
+.sp 1
+.IP "\fIscreen\fP" .75i
+Specifies the screen for which these colors should be allocated
+.IP "\fIcolormap\fP" .75i
+Specifies the colormap from which these colors should be allocated
+.IP "\fIbackground\fP" .75i
+Specifies the background on which the colors should be based
+.IP "\fIforeground\fP" .75i
+Specifies a pointer to the returned foreground pixel value.
+If this argument is NULL no value is returned for this color.
+.IP "\fItop_shadow\fP" .75i
+Specifies a pointer to the returned top shadow pixel value.
+If this argument is NULL no value is returned for this color.
+.IP "\fIbottom_shadow\fP" .75i
+Specifies a pointer to the returned bottom shadow pixel value.
+If this argument is NULL no value is returned for this color.
+.IP "\fIselect\fP" .75i
+Specifies a pointer to the returned select pixel value.
+If this argument is NULL no value is returned for this color.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmGetColorCalculation(3X)\fP and
+\fBXmSetColorCalculation(3X)\fP.
+.sp 1

@@ -1,0 +1,139 @@
+#! /bin/csh -f
+# Copyright 1985,1988 Massacusetts Institute of Technology.
+# $XConsortium: xdpr.script,v 1.4 88/09/06 17:20:32 jim Exp $
+# origin: paul 4/12/88
+	set xwdv=()
+	set xprv=() noglob
+	set header=()
+	set trailer=()
+	set lprv=()
+	set usage="Usage: xdpr [filename] [-out filename ] \
+	[-display host:display] [-Pprinter] [-device printer_device] \
+	[{-root | -id <id> | -name <name>}] [-nobdrs] [-xy] \
+	[-scale scale] [-height inches] [-width inches] [-left inches] \
+	[-top inches] [-split n] [-header string] [-trailer string] \
+	[-landscape] [-portrait] [-rv] [-compact] [-noff] [-help]"
+
+# quit if there is no DISPLAY specified
+	 if ( ! $?DISPLAY && "$argv" !~ *-display* ) then
+		echo "xdpr: DISPLAY variable must be set or a display specified."
+		exit
+	endif
+
+# parse arguments...
+
+	while ( $#argv > 0 )
+		set i = $argv[1]
+		switch ($i)
+
+# ...arguments interpreted by xdpr itself...
+
+		case -help
+			echo $usage
+			exit 0
+
+# ...arguments to xwd...
+
+		case -nobdrs:
+		case -root:
+		case -xy:
+			set xwdv = ($xwdv $i)
+			breaksw
+		case -font:
+		case -id:
+		case -name:
+# Note: xwd -font <font> is not implemented at this time
+		case -display:
+		case -out:
+			set xwdv = ($xwdv $i $argv[2])
+			shift argv
+			breaksw
+
+# ...arguments to xpr...
+
+		case -scale:
+		case -height:
+		case -width:
+		case -left:
+		case -top:
+		case -split:
+		case -device:
+			set xprv = ($xprv $i $argv[2])
+			shift argv
+			breaksw
+		case -header:
+			shift argv
+			set header="$argv[1]"
+			breaksw
+		case -trailer:
+		shift argv
+			set trailer="$argv[1]"
+			breaksw
+		case -landscape:
+		case -portrait:
+		case -rv:
+		case -compact:
+		case -noff:
+			set xprv = ($xprv $i)
+			breaksw
+# ...arguments to lpr...
+
+		case -P?*:
+			set lprv = $i
+			breaksw
+
+# ...disallow other arguments; print usage message
+
+		case -*:
+			echo "xdpr: Unknown option $i";
+			echo $usage;
+			exit 1;;
+			breaksw
+
+# ...input filename...
+
+		default:
+			if (! $?infile) then
+				set infile = true
+				set xprv = ($xprv $i)
+			else
+			echo "xdpr: Invalid argument "$i""
+			echo $usage			
+			endif
+		endsw	
+		shift argv
+	end
+
+# Command lines:
+
+# disallow concurrent input and  -out arguments
+	if ("$xwdv" =~  *-out* && $?infile) then
+		echo "xdpr: -out <filename> cannot be used if an input file is also specified."
+		exit 0
+	endif
+
+# dump only
+	if ("$xwdv" =~  *-out*) then
+		if ("$xprv" !~ "" || "$lprv" !~ "") then
+			echo "xdpr: The following arguments will be ignored:"
+			echo $xprv $lprv
+		endif
+		xwd $xwdv
+		exit 0
+	endif
+
+# print only 
+	if ($?infile) then
+		if ("$xwdv" !~ "" ) then
+			echo "xdpr: The following arguments will be ignored:"
+			echo $xwdv
+		endif
+		xpr -header "$header" -trailer "$trailer" $xprv | lpr $lprv
+		exit 0
+	endif
+
+# dump & print (default)
+	xwd $xwdv | xpr -header "$header" -trailer "$trailer" $xprv | lpr $lprv
+exit 0	
+
+# EOF

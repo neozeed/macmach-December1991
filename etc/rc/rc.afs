@@ -1,0 +1,50 @@
+#! /bin/sh -
+
+# /etc/rc.afs for MacMach BSD 4.3
+
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# BE CAREFUL NOT TO LET THIS PROCESS WRITE TO A TERMINAL DEVICE
+# WHICH WOULD CAUSE IT TO BECOME THE CONTROLLING TERMINAL!
+
+# This script starts up the AFS daemons if /usr/vice exists.
+VICE="/usr/vice"
+AFSD="$VICE/etc/afsd"
+VENUS="$VICE/etc/venus2"
+FS="$VICE/etc/fs"
+ROOT="root.afs.readonly"
+[ -d $VICE ] && {
+  ( exec </dev/console >/dev/console 2>&1
+    if [ ! -d /afs ]; then
+      echo "creating /afs directory"
+      mkdir /afs
+      chmod 777 /afs
+      chown 0.0 /afs
+    fi
+    if [ ! -d $VICE/cache ]; then
+      echo "creating $VICE/cache directory"
+      mkdir $VICE/cache
+      chmod 700 $VICE/cache
+    fi
+  )
+  if /bin/mach3; then
+    echo "starting venus..." >/dev/console 2>&1
+    [ -f /dev/fs0 ] || mknod /dev/fs0 c 22 0
+    chmod 600 /dev/fs0
+    $VENUS -h vice2.fs,vice7.fs,vice11.fs -k /dev/fs0 -f $VICE/cache -c 20000 -r $ROOT /afs >/dev/console 2>&1
+    mount /dev/fs0 /afs > /dev/null 2>&1
+  else
+    echo "starting afsd..." >/dev/console 2>&1
+    $AFSD -rootvol $ROOT || (
+      exec </dev/console >/dev/console 2>&1
+      echo "afsd failed"
+      eval "$RESTART"
+    ) || exit 1
+  fi
+  [ -f $FS ] && (
+    exec </dev/console >/dev/console 2>&1
+    $FS wscell
+    $FS checkservers
+    $FS checkbackups
+    $FS mariner
+  )
+}

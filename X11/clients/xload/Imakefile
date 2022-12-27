@@ -1,0 +1,16 @@
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+           SRCS = xload.c get_load.c
+           OBJS = xload.o get_load.o
+ OSMAJORVERSION = OSMajorVersion
+ OSMINORVERSION = OSMinorVersion
+      DEFINES = -DOSMAJORVERSION=$(OSMAJORVERSION) -DOSMINORVERSION=$(OSMINORVERSION) 
+
+AllTarget(xload)
+NormalProgramTarget(xload,$(OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES), /**/)
+InstallProgramWithFlags(xload, $(BINDIR), $(INSTKMEMFLAGS))
+InstallManPage(xload,$(MANDIR))
+
+InstallAppDefaults(XLoad)
+
+DependTarget()

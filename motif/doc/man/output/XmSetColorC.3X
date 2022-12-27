@@ -1,0 +1,132 @@
+
+
+
+     XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn ---- AAAA ffffuuuunnnnccccttttiiiioooonnnn ttttoooo sssseeeetttt tttthhhheeee pppprrrroooocccceeeedddduuuurrrreeee uuuusssseeeedddd
+          ffffoooorrrr ddddeeeeffffaaaauuuulllltttt ccccoooolllloooorrrr ccccaaaallllccccuuuullllaaaattttiiiioooonnnn
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+
+          XXXXmmmmCCCCoooolllloooorrrrPPPPrrrroooocccc XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn ((((_c_o_l_o_r__p_r_o_c))))
+               XXXXmmmmCCCCoooolllloooorrrrPPPPrrrroooocccc_c_o_l_o_r__p_r_o_c;;;;
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn sets the procedure to calculate
+          default colors.  This procedure is used to calculate the
+          foreground, top shadow, bottom shadow, and select colors on
+          the basis of a given background color.  If called with an
+          argument of NULL, it restores the default procedure used to
+          calculate colors.
+
+
+          _c_o_l_o_r__p_r_o_c
+                 Specifies the procedure to use for color calculation.
+
+
+          Following is a description of the XXXXmmmmCCCCoooolllloooorrrrPPPPrrrroooocccc type used by
+          XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn:
+
+          vvvvooooiiiidddd ((((*_c_o_l_o_r__p_r_o_c)))) ((((_b_a_c_k_g_r_o_u_n_d__c_o_l_o_r, _f_o_r_e_g_r_o_u_n_d__c_o_l_o_r,
+          _s_e_l_e_c_t__c_o_l_o_r, _t_o_p__s_h_a_d_o_w__c_o_l_o_r, _b_o_t_t_o_m__s_h_a_d_o_w__c_o_l_o_r))))
+               XXXXCCCCoooolllloooorrrr    *_b_a_c_k_g_r_o_u_n_d__c_o_l_o_r;;;;
+               XXXXCCCCoooolllloooorrrr    *_f_o_r_e_g_r_o_u_n_d__c_o_l_o_r;;;;
+               XXXXCCCCoooolllloooorrrr    *_s_e_l_e_c_t__c_o_l_o_r;;;;
+               XXXXCCCCoooolllloooorrrr    *_t_o_p__s_h_a_d_o_w__c_o_l_o_r;;;;
+               XXXXCCCCoooolllloooorrrr    *_b_o_t_t_o_m__s_h_a_d_o_w__c_o_l_o_r;;;;
+
+
+          Specifies the procedure used to calculate default colors.
+          The procedure is passed a pointer to an XXXXCCCCoooolllloooorrrr structure
+          representing the background color.  The _p_i_x_e_l, _r_e_d, _g_r_e_e_n,
+          and _b_l_u_e members of this structure are filled in with values
+          that are valid for the current colormap.
+
+          The procedure is passed pointers to XXXXCCCCoooolllloooorrrr structures
+          representing the foreground, select, top shadow, and bottom
+          shadow colors to be calculated.  The procedure calculates
+          and fills in the _r_e_d, _g_r_e_e_n, and _b_l_u_e members of these
+          structures.  The procedure should not allocate color cells
+          for any of these colors.
+
+
+          _b_a_c_k_g_r_o_u_n_d__c_o_l_o_r
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmSSSSeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn((((3333XXXX))))
+
+
+
+                 Specifies the background color.
+
+          _f_o_r_e_g_r_o_u_n_d__c_o_l_o_r
+                 Specifies the foreground color to be calculated.
+
+          _s_e_l_e_c_t__c_o_l_o_r
+                 Specifies the select color to be calculated.
+
+          _t_o_p__s_h_a_d_o_w__c_o_l_o_r
+                 Specifies the top shadow color to be calculated.
+
+          _b_o_t_t_o_m__s_h_a_d_o_w__c_o_l_o_r
+                 Specifies the bottom shadow color to be calculated.
+
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          Returns the color calculation procedure that was used at the
+          time this routine was called.
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmGGGGeeeettttCCCCoooolllloooorrrrssss((((3333XXXX)))) and XXXXmmmmGGGGeeeettttCCCCoooolllloooorrrrCCCCaaaallllccccuuuullllaaaattttiiiioooonnnn((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+

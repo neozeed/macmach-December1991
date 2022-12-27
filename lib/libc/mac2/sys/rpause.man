@@ -1,0 +1,185 @@
+.\"
+.\" $Id: rpause.2,v 1.3 89/12/26 11:38:39 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	rpause.2,v $
+.\" Revision 1.3  89/12/26  11:38:39  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/26            bww]
+.\" 
+.\" Revision 1.2  89/05/26  12:11:31  bww
+.\" 	CMU CS as of 89/05/15
+.\" 	[89/05/26  09:46:50  bww]
+.\" 
+.\" Revision 2.1  88/06/29  21:21:32  mja
+.\" 	Created.
+.\" 
+.TH RPAUSE 2 "June 29, 1988"
+.CM 4
+.SH NAME
+rpause \- manage resource pause error disposition for a process
+.SH SYNOPSIS
+.ft B
+.nf
+#include <sys/resource.h>
+.PP
+.ft B
+oldtypes = rpause(class, types, action)
+int oldtypes, class, types, action;
+.ft R
+.fi
+.SH DESCRIPTION
+When a system call cannot be
+completed successfully because of some temporary 
+lack of a particular system resource,
+it will normally fail with a distinguished
+error return code, as described in
+.IR intro (2).
+Each of these return codes
+defines a separate error class
+and within each class there may be many different types of errors.
+The 
+.I rpause
+call can be used to direct the system to place a process which
+encounters unanticipated types of error in a particular
+class into a resource pause state until the error condition
+no longer exists and the system call can be completed,
+or alternatively to direct the
+system to return an error from such calls with the appropriate error code. 
+.PP
+For example,
+the lack of free space on a file system
+falls in the class of errors covered by the
+.B ENOSPC
+error code.
+There are two major error types:
+insufficient space to allocate a new block for the
+file and the inability to allocate a new i-node
+on the file system. 
+A process encountering such errors may
+wish to remain completely oblivious of them
+and expect the system to mask
+any temporary disk space problems by suspending
+the process until the problem no longer exists,
+or it may want such system calls to 
+behave normally and return an error with
+an appropriate error code set so that the process
+can dispose of such errors itself.
+.PP
+The
+.I class
+value specifies the error class of concern and the
+.I types
+bit mask indicates the
+particular error types of interest
+within that class. 
+The
+.I action
+code specifies the
+disposition
+for those types of errors in that
+class.
+A bit mask of the error types
+in that class for
+which a resource pause was currently in effect
+is returned in
+.I oldtypes.
+.PP
+The possible values for
+.I action
+are:
+.PP
+.TP 
+.B RPAUSE_SAME
+Leave the resource pause error disposition unaffected.
+This action is simply used to query the
+current disposition for errors in the indicated class with the types
+specified by the bit mask.
+.PP
+.TP 
+.B RPAUSE_ENABLE
+Enable a resource pause for errors in the indicated class with the types
+specified by the bit mask.
+Rather than returning an error code,
+system calls which encounter such errors will instead
+be placed into a resource pause state
+until the resource becomes available.
+.PP
+.TP 
+.B RPAUSE_DISABLE
+Disable any resource pause in effect for
+errors in the indicated class with the types
+specified by the bit mask.
+Rather than being placed into a resource pause state,
+system calls which encounter such errors will instead
+return an appropriate error code.
+.i0
+.DT
+.PP
+.PP
+The special error type value
+.B RPAUSE_ALL
+is used to refer to all possible types of errors
+in the given class.
+No other combination of error types is currently supported.
+.PP
+The system performs an implicit
+.PP
+.RS
+.B rpause(ENOSPC, RPAUSE_ALL, RPAUSE_ENABLE)
+.RE
+.PP
+at bootstrap time.
+Hence, all processes created
+thereafter operate with resource pausing enabled
+in any disk full resource exhaustion situation.
+Some system daemons and other applications may need
+to disable this default when it is necessary for them to
+preclude the possibility of ever pausing for an
+indeterminate period of time.
+.PP
+The current implementation of this call supports only the
+.B ENOSPC
+class of errors and no others.
+However, as a special case, any
+errors resulting in a return code of
+.B EDQUOT
+are also considered to be included in this class (although it
+is anticipated that this will not always be the case).
+.PP
+The
+.I rpause
+system call is unique to the
+.B Mach
+environment and is not part of a standard BSD system. 
+.SH "RETURN VALUE"
+A positive return value indicates that the call succeeded
+and provides a bit mask representing the set of error types
+in the class which had been enabled for a resource pause prior to the call.
+A return value of \-1 indicates
+that an error occurred, and an error code is stored in the global
+location \fIerrno\fP.
+.SH ERRORS
+The possible errors are:
+.TP 15
+[EINVAL]
+The error class specified by \fIclass\fP is not supported.
+.TP 15
+[EINVAL]
+The set of error types specified by the \fItypes\fP
+bit mask does not exist within the class
+of errors corresponding to \fIclass\fP.
+.TP 15
+[EINVAL]
+The error disposition specified by \fIaction\fP is not defined.
+.SH "SEE ALSO"
+setmodes(1), intro(2)
+.SH BUGS
+Various types of errors in the
+.B EAGAIN,
+.B ENOMEM,
+.B ENFILE,
+.B ENOBUFS,
+and
+.B EDQUOT
+classes should be supported.

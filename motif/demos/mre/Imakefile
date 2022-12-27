@@ -1,0 +1,19 @@
+
+INCLUDES = -I. -I$(UILSRC) -I$(MTOOLKITSRC) -I$(LIBSRC)
+LOCAL_LIBRARIES = $(MRESOURCELIB) $(XMLIB) 
+
+SRCS1=	mre.c mre_color.c mre_db.c mre_font.c mre_util.c vsprintf.c
+
+OBJS1=	mre.o mre_color.o mre_db.o mre_font.o mre_util.o vsprintf.o
+
+UILS1= mre.uil mre_font.uil mre_color.uil
+
+PROGRAMS = mre 
+
+NormalLibraryObjectRule()
+
+ComplexProgramTarget_1(mre,$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+MComplexUidTarget_1(mre)
+MSimpleUidTarget(mre_menu)
+

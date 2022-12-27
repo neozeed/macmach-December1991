@@ -1,0 +1,1284 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       12.  CCCCoooommmmmmmmuuuunnnniiiiccccaaaattttiiiinnnngggg BBBBeeeettttwwwweeeeeeeennnn MMMMWWWWMMMM aaaannnndddd CCCClllliiiieeeennnnttttssss:::: MMMMWWWWMMMM PPPPrrrrooooppppeeeerrrrttttiiiieeeessss
+
+       This chapter provides technical information you need to
+       establish communications between MWM and your client.  A      |
+       typical user does not need access to this information.
+
+       Chapter 12 discusses the following topics:                    |
+
+          +o MWM programmatic interface standards                     |
+
+          +o the Inter-Client Communications Conventions              |
+
+          +o MWM specific information                                 |
+
+       12.1  MMMMWWWWMMMM PPPPrrrrooooggggrrrraaaammmmmmmmaaaattttiiiicccc IIIInnnntttteeeerrrrffffaaaacccceeee SSSSttttaaaannnnddddaaaarrrrddddssss
+
+       The MWM programmatic interface is based on the _I_n_t_e_r-_C_l_i_e_n_t   _|
+       _C_o_m_m_u_n_i_c_a_t_i_o_n_s _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l (ICCCM).  The ICCCM estab-
+       lishes the standards for "good citizenship" among clients in  |
+       a multi-client environment.  To avoid costly compatibility
+       problems, you should design and code your client application
+       to operate as a "good citizen."  The OSF/Motif toolkit sup-
+       ports the inter-client communications conventions and facil-  |
+       itates appropriate communications with MWM.
+
+       MWM fully supports Version 1.0 of the ICCCM.  Conventions     |
+       documented in earlier editions of the ICCCM are supported by
+       MWM only to the extent necessary to support clients that use  |
+       released versions of the X11 Xlib and Xt Intrinsics
+       libraries.
+
+       12.2  IIIInnnntttteeeerrrr----CCCClllliiiieeeennnntttt CCCCoooommmmmmmmuuuunnnniiiiccccaaaattttiiiioooonnnn CCCCoooonnnnvvvveeeennnnttttiiiioooonnnnssss
+
+       The ICCCM section "Client to Window Manager Communication"
+       specifically discusses how clients communicate with a window
+       manager.  Reading the section is recommended as it gives you  |
+       generally applicable information about how your client
+       application should communicate with a window manager.  The    |
+       remainder of this chapter provides additional client infor-   |
+       mation and MWM-specific information.
+
+
+
+
+
+
+                                                               12-1
+
+
+
+
+
+
+
+
+
+
+
+
+       12.2.1  PPPPrrrrooooggggrrrraaaammmmmmmmiiiinnnngggg CCCClllliiiieeeennnntttt AAAAccccttttiiiioooonnnnssss
+
+       As mentioned above you should design your client application
+       to be a good citizen whether or not a window manager is
+       present to police the environment.  The following informa-    |
+       tion helps you program your client application to be a good
+       citizen in a multi-client environment.
+
+       12.2.1.1  CCCCrrrreeeeaaaattttiiiinnnngggg aaaa TTTToooopppp----LLLLeeeevvvveeeellll WWWWiiiinnnnddddoooowwww
+
+       The typical way to create a top-level window is to use an Xt
+       Intrinsics or Xm Toolkit function (for example, XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeee----  |
+       SSSShhhheeeellllllll).  These functions set up standard window properties
+       that are used to provide the window manager with client-
+       specific information.
+
+       At any time, your client application's top-level windows      |
+       have one of three states:
+
+       Normal      A normal application window is displayed.
+
+       Iconic      An icon window is displayed instead of a normal
+                   window.
+
+       Withdrawn   No normal or iconic window is displayed.
+
+       12.2.1.2  WWWWoooorrrrkkkkiiiinnnngggg wwwwiiiitttthhhh CCCClllliiiieeeennnntttt PPPPrrrrooooppppeeeerrrrttttiiiieeeessss
+
+       Each top-level window you create for your client should have
+       several standard properties associated with it.  The values
+       of these properties are generally accessible through WWWWmmmmSSSShhhheeeellllllll  |
+       resources.  These properties are what the window manager
+       inspects to determine how it should manage the client's
+       behavior.
+
+       This is especially important in the case where the proper
+       operation of your client application depends on particular
+       property values; any properties you _d_o_n'_t specify are speci-
+       fied by the window manager _u_s_i_n_g _w_h_a_t_e_v_e_r _v_a_l_u_e_s _a_r_e _m_o_s_t
+       _c_o_n_v_e_n_i_e_n_t.
+
+       Client applications can set up the following properties:
+
+       WWWWMMMM____NNNNAAAAMMMMEEEE....  The WM_NAME property contains a string to be
+       displayed in the title area of the client window frame.  MWM
+       can dynamically change the window title if your client
+       application changes the value of the string in the WM_NAME
+       property.  If you don't set the WM_NAME property, MWM looks
+       for a title in the res_name part of the WM_CLASS property.
+       If MWM finds no title, it uses the string "*****" as the
+       window title.  The window manager assumes that the string
+
+
+       12-2
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+       passed in the WM_NAME property is compatible with the font
+       used for the window title.
+
+       WWWWMMMM____IIIICCCCOOOONNNN____NNNNAAAAMMMMEEEE....  The WM_ICON_NAME property contains a string
+       to be displayed in the label part of the icon that is asso-
+       ciated with the client window.  MWM can dynamically change
+       the icon label if the WM_ICON_NAME property value is changed
+       by the client.  If you don't set the WM_ICON_NAME property,
+       MWM uses the window title as the icon label.  The window
+       manager assumes that the string passed in the WM_ICON_NAME
+       property is compatible with the font used for the icon
+       label.
+
+       WWWWMMMM____NNNNOOOORRRRMMMMAAAALLLL____HHHHIIIINNNNTTTTSSSS....  The WM_NORMAL_HINTS property contains a
+       list of fields.  MWM tracks changes to the WM_NORMAL_HINTS
+       property.  A change of the property does not affect the win-  |
+       dow configuration at the time the change is made.  The        |
+       change affects only subsequent configurations.                |
+
+       The type of the WM_NORMAL_HINTS property is WM_SIZE_HINTS.    |
+       The WM_NORMAL_HINTS property contains the following fields:
+
+       flags     MWM places windows on the screen using various      |
+                 sources of size and position information.  The
+                 order of precedence MWM uses to look for this
+                 information is as follows:
+
+                   1.  User specified.  The client has been sup-
+                       plied configuration information by the user
+                       (indicated to MWM by the USSize and USPosi-
+                       tion values).
+
+                   2.  Interactive placement.  Interactive place-
+                       ment is established with the interactive-     |
+                       Placement resource (see Chapter 13).
+
+                   3.  Default position, current window size.
+
+       min_width, min_height                                         |
+                 The values set for min_width and min_height
+                 (minimum width and minimum height) are used to
+                 configure a minimum size for a client window.  If
+                 the values set for these fields are not greater
+                 than 0, or not set at all, then a value of 1x1 or
+                 larger is used by MWM.  The actual minimum size
+                 used by MWM is based on the window size that fits
+                 in the minimum frame size for the frame type that
+                 is being used.
+
+       max_width, max_height                                         |
+                 The values set for max_width and max_height
+
+
+                                                               12-3
+
+
+
+
+
+
+
+
+
+
+
+
+                 (maximum width and maximum height) are used only
+                 if the maximumClientSize resource is not set.  The
+                 values set with these fields are used to set a
+                 maximum size for a client window.  If max_width
+                 and max_height are not configured, then MWM sizes   |
+                 the window and its frame to exactly fill the        |
+                 screen.  The maximum size of a window can be lim-
+                 ited by the maximumMaximumSize resource.  (See      |
+                 Chapter 13 for resource descriptions.)              |
+
+       width_inc, height_inc                                         |
+                 The values set for width_inc and height_inc (width
+                 increment and height increment) determine the unit
+                 of measure used to report window size.  When win-
+                 dows are being resized, a feedback window reports
+                 the current size in the units specified.  If        |
+                 values are not set for these fields, then one       |
+                 pixel is used as the sizing increment.              |
+
+       min_aspect.x, min_aspect.y                                    |
+                 The values set for min_aspect.x and min_aspect.y    |
+                 [minimum aspect.x (width) and minimum aspect.y      |
+                 (length)] determine constraints for the minimum
+                 ratio of width/length of a window.  MWM applies a   |
+                 minimum aspect ratio sizing constraint when the x
+                 and y values are set greater than or equal to 0.    |
+                 The values must also be less than or equal to the   |
+                 max_aspect values.
+
+       max_aspect.x, max_aspect.y                                    |
+                 The values set for max_aspect.x and max_aspect.y
+                 [maximum aspect.x (width) and maximum aspect.y
+                 (length)] determine constraints for the maximum
+                 ratio of width/length of a window.  MWM applies a   |
+                 maximum aspect-ratio-sizing constraint when the x
+                 and y values are set greater than or equal to
+                 zero.  The values must also be greater than or
+                 equal to the min_aspect values.
+
+       base_width, base_height                                       |
+                 The values set for these fields determine the
+                 amount of "padding" (margin) between the window
+                 and the window frame.  The base width value sets
+                 the amount of left and right padding.  The base
+                 height value sets the amount of top and bottom
+                 padding.  If these fields have a value of less
+                 than 0, or if there is no value set, then MWM uses
+                 a value of 0.                                       |
+
+       win_gravity                                                   |
+                 The value set for win_gravity determines where the  |
+
+
+       12-4
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+                 window manager tries to place windows.  If the      |
+                 window manager decides to place a window where the  |
+                 client asks, the position on the parent window's    |
+                 border named by win_gravity will be placed where    |
+                 the client window would have been placed in the     |
+                 absence of a window manager.  The default value is  |
+                 NorthWest.
+
+       WWWWMMMM____HHHHIIIINNNNTTTTSSSS....  The WM_HINTS property contains a list of fields.
+       Except for changes to the icon_pixmap, MWM tracks changes to
+       the WM_HINTS property only when the client window changes
+       state from the withdrawn state to the normal or iconic
+       state.                                                        |
+
+       The type of the WM_HINTS property is WM_HINTS.  The WM_HINTS  |
+       property contains the following fields:
+
+       icon_pixmap An image for icon window.
+
+       icon_window A working window for the icon window.
+
+       icon_x      X coordinate for icon window position.
+
+       icon_y      Y coordinate for icon window position.
+
+       icon_mask   MWM does not currently use this.                  |
+
+       input       See the following NOTE.                           |
+
+       window_groupMWM does not currently use this.                  |
+
+       NNNNOOOOTTTTEEEE::::  MWM does not set keyboard focus to the client window   |
+       if any of the following conditions exist:
+
+         1.  The value for input is False.                           |
+
+         2.  The value for the enforceKeyFocus resource is True.     |
+
+         3.  The client has expressed an interest in the
+             WM_TAKE_FOCUS protocol.
+
+       If the user attempts to set the keyboard focus to the win-    *
+       dow, a WM_TAKE_FOCUS client message is sent to the window.
+       The input field also determines whether or not a window
+       receives keyboard focus automatically.  (See the following    |
+       resources in Chapter 13: autoKeyFocus, startupKeyFocus, and
+       deiconifyKeyFocus.)
+
+       WWWWMMMM____CCCCLLLLAAAASSSSSSSS....  The WM_CLASS property contains two fields.  MWM
+       tracks changes to the WM_CLASS property only when the client
+       window changes state from the withdrawn state to the normal
+
+
+                                                               12-5
+
+
+
+
+
+
+
+
+
+
+
+
+       or iconic state.
+
+       The res_class and res_name values are used by MWM to do       |
+       client-specific configuration of window decorations and       |
+       icons.  If the WM_CLASS property is not set, then no special
+       client customization is done.                                 |
+
+       The type of the WM_CLASS property is STRING.  The WM_CLASS    |
+       property contains the following fields:
+
+       res_class   When a client is initially managed by MWM, the
+                   res_class value is used to determine the
+                   client's class.  All resources previously con-    |
+                   figured for that class are used for the new       |
+                   client.
+
+       res_name    The res_name value is used by MWM to look up MWM
+                   resources for a client of a particular name.
+                   The value also determines the name used in the
+                   client's window title when the WM_NAME property
+                   is not set.
+
+       WWWWMMMM____TTTTRRRRAAAANNNNSSSSIIIIEEEENNNNTTTT____FFFFOOOORRRR....  MWM regards a transient window as
+       equivalent to a secondary window.  A transient window is
+       always on top (in terms of stacking order) of its primary
+       window.  This primary window is identified by the
+       WM_TRANSIENT_FOR property.                                    |
+
+       The window manager places transient windows on the screen
+       without user interaction.  MWM uses the window's existing
+       size and position.  The amount of decoration for a transient
+       window is controlled by the transientDecoration resource.
+       (See Section 13.11 and the _MOTIF_WM_HINTS property in this   |
+       chapter for more information on window decoration.)
+
+       A transient window is normally associated with a primary
+       window.  You can design your client windows so that tran-     |
+       sient windows are arranged in a tree structure where a tran-
+       sient window has another transient window as its associated   |
+       primary window.  However, the root of the tree must be a
+       non-transient window.
+
+       The type of the WM_TRANSIENT_FOR property is WINDOW.          |
+       WWWWMMMM____PPPPRRRROOOOTTTTOOOOCCCCOOOOLLLLSSSS....  The WM_PROTOCOLS property contains a list of
+       atoms (32-bit values that represent unique names).  Each
+       atom identifies a protocol in which the client is willing to
+       participate.  Atoms can identify standard protocols and
+       private protocols specific to individual window managers.     |
+       The XXXXmmmmAAAAddddddddPPPPrrrroooottttooooccccoooollllssss and XXXXmmmmAAAAddddddddWWWWMMMMPPPPrrrroooottttooooccccoooollllssss functions can be      |
+       used to set up the WM_PROTOCOLS property for a VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll.
+
+
+
+       12-6
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+       The type of the WM_PROTOCOLS property is ATOM.  MWM tracks    |
+       changes to the WM_PROTOCOLS property and supports the fol-
+       lowing standard protocols:
+
+       WM_DELETE_WINDOW         Clients are notified when the MWM
+                                f.kill function is invoked by the
+                                user.  MWM does not terminate the
+                                client or destroy the window when a
+                                WM_DELETE_WINDOW notification is
+                                done.                                |
+
+       WM_SAVE_YOURSELF         Clients with this atom are notified  |
+                                when a session manager or a window
+                                manager wishes the window's state
+                                to be changed.  The typical change
+                                is when the window is about to be
+                                deleted or the session terminated.   |
+
+                                The quitTimeout resource specifies   |
+                                the amount of time (in mil-          |
+                                liseconds) that MWM waits for a
+                                client to update the WM_COMMAND
+                                property after it has sent the       |
+                                WM_SAVE_YOURSELF message.  This      |
+                                protocol is used only for clients    |
+                                that have a WM_SAVE_YOURSELF atom    |
+                                in the WM_PROTOCOLS client window
+                                property.  The default time is 1000
+                                (ms).  (Since quitTimeout is a
+                                resource, not a property, a user
+                                can change its value.)
+
+       WM_TAKE_FOCUS            Clients with this atom are notified  |
+                                when a window manager believes that
+                                the client should explicitly set
+                                the input focus to one of its win-
+                                dows.
+
+       _MOTIF_WM_MESSAGES       Clients with this atom indicate to   |
+                                the window manager which messages
+                                (sent by the window manager when
+                                the f.send_msg function is invoked)
+                                are currently being handled by the
+                                client.
+
+       WWWWMMMM____CCCCOOOOLLLLOOOORRRRMMMMAAAAPPPP____WWWWIIIINNNNDDDDOOOOWWWWSSSS....  The WM_COLORMAP_WINDOWS property con-   |
+       tains a list of IDs of windows that may need colormaps        |
+       installed that differ from the colormap of the top-level      |
+       window.  The type of the WM_COLORMAP_WINDOWS property is      |
+       WINDOW.
+
+
+
+                                                               12-7
+
+
+
+
+
+
+
+
+
+
+
+
+       12.2.1.3  WWWWoooorrrrkkkkiiiinnnngggg wwwwiiiitttthhhh WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr PPPPrrrrooooppppeeeerrrrttttiiiieeeessss
+
+       MWM uses properties to supply configuration and state infor-
+       mation to clients (usually session managers).
+
+       WWWWMMMM____SSSSTTTTAAAATTTTEEEE....  The type of the WM_STATE property is WM_STATE.     |
+       The WM_STATE property contains the following fields:
+
+       state  NormalState, IconicState, and WithdrawnState are the
+              values defined for MWM.                                |
+
+       icon   The icon window value is set to the window ID of the
+              top-level icon window; this window is not the icon     |
+              window supplied by the client.  (The icon window, if
+              it is set in WM_HINTS, is a child of the top-level,
+              MWM-created icon window.)
+
+       The information in the WM_STATE property is generally used
+       only by session management clients.                           |
+
+       WWWWMMMM____IIIICCCCOOOONNNN____SSSSIIIIZZZZEEEE....  MWM sets the WM_ICON_SIZE property of the      |
+       root window.  The type of the WM_ICON_SIZE property is        |
+       WM_ICON_SIZE.  WM_ICON_SIZE contains the following fields:    |
+
+       min_width, min_height                                         |
+                      The values set for  min_width and min_height
+                      (minimum width and minimum height) of an icon
+                      window are based on the value of (or default
+                      value for) the iconImageMinimum resource.
+
+       max_width, max_height                                         |
+                      The values set for max_width and max_height
+                      (maximum width and maximum height) of an icon
+                      window are based on the value of (or default
+                      value for) the iconImageMaximum resource.
+
+       width_inc, height_inc                                         |
+                      The values set for width_inc and height_inc
+                      (width increment and height increment) deter-
+                      mine the unit of measurement for changing the
+                      size of an icon window.  MWM sets this value   |
+                      to one pixel.
+
+       12.2.1.4  CCCChhhhaaaannnnggggiiiinnnngggg WWWWiiiinnnnddddoooowwww SSSSttttaaaatttteeeessss                              |
+
+       Windows are normal (full sized), iconic (small symbol), or
+       withdrawn (not visible).  You can control many attributes of  |
+       normal and icon windows.  See Chapter 13 for information on   |
+       the appearance and behavior of windows in the NormalState.
+       See Chapter 15 for information on the appearance and          |
+       behavior of windows in the IconicState.
+
+
+       12-8
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+       12.2.1.5  CCCCoooonnnnffffiiiigggguuuurrrriiiinnnngggg tttthhhheeee WWWWiiiinnnnddddoooowwww
+
+       Clients can request to be notified, with ConfigureNotify
+       events, when windows change size or position.  The X,Y coor-
+       dinates in these events may be relative to either the root
+       window or the frame provided by MWM.  Use XTranslateCoordi-
+       nates to determine absolute coordinates.                      |
+
+       12.2.1.6  CCCChhhhaaaannnnggggiiiinnnngggg WWWWiiiinnnnddddoooowwww AAAAttttttttrrrriiiibbbbuuuutttteeeessss
+
+       If the client requests save unders with the saveUnder         |
+       resource, MWM sets this attribute for the MWM frame instead
+       of the client window.
+
+       12.2.1.7  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg IIIInnnnppppuuuutttt FFFFooooccccuuuussss
+
+       Use the keyboardFocusPolicy resource to control the input
+       focus.  Clients can request to be notified when given the
+       input focus.  See "WM_PROTOCOLS."                             |
+
+       Windows that supply a WM_PROTOCOLS property containing the    |
+       WM_TAKE_FOCUS atom receive a ClientMessage from the window
+       manager.
+
+       12.2.1.8  EEEEssssttttaaaabbbblllliiiisssshhhhiiiinnnngggg CCCCoooolllloooorrrrmmmmaaaappppssss
+
+       If more than one colormap is needed for client subwindows,
+       then set the WM_COLORMAP_WINDOWS property to the list of
+       windows with colormaps.
+
+       12.2.2  CCCClllliiiieeeennnntttt RRRReeeessssppppoooonnnnsssseeeessss ttttoooo MMMMWWWWMMMM AAAAccccttttiiiioooonnnnssss
+
+       MWM redirects the following top-level window requests:
+       MapWindow, ConfigureWindow, CirculateWindow.  MWM may not
+       immediately execute (or execute at all) redirected requests.
+
+       12.2.2.1  WWWWiiiinnnnddddoooowwww SSSSiiiizzzzeeee aaaannnndddd PPPPoooossssiiiittttiiiioooonnnn
+
+       Clients can request sizes and positions by doing a window
+       configuration operation, but MWM may not satisfy these
+       requests.                                                     |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               12-9
+
+
+
+
+
+
+
+
+
+
+
+
+       12.2.2.2  WWWWiiiinnnnddddoooowwww aaaannnndddd IIIIccccoooonnnn MMMMaaaappppppppiiiinnnngggg
+
+       Client windows in the normalized state are mapped.  Client
+       windows in the iconified state are not mapped.
+
+       12.2.2.3  CCCCoooolllloooorrrrmmmmaaaapppp CCCChhhhaaaannnnggggeeeessss
+
+       Clients can request to be notified when their colormap is in
+       use (or no longer in use), by using ColormapNotify.
+
+       12.2.2.4  IIIInnnnppppuuuutttt FFFFooooccccuuuussss
+
+       Distribution of input within a client window can be handled
+       using Xt Intrinsics and the Xm Widgets.  Clients should gen-
+       erally avoid using XXXXSSSSeeeettttIIIInnnnppppuuuuttttFFFFooooccccuuuussss.                            |
+
+       12.2.2.5  CCCClllliiiieeeennnnttttMMMMeeeessssssssaaaaggggeeee EEEEvvvveeeennnnttttssss
+
+       Clients cannot prevent being sent ClientMessage events, but   |
+       clients can ignore these if they are not useful.
+
+       12.3  MMMMWWWWMMMM SSSSppppeeeecccciiiiffffiiiicccc IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+
+       The following information details window manager conventions
+       not covered by the ICCCM, but which are required for sup-
+       porting OSF/Motif behavior.  Properties on the client window
+       are used to communicate client preferences to MWM.  These     |
+       properties are settable using VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll and XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnn----     |
+       BBBBooooaaaarrrrdddd resources.  Value definitions for MWM-specific proper-  |
+       ties are set in the XXXXmmmm////MMMMwwwwmmmmUUUUttttiiiillll....hhhh file.                        |
+
+       12.3.1  TTTThhhheeee ____MMMMOOOOTTTTIIIIFFFF____WWWWMMMM____HHHHIIIINNNNTTTTSSSS PPPPrrrrooooppppeeeerrrrttttyyyy                          |
+
+       A client may communicate certain preferences directly to MWM
+       via the _MOTIF_WM_HINTS property.  The type of the            |
+       _MOTIF_WM_HINTS property is _MOTIF_WM_HINTS.  The following   |
+       table shows the contents of this property.                    |
+
+            TTTTAAAABBBBLLLLEEEE 11112222----1111....  Contents of _MOTIF_WM_HINTS Property        |
+
+                           FFFFiiiieeeelllldddd         TTTTyyyyppppeeee
+                           ____________________                      |
+                           flags         CARD32
+                           ____________________
+                           decorations   CARD32
+                           ____________________
+                           functions     CARD32
+7                                      |7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+       12-10
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+                           ____________________
+                           input_mode    INT32                       |
+7                                      |7|
+
+
+       12.3.1.1  TTTThhhheeee ffffllllaaaaggggssss FFFFiiiieeeelllldddd                                     |
+
+       The flags field indicates which fields in the                 |
+       _MOTIF_WM_HINTS property contain data.  The following table   |
+       shows the supported values.
+
+                  TTTTAAAABBBBLLLLEEEE 11112222----2222....  Values of the flags Field             |
+
+             NNNNaaaammmmeeee                    VVVVaaaalllluuuueeee   FFFFiiiieeeelllldddd
+             _______________________________________________         *
+                                             MWM functions           |
+                                             applicable to           |
+                                             client                  |
+777             MWM_HINTS_FUNCTIONS       1                             |
+
+
+             _______________________________________________
+                                             Client window           |
+                                             frame decora-           |
+                                             tions                   |
+777             MWM_HINTS_DECORATIONS     2                             |
+
+
+             _______________________________________________         |
+                                             Client input            |
+                                             mode                    |
+77             MWM_HINTS_INPUT_MODE      4                             |
+
+7                                  |7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+                                          |7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+       12.3.1.2  TTTThhhheeee ddddeeeeccccoooorrrraaaattttiiiioooonnnnssss FFFFiiiieeeelllldddd                               |
+
+       The decorations field indicates how the client window frame
+       should be decorated (for example, whether the window should
+       have a title bar or window menu button).  The information in
+       this field is combined with the value of the clientDecora-    |
+       tion resource (see Section 13.11).  Only decorations that     |
+       are indicated by both clientDecoration and _MOTIF_WM_HINTS
+       are displayed.  Decorations for inapplicable functions are    |
+       not displayed (for example, if a window cannot be minimized,
+       the minimize window button is not displayed).                 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              12-11
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table shows the supported values.               |
+
+               TTTTAAAABBBBLLLLEEEE 11112222----3333....  Values of the decorations Field          |
+
+       NNNNaaaammmmeeee                   VVVVaaaalllluuuueeee   CCCCoooommmmmmmmeeeennnnttttssss
+       ________________________________________________________      *
+                                      If set, remove decora-         |
+                                      tions from full set            |
+77       MWM_DECOR_ALL            1                                    |
+
+       ________________________________________________________      |
+       MWM_DECOR_BORDER         2     Client window border
+       ________________________________________________________
+       MWM_DECOR_RESIZEH        4     Resize frame handles
+       ________________________________________________________
+       MWM_DECOR_TITLE          8     Title bar
+       ________________________________________________________
+       MWM_DECOR_MENU          16     Window menu button             |
+       ________________________________________________________
+       MWM_DECOR_MINIMIZE      32     Minimize window button
+       ________________________________________________________
+       MWM_DECOR_MAXIMIZE      64     Maximize window button         |
+7                           |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       12.3.1.3  TTTThhhheeee ffffuuuunnnnccccttttiiiioooonnnnssss FFFFiiiieeeelllldddd                                 |
+
+       The functions field indicates which MWM functions should
+       apply to the client window (for example, whether the window
+       should be resized).  The information in this field is com-
+       bined with the value of the clientFunctions resource (see     |
+       Section 14.3.4).  Only functions that are indicated by both
+       clientFunctions and _MOTIF_WM_HINTS are applied.  Also,
+       decorations that support a particular function (for example,  |
+       the minimize button) are not be shown if the associated
+       function is not applicable.  The following table shows the    |
+       supported values for the functions field.                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       12-12
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+                TTTTAAAABBBBLLLLEEEE 11112222----4444....  Values of the functions Field           |
+
+       NNNNaaaammmmeeee                   VVVVaaaalllluuuueeee   CCCCoooommmmmmmmeeeennnnttttssss
+       ________________________________________________________      *
+                                      If set, remove functions       |
+                                      from full set                  |
+77       MWM_FUNC_ALL             1                                    |
+
+       ________________________________________________________      |
+       MWM_FUNC_RESIZE          2     f.resize
+       ________________________________________________________
+       MWM_FUNC_MOVE            4     f.move
+       ________________________________________________________
+       MWM_FUNC_MINIMIZE        8     f.minimize
+       ________________________________________________________
+       MWM_FUNC_MAXIMIZE       16     f.maximize
+       ________________________________________________________
+       MWM_FUNC_CLOSE          32     f.kill
+7                           |7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+                                   |7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       12.3.1.4  TTTThhhheeee iiiinnnnppppuuuutttt____mmmmooooddddeeee FFFFiiiieeeelllldddd                                |
+
+       The input_mode field indicates the keyboard input focus con-  |
+       straints that are imposed by the client window.  The follow-  |
+       ing table shows the values of the input_mode field.
+
+               TTTTAAAABBBBLLLLEEEE 11112222----5555....  Values of the input_mode Field           |
+
+       NNNNaaaammmmeeee                                  VVVVaaaalllluuuueeee   CCCCoooommmmmmmmeeeennnnttttssss
+       _______________________________________________________________________|
+       MWM_INPUT_MODELESS                      0     Input goes to any window |
+       _______________________________________________________________________|
+                                                     Input does not go to|
+                                                     ancestors of this window|
+77       MWM_INPUT_PRIMARY_APPLICATION_MODAL     1                              |
+
+       _______________________________________________________________________|
+                                                     Input goes only to this|
+                                                     window          |
+77       MWM_INPUT_SYSTEM_MODAL                  2                              |
+
+       _______________________________________________________________________|
+                                                     Input does not go to|
+                                                     other windows in this|
+                                                     application     |
+777       MWM_INPUT_FULL_APPLICATION_MODAL        3                              |
+
+
+7                                          |7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+                                                  |7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              12-13
+
+
+
+
+
+
+
+
+
+
+
+
+       12.3.1.5  TTTThhhheeee ____MMMMOOOOTTTTIIIIFFFF____WWWWMMMM____MMMMEEEENNNNUUUU PPPPrrrrooooppppeeeerrrrttttyyyy                         |
+
+       The client uses the _MOTIF_WM_MENU property to add menu
+       items to the end of the window menu for the client window.
+       The contents of the property are a list of lines separated
+       by new line characters (\n) , with the following format:
+
+       _l_a_b_e_l [_m_n_e_m_o_n_i_c] [_a_c_c_e_l_e_r_a_t_o_r] _f_u_n_c_t_i_o_n \n
+       _l_a_b_e_l [_m_n_e_m_o_n_i_c] [_a_c_c_e_l_e_r_a_t_o_r] _f_u_n_c_t_i_o_n
+
+       Interpretation of the strings is the same as for menu items
+       (see Section 14.3.2 for more information on menu items).      |
+
+       12.3.1.6  TTTThhhheeee ____MMMMOOOOTTTTIIIIFFFF____WWWWMMMM____MMMMEEEESSSSSSSSAAAAGGGGEEEESSSS PPPPrrrrooooppppeeeerrrrttttyyyy                     |
+
+       The client uses the  _MOTIF_WM_MESSAGES property to indicate
+       to the window manager which messages (sent by the window
+       manager when the f.send_msg function is invoked) are
+       currently being handled by the client.  Menu items that have
+       f.send_msg specified as the function have grayed-out labels
+       when the associated message is not being handled by the
+       client.
+
+       This client property is tracked by the window manager if the
+       _MOTIF_WM_MESSAGES atom is included in the client's
+       WM_PROTOCOLS property.  The _MOTIF_WM_MESSAGES property con-
+       tains a list of integers (for XChangeProperty:  type atom is
+       INTEGER, format is 32).  A client places the property on a
+       client window and it is processed by MWM when the client
+       window goes from withdrawn state to normalized or iconified
+       state.  Changes to the property are processed while the
+       client window is not in the withdrawn state.
+
+       12.3.1.7  TTTThhhheeee ____MMMMOOOOTTTTIIIIFFFF____WWWWMMMM____IIIINNNNFFFFOOOO PPPPrrrrooooppppeeeerrrrttttyyyy                         |
+
+       The client receives MWM-specific information via the
+       _MOTIF_WM_INFO property.  This property is placed by MWM on
+       the root window and is used by clients.  The _MOTIF_WM_INFO
+       property is set up as part of MWM initialization.             |
+
+       The type of the _MOTIF_WM_INFO property is _MOTIF_WM_INFO.    |
+       The following table shows the contents of the _MOTIF_WM_INFO  |
+       property.                                                     |
+
+
+
+
+
+
+
+
+
+
+       12-14
+
+
+
+
+
+
+
+
+
+              Communicating Between MWM and Clients: MWM Properties
+
+
+           TTTTAAAABBBBLLLLEEEE 11112222----6666....  Contents of the _MOTIF_WM_INFO Property      |
+
+                            FFFFiiiieeeelllldddd      TTTTyyyyppppeeee
+                            _________________                        |
+                            flags      CARD32
+                            _________________
+                            wmWindow   CARD32
+7                                    |7|7|7|7|
+
+
+
+
+
+       The following table shows the values that may be set:         |
+
+                 TTTTAAAABBBBLLLLEEEE 11112222----7777....  Values for the flags Field             |
+
+       NNNNaaaammmmeeee                        VVVVaaaalllluuuueeee        FFFFiiiieeeelllldddd
+       ___________________________________________________           |
+                                           Set for startup
+                                           with standard
+                                           behavior.
+777       MWM_INFO_STARTUP_STANDARD   1
+
+
+       ___________________________________________________
+                                           Set for startup
+                                           with customized
+                                           behavior.
+777       MWM_INFO_STARTUP_CUSTOM     2
+
+
+7                                |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+                                        |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       The wmWindow field is always set to the window ID of a win-   |
+       dow that is used by MWM.  When MWM is running, the
+       _MOTIF_WM_INFO property is present on the root window and
+       wmWindow is an ID for a window that exists.                   |
+
+       12.3.2  WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeemmmmeeeennnntttt CCCCaaaallllllllssss
+
+       Clients communicate with the window manager through proper-
+       ties associated with top-level windows, synthetic events
+       (generated using XXXXSSSSeeeennnnddddEEEEvvvveeeennnntttt and standard X events.  Program-  |
+       matically this communication involves Xlib routines           |
+       (directly or through libraries such as the Xt Intrinsics or
+       the Xm OSF/Motif toolkit).  Clients may programmatically
+       interact with MWM (or any X11 window manager) in one of the
+       following ways:
+
+          +o NNNNoooo eeeexxxxpppplllliiiicccciiiitttt pppprrrrooooggggrrrraaaammmmmmmmaaaattttiiiicccc aaaacccccccceeeessssssss....  In this case, clients
+            do not set up any window properties or do any call that
+            directly communicates to the window manager.  Communi-
+            cation occurs (indirectly) when the state of the client
+            window is changed (that is, the window is mapped,
+            unmapped, configured, has a colormap change, and so      |
+            on.).  To work with MWM, clients are not required to do
+            anything more than what is required when a window
+            manager is not being used.                               |
+
+
+
+
+
+
+                                                              12-15
+
+
+
+
+
+
+
+
+
+
+
+
+          +o LLLLoooowwww----lllleeeevvvveeeellll pppprrrrooooggggrrrraaaammmmmmmmaaaattttiiiicccc aaaacccccccceeeessssssss....  Clients with special     |
+            window management requirements can use such low-level    |
+            Xlib calls as XXXXSSSSttttoooorrrreeeeNNNNaaaammmmeeee or XXXXSSSSeeeettttWWWWMMMMHHHHiiiinnnnttttssss to communicate
+            with the window manager.
+
+          +o HHHHiiiigggghhhh----lllleeeevvvveeeellll pppprrrrooooggggrrrraaaammmmmmmmaaaattttiiiicccc aaaacccccccceeeessssssss....  Clients can make calls  |
+            to certain libraries built on Xlib (Xt Intrinsics, Xm
+            OSF/Motif toolkit) to establish and maintain standard
+            communications with MWM.  Client developers are
+            encouraged to use these interfaces unless the client
+            has some specialized window management requirements.
+
+       12.3.2.1  XXXXlllliiiibbbb RRRRoooouuuuttttiiiinnnneeeessss                                       |
+
+       The following Xlib routines are supported in revision 4 of    |
+       the X Window System, Version 11 (refer to _X_l_i_b - _C _L_a_n_g_u_a_g_e   |
+       _X _I_n_t_e_r_f_a_c_e for more information).
+
+       XXXXGGGGeeeettttIIIIccccoooonnnnSSSSiiiizzzzeeeessss     XXXXSSSSeeeettttCCCCoooommmmmmmmaaaannnndddd            XXXXSSSSeeeettttWWWWMMMMIIIIccccoooonnnnNNNNaaaammmmeeee       |
+       XXXXGGGGeeeettttRRRRGGGGBBBBCCCCoooolllloooorrrrmmmmaaaapppp   XXXXSSSSeeeettttTTTTrrrraaaannnnssssiiiieeeennnnttttFFFFoooorrrrHHHHiiiinnnntttt   XXXXSSSSeeeettttWWWWMMMMNNNNoooorrrrmmmmaaaallllHHHHiiiinnnnttttssss    |
+       XXXXSSSSeeeettttCCCCllllaaaassssssssHHHHiiiinnnntttt     XXXXSSSSeeeettttWWWWMMMMHHHHiiiinnnnttttssss            XXXXSSSSttttoooorrrreeeeNNNNaaaammmmeeee           |
+
+                                                                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       12-16
+
+
+
+
+

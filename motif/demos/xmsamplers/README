@@ -1,0 +1,48 @@
+
+
+	This directory includes files for Motif toolkit example programs:
+
+		README		- this file
+
+		XMdemos		- app-defaults for example programs
+
+		xmdialogs.c	- dialog sampler
+
+                xmfonts.c       - font browser
+
+		xmeditor.c	- text editor
+
+		xmlist.c	- list example
+
+		xmmenushel.c	- popup menu example
+
+		xmoption.c	- option menu example
+
+		xmprotocol.c	- window manager protocols example
+
+		xmter.c		- shape & animation example
+
+
+	NOTES:
+ 
+	1)	XMdemos.ad MUST be put in the app-defaults area before the
+		xmdialogs demo will work.  The file should be named XMdemos.
+                Usually the app-defaults area is /usr/lib/X11/app-defaults.
+                The demo will run without the defaults, but the buttons for
+                creating and managing the dialogs will not appear.   Make
+                install will correctly place the defaults file.
+
+	2)	The xmfonts demo defaults to displaying the fonts whose
+		name length are less than 10 characters. On some systems, 
+		the font path contains only long XLFD font names. It may be 
+		necessary either to set the resource xmfonts*maxLen to a
+		bigger number (80), and to specify a numColumns resource
+		of 1, or to add a fonts.alias file with the reserved keyword 
+		FILE_NAMES_ALIASES in your font directory.
+
+	3)	For xmter, you'll have to tell your favorite window-manager
+		to remove all the window decorations. For mwm, it's already
+		done by the program itself.
+
+	If you notice any bugs in this demo, please see the bug list in
+	the Release Notes to see if the problem is a known Toolkit defect.

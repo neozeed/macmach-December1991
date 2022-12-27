@@ -1,0 +1,69 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	machid.man,v $
+.\" Revision 2.3  91/03/19  12:30:18  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:31:31  rpd
+.\" 	Created.
+.\" 	[90/06/18            rpd]
+.\" 
+.TH  MACHID  1 6/18/90
+.CM 4
+.SH NAME
+machid \- operate on MachIDs
+.SH SYNOPSIS
+\fBmachid\fR
+.SH DESCRIPTION
+\fImachid(1)\fR is a server which establishes a name space of MachIDs
+for naming ports.  It will perform kernel calls on MachIDs.  For example,
+given the MachID of a task, it will return the MachIDs of the task's
+threads.  Every call to \fImachid\fR takes an authentication port.
+Sensitive calls, like killing a task, require appropriate privileges.
+.PP
+There are no arguments.  \fImachid\fR registers with the netname service,
+under the name MachID.
+.PP
+MachIDs are drawn from a space of 32-bit unsigned numbers.
+Zero is always an invalid MachID.
+MachIDs are never reused.
+.SH BUGS
+\fImachid\fR holds onto every send right it comes across.
+Tasks expecting no-senders notifications will be disappointed.
+.PP
+\fImachid\fR doesn't check for the exhaustion of its name space.
+.PP
+The authentication is very primitive.  General information calls are
+always approved.  Calls to read memory, fetch register state, and
+modify kernel state are not distinguished, and require a valid
+authentication port.  A privileged host port authorizes operations
+on all objects on that host.  A task port authorizes operations
+on threads in that task.  An object port authorizes operations
+on that object.
+.SH "SEE ALSO"
+ms(1), mkill(1), mnice(1), pinfo(1), vminfo(1),
+vmread(1), vmsearch(1), thstate(1)

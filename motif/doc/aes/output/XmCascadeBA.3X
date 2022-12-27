@@ -1,0 +1,528 @@
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn ---- TTTThhhheeee CCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////CCCCaaaassssccccaaaaddddeeeeBBBB....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          CascadeButton links two MenuPanes or a MenuBar to a
+          MenuPane.
+
+          It is used in menu systems and must have a RowColumn parent
+          with its XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource set to XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR,
+          XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP or XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN.
+
+          It is the only widget that can have a Pulldown MenuPane
+          attached to it as a submenu.  The submenu is displayed when
+          this widget is activated within a MenuBar, a PopupMenu, or a
+          PulldownMenu.  Its visuals can include a label or pixmap and
+          a cascading indicator when it is in a Popup or Pulldown
+          MenuPane; or, it can include only a label or a pixmap when
+          it is in a MenuBar.
+
+          The default behavior associated with a CascadeButton depends
+          on the type of menu system in which it resides.  By default,
+          BBBBSSSSeeeelllleeeecccctttt controls the behavior of the CascadeButton.  In
+          addition, BBBBMMMMeeeennnnuuuu controls the behavior of the CascadeButton
+          if it resides in a PopupMenu system.  The actual mouse
+          button used is determined by its RowColumn parent.
+
+          A CascadeButton's visuals differ from most other button
+          gadgets.  When the button becomes armed, its visuals change
+          from a 2-D to a 3-D look, and it displays the submenu that
+          has been attached to it.  If no submenu is attached, it
+          simply changes its visuals.
+
+          When a CascadeButton within a Pulldown or Popup MenuPane is
+          armed as the result of the user moving the mouse pointer
+          into the widget, it does not immediately display its
+          submenu.  Instead, it waits a short amount of time to see if
+          the arming was temporary (that is, the user was simply
+          passing through the widget), or whether the user really
+          wanted the submenu posted.  This time delay is configurable
+          via XXXXmmmmNNNNmmmmaaaappppppppiiiinnnnggggDDDDeeeellllaaaayyyy.
+
+          CascadeButton provides a single mechanism for activating the
+          widget from the keyboard.  This mechanism is referred to as
+          a keyboard mnemonic.  If a mnemonic has been specified for
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          the widget, the user may activate the CascadeButton by
+          simply typing the mnemonic while the CascadeButton is
+          visible. If the CascadeButton is in a MenuBar and the
+          MenuBar does not have the focus, the MMMMAAAAlllltttt modifier must be
+          pressed with the mnemonic.  Mnemonics are typically used to
+          interact with a menu via the keyboard interface.
+
+          If in a Pulldown or Popup MenuPane and there is a submenu
+          attached, the XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt,
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt, and XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp resources may enlarge to
+          accommodate XXXXmmmmNNNNccccaaaassssccccaaaaddddeeeePPPPiiiixxxxmmmmaaaapppp. XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh defaults to 6
+          if this resource is in a MenuBar; otherwise, it takes
+          Label's default, which is 2.
+
+
+        CCCCllllaaaasssssssseeeessss
+          CascadeButton inherits behavior and resources from CCCCoooorrrreeee,
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee, and XXXXmmmmLLLLaaaabbbbeeeellll classes.
+
+          The class pointer is xxxxmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                            XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                   CCCCllllaaaassssssss             TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     __________________________________________________________________________
+     XmNactivateCallback    XmCCallback       XtCallbackList   NULL      C
+     XmNcascadePixmap       XmCPixmap         Pixmap           dynamic   CSG
+     XmNcascadingCallback   XmCCallback       XtCallbackList   NULL      C
+     XmNmappingDelay        XmCMappingDelay   int              180 ms    CSG
+     XmNsubMenuId           XmCMenuWidget     Widget           NULL      CSG
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user activates the CascadeButton widget, and there is
+               no submenu attached to pop up.  The activation occurs
+               by releasing a mouse button or by typing the mnemonic
+               associated with the widget.  The specific mouse button
+               depends on information in the RowColumn parent.  The
+               reason sent by the callback is XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE.
+
+          XXXXmmmmNNNNccccaaaassssccccaaaaddddeeeePPPPiiiixxxxmmmmaaaapppp
+               Specifies the cascade pixmap displayed on one end of
+               the widget when a CascadeButton is used within a Popup
+               or Pulldown MenuPane and a submenu is attached.  The
+               Label class resources XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt,
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt, and XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp may be modified to
+               ensure that room is left for the cascade pixmap.  The
+               default cascade pixmap is an arrow pointing to the side
+               of the menu where the submenu will appear.
+
+          XXXXmmmmNNNNccccaaaassssccccaaaaddddiiiinnnnggggCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called just
+               prior to the mapping of the submenu associated with
+               CascadeButton.  The reason sent by the callback is
+               XXXXmmmmCCCCRRRR____CCCCAAAASSSSCCCCAAAADDDDIIIINNNNGGGG.
+
+          XXXXmmmmNNNNmmmmaaaappppppppiiiinnnnggggDDDDeeeellllaaaayyyy
+               Specifies the amount of time, in milliseconds, between
+               when a CascadeButton becomes armed and when it maps its
+               submenu.  This delay is used only when the widget is
+               within a Popup or Pulldown MenuPane.  The value must
+               not be negative.
+
+          XXXXmmmmNNNNssssuuuubbbbMMMMeeeennnnuuuuIIIIdddd
+               Specifies the widget ID for the Pulldown MenuPane to be
+               associated with this CascadeButton.  The specified
+               MenuPane is displayed when the CascadeButton becomes
+               armed.  The MenuPane must have been created with the
+               appropriate parentage depending on the type of menu
+               used.  See XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr((((3333XXXX)))),
+               XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((3333XXXX)))), and XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))) for
+               more information on the menu systems.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          CascadeButton inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                               XXXXmmmmLLLLaaaabbbbeeeellll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                        CCCCllllaaaassssssss                       TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _________________________________________________________________________________________________________
+     XmNaccelerator              XmCAccelerator              String              NULL                   N/A
+     XmNacceleratorText          XmCAcceleratorText          XmString            NULL                   N/A
+     XmNalignment                XmCAlignment                unsigned char       dynamic                CSG
+     XmNfontList                 XmCFontList                 XmFontList          dynamic                CSG
+     XmNlabelInsensitivePixmap   XmCLabelInsensitivePixmap   Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelPixmap              XmCLabelPixmap              Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelString              XmCXmString                 XmString            dynamic                CSG
+     XmNlabelType                XmCLabelType                unsigned char       XmSTRING               CSG
+     XmNmarginBottom             XmCMarginBottom             Dimension           dynamic                CSG
+     XmNmarginHeight             XmCMarginHeight             Dimension           2                      CSG
+     XmNmarginLeft               XmCMarginLeft               Dimension           0                      CSG
+     XmNmarginRight              XmCMarginRight              Dimension           dynamic                CSG
+     XmNmarginTop                XmCMarginTop                Dimension           dynamic                CSG
+     XmNmarginWidth              XmCMarginWidth              Dimension           2                      CSG
+     XmNmnemonic                 XmCMnemonic                 KeySym              NULL                   CSG
+     XmNmnemonicCharSet          XmCMnemonicCharSet          String              dynamic                CSG
+     XmNrecomputeSize            XmCRecomputeSize            Boolean             True                   CSG
+     XmNstringDirection          XmCStringDirection          XmStringDirection   dynamic                CSG
+
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmNONE                 G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            True                   CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;;;;
+          }}}} XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;;;;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked.
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback or
+                 is NULL if this callback was not triggered due to an
+                 XXXXEEEEvvvveeeennnntttt.
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmCascadeButton includes translations from Primitive.
+          XmCascadeButton includes the menu traversal translations
+          from XmLabel.  These translations may not directly
+          correspond to a translation table.
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          Note that altering translations in ####oooovvvveeeerrrrrrrriiiiddddeeee or ####aaaauuuuggggmmmmeeeennnntttt
+          mode is undefined.
+
+          The translations for a CascadeButton in a MenuBar are listed
+          below.  These translations may not directly correspond to a
+          translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: MMMMeeeennnnuuuuBBBBaaaarrrrSSSSeeeelllleeeecccctttt(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::DDDDooooSSSSeeeelllleeeecccctttt(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     KKKKeeeeyyyySSSSeeeelllleeeecccctttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       KKKKeeeeyyyySSSSeeeelllleeeecccctttt(((())))
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  CCCClllleeeeaaaannnnuuuuppppMMMMeeeennnnuuuuBBBBaaaarrrr(((())))
+
+
+          The translations for a CascadeButton in a PullDown or Popup
+          MenuPane are listed below.  In a Popup menu system, BBBBMMMMeeeennnnuuuu
+          also performs the BBBBSSSSeeeelllleeeecccctttt actions.  These translations may
+          not directly correspond to a translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: SSSSttttaaaarrrrttttDDDDrrrraaaagggg(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::DDDDooooSSSSeeeelllleeeecccctttt(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     KKKKeeeeyyyySSSSeeeelllleeeecccctttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       KKKKeeeeyyyySSSSeeeelllleeeecccctttt(((())))
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  CCCClllleeeeaaaannnnuuuuppppMMMMeeeennnnuuuuBBBBaaaarrrr(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmCascadeButton action routines are described below:
+
+          CCCClllleeeeaaaannnnuuuuppppMMMMeeeennnnuuuuBBBBaaaarrrr(((()))):
+               In a MenuBar, disarms the CascadeButton and the menu
+               and restores keyboard focus to the tab group that had
+               the focus before the menu was entered.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+               In a toplevel Pulldown MenuPane from a MenuBar, unposts
+               the menu, disarms the MenuBar CascadeButton and the
+               MenuBar, and restores keyboard focus to the tab group
+               that had the focus before the MenuBar was entered.  In
+               other Pulldown MenuPanes, unposts the menu.
+
+               In a Popup MenuPane, unposts the menu and restores
+               keyboard focus to the widget from which the menu was
+               posted.
+
+          DDDDooooSSSSeeeelllleeeecccctttt(((()))):
+               Posts the submenu attached to the CascadeButton and
+               enables keyboard traversal within the menu.  If the
+               CascadeButton does not have a submenu attached, the
+               CascadeButton is activated and all posted menus in the
+               cascade are unposted.
+
+          HHHHeeeellllpppp(((()))):
+               Unposts all menus in the menu hierarchy and restores
+               keyboard focus to the tab group that had the focus
+               before the menu system was entered.  Calls the
+               callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.  If there
+               are no help callbacks for this widget, this action
+               calls the help callbacks for the nearest ancestor that
+               has them.
+
+          KKKKeeeeyyyySSSSeeeelllleeeecccctttt(((()))):
+               Posts the submenu attached to the CascadeButton if
+               keyboard traversal is enabled in the menu.  If the
+               CascadeButton does not have a submenu attached, the
+               CascadeButton is activated and all posted menus in the
+               cascade are unposted.
+
+          MMMMeeeennnnuuuuBBBBaaaarrrrSSSSeeeelllleeeecccctttt(((()))):
+               Unposts any menus posted by the parent menu.  Arms both
+               the CascadeButton and the MenuBar, posts the associated
+               submenu, and enables mouse traversal.  If the menu is
+               already active, this event disables keyboard traversal
+               for the menu and returns the menu to mouse traversal
+               mode.
+
+          SSSSttttaaaarrrrttttDDDDrrrraaaagggg(((()))):
+               Arms the CascadeButton, posts the associated submenu,
+               and enables mouse traversal.  If the menu is already
+               active, this event disables keyboard traversal for the
+               menu and returns the menu to mouse traversal mode.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          Posting a submenu calls the XXXXmmmmNNNNccccaaaassssccccaaaaddddiiiinnnnggggCCCCaaaallllllllbbbbaaaacccckkkk callbacks.
+          This widget has the additional behavior described below:
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))) OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn  XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          <<<<EEEEnnnntttteeeerrrrWWWWiiiinnnnddddoooowwww>>>>:
+               If keyboard traversal is enabled does nothing.
+               Otherwise, in a MenuBar that is armed, unposts any
+               MenuPanes associated with another MenuBar entry, arms
+               the CascadeButton, and posts the associated submenu.
+               In other menus, arms the CascadeButton and posts the
+               associated submenu after the delay specified by
+               XXXXmmmmNNNNmmmmaaaappppppppiiiinnnnggggDDDDeeeellllaaaayyyy.
+
+          <<<<LLLLeeeeaaaavvvveeeeWWWWiiiinnnnddddoooowwww>>>>:
+               If keyboard traversal is enabled does nothing.
+               Otherwise, in a MenuBar that is armed, disarms the
+               CascadeButton if the submenu associated with the
+               CascadeButton is not currently posted or if there is no
+               submenu associated with the CascadeButton.
+
+               In other menus, if the pointer moves anywhere except
+               into a submenu associated with the CascadeButton, the
+               CascadeButton is disarmed and its submenu is unposted.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnHHHHiiiigggghhhhlllliiiigggghhhhtttt((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn((((3333XXXX)))),,,, XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr((((3333XXXX)))),,,,
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((3333XXXX)))),,,, XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))),,,,
+          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX)))),,,, XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))),,,, aaaannnndddd XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+

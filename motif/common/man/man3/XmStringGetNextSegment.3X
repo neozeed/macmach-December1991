@@ -1,0 +1,68 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringGetNextSegment 3X "" "" "" ""
+.SH NAME
+\fBXmStringGetNextSegment \(em a compound string function that fetches the
+octets in the next segment of a compound string.\fP
+.iX "XmStringGetNextSegment"
+.iX "compound string functions" "XmStringGetNextSegment"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmStringGetNextSegment (\fIcontext, text, charset,
+direction, separator\fP)
+.br
+.ta .5i 2i
+.br
+	XmStringContext	\fIcontext\fP;
+.br
+	char	\fI** text\fP;
+.br
+	XmStringCharSet	\fI* charset\fP;
+.br
+	XmStringDirection	\fI* direction\fP;
+.br
+	Boolean	\fI* separator\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringGetNextSegment\fP 
+fetches the octets in the next segment; repeated calls
+fetch sequential segments.  The \fItext\fP, \fIcharset\fP, and 
+\fIdirection\fP of the fetched segment are returned each time.  A Boolean
+status is returned to indicate whether a valid segment was successfully
+parsed.
+.br
+.ne 7
+.sp 1
+.IP "\fIcontext\fP" 1.25i 
+Specifies the string context structure which was allocated by the
+\fBXmStringInitContext\fP function.
+.IP "\fItext\fP" 1.25i 
+Specifies a pointer to a null terminated string.
+.IP "\fIcharset\fP" 1.25i 
+Specifies a pointer to the character set identifier associated with the
+text.
+.IP "\fIdirection\fP" 1.25i 
+Specifies a pointer to the direction of the text.
+.IP "\fIseparator\fP" 1.25i 
+Specifies whether the next component of the compound string is a
+separator.
+.sp 1
+.SH RETURN VALUE
+Returns True if a valid segment is found.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and \fBXmStringInitContext(3X)\fP.
+.sp 1

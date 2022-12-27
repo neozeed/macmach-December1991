@@ -1,0 +1,660 @@
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr ---- tttthhhheeee SSSSccccrrrroooollllllllBBBBaaaarrrr wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////SSSSccccrrrroooollllllllBBBBaaaarrrr....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The ScrollBar widget allows the user to view data that is
+          too large to be displayed all at once.  ScrollBars are
+          usually located inside a ScrolledWindow and adjacent to the
+          widget that contains the data to be viewed.  When the user
+          interacts with the ScrollBar, the data within the other
+          widget scrolls.
+
+          A ScrollBar consists of two arrows placed at each end of a
+          rectangle.  The rectangle is called the scroll region.  A
+          smaller rectangle, called the slider, is placed within the
+          scroll region.  The data is scrolled by clicking either
+          arrow, selecting on the scroll region, or dragging the
+          slider.  When an arrow is selected, the slider within the
+          scroll region is moved in the direction of the arrow by an
+          amount supplied by the application.  If the mouse button is
+          held down, the slider continues to move at a constant rate.
+
+          The ratio of the slider size to the scroll region size
+          typically corresponds to the relationship between the size
+          of the visible data and the total size of the data.  For
+          example, if 10 percent of the data is visible, the slider
+          typically occupies 10 percent of the scroll region.  This
+          provides the user with a visual clue to the size of the
+          invisible data.
+
+
+        CCCCllllaaaasssssssseeeessss
+          ScrollBar inherits behavior and resources from the CCCCoooorrrreeee and
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee classes.
+
+          The class pointer is xxxxmmmmSSSSccccrrrroooollllllllBBBBaaaarrrrWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                       CCCCllllaaaassssssss                    TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt      AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________
+     XmNdecrementCallback       XmCCallback              XtCallbackList   NULL         C
+     XmNdragCallback            XmCCallback              XtCallbackList   NULL         C
+     XmNincrement               XmCIncrement             int              1            CSG
+     XmNincrementCallback       XmCCallback              XtCallbackList   NULL         C
+     XmNinitialDelay            XmCInitialDelay          int              250 ms       CSG
+     XmNmaximum                 XmCMaximum               int              100          CSG
+     XmNminimum                 XmCMinimum               int              0            CSG
+     XmNorientation             XmCOrientation           unsigned char    XmVERTICAL   CSG
+     XmNpageDecrementCallback   XmCCallback              XtCallbackList   NULL         C
+     XmNpageIncrement           XmCPageIncrement         int              10           CSG
+     XmNpageIncrementCallback   XmCCallback              XtCallbackList   NULL         C
+     XmNprocessingDirection     XmCProcessingDirection   unsigned char    dynamic      CSG
+     XmNrepeatDelay             XmCRepeatDelay           int              50 ms        CSG
+     XmNshowArrows              XmCShowArrows            Boolean          True         CSG
+     XmNsliderSize              XmCSliderSize            int              dynamic      CSG
+     XmNtoBottomCallback        XmCCallback              XtCallbackList   NULL         C
+     XmNtoTopCallback           XmCCallback              XtCallbackList   NULL         C
+     XmNtroughColor             XmCTroughColor           Pixel            dynamic      CSG
+     XmNvalue                   XmCValue                 int              0            CSG
+     XmNvalueChangedCallback    XmCCallback              XtCallbackList   NULL         C
+
+
+          XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the ScrollBar by one
+               increment and the value decreases.  The reason passed
+               to the callback is XXXXmmmmCCCCRRRR____DDDDEEEECCCCRRRREEEEMMMMEEEENNNNTTTT.
+
+          XXXXmmmmNNNNddddrrrraaaaggggCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called on each
+               incremental change of position when the slider is being
+               dragged.  The reason sent by the callback is XXXXmmmmCCCCRRRR____DDDDRRRRAAAAGGGG.
+
+          XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnntttt
+               Specifies the amount by which the value increases or
+               decreases when the user takes an action that moves the
+               slider by one increment.  The actual change in value is
+               the lesser of XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnntttt and (previous XXXXmmmmNNNNvvvvaaaalllluuuueeee -
+               XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm) when the slider moves to the end of the
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+               ScrollBar with the minimum value, and the lesser
+               ofXXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnntttt and (XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm- XXXXmmmmNNNNsssslllliiiiddddeeeerrrrSSSSiiiizzzzeeee -
+               previous XXXXmmmmNNNNvvvvaaaalllluuuueeee) when the slider moves to the end of
+               the ScrollBar with the maximum value.  The value of
+               this resource must be greater than 0.
+
+          XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the ScrollBar by one
+               increment and the value increases.  The reason passed
+               to the callback is XXXXmmmmCCCCRRRR____IIIINNNNCCCCRRRREEEEMMMMEEEENNNNTTTT.
+
+          XXXXmmmmNNNNiiiinnnniiiittttiiiiaaaallllDDDDeeeellllaaaayyyy
+               Specifies the amount of time in milliseconds to wait
+               before starting continuous slider movement while a
+               button is pressed in an arrow or the scroll region.
+               The value of this resource must be greater than 0.
+
+          XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm
+               Specifies the slider's maximum value.
+
+          XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm
+               Specifies the slider's minimum value.
+
+          XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn
+               Specifies whether the ScrollBar is displayed vertically
+               or horizontally.  This resource can have values of
+               XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL and XXXXmmmmHHHHOOOORRRRIIIIZZZZOOOONNNNTTTTAAAALLLL.
+
+          XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the ScrollBar by one
+               page increment and the value decreases.  The reason
+               passed to the callback is XXXXmmmmCCCCRRRR____PPPPAAAAGGGGEEEE____DDDDEEEECCCCRRRREEEEMMMMEEEENNNNTTTT.
+
+          XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt
+               Specifies the amount by which the value increases or
+               decreases when the user takes an action that moves the
+               slider by one page increment.  The actual change in
+               value is the lesser of XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt and (previous
+               XXXXmmmmNNNNvvvvaaaalllluuuueeee - XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm) when the slider moves to the end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+               of the ScrollBar with the minimum value, and the lesser
+               of XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt and (XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm- XXXXmmmmNNNNsssslllliiiiddddeeeerrrrSSSSiiiizzzzeeee -
+               previous XXXXmmmmNNNNvvvvaaaalllluuuueeee) when the slider moves to the end of
+               the ScrollBar with the maximum value.  The value of
+               this resource must be greater than 0.
+
+          XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the ScrollBar by one
+               page increment and the value increases.  The reason
+               passed to the callback is XXXXmmmmCCCCRRRR____PPPPAAAAGGGGEEEE____IIIINNNNCCCCRRRREEEEMMMMEEEENNNNTTTT.
+
+          XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               Specifies whether the value for XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm should be on
+               the right or left side of XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm for horizontal
+               ScrollBars or above or below XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm for vertical
+               ScrollBars.  This resource can have values of
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP,,,, XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM,,,, XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT, and
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT.  If the XmScrollBar is oriented
+               vertically, the default value is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM.  If
+               the XmScrollBar is oriented horizontally, the default
+               value may depend on the value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               resource.
+
+          XXXXmmmmNNNNrrrreeeeppppeeeeaaaattttDDDDeeeellllaaaayyyy
+               Specifies the amount of time in milliseconds to wait
+               between subsequent slider movements after the
+               XXXXmmmmNNNNiiiinnnniiiittttiiiiaaaallllDDDDeeeellllaaaayyyy has been processed.  The value of this
+               resource must be greater than 0.
+
+          XXXXmmmmNNNNsssshhhhoooowwwwAAAArrrrrrrroooowwwwssss
+               Specifies whether the arrows are displayed.
+
+          XXXXmmmmNNNNsssslllliiiiddddeeeerrrrSSSSiiiizzzzeeee
+               Specifies the length of the slider between the values
+               of 1 and (XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm - XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm).  The value is
+               constrained to be within these inclusive bounds.  The
+               default value is (XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm - XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm) divided by
+               10, with a minimum of 1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the slider to the end
+               of the ScrollBar with the maximum value.  The reason
+               passed to the callback is XXXXmmmmCCCCRRRR____TTTTOOOO____BBBBOOOOTTTTTTTTOOOOMMMM.
+
+          XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user takes an action that moves the slider to the end
+               of the ScrollBar with the minimum value.  The reason
+               passed to the callback is XXXXmmmmCCCCRRRR____TTTTOOOO____TTTTOOOOPPPP.
+
+          XXXXmmmmNNNNttttrrrroooouuuugggghhhhCCCCoooolllloooorrrr
+               Specifies the color of the slider trough.
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeee
+               Specifies the slider's position, between XXXXmmmmNNNNmmmmiiiinnnniiiimmmmuuuummmm and
+               (XXXXmmmmNNNNmmmmaaaaxxxxiiiimmmmuuuummmm - XXXXmmmmNNNNsssslllliiiiddddeeeerrrrSSSSiiiizzzzeeee).  The value is constrained
+               to be within these inclusive bounds.
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               slider is released after being dragged.  These
+               callbacks are also called in place of
+               XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk,
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk,
+               XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk, or XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk when one of
+               these callback lists would normally be called but the
+               value of the corresponding resource is NULL.  The
+               reason passed to the callback is XXXXmmmmCCCCRRRR____VVVVAAAALLLLUUUUEEEE____CCCCHHHHAAAANNNNGGGGEEEEDDDD.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          ScrollBar inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          dynamic                CSG
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmSTICKY_TAB_GROUP     G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;
+            iiiinnnntttt      _v_a_l_u_e;
+            iiiinnnntttt      _p_i_x_e_l;
+          } XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrrCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked.
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback.
+
+          _v_a_l_u_e  Contains the new slider location value.
+
+          _p_i_x_e_l  Is used only for XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk and
+                 XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk.  For horizontal ScrollBars, it
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+                 contains the _x coordinate of where the mouse button
+                 selection occurred.  For vertical ScrollBars, it
+                 contains the _y coordinate.
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmScrollBar includes translations from Primitive.  The
+          XmScrollBar translations are listed below.  These
+          translations may not directly correspond to a translation
+          table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: SSSSeeeelllleeeecccctttt(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::RRRReeeelllleeeeaaaasssseeee(((())))
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss MMMMoooovvvveeeedddd::::MMMMoooovvvveeeedddd(((())))
+
+          BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss::::   SSSSeeeelllleeeecccctttt(((())))
+          BBBBDDDDrrrraaaagggg RRRReeeelllleeeeaaaasssseeee:::: RRRReeeelllleeeeaaaasssseeee(((())))
+          BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss MMMMoooovvvveeeedddd::::MMMMoooovvvveeeedddd(((())))
+
+          MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss::::TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((())))
+          MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::RRRReeeelllleeeeaaaasssseeee(((())))
+
+          KKKKUUUUpppp::::           IIIInnnnccccrrrreeeemmmmeeeennnnttttUUUUppppOOOOrrrrLLLLeeeefffftttt((((0000))))
+          MMMMCCCCttttrrrrllll KKKKUUUUpppp::::     PPPPaaaaggggeeeeUUUUppppOOOOrrrrLLLLeeeefffftttt((((0000))))
+
+          KKKKDDDDoooowwwwnnnn::::         IIIInnnnccccrrrreeeemmmmeeeennnnttttDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((0000))))
+          MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn::::   PPPPaaaaggggeeeeDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((0000))))
+
+          KKKKLLLLeeeefffftttt::::         IIIInnnnccccrrrreeeemmmmeeeennnnttttUUUUppppOOOOrrrrLLLLeeeefffftttt((((1111))))
+          MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt::::   PPPPaaaaggggeeeeUUUUppppOOOOrrrrLLLLeeeefffftttt((((1111))))
+
+          KKKKRRRRiiiigggghhhhtttt::::        IIIInnnnccccrrrreeeemmmmeeeennnnttttDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((1111))))
+          MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt::::  PPPPaaaaggggeeeeDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((1111))))
+
+          KKKKPPPPaaaaggggeeeeUUUUpppp::::       PPPPaaaaggggeeeeUUUUppppOOOOrrrrLLLLeeeefffftttt((((0000))))
+          KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn::::     PPPPaaaaggggeeeeDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((0000))))
+          KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt::::     PPPPaaaaggggeeeeUUUUppppOOOOrrrrLLLLeeeefffftttt((((1111))))
+          KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt::::    PPPPaaaaggggeeeeDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((1111))))
+
+          KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee::::    TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((())))
+          KKKKEEEEnnnnddddLLLLiiiinnnneeee::::      TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((())))
+
+          KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::    TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((())))
+          KKKKEEEEnnnnddddDDDDaaaattttaaaa::::      TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((())))
+
+          KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd::::    PPPPrrrriiiimmmmiiiittttiiiivvvveeeeNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+          KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd::::    PPPPrrrriiiimmmmiiiittttiiiivvvveeeePPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+
+          KKKKHHHHeeeellllpppp::::         PPPPrrrriiiimmmmiiiittttiiiivvvveeeeHHHHeeeellllpppp(((())))
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The ScrollBar action routines are described below:
+
+          IIIInnnnccccrrrreeeemmmmeeeennnnttttDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((0000||||1111)))):
+               With an argument of 0, moves the slider down by one
+               increment.  With an argument of 1, moves the slider
+               right by one increment.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement toward the
+               right or bottom calls the callbacks for
+               XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement toward the
+               right or bottom calls the callbacks for
+               XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  The XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is
+               called if the XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or
+               XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is NULL.
+
+          IIIInnnnccccrrrreeeemmmmeeeennnnttttUUUUppppOOOOrrrrLLLLeeeefffftttt((((0000||||1111)))):
+               With an argument of 0, moves the slider up by one
+               increment.  With an argument of 1, moves the slider
+               left by one increment.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement to the left
+               or top calls the callbacks for XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.
+               If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement to the left or top calls the
+               callbacks for XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  The
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is called if the
+               XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is NULL.
+
+          MMMMoooovvvveeeedddd(((()))):
+               If the button press occurs within the slider, the
+               subsequent motion events move the slider to the
+               position of the pointer and call the callbacks for
+               XXXXmmmmNNNNddddrrrraaaaggggCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          PPPPaaaaggggeeeeDDDDoooowwwwnnnnOOOOrrrrRRRRiiiigggghhhhtttt((((0000||||1111)))):
+               With an argument of 0, moves the slider down by one
+               page increment.  With an argument of 1, moves the
+               slider right by one page increment.  If
+               XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement toward the right or bottom
+               calls the callbacks for XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  If
+               XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement toward the right or bottom calls
+               the callbacks for XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  The
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is called if the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is
+               NULL.
+
+          PPPPaaaaggggeeeeUUUUppppOOOOrrrrLLLLeeeefffftttt((((0000||||1111)))):
+               With an argument of 0, moves the slider up by one page
+               increment.  With an argument of 1, moves the slider
+               left by one page increment.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+               is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement to the
+               left or top calls the callbacks for
+               XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement to the left or
+               top calls the callbacks for XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.
+               The XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is called if the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is
+               NULL.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeeHHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeeNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Traverses to the first item in the next tab group.  If
+               the current tab group is the last entry in the tab
+               group list, it wraps to the beginning of the tab group
+               list.
+
+          PPPPrrrriiiimmmmiiiittttiiiivvvveeeePPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Traverses to the first item in the previous tab group.
+               If the beginning of the tab group list is reached, it
+               wraps to the end of the tab group list.
+
+          RRRReeeelllleeeeaaaasssseeee(((()))):
+               If the button press occurs within the slider and the
+               slider position is changed, the callbacks for
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk are called.
+
+          SSSSeeeelllleeeecccctttt(((()))):
+               ((((iiiinnnn aaaarrrrrrrroooowwww)))):  Moves the slider by one increment in the
+               direction of the arrow.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement toward the
+               right or bottom calls the callbacks for
+               XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, and movement to the left or top
+               calls the callbacks for XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  If
+               XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement toward the right or bottom calls
+               the callbacks for XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, and movement to
+               the left or top calls the callbacks for
+               XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  The XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is
+               called if the XXXXmmmmNNNNiiiinnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or
+               XXXXmmmmNNNNddddeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is NULL.
+
+               ((((iiiinnnn ssssccccrrrroooollllllll rrrreeeeggggiiiioooonnnn bbbbeeeettttwwwweeeeeeeennnn aaaannnn aaaarrrrrrrroooowwww aaaannnndddd tttthhhheeee sssslllliiiiddddeeeerrrr)))):
+               Moves the slider by one page increment in the direction
+               of the arrow.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement toward the
+               right or bottom calls the callbacks for
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, and movement to the left or
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX))))
+
+
+
+               top calls the callbacks for XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.
+               If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement toward the right or bottom calls
+               the callbacks for XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk, and
+               movement to the left or top calls the callbacks for
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk.  The XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               is called if the XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk or
+               XXXXmmmmNNNNppppaaaaggggeeeeDDDDeeeeccccrrrreeeemmmmeeeennnnttttCCCCaaaallllllllbbbbaaaacccckkkk is NULL.
+
+               ((((iiiinnnn sssslllliiiiddddeeeerrrr)))):  Activates the interactive dragging of the
+               slider.
+
+               If the button is held down in either the arrows or the
+               scroll region longer than the XXXXmmmmNNNNiiiinnnniiiittttiiiiaaaallllDDDDeeeellllaaaayyyy resource,
+               the slider is moved again by the same increment and the
+               same callbacks are called.  After the initial delay has
+               been used, the time delay changes to the time defined
+               by the resource XXXXmmmmNNNNrrrreeeeppppeeeeaaaattttDDDDeeeellllaaaayyyy.
+
+          TTTTooooppppOOOOrrrrBBBBoooottttttttoooommmm(((()))):
+               MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss in an arrow or in the scroll region
+               between an arrow and the slider moves the slider as far
+               as possible in the direction of the arrow.  If
+               XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmMMMMAAAAXXXX____OOOONNNN____RRRRIIIIGGGGHHHHTTTT or
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____BBBBOOOOTTTTTTTTOOOOMMMM, movement toward the right or bottom
+               calls the callbacks for XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk, and
+               movement to the left or top calls the callbacks for
+               XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk.  If XXXXmmmmNNNNpppprrrroooocccceeeessssssssiiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is
+               XXXXmmmmMMMMAAAAXXXX____OOOONNNN____LLLLEEEEFFFFTTTT or XXXXmmmmMMMMAAAAXXXX____OOOONNNN____TTTTOOOOPPPP, movement toward the
+               right or bottom calls the callbacks for
+               XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk, and movement to the left or top calls
+               the callbacks for XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk.  The
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk is called if the
+               XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk or XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk is NULL.
+               Pressing KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee or KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa moves the slider to
+               the minimum value and invokes the XXXXmmmmNNNNttttooooTTTTooooppppCCCCaaaallllllllbbbbaaaacccckkkk.
+               Pressing KKKKEEEEnnnnddddLLLLiiiinnnneeee or KKKKEEEEnnnnddddDDDDaaaattttaaaa moves the slider to the
+               maximum value and invokes the XXXXmmmmNNNNttttooooBBBBoooottttttttoooommmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooollllllllBBBBaaaarrrr((((3333XXXX)))), XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))),
+          XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrrGGGGeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX)))), and XXXXmmmmSSSSccccrrrroooollllllllBBBBaaaarrrrSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+

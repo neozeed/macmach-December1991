@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldReplace 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldReplace \(em a TextField function that replaces part of a text string.\fP
+.iX "XmTextFieldReplace"
+.iX "TextField functions" "XmTextFieldReplace"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldReplace (\fIwidget, from_pos, to_pos, value\fP)
+.br
+.ta .5i 1.7i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIfrom_pos\fP;
+.br
+	XmTextPosition	\fIto_pos\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldReplace\fP replaces part of the text string in the TextField widget.  The
+character positions begin at zero and are numbered sequentially from the
+beginning of the text.  
+.PP
+An example text replacement would be to replace
+the second and third characters in the text string.  To accomplish this,
+the parameter \fIfrom_pos\fP must be 1 and \fIto_pos\fP must be 3.  To
+insert a string after the fourth character, both parameters, \fIfrom_pos\fP
+and \fIto_pos\fP, must be 4.
+.PP
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIfrom_pos\fP" .75i
+Specifies the start position of the text to be replaced
+.IP "\fIto_pos\fP" .75i
+Specifies the end position of the text to be replaced
+.IP "\fIvalue\fP" .75i
+Specifies the character string value to be added to the text widget
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

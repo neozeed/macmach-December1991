@@ -1,0 +1,528 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 CONTENTS
+
+
+       Preface............................................       ix
+           Audience.......................................       ix
+           Typographic Conventions........................       ix
+           Manual Page Format.............................       ix
+
+       1.  Reference Pages................................      1-1
+           mwm............................................      1-3
+           uil............................................     1-33
+           ApplicationShell...............................     1-34
+           Composite......................................     1-38
+           Constraint.....................................     1-40
+           Core...........................................     1-42
+           MrmCloseHierarchy..............................     1-45
+           MrmFetchColorLiteral...........................     1-46
+           MrmFetchIconLiteral............................     1-47
+           MrmFetchLiteral................................     1-48
+           MrmFetchSetValues..............................     1-49
+           MrmFetchWidget.................................     1-51
+           MrmFetchWidgetOverride.........................     1-53
+           MrmInitialize..................................     1-55
+           MrmOpenHierarchy...............................     1-56
+           MrmRegisterClass...............................     1-59
+           MrmRegisterNames...............................     1-60
+           MrmRegisterNamesInHierarchy....................     1-61
+           Object.........................................     1-62
+           OverrideShell..................................     1-63
+           RectObj........................................     1-65
+           Shell..........................................     1-67
+           TopLevelShell..................................     1-70
+           TransientShell.................................     1-73
+           Uil............................................     1-76
+           UilDumpSymbolTable.............................     1-80
+           VendorShell....................................     1-81
+           VirtualBindings................................     1-86
+           WMShell........................................     1-91
+           XmActivateProtocol.............................     1-97
+           XmActivateWMProtocol...........................     1-98
+           XmAddProtocolCallback..........................     1-99
+           XmAddProtocols.................................    1-100
+           XmAddTabGroup..................................    1-101
+           XmAddWMProtocolCallback........................    1-102
+           XmAddWMProtocols...............................    1-103
+           XmArrowButton..................................    1-104
+           XmArrowButtonGadget............................    1-109
+           XmBulletinBoard................................    1-113
+           XmCascadeButton................................    1-120
+           XmCascadeButtonGadget..........................    1-126
+           XmCascadeButtonGadgetHighlight.................    1-131
+
+
+
+                                  - i -
+
+
+
+
+
+
+
+
+
+
+
+           XmCascadeButtonHighlight.......................    1-132
+           XmClipboardCancelCopy..........................    1-133
+           XmClipboardCopy................................    1-134
+           XmClipboardCopyByName..........................    1-136
+           XmClipboardEndCopy.............................    1-137
+           XmClipboardEndRetrieve.........................    1-138
+           XmClipboardInquireCount........................    1-139
+           XmClipboardInquireFormat.......................    1-140
+           XmClipboardInquireLength.......................    1-141
+           XmClipboardInquirePendingItems.................    1-142
+           XmClipboardLock................................    1-143
+           XmClipboardRegisterFormat......................    1-144
+           XmClipboardRetrieve............................    1-145
+           XmClipboardStartCopy...........................    1-147
+           XmClipboardStartRetrieve.......................    1-149
+           XmClipboardUndoCopy............................    1-150
+           XmClipboardUnlock..............................    1-151
+           XmClipboardWithdrawFormat......................    1-152
+           XmCommand......................................    1-153
+           XmCommandAppendValue...........................    1-159
+           XmCommandError.................................    1-160
+           XmCommandGetChild..............................    1-161
+           XmCommandSetValue..............................    1-162
+           XmConvertUnits.................................    1-163
+           XmCreateArrowButton............................    1-165
+           XmCreateArrowButtonGadget......................    1-166
+           XmCreateBulletinBoard..........................    1-167
+           XmCreateBulletinBoardDialog....................    1-168
+           XmCreateCascadeButton..........................    1-169
+           XmCreateCascadeButtonGadget....................    1-170
+           XmCreateCommand................................    1-171
+           XmCreateDialogShell............................    1-172
+           XmCreateDrawingArea............................    1-173
+           XmCreateDrawnButton............................    1-174
+           XmCreateErrorDialog............................    1-175
+           XmCreateFileSelectionBox.......................    1-176
+           XmCreateFileSelectionDialog....................    1-177
+           XmCreateForm...................................    1-178
+           XmCreateFormDialog.............................    1-179
+           XmCreateFrame..................................    1-180
+           XmCreateInformationDialog......................    1-181
+           XmCreateLabel..................................    1-182
+           XmCreateLabelGadget............................    1-183
+           XmCreateList...................................    1-184
+           XmCreateMainWindow.............................    1-185
+           XmCreateMenuBar................................    1-186
+           XmCreateMenuShell..............................    1-187
+           XmCreateMessageBox.............................    1-188
+           XmCreateMessageDialog..........................    1-189
+           XmCreateOptionMenu.............................    1-190
+           XmCreatePanedWindow............................    1-192
+
+
+
+                                  - ii -
+
+
+
+
+
+
+
+
+
+
+
+           XmCreatePopupMenu..............................    1-193
+           XmCreatePromptDialog...........................    1-194
+           XmCreatePulldownMenu...........................    1-195
+           XmCreatePushButton.............................    1-197
+           XmCreatePushButtonGadget.......................    1-198
+           XmCreateQuestionDialog.........................    1-199
+           XmCreateRadioBox...............................    1-200
+           XmCreateRowColumn..............................    1-201
+           XmCreateScale..................................    1-202
+           XmCreateScrollBar..............................    1-203
+           XmCreateScrolledList...........................    1-204
+           XmCreateScrolledText...........................    1-205
+           XmCreateScrolledWindow.........................    1-207
+           XmCreateSelectionBox...........................    1-208
+           XmCreateSelectionDialog........................    1-209
+           XmCreateSeparator..............................    1-210
+           XmCreateSeparatorGadget........................    1-211
+           XmCreateSimpleCheckBox.........................    1-212
+           XmCreateSimpleMenuBar..........................    1-213
+           XmCreateSimpleOptionMenu.......................    1-214
+           XmCreateSimplePopupMenu........................    1-215
+           XmCreateSimplePulldownMenu.....................    1-216
+           XmCreateSimpleRadioBox.........................    1-217
+           XmCreateText...................................    1-218
+           XmCreateTextField..............................    1-219
+           XmCreateToggleButton...........................    1-220
+           XmCreateToggleButtonGadget.....................    1-221
+           XmCreateWarningDialog..........................    1-222
+           XmCreateWorkArea...............................    1-223
+           XmCreateWorkingDialog..........................    1-224
+           XmCvtCTToXmString..............................    1-225
+           XmCvtStringToUnitType..........................    1-226
+           XmCvtXmStringToCT..............................    1-227
+           XmDeactivateProtocol...........................    1-228
+           XmDeactivateWMProtocol.........................    1-229
+           XmDestroyPixmap................................    1-230
+           XmDialogShell..................................    1-231
+           XmDrawingArea..................................    1-235
+           XmDrawnButton..................................    1-239
+           XmFileSelectionBox.............................    1-246
+           XmFileSelectionBoxGetChild.....................    1-256
+           XmFileSelectionDoSearch........................    1-257
+           XmFontList.....................................    1-258
+           XmFontListAdd..................................    1-259
+           XmFontListCopy.................................    1-260
+           XmFontListCreate...............................    1-261
+           XmFontListFree.................................    1-262
+           XmFontListFreeFontContext......................    1-263
+           XmFontListGetNextFont..........................    1-264
+           XmFontListInitFontContext......................    1-265
+           XmForm.........................................    1-266
+
+
+
+                                 - iii -
+
+
+
+
+
+
+
+
+
+
+
+           XmFrame........................................    1-275
+           XmGadget.......................................    1-278
+           XmGetAtomName..................................    1-282
+           XmGetColorCalculation..........................    1-283
+           XmGetColors....................................    1-284
+           XmGetDestination...............................    1-285
+           XmGetMenuCursor................................    1-286
+           XmGetPixmap....................................    1-287
+           XmGetPostedFromWidget..........................    1-289
+           XmInstallImage.................................    1-290
+           XmInternAtom...................................    1-291
+           XmIsMotifWMRunning.............................    1-292
+           XmLabel........................................    1-293
+           XmLabelGadget..................................    1-300
+           XmList.........................................    1-306
+           XmListAddItem..................................    1-320
+           XmListAddItems.................................    1-321
+           XmListAddItemUnselected........................    1-322
+           XmListDeleteAllItems...........................    1-323
+           XmListDeleteItem...............................    1-324
+           XmListDeleteItems..............................    1-325
+           XmListDeleteItemsPos...........................    1-326
+           XmListDeletePos................................    1-327
+           XmListDeselectAllItems.........................    1-328
+           XmListDeselectItem.............................    1-329
+           XmListDeselectPos..............................    1-330
+           XmListGetMatchPos..............................    1-331
+           XmListGetSelectedPos...........................    1-332
+           XmListItemExists...............................    1-333
+           XmListItemPos..................................    1-334
+           XmListReplaceItems.............................    1-335
+           XmListReplaceItemsPos..........................    1-336
+           XmListSelectItem...............................    1-337
+           XmListSelectPos................................    1-338
+           XmListSetAddMode...............................    1-339
+           XmListSetBottomItem............................    1-340
+           XmListSetBottomPos.............................    1-341
+           XmListSetHorizPos..............................    1-342
+           XmListSetItem..................................    1-343
+           XmListSetPos...................................    1-344
+           XmMainWindow...................................    1-345
+           XmMainWindowSep1...............................    1-349
+           XmMainWindowSep2...............................    1-350
+           XmMainWindowSep3...............................    1-351
+           XmMainWindowSetAreas...........................    1-352
+           XmManager......................................    1-353
+           XmMenuPosition.................................    1-359
+           XmMenuShell....................................    1-360
+           XmMessageBox...................................    1-364
+           XmMessageBoxGetChild...........................    1-370
+           XmOptionButtonGadget...........................    1-371
+
+
+
+                                  - iv -
+
+
+
+
+
+
+
+
+
+
+
+           XmOptionLabelGadget............................    1-372
+           XmPanedWindow..................................    1-373
+           XmPrimitive....................................    1-378
+           XmProcessTraversal.............................    1-384
+           XmPushButton...................................    1-385
+           XmPushButtonGadget.............................    1-392
+           XmRemoveProtocolCallback.......................    1-398
+           XmRemoveProtocols..............................    1-399
+           XmRemoveTabGroup...............................    1-400
+           XmRemoveWMProtocolCallback.....................    1-401
+           XmRemoveWMProtocols............................    1-402
+           XmResolveAllPartOffsets........................    1-403
+           XmResolvePartOffsets...........................    1-405
+           XmRowColumn....................................    1-407
+           XmScale........................................    1-421
+           XmScaleGetValue................................    1-428
+           XmScaleSetValue................................    1-429
+           XmScrollBar....................................    1-430
+           XmScrollBarGetValues...........................    1-438
+           XmScrollBarSetValues...........................    1-439
+           XmScrolledWindow...............................    1-440
+           XmScrolledWindowSetAreas.......................    1-446
+           XmSelectionBox.................................    1-447
+           XmSelectionBoxGetChild.........................    1-454
+           XmSeparator....................................    1-455
+           XmSeparatorGadget..............................    1-458
+           XmSetColorCalculation..........................    1-461
+           XmSetFontUnit..................................    1-462
+           XmSetFontUnits.................................    1-463
+           XmSetMenuCursor................................    1-464
+           XmSetProtocolHooks.............................    1-465
+           XmSetWMProtocolHooks...........................    1-466
+           XmString.......................................    1-467
+           XmStringBaseline...............................    1-468
+           XmStringByteCompare............................    1-469
+           XmStringCompare................................    1-470
+           XmStringConcat.................................    1-471
+           XmStringCopy...................................    1-472
+           XmStringCreate.................................    1-473
+           XmStringCreateLtoR.............................    1-474
+           XmStringCreateSimple...........................    1-475
+           XmStringDirection..............................    1-476
+           XmStringDirectionCreate........................    1-477
+           XmStringDraw...................................    1-478
+           XmStringDrawImage..............................    1-479
+           XmStringDrawUnderline..........................    1-480
+           XmStringEmpty..................................    1-482
+           XmStringExtent.................................    1-483
+           XmStringFree...................................    1-484
+           XmStringFreeContext............................    1-485
+           XmStringGetLtoR................................    1-486
+
+
+
+                                  - v -
+
+
+
+
+
+
+
+
+
+
+
+           XmStringGetNextComponent.......................    1-487
+           XmStringGetNextSegment.........................    1-489
+           XmStringHasSubstring...........................    1-490
+           XmStringHeight.................................    1-491
+           XmStringInitContext............................    1-492
+           XmStringLength.................................    1-493
+           XmStringLineCount..............................    1-494
+           XmStringNConcat................................    1-495
+           XmStringNCopy..................................    1-496
+           XmStringPeekNextComponent......................    1-497
+           XmStringSegmentCreate..........................    1-498
+           XmStringSeparatorCreate........................    1-499
+           XmStringTable..................................    1-500
+           XmStringWidth..................................    1-501
+           XmText.........................................    1-502
+           XmTextClearSelection...........................    1-521
+           XmTextCopy.....................................    1-522
+           XmTextCut......................................    1-523
+           XmTextField....................................    1-524
+           XmTextFieldClearSelection......................    1-531
+           XmTextFieldCopy................................    1-532
+           XmTextFieldCut.................................    1-533
+           XmTextFieldGetBaseline.........................    1-534
+           XmTextFieldGetEditable.........................    1-535
+           XmTextFieldGetInsertionPosition................    1-536
+           XmTextFieldGetLastPosition.....................    1-537
+           XmTextFieldGetMaxLength........................    1-538
+           XmTextFieldGetSelection........................    1-539
+           XmTextFieldGetSelectionPosition................    1-540
+           XmTextFieldGetString...........................    1-541
+           XmTextFieldInsert..............................    1-542
+           XmTextFieldPaste...............................    1-543
+           XmTextFieldPosToXY.............................    1-544
+           XmTextFieldRemove..............................    1-545
+           XmTextFieldReplace.............................    1-546
+           XmTextFieldSetAddMode..........................    1-547
+           XmTextFieldSetEditable.........................    1-548
+           XmTextFieldSetHighlight........................    1-549
+           XmTextFieldSetInsertionPosition................    1-550
+           XmTextFieldSetMaxLength........................    1-551
+           XmTextFieldSetSelection........................    1-552
+           XmTextFieldSetString...........................    1-553
+           XmTextFieldShowPosition........................    1-554
+           XmTextFieldXYToPos.............................    1-555
+           XmTextGetBaseline..............................    1-556
+           XmTextGetEditable..............................    1-557
+           XmTextGetInsertionPosition.....................    1-558
+           XmTextGetLastPosition..........................    1-559
+           XmTextGetMaxLength.............................    1-560
+           XmTextGetSelection.............................    1-561
+           XmTextGetSelectionPosition.....................    1-562
+
+
+
+                                  - vi -
+
+
+
+
+
+
+
+
+
+
+
+           XmTextGetSource................................    1-563
+           XmTextGetString................................    1-564
+           XmTextGetTopCharacter..........................    1-565
+           XmTextInsert...................................    1-566
+           XmTextPaste....................................    1-567
+           XmTextPosToXY..................................    1-568
+           XmTextPosition.................................    1-569
+           XmTextRemove...................................    1-570
+           XmTextReplace..................................    1-571
+           XmTextScroll...................................    1-572
+           XmTextSetAddMode...............................    1-573
+           XmTextSetEditable..............................    1-574
+           XmTextSetHighlight.............................    1-575
+           XmTextSetInsertionPosition.....................    1-576
+           XmTextSetMaxLength.............................    1-577
+           XmTextSetSelection.............................    1-578
+           XmTextSetSource................................    1-579
+           XmTextSetString................................    1-580
+           XmTextSetTopCharacter..........................    1-581
+           XmTextShowPosition.............................    1-582
+           XmTextXYToPos..................................    1-583
+           XmToggleButton.................................    1-584
+           XmToggleButtonGadget...........................    1-592
+           XmToggleButtonGadgetGetState...................    1-598
+           XmToggleButtonGadgetSetState...................    1-599
+           XmToggleButtonGetState.........................    1-600
+           XmToggleButtonSetState.........................    1-601
+           XmTrackingLocate...............................    1-602
+           XmUninstallImage...............................    1-603
+           XmUpdateDisplay................................    1-604
+           XmVaCreateSimpleCheckBox.......................    1-605
+           XmVaCreateSimpleMenuBar........................    1-607
+           XmVaCreateSimpleOptionMenu.....................    1-609
+           XmVaCreateSimplePopupMenu......................    1-611
+           XmVaCreateSimplePulldownMenu...................    1-614
+           XmVaCreateSimpleRadioBox.......................    1-618
+
+       Index..............................................  Index-1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 - vii -
+
+
+
+

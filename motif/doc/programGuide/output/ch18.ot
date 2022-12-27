@@ -1,0 +1,3497 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18.  UUUUIIIILLLL LLLLaaaannnngggguuuuaaaaggggeeee SSSSyyyynnnnttttaaaaxxxx
+
+       This chapter and the next chapter provide reference informa-  |
+       tion on UIL.  This chapter describes syntax rules for low-
+       level elements of the language.  Chapter 19 describes syntax  |
+       rules for building a UIL module using these low-level ele-
+       ments.
+
+       This chapter describes the syntax rules for the following:
+
+          +o Character set
+
+          +o Names
+
+          +o Keywords
+
+          +o Literals
+
+          +o Value-generating functions
+
+          +o The aaaannnnyyyy data type                                        |
+
+          +o Compile-time value expressions                           *
+
+       UIL is a free-form language.  This means that high-level      |
+       constructs such as object and value declarations do not need
+       to begin in any particular column and can span any number of
+       lines.  Low-level constructs such as keywords and punctua-    |
+       tion characters can also begin in any column; however,
+       except for string literals and comments, they cannot span
+       lines.
+
+       The UIL compiler accepts input lines up to 132 characters in
+       length.
+
+       18.1  CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt
+
+       Use the character set described in the following table to     |
+       construct elements of UIL.
+
+                   TTTTAAAABBBBLLLLEEEE 11118888----1111....  UIL Legal Character Set
+
+
+
+
+
+                                                               18-1
+
+
+
+
+
+
+
+
+
+
+
+
+       EEEElllleeeemmmmeeeennnntttt                CCCChhhhaaaarrrraaaacccctttteeeerrrrssss
+       ___________________________________________
+                              ABCDEFGHIJKLM-                         *
+                              NOPQRSTUVWXYZ         |
+                              abcdefghijklm-
+                              nopqrstuvwxyz
+7777       Letters:
+
+
+
+       ___________________________________________                   |
+                              0123456789
+7       Digits:
+       ___________________________________________                   |
+       Formatting and punc-  |
+       tuation               |
+       characters:
+777                              Space, tab, form-
+                              feed, _ ' ( ) * , +
+                              - . / ; : = ! $  {
+                              }
+7777
+
+
+
+       ___________________________________________                   |
+       Other characters:
+7                              Remaining 8-bit
+                              character codes in
+                              the range 160 to 255
+                              decimal, & [ ] | < >
+                              % " # ? @ ~ ` ^       *
+77777
+
+
+
+
+7                           |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+
+       Alphabetic, numeric, and punctuation and formatting charac-   |
+       ters are used to build the elements of UIL.  Other charac-
+       ters are valid only in comments and string literals.
+
+       Control characters, except for the form-feed character, are
+       not permitted in a UIL module.  You must use escape           |
+       sequences (described in Section 18.4.1) to construct a
+       string literal containing a control character.
+
+       18.1.1  PPPPuuuunnnnccccttttuuuuaaaattttiiiioooonnnn CCCChhhhaaaarrrraaaacccctttteeeerrrrssss
+
+       You use the character sequences shown in the following table  |
+       to punctuate a UIL module.  These characters cannot be used
+       in UIL names.                                                 |
+
+                   TTTTAAAABBBBLLLLEEEE 11118888----2222....  Punctuation Characters
+
+              ______________________________________________
+              ((((    Left parenthesis   ))))    Right parenthesis
+              {{{{    Left brace         }}}}    Right brace
+              \\\\    Backslash          !!!!    Exclamation mark
+              ////****   Slash asterisk     ****////   Asterisk slash
+              ;;;;    Semicolon          ::::    Colon
+              ''''    Apostrophe         ,,,,    Comma
+              ====    Equal sign
+              ______________________________________________
+
+       Punctuation in a UIL module resembles that used in C pro-
+       grams.  For example, statements end in a semicolon, braces
+       are used to delimit definitions, and comments can be delim-   |
+       ited by the /* (slash and asterisk) and */ (asterisk and      |
+
+
+       18-2
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       slash) character sequences.
+
+       Spaces, tabs, and comments are special elements in the
+       language.  They are a means of delimiting other elements,
+       such as two names.  One or more of these elements can appear
+       before or after any other element in the language.  However,
+       spaces, tabs, and comments that appear in string literals
+       are treated as character sequences rather than delimiters.
+
+       Comments can take one of two forms, as follows:
+
+          +o The comment is introduced with the sequence /* followed
+            by the text of the comment and terminated with the
+            sequence */.  This form of comment can span multiple
+            source lines.
+
+          +o The comment is introduced with an ! (exclamation         |
+            point), followed by the text of the comment and ter-
+            minated by the end of the source line.
+
+       Neither form of comment can be nested.                        |
+
+       The form-feed character is a control character and therefore
+       cannot appear directly in a UIL specification file. You must
+       use the escape sequence \12\ instead (see Section 18.4.1 for  |
+       information on specifying other escape sequences in string
+       literals). There is one exception to this rule: a form-feed
+       can appear in column 1 of a source line due to the common
+       practice of some editors separating parts of a program with
+       a form-feed.  The form-feed causes a page break in the
+       module listing.
+
+       18.2  NNNNaaaammmmeeeessss
+
+       Each entity in the UIL language, such as a value, procedure,
+       or object, can be identified by a name.  This name can also
+       be used to reference the entity elsewhere in the UIL module.
+
+       Names can consist of any of the characters A to Z, a to z, 0  |
+       to 9, $ (dollar sign), and _ (underscore).  Names cannot      |
+       begin with a digit (0 to 9).  The maximum length of a name    |
+       is 31 characters.
+
+       UIL gives you a choice of either case-sensitive or case-
+       insensitive names through a clause in the MODULE header       |
+       (described in Section 19.1.2). For example, if names are      |
+       case sensitive, the names "sample" and "Sample" are distinct
+       from each other.  If names are case insensitive, these names  |
+       are treated as the same name and can be used interchange-     |
+       ably.  By default, UIL assumes names are case sensitive.
+
+
+
+                                                               18-3
+
+
+
+
+
+
+
+
+
+
+
+
+       In case-insensitive mode, the compiler outputs all names in
+       the UID file in uppercase form.  In case-sensitive mode,
+       names appear in the UIL file exactly as they appear in the
+       source.
+
+       You must define any referenced name exactly once in a UIL
+       module; if you define the same name more than once or omit a
+       definition, the UIL compiler issues an error at compile
+       time.                                                         |
+
+       18.3  KKKKeeeeyyyywwwwoooorrrrddddssss
+
+       Keywords are names that have special meaning in UIL.  They
+       are of two types, reserved and nonreserved. You cannot use a
+       reserved keyword to name an entity.  Nonreserved keywords
+       can be used as names.
+
+       If you specify case-insensitive mode, you can type UIL key-   |
+       words in uppercase, lowercase, or mixed case.  If you
+       specify case-sensitive mode, you must type UIL keywords in
+       lowercase.
+
+       You cannot abbreviate keywords by truncating characters from
+       the end.
+
+       The following table lists the UIL reserved keywords.          |
+
+                      TTTTAAAABBBBLLLLEEEE 11118888----3333....  Reserved Keywords
+
+       _____________________________________________________         *
+       KKKKeeeeyyyywwwwoooorrrrdddd                     DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _____________________________________________________
+                                   Identifies an arguments    |
+                                   list
+77       ARGUMENTS
+
+                                   Identifies a callbacks     |
+                                   list
+77       CALLBACKS
+
+                                   Identifies a controls      |
+                                   list
+77       CONTROLS
+
+                                   Signifies the end of the   |
+                                   module
+77       END
+
+                                   Specifies that this
+                                   object or value can be
+                                   referenced by other UIL    |
+                                   modules
+7777       EXPORTED
+
+
+
+                                   Represents the Boolean     |
+                                   value zero; synonym for    |
+                                   Off
+777       FALSE
+
+
+                                   For objects having a
+                                   widget and a gadget vari-
+                                   ant, specifies this        |
+                                   object as the gadget       |
+
+
+       18-4
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       _____________________________________________________
+       KKKKeeeeyyyywwwwoooorrrrdddd                     DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _____________________________________________________
+                                   variant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       GADGET
+
+
+                                                               18-5
+
+
+
+
+
+
+
+
+
+
+
+
+       _____________________________________________________
+       KKKKeeeeyyyywwwwoooorrrrdddd                     DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18-6
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       _____________________________________________________
+       KKKKeeeeyyyywwwwoooorrrrdddd                     DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _____________________________________________________
+                                   Indicates an identifier    |
+                                   declaration
+77       IDENTIFIER
+
+                                   Used with the nonreserved  |
+                                   keyword FILE to specify    |
+                                   an include file
+777       INCLUDE
+
+
+                                   Identifies a list          |
+                                   declaration
+77       LIST
+
+                                   Signifies the start of a   |
+                                   UIL module
+77       MODULE
+
+                                   Represents the Boolean     |
+                                   value zero; synonym for    |
+                                   FALSE
+777       OFF
+
+
+                                   Represents the Boolean     |
+                                   value 1; synonym for TRUE
+77       ON
+
+                                   Identifies an object       |
+                                   declaration
+77       OBJECT
+
+                                   Specifies that this
+                                   object or value cannot be
+                                   referenced by other UIL    |
+                                   modules
+7777       PRIVATE
+
+
+
+                                   Identifies a procedure     |
+                                   declaration
+77       PROCEDURE
+
+                                   Identifies a procedures    |
+                                   list
+77       PROCEDURES
+
+                                   Represents the Boolean     |
+                                   value 1; synonym for On
+77       TRUE
+
+                                   Identifies a value         |
+                                   (literal) declaration
+77       VALUE
+
+                                   For objects having a
+                                   widget and a gadget vari-
+                                   ant, specifies this
+                                   object as the widget       |
+                                   variant
+77777       WIDGET
+
+
+
+
+       _____________________________________________________
+
+       Keywords listed in Table 18-4 are nonreserved keywords,       |
+       which you can use as names without generating an error.
+       However, if you use any keyword as a name, you cannot use
+       the UIL-supplied usage of that keyword.  For example, if you
+       use the name of an argument (such as XXXXmmmmNNNNxxxx) as the name of a   |
+       value, you cannot specify the XXXXmmmmNNNNxxxx argument in any object     |
+       definitions.                                                  |
+
+
+
+
+
+
+
+
+                                                               18-7
+
+
+
+
+
+
+
+
+
+
+
+
+                    TTTTAAAABBBBLLLLEEEE 11118888----4444....  Nonreserved Keywords
+
+       _______________________________________________________________________*
+       KKKKeeeeyyyywwwwoooorrrrdddd                 DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _______________________________________________________________________
+       Built-in argument
+       names (for example:
+       XmNx, XmNheight)
+777                               Identifies an object argument (widget-specific   |
+                               attribute)
+77
+
+
+       Built-in reason       |
+       names (for example:   |
+       XmNactivateCallback,  |
+       XmNhelpCallback)
+7777                               Identifies a callback reason                     |
+7
+
+
+
+       Character set names
+       (for example:
+       ISO_LATIN1,
+       ISO_HEBREW_LR)
+7777                               Identifies a character set and its (implicit)    |
+                               writing direction
+77
+
+
+
+       Constant value names  |
+       (for example:         |
+       XmMENU_OPTION,        |
+       XmBROWSE_SELECT)      |
+7777                               Identifies a constant value defined in the
+                               Motif toolkit
+77
+
+
+
+       Object types (for
+       example: XmPushBut-
+       ton, XmBulletin-
+       Board)
+7777                               Identifies a Motif Toolkit interface object      |
+7
+
+
+
+       ANY
+7                               Suppresses data type checking                    |
+7
+       ARGUMENT
+7                               Identifies the built-in ARGUMENT function        |
+7
+       ASCIZ_STRING_TABLE
+7                               Specifies a value as the UIL data type           |
+                               aaaasssscccciiiizzzz____ttttaaaabbbblllleeee
+77
+
+       ASCIZ_TABLE
+7                               Specifies a value as the UIL data type           |
+                               aaaasssscccciiiizzzz____ttttaaaabbbblllleeee
+77
+
+       BACKGROUND
+7                               In a color table, specifies monochrome mapping   |
+                               to the background color
+77
+
+                               Specifies a literal as the UIL data type         |
+                               bbbboooooooolllleeeeaaaannnn
+77       BOOLEAN
+
+       CASE_INSENSITIVE
+7                               Used with the nonreserved keyword NAMES to
+                               specify that names and keywords in the module    |
+                               are case insensitive
+777
+
+
+                               Used with the nonreserved keyword NAMES to
+                               specify that names and keywords in the module    |
+                               are case sensitive
+777       CASE_SENSITIVE
+
+
+                               Identifies the default character-set clause;     |
+                               identifies the built-in CHARACTER_SET function
+77       CHARACTER_SET
+
+                               Specifies a value as the UIL data type ccccoooolllloooorrrr     |
+7       COLOR
+                               Specifies a value as the UIL data type           |
+                               ccccoooolllloooorrrr____ttttaaaabbbblllleeee
+77       COLOR_TABLE
+
+       COMPOUND_STRING
+7                               Specifies a value as the UIL data type           |
+                               ccccoooommmmppppoooouuuunnnndddd____ssssttttrrrriiiinnnngggg; identifies the built-in         |
+                               COMPOUND_STRING data conversion function
+777
+
+
+       COMPOUND_STRING_TABLE
+7                               Specifies a value as the UIL data type           |
+                               ssssttttrrrriiiinnnngggg____ttttaaaabbbblllleeee
+77
+
+
+
+
+       18-8
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       _______________________________________________________________________
+       KKKKeeeeyyyywwwwoooorrrrdddd                 DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _______________________________________________________________________
+                               Used with the reserved keyword INCLUDE to        |
+                               specify an include file
+77       FILE
+
+                               Specifies a literal as the UIL data type ffffllllooooaaaatttt;  |
+                               identifies the FLOAT data conversion function
+77       FLOAT
+
+                               Specifies a value as the UIL data type ffffoooonnnntttt      |
+7       FONT
+                               Specifies a value as the UIL data type           |
+                               ffffoooonnnntttt____ttttaaaabbbblllleeee
+77       FONT_TABLE
+
+                               In a color table, specifies monochrome mapping   |
+                               to the foreground color
+77       FOREGROUND
+
+                               Specifies a value as the UIL data type ppppiiiixxxxmmmmaaaapppp;   |
+                               identifies the built-in ICON function
+77       ICON
+
+                               Specifies that this literal takes its value
+                               from a corresponding literal in another UIL      |
+                               module
+777       IMPORTED
+
+
+                               Specifies a literal as the UIL data type         |
+                               iiiinnnntttteeeeggggeeeerrrr; identifies the INTEGER data conversion  |
+                               function
+777       INTEGER
+
+
+                               Specifies a value as the UIL data type           |
+                               iiiinnnntttteeeeggggeeeerrrr____ttttaaaabbbblllleeee
+77       INTEGER_TABLE
+
+                               Specifies a literal as the UIL data type kkkkeeeeyyyyssssyyyymmmm|
+7       KEYSYM                                                                 |
+                               Specifies that a child is managed by its parent  |
+                               at run time
+77       MANAGED
+
+                               Identifies the case sensitivity clause           |
+7       NAMES
+                               Identifies the default object-variant clause     |
+7       OBJECTS
+                               Identifies the built-in REASON function          |
+7       REASON
+                               Specifies a color using RGB values    |
+7       RGB                                                                    |
+       RIGHT_TO_LEFT
+7                               Specifies the writing direction in the           |
+                               COMPOUND_STRING function
+77
+
+                               Specifies a literal as the UIL data type|
+                               ssssiiiinnnngggglllleeee____ffffllllooooaaaatttt                          |
+77       SINGLE_FLOAT                                                           |
+
+       STRING                  Specifies a literal as the UIL data type ssssttttrrrriiiinnnngggg|
+                               Specifies a value as the UIL data type           |
+                               ssssttttrrrriiiinnnngggg____ttttaaaabbbblllleeee
+77       STRING_TABLE
+
+       TRANSLATION_TABLE
+7                               Specifies a value as the UIL data type           |
+                               ttttrrrraaaannnnssssllllaaaattttiiiioooonnnn____ttttaaaabbbblllleeee
+77
+
+                               Specifies that a child is unmanaged by its       |
+                               parent at run time
+77       UNMANAGED
+
+                               Specifies that the object is a user-defined|
+                               type                                  |
+77       USER_DEFINED                                                           |
+
+                               Identifies the version clause                    |
+7       VERSION
+                               Specifies a value as the UIL data type ppppiiiixxxxmmmmaaaapppp;   |
+                               identifies the XBITMAPFILE function
+77       XBITMAPFILE
+
+       _______________________________________________________________________
+
+       In this chapter, all examples assume case-insensitive mode.   |
+       Keywords are shown in uppercase to distinguish them from      |
+       user-specified names, which are shown in lowercase; however,  |
+       this use of uppercase is not required in case-insensitive     |
+
+
+                                                               18-9
+
+
+
+
+
+
+
+
+
+
+
+
+       mode.  In the following example, ARGUMENTS is a keyword and   |
+       _c_i_r_c_l_e-_r_a_d_i_u_s is a user-specified value. In your UIL module,  |
+       you could type the keyword ARGUMENTS in lowercase, upper-     |
+       case, or mixed-case as long as you specified that names are
+       case insensitive.  If you specify that names are case sensi-  |
+       tive, you must enter the keyword in lowercase.                |
+
+       .                                                             |
+       .                                                             |
+       .                                                             |
+       { ARGUMENTS
+           { circle_radius = 1000 };
+       .                                                             |
+       .                                                             |
+       .                                                             |
+       };
+
+       18.4  LLLLiiiitttteeeerrrraaaallllssss
+
+       Literals are one means of specifying a value.  UIL provides
+       literals for several of the value types it supports.  Some
+       of the value types are not supported as literals (for exam-
+       ple, pixmaps and string tables).  You can specify values for
+       these types by using functions provided by UIL (discussed in  |
+       Section 18.5).  Literal types directly supported by UIL are
+       as follows:
+
+          +o String
+
+          +o Integer
+
+          +o Boolean
+
+          +o Floating-point
+
+       You can designate UIL values as exported, imported, or
+       private.  An exported object or value can be referenced in
+       another UIL module that uses the same name for the object or
+       value and indicates that the object or value is to be
+       imported.  By default, top-level objects are exported, and
+       all other objects and values are private and are not acces-
+       sible by other UIL modules. Section 19.2 explains the scope   |
+       of UIL objects and values in more detail.
+
+       18.4.1  SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       A string literal is a sequence of zero or more 8-bit or 16-
+       bit characters or a combination delimited by ' (single quo-   |
+       tation marks) or " (double quotation marks).  String          |
+       literals can be no more than 2000 characters long.
+
+
+
+       18-10
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       A single-quoted string literal can span multiple source
+       lines.  To continue a single-quoted string literal, ter-
+       minate the continued line with a \ (backslash).  The literal  |
+       continues with the first character on the next line.
+
+       Double-quoted string literals cannot span multiple source
+       lines.  (Because double-quoted strings can contain escape
+       sequences and other special characters, you cannot use the
+       backslash character to designate continuation of the
+       string.)  To build a string value that must span multiple
+       source lines, use the concatenation operator.  See Section    |
+       18.4.2 for a description of how to concatenate strings.
+
+       The syntax of a string literal is one of the following:       |
+
+       '[ _c_h_a_r... ]'                                                 |
+
+       [ #_c_h_a_r-_s_e_t ]"[ _c_h_a_r... ]"                                    |
+
+       Both string forms associate a character set with a string
+       value.  UIL uses the following rules to determine the char-
+       acter set and storage format for string literals:
+
+          +o A string declared as '_s_t_r_i_n_g' is equivalent to           |
+            #_c_u_r__c_h_a_r_s_e_t"_s_t_r_i_n_g", where _c_u_r__c_h_a_r_s_e_t will be the      |
+            codeset portion of the value of the LANG environment if  |
+            it is set or the value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT if LLLLAAAANNNNGGGG is  |
+            not set or has no codeset component.  By default         |
+            XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT is ISO8859-1 (equivalent to           |
+            ISO_LATIN1), but vendors may define a different          |
+            default.  See Section 20.3 for more information.
+
+          +o A string declared as "_s_t_r_i_n_g" is equivalent to #_c_h_a_r-    |
+            _s_e_t"_s_t_r_i_n_g" if you specified _c_h_a_r-_s_e_t as the default     |
+            character set for the module.  Otherwise, "_s_t_r_i_n_g" is    |
+            equivalent to #_c_u_r__c_h_a_r_s_e_t"_s_t_r_i_n_g", where _c_u_r__c_h_a_r_s_e_t    |
+            is interpreted as described above.
+
+          +o A string of the form "_s_t_r_i_n_g" or #_c_h_a_r-_s_e_t"_s_t_r_i_n_g" is    |
+            stored as a null-terminated string.
+
+       Table 18-5 gives examples of valid and invalid string         |
+       literal syntax.  Note that the COMPOUND_STRING function
+       (described in Section 18.5.9) forces the UIL compiler to      |
+       generate a compound string.                                   |
+
+              TTTTAAAABBBBLLLLEEEE 11118888----5555....  Examples of String Literal Syntax
+
+       ________________________________________________________      *
+       FFFFoooorrrrmmmm                           SSSSttttoooorrrraaaaggggeeee FFFFoooorrrrmmmmaaaatttt
+       ________________________________________________________
+
+
+                                                              18-11
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________
+       FFFFoooorrrrmmmm                           SSSSttttoooorrrraaaaggggeeee FFFFoooorrrrmmmmaaaatttt
+       ________________________________________________________
+                                      Null-terminated string.    |   |
+                                      Character set is           |   |
+                                      _c_u_r__c_h_a_r_s_e_t (see Section   |   |
+                                      20.3).                         |
+7777       '_s_t_r_i_n_g'                                                      |
+
+
+
+
+                                      Invalid syntax. Does not   |   |
+                                      compile.                       |
+77       #_c_h_a_r-_s_e_t'_s_t_r_i_n_g'                                             |
+
+
+                                      Compound string. Charac-   |   |
+                                      ter set is _c_u_r__c_h_a_r_s_e_t     |   |
+                                      (see Section 20.3).            |
+777       COMPOUND_STRING('_s_t_r_i_n_g')                                     |
+
+
+
+                                      Null-terminated string.        |
+                                      If specified, the string       |
+                                      has the default character      |
+                                      set for the module. Oth-       |
+                                      erwise, the character set      |
+                                      is _c_u_r__c_h_a_r_s_e_t (see Sec-   |   |
+                                      tion 20.3).                    |
+7777777       "_s_t_r_i_n_g"                                                      |
+
+
+
+
+
+
+                                      Null-terminated string.        |
+                                      Character set is               |
+                                      ISO_GREEK.                     |
+777       #ISO_GREEK"_s_t_r_i_n_g"                                            |
+
+
+                                      Compound string.  If           |
+                                      specified, the string has      |
+                                      the default character set      |
+                                      for the module.  Other-        |
+                                      wise, the character set        |
+                                      is _c_u_r__c_h_a_r_s_e_t (see Sec-   |   |
+                                      tion 20.3).                    |
+7777777       COMPOUND_STRING("_s_t_r_i_n_g")                                     |
+
+
+
+
+
+
+       COMPOUND_STRING               |                               |
+       (#ISO_ARABIC"_s_t_r_i_n_g")
+77                                      Compound string.  Charac-
+                                      ter set is ISO_ARABIC.
+77
+
+                                      If the character sets and      |
+                                      writing directions of the      |
+                                      operands match, the            |
+                                      resulting string is            |
+                                      null-terminated; other-        |
+                                      wise, the result is a          |
+                                      multiple-segment compound      |
+                                      string.  String has the        |
+                                      character set or sets          |
+                                      specified for the indivi-      |
+                                      dual segments.                 |
+77777777777       '_s_t_r_i_n_g'&"_s_t_r_i_n_g"                                             |
+
+
+
+
+
+
+
+
+
+
+                                      If the implicit character      |
+                                      set and writing direction      |
+                                      for the left operand           |
+                                      matches the explicit           |
+                                      character set                  |
+                                      (ISO_HEBREW) and writing       |
+
+
+       18-12
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       ________________________________________________________      |
+       FFFFoooorrrrmmmm                           SSSSttttoooorrrraaaaggggeeee FFFFoooorrrrmmmmaaaatttt                 |
+       ________________________________________________________      |
+                                      direction (right to left)      |
+                                      for the right operand,         |
+                                      the resulting string is a      |
+                                      null-terminated string;        |
+                                      otherwise, the result is       |
+                                      a multiple-segment com-        |
+                                      pound string.                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       "_s_t_r_i_n_g"&#ISO_HEBREW"_s_t_r_i_n_g"                                  |
+
+
+                                                              18-13
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________      |
+       FFFFoooorrrrmmmm                           SSSSttttoooorrrraaaaggggeeee FFFFoooorrrrmmmmaaaatttt                 |
+       ________________________________________________________      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18-14
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       ________________________________________________________      |
+       FFFFoooorrrrmmmm                           SSSSttttoooorrrraaaaggggeeee FFFFoooorrrrmmmmaaaatttt                 |
+       ________________________________________________________      |
+       ________________________________________________________      |
+
+       String literals can contain characters with the eighth        *
+       (high-order) bit set.  You cannot type control characters
+       (00..1F, 7F, and 80..9F) directly in a single-quoted string
+       literal.  However, you can represent these characters with
+       escape sequences.  The characters listed in Table 6 cannot
+       be directly entered in a UIL module. You must use the indi-
+       cated escape sequence to enter these characters in a string
+       literal.                                                      |
+
+                      TTTTAAAABBBBLLLLEEEE 11118888----6666....  Escape Sequences
+
+                 ________________________________________            *
+                 EEEEssssccccaaaappppeeee         MMMMeeeeaaaannnniiiinnnngggg
+                 SSSSeeeeqqqquuuueeeennnncccceeee
+                 ________________________________________
+                 \b             Backspace                            |
+                 \f             Form-feed                            |
+                 \n             Newline|-                             |
+                 \r             Carriage return                      |
+                 \t             Horizontal tab                       |
+                 \v             Vertical tab                         |
+                 \'             Single quotation mark                |
+                 \"             Double quotation mark                |
+                 \\             Backslash                            |
+                                Character whose internal             |
+                                representation is given              |
+                                by _i_n_t_e_g_e_r (in the range   |         |
+                                0 to 255 decimal)                    |
+7777                 \_i_n_t_e_g_e_r\                                           |
+
+
+
+                 ________________________________________            *
+                 |- The UIL compiler does not process new-  *         |
+                 line characters in compound strings.                |
+                 The effect of a newline character in a              |
+                 compound string depends only on the                 |
+                 character set of the string, and the                |
+                 result is not guaranteed to be a multi-             |
+                 line string.                                        |
+7777777                                                                     |
+
+
+
+
+
+
+                 ________________________________________            |
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-15
+
+
+
+
+
+
+
+
+
+
+
+
+       18.4.2  CCCCoooonnnnccccaaaatttteeeennnnaaaatttteeeedddd SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       The & (ampersand) concatenation operator takes two strings    |
+       as operands and creates a new string made up of the left
+       operand followed immediately by the right operand.
+
+       For example:                                                  |
+
+       'abcd' & 'xyz'
+
+       becomes the following:                                        |
+
+       'abcdxyz'
+
+       The operands of the concatenation operator can be null-       |
+       terminated strings, compound strings, or a combination of     |
+       both.  The operands can hold string values of the same or
+       different character sets.
+
+       The string resulting from the concatenation is a null-
+       terminated string unless one or more of the following condi-
+       tions exists:
+
+          +o One of the operands is a compound string
+
+          +o The operands have different character set properties
+
+          +o The operands have different writing directions
+
+       Then the resulting string is a compound string. You cannot    |
+       use imported or exported values as operands of the concate-
+       nation operator.  (See Section 19.2 for information on        |
+       declaring values as private, exported, or imported.)
+
+       18.4.2.1  CCCCoooommmmppppoooouuuunnnndddd SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       A compound string consists of a string of 8-bit or 16-bit
+       characters, a named character set, and a writing direction.
+       Its UIL data type is ccccoooommmmppppoooouuuunnnndddd____ssssttttrrrriiiinnnngggg.
+
+       The writing direction of a compound string is implied by the
+       character set specified for the string.  You can explicitly
+       set the writing direction for a compound string by using the
+       COMPOUND_STRING function (discussed in Section 18.5.9). Sec-  |
+       tion 18.4.2.2 describes the character sets supported in UIL
+       for compound strings.
+
+       A compound string can consist of a sequence of concatenated
+       compound strings, null-terminated strings, or a combination   |
+       of both, each of which can have a different character set
+       property and writing direction.  Use the concatenation        |
+
+
+       18-16
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       operator & (ampersand) to create a sequence of compound
+       strings.  The following is an example of concatenated com-
+       pound strings:                                                |
+
+       #ISO_HEBREW"txet werbeh"&#ISO_LATIN8"latin text"
+
+       Each string in the sequence is stored, including the charac-  |
+       ter set and writing direction information.  You can manipu-
+       late a compound string with the Motif Toolkit routines for
+       compound strings.
+
+       Generally, a string literal is stored in the UID file as a
+       compound string when the literal consists of concatenated
+       strings having different character sets or writing direc-
+       tions, or when you use the string to specify a value for an
+       argument that requires a compound string value.  If you want
+       to guarantee that a string literal is stored as a compound
+       string, you must use the COMPOUND_STRING function (discussed  |
+       in Section 18.5.9).                                           |
+
+       Because the results of the newline character depend on the    |
+       character set of a compound string, there is no guarantee     |
+       that an embedded '\n' will generate a multiline string.  To   |
+       ensure that you create a multiline string, use the SEPARATE   |
+       clause as follows:                                            |
+
+       VALUE                                                         |
+         sample_string: COMPOUND_STRING( "Hello", SEPARATE = TRUE )  |
+                                       & "world!";                   |
+
+       18.4.2.2  CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeettttssss ffffoooorrrr SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       Table 18-7 lists the character sets supported by the UIL      |
+       compiler for string literals.
+
+       The first column shows the UIL name for the character set.
+       The second column gives a brief description of the character
+       set.  Note that several UIL names map to the same character
+       set.  In some cases, the UIL name influences how string
+       literals are read.  For example, strings identified by a UIL
+       character set name ending in _LR are read left-to-right.
+       Names that end in a different number reflect different fonts
+       (for example, ISO_LATIN1 or ISO_LATIN6).  All character sets
+       in this table are represented by 8 bits.                      |
+
+
+
+
+
+
+
+
+
+                                                              18-17
+
+
+
+
+
+
+
+
+
+
+
+
+                  TTTTAAAABBBBLLLLEEEE 11118888----7777....  Supported Character Sets
+
+       _______________________________________________________       *
+       UUUUIIIILLLL NNNNaaaammmmeeee         DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _______________________________________________________
+       ISO_LATIN1       GL: ASCII, GR: Latin-1 Supplement
+       ISO_LATIN2       GL: ASCII, GR: Latin-2 Supplement            |
+       ISO_ARABIC       GL: ASCII, GR: Latin-Arabic Supplement       |
+       ISO_LATIN6       GL: ASCII, GR: Latin-Arabic Supplement       |
+       ISO_GREEK        GL: ASCII, GR: Latin-Greek Supplement        |
+       ISO_LATIN7       GL: ASCII, GR: Latin-Greek Supplement        |
+       ISO_HEBREW       GL: ASCII, GR: Latin-Hebrew Supplement       |
+       ISO_LATIN8       GL: ASCII, GR: Latin-Hebrew Supplement       |
+       ISO_HEBREW_LR    GL: ASCII, GR: Latin-Hebrew Supplement       |
+       ISO_LATIN8_LR    GL: ASCII, GR: Latin-Hebrew Supplement       |
+       JIS_KATAKANA     GL: JIS Roman, GR: JIS Katakana              |
+       _______________________________________________________
+
+       The parsing rules for each of the character sets is           |
+       described in Table 18-8.                                      |
+
+       #ISO_HEBREW "tfel ot thgir morf og sretcarahc"
+
+       In this example, the characters in the string value are       |
+       presented right to left.  Since the character set for the
+       literal is ISO_HEBREW, the characters in quotation marks can
+       be any legal character as defined by the ISO_HEBREW charac-
+       ter set.
+
+              TTTTAAAABBBBLLLLEEEE 11118888----8888....  Parsing Rules for Character Sets          |
+
+       ________________________________________________________      *
+       CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt        PPPPaaaarrrrssssiiiinnnngggg RRRRuuuulllleeeessss
+       ________________________________________________________
+                            Character codes in the range         |
+                            00...1f, 7f, and 80...9f are con-    |
+                            trol characters including both
+                            bytes of 16-bit characters. The      |
+                            compiler flags these as illegal      |
+                            characters.
+777777       All character sets
+
+
+
+
+
+       ISO_LATIN1          *
+       ISO_LATIN2
+       ISO_ARABIC
+       ISO_LATIN3
+       ISO_GREEK
+       ISO_LATIN4
+777777                            These sets are parsed from left to
+                            right. The escape sequences for
+                            null-terminated strings are also
+                            supported by these character sets.
+                            See Table 18-6 for more information  |
+                            on escape sequences.
+777777
+
+
+
+
+
+       ISO_HEBREW
+       ISO_LATIN8
+77                            These sets are parsed from right to
+                            left; for example, the string
+                            #ISO_HEBREW "012345" generates a
+                            primitive string "543210" with
+                            character set ISO_HEBREW. A DDIS
+
+
+       18-18
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       ________________________________________________________
+       CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt        PPPPaaaarrrrssssiiiinnnngggg RRRRuuuulllleeeessss
+       ________________________________________________________
+                            descriptor for such a string has
+                            this segment marked as being
+                            right_to_left.  The escape
+                            sequences for null-terminated        |
+                            strings in Table 18-6 are also sup-  |
+                            ported by these character sets, and  |
+                            the characters that compose the      |
+                            escape sequences are in left-to-     |
+                            right order.  For example, you type  |
+                            \n, not n\.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-19
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________
+       CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt        PPPPaaaarrrrssssiiiinnnngggg RRRRuuuulllleeeessss
+       ________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18-20
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       ________________________________________________________
+       CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt        PPPPaaaarrrrssssiiiinnnngggg RRRRuuuulllleeeessss
+       ________________________________________________________
+       ISO_HEBREW_LR                                                 |
+       ISO_LATIN8_LR
+77                            These sets are parsed from left to
+                            right; for example, the string
+                            #ISO_HEBREW_LR "012345" generates a
+                            primitive string "012345" with
+                            character set ISO_HEBREW. A DDIS
+                            descriptor for such a string marks
+                            this segment as being
+                            left_to_right.  The escape
+                            sequences for null-terminated
+                            strings, given in Table 18-6, are    |
+                            also supported by these character    |
+                            sets.
+777777777777
+
+
+
+
+
+
+
+
+
+
+
+                            This set is parsed from left to          |
+                            right.  The escape sequences for     |
+                            null-terminated strings in Table     |
+                            18-6 are also supported by this      |
+                            character set.  Note that the \      |
+                            (backslash) may be displayed as a    |
+                            yen symbol.
+7777777       JIS_KATAKANA
+
+
+
+
+
+
+       ________________________________________________________
+
+       In addition to designating parsing rules for strings, char-
+       acter set information remains an attribute of a compound
+       string. If the string is included in a string consisting of
+       several concatenated segments, the character set information
+       is included with that string segment.  This gives the Motif
+       Toolkit the information it needs to decipher the compound
+       string and choose a font to display the string.
+
+       For an application interface displayed only in English, UIL
+       lets you ignore the distinctions between the two uses of
+       strings. The compiler recognizes by context when a string
+       must be passed as a null-terminated string or as a compound
+       string.
+
+       The UIL compiler recognizes enough about the various charac-
+       ter sets to correctly parse string literals. The compiler     *
+       also issues errors if you use a compound string in a context
+       that supports only null-terminated strings.
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-21
+
+
+
+
+
+
+
+
+
+
+
+
+       Since the character set names are keywords, you must put      |
+       them in lowercase if case-sensitive names are in force.  If
+       names are case insensitive, character set names can be        |
+       uppercase, lowercase, or mixed case.
+
+       In addition to the built-in character sets recognized by
+       UIL, you can define your own character sets with the
+       CHARACTER_SET function.  You can use the CHARACTER_SET func-
+       tion anywhere a character set can be specified.  See Section  |
+       18.5.1. for more information on the CHARACTER_SET function.
+
+       18.4.2.3  DDDDaaaattttaaaa SSSSttttoooorrrraaaaggggeeee CCCCoooonnnnssssuuuummmmppppttttiiiioooonnnn ffffoooorrrr SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss
+
+       The way a string literal is stored in the UID file depends
+       on how you declare and use the string.  The UIL compiler
+       automatically converts a null-terminated string to a com-
+       pound string if you use the string to specify the value of
+       an argument that requires a compound string.  However, this
+       conversion is costly in terms of storage consumption.
+
+       Private, exported, and imported string literals require
+       storage for a single allocation when the literal is
+       declared; thereafter, storage is required for each reference
+       to the literal.  Literals declared inline require storage     |
+       for both an allocation and a reference.
+
+       The following table summarizes data storage consumption for
+       string literals.  The storage requirement for an allocation
+       consists of a fixed portion and a variable portion.  The      |
+       fixed portion of an allocation is roughly the same as the
+       storage requirement for a reference (a few bytes).  The
+       storage consumed by the variable portion depends on the size
+       of the literal value (that is, the length of the string).
+       To conserve storage space, avoid making string literal
+       declarations that result in an allocation per use.            |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18-22
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+              TTTTAAAABBBBLLLLEEEE 11118888----9999....  Data Storage for String Literals          |
+
+       ______________________________________________________________________________*
+       DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn   DDDDaaaattttaaaa TTTTyyyyppppeeee         UUUUsssseeeedddd AAAAssss           SSSSttttoooorrrraaaaggggeeee RRRReeeeqqqquuuuiiiirrrreeeemmmmeeeennnnttttssss PPPPeeeerrrr UUUUsssseeee
+       ______________________________________________________________________________
+                                                         An allocation and a refer-|
+                                                         ence (within the module)|
+77       Inline        Null-terminated   Null-terminated                               |
+
+                                                         A reference (within the|
+                                                         module)     |
+77       Private       Null-terminated   Null-terminated                               |
+
+                                                         A reference (within the UID|
+                                                         hierarchy)  |
+77       Exported      Null-terminated   Null-terminated                               |
+
+                                                         A reference (within the UID|
+                                                         hierarchy)  |
+77       Imported      Null-terminated   Null-terminated                               |
+
+                                                         An allocation and a refer-|
+                                                         ence (within the module)|
+77       Inline        Null-terminated   Compound                                      |
+
+                                                         An allocation and a refer-|
+                                                         ence (within the module)|
+77       Private       Null-terminated   Compound                                      |
+
+                                                         A reference (within the UID|
+                                                         hierarchy)  |
+77       Exported      Null-terminated   Compound                                      |
+
+                                                         A reference (within the UID   ||
+                                                         hierarchy)  |
+77       Imported      Null-terminated   Compound                                      |
+
+                                                         An allocation and a refer-|
+                                                         ence (within the module)|
+77       Inline        Compound          Compound                                      |
+
+                                                         A reference (within the|
+                                                         module)     |
+77       Private       Compound          Compound                                      |
+
+                                                         A reference (within the UID|
+                                                         hierarchy)  |
+77       Exported      Compound          Compound                                      |
+
+                                                         A reference (within the UID|
+                                                         hierarchy)  |
+77       Imported      Compound          Compound                                      |
+
+       ______________________________________________________________________________|
+
+       18.4.3  IIIInnnntttteeeeggggeeeerrrr LLLLiiiitttteeeerrrraaaallllssss
+
+       An integer literal represents the value of a whole number.
+       Integer literals have the form of an optional sign followed
+       by one or more decimal digits.  An integer literal must not
+       contain embedded spaces or commas.
+
+       Integer literals are stored in the UID file as long           |
+       integers.  Exported and imported integer literals require a
+       single allocation when the literal is declared; thereafter,
+       a few bytes of storage are required for each reference to
+       the literal.  Private integer literals and those declared     |
+       inline require allocation and reference storage per use.  To
+       conserve storage space, avoid making integer literal
+       declarations that result in an allocation per use.
+
+
+
+
+
+
+
+                                                              18-23
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table shows data storage consumption for        |
+       integer literals.                                             |
+
+             TTTTAAAABBBBLLLLEEEE 11118888----11110000....  Data Storage for Integer Literals         |
+
+       _______________________________________________________________*
+       DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn   SSSSttttoooorrrraaaaggggeeee RRRReeeeqqqquuuuiiiirrrreeeemmmmeeeennnnttttssss PPPPeeeerrrr UUUUsssseeee
+       _______________________________________________________________
+       Inline        An allocation and a reference (within the module)|
+       Private       An allocation and a reference (within the module)
+       Exported      A reference (within the UID hierarchy)
+       Imported      A reference (within the UID hierarchy)
+       _______________________________________________________________
+
+       18.4.4  BBBBoooooooolllleeeeaaaannnn LLLLiiiitttteeeerrrraaaallllssss
+
+       A Boolean literal represents the value True (reserved key-    |
+       word TRUE or On) or False reserved keyword FALSE or Off).     |
+       These keywords are subject to case-sensitivity rules.
+
+       In a UID file, TRUE is represented by the integer value 1
+       and FALSE is represented by the integer value 0.
+
+       Data storage consumption for Boolean literals is the same as
+       that for integer literals.                                    *
+
+       18.4.5  FFFFllllooooaaaattttiiiinnnngggg----PPPPooooiiiinnnntttt LLLLiiiitttteeeerrrraaaallllssss
+
+       A floating-point literal represents the value of a real (or
+       float) number.  Floating-point literals have one of the fol-
+       lowing forms:                                                 |
+
+       [ ++++ | ---- ] _d_i_g_i_t... . [ _d_i_g_i_t... ] [ { EEEE | eeee } [ ++++ | ---- ] _d_i_g_i_t...|
+       [ ++++ | ---- ] . _d_i_g_i_t... [ { EEEE | eeee } [ ++++ | ---- ] _d_i_g_i_t... ]         |
+
+       For maximum portability a floating-point literal can          |
+       represent values in the range 1.0E-37 to 1.0E+37 with at      |
+       least 6 significant digits.  On many machines this range      |
+       will be wider, with more significant digits.  A floating-
+       point literal must not contain embedded spaces or commas.
+
+       Floating-point literals are stored in the UID file as         |
+       double-precision, floating-point numbers.  The following
+       table gives examples of valid and invalid floating-point
+       notation for the UIL compiler.                                |
+
+
+
+
+
+
+
+
+       18-24
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+                  TTTTAAAABBBBLLLLEEEE 11118888----11111111....  Floating-Point Notation              |
+
+       ____________________________________________________________________*
+       VVVVaaaalllliiiidddd FFFFllllooooaaaattttiiiinnnngggg----PPPPooooiiiinnnntttt LLLLiiiitttteeeerrrraaaallllssss       IIIInnnnvvvvaaaalllliiiidddd FFFFllllooooaaaattttiiiinnnngggg----PPPPooooiiiinnnntttt LLLLiiiitttteeeerrrraaaallllssss
+       ____________________________________________________________________
+        1.0                                1e1 (no decimal point)
+        .1                                 E-1 (no decimal point or digits)
+        3.1415E-2 (which equals .031415)   2.87 e6 (embedded blanks)
+        -6.29e7 (which equals -62900000)   2.0e100 (out of range)
+       ____________________________________________________________________
+
+       Data storage consumption for floating-point literals is the
+       same as that for integer literals.
+
+       18.5  VVVVaaaalllluuuueeee----GGGGeeeennnneeeerrrraaaattttiiiinnnngggg FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       UIL provides functions to generate the following types of     |
+       values:
+
+          +o Character sets
+
+          +o Keysyms                                                  |
+
+          +o Colors
+
+          +o Pixmaps
+
+          +o Single-precision, floating-point numbers                 |
+
+          +o Double-precision, floating-point numbers                 |
+
+          +o Fonts
+
+          +o Font tables
+
+          +o Compound strings
+
+          +o Compound string tables
+
+          +o ASCIZ (null-terminated) string tables                    |
+
+          +o Integer tables
+
+          +o Arguments
+
+          +o Reasons
+
+          +o Translation tables
+
+       Remember that all examples in the following sections assume
+       case-insensitive mode.  Keywords are shown in uppercase
+
+
+                                                              18-25
+
+
+
+
+
+
+
+
+
+
+
+
+       letters to distinguish them from user-specified names, which
+       are shown in lowercase letters.  This use of uppercase
+       letters is not required in case-insensitive mode.  In case-
+       sensitive mode, keywords must be in lowercase letters.        |
+
+       18.5.1  TTTThhhheeee CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT FFFFuuuunnnnccccttttiiiioooonnnn                            |
+
+       You can define your own character sets with the               |
+       CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT function.  You can use the CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT func-  |
+       tion anywhere a character set can be specified. The           |
+       CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT function has the following syntax:              |
+
+       CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT (_s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n [,_p_r_o_p_e_r_t_y]...);             |
+
+       The result of the CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT function is a character set   |
+       with the name _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n and the properties you
+       specify. _S_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n must be a null-terminated string.
+       You can optionally include one or both of the following
+       clauses to specify properties for the resulting character
+       set:                                                          |
+
+       RRRRIIIIGGGGHHHHTTTT____TTTTOOOO____LLLLEEEEFFFFTTTT = _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n                            |
+       SSSSIIIIXXXXTTTTEEEEEEEENNNN____BBBBIIIITTTT = _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n                              |
+
+       The RRRRIIIIGGGGHHHHTTTT____TTTTOOOO____LLLLEEEEFFFFTTTT clause sets the default writing direction   |
+       of the string from right to left if _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n is     |
+       True, and right to left otherwise.
+
+       The SSSSIIIIXXXXTTTTEEEEEEEENNNN____BBBBIIIITTTT clause allows the strings associated with     |
+       this character set to be interpreted as 16-bit characters if  |
+       _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n is True, and 8-bit characters otherwise.   |
+
+       18.5.2  TTTThhhheeee KKKKEEEEYYYYSSSSYYYYMMMM FFFFuuuunnnnccccttttiiiioooonnnn                                   |
+
+       The KKKKEEEEYYYYSSSSYYYYMMMM function is used to specify a keysym for a         |
+       mnemonic resource.  It has the following syntax:              |
+
+       KKKKEEEEYYYYSSSSYYYYMMMM (_s_t_r_i_n_g-_l_i_t_e_r_a_l)                                       |
+
+       The _s_t_r_i_n_g-_l_i_t_e_r_a_l must contain exactly one character.        |
+
+       The following example shows how to use the KKKKEEEEYYYYSSSSYYYYMMMM function:   |
+
+       OBJECT push_button_1:                                         |
+           XmPushButton                                              |
+             { ARGUMENTS                                             |
+                    { XmNmnemonic = KEYSYM( "Q" );                   |
+                      XmNlabelString = COMPOUND_STRING( "Quit" ); }; |
+             };                                                      |
+
+
+
+
+       18-26
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       18.5.3  FFFFuuuunnnnccccttttiiiioooonnnnssss ffffoooorrrr SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg CCCCoooolllloooorrrrssss                       |
+
+       Color values are designed to let you designate a value to     |
+       specify a color and then use that value for arguments         |
+       requiring a color value.                                      |
+
+       18.5.3.1  TTTThhhheeee CCCCOOOOLLLLOOOORRRR FFFFuuuunnnnccccttttiiiioooonnnn                                  |
+
+       The CCCCOOOOLLLLOOOORRRR function supports the definition of colors. Using   |
+       the CCCCOOOOLLLLOOOORRRR function, you can designate a value to specify a    |
+       color and then use that value for arguments requiring a
+       color value.
+
+       The CCCCOOOOLLLLOOOORRRR function has the following syntax:                  |
+
+       CCCCOOOOLLLLOOOORRRR (_s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n [,FFFFOOOORRRREEEEGGGGRRRROOOOUUUUNNNNDDDD|,BBBBAAAACCCCKKKKGGGGRRRROOOOUUUUNNNNDDDD])           |
+
+       The string expression names the color you want to define;     |
+       the optional keywords FFFFOOOORRRREEEEGGGGRRRROOOOUUUUNNNNDDDD and BBBBAAAACCCCKKKKGGGGRRRROOOOUUUUNNNNDDDD identify how  |
+       the color is to be displayed on a monochrome device when the
+       color is used in the definition of a color table.
+
+       The following example shows how to use the CCCCOOOOLLLLOOOORRRR function:    |
+
+       VALUE red: COLOR( 'Red' );                                    |
+       VALUE green: COLOR( 'Green' );
+       VALUE blue: COLOR( 'Blue' );
+       OBJECT primary_window:
+           XmMainWindow
+             { ARGUMENTS
+                    { XmNforeground = green;
+                      XmNbackground = COLOR( 'Black' ); };
+             };
+
+       In this example, the CCCCOOOOLLLLOOOORRRR function is used with the VVVVAAAALLLLUUUUEEEE    |
+       declaration (described in Section 19.3) to define three
+       colors and give them each a name. One of these colors, green  |
+       is then used to specify the foreground color of the main      |
+       window.
+
+       A second use of the CCCCOOOOLLLLOOOORRRR function defines the background     |
+       color for the main window as the color associated with the
+       string 'Black'.
+
+       The UIL compiler does not have built-in color names.  Colors
+       are a server-dependent attribute of an object.  Colors are    |
+       defined on each server and may have different red-green-blue  |
+       (RGB) values on each server.  The string you specify as the
+       color argument must be recognized by the server on which
+       your application runs.
+
+
+
+                                                              18-27
+
+
+
+
+
+
+
+
+
+
+
+
+       In a UID file, UIL represents a color as a character string.
+       MRM calls X translation routines that convert a color string
+       to the device-specific pixel value.  If you are running on a
+       monochrome server, all colors translate to black or white.
+       If you are on a color server, the color names translate to
+       their proper colors if the following conditions are met:
+
+          +o The color is defined.
+
+          +o The color map is not yet full.
+
+       If the color map is full, even valid colors translate to      |
+       black or white (foreground or background).
+
+       Interfaces do not, in general, specify colors for widgets,
+       so that the selection of colors can be controlled by the      |
+       user through the ....XXXXddddeeeeffffaaaauuuullllttttssss file.
+
+       To write an application that runs on both monochrome and      |
+       color devices, you need to specify which colors in a color    |
+       table (defined with the CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE function) map to the
+       background and which colors map to the foreground. UIL lets   |
+       you use the CCCCOOOOLLLLOOOORRRR function to designate this mapping in the   |
+       definition of the color.  The following example shows how to  |
+       use the CCCCOOOOLLLLOOOORRRR function to map the color red to the back-      |
+       ground color on a monochrome device:                          |
+
+       VALUE c: COLOR ( 'red',BACKGROUND );
+
+       The mapping comes into play only when the MRM is given a      |
+       color and the application is to be displayed on a monochrome
+       device.  In this case, each color is considered to be in one
+       of the following three categories:
+
+          +o The color is mapped to the background color on the
+            monochrome device.
+
+          +o The color is mapped to the foreground color on the
+            monochrome device.
+
+          +o Monochrome mapping is undefined for this color.
+
+       If the color is mapped to the foreground or background
+       color, MRM substitutes the foreground or background color,
+       respectively.  If you do not specify the monochrome mapping
+       for a color, MRM passes the color string to the Motif
+       Toolkit for mapping to the foreground or background color.    |
+
+
+
+
+
+
+       18-28
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       18.5.3.2  TTTThhhheeee RRRRGGGGBBBB FFFFuuuunnnnccccttttiiiioooonnnn                                    |
+
+       The RRRRGGGGBBBB function has the following syntax:                    |
+
+       RRRRGGGGBBBB (_i_n_t_e_g_e_r, _i_n_t_e_g_e_r, _i_n_t_e_g_e_r);                              |
+
+       The three integers define the values for the red, green, and  |
+       blue components of the color, in that order.  The values of   |
+       these components can range from 0 to 65,535, inclusive.       |
+
+       The following example shows how to use the RRRRGGGGBBBB function:      |
+
+       VALUE green : RGB( 0, 65535, 0 );                             |
+       OBJECT primary_window:                                        |
+           XmMainWindow                                              |
+             { ARGUMENTS                                             |
+                    { XmNforeground = green;                         |
+                      XmNbackground = RGB(65025, 12996, 7396); };    |
+             };                                                      |
+
+       In a UID file, UIL represents an RRRRGGGGBBBB value as three           |
+       integers.  MRM calls X translation routines that convert the  |
+       integers to the device-specific pixel value.  If you are      |
+       running on a monochrome server, all colors translate to       |
+       black or white.  If you are on a color server, RRRRGGGGBBBB values     |
+       translate to their proper colors if the colormap is not yet   |
+       full.  If the colormap is full, values translate to black or  |
+       white (foreground or background).
+
+       18.5.4  FFFFuuuunnnnccccttttiiiioooonnnnssss ffffoooorrrr SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg PPPPiiiixxxxmmmmaaaappppssss
+
+       Pixmap values are designed to let you specify labels that     |
+       are graphic images rather than text. Pixmap values are not
+       directly supported by UIL.  Instead, UIL supports icons,
+       which are a simplified form of pixmap.  You use a character
+       to describe each pixel in the icon.
+
+       Pixmap support in the UIL compiler is provided by the fol-
+       lowing functions:  CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE, IIIICCCCOOOONNNN, and XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE.        |
+
+       In a UIL module, any argument of type ppppiiiixxxxmmmmaaaapppp should have an
+       icon or an xxxxbbbbiiiittttmmmmaaaapppp file specified as its value.               |
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-29
+
+
+
+
+
+
+
+
+
+
+
+
+       18.5.4.1  TTTThhhheeee CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                            |
+
+       The CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE function has the following syntax:            |
+
+       CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE ( { _c_o_l_o_r-_e_x_p_r_e_s_s_i_o_n = _c_h_a_r_a_c_t_e_r },... )          |
+
+       The color expression is a previously defined color, a color
+       defined in line with the CCCCOOOOLLLLOOOORRRR function, or the phrase BBBBAAAACCCCKKKK----  |
+       GGGGRRRROOOOUUUUNNNNDDDD CCCCOOOOLLLLOOOORRRR or FFFFOOOORRRREEEEGGGGRRRROOOOUUUUNNNNDDDD CCCCOOOOLLLLOOOORRRR.  The character can be any   |
+       valid UIL character (see Table 18-1).
+
+       The following example shows how to specify a color table:
+
+       VALUE                                                         |
+         rgb : COLOR_TABLE ( red = 'r', green = 'g', blue = 'b' );
+         bitmap_colors : COLOR_TABLE ( BACKGROUND COLOR = '0',
+                                       FOREGROUND COLOR = '1' );
+
+       The CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE function provides a device-independent way    |
+       to specify a set of colors. The CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE function accepts  |
+       either previously defined UIL color names or in line color    |
+       definitions (using the CCCCOOOOLLLLOOOORRRR function).  A color table must
+       be private because its contents must be known by the UIL
+       compiler to construct an icon.  The colors within a color
+       table, however, can be imported, exported, or private.  See   |
+       Section 19.2 for more information on scope of reference to    |
+       values.
+
+       The single letter associated with each color is the charac-
+       ter you use to represent that color when creating an icon.
+       Each letter used to represent a color must be unique within
+       the color table.                                              |
+
+       18.5.4.2  TTTThhhheeee IIIICCCCOOOONNNN FFFFuuuunnnnccccttttiiiioooonnnn                                   |
+
+       The IIIICCCCOOOONNNN function has the following syntax:                   |
+
+       IIIICCCCOOOONNNN ( [ COLOR_TABLE=_c_o_l_o_r-_t_a_b_l_e-_n_a_m_e , ] _r_o_w,... )           |
+
+       The color table name must refer to a previously defined       |
+       color table and the row is a character expression giving one  |
+       row of the icon.
+
+
+
+
+
+
+
+
+
+
+
+       18-30
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       The following example shows how to define a pixmap using the  |
+       CCCCOOOOLLLLOOOORRRR____TTTTAAAABBBBLLLLEEEE and IIIICCCCOOOONNNN functions:
+
+       VALUE                                                         |
+          rgb    : COLOR_TABLE ( red = '=', green = '.', blue = ' ' );
+          x_icon : ICON( COLOR_TABLE=rgb, '=========',
+                                          '==.   .==',
+                                          '== . . ==',
+                                          '==  .  ==',
+                                          '== . . ==',
+                                          '==.   .==',
+                                          '=========' );
+
+       The IIIICCCCOOOONNNN function describes a rectangular icon that is x      |
+       pixels wide and y pixels high. The strings surrounded by
+       single quotation marks describe the icon. Each string
+       represents a row in the icon; each character in the string
+       represents a pixel.
+
+       The first row in an icon definition determines the width of
+       the icon.  All rows must have the same number of characters
+       as the first row. The height of the icon is dictated by the
+       number of rows.  For example, the x_icon defined in the pre-  |
+       vious example is 9 pixels wide and 7 pixels high.
+
+       The first argument of the IIIICCCCOOOONNNN function (the color table      |
+       specification) is optional and identifies the colors that
+       are available in this icon. By using the single letter asso-
+       ciated with each color, you can specify the color of each
+       pixel in the icon. In the example, an = (equal sign)          |
+       represents the color red, a . (dot) is green, and a space is  |
+       blue.  The icon must be constructed of characters defined in
+       the specified color table.  In the example, the color table   |
+       named rgb specifies colors for the = (equal sign), . (dot),   |
+       and space.  The x_icon is constructed with these three char-
+       acters.
+
+       A default color table is used if you omit the argument        |
+       specifying the color table.  To make use of the default
+       color table, the rows of your icon must contain only spaces
+       and asterisks.  The default color table is defined as fol-    *
+       lows:                                                         |
+
+       COLOR_TABLE( BACKGROUND COLOR = ' ', FOREGROUND COLOR = '*' )
+
+       You can define other characters to represent the background   |
+       color and foreground color by replacing the space and aster-  |
+       isk in the BBBBAAAACCCCKKKKGGGGRRRROOOOUUUUNNNNDDDD CCCCOOOOLLLLOOOORRRR and FFFFOOOORRRREEEEGGGGRRRROOOOUUUUNNNNDDDD CCCCOOOOLLLLOOOORRRR clauses      |
+       shown in the previous statement.  You can specify icons as
+       private, imported, or exported.  Use the MRM function         |
+       MMMMrrrrmmmmFFFFeeeettttcccchhhhIIIIccccoooonnnnLLLLiiiitttteeeerrrraaaallll to retrieve an exported icon at run
+
+
+                                                              18-31
+
+
+
+
+
+
+
+
+
+
+
+
+       time.                                                         |
+
+       18.5.4.3  TTTThhhheeee XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                            |
+
+       The XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function is similar to the IIIICCCCOOOONNNN function in   |
+       that both describe a rectangular icon that is x pixels wide
+       and y pixels high.  However, XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE allows you to        |
+       specify an external file containing the definition of an X    |
+       bitmap, whereas all IIIICCCCOOOONNNN function definitions must be coded   |
+       directly within UIL.  X bitmap files can be generated by
+       many different X applications.  UIL reads these files         |
+       through the XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function, but does not support crea-
+       tion of these files.  The X bitmap file specified as the
+       argument to the XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function is read at application   |
+       run time by MRM.
+
+       The XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function returns a value of type ppppiiiixxxxmmmmaaaapppp and   |
+       can be used anywhere a pixmap data type is expected. The      |
+       XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE function has the following syntax:                |
+
+       XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE( _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n );                             |
+
+       The following example shows how to use the XXXXBBBBIIIITTTTMMMMAAAAPPPPFFFFIIIILLLLEEEE func-  |
+       tion:                                                         |
+
+       VALUE
+           background_pixmap=XBITMAPFILE('myfile_button.xbm');       |
+
+       In this example, the X bitmap specified in mmmmyyyyffffiiiilllleeee____bbbbuuuuttttttttoooonnnn....xxxxbbbbmmmm  |
+       is used to create a pixmap, which can be referenced by the    |
+       value _b_a_c_k_g_r_o_u_n_d__p_i_x_m_a_p.                                      |
+
+       18.5.5  TTTThhhheeee SSSSIIIINNNNGGGGLLLLEEEE____FFFFLLLLOOOOAAAATTTT FFFFuuuunnnnccccttttiiiioooonnnn                             |
+
+       The SSSSIIIINNNNGGGGLLLLEEEE____FFFFLLLLOOOOAAAATTTT function lets you store floating-point       |
+       literals in UIL files as single-precision, floating-point     |
+       numbers.  Single-precision floating-point numbers can often   |
+       be stored using less memory than double-precision,            |
+       floating-point numbers.                                       |
+
+       The function has the following syntax:                        |
+
+       SSSSIIIINNNNGGGGLLLLEEEE____FFFFLLLLOOOOAAAATTTT (_r_e_a_l__n_u_m_b_e_r__l_i_t_e_r_a_l)                            |
+
+       The _r_e_a_l__n_u_m_b_e_r__l_i_t_e_r_a_l can be either an integer literal or   |
+       a floating-point literal.  A value defined using this func-   |
+       tion cannot be used in an arithmetic expression.              |
+
+
+
+
+
+
+       18-32
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       18.5.6  TTTThhhheeee FFFFLLLLOOOOAAAATTTT FFFFuuuunnnnccccttttiiiioooonnnn                                    |
+
+       The FFFFLLLLOOOOAAAATTTT function lets you store floating-point literals in  |
+       UIL files as double-precision, floating-point numbers.        |
+
+       The function has the following syntax:                        |
+
+       FFFFLLLLOOOOAAAATTTT (_r_e_a_l__n_u_m_b_e_r__l_i_t_e_r_a_l)                                   |
+
+       The _r_e_a_l__n_u_m_b_e_r__l_i_t_e_r_a_l can be either an integer literal or   |
+       a floating-point literal.                                     |
+
+       18.5.7  TTTThhhheeee FFFFOOOONNNNTTTT FFFFuuuunnnnccccttttiiiioooonnnn                                     |
+
+       You define fonts with the FFFFOOOONNNNTTTT function.  Using the FFFFOOOONNNNTTTT      |
+       function, you designate a value to specify a font and then
+       use that value for arguments that require a font value.  The
+       UIL compiler has no built-in fonts.  You must define all
+       fonts using the FFFFOOOONNNNTTTT function.                                |
+
+       Each font makes sense only in the context of a character
+       set. The FFFFOOOONNNNTTTT function has an additional parameter to let     |
+       you specify the character set for the font. This parameter
+       is optional; if you omit it, the default character set        |
+       depends on the value of the LLLLAAAANNNNGGGG environment variable if it   |
+       is set of the value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT if LLLLAAAANNNNGGGG is not      |
+       set.  The font function has the following syntax:             |
+
+       FFFFOOOONNNNTTTT( _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n [, CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT = _c_h_a_r-_s_e_t ] )       |
+
+       The string expression specifies the name of the font and the  |
+       clause CCCCHHHHAAAARRRRAAAACCCCTTTTEEEERRRR____SSSSEEEETTTT = _c_h_a_r-_s_e_t specifies the character set
+       for the font. The string expression used in the FFFFOOOONNNNTTTT func-    |
+       tion cannot be a compound string.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-33
+
+
+
+
+
+
+
+
+
+
+
+
+       The following example shows how to use the FFFFOOOONNNNTTTT function:     |
+
+       VALUE big:  FONT('-ADOBE-Times-Medium-R-Normal--*-140-*-*-P-*-ISO8859-1');   |
+       VALUE bold: FONT('-ADOBE-Helvetica-Bold-R-Normal--*-100-*-*-P-*-ISO8859-1');
+       OBJECT danger_window:
+           XmWarningDialog
+           { ARGUMENTS
+               { XmNdialogTitle = 'You are about to lose all changes';
+                 XmNlabelFontList = bold;
+               };
+           };
+
+       In this example, the FONT function is used with the VVVVAAAALLLLUUUUEEEE     |
+       declaration (described in Section 19.3) to define two fonts
+       and give them names. One of these fonts, _b_o_l_d, is automati-   |
+       cally converted to a font table by the compiler (because the
+       argument XXXXmmmmNNNNllllaaaabbbbeeeellllFFFFoooonnnnttttLLLLiiiisssstttt requires a font table) and is used  |
+       to specify the text font of the warning dialog.
+
+       Use the wildcard character * (an asterisk) to specify fonts   |
+       in a device-independent manner.
+
+       If possible, you should not specify fonts for objects in      *
+       your application interface.  This allows end users to con-    |
+       trol font selection through the ....XXXXddddeeeeffffaaaauuuullllttttssss ffffiiiilllleeee.              |
+
+       18.5.8  TTTThhhheeee FFFFOOOONNNNTTTT____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                               |
+
+       A font table is a sequence of pairs of fonts and character    |
+       sets.  At run time when an object needs to display a string,
+       the object scans the font table for the character set that
+       matches the character set of the string to be displayed.
+
+       UIL provides the FFFFOOOONNNNTTTT____TTTTAAAABBBBLLLLEEEE function to let you supply such   |
+       an argument.  The syntax of the FFFFOOOONNNNTTTT____TTTTAAAABBBBLLLLEEEE function is as     |
+       follows:                                                      |
+
+       FFFFOOOONNNNTTTT____TTTTAAAABBBBLLLLEEEE( _f_o_n_t _e_x_p_r_e_s_s_i_o_n,... )                             |
+
+       The font expression is created with the FFFFOOOONNNNTTTT function.        |
+
+       If you specify a single font value to specify an argument
+       that requires a font table, the UIL compiler automatically
+       converts a font value to a font table.                        |
+
+
+
+
+
+
+
+
+
+       18-34
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       18.5.9  TTTThhhheeee CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG FFFFuuuunnnnccccttttiiiioooonnnn                          |
+
+       Use the CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG function to set properties of a       |
+       null-terminated string and to convert it into a compound
+       string. The properties you can set are the character set,
+       writing direction, and separator.
+
+       The CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG function has the following syntax:        |
+
+       CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG( _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n [, _p_r_o_p_e_r_t_y ]...);         |
+
+       The result of the CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG function is a compound      |
+       string with the string expression as its value.  You can
+       optionally include one or more of the following clauses to
+       specify properties for the resulting compound string:         |
+
+       RRRRIIIIGGGGHHHHTTTT____TTTTOOOO____LLLLEEEEFFFFTTTT = _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n                            |
+       SSSSEEEEPPPPAAAARRRRAAAATTTTEEEE = _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n                                 |
+
+       The RRRRIIIIGGGGHHHHTTTT____TTTTOOOO____LLLLEEEEFFFFTTTT clause sets the writing direction of the    |
+       string from right to left if _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n is True, and  |
+       left to right otherwise. Specifying this argument does not
+       cause the value of the string expression to change.  If you   |
+       omit the RRRRIIIIGGGGHHHHTTTT____TTTTOOOO____LLLLEEEEFFFFTTTT argument, the resulting string has     |
+       the same writing direction as _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n.
+
+       The SSSSEEEEPPPPAAAARRRRAAAATTTTEEEE clause appends a separator to the end of the     |
+       compound string if _b_o_o_l_e_a_n-_e_x_p_r_e_s_s_i_o_n is True.  If you omit   |
+       the SSSSEEEEPPPPAAAARRRRAAAATTTTEEEE clause, the resulting string does not have a
+       separator.
+
+       You cannot use imported or exported values as the operands
+       of the CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG function.                              |
+
+       18.5.10  TTTThhhheeee CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                   |
+
+       A compound string table is an array of compound strings.
+       Objects requiring a list of string values, such as the XXXXmmmmNNNNiiii----  |
+       tttteeeemmmmssss and XXXXmmmmNNNNsssseeeelllleeeecccctttteeeeddddIIIItttteeeemmmmssss arguments for the list widget, use
+       string table values.  The CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE function      |
+       builds the values for these two arguments of the list         |
+       widget.  The CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE function generates a       |
+       value of type ssssttttrrrriiiinnnngggg____ttttaaaabbbblllleeee.  The name SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE is a       |
+       synonym for CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE.
+
+       The CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE function has the following syntax:  |
+
+       CCCCOOOOMMMMPPPPOOOOUUUUNNNNDDDD____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE(_s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n,...)                  |
+
+       The following example shows how to specify a string table:    |
+
+
+
+                                                              18-35
+
+
+
+
+
+
+
+
+
+
+
+
+       OBJECT file_privileges: XmList
+          { ARGUMENTS                                                |
+               { XmNitems = COMPOUND_STRING_TABLE("owner read",      |
+                                                  "owner write",     |
+                                                  "owner delete",    |
+                                                  "system read",     |
+                                                  "system write",    |
+                                                  "system delete",   |
+                                                  "group read",      |
+                                                  "group write",     |
+                                                  "group delete" );  |
+                 XmNselectedItems = COMPOUND_STRING_TABLE            |
+                                                 ("owner read",      |
+                                                  "owner write",     |
+                                                  "system read",     |
+                                                  "system write" );  |
+               };                                                    |
+          };                                                                  |
+
+       This example creates a list box with nine menu choices. Four
+       of the choices are initially displayed as having been
+       selected.
+
+       The strings inside the string table can be simple strings,
+       which the UIL compiler automatically converts to compound     |
+       strings.                                                      |
+
+       18.5.11  TTTThhhheeee AAAASSSSCCCCIIIIZZZZ____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                      |
+
+       An ASCIZ string table is an array of ASCIZ (null-terminated)
+       string values separated by commas. This function allows you
+       to pass more than one ASCIZ string as a callback tag value.   |
+       The AAAASSSSCCCCIIIIZZZZ____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE function generates a value of type
+       aaaasssscccciiiizzzz____ttttaaaabbbblllleeee.  The name AAAASSSSCCCCIIIIZZZZ____TTTTAAAABBBBLLLLEEEE is a synonym for           |
+       AAAASSSSCCCCIIIIZZZZ____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE.
+
+       The AAAASSSSCCCCIIIIZZZZ____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE function has the following syntax:     |
+
+       AAAASSSSCCCCIIIIZZZZ____SSSSTTTTRRRRIIIINNNNGGGG____TTTTAAAABBBBLLLLEEEE(_s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n,...);                    |
+
+       The following example shows how to specify an ASCIZ string    |
+       table passed as a callback tag:                               |
+
+       VALUE
+         v1 = "my_value_1";                                          |
+         v2 = "my_value_2";                                          |
+         v3 = "my_value_3";                                          |
+       OBJECT press_my: XmPushButton {
+        CALLBACKS {                                                  |
+         XmNactivateCallback = PROCEDURE my_callback(asciz_table(v1, v2, v3));|
+         };                                                          |
+
+
+       18-36
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+        };                                                           |
+
+       18.5.12  TTTThhhheeee IIIINNNNTTTTEEEEGGGGEEEERRRR____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                           |
+
+       An integer table is an array of integer values separated by   *
+       commas.  This function allows you to pass more than one
+       integer per callback tag value.  The IIIINNNNTTTTEEEEGGGGEEEERRRR____TTTTAAAABBBBLLLLEEEE function   |
+       generates a value of type iiiinnnntttteeeeggggeeeerrrr____ttttaaaabbbblllleeee.
+
+       The IIIINNNNTTTTEEEEGGGGEEEERRRR____TTTTAAAABBBBLLLLEEEE function has the following syntax:          |
+
+       IIIINNNNTTTTEEEEGGGGEEEERRRR____TTTTAAAABBBBLLLLEEEE( _i_n_t_e_g_e_r-_e_x_p_r_e_s_s_i_o_n,...);                       |
+
+       The following example shows the IIIINNNNTTTTEEEEGGGGEEEERRRR____TTTTAAAABBBBLLLLEEEE function used   |
+       to define an array of integers to be passed as a callback     |
+       tag to the procedure _m_y__c_a_l_l_b_a_c_k:                             |
+
+       VALUE
+         v1 =  1;                                                    |
+         v2 =  2;                                                    |
+         v3 =  3;                                                    |
+       OBJECT press_my: XmPushButton {
+        ARGUMENTS {                                                  |
+         XmNheight = 30;                                             |
+         XmNwidth =  10;                                             |
+        };                                                           |
+        CALLBACKS {                                                  |
+         XmNactivateCallback = PROCEDURE my_callback(integer_table(v1, v2, v3));|
+        };                                                           |
+       };
+
+       18.5.13  TTTThhhheeee AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT FFFFuuuunnnnccccttttiiiioooonnnn                                |
+
+       The AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function defines the arguments to a user-        |
+       defined widget.  Each of the objects that can be described
+       by UIL permits a set of arguments, listed in Appendix B.
+       For example, XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt is an argument to most objects and     |
+       has integer data type.  To specify height for a user-defined
+       widget, you can use the built-in argument name XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt,     |
+       and specify an integer value when you declare the user-
+       defined widget.  You do not use the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function to      |
+       specify arguments that are built into the UIL compiler.
+
+       The AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function has the following syntax:               |
+
+       AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT( _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n [, _a_r_g_u_m_e_n_t__t_y_p_e ])               |
+
+
+
+
+
+
+
+                                                              18-37
+
+
+
+
+
+
+
+
+
+
+
+
+       The _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n name is the name the UIL compiler uses  |
+       for the argument in the UID file.  the _a_r_g_u_m_e_n_t__t_y_p_e is the   |
+       type of value that can be associated with the argument.  If
+       you omit the second argument, the default type is aaaannnnyyyy and no  |
+       value type checking occurs.  Use one of the following key-
+       words to specify the argument type:
+
+          +o ANY
+
+          +o ASCIZ_TABLE
+
+          +o BOOLEAN
+
+          +o COLOR
+
+          +o COLOR_TABLE
+
+          +o COMPOUND_STRING
+
+          +o FLOAT
+
+          +o FONT
+
+          +o FONT_TABLE
+
+          +o ICON
+
+          +o INTEGER
+
+          +o INTEGER_TABLE
+
+          +o REASON
+
+          +o SINGLE_FLOAT                                             |
+
+          +o STRING
+
+          +o STRING_TABLE
+
+          +o TRANSLATION_TABLE
+
+       For example, suppose you built a user-defined widget that
+       draws a circle and takes four arguments: _m_y__r_a_d_i_u_s,           |
+       _m_y__c_o_l_o_r, XXXXmmmmNNNNxxxx, and XXXXmmmmNNNNyyyy.  The following example shows how    |
+       to use the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function to define the arguments to this  |
+       user-defined widget.  Note that the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function is not  |
+       used to specify arguments XXXXmmmmNNNNyyyy and XXXXmmmmNNNNyyyy because these are
+       built-in argument names.  The data type of XXXXmmmmNNNNxxxx and XXXXmmmmNNNNyyyy is   |
+       Position.
+
+
+
+
+       18-38
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       When you declare the _c_i_r_c_l_e widget, you must use the AAAARRRRGGGGUUUU----    |
+       MMMMEEEENNNNTTTT function to define the name and data type of the argu-
+       ments that are not built-ins (_m_y__r_a_d_i_u_s and _m_y__c_o_l_o_r).
+       Arguments are specified in an arguments list, identified by   |
+       the keyword AAAARRRRGGGGUUUUMMMMEEEENNNNTTTTSSSS in the following example:               |
+
+       VALUE circle_radius:  ARGUMENT( 'my_radius', INTEGER );
+       VALUE circle_color:  ARGUMENT( 'my_color', COLOR );
+       OBJECT circle:
+           USER_DEFINED  PROCEDURE CircleCreate
+             { ARGUMENTS
+                 { circle_radius = 1000;
+                   circle_color = color_blue
+                   XmNx = 1050;
+                   XmNy = 1050;
+                 };
+             };
+
+       In this example, the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function is used in a value     |
+       declaration (described in Section 19.3) to define the two
+       arguments that are not UIL built-ins: _c_i_r_c_l_e-_r_a_d_i_u_s, which
+       takes an integer value, and _c_i_r_c_l_e-_c_o_l_o_r, which takes a
+       color value. When referenced in the arguments list of the
+       circle widget, the UIL compiler verifies that the value you
+       specify for each of these arguments is of the type specified  |
+       in the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function. The following table shows the       |
+       argument list placed in the UID file (and supplied to the
+       creation function for the circle widget at run time).         |
+
+       _________________________________________________________     *
+       AAAArrrrgggguuuummmmeeeennnntttt    AAAArrrrgggguuuummmmeeeennnntttt VVVVaaaalllluuuueeee
+       _________________________________________________________
+       _m_y__r_a_d_i_u_s   1000                                              |
+       _m_y__c_o_l_o_r    Value associated with the UIL name _c_o_l_o_r__b_l_u_e     |
+       _________________________________________________________
+
+       You can use the AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function to allow the UIL compiler   |
+       to recognize extensions to the Motif Toolkit.  For example,
+       an existing widget may accept a new argument.  Using the      |
+       AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function, you can make this new argument available
+       to the UIL compiler before the updated version of the com-    |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-39
+
+
+
+
+
+
+
+
+
+
+
+
+       piler is released.                                            |
+
+       18.5.14  TTTThhhheeee RRRREEEEAAAASSSSOOOONNNN FFFFuuuunnnnccccttttiiiioooonnnn                                  |
+
+       The RRRREEEEAAAASSSSOOOONNNN function is useful for defining new reasons for    |
+       user-defined widgets.
+
+       Each of the objects in the Motif Toolkit defines a set of
+       conditions under which it calls a user-defined function.
+       These conditions are known as callback reasons.  The user-
+       defined functions are termed callback procedures.  In a UIL
+       module, you use a callbacks list to specify which user-
+       defined functions are to be called for which reasons.
+
+       Appendix B lists the callback reasons supported by the Motif
+       Toolkit objects.
+
+       When you declare a user-defined widget, you can define call-
+       back reasons for that widget using the RRRREEEEAAAASSSSOOOONNNN function.  The  |
+       RRRREEEEAAAASSSSOOOONNNN function has the following syntax:                     |
+
+       RRRREEEEAAAASSSSOOOONNNN(_s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n)                                     |
+
+       The string expression specifies the argument name stored in
+       the UID file for the reason.  This reason name is supplied    |
+       to the widget creation routine at run time.
+
+       Suppose you built a new widget that implements a password
+       system to prevent a set of windows from being displayed
+       unless a user enters the correct password.  The widget might
+       define the following callbacks:                               |
+
+       VALUE passed: REASON( 'AccessGrantedCallback' );
+       VALUE failed: REASON( 'AccessDeniedCallback' );
+       OBJECT guard_post:
+           USER_DEFINED  PROCEDURE guard_post_create
+       { CALLBACKS
+           { passed = PROCEDURE display_next_level();
+             failed = PROCEDURE logout(); };
+           };
+
+       In this example, the RRRREEEEAAAASSSSOOOONNNN function is used in a value       |
+       declaration to define two new reasons, _p_a_s_s_e_d and _f_a_i_l_e_d.     |
+       The callback list of the widget named _g_u_a_r_d__p_o_s_t specifies
+       the procedures to be called when these reasons occur.
+
+
+
+
+
+
+
+
+       18-40
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       A widget specifies its callbacks by defining an argument for  |
+       each reason that it supports.  The argument to the RRRREEEEAAAASSSSOOOONNNN     |
+       function gives the name of the argument that supports this
+       reason.  Therefore, the argument list placed in the UID file
+       for the _g_u_a_r_d__p_o_s_t widget includes the arguments listed in    |
+       the following table.
+
+       ___________________________________________________________________________*
+       AAAArrrrgggguuuummmmeeeennnntttt                AAAArrrrgggguuuummmmeeeennnntttt VVVVaaaalllluuuueeee
+       ___________________________________________________________________________
+       _A_c_c_e_s_s_G_r_a_n_t_e_d_C_a_l_l_b_a_c_k   Callback structure for procedure _d_i_s_p_l_a_y__n_e_x_t__l_e_v_e_l|
+       _A_c_c_e_s_s_D_e_n_i_e_d_C_a_l_l_b_a_c_k    Callback structure for procedure _l_o_g_o_u_t            |
+       ___________________________________________________________________________
+
+       18.5.15  TTTThhhheeee TTTTRRRRAAAANNNNSSSSLLLLAAAATTTTIIIIOOOONNNN____TTTTAAAABBBBLLLLEEEE FFFFuuuunnnnccccttttiiiioooonnnn                       |
+
+       Each of the Motif Toolkit widgets has a translation table     *
+       that maps X events (for example, mouse button 1 being
+       pressed) to a sequence of actions. Through widget arguments,
+       such as the common translations argument, you can specify an
+       alternate set of events or actions for a particular widget.   |
+       The TTTTRRRRAAAANNNNSSSSLLLLAAAATTTTIIIIOOOONNNN____TTTTAAAABBBBLLLLEEEE function creates a translation table    |
+       that can be used as the value of a argument that is of the    |
+       data type ttttrrrraaaannnnssssllllaaaattttiiiioooonnnn____ttttaaaabbbblllleeee. The TTTTRRRRAAAANNNNSSSSLLLLAAAATTTTIIIIOOOONNNN____TTTTAAAABBBBLLLLEEEE function   |
+       has the following syntax:                                     |
+
+       TTTTRRRRAAAANNNNSSSSLLLLAAAATTTTIIIIOOOONNNN____TTTTAAAABBBBLLLLEEEE( _s_t_r_i_n_g-_e_x_p_r_e_s_s_i_o_n,... )                    |
+
+       Each of the string expressions specifies the run-time bind-   |
+       ing of an X event to a sequence of actions, as shown in the
+       following example (arguments lists are discussed in Section   |
+       19.5.1):
+
+       LIST new_translations:                                        |
+          ARGUMENTS                                                  |
+          { XmNtranslations =                                        |
+            TRANSLATION_TABLE                                        |
+            (                                                        |
+             '#override',                                            |
+             '<Btn1Down>:        XMPBFILLHIGHLIGHT() XMPBARM() XMPBUNGRAB()',|
+             '<Btn1Up>:          XMPBFILLUNHIGHLIGHT() XMPBACTIVATE() \|
+                                 XmSelectionDialog(self_destruct) XMPBDISARM()',|
+             '<Btn3Up>:          XMPBHELP()',                        |
+             'Any<LeaveWindow>:  XMPBFILLUNHIGHLIGHT() XMPBUNGRAB() \|
+                                 XMPBDISARM()'                       |
+            );                                                       |
+          };                                                         |
+       OBJECT self_destruct:
+              XmPushButton
+              { ARGUMENTS new_translations; };
+
+
+
+                                                              18-41
+
+
+
+
+
+
+
+
+
+
+
+
+       This example defines an argument list, called                 |
+       _n_e_w__t_r_a_n_s_l_a_t_i_o_n_s.  The first translation specifies that       |
+       pressing the left button <BBBBttttnnnn1111DDDDoooowwwwnnnn> should result in the      |
+       sequence of procedures XXXXMMMMPPPPBBBBFFFFIIIILLLLLLLLHHHHIIIIGGGGHHHHLLLLIIIIGGGGHHHHTTTT(), XXXXMMMMPPPPBBBBAAAARRRRMMMM(), and    |
+       XXXXMMMMPPPPBBBBUUUUNNNNGGGGRRRRAAAABBBB() executing. The _s_e_l_f__d_e_s_t_r_u_c_t push button widget  |
+       defines _n_e_w__t_r_a_n_s_l_a_t_i_o_n_s as its translation table.            |
+
+       In this example, the first line of the definition is a        |
+       translation table directive that indicates that the current   |
+       translations are to be overridden with those specified in     |
+       the translation table.  The translations defined by           |
+       _n_e_w__t_r_a_n_s_l_a_t_i_o_n_s will override the current translations for   |
+       the _s_e_l_f__d_e_s_t_r_u_c_t PushButton.
+
+       You can use one of the following translation table direc-     |
+       tives with the TTTTRRRRAAAANNNNSSSSLLLLAAAATTTTIIIIOOOONNNN____TTTTAAAABBBBLLLLEEEE function: #override, #aug-   |
+       ment, or #replace.  The default is #replace.  If you specify  |
+       one of these directives, it must be the first entry in the    |
+       translation table.                                            |
+
+       The #override directive causes any duplicate translations to  |
+       be ignored.  For example, if a translation for <BBBBttttnnnn1111DDDDoooowwwwnnnn> is  |
+       already defined in the current translations for a PushBut-    |
+       ton, the translation defined by _n_e_w__t_r_a_n_s_l_a_t_i_o_n_s overrides    |
+       the current definition.  If the #augment directive is speci-  |
+       fied, the current definition takes precedence.  The #replace  |
+       directive replaces all current translations with those        |
+       specified in the XXXXmmmmNNNNttttrrrraaaannnnssssllllaaaattttiiiioooonnnnssss resource.                    |
+
+       18.6  TTTThhhheeee aaaannnnyyyy DDDDaaaattttaaaa TTTTyyyyppppeeee                                       |
+
+       The purpose of the aaaannnnyyyy data type is to shut off the data-     |
+       type checking feature of the UIL compiler.  You can use the   |
+       aaaannnnyyyy data type for the following:
+
+          +o Specifying the type of a callback procedure tag
+
+          +o Specifying the type of a user-defined argument
+
+       You can use the aaaannnnyyyy data type when you need to use a type     |
+       not supported by the UIL compiler or when you want the        |
+       data-type restrictions imposed by the compiler to be
+       relaxed.  For example, you might want to define a widget
+       having an argument that can accept different types of
+       values, depending on run-time circumstances.
+
+
+
+
+
+
+
+
+       18-42
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       If you specify that an argument takes an aaaannnnyyyy value, the com-  |
+       piler does not check the type of the value specified for
+       that argument; therefore, you need to take care when speci-
+       fying a value for an argument of type aaaannnnyyyy.  You could get     |
+       unexpected results at run time if you pass a value having a
+       data type that the widget does not support for that argu-
+       ment.                                                         *
+
+       18.7  CCCCoooommmmppppiiiilllleeee----TTTTiiiimmmmeeee VVVVaaaalllluuuueeee EEEExxxxpppprrrreeeessssssssiiiioooonnnnssss
+
+       UIL provides literal values for a diverse set of types
+       (integer, string, real, Boolean) and a set of Motif
+       Toolkit-specific types (for example, colors and fonts).
+       These values are used to provide the value of Motif Toolkit
+       arguments.
+
+       UIL includes compile-time value expressions.  These expres-
+       sions can contain references to other UIL values, but cannot  |
+       be forward referenced.
+
+       Compile-time value expressions are useful for implementing
+       relative positioning of children without using the Form       |
+       widget. For example, suppose you wanted to create a message
+       box inside a bulletin board, and you want the message box to  |
+       be half as wide and half as tall as the bulletin board, and   |
+       centered within it.  Using compile-time expressions, you can
+       specify the coordinates of the message box by referring to
+       the values you already defined for the bulletin board.  If    |
+       you do not use compile-time value expressions in this case,   |
+       you must compute the x and y location and the height and
+       width of the message box, and recompute these values if the   |
+       bulletin board changes size or location.  Furthermore, the    |
+       computed values are absolute numbers rather than descriptive  |
+       expressions like "bulletin_board_width / 2".
+
+       Note that the Motif Toolkit provides direct support for       |
+       resolution independence with the millimeter, inch, and point  |
+       unit types; the preceding example could be implemented using  |
+       this feature.
+
+       The concatenation of strings is also a form of compile-time
+       expression.  Use the concatenation operator to join strings
+       and convert the result to a compound string.
+
+
+
+
+
+
+
+
+
+
+                                                              18-43
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table lists the set of operators in UIL that    |
+       allow you to create integer, real, and Boolean values based
+       on other values defined with the UIL module.  In the table,
+       a precedence of 1 is the highest.                             |
+
+                         TTTTAAAABBBBLLLLEEEE 11118888----11112222....  Operators
+
+       _________________________________________________________________*
+       OOOOppppeeeerrrraaaattttoooorrrr   OOOOppppeeeerrrraaaattttoooorrrr   OOOOppppeeeerrrraaaannnndddd           MMMMeeeeaaaannnniiiinnnngggg        PPPPrrrreeeecccceeeeddddeeeennnncccceeee
+                  TTTTyyyyppppeeee       TTTTyyyyppppeeeessss
+       _________________________________________________________________
+          ~       Unary      Boolean           NOT                1
+                                               One's com-            |
+                                               plement               |
+77                             integer                                    |
+
+
+          -       Unary      float             Negate
+                             integer           Negate             1
+
+          +       Unary      float             NOP                1     |
+                             integer           NOP                1
+
+          *       Binary     float,float       Multiply           2
+                             integer,integer   Multiply           2
+
+          /       Binary     float,float       Divide             2
+                             integer,integer   Divide             2
+
+          +       Binary     float,float       Add                3
+                             integer,integer   Add                3
+
+          -       Binary     float,float       Subtract           3
+                             integer,integer   Subtract           3
+
+          >>      Binary     integer,integer   Shift right        4
+
+          <<      Binary     integer,integer   Shift left         4
+
+          &       Binary     Boolean,Boolean   AND                5     |
+                             integer,integer   Bitwise AND        5
+                             string,string     Concatentate       5
+
+          |       Binary     Boolean,Boolean   OR                 6
+                             integer,integer   Bitwise OR         6
+
+          ^       Binary     Boolean,Boolean   XOR                6
+                             integer,integer   Bitwise XOR        6
+       _________________________________________________________________
+
+       A string can be either a single compound string or a          |
+       sequence of compound strings.  If the two concatenated
+       strings have different properties (such as writing direction
+
+
+       18-44
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       or character set), the result of the concatenation is a mul-  |
+       tisegment compound string.
+
+       The result of each operator has the same type as its
+       operands.  You cannot mix types in an expression without
+       using conversion routines.
+
+       You can use parentheses to override the normal precedence of
+       operators.  In a sequence of unary operators, the operations  *
+       are performed in right-to-left order.  For example, - + -A
+       is equivalent to -(+(-A)).  In a sequence of binary opera-    *
+       tors of the same precedence, the operations are performed in  |
+       left-to-right order.  For example, A*B/C*D is equivalent to   |
+       ((A*B)/C)*D.
+
+       A value declaration gives a value a name.  You cannot rede-
+       fine the value of that name in a subsequent value declara-    |
+       tion.  You can use a value containing operators and func-
+       tions anywhere you can use a value in a UIL module.  You      |
+       cannot use imported values as operands in expressions.
+
+       Several of the binary operators are defined for multiple
+       data types.  For example, the operator for multiplication
+       (*) is defined for both floating-point and integer operands.
+
+       For the UIL compiler to perform these binary operations,
+       both operands must be of the same type.  If you supply
+       operands of different data types, the UIL compiler automati-
+       cally converts one of the operands to the type of the other   |
+       according to the conversions rules listed in the following    |
+       table.                                                        |
+
+              TTTTAAAABBBBLLLLEEEE 11118888----11113333....  Automatic Data Type Conversions          |
+
+       ________________________________________________________________
+       DDDDaaaattttaaaa TTTTyyyyppppeeee        DDDDaaaattttaaaa TTTTyyyyppppeeee                                      |
+       ooooffff OOOOppppeeeerrrraaaannnndddd 1111     ooooffff OOOOppppeeeerrrraaaannnndddd 2222     CCCCoooonnnnvvvveeeerrrrssssiiiioooonnnn RRRRuuuulllleeee               |
+       ________________________________________________________________
+                                         Operand 1 converted to integer  *
+7       Boolean          Integer
+                                         Operand 2 converted to integer
+7       Integer          Boolean
+                                         Operand 1 converted to
+                                         floating-point
+77       Integer          Floating-point
+
+                                         Operand 2 converted to
+                                         floating-point
+77       Floating-point   Integer
+
+       ________________________________________________________________
+
+       You can also explicitly convert the data type of a value by
+       using one of the functions listed in the following table.     |
+                    TTTTAAAABBBBLLLLEEEE 11118888----11114444....  Conversion Functions
+
+       ____________________________________________________________________________________*
+
+
+                                                              18-45
+
+
+
+
+
+
+
+
+
+
+
+
+       ____________________________________________________________________________________
+       RRRReeeessssuuuulllltttt                             FFFFuuuunnnnccccttttiiiioooonnnn                CCCCoooommmmmmmmeeeennnnttttssss
+       ____________________________________________________________________________________
+       RRRReeeessssuuuulllltttt                             FFFFuuuunnnnccccttttiiiioooonnnn                CCCCoooommmmmmmmeeeennnnttttssss
+       ____________________________________________________________________________________
+       Integer                            INTEGER(Boolean)        TRUE->1, FALSE->0
+       Integer                            INTEGER(integer)
+                                                                  Integer part of the
+                                                                  floating-point number
+                                                                  (truncate toward zero);
+                                                                  this can result in over-
+                                                                  flow.
+77777       Integer                            INTEGER(float)
+
+
+
+
+       Double-precision, floating-point   FLOAT(Boolean)                                   |
+                                                                  Double-precision,|
+                                                                  floating-point represen-|
+                                                                  tation of an integer;|
+                                                                  there should not be any|
+                                                                  loss of precision.|
+77777       Double-precision, floating-point   FLOAT(integer)                                   |
+
+
+
+
+       Double-precision, floating-point   FLOAT(float)                                     |
+       Single-precision, floating-point   SINGLE_FLOAT(Boolean)                            |
+                                                                  Single-precision,|
+                                                                  floating-point represen-|
+                                                                  tation of an integer;|
+                                                                  there should not be any|
+                                                                  loss of precision.|
+77777       Single-precision, floating-point   SINGLE_FLOAT(integer)                            |
+
+
+
+
+       Single-precision, floating-point   SINGLE_FLOAT(float)                              |
+       ____________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       18-46
+
+
+
+
+
+
+
+
+
+                                                UIL Language Syntax
+
+
+       The following example shows a value section from a UIL        |
+       module containing compile-time expressions and data conver-
+       sion functions.                                               |
+
+       VALUE
+         value outer_box_width:  200;
+         value outer_box_height: 250;
+         value box_size_ratio:   0.5;
+         value inner_box_width: integer(outer_box_width * box_size_ratio);
+         value inner_box_height: integer(outer_box_height * box_size_ratio);
+         value inner_box_x:     (outer_box_width - inner_box_width) >> 1;
+         value inner_box_y:     (outer_box_height - inner_box_height) / 2;
+         value type_field:       0;
+         value class_field:      16;
+         value type1:            1;
+         value type2:            2;
+         value type3:            3;
+         value class1:           1;
+         value class2:           2;
+         value class3:           3;
+         value combo1:  (type1 << type_field) | (class3 << class_field);
+                                                                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              18-47
+
+
+
+
+

@@ -1,0 +1,17 @@
+      BROADCAST = -DBROAD_ADDR=INADDR_BROADCAST
+            BSD = -DBSD_43
+        DEFINES = $(BROADCAST) $(BSD)
+          SRCS1 = mazewar.c display.c init.c winX11.c
+          OBJS1 = mazewar.o display.o init.o winX11.o
+          SRCS2 = mazefind.c 
+          OBJS2 = mazefind.o 
+       INCLUDES = -I$(TOP)
+       PROGRAMS = mazewar mazefind
+
+ComplexProgramTarget_1(mazewar,$(XTOOLLIB) $(XLIB),)
+
+InstallManPage(mazefind,$(MANDIR))
+
+SingleProgramTarget(mazefind,$(OBJS2),,)
+
+

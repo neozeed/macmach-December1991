@@ -1,0 +1,317 @@
+#
+#  Source version control 
+#
+######################################################################
+# HISTORY
+# 13-Mar-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Made "archive" the default rule.
+#	[ V5.1(F7) ]
+#
+# 11-Mar-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Renamed "sys" directory to "gen".
+#	[ V5.1(F6) ]
+#
+# 06-Mar-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Remove "accent" directory from archive list, add "vice".
+#	[ V5.1(F5) ]
+#
+# 31-Jan-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Created.
+#	[ V5.1(F1) ]
+#
+######################################################################
+#
+
+
+
+#
+#  These rules are used to maintain a master kernel source area with
+#  simple version control.  They trigger the history, check-in and
+#  version update facilities of the version control makefile which can
+#  be applied only when making changes to a master source area.
+#  A master source area is defined by creating a control directory
+#  (normally "V") and creating a symbolic "Makefile" link to this
+#  file in that directory.
+#
+#
+#  A master source area contains:
+#
+#  - The set of directories required to build an entire kernel for
+#    one or more machine types.
+#  - The control directory that records the last check-in times of
+#    modules in these directories such that when any file changes,
+#    it can be detected and checked-in automatically before beginning
+#    changes that would comprise a new version of the source; and
+#    the version components which comprise the version identifier that
+#    tags the current source state.
+#
+#  The version identifier tag for the sources is comprised of the
+#  following four components and has the form:
+#  <major>.<minor>(<variant><edit>) where:
+#
+#  1) <major> is the major version number which identifies the base
+#     level of the sources.  This number will change very infrequently
+#     and have so far progressed from (1=3BSD, 2=4BSD, 3=4.1BSD,
+#     4=4.2BSD, and 5=4.3BSD)
+#  2) <minor> is the minor version number which identifies a
+#     significant state change from a previous version that is tracked
+#     by all the parallel master development source trees at a site.
+#     This number begins at 1 for each new major version and is
+#     incremented only when all diverging master source areas are
+#     synchronized to a common state.
+#  3) <variant> is the version variant string which serves to
+#     distinuish between divergent master source areas.  This string is
+#     normally a constant which is selected once when the master source
+#     area is initially established and never changes thereafter.
+#  4) <edit> is the edit version number which distinguishes between
+#     successive sets of changes to a given master source area.  This
+#     number is incremented whenever any change is made to the source
+#     area that will cause binaries built from that area to differ from
+#     current binaries already deployed.
+#
+#  Any master source area is organized such that none of the
+#  directories or files propagated from it need be writeable on the
+#  target system in order to build new configurations.  The version
+#  identifier for a particular source area applies to all kernel
+#  binaries built from the associated sources independent of the
+#  machine type.  Changes to the sources are made only in the master
+#  source area and upgraded if necessary to client machines for
+#  configuration generation, compilation and linking.  Only the
+#  configuration and build directories are ever changed on client
+#  machines (unless the machines also contain variant master source
+#  areas into which the read-only upgrades might be merged to
+#  created a different version identifier).
+#
+#
+#  The rules described below are used to perform the common editing
+#  functions that are involved with building new versions of the
+#  kernel.
+#
+#  close   - log, archive and unlock any source files modified
+#	     since the last archive;  prevent any accidental further
+#	     changes to the source by write-protecting all source
+#	     directories (the individual sources files are
+#	     write-protected by the archive and unlock RCS procedure).
+#  open    - write-enable the source directories allowing changes (although
+#	     individual files must still be checked-out with a lock to
+#            open them if necessary)
+#  archive - archive all sources modified since the last archive
+#  edit    - increment edit version; create new $VERSION
+#  minor   - increment minor and edit version; create new $VERSION
+#  major   - increment major and edit, reset minor version; create new $VERSION
+#  version - create new $VERSION
+#
+#  newvers - short for "close edit open"
+#
+
+
+#
+#  Version file pathname definitions
+#
+
+VERSION=../conf/version
+MAJOR  =version.major
+MINOR  =version.minor
+EDIT   =version.edit
+VARIANT=version.variant
+
+VERSION_FILES=${MAJOR} ${MINOR} ${VARIANT} ${EDIT}
+
+
+#
+#  Directories which contain sources.
+#
+DIRS=	../bsd \
+	../conf \
+	../h \
+	../net \
+	../netimp \
+	../netinet \
+	../netns \
+	../vice \
+	../kern \
+	../vm  \
+	../ca \
+	../cacons \
+	../caif \
+	../caio \
+	../mon \
+	../pixrect \
+	../sysV \
+	../sun \
+	../sun3 \
+	../sundev \
+	../sunif \
+	../sunkdb \
+	../sunstand \
+	../sunwindow \
+	../sunwindowdev \
+	../emul \
+	../vax \
+	../vaxif \
+	../vaxmba \
+	../vaxuba
+
+#
+#  Sub-directories for the above.
+#
+
+XDIRS=	../vax/inline
+
+ALLDIRS=${DIRS} ${XDIRS}
+
+
+#
+#  The default is to archive anything that has changed (keyed on
+#  directory modification times, though).
+#
+default: archive
+
+
+
+#
+#  Files in these directories which comprise the entire source (for all
+#  machine types).  
+#
+FILES/bsd:	../bsd/*.[ch]
+FILES/conf:	../conf/*.c ../conf/*.sh ../conf/files* ../conf/devices* \
+		../conf/MASTER* ../conf/Makefile*
+FILES/h:	../h/*.h
+FILES/net:	../net/*.[ch]
+FILES/netimp:	../netimp/*.[ch]
+FILES/netinet:	../netinet/*.[ch]
+FILES/netns:	../netns/*.[ch]
+FILES/emul:	../emul/*.[sh] ../emul/*.awk ../emul/*.sa
+FILES/kern:	../kern/*.[ch]
+FILES/vm:	../vm/*.[ch]
+FILES/ca:	../ca/*.[csh]
+FILES/cacons:	../cacons/*.[csh]
+FILES/caif:	../caif/*.[csh]
+FILES/caio:	../caio/*.[csh]
+FILES/sysV:	../sysV/*.[ch]
+FILES/mon:	../mon/*.[ch]
+FILES/pixrect:	../pixrect/*.[ch]
+FILES/sun:	../sun/*.[csh]
+FILES/sun3:	../sun3/*.[csh]
+FILES/sundev:	../sundev/*.[csh]
+FILES/sunif:	../sunif/*.[ch]
+FILES/sunkdb:	../sunkdb/*.[csh]
+FILES/sunstand:	../sunstand/*.[csh]
+FILES/sunwindow: ../sunwindow/*.[ch]
+FILES/sunwindowdev:  ../sunwindowdev/*.[ch] 
+FILES/vax:	../vax/*.[csh] ../vax/inline/*.[csh]
+FILES/vaxif:	../vaxif/*.[ch]
+FILES/vaxmba:	../vaxmba/*.[ch]
+FILES/vaxuba:	../vaxuba/*.[ch]
+
+
+#
+#  Insure that the archive time directory is created
+#
+
+default: FILES
+
+FILES:
+	mkdir FILES
+
+
+
+#
+#  Open the sources for modification
+#
+
+open:
+	@chmod +w ${ALLDIRS}
+	@echo "[ version `cat ${VERSION}` open ]"
+
+
+#
+#  Close the sources to protect against accidental modification.  This
+#  path forces a full archive every time (by not creating the target
+#  file) and is used when it is necessary guarantee that everything has
+#  been archived (such as before creation of a new version begins).
+#
+
+close:	.close
+	@chmod -w ${ALLDIRS}
+	@echo "[ version `cat ${VERSION}` closed ]"
+
+
+#
+#  Archive the sources against any accidental modification.  To speed
+#  processing, with this rule only those directories which have changed since
+#  the last archive are considered candidates since the wild-card
+#  expansion of all files can take considerable time.
+#
+
+archive: .archive
+	@touch .archive
+
+
+newvers: close edit open
+
+edit: close edit.incr ${VERSION}
+
+minor: close minor.incr edit.incr ${VERSION}
+
+major: close major.incr minor.reset edit.incr ${VERSION}
+
+version: close ${VERSION}
+
+
+
+#
+#  Create set of directories to archive.  The second target is
+#  never created and will always generate a complete list, while
+#  the first is based only on the previous archive.  This technique
+#  depends on the fact that an RCS checkout into one of the source
+#  directories will cause it to be modified and insure that it
+#  is newer than any prior archive so that the directory will be
+#  considered when searching for modified files.
+#
+.archive .close: ${DIRS}
+	@for i in $?; do D=`basename $$i`; make DIR=$$D $$D.arch; done
+	@(cd ../src;        echo "[ archiving ../src ]";        exec make archive)
+	@(cd ../src/config; echo "[ archiving ../src/config ]"; exec make archive)
+
+
+#
+#  To avoid having to generate explicit rules for each source directory,
+#  we invoke "make" individually on each directory with the DIR variable
+#  set as appropriate.  Only the source file contents dependencies
+#  (defined above) need then be specified explicitly for each directory.
+#
+
+${DIR}.arch: ECHO_${DIR} FILES/${DIR}
+
+ECHO_${DIR}:
+	@echo "[ archiving ../${DIR} ]"
+
+FILES/${DIR}:
+	@arch -version `cat ${VERSION}` $?
+	@touch $@
+
+
+
+#
+#  Increment version number in file by 1.
+#
+edit.incr minor.incr major.incr:
+	@F=version.`basename $@ .incr`; E=`cat $$F`; expr $$E + 1 >$$F
+
+#
+#  Reset version number infile to 1.
+#
+minor.reset:
+	@F=${VERSION}.`basename $@ .reset`; echo 1 >$$F
+
+
+#
+#  Build version identfier file from components
+#
+${VERSION}: ${VERSION_FILES}
+	@awk '{n[NR]=$$1;} END{printf "%d.%d(%s%d)\n",n[1],n[2],n[3],n[4];}' \
+	    ${VERSION_FILES} >.tmp
+	@chmod +w $@; cp .tmp $@; rm -f .tmp
+	@arch -nowhist -version `cat ${VERSION}` ${VERSION}
+	@echo "[ version `cat ${VERSION}` created ]"

@@ -1,0 +1,65 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetHighlight 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetHighlight \(em a Text function that highlights text\fP
+.iX "XmTextSetHighlight"
+.iX "Text functions" "XmTextSetHighlight"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetHighlight (\fIwidget, left, right, mode\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIleft\fP;
+.br
+	XmTextPosition	\fIright\fP;
+.br
+	XmHighlightMode	\fImode\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextSetHighlight\fP highlights text between the two specified
+character positions.  The \fImode\fP parameter determines the type of
+highlighting.  Highlighting text merely changes the visual appearance of
+the text; it does not set the selection.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIleft\fP" .75i
+Specifies the position of the left boundary of text to be highlighted.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.IP "\fIright\fP" .75i
+Specifies the position of the right boundary of text to be highlighted.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.IP "\fImode\fP" .75i
+Specifies the type of highlighting to be done.  A value of
+\fBXmHIGHLIGHT_NORMAL\fP removes highlighting.  A value of
+\fBXmHIGHLIGHT_SELECTED\fP highlights the text using reverse video.  A
+value of \fBXmHIGHLIGHT_SECONDARY_SELECTED\fP highlights the text using
+underlining.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

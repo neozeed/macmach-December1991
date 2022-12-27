@@ -1,0 +1,122 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH OverrideShell 3X "" "" "" ""
+.SH NAME
+\fBOverrideShell \(em The OverrideShell widget class.\fP
+.iX "OverrideShell"
+.iX "widget class" "OverrideShell"
+.SH SYNOPSIS
+\fB#include <Xm/Xm.h>
+.br
+\&#include <X11/Shell.h>\fP
+.SH DESCRIPTION
+OverrideShell is used for shell windows that completely bypass 
+the window manager, for example, PopupMenu shells.
+.sp 1
+.SS "Classes"
+OverrideShell inherits behavior and resources from \fBCore\fP,
+\fBComposite\fP, and \fBShell\fP.
+.PP
+The class pointer is \fBoverrideShellWidgetClass\fP.
+.PP
+The class name is \fBOverrideShell\fP.
+.sp 1
+.SS "New Resources"
+OverrideShell defines no new resources, but overrides 
+the \fBXmNoverrideRedirect\fP and \fBXmNsaveUnder\fP resources in the 
+\fBShell\fP class.
+.sp 1
+.SS "Inherited Resources"
+OverrideShell inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.PP
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Shell Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowShellResize	XmCAllowShellResize	Boolean	False	CG
+XmNcreatePopupChildProc	XmCCreatePopupChildProc	(*)()	NULL	CSG
+XmNgeometry	XmCGeometry	String	NULL	CSG
+XmNoverrideRedirect	XmCOverrideRedirect	Boolean	True	CSG
+XmNpopdownCallback	XmCCallback	XtCallbackList	NULL	C
+XmNpopupCallback	XmCCallback	XtCallbackList	NULL	C
+XmNsaveUnder	XmCSaveUnder	Boolean	True	CSG
+XmNvisual	XmCVisual	Visual *	CopyFromParent	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	1	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for OverrideShell.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBCore(3X)\fP, and \fBShell(3X)\fP.

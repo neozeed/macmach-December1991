@@ -1,0 +1,132 @@
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee ---- aaaa cccclllliiiippppbbbbooooaaaarrrrdddd ffffuuuunnnnccccttttiiiioooonnnn tttthhhhaaaatttt ssssttttaaaarrrrttttssss
+          aaaa ccccooooppppyyyy ffffrrrroooommmm tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////CCCCuuuuttttPPPPaaaasssstttteeee....hhhh>>>>
+
+          iiiinnnntttt XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee ((((_d_i_s_p_l_a_y, _w_i_n_d_o_w, _t_i_m_e_s_t_a_m_p))))
+               DDDDiiiissssppppllllaaaayyyy   * _d_i_s_p_l_a_y;;;;
+               WWWWiiiinnnnddddoooowwww    _w_i_n_d_o_w;;;;
+               TTTTiiiimmmmeeee      _t_i_m_e_s_t_a_m_p;;;;
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee tells the clipboard routines that
+          the application is ready to start copying an item from the
+          clipboard.  The clipboard is locked by this routine and
+          stays locked until XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddRRRReeeettttrrrriiiieeeevvvveeee is called. Between
+          a call to XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee and a call to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddRRRReeeettttrrrriiiieeeevvvveeee, multiple calls to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee with the same format name result in data
+          being incrementally copied from the clipboard until the data
+          in that format has all been copied.
+
+          The return value CCCClllliiiippppbbbbooooaaaarrrrddddTTTTrrrruuuunnnnccccaaaatttteeee from calls to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee indicates that more data remains to be
+          copied in the given format.  It is recommended that any
+          calls to the IIIInnnnqqqquuuuiiiirrrreeee functions that the application needs to
+          make to effect the copy from the clipboard be made between
+          the call to XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee and the first call to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee.  That way, the application does not
+          need to call XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddLLLLoooocccckkkk and XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddUUUUnnnnlllloooocccckkkk.
+
+
+          _d_i_s_p_l_a_y     Specifies a pointer to the DDDDiiiissssppppllllaaaayyyy structure
+                      that was returned in a previous call to
+                      XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy or XXXXttttDDDDiiiissssppppllllaaaayyyy.
+
+          _w_i_n_d_o_w      Specifies a widget's window ID that relates the
+                      application window to the clipboard.  The
+                      widget's window ID can be obtained by using
+                      XXXXttttWWWWiiiinnnnddddoooowwww.  The same application instance should
+                      pass the same window ID to each of the clipboard
+                      functions that it calls.
+
+          _t_i_m_e_s_t_a_m_p   Specifies the time of the event that triggered
+                      the copy.  A valid timestamp must be supplied;
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX))))
+
+
+
+                      it is not sufficient to use CCCCuuuurrrrrrrreeeennnnttttTTTTiiiimmmmeeee.
+
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss
+                      The function is successful.
+
+          CCCClllliiiippppbbbbooooaaaarrrrddddLLLLoooocccckkkkeeeedddd
+                      The function failed because the clipboard was
+                      locked by another application.  The application
+                      can continue to call the function again with the
+                      same parameters until the lock goes away.  This
+                      gives the application the opportunity to ask if
+                      the user wants to keep trying or to give up on
+                      the operation.
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX)))), XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeeCCCCoooouuuunnnntttt((((3333XXXX)))),
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeeFFFFoooorrrrmmmmaaaatttt((((3333XXXX)))), XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeeLLLLeeeennnnggggtttthhhh((((3333XXXX)))),
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss((((3333XXXX)))), XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddLLLLoooocccckkkk((((3333XXXX)))),
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee((((3333XXXX)))), XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy((((3333XXXX)))), and
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddUUUUnnnnlllloooocccckkkk((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+

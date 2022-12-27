@@ -1,0 +1,89 @@
+# /usr/src/etc/etc.mac2/newconfig/Makefile for MacMach
+
+-include /usr/src/COPYRIGHTS
+
+# note special case for /.hostname, /etc/fstab and /etc/hosts
+
+ETC=	.rhosts rc.afs disktab ftpusers gettytab inetd.conf rc.network \
+	networks protocols rc rc.local remote resolv.conf services \
+	syslog.conf ttys
+
+all:	FRC
+	@echo "Use \"make config\" to install new configuration files."
+	@echo "Use \"make dev\" to make new device files."
+
+dev:	FRC
+	sh ${DESTDIR}/dev/MAKEDEV ${DESTDIR}/dev
+
+# don't do "make install" from /etc/newconfig or /etc/oldconfig
+install: FRC
+	@[ `pwd` != "${DESTDIR}/etc/newconfig" ]
+	@[ `pwd` != "${DESTDIR}/etc/oldconfig" ]
+	rm -rf ${DESTDIR}/etc/oldconfig
+	-mv ${DESTDIR}/etc/newconfig ${DESTDIR}/etc/oldconfig
+	mkdir ${DESTDIR}/etc/newconfig
+	tar -chf - * .cshrc .hostname .login .profile .rhosts | \
+	  (cd ${DESTDIR}/etc/newconfig; tar -xvf -)
+	echo "Configuration files installed `date`" >> ${DESTDIR}/etc/newconfig/README
+	find ${DESTDIR}/etc/newconfig -exec chown root.bin {} \;
+	find ${DESTDIR}/etc/newconfig -type d -exec chmod 555 {} \;
+	find ${DESTDIR}/etc/newconfig -type f -exec chmod 444 {} \;
+
+clean:	FRC
+
+compress: clean
+	find . -type f ! -name Makefile ! -name '*.Z' -exec compress {} \;
+
+uncompress: FRC
+	find . -type f ! -name Makefile -name '*.Z' -exec uncompress {} \;
+
+# only do "make config" from /etc/newconfig
+config:	FRC
+	@[ `pwd` = "${DESTDIR}/etc/newconfig" ]
+	@[ `pwd` != "${DESTDIR}/etc/oldconfig" ]
+	install -c -o bin -g bin -m 444 ${ETC} ${DESTDIR}/etc
+	install -c -o root -g wheel -m 444 csh.cshrc ${DESTDIR}/.cshrc
+	install -c -o root -g wheel -m 444 csh.login ${DESTDIR}/.login
+	install -c -o root -g wheel -m 444 sh.profile ${DESTDIR}/.profile
+	install -c -o root -g bin -m 444 MAKEDEV ${DESTDIR}/dev
+	-install -c -o games -g bin -m 444 dm.config ${DESTDIR}/usr/games
+	echo "\"make config\" done `date`" >> README
+	@echo ""
+	@echo "New configuration files installed."
+	-@if [ ! -r ${DESTDIR}/etc/hosts ]; then \
+	  echo "WARNING: missing /etc/hosts"; \
+	  echo "127.0.0.1	local self MacMach macmach MACMACH" > \
+	    ${DESTDIR}/etc/hosts; \
+	else \
+	  echo "Using existing /etc/hosts"; \
+	  cp ${DESTDIR}/etc/hosts hosts; \
+	fi
+	@cp ${DESTDIR}/etc/hosts hosts
+	-@if [ ! -r ${DESTDIR}/etc/passwd ]; then \
+	  echo "Using default /etc/passwd"; \
+	  cp passwd ${DESTDIR}/etc/passwd; \
+	else \
+	  echo "Using existing /etc/passwd"; \
+	  cp ${DESTDIR}/etc/passwd passwd; \
+	fi
+	-@if [ ! -r ${DESTDIR}/etc/group ]; then \
+	  echo "Using default /etc/group"; \
+	  cp group ${DESTDIR}/etc/group; \
+	else \
+	  echo "Using existing /etc/group"; \
+	  cp ${DESTDIR}/etc/group group; \
+	fi
+	-@if [ ! -r ${DESTDIR}/etc/fstab ]; then \
+	  echo "WARNING: missing /etc/fstab"; \
+	else \
+	  echo "Using existing /etc/fstab"; \
+	  cp ${DESTDIR}/etc/fstab fstab; \
+	fi
+	-@if [ ! -r ${DESTDIR}/.hostname ]; then \
+	  echo "WARNING: missing /.hostname"; \
+	else \
+	  echo "Using existing /.hostname"; \
+	  cp ${DESTDIR}/.hostname .hostname; \
+	fi
+
+FRC:

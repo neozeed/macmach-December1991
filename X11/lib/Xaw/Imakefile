@@ -1,0 +1,200 @@
+#include <Library.tmpl>
+
+#if BuildXawBC
+   XAWBCDEFINES = -DXAW_BC
+#endif
+        DEFINES = -DSHAPE $(XAWBCDEFINES)
+       INCLUDES = -I. -I$(TOOLKITSRC) -I$(TOP) -I$(TOP)/X11
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+
+HEADERS = \
+	AsciiSink.h \
+	AsciiSinkP.h \
+	AsciiSrc.h \
+	AsciiSrcP.h \
+	AsciiText.h \
+	AsciiTextP.h \
+	Box.h \
+	BoxP.h \
+	Cardinals.h \
+	Clock.h \
+	ClockP.h \
+	Command.h \
+	CommandP.h \
+	Dialog.h \
+	DialogP.h \
+	Form.h \
+	FormP.h \
+	Grip.h \
+	GripP.h \
+	Label.h \
+	LabelP.h \
+	List.h \
+	ListP.h \
+	Logo.h \
+	LogoP.h \
+	Mailbox.h \
+	MailboxP.h \
+	MenuButton.h \
+	MenuButtoP.h \
+	Paned.h \
+	PanedP.h \
+	Scroll.h \
+	Scrollbar.h \
+	ScrollbarP.h \
+	Simple.h \
+	SimpleP.h \
+	SimpleMenu.h \
+	SimpleMenP.h \
+	Sme.h \
+	SmeP.h \
+	SmeBSB.h \
+	SmeBSBP.h \
+	SmeLine.h \
+	SmeLineP.h \
+	StripChart.h \
+	StripCharP.h \
+	Template.c \
+	Template.h \
+	TemplateP.h \
+	Text.h \
+	TextP.h \
+	TextSink.h \
+	TextSinkP.h \
+	TextSrc.h \
+	TextSrcP.h \
+	Toggle.h \
+	ToggleP.h \
+	Viewport.h \
+	ViewportP.h \
+	VPaned.h \
+	XawInit.h 
+
+SRCS = \
+	AsciiSink.c \
+	AsciiSrc.c \
+	AsciiText.c \
+	Box.c \
+	Clock.c \
+	Command.c \
+	Dialog.c \
+	Form.c \
+	Grip.c \
+	Label.c \
+	List.c \
+	Logo.c \
+	Mailbox.c \
+	MenuButton.c \
+	Paned.c \
+	Scrollbar.c \
+	Simple.c \
+	SimpleMenu.c \
+	Sme.c \
+	SmeBSB.c \
+	SmeLine.c \
+	StripChart.c \
+	Text.c \
+	TextSink.c \
+	TextSrc.c \
+        TextAction.c \
+        TextPop.c \
+	TextTr.c \
+	Toggle.c \
+	Vendor.c \
+	Viewport.c \
+	XawInit.c 
+
+OBJS = \
+	AsciiSink.o \
+	AsciiSrc.o \
+	AsciiText.o \
+	Box.o \
+	Clock.o \
+	Command.o \
+	Dialog.o \
+	Form.o \
+	Grip.o \
+	Label.o \
+	List.o \
+	Logo.o \
+	Mailbox.o \
+	MenuButton.o \
+	Paned.o \
+	Scrollbar.o \
+	Simple.o \
+	SimpleMenu.o \
+	Sme.o \
+	SmeBSB.o \
+	SmeLine.o \
+	StripChart.o \
+	Text.o \
+	TextSink.o \
+	TextSrc.o \
+        TextAction.o \
+	TextPop.o \
+	TextTr.o \
+	Toggle.o \
+	Vendor.o \
+	Viewport.o \
+	XawInit.o 
+
+#if SharedLibXaw
+# if DebugLibXaw
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if DebugLibXaw && ProfileLibXaw
+DebuggedAndProfiledLibraryObjectRule()
+# else
+# if DebugLibXaw
+DebuggedLibraryObjectRule()
+#  else
+#   if ProfileLibXaw
+ProfiledLibraryObjectRule()
+#   else
+NormalLibraryObjectRule()
+#   endif
+#  endif
+# endif
+#endif
+
+#if SharedLibXaw
+NormalSharedLibraryTarget(Xaw,$(SOXAWREV),$(OBJS))
+InstallSharedLibrary(Xaw,$(SOXAWREV),$(USRLIBDIR))
+#endif
+
+NormalLibraryTarget(Xaw,$(OBJS))
+LintLibraryTarget(Xaw,$(SRCS))
+InstallLibrary(Xaw,$(USRLIBDIR))
+InstallLintLibrary(Xaw,$(LINTLIBDIR))
+
+#if ProfileLibXaw
+ProfiledLibraryTarget(Xaw,$(OBJS))
+InstallLibrary(Xaw_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibXaw
+DebuggedLibraryTarget(Xaw,$(OBJS))
+#endif
+
+#if defined(CrayArchitecture) && defined(CrayUsingSCC)
+/**/# Cray SCC optimizer is broken
+SpecialObjectRule(Paned.o,  ,-hnoopt)
+#endif
+BuildIncludes($(HEADERS),Xaw,..)
+
+MakeDirectories(install,$(INCDIR)/Xaw)
+
+InstallMultiple($(HEADERS),$(INCDIR)/Xaw)
+
+#if InstallOldHeaderFiles 
+/* Make links for old programs that need to be converted. */ 
+LinkFileList(install,$(HEADERS),$(INCDIR),Xaw)
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

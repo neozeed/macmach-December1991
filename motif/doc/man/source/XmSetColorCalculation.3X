@@ -1,0 +1,94 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmSetColorCalculation 3X "" "" "" ""
+.SH NAME
+\fBXmSetColorCalculation \(em A function to set the procedure used for
+default color calculation\fP
+.iX "XmSetColorCalculation"
+.iX "Color functions" "XmSetColorCalculation"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmColorProc XmSetColorCalculation (\fIcolor_proc\fP)
+.br
+.ta .5i 1.5i
+	XmColorProc	\fIcolor_proc\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmSetColorCalculation\fP sets the procedure to calculate 
+default colors.
+This procedure is used to calculate the foreground, top shadow, bottom
+shadow, and select colors on the basis of a given background color.
+If called with an argument of NULL, it restores the default procedure
+used to calculate colors.
+.sp 1
+.IP "\fIcolor_proc\fP" .75i
+Specifies the procedure to use for color calculation.
+.sp 1
+.PP
+Following is a description of the \fBXmColorProc\fP type used by
+\fBXmSetColorCalculation\fP:
+.PP
+.ne 2i
+\fB
+void (\fI*color_proc\fP) (\fIbackground_color, foreground_color,
+select_color, top_shadow_color, bottom_shadow_color\fP)
+.br
+.ta 0.5i 1.5i
+	XColor	\fI*background_color\fP;
+.br
+	XColor	\fI*foreground_color\fP;
+.br
+	XColor	\fI*select_color\fP;
+.br
+	XColor	\fI*top_shadow_color\fP;
+.br
+	XColor	\fI*bottom_shadow_color\fP;
+.fi
+\fP
+.PP
+Specifies the procedure used to calculate default colors.
+The procedure is passed a pointer to an \fBXColor\fP structure
+representing the background color.
+The \fIpixel\fP, \fIred\fP, \fIgreen\fP, and \fIblue\fP members of this
+structure are filled in with values that are valid for the current
+colormap.
+.PP
+The procedure is passed pointers to \fBXColor\fP structures representing
+the foreground, select, top shadow, and bottom shadow colors to be
+calculated.
+The procedure calculates and fills in the \fIred\fP, \fIgreen\fP, and
+\fIblue\fP members of these structures.
+The procedure should not allocate color cells for any of these colors.
+.sp 1
+.IP "\fIbackground_color\fP" .75i
+Specifies the background color.
+.IP "\fIforeground_color\fP" .75i
+Specifies the foreground color to be calculated.
+.IP "\fIselect_color\fP" .75i
+Specifies the select color to be calculated.
+.IP "\fItop_shadow_color\fP" .75i
+Specifies the top shadow color to be calculated.
+.IP "\fIbottom_shadow_color\fP" .75i
+Specifies the bottom shadow color to be calculated.
+.sp 1
+.SH RETURN VALUE
+Returns the color calculation procedure that was used at the time this
+routine was called.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmGetColors(3X)\fP and
+\fBXmGetColorCalculation(3X)\fP. 
+.sp 1 

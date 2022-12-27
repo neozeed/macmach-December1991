@@ -1,0 +1,71 @@
+config/Imake.rules
+	?
+
+config/Imake.tmpl
+	?
+	did some gross things for LocalDir
+	added mac2
+
+config/imakemdef.h
+	added -Dmac2 -traditional
+
+config/site.def
+	?
+	did some gross things for LocalDir
+	removed sohan's /**/ so mac2 won't put spaces in
+
+config/ibm.cf
+	added PCC support to AOS section, including PinheadCC flag
+
+config/sun.cf
+	split sparc -> 4.0.3, 68020 -> 3.5
+	if 68020, use gcc
+
+config/ultrix.cf
+	if vax, use gcc
+
+config/mac2.cf
+	created from a derivation of macII.cf and sun.cf
+	cpp wants -traditional
+
+lib/Xm/LabelG.c:
+	line 1774...
+	since the if statement was too huge for pcc, i added the PinheadCC
+	define, and if so, it evaluates it in 3 chunks.
+
+lib/Xm/PATCH:
+	applied
+
+lib/MrmIfile.c
+	ibm032 didn't extern int errno
+
+clients/mwm/WmResource.c
+	pcc complained about running out of parse tree space on long condition
+
+demos/motifshell/motifshell.h
+	sparc doesn't have limits.h.  wrapped a NO_LIMITS_H around #include
+
+demos/widgetView/widgetView.h
+	sparc doesn't have limits.h.  wrapped a NO_LIMITS_H around #include
+
+config/Imake.tmpl
+Imakefile
+util/makedepend/Imakefile
+lib/Xm/Imakefile
+	mac2's /lib/cpp doesn't like single-quotes
+
+clients/uil/Imakefile
+	added vsprintf.c
+
+clients/uil/vsprintf.c
+	created vprintf/vsprintf hack for ibm032
+
+clients/mwm/WmFunction.c
+	added USE_SETENV_INSTEAD for macmach
+
+clients/mwm/setenv.c and getenv.c
+	copied from mach sources because ibm032 too stupid
+client/mwm/WmResParse.c
+	change /usr/lib/X11 to /usr/local/lib/X11
+client/mwm/WmResNames.h
+        change /usr/lib/X11 to /usr/local/lib/X11

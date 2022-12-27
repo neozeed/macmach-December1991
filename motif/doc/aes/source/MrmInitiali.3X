@@ -1,0 +1,46 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmInitialize 3X
+.SH NAME
+\fBMrmInitialize\fP \- Prepares an application to use 
+MRM widget-fetching facilities.
+.iX "MrmInitialize"
+.iX "uil functions" "MrmInitialize"
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.NX R "MRM function" "MrmInitialize"
+.NX R "MrmInitialize" "definition"
+.B void MrmInitialize()
+.SH DESCRIPTION
+The
+\fBMrmInitialize\fP
+function must be called to prepare an application to use MRM
+widget-fetching facilities.
+You must call this function prior to fetching a widget.
+However, it is good programming practice to call
+\fBMrmInitialize\fP
+prior to performing any
+MRM operations.
+.PP
+\fBMrmInitialize\fP
+initializes
+.NX R "MrmInitialize" "description"
+the internal data structures that MRM needs to 
+successfully perform type
+conversion on arguments and to successfully access widget creation
+facilities.
+An application must call
+\fBMrmInitialize\fP
+before it uses other
+MRM functions.

@@ -1,0 +1,48 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringCopy 3X "" "" "" ""
+.SH NAME
+\fBXmStringCopy \(em a compound string function that makes a copy of a 
+string.\fP
+.iX "XmStringCopy"
+.iX "compound string functions" "XmStringCopy"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmStringCopy (\fIs1\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmString	\fIs1\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringCopy\fP 
+makes a copy of a compound string.  The space for the resulting
+compound string is allocated within the function.  
+The application is responsible for managing the allocated space.  The
+memory can be recovered by calling \fBXmStringFree\fP.
+.sp 1
+.IP "\fIs1\fP" .75i
+Specifies the compound string to be copied
+.sp 1
+.SH RETURN VALUE
+Returns a new compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and \fBXmStringFree(3X)\fP.
+.sp 1

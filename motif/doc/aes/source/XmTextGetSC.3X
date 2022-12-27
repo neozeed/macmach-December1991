@@ -1,0 +1,56 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextGetSource 3X "" "" "" ""
+.SH NAME
+\fBXmTextGetSource \(em a Text function that accesses the source of the widget\fP
+.iX "XmTextGetSource"
+.iX "Text functions" "XmTextGetSource"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+XmTextSource XmTextGetSource (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextGetSource\fP accesses the source of the Text widget.  Text
+widgets can share sources of text so that editing in one widget is
+reflected in another.  This function accesses the source of one widget
+so that it can be made the source of another widget, using the function
+\fBXmTextSetSource(3X)\fP.
+.PP
+.ne 3i
+Setting a new text source destroys the old text source if no other Text
+widgets are using that source.
+To replace a text source but keep it for later use, create an unmanaged
+Text widget and set its source to the text source you want to keep.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns an XmTextSource value that represents the source of the Text
+widget.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

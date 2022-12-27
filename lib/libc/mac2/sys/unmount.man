@@ -1,0 +1,80 @@
+.\"
+.\" $Id: unmount.2,v 2.2 89/12/27 13:01:02 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	unmount.2,v $
+.\" Revision 2.2  89/12/27  13:01:02  bww
+.\" 	Sun Microsystems Rel 3.0
+.\" 	[89/12/27  12:59:57  bww]
+.\" 
+.\"
+.\" @(#)unmount.2 1.1 85/12/28 SMI;
+.\"
+.TH UNMOUNT 2 "19 August 1985"
+.SU
+.SH NAME
+unmount \- remove a file system
+.SH SYNOPSIS
+.nf
+.ft B
+unmount(name)
+char *name;
+.fi
+.SH DESCRIPTION
+.LP
+.I Unmount
+announces to the system that the directory
+.I name
+is no longer to refer to the root of a mounted file system.  The directory
+.I name
+reverts to its ordinary interpretation.
+.SH "RETURN VALUE
+.I Unmount
+returns 0 if the action occurred; \-1 if
+if the directory is inaccessible or
+does not have a mounted file system,
+or if there are active files in the mounted file system.
+.SH ERRORS
+.I Unmount
+may fail with one of the following errors:
+.TP 15
+[EPERM]
+The caller is not the super-user.
+.TP 15
+[EINVAL]
+.I Name
+is not the root of a mounted file system.
+.TP 15
+[EBUSY]
+A process is holding a reference to a file located on the file system.
+.TP 15
+[ENOTDIR]
+A component of the path prefix is not a directory.
+.TP 15
+[EPERM]
+The pathname contains a character with the high-order bit set.
+.TP 15
+[ENAMETOOLONG]
+The pathname was too long.
+.TP 15
+[ENOENT]
+.I name
+does not exist.
+.TP 15
+[EACCES]
+Search permission is denied for a component of the path prefix.
+.TP 15
+[EFAULT]
+.I name
+points outside the process's allocated address space.
+.TP 15
+[ELOOP]
+Too many symbolic links were encountered in translating the pathname.
+.TP 15
+[EIO]
+An I/O error occurred while reading from or writing to the file system.
+.SH "SEE ALSO"
+mount(2), mount(8), umount(8)
+.SH BUGS
+The error codes are in a state of disarray; too many errors
+appear to the caller as one value.

@@ -1,0 +1,179 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmSeparatorGadget 3X "" "" "" ""
+.SH NAME
+\fBXmSeparatorGadget \(em the SeparatorGadget widget class.\fP
+.iX "XmSeparatorGadget"
+.iX "widget class" "SeparatorGadget"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/SeparatoG.h>\fP
+.sp 1
+.SH DESCRIPTION
+SeparatorGadget separates items in a display.  
+Several 
+line drawing styles are provided, as well as horizontal or vertical
+orientation.
+.PP
+Lines drawn within the SeparatorGadget are automatically
+centered within the height of the gadget for a horizontal orientation
+and centered within the width of the gadget for a vertical orientation.
+An \fBXtSetValues\fP with a new \fBXmNseparatorType\fP resizes the
+widget to its minimal height (for horizontal orientation) or its
+minimal width (for
+vertical orientation) unless height or width is explicitly set in the
+\fBXtSetValues\fP call.
+.PP
+SeparatorGadget does not draw shadows around the separator.  
+The Gadget resource \fBXmNshadowThickness\fP is used for the SeparatorGadget's
+thickness when \fBXmNseparatorType\fP is \fBXmSHADOW_ETCHED_IN\fP or
+\fBXmSHADOW_ETCHED_OUT\fP.
+.PP
+SeparatorGadget does not highlight and allows no traversing.  The Gadget
+resource \fBXmNtraversalOn\fP is forced to False.
+.sp 1
+.SS "Classes"
+SeparatorGadget inherits behavior and 
+resources from \fBObject\fP, \fBRectObj\fP, and \fBXmGadget\fP Classes.
+.PP
+The class pointer is \fBxmSeparatorGadgetClass\fP.  
+.PP
+The class name is \fBXmSeparatorGadget\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmSeparatorGadget Resource Set
+Name	Class	Type	Default	Access
+_
+XmNmargin	XmCMargin	Dimension	0	CSG
+XmNorientation	XmCOrientation	unsigned char	XmHORIZONTAL	CSG
+XmNseparatorType	XmCSeparatorType	unsigned char	XmSHADOW_ETCHED_IN	CSG
+.TE
+.sp 1
+.IP "\fBXmNmargin\fP"
+For horizontal orientation, specifies the space on the left and right sides between the border of 
+SeparatorGadget and the line drawn.
+For vertical 
+.ne 8
+orientation, specifies the space
+on the top and bottom between the border 
+of SeparatorGadget and the line drawn. 
+.IP "\fBXmNorientation\fP"
+Specifies whether SeparatorGadget is displayed vertically or horizontally.
+This resource can have values of \fBXmVERTICAL\fP and \fBXmHORIZONTAL\fP.
+.IP "\fBXmNseparatorType\fP"
+Specifies the type of line drawing to be done in the Separator widget.
+.RS
+.IP \(bu 3
+\fBXmSINGLE_LINE\fP \(em single line.
+.IP \(bu 3
+\fBXmDOUBLE_LINE\fP \(em double line.
+.IP \(bu 3
+\fBXmSINGLE_DASHED_LINE\fP \(em single-dashed line.
+.IP \(bu 3
+\fBXmDOUBLE_DASHED_LINE\fP \(em double-dashed line.
+.IP \(bu 3
+\fBXmNO_LINE\fP \(em no line.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_IN\fP \(em double line giving the effect
+of a line etched into the window.
+The thickness of the double line is equal to the value of
+\fBXmNshadowThickness\fP.
+For horizontal orientation, the top line is drawn in \fBXmNtopShadowColor\fP
+and the bottom line is drawn in \fBXmNbottomShadowColor\fP.
+For vertical orientation, the left line is drawn in \fBXmNtopShadowColor\fP
+and the right line is drawn in  \fBXmNbottomShadowColor\fP.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_OUT\fP \(em double line giving the effect of an etched line
+coming out from the window.
+The thickness of the double line is equal to the value of
+\fBXmNshadowThickness\fP.
+For horizontal orientation, the top line is drawn in \fBXmNbottomShadowColor\fP
+and the bottom line is drawn in \fBXmNtopShadowColor\fP.
+For vertical orientation, the left line is drawn in \fBXmNbottomShadowColor\fP
+and the right line is drawn in \fBXmNtopShadowColor\fP.
+.RE
+.sp 1
+.SS "Inherited Resources"
+SeparatorGadget inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmGadget Resource Set
+Name	Class	Type	Default	Access
+_
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	0	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmNONE	G
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	False	G
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+RectObj Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Object Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.sp 1 \"Adds space before the SS
+.SS "Behavior"
+XmSeparatorGadget has no behavior.
+.SH RELATED INFORMATION
+\fBObject(3X)\fP, \fBRectObject(3X)\fP,
+\fBXmCreateSeparatorGadget(3X)\fP, and
+\fBXmGadget(3X)\fP.

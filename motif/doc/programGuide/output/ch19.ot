@@ -1,0 +1,1688 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       19.  UUUUIIIILLLL MMMMoooodddduuuulllleeee SSSSttttrrrruuuuccccttttuuuurrrreeee
+
+       This chapter describes how to build a UIL module using the
+       language elements described in the previous chapter.  This
+       chapter also explains the scope of references to values and
+       objects defined in UIL, and describes the syntax and use of
+       the following UIL module components:
+
+          +o Value section
+
+          +o Procedure section
+
+          +o List section
+
+          +o Object section
+
+          +o Identifier section
+
+          +o Include directive
+
+       In addition, this chapter describes the following features
+       of UIL:
+
+          +o Argument definitions for constraint widgets
+
+          +o Symbolic references to widget IDs
+
+       In this chapter, all examples assume case-insensitive mode.   |
+       Keywords are shown in uppercase to distinguish them from      |
+       user-specified names, which are shown in lowercase.  This     |
+       use of uppercase is not required in case-insensitive mode.
+       In case-sensitive mode, keywords must be in lowercase.        |
+
+       19.1  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaa UUUUIIIILLLL MMMMoooodddduuuulllleeee
+
+       A UIL module contains definitions of objects that are to be
+       stored in a User Interface Definition (UID) file, the com-
+       piled output of the UIL compiler.  A UIL module consists of
+       a module block, which contains a series of value, procedure,
+       list, identifier, and object sections.  There can be any
+       number of these sections in a UIL module. A UIL module can
+       also contain include directives, which can be placed any-
+       where in the module, except within a value, procedure, list,  |
+       identifier, or object section.
+
+
+                                                               19-1
+
+
+
+
+
+
+
+
+
+
+
+
+       The structure of a UIL module is as follows:                  |
+
+       uil_module ::=
+               MODULE module_name
+                   [ version-clause ]
+                   [ case-sensitivity-clause ]
+                   [ default-character-set-clause ]
+                   [ default-object-variant-clause ]
+                   { value-section
+                   | procedure-section
+                   | list-section
+                   | object-section
+                   | identifier-section
+                   | include-directive }...
+               END MODULE ";"
+       version-clause ::=
+               VERSION "=" character-expression
+       case-sensitivity-clause ::=
+               NAMES "=" { CASE_SENSITIVE
+                           CASE_INSENSITIVE }
+       default-character-set-clause ::=
+               CHARACTER_SET "=" char-set
+       default-object-variant-clause ::=
+               OBJECTS "=" "{" object-type "=" WIDGET | GADGET";" ... "}"
+
+       The module name is the name by which this UIL module is       |
+       known in the UID file.  This name is stored in the UID file
+       for later use in the retrieval of resources by the MRM.
+       This name is always stored in uppercase in the UID file.
+
+       The following is an example of the UIL module structure.      |
+
+       !+
+       !        Sample UIL module
+       !-
+       MODULE example                ! module name
+         VERSION = 'V1.0'            ! version
+         NAMES = CASE_INSENSITIVE    ! keywords and names are
+                                     ! not case sensitive
+         CHARACTER_SET = ISO_LATIN6  ! character set for compilation
+                                     ! is ISO_LATIN6
+         OBJECTS = { XmPushButton = GADGET; }   ! push buttons are
+                                               ! gadgets by default
+       !+
+       !       Declare the VALUES, PROCEDURES, LISTS,
+       !       IDENTIFIERS, and OBJECTS here...
+       !-
+       END MODULE;
+
+
+
+
+
+       19-2
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       19.1.1  VVVVeeeerrrrssssiiiioooonnnn CCCCllllaaaauuuusssseeee
+
+       The version clause specifies the version number of the UIL
+       module.  It is provided so that the programmer can verify
+       the correct version of a UIL module is being accessed by
+       MRM.  The character expression you use to specify the ver-
+       sion can be up to 31 characters in length.                    |
+
+       19.1.2  CCCCaaaasssseeee----SSSSeeeennnnssssiiiittttiiiivvvviiiittttyyyy CCCCllllaaaauuuusssseeee                               |
+
+       The case-sensitivity clause indicates whether names are to    |
+       be treated as case sensitive or case insensitive.  The        |
+       default is case sensitive.
+
+       The case-sensitivity clause should be the first clause in     |
+       the module header, and in any case must precede any state-
+       ment that contains a name.
+
+       If names are case sensitive in a UIL module, UIL keywords in
+       that module must be in lowercase.  Each name is stored in
+       the UIL file in the same case as it appears in the UIL
+       module. If names are case insensitive, then keywords can be
+       in uppercase, lowercase, or mixed case, and the uppercase
+       equivalent of each name is stored in the UID file.  The fol-  |
+       lowing table summarizes these rules.                          |
+
+         TTTTAAAABBBBLLLLEEEE 11119999----1111....  Rules for Case Sensitivity in a UIL Module
+
+       _________________________________________________________     *
+                          KKKKeeeeyyyywwwwoooorrrrdddd TTTTrrrreeeeaaaattttmmmmeeeennnntttt   NNNNaaaammmmeeee TTTTrrrreeeeaaaattttmmmmeeeennnntttt         |
+       CCCCaaaasssseeee SSSSeeeennnnssssiiiittttiiiivvvviiiittttyyyy   iiiinnnn UUUUIIIILLLL MMMMoooodddduuuulllleeee       iiiinnnn UUUUIIIIDDDD FFFFiiiilllleeee            |
+       _________________________________________________________
+                          Must be entered
+                          in lowercase
+77                                              Stored in the
+                                              same case as they
+                                              appear in the UIL
+                                              module
+7777       Case sensitive
+
+
+
+                          Can be entered in
+                          lowercase, upper-
+                          case, or mixed
+                          case
+7777                                              Stored in upper-
+                                              case
+77       Case insensitive
+
+
+
+       _________________________________________________________
+
+       19.1.3  DDDDeeeeffffaaaauuuulllltttt CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt CCCCllllaaaauuuusssseeee
+
+       The default character set clause specifies the default char-
+       acter set for string literals in the module.  The use of the
+       default character set clause is optional.
+
+       If specified, the character set clause designates the char-
+       acter set used to interpret an extended string literal if
+       you did not specify a character set for that literal. If you
+
+
+                                                               19-3
+
+
+
+
+
+
+
+
+
+
+
+
+       do not include the character set clause in the module
+       header, the default character set for the compilation is the  |
+       codeset portion of the value of the LLLLAAAANNNNGGGG environment vari-    |
+       able if it is set or the value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT if LANG  |
+       is not set or has no codeset component.  By default,          |
+       XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT is ISO8859-1 (equivalent to ISO_LATIN1),   |
+       but vendors may define a different default.  See Section      |
+       20.3 for more information.
+
+       19.1.4  DDDDeeeeffffaaaauuuulllltttt OOOObbbbjjjjeeeecccctttt VVVVaaaarrrriiiiaaaannnntttt CCCCllllaaaauuuusssseeee
+
+       A gadget is a simplified version of a widget that consumes
+       less resources (and therefore enhances application perfor-
+       mance) but offers limited customization. The following types
+       of user interface object types have both a widget and a
+       gadget variant:                                               |
+
+          +o Cascade button
+
+          +o Label
+
+          +o Push button
+
+          +o Separator
+
+          +o Toggle button
+
+       For the most part, the widget and gadget variants are inter-
+       changeable.  To use gadgets in your application, you need to
+       specify to the UIL compiler that you want that particular
+       variant.  Otherwise, by default, the UIL compiler assumes     |
+       you want to use widgets.  There are three ways to specify     |
+       that you want to use a gadget instead of a widget:            |
+
+          +o Add the default object-variant clause to the module      |
+            header.                                                  |
+
+          +o Add the keyword GADGET to particular object declara-
+            tions.                                                   |
+
+          +o Use the Motif toolkit object name of the gadget variant  |
+            (usually XXXXmmmm<_o_b_j_e_c_t>GGGGaaaaddddggggeeeetttt).                              |
+
+       By using the default object-variant clause in the UIL module  |
+       header, you can declare all cascade buttons, labels, push
+       buttons, separators, and toggle buttons, or any combination
+       of these types, to be gadgets.  In the sample module          |
+       declaration shown previously in this section, only push but-  |
+       tons are declared as gadgets.
+
+
+
+
+       19-4
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       To change these objects from one variant to the other, you
+       need only change the default object-variant clause.  For      |
+       example, suppose you used the default object-variant clause   |
+       to declare all push buttons as gadgets.  To change all push
+       button objects from gadgets to widgets, remove the type       |
+       XXXXmmmmPPPPuuuusssshhhhBBBBuuuuttttttttoooonnnn from the clause.
+
+       Because you do not specify the variant for imported objects
+       (discussed in the next section), the variant (whether a
+       widget or gadget) of imported objects is unknown until run
+       time.
+
+       See Section 19.6 for more information on specifying the       |
+       variant of objects in a UIL module.                           |
+
+       19.2  SSSSccccooooppppeeee ooooffff RRRReeeeffffeeeerrrreeeennnncccceeeessss ttttoooo VVVVaaaalllluuuueeeessss aaaannnndddd OOOObbbbjjjjeeeeccccttttssss
+
+       UIL values can have one of the following levels of scope of   |
+       reference:
+
+          +o EXPORTED: A value that you define as exported is stored
+            in the UID file as a named resource, and therefore can
+            be referenced by name in other UID files.  When you
+            define a value as exported, MRM looks outside the
+            module in which the exported value is declared to get
+            its value at run time.
+
+          +o IMPORTED: A value that you define as imported is one
+            that is defined as a named resource in a UID file.  MRM
+            resolves this declaration with the corresponding
+            exported declaration at application run time.
+
+          +o PRIVATE: A private value is a value that is not
+            imported or exported.  A value that you define as
+            private is not stored as a distinct resource in the UID
+            file.  You can reference a private value only in the
+            UIL module containing the value declaration. The value
+            or object is directly incorporated into anything in the
+            UIL module that references the declaration.
+
+       EXPORTED, IMPORTED, and PRIVATE are reserved UIL keywords.
+       By default, values and objects are private.
+
+       19.3  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaa VVVVaaaalllluuuueeee SSSSeeeeccccttttiiiioooonnnn
+
+       A value section consists of the keyword VALUE followed by a
+       sequence of value declarations.  It has the following syn-
+       tax:                                                          |
+
+       _v_a_l_u_e-_s_e_c_t_i_o_n ::=                                             |
+               VVVVAAAALLLLUUUUEEEE _v_a_l_u_e-_d_e_c_l_a_r_a_t_i_o_n...                            |
+
+
+                                                               19-5
+
+
+
+
+
+
+
+
+
+
+
+
+       _v_a_l_u_e-_d_e_c_l_a_r_a_t_i_o_n ::=                                         |
+               _v_a_l_u_e-_n_a_m_e ":"                                        |
+                       { EEEEXXXXPPPPOOOORRRRTTTTEEEEDDDD _v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n                   |
+                       | PPPPRRRRIIIIVVVVAAAATTTTEEEE _v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n                    |
+                       | _v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n                            |
+                       | IIIIMMMMPPPPOOOORRRRTTTTEEEEDDDD _v_a_l_u_e-_t_y_p_e } ";"                   |
+
+       A value declaration provides a way to name a value expres-    |
+       sion or literal.  The value name can be referred to by
+       declarations that occur later in the UIL module in any con-
+       text where a value can be used.  Values can be forward        |
+       referenced.
+
+       Value sections can include a keyword defining the scope of
+       references to the value (see Section 19.2).  The following    |
+       table describes the supported value types in UIL.             |
+
+                         TTTTAAAABBBBLLLLEEEE 11119999----2222....  Value Types
+
+       ________________________________________________________________________________*
+       VVVVaaaalllluuuueeee TTTTyyyyppppeeee          DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       ________________________________________________________________________________
+                           Prevents the UIL compiler from checking the type of an argu-  |
+                           ment value
+77       ANY
+
+                           Defines a value as a user-defined argument
+7       ARGUMENT
+                           Defines a value as True (On) or False (Off)                   |
+7       BOOLEAN
+       COLOR               Defines a value as a color
+                           Provides a device-independent way to define a set of colors
+                           (usually for a pixmap)
+77       COLOR_TABLE
+
+       COMPOUND_STRING     Defines a value as a compound string
+                           Defines a value as a double-precision, floating-point number|
+7       FLOAT                                                                           |
+       FONT                Defines a value as a font
+                           Defines a value as a sequence of font and character set
+                           pairs
+77       FONT_TABLE
+
+                           Describes a rectangular pixmap using a character to
+                           represent each pixel
+77       ICON
+
+       INTEGER             Defines a value as an integer
+       INTEGER_TABLE       Defines a value as an array of integers
+       KEYSYM              Defines a value as a keysym                                 |
+                           Defines a condition under which a widget is to call an
+                           application function
+77       REASON
+
+                           Defines a value as a single-precision, floating-point number|
+7       SINGLE_FLOAT                                                                    |
+       STRING              Defines a value as a null-terminated (ASCIZ) string
+       STRING_TABLE        Defines a value as an array of compound strings
+       TRANSLATION_TABLE   Defines an alternative set of events or actions for a widget|
+       ________________________________________________________________________________
+
+
+
+
+
+
+
+       19-6
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       The following example shows how to declare values:            |
+
+       VALUE                                                         |
+          k_main             : EXPORTED 1;                           |
+          k_main_menu        : EXPORTED 2;                           |
+          k_main_command     : EXPORTED 3;                           |
+       VALUE
+          white        : IMPORTED COLOR;                             |
+          blue         : IMPORTED COLOR;                             |
+          arg_name     : PRIVATE 'new_argument_name';                |
+       VALUE
+          main_prompt  : 'next command';  ! PRIVATE by default       |
+          main_font    : IMPORTED FONT;                              |
+
+       Because the values _k__m_a_i_n _k__m_a_i_n__m_e_n_u and _k__m_a_i_n__c_o_m_m_a_n_d are  |
+       defined as exported, you can use these values in another UIL  |
+       module as follows:                                            |
+
+       VALUE
+           k_main                : IMPORTED _i_n_t_e_g_e_r;                 |
+
+       19.4  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaa PPPPrrrroooocccceeeedddduuuurrrreeee SSSSeeeeccccttttiiiioooonnnn
+
+       A procedure section consists of the keyword PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEE fol-    |
+       lowed by a sequence of procedure declarations.  It has the
+       following syntax:                                             |
+
+       _p_r_o_c_e_d_u_r_e-_s_e_c_t_i_o_n ::=                                         |
+               PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEE _p_r_o_c_e_d_u_r_e-_d_e_c_l_a_r_a_t_i_o_n...                    |
+       _p_r_o_c_e_d_u_r_e-_d_e_c_l_a_r_a_t_i_o_n ::=                                     |
+               _p_r_o_c_e_d_u_r_e-_n_a_m_e                                        |
+                   [ _f_o_r_m_a_l-_p_a_r_a_m_e_t_e_r-_s_p_e_c ]";"                      |
+       _f_o_r_m_a_l-_p_a_r_a_m_e_t_e_r-_s_p_e_c ::=                                     |
+                   "(" [ _v_a_l_u_e-_t_y_p_e ] ")" ";"                        |
+
+       Use a procedure declaration to declare the following:
+
+          +o A routine that can be used as a callback routine for a
+            widget
+
+          +o The creation function for a user-defined widget          |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               19-7
+
+
+
+
+
+
+
+
+
+
+
+
+       You can reference a procedure name in declarations that       |
+       occur later in the UIL module in any context where a pro-     |
+       cedure can be used.  Procedures can be forward referenced.    |
+       You cannot use a name you used in another context as a pro-
+       cedure name.
+
+       In a procedure declaration, you have the option of specify-
+       ing that a parameter will be passed to the corresponding
+       callback routine at run time.  This parameter is called the
+       callback tag.  You can specify the data type of the callback
+       tag by putting the data type in parentheses following the
+       procedure name.  When you compile the module, the UIL com-
+       piler checks that the argument you specify in references to
+       the procedure is of this type.  Note that the data type of
+       the callback tag must be one of the valid UIL data types      |
+       (see Table 19-2).  Note also that you cannot use a widget as  |
+       a callback tag.
+
+       The following table summarizes how the UIL compiler checks    |
+       argument type and argument count, depending on the procedure
+       declaration.                                                  |
+
+         TTTTAAAABBBBLLLLEEEE 11119999----3333....  Rules for Checking Argument Type and Count
+
+       ___________________________________________________           *
+       DDDDeeeeccccllllaaaarrrraaaattttiiiioooonnnn     RRRRuuuulllleeeessss
+       ___________________________________________________
+                       No argument type or argument count
+                       checking occurs. You can supply any
+                       number of arguments in the pro-
+                       cedure reference.
+7777       No parameters
+
+
+
+                       Checks that the argument count is    |
+                       0.
+77       ( )
+
+                       Checks that the argument count is             |
+                       1.  Does not check the argument      |        |
+                       type.  Use the aaaannnnyyyy type to prevent   |        |
+                       type checking on procedure tags.              |
+7777       (aaaannnnyyyy)                                                         |
+
+
+
+                       Checks for one argument of the                |
+                       specified type.                               |
+77       (_t_y_p_e)                                                        |
+
+       ___________________________________________________           |
+
+       For example, in the following procedure declaration, the      |
+       callback procedure named _t_o_g_g_l_e__p_r_o_c will be passed an        |
+       integer tag at run time.  The UIL compiler checks that the    |
+       parameter specified in any reference to procedure             |
+       _t_o_g_g_l_e__p_r_o_c is an integer.                                    |
+
+       PROCEDURE
+           toggle_proc (INTEGER);                                    |
+
+
+
+
+       19-8
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       While it is possible to use any UIL data type to specify the  |
+       type of a tag in a procedure declaration, you must be able
+       to represent that data type in the programming language you   |
+       are using.  Some data types (such as integer, Boolean, and
+       string) are common data types recognized by most programming
+       languages. Other UIL data types (such as string tables) are
+       more complicated and may require you to set up an appropri-
+       ate corresponding data structure in the application in order
+       to pass a tag of that type to a callback routine.
+
+       You can also use a procedure declaration to specify the
+       creation function for a user-defined widget.  In this case,
+       you specify no formal parameters.  The procedure is invoked
+       with the standard three arguments passed to all widget crea-
+       tion functions.  (See the Motif Toolkit documentation for     |
+       more information about widget creation functions.)
+
+       The following example shows how to declare a procedure:       |
+
+           PROCEDURE
+               app_help (INTEGER);
+               app_destroy (INTEGER);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               19-9
+
+
+
+
+
+
+
+
+
+
+
+
+       19.5  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaa LLLLiiiisssstttt SSSSeeeeccccttttiiiioooonnnn
+
+       A list section consists of the keyword LIST followed by a
+       sequence of list declarations.  It has the following syntax:  |
+
+       _l_i_s_t-_s_e_c_t_i_o_n ::=                                              |
+               LLLLIIIISSSSTTTT _l_i_s_t-_d_e_c_l_a_r_a_t_i_o_n...                              |
+       _l_i_s_t-_d_e_c_l_a_r_a_t_i_o_n ::=                                          |
+               _l_i_s_t-_n_a_m_e ":" _l_i_s_t-_d_e_f_i_n_i_t_i_on ";"                     |
+       _l_i_s_t-_d_e_f_i_n_i_t_i_o_n ::=                                           |
+               _l_i_s_t-_t_y_p_e _l_i_s_t-_s_p_e_c                                   |
+       _l_i_s_t-_t_y_p_e ::=                                                 |
+               { AAAARRRRGGGGUUUUMMMMEEEENNNNTTTTSSSS                                           |
+               | CCCCOOOONNNNTTTTRRRROOOOLLLLSSSS                                            |
+               | CCCCAAAALLLLLLLLBBBBAAAACCCCKKKKSSSS                                           |
+               | PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEESSSS }                                        |
+       _l_i_s_t-_s_p_e_c ::=                                                 |
+               { _l_i_s_t-_n_a_m_e                                           |
+               | "{" _l_i_s_t-_e_n_t_r_y... "}" }                             |
+       _l_i_s_t-_e_n_t_r_y ::=                                                |
+               { _l_i_s_t-_d_e_f_i_n_i_t_i_o_n                                     |
+               | _a_r_g_u_m_e_n_t-_l_i_s_t-_e_n_t_r_y                                 |
+               | _c_o_n_t_r_o_l-_l_i_s_t-_e_n_t_r_y                                  |
+               | _c_a_l_l_b_a_c_k-_l_i_s_t-_e_n_t_r_y                                 |
+               | _p_r_o_c_e_d_u_r_e-_l_i_s_t-_e_n_t_r_y } ";"                          |
+
+       You use list sections to group together a set of arguments,
+       controls (children), callbacks, or procedures for later use   |
+       in the UIL module.  Lists can contain other lists, so that
+       you can set up a hierarchy to clearly show which arguments,   |
+       controls, callbacks, and procedures are common to which       |
+       widgets.  You cannot mix the different types of lists; a
+       list of a particular type cannot contain entries of a dif-
+       ferent list type or reference the name of a different list
+       type.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       19-10
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       A list name is always private to the UIL module in which you  |
+       declare the list and cannot be stored as a named resource in
+       a UID file.
+
+       There are four types of lists in UIL:
+
+          +o Arguments list, having the list type AAAARRRRGGGGUUUUMMMMEEEENNNNTTTTSSSS           |
+
+          +o Callbacks list, having the list type CCCCAAAALLLLLLLLBBBBAAAACCCCKKKKSSSS           |
+
+          +o Controls list, having the list type CCCCOOOONNNNTTTTRRRROOOOLLLLSSSS             |
+
+          +o Procedures list, having the list type PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEESSSS         |
+
+       These list types are described in the following sections.
+
+       19.5.1  AAAArrrrgggguuuummmmeeeennnnttttssss LLLLiiiisssstttt SSSSttttrrrruuuuccccttttuuuurrrreeee
+
+       An arguments list defines which arguments are to be speci-
+       fied in the arguments-list parameter when the creation rou-   |
+       tine for a particular object is called at run time. An argu-
+       ments list also specifies the values for those arguments.
+       Each entry in the arguments list has the following syntax:    |
+
+       _a_r_g_u_m_e_n_t-_l_i_s_t-_e_n_t_r_y ::=                                       |
+               _a_r_g_u_m_e_n_t-_n_a_m_e "=" _v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n                    |
+
+       The argument name must be either a built-in argument name or
+       a user-defined argument name that is specified with the       |
+       AAAARRRRGGGGUUUUMMMMEEEENNNNTTTT function (see Section 18.5.13).  If you use a
+       built-in argument name, the type of the value expression
+       must match the allowable type for the argument.
+
+       If you use a built-in argument name as an arguments list      |
+       entry in an object definition, the UIL compiler checks the
+       argument name to be sure that it is supported by the type of
+       object that you are defining.  If the same argument name
+       appears more than once in a given arguments list, the last
+       entry that uses that argument name supersedes all previous
+       entries with that name, and the compiler issues a message.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              19-11
+
+
+
+
+
+
+
+
+
+
+
+
+       Some arguments are coupled by the UIL compiler. When you      |
+       specify one of the arguments, the compiler also sets the      |
+       other.  The coupled argument is not available to you.  The
+       coupled arguments are listed in the following table.          |
+
+                      TTTTAAAABBBBLLLLEEEE 11119999----4444....  Coupled Arguments
+
+       _________________________________________                     *
+       SSSSuuuuppppppppoooorrrrtttteeeedddd AAAArrrrgggguuuummmmeeeennnntttt   CCCCoooouuuupppplllleeeedddd AAAArrrrgggguuuummmmeeeennnntttt
+       _________________________________________
+       XmNitems             XmNitemCount                             |
+       XmNselectedItems     XmNselectedItemCount                     |
+       _________________________________________
+
+       See Appendix B for information about which arguments are
+       supported by which widgets.  See Appendix C for information
+       about what the valid value type is for each built-in argu-
+       ment.
+
+       The following example shows how to declare and reference an   |
+       arguments list:                                               |
+
+           LIST
+               default_size: ARGUMENTS {
+                   XmNheight = 500;
+                   XmNwidth = 700;
+               };
+               default_args: ARGUMENTS {
+                   ARGUMENTS default_size;
+                   XmNforeground = white;
+                   XmNbackground = blue;
+               };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       19-12
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       19.5.2  CCCCaaaallllllllbbbbaaaacccckkkkssss LLLLiiiisssstttt SSSSttttrrrruuuuccccttttuuuurrrreeee
+
+       Use a callbacks list to define which callback reasons are to  |
+       be processed by a particular widget at run time.  Each call-  |
+       backs list entry has the following syntax:                    |
+
+       _c_a_l_l_b_a_c_k-_l_i_s_t-_e_n_t_r_y ::=                                       |
+               _r_e_a_s_o_n-_n_a_m_e "=" _p_r_o_c_e_d_u_r_e-_r_e_f_e_r_e_n_c_e                   |
+       _p_r_o_c_e_d_u_r_e-_r_e_f_e_r_e_n_c_e ::=                                       |
+               PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEE _p_r_o_c_e_d_u_r_e-_n_a_m_e                              |
+                   [ "(" [ _v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n ] ")" ";"                |
+                      |  _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c_i_f_i_c_a_t_i_o_n ]              |
+
+       For Motif Toolkit widgets, the reason name must be a built-
+       in reason name.  For a user-defined widget, you can use a
+       reason name that you previously specified using the RRRREEEEAAAASSSSOOOONNNN    |
+       function (see Section 18.5.14).  If you use a built-in rea-
+       son in an object definition, the UIL compiler ensures that
+       reason is supported by the type of object you are defining.
+       Appendix B shows which reasons each object supports.
+
+       If the same reason appears more than once in a callbacks
+       list, the last entry referring to that name supersedes all
+       previous entries using the same reason, and the UIL compiler
+       issues a diagnostic message.
+
+       If you specify a named value for the procedure argument       |
+       (callback tag), the data type of the value must match the
+       type specified for the callback tag in the corresponding      |
+       procedure declaration.  See Section 19.4 for a detailed
+       explanation of argument type checking for procedures.         |
+
+       The following example shows how to declare a callbacks list:  |
+
+       LIST                                                          |
+           default_callbacks : CALLBACKS {                           |
+               XmNdestroyCallback = PROCEDURE app_destroy (k_main);  |
+               XmNhelpCallback = PROCEDURE app_help (k_main);        |
+           };                                                        |
+
+       The following lines of pseudocode show the interface to the   |
+       callback procedure:                                           |
+
+       PROCEDURE procedure-name (widget by reference,                |
+                                 tag by reference,                   |
+                                 reason by reference                 |
+                 RETURNS: no-value);                                 |
+
+       Because the UIL compiler produces a UID file rather than an
+       object module (.o), the binding of the UIL name to the
+       address of the entry point to the procedure is not done by
+
+
+                                                              19-13
+
+
+
+
+
+
+
+
+
+
+
+
+       the loader, but is established at run time with the MRM
+       function MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessss.  You call this function before     |
+       fetching any objects, giving it both the UIL names and the
+       procedure addresses of each callback.  The name you register
+       with MRM in the application program must match the name you
+       specified for the procedure in the UIL module.
+
+       Each callback procedure receives three arguments.  The first
+       two arguments have the same form for each callback.  The
+       form of the third argument varies from object to object.
+
+       The first argument is the address of the data structure
+       maintained by the Motif Toolkit for this object instance.
+       This address is called the widget ID for this object.
+
+       The second argument is the address of the value you speci-
+       fied in the callbacks list for this procedure. The XmNdes-    |
+       troyCallback callback in this example has _a_p_p__d_e_s_t_r_o_y as its  |
+       callback procedure.  The second argument is address of the    |
+       integer _k__m_a_i_n.  If you do not specify an argument, the       |
+       address is NULL.
+
+       Consult Part I of this guide to find the structure of the     |
+       third argument.  The reason name you specified in the UIL
+       module is the first field in this structure.                  *
+
+       19.5.3  CCCCoooonnnnttttrrrroooollllssss LLLLiiiisssstttt SSSSttttrrrruuuuccccttttuuuurrrreeee
+
+       A controls list defines which objects are children of, or
+       controlled by, a particular object.  Each entry in a con-
+       trols list has the following syntax:                          |
+
+       _c_o_n_t_r_o_l-_l_i_s_t-_e_n_t_r_y ::=                                        |
+               [ MMMMAAAANNNNAAAAGGGGEEEEDDDD | UUUUNNNNMMMMAAAANNNNAAAAGGGGEEEEDDDD ] _o_b_j_e_c_t-_d_e_f_i_n_i_t_i_o_n             |
+
+       If you specify the keyword MMMMAAAANNNNAAAAGGGGEEEEDDDD at run time, the object    |
+       is created and managed; if you specify UUUUNNNNMMMMAAAANNNNAAAAGGGGEEEEDDDD at run       |
+       time, the object is only created.  Objects are managed by
+       default.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       19-14
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       Unlike the arguments list and the callbacks list, a controls  |
+       list entry that is identical to a previous entry does not
+       supersede the previous entry.  At run time, each controls
+       list entry causes a child to be created when the parent is
+       created.  If the same object definition is used for multiple
+       children, multiple instances of the child are created at run
+       time. See Appendix B for a list of which widget types can be  *
+       controlled by which other widget types.
+
+       The following example shows how to declare a controls list:
+
+        LIST                                                         |
+                   default_main_controls : CONTROLS {
+                       XmCommand main_command;
+                       XmMenuBar main_menu;
+                       UNMANAGED XmList file_menu;
+                       UNMANAGED XmOptionMenu edit_menu;
+               };
+
+       19.5.4  PPPPrrrroooocccceeeedddduuuurrrreeeessss LLLLiiiisssstttt SSSSttttrrrruuuuccccttttuuuurrrreeee
+
+       You can specify multiple procedures for a callback reason in
+       UIL by defining a procedures list.  Just as with other list
+       types, lists can be defined inline or in a list section and
+       referenced by name.
+
+       If you define a reason more than once (for example, when the
+       reason is defined both in a referenced procedures list and
+       in the callbacks list for the object), previous definitions
+       are overridden by the latest definition.  The syntax for a    *
+       procedures list is as follows:                                |
+
+       _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c_i_f_i_c_a_t_i_o_n ::=                              |
+           PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEESSSS _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c                            |
+       _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c ::=                                       |
+           { _p_r_o_c_e_d_u_r_e-_l_i_s_t-_n_a_m_e                                     |
+           | "{" [_p_r_o_c_e_d_u_r_e-_l_i_s_t-_c_l_a_u_s_e...] "}" }                    |
+       _p_r_o_c_e_d_u_r_e-_l_i_s_t-_c_l_a_u_s_e ::=                                     |
+           { _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c_i_f_i_c_a_t_i_o_n | _p_r_o_c_e_d_u_r_e-_l_i_s_t-_r_e_f }     |
+       _p_r_o_c_e_d_u_r_e-_l_i_s_t-_r_e_f ::=                                        |
+           _p_r_o_c_e_d_u_r_e-_l_i_s_t-_n_a_m_e [ "(" [ _t_a_g-_v_a_l_u_e-_e_x_p_r_e_s_s_i_o_n ] ")" ]  |
+       _c_a_l_l_b_a_c_k-_l_i_s_t-_e_n_t_r_y ::=                                       |
+           _r_e_a_s_o_n-_n_a_m_e "=" _p_r_o_c_e_d_u_r_e-_l_i_s_t-_s_p_e_c                       |
+
+       You can specify multiple procedures for each callback reason  |
+       in UIL by defining the procedures as a type of list.  Just    |
+       as with other list types, you can define procedures lists     |
+       either inline, or in a list section and referenced by name.   |
+       If you define a reason more than once (for example, when the  |
+       reason is defined both in a referenced procedures list and    |
+       in the callbacks list for the object), previous definitions   |
+
+
+                                                              19-15
+
+
+
+
+
+
+
+
+
+
+
+
+       are overridden by the latest definition.                      |
+
+       The following example shows how to specify multiple pro-      |
+       cedures per callback reason in an object declaration for the  |
+       push button gadget.  In the example, both functions           |
+       _q_u_i_t__p_r_o_c and _s_h_u_t_d_o_w_n are called in response to the XmNac-   |
+       tivateCallback callback reason.                               |
+
+       OBJECT m_quit_button: XmPushButton {                          |
+           ARGUMENTS {                                               |
+                        .                                            |
+                        .                                            |
+                        .                                            |
+                     };                                              |
+           CALLBACKS {                                               |
+              XmNactivateCallback = PROCEDURES                       |
+                     {                                               |
+                        quit_proc ('normal exit');                   |
+                        shutdown ();                                 |
+                     };                                              |
+           };                                                        |
+       };                                                            |
+
+       19.6  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaannnn OOOObbbbjjjjeeeecccctttt SSSSeeeeccccttttiiiioooonnnn
+
+       An object section consists of the keyword OBJECT followed by
+       a sequence of object declarations.  It has the following
+       syntax:                                                       |
+
+       _o_b_j_e_c_t-_s_e_c_t_i_o_n ::=                                            |
+               OOOOBBBBJJJJEEEECCCCTTTT _o_b_j_e_c_t-_d_e_c_l_a_r_a_t_i_o_n...                          |
+       _o_b_j_e_c_t-_d_e_c_l_a_r_a_t_i_o_n ::=                                        |
+              _o_b_j_e_c_t-_n_a_m_e ":"                                        |
+                      { EEEEXXXXPPPPOOOORRRRTTTTEEEEDDDD _o_b_j_e_c_t-_d_e_f_i_n_i_t_i_o_n                   |
+                      | PPPPRRRRIIIIVVVVAAAATTTTEEEE _o_b_j_e_c_t-_d_e_f_i_n_i_t_i_o_n                    |
+                      | _o_b_j_e_c_t-_d_e_f_i_n_i_t_i_o_n                            |
+                      | IIIIMMMMPPPPOOOORRRRTTTTEEEEDDDD _o_b_j_e_c_t-_t_y_p_e } ";"                   |
+       _o_b_j_e_c_t-_d_e_f_i_n_i_t_i_o_n ::=                                         |
+              _o_b_j_e_c_t-_t_y_p_e [ _p_r_o_c_e_d_u_r_e-_r_e_f_e_r_e_n_c_e ] _o_b_j_e_c_t-_s_p_e_c        |
+       _o_b_j_e_c_t-_s_p_e_c ::=                                               |
+              { _o_b_j_e_c_t-_n_a_m_e [WWWWIIIIDDDDGGGGEEEETTTT | GGGGAAAADDDDGGGGEEEETTTT]                        |
+              | "{" _l_i_s_t-_d_e_f_i_n_i_t_i_o_n... "}" }                         |
+       _p_r_o_c_e_d_u_r_e-_r_e_f_e_r_e_n_c_e ::=                                       |
+              PPPPRRRROOOOCCCCEEEEDDDDUUUURRRREEEE _c_r_e_a_t_i_o_n__f_u_n_c_t_i_o_n                            |
+
+       Use an object declaration to define the objects that are to
+       be stored in the UID file. You can reference the object name
+       in declarations that occur elsewhere in the UIL module in     |
+       any context where an object name can be used (for example,    |
+       in a controls list, as a symbolic reference to a widget ID,   |
+       or as the tag_value argument for a callback procedure).
+
+
+       19-16
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       Objects can be forward referenced; that is, you can declare
+       an object name after you reference it.  All references to an
+       object name must be consistent with the type of the object,
+       as specified in the object declaration. You can specify an    *
+       object as exported, imported, or private.
+
+       The object definition contains a sequence of lists that
+       define the arguments, hierarchy, and callbacks for the
+       widget. You can specify only one list of each type for an
+       object.  If you want to specify more than one list of argu-
+       ments, controls, or callbacks, you can do so within one
+       list, as follows:                                             |
+
+       _o_b_j_e_c_t _s_o_m_e__w_i_d_g_e_t:                                           |
+           _a_r_g_u_m_e_n_t_s {                                               |
+                _a_r_g_u_m_e_n_t_s__l_i_s_t_1;                                     |
+                _a_r_g_u_m_e_n_t_s__l_i_s_t_2;                                     |
+           };                                                        |
+
+       When you declare a user-defined widget, you must include a
+       reference to the widget creation function for the user-
+       defined widget.  See Section 22.5 for more information.       |
+
+       In this example, _a_r_g_u_m_e_n_t_s__l_i_s_t_1 and _a_r_g_u_m_e_n_t_s__l_i_s_t_2 are      |
+       lists of arguments that were previously defined in a list
+       section.  The following example shows how to declare an       |
+       object:
+
+       OBJECT                                                        |
+            app_main : EXPORTED XmMainWindow {                       |
+                ARGUMENTS {                                          |
+                    ARGUMENTS default_args;                          |
+                    XmNheight = 1000;                                |
+                    XmNwidth = 800;                                  |
+                };                                                   |
+                CALLBACKS default_callbacks;                         |
+                CONTROLS {                                           |
+                    XmMenuBar main_menu;                             |
+                    user_defined my_object;                          |
+                };                                                   |
+            };                                                       |
+
+       The following sections detail UIL syntax for specifying       *
+       object variants, show an example of a UIL module in which
+       gadgets are specified (using both the default object-variant  |
+       clause and explicit declaration methods), and describe UIL
+       compiler diagnostics related to gadgets.                      *
+
+
+
+
+
+
+                                                              19-17
+
+
+
+
+
+
+
+
+
+
+
+
+       19.6.1  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg tttthhhheeee OOOObbbbjjjjeeeecccctttt VVVVaaaarrrriiiiaaaannnntttt iiiinnnn tttthhhheeee MMMMoooodddduuuulllleeee HHHHeeeeaaaaddddeeeerrrr
+
+       You can include a default object-variant clause in the        |
+       module header to specify the default variant of objects
+       defined in the module on a type-by-type basis.  The object
+       type can be any user interface object type that has a gadget
+       variant (cascade button, label, push button, separator, or
+       toggle button).  If you specify any other object type as a
+       gadget, the UIL compiler issues a diagnostic.
+
+       When you include an object type in the default object-        |
+       variant clause, all objects of that type default to the
+       variant you specified in the clause.  For example, the fol-   |
+       lowing default object-variant clause specifies that all push
+       buttons in the module are gadgets:                            |
+
+       OBJECTS = { XmPushButton = GADGET; }
+
+       The UIL compiler issues an informational diagnostic if you    |
+       attempt to specify an object type more than once in the       |
+       default object-variant clause.
+
+       You can override the specification you made in the default    |
+       object-variant clause when you declare a particular object.   |
+       If you omit the default object-variant clause, or omit an
+       object type from the clause, the UIL compiler assumes you
+       want the omitted type to be a widget.  You can also expli-
+       citly override this default in an object declaration. The     |
+       example in Section 19.6.2 shows how to use the default        |
+       object-variant clause and how to override the variant
+       specification in an object declaration.
+
+       19.6.2  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg tttthhhheeee OOOObbbbjjjjeeeecccctttt VVVVaaaarrrriiiiaaaannnntttt iiiinnnn tttthhhheeee OOOObbbbjjjjeeeecccctttt DDDDeeeeccccllllaaaarrrraaaa----
+               ttttiiiioooonnnn
+
+       You can use one of the keywords WIDGET or GADGET as an
+       attribute of an object declaration.  You include the keyword
+       between the object type and the left brace of the object
+       specification.   Use the GADGET or WIDGET keyword to specify
+       the object type or to override the default variant for this
+       object type.
+
+       The syntax of the object declaration is as follows:           |
+
+       OBJECT
+            _o_b_j_e_c_t-_n_a_m_e : _o_b_j_e_c_t-_t_y_p_e GADGET | WIDGET {              |
+          .
+          .
+          .
+            };
+
+
+
+       19-18
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       The object type can be any user interface object type that    |
+       has a gadget variant (cascade button, label, push button,     |
+       separator, or toggle button).  If you specify any other
+       object type as a gadget, the UIL compiler issues a diagnos-
+       tic.
+
+       You can use the Motif Toolkit name of an object type that     |
+       has a gadget variant (for example, XXXXmmmmLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt) as an       |
+       attribute of an object declaration.  The syntax of the        |
+       object declaration is as follows:                             |
+
+       OOOOBBBBJJJJEEEECCCCTTTT                                                        |
+            _o_b_j_e_c_t-_n_a_m_e : _o_b_j_e_c_t-_t_y_p_e {                              |
+          .                                                          |
+          .                                                          |
+          .                                                          |
+            };                                                       |
+
+       The _o_b_j_e_c_t__t_y_p_e can be any object type, including gadgets.    |
+
+       The following example shows how to specify gadgets:           |
+
+       MODULE sample
+           NAMES = case_insensitive
+           OBJECTS =
+               { XmSeparator = GADGET; XmPushButton = WIDGET; }
+           OBJECT
+                a_button : XmPushButton GADGET {
+                     ARGUMENTS { XmNlabelString = 'choice a'; };
+                };
+                a_menu : XmPulldownMenu {
+                    ARGUMENTS { XmNborderWidth = 2; };
+                    CONTROLS {
+                        XmPushButton a_button;
+                        XmSeparator GADGET {};
+                        XmPushButton {
+                            ARGUMENTS { XmNlabelString = 'choice b'; };
+                        };
+                        XmSeparator WIDGET {};
+                        XmPushButton c_button;
+                        XmSeparator {};
+                    };
+                };
+                c_button : XmPushButtonGadget {                      |
+                     ARGUMENTS { XmNlabelString = 'choice c'; };
+                };
+       END MODULE;
+
+
+
+
+
+
+                                                              19-19
+
+
+
+
+
+
+
+
+
+
+
+
+       In this example, the default object-variant clause specifies  |
+       that all separator objects are gadgets and all push button
+       objects are widgets, unless overridden.  Object _a__b_u_t_t_o_n is   |
+       explicitly specified as a gadget.  Object _a__m_e_n_u defaults to  |
+       a widget. Object _c__b_u_t_t_o_n is explicitly specified as a        |
+       gadget using the toolkit name.
+
+       Notice that the reference to _a__b_u_t_t_o_n in the controls list    |
+       of _a__m_e_n_u refers to the _a__b_u_t_t_o_n gadget; you need to include  |
+       the gadget attribute only on the declaration of _a__b_u_t_t_o_n,     |
+       not on each reference to _a__b_u_t_t_o_n.  The same holds true for   |
+       _c__b_u_t_t_o_n, even though the reference to _c__b_u_t_t_o_n in the con-   |
+       trols list for _a__m_e_n_u is a forward reference. The unnamed     |
+       push button definition in the controls list for _a__m_e_n_u is a   |
+       widget because of the default object-variant clause; the      |
+       last separator is a gadget for the same reason.
+
+       You need to specify the GADGET or WIDGET keyword only in the
+       declaration of an object, not when you reference the object.
+       You cannot specify the GADGET or WIDGET keyword for a user-
+       defined object; user-defined objects are always widgets.      |
+
+       19.7  SSSSttttrrrruuuuccccttttuuuurrrreeee ooooffff aaaannnn IIIIddddeeeennnnttttiiiiffffiiiieeeerrrr SSSSeeeeccccttttiiiioooonnnn
+
+       The identifier section allows you to define an identifier, a
+       mechanism that achieves run-time binding of data to names
+       that appear in a UIL module. The identifier section consists
+       of the reserved keyword IDENTIFIER, followed by a list of
+       names, each name followed by a semicolon.  You can later use
+       these names in the UIL module as either the value of an       |
+       argument to a widget or the tag value to a callback pro-      |
+       cedure. At run time, you use the MRM functions MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrr----   |
+       NNNNaaaammmmeeeessss and MMMMrrrrmmmmRRRReeeeggggiiiisssstttteeeerrrrNNNNaaaammmmeeeessssIIIInnnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy to bind the identifier  |
+       name with the address of the data associated with the iden-   |
+       tifier.  (See Chapter 21 for information about MRM func-      |
+       tions.)
+
+       Each UIL module has a single name space; therefore, you can-  |
+       not use a name you used for a value, object, or procedure as  |
+       an identifier name in the same module.
+
+       The following example shows how to use an identifier section
+       in a UIL module:                                              |
+
+       IDENTIFIER
+           my_x_id;
+           my_y_id;
+           my_destroy_id;
+
+       The UIL compiler does not do any type checking on the use of  |
+       identifiers in a UIL module.  Unlike a UIL value, an
+
+
+       19-20
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       identifier does not have a UIL type associated with it.
+       Regardless of what particular type a widget argument or
+       callback procedure tag is defined to be, you can use an
+       identifier in that context instead of a value of the
+       corresponding type.
+
+       To reference these identifier names in a UIL module, you use
+       the name of the identifier wherever you want its value to be
+       used.  Identifiers can be referenced in any context where a
+       value can be referenced in UIL, although the primary uses
+       for identifiers are as callback procedure tags and widget
+       argument values.
+
+       The UIL module in the following example, the identifiers
+       _m_y__x__i_d and _m_y__y__i_d are used as argument values for the main
+       window widget, _m_y__m_a_i_n.  The position of the main window
+       widget may depend on the screen size of the terminal on
+       which the interface is displayed.  Using identifiers, you
+       can provide the values of the XmNx and XmNy arguments at run  |
+       time.  The identifier named _m_y__d_e_s_t_r_o_y__i_d is specified as
+       the tag to the callback procedure _m_y__d_e_s_t_r_o_y__c_a_l_l_b_a_c_k.  In
+       the application program, you could allocate a data structure
+       and use _m_y__d_e_s_t_r_o_y__i_d to store the address of the data
+       structure.  When the XmNdestroyCallback reason occurs, the    |
+       data structure is passed as the tag to procedure
+       _m_y__d_e_s_t_r_o_y__c_a_l_l_b_a_c_k.
+
+       MODULE id_example                                             |
+         NAMES = CASE_INSENSITIVE
+           IDENTIFIER
+               my_x_id;
+               my_y_id;
+               my_destroy_id;
+           PROCEDURE
+               my_destroy_callback ( STRING );
+           OBJECT my_main : XmMainWindow {
+               ARGUMENTS {
+                 XmNx = my_x_id;                                     |
+                 XmNy = my_y_id;                                     |
+               };
+               CALLBACKS {
+                 XmNdestroyCallback = PROCEDURE my_destroy_callback  |
+                         ( my_destroy_id );                          |
+               };
+           };
+       END MODULE;
+
+
+
+
+
+
+
+                                                              19-21
+
+
+
+
+
+
+
+
+
+
+
+
+       19.8  IIIInnnncccclllluuuuddddeeee DDDDiiiirrrreeeeccccttttiiiivvvveeee
+
+       The include directive incorporates the contents of a speci-
+       fied file into a UIL module.  This mechanism allows several
+       UIL modules to share common definitions.  The syntax for the
+       include directive is as follows:                              |
+
+       _i_n_c_l_u_d_e-_d_i_r_e_c_t_i_v_e ::=                                         |
+               IIIINNNNCCCCLLLLUUUUDDDDEEEE FFFFIIIILLLLEEEE _c_h_a_r_a_c_t_e_r-_e_x_p_r_e_s_s_i_o_n ";"                 |
+
+       The file specified in the include directive is called an
+       include file. The UIL compiler replaces the include direc-
+       tive with the contents of the include file and processes it
+       as if these contents had appeared in the current UIL source
+       file.
+
+       You can nest include files; that is, an include file can      |
+       contain include directives.  The UIL compiler can process up  |
+       to 100 references (including the file containing the UIL      |
+       module).  Therefore, you can include up to 99 files in a
+       single UIL module, including nested files.  Each time a file
+       is opened counts as a reference, so including the same file
+       twice counts as two references.
+
+       The character expression is a file specification that iden-
+       tifies the file to be included.  The rules for finding the
+       specified file are similar to the rules for finding header,   |
+       or ....hhhh files using the include directive, ####iiiinnnncccclllluuuuddddeeee, with a     |
+       quoted string in C.
+
+       If you do not supply a directory, the UIL compiler searches
+       for the include file in the directory of the main source
+       file; if the compiler does not find the include file there,
+       the compiler looks in the same directory as the source file.
+       If you supply a directory, the UIL compiler searches only
+       that directory for the file.
+
+       The following example shows how to use the include direc-     |
+       tive:                                                         |
+
+           INCLUDE FILE 'constants';
+
+       19.9  DDDDeeeeffffiiiinnnniiiittttiiiioooonnnnssss ffffoooorrrr CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt AAAArrrrgggguuuummmmeeeennnnttttssss                    |
+
+       The Motif Toolkit and the X Toolkit (intrinsics) support      |
+       constraint arguments.  A constraint argument is one that is   |
+       passed to children of an object, beyond those arguments nor-  |
+       mally available.  For example, the Form widget grants a set   |
+       of constraint arguments to its children.  These arguments     |
+       control the position of the children within the Form.
+
+
+
+       19-22
+
+
+
+
+
+
+
+
+
+                                               UIL Module Structure
+
+
+       Unlike the arguments used to define the attributes of a par-
+       ticular widget, constraint arguments are used exclusively to  |
+       define additional attributes of the children of a particular  |
+       widget.  These attributes affect the behavior of the chil-    |
+       dren within their parent.  To supply constraint arguments to  |
+       the children, you include the arguments in the arguments      |
+       list for the child, as shown in the following example:        |
+
+       OBJECT
+         my_form : XmForm {                                          |
+           arguments {                                               |
+               XmNx = 70;                                            |
+               XmNy = 20;                                            |
+               XmNrows = 35;                                         |
+            };                                                       |
+           CONTROLS {                                                |
+               XmPushButton {                                        |
+                    ARGUMENTS {                                      |
+                       XmNleftAttachment = XmATTACH_WIDGET; !Constraint argument|
+                       XmNleftOffset = 10;                  !Constraint argument|
+                    };                                               |
+                };                                                   |
+            };                                                       |
+          };                                                         |
+
+       19.10  SSSSyyyymmmmbbbboooolllliiiicccc RRRReeeeffffeeeerrrreeeennnncccciiiinnnngggg ooooffff WWWWiiiiddddggggeeeetttt IIIIDDDDssss
+
+       The UIL compiler allows you to reference a widget ID symbol-
+       ically by using its name.  This mechanism addresses the
+       problem that the UIL compiler views widgets by name and the
+       Motif Toolkit views widgets by widget ID.  Widget IDs are
+       defined at run time and are therefore unavailable for use in
+       a UIL module.
+
+       When you need to supply an argument that requires a widget
+       ID, you can use the UIL name of that widget (and its object
+       type) as the argument. For example, the children of a Form    |
+       widget can have an argument that references a widget as the   |
+       anchor point for a top attachment.  You give the type and
+       name of the object you want to use for the top attachment as
+       the value for this argument.
+
+       The widget name you reference must be a descendant of the
+       widget being fetched for MRM to find the referenced widget;
+       you cannot reference an arbitrary widget.  MRM checks this
+       at run time. For example, a practical use of symbolic refer-
+       ences is to specify the default push button (in a bulletin
+       board or radio box).
+
+
+
+
+
+                                                              19-23
+
+
+
+
+
+
+
+
+
+
+
+
+       The following example shows how to use a symbolic reference:  |
+
+       MODULE                                                        |
+           NAMES = CASE_INSENSITIVE
+               OBJECT my_dialog_box : XmBulletinBoard {
+                   ARGUMENTS {
+                       XmNdefaultButton = XmPushButton yes_button;
+                   };
+                   CONTROLS {
+                       XmPushButton yes_button;
+                       XmPushButton no_button;
+                   };
+               };
+               OBJECT yes_button : XmPushButton {
+                   ARGUMENTS {
+                       XmNlabelString = 'yes';
+                   };
+               };
+               OBJECT no_button : XmPushButton {
+                   ARGUMENTS {
+                       XmNlabelString = 'no';
+                   };
+               };
+       END MODULE;
+
+       In this example, two PushButton widgets are defined, named    |
+       _y_e_s__b_u_t_t_o_n and _n_o__b_u_t_t_o_n.  In the definition of the Bul-      |
+       letinBoard widget, the name _y_e_s__b_u_t_t_o_n is given as the value  |
+       for the XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttBBBBuuuuttttttttoooonnnn argument.  Usually, this argument
+       accepts a widget ID.  When you use a symbolic reference (the  |
+       object type and name of the _y_e_s__b_u_t_t_o_n widget) as the value   |
+       for the XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttBBBBuuuuttttttttoooonnnn argument, MRM substitutes the        |
+       widget ID of the _y_e_s__b_u_t_t_o_n PushButton for its name at run    |
+       time.
+
+       Symbolic referencing of widget IDs is acceptable for any      |
+       argument whose resource class is XXXXmmmmCCCCWWWWiiiiddddggggeeeetttt.  See the          |
+       _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e for resource names and       |
+       classes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       19-24
+
+
+
+
+

@@ -1,0 +1,594 @@
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr ---- tttthhhheeee MMMMaaaannnnaaaaggggeeeerrrr wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Manager is a widget class used as a supporting superclass
+          for other widget classes.  It supports the visual resources,
+          graphics contexts, and traversal resources necessary for the
+          graphics and traversal mechanisms.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Manager inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, and CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt classes.
+
+          The class pointer is xxxxmmmmMMMMaaaannnnaaaaggggeeeerrrrWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr.
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    XmTAB_GROUP            CSG
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+     XmNshadowThickness      XmCShadowThickness            Dimension           0                      CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr
+               Specifies the color to use to draw the bottom and right
+               sides of the border shadow.  This color is used if the
+               XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp resource is NULL.
+
+          XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp
+               Specifies the pixmap to use to draw the bottom and
+               right sides of the border shadow.
+
+          XXXXmmmmNNNNffffoooorrrreeeeggggrrrroooouuuunnnndddd
+               Specifies the foreground drawing color used by manager
+               widgets.
+
+          XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that are called when
+               the help key sequence is pressed.  The reason sent by
+               this callback is XXXXmmmmCCCCRRRR____HHHHEEEELLLLPPPP.  No translation is bound to
+               this resource.  It is up to the application to install
+               a translation for help.
+
+          XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttCCCCoooolllloooorrrr
+               Specifies the color of the highlighting rectangle.
+               This color is used if the highlight pixmap resource is
+               XXXXmmmmUUUUNNNNSSSSPPPPEEEECCCCIIIIFFFFIIIIEEEEDDDD____PPPPIIIIXXXXMMMMAAAAPPPP.
+
+          XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttPPPPiiiixxxxmmmmaaaapppp
+               Specifies the pixmap used to draw the highlighting
+               rectangle.
+
+          XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee
+               Controls whether the Widget is a navigation group.
+
+               +o  XXXXmmmmNNNNOOOONNNNEEEE indicates that the Widget is not a navigation
+                  group.
+
+               +o  XXXXmmmmTTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is included
+                  automatically in keyboard navigation, unless
+                  XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp has been called.
+
+               +o  XXXXmmmmSSSSTTTTIIIICCCCKKKKYYYY____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is
+                  included automatically in keyboard navigation, even
+                  if XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp has been called.
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+               +o  XXXXmmmmEEEEXXXXCCCCLLLLUUUUSSSSIIIIVVVVEEEE____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is
+                  included explicitly in keyboard navigation by the
+                  application.  With XXXXmmmmEEEEXXXXCCCCLLLLUUUUSSSSIIIIVVVVEEEE____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP, traversal
+                  of widgets within the group is based on the order of
+                  children.
+
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss
+               Specifies the thickness of the drawn border shadow.
+               XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd and its descendants set this value
+               dynamically.  If the widget is a top level window, this
+               value is set to 1.  If it is not a top level window,
+               this value is set to 0.
+
+          XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               Specifies the initial direction to draw strings.  The
+               values are XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____LLLL____TTTTOOOO____RRRR and
+               XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____RRRR____TTTTOOOO____LLLL.  The value of this resource
+               is determined at creation time.  If the widget's parent
+               is a manager, this value is inherited from the widget's
+               parent, otherwise it is set to
+               XmSTRING_DIRECTION_L_TO_R.
+
+          XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr
+               Specifies the color to use to draw the top and left
+               sides of the border shadow. This color is used if the
+               XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp resource is NULL.
+
+          XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp
+               Specifies the pixmap to use to draw the top and left
+               sides of the border shadow.
+
+          XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn
+               Specifies whether traversal is activated for this
+               widget.
+
+          XXXXmmmmNNNNuuuunnnniiiittttTTTTyyyyppppeeee
+               Provides the basic support for resolution independence.
+               It defines the type of units a widget uses with sizing
+               and positioning resources.  If the widget's parent is a
+               subclass of XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr and if the XXXXmmmmNNNNuuuunnnniiiittttTTTTyyyyppppeeee resource
+               is not explicitly set, it defaults to the unit type of
+               the parent widget.  If the widget's parent is not a
+               subclass of XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, the resource has a default unit
+               type of XXXXmmmmPPPPIIIIXXXXEEEELLLLSSSS.
+
+               XXXXmmmmNNNNuuuunnnniiiittttTTTTyyyyppppeeee can have the following values:
+
+               +o  XXXXmmmmPPPPIIIIXXXXEEEELLLLSSSS - all values provided to the widget are
+                  treated as normal pixel values.
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+               +o  XXXXmmmm111100000000TTTTHHHH____MMMMIIIILLLLLLLLIIIIMMMMEEEETTTTEEEERRRRSSSS - all values provided to the
+                  widget are treated as 1/100 millimeter.
+
+               +o  XXXXmmmm1111000000000000TTTTHHHH____IIIINNNNCCCCHHHHEEEESSSS - all values provided to the widget
+                  are treated as 1/1000 inch.
+
+               +o  XXXXmmmm111100000000TTTTHHHH____PPPPOOOOIIIINNNNTTTTSSSS - all values provided to the widget
+                  are treated as 1/100 point.  A point is a unit used
+                  in text processing applications and is defined as
+                  1/72 inch.
+
+               +o  XXXXmmmm111100000000TTTTHHHH____FFFFOOOONNNNTTTT____UUUUNNNNIIIITTTTSSSS - all values provided to the
+                  widget are treated as 1/100 of a font unit.  The
+                  value to be used for the font unit is determined in
+                  one of three ways:
+
+                  +o  The application can use XXXXmmmmSSSSeeeettttFFFFoooonnnnttttUUUUnnnniiiittttssss to specify
+                     the font unit values.
+
+                  +o  If the application has not called XXXXmmmmSSSSeeeettttFFFFoooonnnnttttUUUUnnnniiiittttssss,
+                     the font units can be derived from a font.  The
+                     user specifies this font by using the font
+                     resource in a defaults file or on the command
+                     line, or by using the standard command line
+                     options ----ffffnnnn and ----ffffoooonnnntttt.
+
+                  +o  If the application has not called XXXXmmmmSSSSeeeettttFFFFoooonnnnttttUUUUnnnniiiittttssss
+                     and the user has not specified a font resource,
+                     the horizontal and vertical font units default to
+                     10.
+
+                  A horizontal font unit is derived from a font as
+                  follows:
+
+                  +o  If the font has an AAAAVVVVEEEERRRRAAAAGGGGEEEE____WWWWIIIIDDDDTTTTHHHH property, the
+                     horizontal font unit is the AAAAVVVVEEEERRRRAAAAGGGGEEEE____WWWWIIIIDDDDTTTTHHHH
+                     property divided by 10.
+
+                  +o  If the font has no AAAAVVVVEEEERRRRAAAAGGGGEEEE____WWWWIIIIDDDDTTTTHHHH property but has
+                     a QQQQUUUUAAAADDDD____WWWWIIIIDDDDTTTTHHHH property, the horizontal font unit
+                     is the QQQQUUUUAAAADDDD____WWWWIIIIDDDDTTTTHHHH property.
+
+                  +o  If the font has no AAAAVVVVEEEERRRRAAAAGGGGEEEE____WWWWIIIIDDDDTTTTHHHH or QQQQUUUUAAAADDDD____WWWWIIIIDDDDTTTTHHHH
+                     property, the horizontal font unit is the sum of
+                     the font struct's min_bounds.width and
+                     max_bounds.width divided by 2.3.
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+                  A vertical font unit is derived from a font as
+                  follows:
+
+                  +o  If the font has a PPPPIIIIXXXXEEEELLLL____SSSSIIIIZZZZEEEE property, the
+                     vertical font unit is the PPPPIIIIXXXXEEEELLLL____SSSSIIIIZZZZEEEE property
+                     divided by 1.8.
+
+                  +o  If the font has no PPPPIIIIXXXXEEEELLLL____SSSSIIIIZZZZEEEE property but has
+                     PPPPOOOOIIIINNNNTTTT____SSSSIIIIZZZZEEEE and RRRREEEESSSSOOOOLLLLUUUUTTTTIIIIOOOONNNN____YYYY properties, the
+                     vertical font unit is the product of the
+                     PPPPOOOOIIIINNNNTTTT____SSSSIIIIZZZZEEEE and RRRREEEESSSSOOOOLLLLUUUUTTTTIIIIOOOONNNN____YYYY properties divided by
+                     1400.
+
+                  +o  If the font has no PPPPIIIIXXXXEEEELLLL____SSSSIIIIZZZZEEEE, PPPPOOOOIIIINNNNTTTT____SSSSIIIIZZZZEEEE, or
+                     RRRREEEESSSSOOOOLLLLUUUUTTTTIIIIOOOONNNN____YYYY properties, the vertical font unit
+                     is the sum of the font struct's max_bounds.ascent
+                     and max_bounds.descent divided by 2.2.
+
+          XXXXmmmmNNNNuuuusssseeeerrrrDDDDaaaattttaaaa
+               Allows the application to attach any necessary specific
+               data to the widget.  This is an internally unused
+               resource.
+
+
+        DDDDyyyynnnnaaaammmmiiiicccc CCCCoooolllloooorrrr DDDDeeeeffffaaaauuuullllttttssss
+          The foreground, background, top shadow, and bottom shadow
+          resources are dynamically defaulted.  If no color data is
+          specified, the colors are automatically generated.  On a
+          single-plane system, a black and white color scheme is
+          generated.  Otherwise, four colors are generated, which
+          display the correct shading for the 3-D visuals.  If the
+          background is the only color specified for a widget, the top
+          shadow, bottom shadow, and foreground colors are generated
+          to give the 3-D appearance.
+
+          Colors are generated only at creation.  Resetting the
+          background through XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss does not regenerate the other
+          colors.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Manager inherits the following resources from the named
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          The following set of translations are used by Manager
+          widgets that have Gadget children.  Since Gadgets cannot
+          have translations associated with them, it is the
+          responsibility of the Manager widget to intercept the events
+          of interest and pass them to any Gadget child with focus.
+          These events are ignored if no Gadget child has the focus.
+          These translations may not directly correspond to a
+          translation table.
+
+          BBBBAAAAnnnnyyyy MMMMoooottttiiiioooonnnn::::   MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((())))
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttAAAArrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk:::: MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttAAAAccccttttiiiivvvvaaaatttteeee(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttAAAAccccttttiiiivvvvaaaatttteeee(((())))
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss 2222++++::::MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttMMMMuuuullllttttiiiiAAAArrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee 2222++++::::MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttMMMMuuuullllttttiiiiAAAAccccttttiiiivvvvaaaatttteeee(((())))
+
+          KKKKSSSSeeeelllleeeecccctttt::::       MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+
+          KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd::::    MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttPPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+          KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd::::    MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+
+          KKKKUUUUpppp::::           MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((())))
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+          KKKKDDDDoooowwwwnnnn::::         MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((())))
+          KKKKLLLLeeeefffftttt::::         MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((())))
+          KKKKRRRRiiiigggghhhhtttt::::        MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((())))
+
+          KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee::::    MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeHHHHoooommmmeeee(((())))
+
+          KKKKHHHHeeeellllpppp::::         MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttHHHHeeeellllpppp(((())))
+
+          KKKKAAAAnnnnyyyy::::          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttKKKKeeeeyyyyIIIInnnnppppuuuutttt(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmManager action routines are described below:
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttAAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               Causes the current gadget to be activated.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttAAAArrrrmmmm(((()))):
+               Causes the current gadget to be armed.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttBBBBuuuuttttttttoooonnnnMMMMoooottttiiiioooonnnn(((()))):
+               Causes the current gadget to process a mouse motion
+               event.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttHHHHeeeellllpppp(((()))):
+               Calls the callbacks for the current gadget's
+               XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.  If there are no help
+               callbacks for this widget, this action calls the help
+               callbacks for the nearest ancestor that has them.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttKKKKeeeeyyyyIIIInnnnppppuuuutttt(((()))):
+               Causes the current gadget to process a keyboard event.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttMMMMuuuullllttttiiiiAAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               Causes the current gadget to process a multiple mouse
+               click.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttMMMMuuuullllttttiiiiAAAArrrrmmmm(((()))):
+               Causes the current gadget to process a multiple mouse
+               button press.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttNNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Traverses to the first item in the next tab group.  If
+               the current tab group is the last entry in the tab
+               group list, it wraps to the beginning of the tab group
+               list.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttPPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Traverses to the first item in the previous tab group.
+               If the beginning of the tab group list is reached, it
+               wraps to the end of the tab group list.
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((()))):
+               Causes the current gadget to be armed and activated.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((()))):
+               Traverses to the next item below the current gadget in
+               the current tab group, wrapping if necessary.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeHHHHoooommmmeeee(((()))):
+               Traverses to the first widget or gadget in the current
+               tab group.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((()))):
+               Traverses to the next item to the left of the current
+               gadget in the current tab group, wrapping if necessary.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeNNNNeeeexxxxtttt(((()))):
+               Traverses to the next item in the current tab group,
+               wrapping if necessary.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeePPPPrrrreeeevvvv(((()))):
+               Traverses to the previous item in the current tab
+               group, wrapping if necessary.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((()))):
+               Traverses to the next item to the right of the current
+               gadget in the current tab group, wrapping if necessary.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((()))):
+               Traverses to the next item above the current gadget in
+               the current tab group, wrapping if necessary.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          This widget has the additional behavior described below:
+
+          <<<<FFFFooooccccuuuussssIIIInnnn>>>>:
+               If the shell's keyboard focus policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT and
+               the event occurs in a gadget, causes the gadget to be
+               highlighted and to take the focus.
+
+          <<<<FFFFooooccccuuuussssOOOOuuuutttt>>>>:
+               If the shell's keyboard focus policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT and
+               the event occurs in a gadget, causes the gadget to be
+               unhighlighted and to lose the focus.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))       OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn        XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX))))
+
+
+
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))), and XXXXmmmmGGGGaaaaddddggggeeeetttt3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+

@@ -1,0 +1,67 @@
+#include <Library.tmpl>
+
+       INCLUDES = -I$(TOP) -I$(INCLUDESRC) -I$(XLIBSRC)
+   INSTALLFLAGS = $(INSTINCFLAGS)
+           SRCS = *.c
+        HEADERS = X10.h
+       LINTLIBS =
+
+OBJS =\
+	XDraw.o \
+	XCrAssoc.o \
+	XDelAssoc.o \
+	XDestAssoc.o \
+	XLookAssoc.o \
+	XMakeAssoc.o
+
+#if SharedOldLibX
+# if DebugOldLibX
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if DebugOldLibX && ProfileOldLibX
+DebuggedAndProfiledLibraryObjectRule()
+# else
+#  if DebugOldLibX
+DebuggedLibraryObjectRule()
+#  else
+#   if ProfileOldLibX
+ProfiledLibraryObjectRule()
+#   else
+NormalLibraryObjectRule()
+#   endif
+#  endif
+# endif
+#endif
+
+#if SharedOldLibX
+NormalSharedLibraryTarget(oldX,$(SOOLDXREV),$(OBJS))
+InstallSharedLibrary(oldX,$(SOOLDXREV),$(USRLIBDIR))
+#endif
+NormalLibraryTarget(oldX,$(OBJS))
+LintLibraryTarget(oldX,*.c)
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(INCDIR))
+
+InstallLibrary(oldX,$(USRLIBDIR))
+InstallLintLibrary(oldX,$(LINTLIBDIR))
+
+
+#if ProfileOldLibX
+ProfiledLibraryTarget(oldX,$(V10LIST))
+InstallLibrary(oldX_p,$(USRLIBDIR))
+#endif
+
+#if DebugOldLibX
+DebuggedLibraryTarget(oldX,$(V10LIST))
+#endif
+
+DependTarget()
+
+# structure alignment errors can safely be ignored.
+# complaints about qevent can be ignored too.
+
+NormalLintTarget(*.c)

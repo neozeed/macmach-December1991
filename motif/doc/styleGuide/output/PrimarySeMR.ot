@@ -1,0 +1,132 @@
+
+
+
+
+
+
+
+
+       Each collection maintains its own selection.  However, there
+       must only be a single primary selection.  The primary selec-
+       tion is the selection on which selection actions, such as
+       cut and copy, are performed.  There are two models for how
+       the primary selection moves among collections:
+
+          +o Focus-based primary selection, where the primary selec-
+            tion must move to a collection whenever the collection
+            gets the input focus.
+
+          +o Selection-based primary selection, where the primary
+            selection must move to an editable collection whenever
+            a nonnull selection is explicitly started in that col-
+            lection.
+
+       The following primary selection actions, known as the pri-
+       mary transfer actions, should be made available.
+
+       BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee CCCClllliiiicccckkkk
+                         Must paste the primary selection to the
+                         position of the pointer and set the loca-
+                         tion cursor there.  Whether the paste
+                         action cuts or copies the primary selec-
+                         tion to the new location depends on the
+                         type of elements pasted, and the source
+                         and destination of the primary selection
+                         as described in Section 3.2.2.
+
+       BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy CCCClllliiiicccckkkk
+                         Must copy the primary selection to the
+                         position of the pointer and set the loca-
+                         tion cursor there.
+
+       BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt CCCClllliiiicccckkkk Must cut the primary selection to the
+                         position of the pointer and set the loca-
+                         tion cursor there.
+
+       KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee     Must paste the primary selection to the
+                         position of the location cursor.  Whether
+                         the paste action cuts or copies the pri-
+                         mary selection to the new location depends
+                         on the type of elements pasted, and the
+                         source and destination of the primary
+                         selection as described in Section 3.2.2.
+
+       KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy      Must copy the primary selection to the
+                         position of the location cursor.
+
+       KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt       Must cut the primary selection to the
+                         position of the location cursor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       KKKKRRRReeeesssseeeelllleeeecccctttt         Can optionally restore the collection's
+                         selection as the primary selection.
+
+       ______________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy     DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss    |
+      |______________________________________|
+      | BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee   BBBBDDDDrrrraaaagggg               |
+      | BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy    MMMMCCCCttttrrrrllll BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee |
+      | BBBBPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt     MMMMAAAAlllltttt BBBBPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee  |
+      | KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee   <<<<vvvveeeennnnddddoooorrrr ddddeeeeffffiiiinnnneeeedddd>>>>    |
+      | KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy    MMMMCCCCttttrrrrllll KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee |
+      |                 MMMMAAAAlllltttt KKKKCCCCooooppppyyyy          |
+      | KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt     MMMMAAAAlllltttt KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee  |
+      |                 MMMMAAAAlllltttt KKKKCCCCuuuutttt           |
+      | KKKKRRRReeeesssseeeelllleeeecccctttt       MMMMCCCCttttrrrrllll MMMMSSSShhhhiiiifffftttt KKKKSSSSeeeelllleeeecccctttt|
+      |______________________________________|
+
+       See Section 3.2.2 for more information about the primary
+       selection.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

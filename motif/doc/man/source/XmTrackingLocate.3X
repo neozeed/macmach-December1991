@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTrackingLocate 3X "" "" "" ""
+.SH NAME
+\fBXmTrackingLocate \(em a Toolkit function that provides a modal
+interaction.\fP
+.iX "XmTrackingLocate"
+.iX "Toolkit functions" "XmTrackingLocate"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Widget XmTrackingLocate (\fIwidget, cursor, confine_to\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	Cursor	\fIcursor\fP;
+.br
+	Boolean	\fIconfine_to\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTrackingLocate\fP provides a modal interface for selection of a
+component.
+It is intended to support context help.
+The function grabs the pointer and returns the widget in which a button
+press occurs.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the widget ID of a widget to use as the basis of the modal
+interaction.  That is, the widget within which the interaction must
+occur, usually a top level shell.
+.br
+.ne 15
+.IP "\fIcursor\fP" .75i
+Specifies the cursor to be used for the pointer during the interaction.
+This is a standard X cursor name.
+.IP "\fIconfine_to\fP" .75i
+Specifies whether or not the cursor should be confined to \fIwidget\fP
+.SH RETURN VALUE
+Returns the widget in which a button press occurs.
+If the window in which a button press occurs is not a widget, the
+function returns NULL.

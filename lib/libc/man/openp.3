@@ -1,0 +1,123 @@
+.\"
+.\" $Id: openp.3,v 1.3 89/12/26 11:20:25 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	openp.3,v $
+.\" Revision 1.3  89/12/26  11:20:25  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 24-Mar-86  Rudy Nedved (ern) at Carnegie-Mellon University
+.\"	Updated for 4.2BSD.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH OPENP 3 3/24/86
+.CM 4
+.SH "NAME"
+openp, fopenp \- search for file and open it
+.SH "SYNOPSIS"
+.B 
+#include <sys/file.h>
+.br
+.B 
+int openp (searchlist, path, buffer, flags, mode);
+.br
+.B 
+char *searchlist, *path, *buffer;
+.br
+.B 
+int flags, mode;
+
+.B 
+#include <sys/file.h>
+.br
+.B 
+#include <stdio.h>
+.br
+.B 
+FILE *fopenp (searchlist,path,buffer,type);
+.br
+.B 
+char *searchlist, *path, *buffer ,*type;
+.SH "DESCRIPTION"
+.I 
+Openp
+and
+.I 
+fopenp
+use
+.IR searchp (3)
+to search for a file, and open the file when and if it is
+found.
+The value returned will be the normal value of
+.IR open (2)
+or
+.IR fopen (3s)
+-- a file descriptor or FILE pointer on success, and a
+\-1 or a 0 on failure.
+
+.I 
+Searchlist
+is assumed to be a list of directory path names separated by colons;
+one by one, these names are parsed and concatenated (with a
+separating slash) onto
+.I 
+path
+to form a complete file path name.
+An attempt is then made to
+open the file with this name; if successful,
+.I 
+openp
+and
+.I 
+fopenp
+return with a success indication; otherwise, searching
+continues.
+If success is achieved, then the resulting
+pathname is copied into the string
+.I 
+buffer,
+provided by the user.
+The
+.I 
+open
+and
+.I 
+fopen
+calls are made with the appropriate
+.I 
+mode, flags
+and
+.I 
+type
+as specified by the parameter. The 
+.IR open(2)
+and
+.IR fopen(3S)
+define what
+.I 
+mode, flags
+and
+.I 
+type
+should be respectively.
+.SH "SEE ALSO"
+.IR searchp (3), 
+.IR open (2), 
+.IR fopen (3s), 
+.IR wantread (3), 
+.IR wantwrite (3),
+.IR fwantread (3), 
+.IR fwantwrite (3)
+.SH "DIAGNOSTICS"
+.I 
+Openp
+returns \-1 on error (no openable file found);
+.I 
+fopenp
+returns 0.

@@ -1,0 +1,164 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmGetPixmap 3X "" "" "" ""
+.SH NAME
+\fBXmGetPixmap \(em a pixmap caching function that generates a pixmap,
+stores it in a pixmap cache, and returns the pixmap.\fP
+.iX "XmGetPixmap"
+.iX "pixmaps"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Pixmap XmGetPixmap (\fIscreen, image_name, foreground, background\fP)
+.br
+.ta .5i 1.5i
+	Screen	\fI* screen\fP;
+.br
+	char	\fI* image_name\fP;
+.br
+	Pixel	\fIforeground\fP;
+.br
+	Pixel	\fIbackground\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmGetPixmap\fP
+uses the parameter data to perform a lookup in the
+pixmap cache to see if a pixmap has already been generated that
+matches the data.  If one is found, a reference count is incremented
+and the pixmap is returned.  Applications should use \fBXmDestroyPixmap\fP
+when the pixmap is no longer needed.
+.PP
+If a pixmap is not found, \fIimage_name\fP is used to perform a lookup in
+the image cache.  If an image is found, it is used to generate the pixmap,
+which is then cached and returned.  
+.PP
+If an image is not found, the
+\fIimage_name\fP is used as a filename, and a search is made for 
+an \fBX10\fP or \fBX11\fP bitmap file.  If it is found, the file is
+read, converted into an image, and cached in the image cache.  The image
+is then used to generate a pixmap, which is cached and returned.
+.PP
+If \fIimage_name\fP begins with a slash character (\fB/\fP), it is taken
+to be a full pathname specification and is the only pathname searched to
+find the file.
+Otherwise, several paths are searched.
+The user can specify an environment variable \fBXBMLANGPATH\fP, which is
+used to generate one set of paths.
+If \fBXBMLANGPATH\fP is not set but the environment variable
+\fBXAPPLRESDIR\fP is set, the following path names are searched:
+.ta 1i
+\fB
+	%B
+.br
+	$XAPPLRESDIR/%L/bitmaps/%N/%B
+.br
+	$XAPPLRESDIR/%l/bitmaps/%N/%B
+.br
+	$XAPPLRESDIR/bitmaps/%N/%B
+.br
+	$XAPPLRESDIR/%L/bitmaps/%B
+.br
+	$XAPPLRESDIR/%l/bitmaps/%B
+.br
+	$XAPPLRESDIR/bitmaps/%B
+.br
+	$HOME/%B
+.br
+	/usr/lib/X11/%L/bitmaps/%N/%B
+.br
+	/usr/lib/X11/%l/bitmaps/%N/%B
+.br
+	/usr/lib/X11/bitmaps/%N/%B
+.br
+	/usr/lib/X11/%L/bitmaps/%B
+.br
+	/usr/lib/X11/%l/bitmaps/%B
+.br
+	/usr/lib/X11/bitmaps/%B
+.br
+	/usr/include/X11/bitmaps/%B
+.fi
+\fP
+.PP
+If neither \fBXBMLANGPATH\fP nor \fBXAPPLRESDIR\fP is set, the
+following path names are searched:
+.ta 1i
+\fB
+	%B
+.br
+	$HOME/%L/bitmaps/%N/%B
+.br
+	$HOME/%l/bitmaps/%N/%B
+.br
+	$HOME/bitmaps/%N/%B
+.br
+	$HOME/%L/bitmaps/%B
+.br
+	$HOME/%l/bitmaps/%B
+.br
+	$HOME/bitmaps/%B
+.br
+	$HOME/%B
+.br
+	/usr/lib/X11/%L/bitmaps/%N/%B
+.br
+	/usr/lib/X11/%l/bitmaps/%N/%B
+.br
+	/usr/lib/X11/bitmaps/%N/%B
+.br
+	/usr/lib/X11/%L/bitmaps/%B
+.br
+	/usr/lib/X11/%l/bitmaps/%B
+.br
+	/usr/lib/X11/bitmaps/%B
+.br
+	/usr/include/X11/bitmaps/%B
+.fi
+\fP
+.PP
+The following substitutions are used in these paths:
+.IP "\fB%B\fP" 0.5i
+The image name, from the \fIimage_name\fP argument.
+.IP "\fB%N\fP" 0.5i
+The class_name of the application.
+.IP "\fB%L\fP" 0.5i
+The value of the \fBLANG\fP environment variable.
+.IP "\fB%l\fP" 0.5i
+The language component of the \fBLANG\fP environment variable.
+.PP
+Parameter descriptions are listed below:
+.sp 1
+.IP "\fIscreen\fP" 1i
+Specifies the display screen on which the pixmap is to 
+be drawn.
+The depth of the pixmap is the default depth for this screen.
+.IP "\fIimage_name\fP" 1i
+Specifies the name of the image to be used to 
+generate the pixmap
+.IP "\fIforeground\fP" 1i
+Combines the image with the \fIforeground\fP color to create the pixmap
+if the image referenced is a bit-per-pixel image
+.IP "\fIbackground\fP" 1i
+Combines the image with the \fIbackground\fP color to create the pixmap
+if the image referenced is a bit-per-pixel image
+.sp 1
+.SH RETURN VALUE
+Returns a pixmap when successful; returns \fBXmUNSPECIFIED_PIXMAP\fP 
+if the image corresponding to the \fIimage_name\fP cannot be found.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmDestroyPixmap(3X)\fP, \fBXmInstallImage(3X)\fP, and 
+\fBXmUninstallImage(3X)\fP.
+.sp 1

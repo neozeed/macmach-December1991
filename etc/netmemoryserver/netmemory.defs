@@ -1,0 +1,63 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1989,1990,1991 Carnegie Mellon University
+ * All Rights Reserved.
+ * 
+ * Permission to use, copy, modify and distribute this software and its
+ * documentation is hereby granted, provided that both the copyright
+ * notice and this permission notice appear in all copies of the
+ * software, derivative works or modified versions, and any portions
+ * thereof, and that both notices appear in supporting documentation.
+ * 
+ * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+ * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+ * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Carnegie Mellon requests users of this software to return to
+ * 
+ *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+ *  School of Computer Science
+ *  Carnegie Mellon University
+ *  Pittsburgh PA 15213-3890
+ * 
+ * any improvements or extensions that they make and grant Carnegie the
+ * rights to redistribute these changes.
+ */
+/*
+ * HISTORY
+ * $Log:	netmemory.defs,v $
+ * Revision 2.2  91/07/06  14:56:16  jsb
+ * 	First checkin.
+ * 
+ */
+/*
+ *	File:	xmm_zero.c
+ *	Author:	Joseph S. Barrera III
+ *	Date:	1989
+ *
+ *	Mig interface for the netmemory server.
+ *
+ */
+
+subsystem netmemory 4200;
+
+#include <mach/std_types.defs>
+#include <mach/mach_types.defs>
+
+routine	netmemory_create(
+		netmemory_server	: port_t;
+		object_size		: vm_size_t;
+	out	netmemory_object	: port_t;
+	out	netmemory_control	: port_t);
+
+routine	netmemory_destroy(
+		netmemory_control	: port_t);
+
+routine netmemory_cache(
+		netmemory_server	: port_t;
+		netmemory_object	: port_t;
+	out	memory_object		: memory_object_t);
+
+skip;	/* obsolete call: paging_object_server_statistics */
+
+skip;	/* obsolete call: netmemory_cover */

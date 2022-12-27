@@ -1,0 +1,70 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardEndRetrieve 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardEndRetrieve \(em a clipboard
+function that ends a copy from the clipboard.\fP
+.iX "XmClipboardEndRetrieve"
+.iX "clipboard functions" "XmClipboardEndRetrieve"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardEndRetrieve\fP (\fIdisplay, window\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.fi
+\fP
+.br
+.ne 15
+.SH DESCRIPTION
+\fBXmClipboardEndRetrieve\fP suspends copying data 
+incrementally from the clipboard.
+It tells the clipboard routines that the application is through copying an item
+from the clipboard.  Until this function is called, data items can be
+retrieved incrementally from the clipboard by calling
+\fBXmClipboardRetrieve\fP.
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.SH RELATED INFORMATION
+.na
+\fBXmClipboardRetrieve(3X)\fP, \fBXmClipboardStartCopy(3X)\fP, and
+\fBXmClipboardStartRetrieve(3X)\fP.
+.ad

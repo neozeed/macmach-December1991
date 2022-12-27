@@ -1,0 +1,67 @@
+.\"
+.\" $Id: mach_init.3,v 1.2 90/01/09 15:56:30 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	mach_init.3,v $
+.\" Revision 1.2  90/01/09  15:56:30  bww
+.\" 	Canonicalized NAME section.
+.\" 	[90/01/09  15:56:14  bww]
+.\" 
+.\" Revision 1.1  89/12/28  14:39:51  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 19-Nov-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH MACH_INIT 3 11/19/86
+.SH NAME
+.nf
+task_self_ \- the port to which a task sends its kernel requests
+task_data_ \- a port on which a task may receive messages
+task_notify_ \- the port on which a task receives notify messages from the kernel
+name_server_port \- the service port for the network name server
+environment_port \- the service port for the task's environment manager
+service_port \- the service port for the service server
+mach_init_ports \- set of server ports initially handed to a task
+mach_init_ports_count \- number of mach_init_ports
+vm_page_size \- size of the virtual memory pages in bytes
+.SH SYNOPSIS
+#include <mach_init.h>
+.SH DESCRIPTION
+.I mach_init.h
+exports the standard system and server ports and
+global variables to the user.
+
+.I mach_init.c
+is called before the main program is entered to intitalize
+the exported values and to initialize any of the standard
+server interfaces. The standard server interfaces are:
+.I init_mach, init_msgn, init_netname
+and
+.I init_env_mgr.
+The service server should only be called by other servers, so it 
+is not initialized here for the general user.
+
+.I mach_init 
+also initialzes the value of
+.I vm_page_size
+which is the virtual memory page size in bytes. Kernel requests dealing
+with virtual memory are always rounded up to virtual pages. Occasionally
+a user needs to know how big this is.
+
+.SH FILES
+/usr/include/mach_init.h
+
+.SH BUGS
+.I task_data_
+and 
+.I task_notify_
+are the same port at this time. The port is initially
+unrestricted. In the future they will be two different
+ports and 
+.I task_notify
+will be initially restricted. (i.e. will not be included
+in the set of ports used by a receive with 
+.I PORT_DEFAULT
+set.)

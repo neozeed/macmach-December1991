@@ -1,0 +1,23 @@
+# $XConsortium: Imakefile,v 1.9 89/03/28 16:42:47 keith Exp $
+   XTOUCHSRCS = XTouch.c
+   XTOUCHOBJS = XTouch.o
+   XPROTOERRORSRCS = XPErrors.c
+   XPROTOERROROBJS = XPErrors.o
+   XLISTSRCS = XList.c
+   XLISTOBJS = XList.o
+   XSELINPUTSRCS = XSelInput.c
+   XSELINPUTOBJS = XSelInput.o
+   XSENDEVSRCS = XSendEv.c
+   XSENDEVOBJS = XSendEv.o
+   INCLUDES = -I$(TOP) -I$(INCLUDESRC) -I../include
+   INPUTEXTENSIONLIB = $(TOP)/extensions/lib/xinput/libXinput.a
+
+all: xtouch xprotoerrors xlist xselinput xsendev
+
+SingleProgramTarget(xtouch,$(XTOUCHOBJS),$(INPUTEXTENSIONLIB) $(XLIB),)
+SingleProgramTarget(xprotoerrors,$(XPROTOERROROBJS),$(INPUTEXTENSIONLIB) $(XLIB),)
+SingleProgramTarget(xlist,$(XLISTOBJS),$(INPUTEXTENSIONLIB) $(XLIB),)
+SingleProgramTarget(xselinput,$(XSELINPUTOBJS),$(INPUTEXTENSIONLIB) $(XLIB),)
+SingleProgramTarget(xsendev,$(XSENDEVOBJS),$(INPUTEXTENSIONLIB) $(XLIB),)
+
+DependTarget()

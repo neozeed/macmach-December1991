@@ -1,0 +1,363 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmDrawnButton 3X "" "" "" ""
+.SH NAME
+\fBXmDrawnButton \(em the DrawnButton widget class.\fP
+.iX "XmDrawnButton"
+.iX "widget class" "DrawnButton"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/DrawnB.h>\fP
+.sp 1
+.SH DESCRIPTION
+The DrawnButton widget consists of an empty widget window surrounded by a
+shadow border.  It provides the application developer with a graphics area
+that can have PushButton input semantics.
+.PP
+Callback types are defined for widget exposure and widget resize to allow the
+application to redraw or reposition its graphics.  If the DrawnButton
+widget has a highlight and shadow thickness, the application should not draw
+in that area.  
+To avoid drawing in the highlight and
+shadow area, create the graphics context with
+a clipping rectangle for drawing in the widget.
+The clipping rectangle should
+take into account the size of the widget's highlight thickness and
+shadow.
+.sp 1
+.SS "Classes"
+DrawnButton inherits behavior
+and resources from \fBCore\fP, \fBXmPrimitive\fP, and 
+\fBXmLabel\fP Classes.
+.PP
+The class pointer is \fBxmDrawnButtonWidgetClass\fP.
+.PP
+The class name is \fBXmDrawnButton\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmDrawnButton Resource Set
+Name	Class	Type	Default	Access
+_
+XmNactivateCallback	XmCCallback	XtCallbackList	NULL	C
+XmNarmCallback	XmCCallback	XtCallbackList	NULL	C
+XmNdisarmCallback	XmCCallback	XtCallbackList	NULL	C
+XmNexposeCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmultiClick	XmCMultiClick	unsigned char	dynamic	CSG
+XmNpushButtonEnabled	XmCPushButtonEnabled	Boolean	False	CSG
+XmNresizeCallback	XmCCallback	XtCallbackList	NULL	C
+XmNshadowType	XmCShadowType	unsigned char	XmSHADOW_ETCHED_IN	CSG
+.TE
+.sp 1
+.IP "\fBXmNactivateCallback\fP"
+Specifies the list of callbacks that is called 
+when the widget becomes selected.  
+The reason sent by the callback is \fBXmCR_ACTIVATE\fP.
+.IP "\fBXmNarmCallback\fP"
+Specifies the list of callbacks that is called
+when the widget becomes armed.  
+The reason sent by the callback is \fBXmCR_ARM\fP.
+.IP "\fBXmNdisarmCallback\fP"
+Specifies the list of callbacks that is called
+when the widget becomes disarmed.  
+The reason sent by the callback is \fBXmCR_DISARM\fP.
+.br
+.ne 6
+.IP "\fBXmNexposeCallback\fP"
+Specifies the list of callbacks that is called
+when the widget receives an exposure event.
+The reason sent by the callback is \fBXmCR_EXPOSE\fP.
+.IP "\fBXmNmultiClick\fP"
+If a button click is followed by another button click within the time
+span specified by the display's multi-click time, and this resource is
+set to \fBXmMULTICLICK_DISCARD\fP, do not process the second click.
+If this resource is set to \fBXmMULTICLICK_KEEP\fP, process the event
+and increment \fIclick_count\fP in the callback structure.
+When the button is not in a menu, the default value is
+\fBXmMULTICLICK_KEEP\fP.
+.IP "\fBXmNpushButtonEnabled\fP"
+Enables or disables the three-dimensional shadow drawing as in
+PushButton.  
+.IP "\fBXmNresizeCallback\fP"
+Specifies the list of callbacks that is called
+when the widget receives a resize event.
+The reason sent by the callback is \fBXmCR_RESIZE\fP.  The event 
+returned for this callback is NULL.
+.IP "\fBXmNshadowType\fP"
+Describes the drawing style for the DrawnButton.  This resource can have
+the following values: 
+.RS
+.IP \(bu 3
+\fBXmSHADOW_IN\fP \(em draws the DrawnButton so that the shadow appears 
+inset.  This means that the bottom shadow visuals and top shadow visuals 
+are reversed.
+.IP \(bu 3
+\fBXmSHADOW_OUT\fP \(em draws the DrawnButton 
+so that the shadow appears outset.
+.br
+.ne 30
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_IN\fP \(em draws the DrawnButton using a double line.  This
+gives the effect of a line etched into the window.  The thickness of the
+double line is equal to the value of \fBXmNshadowThickness\fP.
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_OUT\fP \(em draws the DrawnButton using a double line.  This
+gives the effect of a line coming out of the window.  The thickness of the
+double line is equal to the value of \fBXmNshadowThickness\fP.
+.RE
+.sp 1
+.SS "Inherited Resources"
+DrawnButton inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmLabel Resource Set
+Name	Class	Type	Default	Access
+_
+XmNaccelerator	XmCAccelerator	String	NULL	N/A
+XmNacceleratorText	XmCAcceleratorText	XmString	NULL	N/A
+XmNalignment	XmCAlignment	unsigned char	dynamic	CSG
+XmNfontList	XmCFontList	XmFontList	dynamic	CSG
+XmNlabelInsensitivePixmap	XmCLabelInsensitivePixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNlabelPixmap	XmCLabelPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNlabelString	XmCXmString	XmString	"\e0"	CSG
+XmNlabelType	XmCLabelType	unsigned char	XmSTRING	CSG
+XmNmarginBottom	XmCMarginBottom	Dimension	0	CSG
+XmNmarginHeight	XmCMarginHeight	Dimension	2	CSG
+XmNmarginLeft	XmCMarginLeft	Dimension	0	CSG
+XmNmarginRight	XmCMarginRight	Dimension	0	CSG
+XmNmarginTop	XmCMarginTop	Dimension	0	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	2	CSG
+.tH
+XmNmnemonic	XmCMnemonic	KeySym	NULL	N/A
+XmNmnemonicCharSet	XmCMnemonicCharSet	String	dynamic	N/A
+XmNrecomputeSize	XmCRecomputeSize	Boolean	True	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CSG
+.TE
+.in
+.sp 1
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmPrimitive Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	2	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmNONE	G
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNtopShadowColor	XmCTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+	\fBWindow\fP	\fIwindow\fP;
+	\fBint\fP	\fIclick_count\fP;
+} \fBXmDrawnButtonCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked.
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback.
+This is  NULL for \fBXmNresizeCallback\fP.
+.IP "\fIwindow\fP" .75i
+Is set to the window ID in which the event occurred.
+.br
+.ne 15
+.IP "\fIclick_count\fP" .75i
+Contains the number of clicks in the last multiclick sequence
+if the \fBXmNmultiClick\fP resource is set to \fBXmMULTICLICK_KEEP\fP,
+otherwise it contains \fB1\fP.
+The activate callback is invoked for each click if \fBXmNmultiClick\fP
+is set to \fBXmMULTICLICK_KEEP\fP.
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmDrawnButton includes translations from Primitive.
+The XmDrawnButton translations are listed below.
+These translations may not directly correspond to a
+translation table.
+\fB
+.nf
+.ta 1.5i
+.sp .5
+BSelect Press:	Arm()
+BSelect Click:	Activate()
+	Disarm()
+BSelect Release:	Activate()
+	Disarm()
+BSelect Press 2+:	MultiArm()
+BSelect Release 2+:	MultiActivate()
+KActivate:	ArmAndActivate()
+KSelect:	ArmAndActivate()
+KHelp:	Help()
+.fi
+\fP
+.sp 1 \"Adds space before the SS
+.SS "Action Routines"
+The XmDrawnButton action routines are described below:
+.IP "\fBActivate()\fP:"
+If \fBXmNpushButtonEnabled\fP is True, redraws the shadow in the
+unselected state; otherwise, redraws the shadow according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+If the pointer is within the DrawnButton, calls the
+\fBXmNactivateCallback\fP callbacks.
+.br
+.ne 15
+.IP "\fBArm()\fP:"
+If \fBXmNpushButtonEnabled\fP is True, redraws the shadow in the
+selected state; otherwise, redraws the shadow according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+Calls the callbacks for \fBXmNarmCallback\fP.
+.IP "\fBArmAndActivate()\fP:"
+If \fBXmNpushButtonEnabled\fP is True, redraws the shadow in the
+selected state; otherwise, redraws the shadow according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+Calls the callbacks for \fBXmNarmCallback\fP.
+.IP
+Arranges for the following to happen, either immediately or at a later
+time:
+If \fBXmNpushButtonEnabled\fP is True, the shadow is redrawn in the
+unselected state; otherwise, the shadow is redrawn according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+The callbacks for \fBXmNactivateCallback\fP and \fBXmNdisarmCallback\fP
+are called.
+.IP "\fBDisarm()\fP:"
+Marks the DrawnButton as unselected and calls the callbacks for
+\fBXmNdisarmCallback\fP.
+.IP "\fBHelp()\fP:"
+Calls the callbacks for \fBXmNhelpCallback\fP if any exist.
+If there are no help callbacks for this widget, this action calls the
+help callbacks for the nearest ancestor that has them.
+.IP "\fBMultiActivate()\fP:"
+If \fBXmNmultiClick\fP is \fBXmMULTICLICK_DISCARD\fP, this action does
+nothing.
+.IP
+If \fBXmNmultiClick\fP is \fBXmMULTICLICK_KEEP\fP, this action does the
+following:
+Increments \fIclick_count\fP in the callback structure.
+If \fBXmNpushButtonEnabled\fP is True, redraws the shadow in the
+unselected state; otherwise, redraws the shadow according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+If the pointer is within the DrawnButton,  calls the
+\fBXmNactivateCallback\fP callbacks.
+Calls the callbacks for \fBXmNdisarmCallback\fP.
+.br
+.ne 30
+.IP "\fBMultiArm()\fP:"
+If \fBXmNmultiClick\fP is \fBXmMULTICLICK_DISCARD\fP, this action does
+nothing.
+.IP
+If \fBXmNmultiClick\fP is \fBXmMULTICLICK_KEEP\fP, this action does the
+following:
+If \fBXmNpushButtonEnabled\fP is True, redraws the shadow in the
+selected state; otherwise, redraws the shadow according to
+\fBXmNshadowType\fP.
+...\"Calls the \fBXmNexposeCallback\fP callbacks, then redraws the label.
+Calls the callbacks for \fBXmNarmCallback\fP.
+.sp 1 \"Adds space before the SS
+.SS "Additional Behavior"
+This widget has the additional behavior described below:
+.IP "\fB<EnterWindow>\fP:"
+Draws the shadow in its selected state if \fBXmNpushButtonEnabled\fP is
+True and if the cursor leaves and re-enters the window while \fBBSelect\fP is
+pressed.
+.IP "\fB<LeaveWindow>\fP:"
+Draws the shadow in its unselected state if \fBXmNpushButtonEnabled\fP
+is True and if the cursor leaves the window while \fBBSelect\fP is pressed.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+.SH RELATED INFORMATION
+\fBCore(3X)\fP, \fBXmCreateDrawnButton\fP, \fBXmLabel(3X)\fP, 
+\fBXmPrimitive(3X)\fP, \fBXmPushButton\fP, and \fBXmSeparator(3X)\fP. 

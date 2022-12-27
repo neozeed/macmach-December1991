@@ -1,0 +1,161 @@
+.\"
+.\" $Id: getacent.3,v 1.3 89/12/25 13:10:21 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getacent.3,v $
+.\" Revision 1.3  89/12/25  13:10:21  bww
+.\" 	Eliminated ".so".
+.\" 	[89/12/25  13:07:12  bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 14-Jun-82  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created from getgrent (3).
+.\"
+.TH GETACENT 3 6/14/82
+.CM 3
+.SH "NAME"
+getacent, getacauid, getacanam, setacent, endacent \- get account file entry
+.SH "SYNOPSIS"
+.nf
+.B #include <sys/types.h>
+.B #include <acc.h>
+.PP
+.B struct account *getacent()
+.PP
+.B struct account *getacauid(uid, aid)
+.B int uid;
+.B int aid;
+.PP
+.B struct account *getacanam(name, aid)
+.B char *name;
+.B int aid;
+.PP
+.B int setacent()
+.PP
+.B int endacent()
+.sp
+.fi
+.SH "DESCRIPTION"
+.I Getacent,
+.I getacauid
+and
+.I getacanam
+each return a pointer to an object with the
+following structure
+containing the broken-out
+fields of a line in the account file.
+.RS
+.PP
+.nf
+/*
+ *  see getacent(3)
+ */
+
+struct	account
+{
+	char	*ac_name;
+	char	**ac_attrs;
+	int	 ac_uid;
+	int	 ac_aid;
+	char	*ac_created;
+	char	*ac_expires;
+	char	*ac_sponsor;
+	time_t	 ac_ctime;
+	time_t	 ac_xtime;
+};
+
+struct account *getacent(), *getacauid(), *getacanam();
+.ft R
+.ad
+.fi
+.RE
+.PP
+The members of this structure are:
+.TP \w'ac_created'u+2n
+ac_name
+The user name associated with the account.
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_attrs
+Attribute strings.
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_uid
+The numerical user-ID for the name.
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_aid
+The numerical account-ID
+(currently a selected subset of group-ID's).
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_created
+The account creation date string (as DD-MMM-YY).
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_expires
+The account expiration date string (as DD-MMM-YY).
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_sponsor
+The login name of the account sponsor.
+.PP
+Two additional structure members are also provided
+for convenience of higher level software and
+are only initialized to zero by these routines (since
+performing a full date string to time conversion for each
+line read from the file is
+unnecessarily expensive):
+.PP
+.TP \w'ac_created'u+2n
+ac_ctime
+The account creation date.
+.br
+.ns
+.TP \w'ac_created'u+2n
+ac_xtime
+The account expiration date.
+.br
+.PP
+.I Getacent
+reads the next
+line (opening the file if necessary);
+.I setacent
+rewinds the file;
+.I endacent
+closes it.
+.PP
+.I Getacauid
+and
+.I getacanam
+search from the beginning until a matching
+.I uid
+or
+.I name
+is found with the specified
+account ID
+.I aid
+(or until no matches are still possible given the ordering of
+the file).
+.SH "FILES"
+/etc/account
+.SH "SEE ALSO"
+.IR account (5),
+.IR getgrent (3),
+.IR getpwent (3)
+.SH "DIAGNOSTICS"
+Null pointer
+(0) returned on EOF or error.
+.SH "BUGS"
+All information
+is contained in a static area
+so it must be copied if it is
+to be saved.

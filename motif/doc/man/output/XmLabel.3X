@@ -1,0 +1,660 @@
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmLLLLaaaabbbbeeeellll ---- tttthhhheeee LLLLaaaabbbbeeeellll wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////LLLLaaaabbbbeeeellll....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Label is an instantiable widget and is also used as a
+          superclass for other button widgets, such as PushButton and
+          ToggleButton.  The Label widget does not accept any button
+          or key input, and the help callback is the only callback
+          defined.  Label also receives enter and leave events.
+
+          Label can contain either text or a pixmap.  Label text is a
+          compound string.  Refer to the _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _G_u_i_d_e
+          for more information on compound strings.  The text can be
+          multilingual, multiline, and/or multifont.  When a Label is
+          insensitive, its text is stippled, or the user-supplied
+          insensitive pixmap is displayed.
+
+          Label supports both accelerators and mnemonics primarily for
+          use in Label subclass widgets that are contained in menus.
+          Mnemonics are available in a menu system when the button is
+          visible.  Accelerators in a menu system are accessible even
+          when the button is not visible.  The Label widget displays
+          the mnemonic by underlining the first matching character in
+          the text string.  The accelerator is displayed as a text
+          string to the side of the label text or pixmap.
+
+          Label consists of many margin fields surrounding the text or
+          pixmap.  These margin fields are resources that may be set
+          by the user, but Label subclasses also modify some of these
+          fields.  The subclasses tend to modify the XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt,
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp, and XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm resources
+          and leave the XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh and XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt resources
+          as set by the application.
+
+          In a Label XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn and XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttOOOOnnnnEEEEnnnntttteeeerrrr are forced
+          to False inside Popup MenuPanes, Pulldown MenuPanes, and
+          OptionMenus.  Otherwise these resources default to False.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Label inherits behavior and resources from CCCCoooorrrreeee and
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee Classes.
+
+          The class pointer is xxxxmmmmLLLLaaaabbbbeeeellllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmLLLLaaaabbbbeeeellll.
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                               XXXXmmmmLLLLaaaabbbbeeeellll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                        CCCCllllaaaassssssss                       TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _________________________________________________________________________________________________________
+     XmNaccelerator              XmCAccelerator              String              NULL                   CSG
+     XmNacceleratorText          XmCAcceleratorText          XmString            NULL                   CSG
+     XmNalignment                XmCAlignment                unsigned char       dynamic                CSG
+     XmNfontList                 XmCFontList                 XmFontList          dynamic                CSG
+     XmNlabelInsensitivePixmap   XmCLabelInsensitivePixmap   Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelPixmap              XmCLabelPixmap              Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelString              XmCXmString                 XmString            dynamic                CSG
+     XmNlabelType                XmCLabelType                unsigned char       XmSTRING               CSG
+     XmNmarginBottom             XmCMarginBottom             Dimension           0                      CSG
+     XmNmarginHeight             XmCMarginHeight             Dimension           2                      CSG
+     XmNmarginLeft               XmCMarginLeft               Dimension           0                      CSG
+     XmNmarginRight              XmCMarginRight              Dimension           0                      CSG
+     XmNmarginTop                XmCMarginTop                Dimension           0                      CSG
+     XmNmarginWidth              XmCMarginWidth              Dimension           2                      CSG
+     XmNmnemonic                 XmCMnemonic                 KeySym              NULL                   CSG
+     XmNmnemonicCharSet          XmCMnemonicCharSet          String              dynamic                CSG
+     XmNrecomputeSize            XmCRecomputeSize            Boolean             True                   CSG
+     XmNstringDirection          XmCStringDirection          XmStringDirection   dynamic                CSG
+
+
+          XXXXmmmmNNNNaaaacccccccceeeelllleeeerrrraaaattttoooorrrr
+               Sets the accelerator on a button widget in a menu,
+               which activates a visible or invisible button from the
+               keyboard.  This resource is a string that describes a
+               set of modifiers and the key that may be used to select
+               the button.  The format of this string is identical to
+               that used by the translations manager, with the
+               exception that only a single event may be specified and
+               only KKKKeeeeyyyyPPPPrrrreeeessssssss events are allowed.
+
+               Accelerators for buttons are supported only for
+               PushButton and ToggleButton in Pulldown and Popup
+               MenuPanes.
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNaaaacccccccceeeelllleeeerrrraaaattttoooorrrrTTTTeeeexxxxtttt
+               Specifies the text displayed for the accelerator.  The
+               text is displayed to the side of the label string or
+               pixmap.  Accelerator text for buttons is displayed only
+               for PushButtons and ToggleButtons in Pulldown and Popup
+               Menus.
+
+          XXXXmmmmNNNNaaaalllliiiiggggnnnnmmmmeeeennnntttt
+               Specifies the label alignment for text or pixmap.
+
+               +o  XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____BBBBEEEEGGGGIIIINNNNNNNNIIIINNNNGGGG (left alignment) - causes the
+                  left sides of the lines of text to be vertically
+                  aligned with the left edge of the widget window.
+                  For a pixmap, its left side is vertically aligned
+                  with the left edge of the widget window.
+                  XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____CCCCEEEENNNNTTTTEEEERRRR (center alignment) - causes the
+                  centers of the lines of text to be vertically
+                  aligned in the center of the widget window.  For a
+                  pixmap, its center is vertically aligned with the
+                  center of the widget window.
+
+               +o  XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____EEEENNNNDDDD (right alignment) - causes the right
+                  sides of the lines of text to be vertically aligned
+                  with the right edge of the widget window.  For a
+                  pixmap, its right side is vertically aligned with
+                  the right edge of the widget window.
+
+               The above descriptions for text are correct when
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn is XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____LLLL____TTTTOOOO____RRRR.  When
+               that resource is XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____RRRR____TTTTOOOO____LLLL, the
+               descriptions for XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____BBBBEEEEGGGGIIIINNNNNNNNIIIINNNNGGGG and
+               XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____EEEENNNNDDDD are switched.
+
+               If the parent is a RowColumn whose XXXXmmmmNNNNiiiissssAAAAlllliiiiggggnnnneeeedddd
+               resource is True, XXXXmmmmNNNNaaaalllliiiiggggnnnnmmmmeeeennnntttt is forced to the same
+               value as the RowColumn's XXXXmmmmNNNNeeeennnnttttrrrryyyyAAAAlllliiiiggggnnnnmmmmeeeennnntttt if the
+               RowColumn's XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA or if the
+               widget is a subclass of XmLabel.  Otherwise, the
+               default is XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____CCCCEEEENNNNTTTTEEEERRRR.
+
+          XXXXmmmmNNNNffffoooonnnnttttLLLLiiiisssstttt
+               Specifies the font of the text used in the widget.  If
+               this value is NULL at initialization, it is initialized
+               by looking up the parent hierarchy of the widget for an
+               ancestor that is a subclass of the XmBulletinBoard,
+               VendorShell, or XmMenuShell widget class.  If such an
+               ancestor is found, the font list is initialized to the
+               appropriate default font list of the ancestor widget
+               (XmNdefaultFontList for VendorShell and XmMenuShell,
+               XmNlabelFontList or XmNbuttonFontList for
+               XmBulletinBoard).  Refer to XXXXmmmmFFFFoooonnnnttttLLLLiiiisssstttt((((3333XXXX)))) for more
+               information on the creation and structure of a font
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+               list.
+
+          XXXXmmmmNNNNllllaaaabbbbeeeellllIIIInnnnsssseeeennnnssssiiiittttiiiivvvveeeePPPPiiiixxxxmmmmaaaapppp
+               Specifies a pixmap used as the button face if
+               XXXXmmmmNNNNllllaaaabbbbeeeellllTTTTyyyyppppeeee is XXXXmmmmPPPPIIIIXXXXMMMMAAAAPPPP and the button is insensitive.
+
+          XXXXmmmmNNNNllllaaaabbbbeeeellllPPPPiiiixxxxmmmmaaaapppp
+               Specifies the pixmap when XXXXmmmmNNNNllllaaaabbbbeeeellllTTTTyyyyppppeeee is XXXXmmmmPPPPIIIIXXXXMMMMAAAAPPPP.
+
+          XXXXmmmmNNNNllllaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the compound string when the XXXXmmmmNNNNllllaaaabbbbeeeellllTTTTyyyyppppeeee is
+               XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG.  If this value is NULL, it is initialized by
+               converting the name of the widget to a compound string.
+               Refer to XXXXmmmmSSSSttttrrrriiiinnnngggg((((3333XXXX)))) for more information on the
+               creation and structure of compound strings.
+
+          XXXXmmmmNNNNllllaaaabbbbeeeellllTTTTyyyyppppeeee
+               Specifies the label type.
+
+               +o  XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG - text displays XXXXmmmmNNNNllllaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg.
+
+               +o  XXXXmmmmPPPPIIIIXXXXMMMMAAAAPPPP - icon data in pixmap displays
+                  XXXXmmmmNNNNllllaaaabbbbeeeellllPPPPiiiixxxxmmmmaaaapppp or XXXXmmmmNNNNllllaaaabbbbeeeellllIIIInnnnsssseeeennnnssssiiiittttiiiivvvveeeePPPPiiiixxxxmmmmaaaapppp.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm
+               Specifies the amount of spacing between the bottom of
+               the label text and the top of the bottom margin
+               (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt).  This may be modified
+               by Label's subclasses.  For example, CascadeButton may
+               increase this field to make room for the cascade
+               pixmap.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the amount of spacing between the top of the
+               label (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp) and the bottom edge
+               of the top shadow, and the amount of spacing between
+               the bottom of the label (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm)
+               and the top edge of the bottom shadow.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt
+               Specifies the amount of spacing between the left edge
+               of the label text and the right side of the left margin
+               (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh).  This may be modified by
+               Label's subclasses.  For example, ToggleButton may
+               increase this field to make room for the toggle
+               indicator and for spacing between the indicator and
+               label.  Whether this actually applies to the left or
+               right side of the label may depend on the value of
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt
+               Specifies the amount of spacing between the right edge
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+               of the label text and the left side of the right margin
+               (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh).  This may be modified by
+               Label's subclasses.  For example, CascadeButton may
+               increase this field to make room for the cascade
+               pixmap.  Whether this actually applies to the left or
+               right side of the label may depend on the value of
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp
+               Specifies the  amount of spacing between the top of the
+               label text and the bottom of the top margin (specified
+               by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt).  This may be modified by Label's
+               subclasses.  For example, CascadeButton may increase
+               this field to make room for the cascade pixmap.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the amount of spacing between the left side
+               of the label (specified by XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt) and the right
+               edge of the left shadow, and the amount of spacing
+               between the right side of the label (specified by
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt) and the left edge of the right shadow.
+
+          XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiicccc
+               Provides the user with an alternate means of selecting
+               a button.  A button in a MenuBar, a Popup MenuPane, or
+               a Pulldown MenuPane can have a mnemonic.
+
+               This resource contains a keysym as listed in the X11
+               keysym table.  The first character in the label string
+               that exactly matches the mnemonic in the character set
+               specified in XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiiccccCCCChhhhaaaarrrrSSSSeeeetttt is underlined when the
+               button is displayed.
+
+               When a mnemonic has been specified, the user activates
+               the button by pressing the mnemonic key while the
+               button is visible.  If the button is a CascadeButton in
+               a MenuBar and the MenuBar does not have the focus, the
+               user must use the MMMMAAAAlllltttt modifier while pressing the
+               mnemonic.  The user can activate the button by pressing
+               either the shifted or the unshifted mnemonic key.
+
+          XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiiccccCCCChhhhaaaarrrrSSSSeeeetttt
+               Specifies the character set of the mnemonic for the
+               label.  The default is determined dynamically depending
+               on the current language environment.
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNrrrreeeeccccoooommmmppppuuuutttteeeeSSSSiiiizzzzeeee
+               Specifies a Boolean value that indicates whether the
+               widget attempts to be big enough to contain the label.
+               If True, an XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss with a resource value that
+               would change the size of the widget causes the widget
+               to shrink or expand to exactly fit the label string or
+               pixmap.  If False, the widget never attempts to change
+               size on its own.
+
+          XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               Specifies the direction in which the string is to be
+               drawn.  The following are the values:
+
+               +o  XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____LLLL____TTTTOOOO____RRRR - left to right
+
+               +o  XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____RRRR____TTTTOOOO____LLLL - right to left
+
+          The default for this resource is determined at creation
+          time.  If no value is specified for this resource and the
+          widget's parent is a manager, the value is inherited from
+          the parent; otherwise, it defaults to
+          XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDIIIIRRRREEEECCCCTTTTIIIIOOOONNNN____LLLL____TTTTOOOO____RRRR.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Label inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          0                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmNONE                 G
+     XmNshadowThickness      XmCShadowThickness      Dimension          0                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            False                  CSG
+     XmNunitType             XmCUnitType             unsigned char      dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt          _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;;;;
+          }}}} XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;;;;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked.  For this
+                 callback, _r_e_a_s_o_n is set to XXXXmmmmCCCCRRRR____HHHHEEEELLLLPPPP.
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmLabel includes translations from Primitive.  The XmLabel
+          translations are listed below.  These translations may not
+          directly correspond to a translation table.
+
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+
+          The translations used by subclasses of XmLabel for menu
+          traversal are listed below.  These translations may not
+          directly correspond to a translation table.
+
+          KKKKLLLLeeeefffftttt::::         MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((())))
+          KKKKRRRRiiiigggghhhhtttt::::        MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((())))
+          KKKKUUUUpppp::::           MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((())))
+          KKKKDDDDoooowwwwnnnn::::         MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((())))
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  MMMMeeeennnnuuuuEEEEssssccccaaaappppeeee(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmLabel action routines are described below:
+
+          HHHHeeeellllpppp(((()))):
+               In a Popup or Pulldown MenuPane, unposts all menus in
+               the menu hierarchy and, when the shell's keyboard focus
+               policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores keyboard focus to the
+               tab group that had the focus before the menu system was
+               entered.  Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if
+               any exist.  If there are no help callbacks for this
+               widget, this action calls the help callbacks for the
+               nearest ancestor that has them.
+
+          MMMMeeeennnnuuuuEEEEssssccccaaaappppeeee(((()))):
+               In a MenuBar, disarms the CascadeButton and the menu
+               and, when the shell's keyboard focus policy is
+               XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores keyboard focus to the tab group
+               that had the focus before the menu was entered.
+
+               In a toplevel Pulldown MenuPane from a MenuBar, unposts
+               the menu, disarms the MenuBar CascadeButton and the
+               MenuBar, and, when the shell's keyboard focus policy is
+               XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores keyboard focus to the tab group
+               that had the focus before the MenuBar was entered.  In
+               other Pulldown MenuPanes, unposts the menu.
+
+               In a Popup MenuPane, unposts the menu and, when the
+               shell's keyboard focus policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores
+               keyboard focus to the widget from which the menu was
+               posted.
+
+          MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((()))):
+               In a vertical menu, disarms the current menu entry and
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+               arms the entry just below it in the MenuPane.  This
+               action wraps within the MenuPane.
+
+               In a horizontal menu, if the menu entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  Otherwise, this
+               action searches for an ancestor menu that is vertical.
+               If it finds one, it unposts the cascade from the
+               vertical menu and traverses to the next entry toward
+               the bottom in the vertical menu.  If this entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  This action wraps
+               within the vertical menu.
+
+          MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((()))):
+               In a vertical menu, if the menu's parent is a
+               horizontal menu, this action unposts the current
+               MenuPane and traverses to the next entry to the left in
+               the parent menu.  If this entry is a CascadeButton with
+               a submenu, posts the MenuPane associated with the
+               CascadeButton.  This action wraps within the horizontal
+               menu.  If the menu's parent is a vertical menu, this
+               action unposts the current MenuPane.
+
+               In a horizontal menu, disarms the current menu entry
+               and arms the entry just to the left of it in the menu.
+               This action wraps within the menu.
+
+          MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((()))):
+               In a vertical menu, if the menu entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  Otherwise, this
+               action searches for an ancestor menu that is
+               horizontal.  If it finds one, it unposts the cascade
+               from the horizontal menu and traverses to the next
+               entry to the right in the horizontal menu.  If this
+               entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  This action wraps
+               within the horizontal menu.
+
+               In a horizontal menu, disarms the current menu entry
+               and arms the entry just to the right of it in the menu.
+               This action wraps within the menu.
+
+          MMMMeeeennnnuuuuTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((()))):
+               In a vertical menu, disarms the current menu entry and
+               arms the entry just above it in the MenuPane.  This
+               action wraps within the MenuPane.
+
+               In a horizontal menu, if the menu's parent is a
+               vertical menu, this action unposts the current MenuPane
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))         OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn          XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+
+
+
+               and traverses to the next entry toward the top in the
+               parent menu.  If this entry is a CascadeButton with a
+               submenu, posts the MenuPane associated with the
+               CascadeButton.  This action wraps within the vertical
+               menu.  If the menu's parent is a horizontal menu, this
+               action unposts the current MenuPane.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLaaaabbbbeeeellll((((3333XXXX)))), XXXXmmmmFFFFoooonnnnttttLLLLiiiissssttttCCCCrrrreeeeaaaatttteeee((((3333XXXX)))),
+          XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeee((((3333XXXX)))), XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR((((3333XXXX)))) and
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+

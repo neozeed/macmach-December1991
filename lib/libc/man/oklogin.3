@@ -1,0 +1,200 @@
+.\"
+.\" $Id: oklogin.3,v 1.3 89/12/26 11:20:00 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	oklogin.3,v $
+.\" Revision 1.3  89/12/26  11:20:00  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 14-Jun-82  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH OKLOGIN 6/14/82
+.CM 3
+.SH "NAME"
+oklogin \- validate login name, group, account and password
+.SH "SYNOPSIS"
+.nf
+.ft B
+#include <sys/types.h>
+#include <pwd.h>
+#include <grp.h>
+#include <acc.h>
+.sp
+int oklogin(name, group, acctp, password, pwp, grp, acp, grlp)
+char *name;
+char *group;
+char **acctp;
+char *password;
+struct passwd **pwp;
+struct group **grp;
+struct account **acp;
+int **grlp;
+.ft R
+.sp
+.fi
+.SH "DESCRIPTION"
+.I
+Oklogin
+validates the supplied user name, group, account and password
+to determine if it is
+appropriate to allow access
+by that
+user, group and account
+to some system resource.
+It performs the following sequence of authorization
+checks.
+.sp
+First,
+the password entry 
+(referenced by
+.IR pwp )
+is set
+via a
+.IR getpwnam (3)
+call with the specified
+.IR name .
+If this entry indicates that a password is required
+for the 
+.IR name ,
+the
+.I
+password
+parameter is encrypted and
+verified against the entry.
+If the
+.I
+password
+parameter is NULL (not simply an empty string)
+the password verification is omitted.
+If a non-NULL
+.I
+group
+parameter is supplied,
+the 
+.I group 
+entry
+(referenced by
+.IR grp )
+is set via a
+.IR getgrnam (3)
+call with the specified
+group name.
+The user name is then checked against the membership
+list for this group entry.
+.sp
+Next, the account file is read
+via calls on
+.IR getacent (3)
+to set the
+account entry
+(referenced by
+.IR acp )
+to some valid account for
+.IR name.
+Initially, an entry corresponding to the group ID is sought.
+If no 
+corresponding group
+account entry can be found,
+but the account name
+(referenced by
+.IR acctp )
+is non-NULL,
+then the specific
+entry for that account is sought.
+If no group account entry is found and no account is named,
+then the account
+with the latest expiration date is used.
+Finally, once the appropriate
+account entry has been determined,
+the account name
+(referenced by
+.IR acctp )
+is set
+to the corresponding name, and
+the account expiration time in the entry is set
+from the expiration date string and checked
+against the current date.
+.sp
+.I
+Oklogin
+returns 0 if all checks are successful or
+a negative error value (see below) at
+the point in the authorization sequence where the error
+is detected.
+The three entry reference parameters
+are set at the indicated
+times during the validation
+process to make the information they provide
+available on return
+(if an error occurs, only those entries set up
+until the point of the error will be valid).
+.sp
+As an optimization,
+the password file lookup is bypassed if
+the referenced password entry is not NULL
+on
+entry to the routine.
+In this case it is assumed to have been
+initialized by the caller to point to the
+password entry for the name.
+The initial values of the
+other referenced entry should be NULL
+on entry to the routine (although they are
+currently ignored).
+.SH "FILES"
+/etc/passwd
+.br
+/etc/group
+.br
+/etc/account
+.SH "SEE ALSO"
+.IR getpwnam (3),
+.IR getgrnam (3),
+.IR getacent (3),
+.SH "DIAGNOSTICS"
+.I
+oklogin
+returns the following negative values when an error occurs:
+.TP
+\-1
+The user 
+.I name 
+was not found in the password file.
+.TP
+\-2
+The supplied 
+.I password 
+was incorrect.
+.TP
+\-3
+The group
+.I name 
+was not found in the group file.
+.TP
+\-4
+The user was not a member of the default
+account group recorded in the password file.
+.TP
+\-5
+The user was not a member of the named 
+.IR group .
+.TP
+\-6
+The account name was not found in the group file.
+.TP
+\-7
+The user's account was not found in the account file.
+.TP
+\-8
+The user's account has expired.
+.i0
+.DT
+.PP
+.SH "BUGS"
+The entry pointers refer to information in a static area which
+must be copied if it is to be saved.

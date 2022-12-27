@@ -1,0 +1,89 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchColorLiteral 3X
+.SH NAME
+\fBMrmFetchColorLiteral\fP \- Fetches a named color literal from a UID file.
+.iX "MrmFetchColorLiteral"
+.iX "uil functions" "MrmFetchColorLiteral"
+.iX "uid file"
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchColorLiteral"
+.NX R "MrmFetchColorLiteral" "definition"
+.BI "int MrmFetchColorLiteral(" "hierarchy_id" ","
+.IB "index" ","
+.IB "display" ","
+.IB "colormap_id" ","
+.IB "pixel" ")"
+.in +5n
+.br
+.BI "MrmHierarchy hierarchy_id;
+.br
+.BI "String " "index" ";"
+.br
+.BI "Display *" "display" ";"
+.br
+.BI "Colormap " "colormap_id" ";"
+.br
+.BI "Pixel *" "pixel" ";"
+.in -5n
+.SH DESCRIPTION
+The
+\fBMrmFetchColorLiteral\fP
+function
+.NX R "MrmFetchColorLiteral" "description"
+fetches a named color literal from a UID file, and converts the
+color literal to a pixel color value.
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the UID hierarchy that contains the
+specified literal. 
+The
+\fIhierarchy_id\fP
+was returned in a previous call to
+\fBMrmOpenHierarchy\fP.
+.IP \fIindex\fP 1.5i
+Specifies the UIL name of the color literal to fetch. 
+You must define this name in UIL as an exported value.
+.IP \fIdisplay\fP 1.5i
+Specifies the display used for the pixmap.
+The
+\fIdisplay\fP 
+argument specifies the connection to the X server. 
+For more information on the
+\fBDisplay\fP structure, see the Xlib function
+\fBXOpenDisplay\fP.
+.IP \fIcolormap_id\fP 1.5i
+Specifies the ID of the color map.
+If NULL, the default color map is used. 
+.IP \fIpixel\fP 1.5i
+Returns the ID of the color literal.
+.br
+.ne 9
+.SH RETURN VALUE
+.NX R "MrmSUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmNOT_FOUND"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 1.7i
+The function executed successfully.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmNOT_FOUND\fP
+The color literal was not found in the UIL file.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+\fBMrmFetchIconLiteral(3X)\fP,
+\fBMrmFetchLiteral(3X)\fP,
+\fBXOpenDisplay(3X)\fP

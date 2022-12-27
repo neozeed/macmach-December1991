@@ -1,0 +1,46 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldShowPosition 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldShowPosition \(em a TextField function that forces text at a given
+position to be displayed\fP
+.iX "XmTextFieldShowPosition"
+.iX "TextField functions" "XmTextFieldShowPosition"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldShowPosition (\fIwidget, position\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldShowPosition\fP forces text at the specified position to be
+displayed.  If the \fBXmNautoShowCursorPosition\fP resource is True, the
+application should also set the insert cursor to this position.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIposition\fP" .75i
+Specifies the character position to be displayed.  This is an integer
+number of characters from the beginning of the text buffer.  The first
+character position is 0.
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.br 
+.ne 4
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

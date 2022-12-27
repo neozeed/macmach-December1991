@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetString 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetString \(em a Text function that sets the string value.\fP
+.iX "XmTextSetString"
+.iX "Text functions" "XmTextSetString"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetString (\fIwidget, value\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.br
+.ne 12
+.SH DESCRIPTION
+\fBXmTextSetString\fP sets the string value of the Text widget.
+This routine calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+It also sets the insertion cursor position to the beginning of the
+string and calls the widget's \fBXmNmotionVerifyCallback\fP callbacks.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIvalue\fP" .75i
+Specifies the character pointer to the string value and places the
+string into the text edit window 
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

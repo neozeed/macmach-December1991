@@ -1,0 +1,61 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListAddItems 3X "" "" "" ""
+.SH NAME
+\fBXmListAddItems \(em a List function that adds items to the list.\fP
+.iX "XmListAddItems"
+.iX "List functions" "XmListAddItems"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+void XmListAddItems (\fIwidget, items, item_count, position\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	XmString	*\fIitems\fP;
+.br
+	int	\fIitem_count\fP;
+.br
+	int	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListAddItems\fP adds the specified items to the list at the given
+position.
+The first \fIitem_count\fP items of the \fIitems\fP array are added to
+the list.
+When the items are inserted into the list, they are compared with the
+current \fBXmNselectedItems\fP list.
+If the any of the new items matches an item on the selected list, it
+appears selected.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the \fBXmList\fP.
+.IP "\fIitems\fP" .75i
+Specifies a pointer to the items to be added to the list.
+.ne 5
+.IP "\fIitem_count\fP" .75i
+Specifies the number of items in \fIitems\fP.
+.IP "\fIposition\fP" .75i
+Specifies the position of the first new item in the list.
+A value of 1 makes the first new item the first item in the list; a
+value of 2 makes it the second item; and so on.
+A value of 0 makes the first new item follow the last item in the list.
+.sp 1
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

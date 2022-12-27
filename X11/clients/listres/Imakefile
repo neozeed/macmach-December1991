@@ -1,0 +1,22 @@
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+SYS_LIBRARIES = -lm
+SRCS = listres.c util.c widgets.c 
+OBJS = listres.o util.o widgets.o 
+PLACESTOLOOK = $(AWIDGETSRC)\/libXaw.a $(TOOLKITSRC)\/libXt.a
+
+
+AllTarget(listres)
+
+ComplexProgramTarget(listres)
+
+/*
+clean:: 
+	$(RM) widgets.c
+
+depend:: widgets.c
+
+widgets.c: genlist.sh
+	$(RM) $@
+	sh genlist.sh $(PLACESTOLOOK) >$@
+*/

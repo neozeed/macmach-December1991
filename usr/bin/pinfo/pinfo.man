@@ -1,0 +1,68 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	pinfo.man,v $
+.\" Revision 2.3  91/03/19  12:32:21  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:33:01  rpd
+.\" 	Created.
+.\" 	[90/06/18            rpd]
+.\" 
+.TH PINFO 1 6/18/90
+.CM 4
+.SH NAME
+pinfo \- display info about a task's port name space
+.SH SYNOPSIS
+\fBpinfo\fP [\fB-host\fP machine] [\fB-v\fP] [\fB-d\fP] [\fB-z\fP] [taskid [pname]]
+.SH DESCRIPTION
+\fIpinfo(1)\fR displays status information about a task's port and
+port set rights.  The \fItaskid\fP argument, a MachID, specifies the
+task.  The \fIpname\fP argument, a port name, specifies which port or
+port set right should be displayed.  If not specified, \fIpinfo\fP
+displays information about every right the task possesses.
+
+If the \fItaskid\fP argument isn't specified, \fIpinfo\fP displays information
+about its own rights.  In this case, it also gives a descriptive name
+for the rights that it recognizes.
+.PP
+\fIpinfo\fP interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-z
+Suspends the target task while querying it for information.
+.TP 8
+.B \-d
+Displays implementation-dependent information about the kernel data
+structures maintaining the task's port name space.
+.TP 8
+.B \-v
+Displays more detailed information.
+.SH "SEE ALSO"
+ms(1), machid(1), mach_port_names(2)

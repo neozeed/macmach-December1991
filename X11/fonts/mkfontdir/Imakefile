@@ -1,0 +1,25 @@
+        DEPLIBS = $(XMUSRC)/libXmu.a
+       INCLUDES = -I. -I$(BDFTOSNFSRC) -I$(TOP) -I$(SERVERSRC)/include  -I$(SERVERSRC)/ddx/snf
+           SRCS = mkfontdir.c fontdir.c snf_util.c
+           OBJS = mkfontdir.o fontdir.o snf_util.o
+#if HasSunOSSharedLibraries
+LOCAL_LIBRARIES = -Bstatic $(XMULIB) -Bdynamic
+#else
+LOCAL_LIBRARIES = $(XMULIB)
+#endif
+   FONT_DEFINES = FontDefines FontFilters
+
+
+#undef InstallManPage
+#define InstallManPage(file,dest)  /* as nothing */
+
+ComplexProgramTarget(mkfontdir)
+
+SpecialObjectRule(mkfontdir.o,$(ICONFIGFILES),$(FONT_DEFINES))
+
+#if HasSaberC
+saber_src_server:
+	/**/#load $(CFLAGS) fontdir.c
+#endif
+
+InstallManPageLong(mkfntdir,$(MANDIR),mkfontdir)

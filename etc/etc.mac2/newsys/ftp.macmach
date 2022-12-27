@@ -1,0 +1,227 @@
+#! /bin/sh
+
+# ftp.macmach, version 02
+
+# shell script for FTP update of a MacMach system
+
+# First the /.fixit file is copied, along with fixit and sed.
+# Next, fixit is applied to the /.fixit and any need files are
+# copied to the destination.  If they do not already exist, the
+# /.hostname and /etc/fstab files are created.  Fixit is again
+# applied to the /.fixit to set file protections.  The Makefile
+# in /etc/newconfig is used to install all configuration files
+# and then to install all device files in /dev.
+
+if [ "$#" != 5 -a"$#" != 0 ] ; then
+   echo "usage: ftp.macmach [ <addr> <gateway> <scsi id> <dest root> <source root> ]"
+   exit 1
+fi
+
+ADDR="$1"
+GATEWAY="$2"
+SCSIID="$3"
+DESTDIR="$4"
+SRCDIR="$5"
+
+echo "FTP MacMach System Installation / Update"
+[ "$ADDR" ] || { echo -n "Enter network address: "; read ADDR; }
+[ "$GATEWAY" ] || { echo -n "Enter network gateway address: "; read GATEWAY; }
+[ "$SCSIID" ] || { echo -n "Enter disk scsi id: "; read SCSIID; }
+[ "$DESTDIR" ] || { echo -n "Enter destination root: "; read DESTDIR; }
+[ "$SRCDIR" ] || { echo -n "Enter source root: "; read SRCDIR; }
+[ "$FTP_SERVER" ] || { echo -n "Enter server address: "; read FTP_SERVER; }
+[ "$FTP_USER" ] || { echo -n "Enter user name: "; read FTP_USER; }
+[ "$FTP_PASSWD" ] || { FTP_PASSWD=`getpass "Enter password: "`; }
+
+echo ""
+echo "ADDR       = $ADDR"
+echo "SCSIID     = $SCSIID"
+echo "DESTDIR    = $DESTDIR"
+echo "SRCDIR     = $SRCDIR"
+echo "FTP_SERVER = $FTP_SERVER"
+echo "FTP_USER   = $FTP_USER"
+echo "FTP_PASSWD ="
+[ "$USRSRC" ] && echo "System sources included."
+
+# common installation files
+HOSTS=$DESTDIR/etc/hosts
+
+# These commands are essential.
+[ -d $DESTDIR/tmp ] || mkdir $DESTDIR/tmp
+FIXIT=$DESTDIR/tmp/fixit
+SED=$DESTDIR/tmp/sed
+
+# assume $DESTDIR/usr exists
+[ "$USRSRC" ] && mkdir $DESTDIR/usr/src
+
+echo ""
+echo "Getting $DESTDIR/.fixit from FTP server."
+(
+  echo "user $FTP_USER $FTP_PASSWD"
+  echo "hash"
+  echo "binary"
+  echo "cd $SRCDIR"
+  echo "get .fixit $DESTDIR/.fixit"
+  [ "$USRSRC" ] && echo "get usr/src/.fixit $DESTDIR/usr/src/.fixit"
+  [ -f $SED ] || {
+    echo "get bin/sed $SED"
+    echo "! chmod 755 $SED"
+  }
+  [ -f $FIXIT ] || {
+    echo "get usr/bin/fixit $FIXIT"
+    echo "! chmod 755 $FIXIT"
+  }
+  echo "bye"
+) | ftp -n -i -v $FTP_SERVER
+[ -f $DESTDIR/.fixit ] || {
+  echo "failed to get $DESTDIR/.fixit"
+  exit 1
+}
+if [ "$USRSRC" ]; then
+  [ -f $DESTDIR/usr/src/.fixit ] || {
+    echo "You can not access the system sources."
+    exit 1
+  }
+fi
+chmod 444 $DESTDIR/.fixit
+README="$DESTDIR/.fixit"
+if [ -f $DESTDIR/usr/src/.fixit ]; then
+  chmod 444 $DESTDIR/usr/src/.fixit
+  README="$README $DESTDIR/usr/src/.fixit"
+fi
+
+# while there are files to be fixed, copy from server
+# the ONLY way out of this loop is when ALL files are Ok
+rm -f $DESTDIR/tmp/FILES$$
+while true; do
+
+  # if missing files found with the -fastfix below, don't do -fix yet
+  [ ! -f $DESTDIR/tmp/FILES$$ ] && {
+    echo ""
+    echo "Checking $DESTDIR for files to fix."
+    cat $README | $FIXIT -fix $DESTDIR | $SED -n "
+      /^\/.*: missing file$/ {
+        s\"$DESTDIR/\"\"
+        s\": missing file\"\"
+        p
+      }
+      /^\/.*: sum .*$/ {
+        s\"$DESTDIR/\"\"
+        s\": sum .*\"\"
+        p
+      }
+    " | while read FIXFILE; do echo "$FIXFILE" >>$DESTDIR/tmp/FILES$$; done
+    [ ! -f $DESTDIR/tmp/FILES$$ ] && {
+      echo "All files are OK."
+      break
+    }
+  }
+
+  echo ""
+  echo "Copying files..."
+  (
+    echo "user $FTP_USER $FTP_PASSWD"
+    echo "get $FTP_SCRIPT /$FTP_SCRIPT"
+    echo "hash"
+    echo "binary"
+    echo "cd $SRCDIR"
+    while read F; do echo "get $F $DESTDIR/$F"; done
+    [ -f $DESTDIR/etc/hosts ] || echo "get /etc/hosts $DESTDIR/etc/hosts"
+    echo "bye"
+  ) <$DESTDIR/tmp/FILES$$ | ftp -n -i -v $FTP_SERVER
+
+  # if the FTP did not complete its task, there will be missing files here
+  echo ""
+  echo "setting file protections on $DESTDIR"
+  rm -f $DESTDIR/tmp/FILES$$
+  cat $README | $FIXIT -fastfix $DESTDIR | $SED -n "
+    /^\/.*: missing file$/ {
+      s\"$DESTDIR/\"\"
+      s\": missing file\"\"
+      p
+    }
+  " | while read FIXFILE; do echo "$FIXFILE" >>$DESTDIR/tmp/FILES$$; done
+
+  [ -f $DESTDIR/tmp/FILES$$ ] && echo "FTP failed, trying again..."
+
+done
+
+[ -f $DESTDIR/.hostname ] || {
+  echo ""
+  echo "creating $DESTDIR/.hostname"
+  [ "$GATEWAY" = "NONE" ] && GATEWAY=""
+  [ "$ADDR" = "NONE" ] && ADDR=""
+  if [ "$ADDR" ]; then
+    # translate the IP address into the primary hostname
+    # and put it in the .hostname file in the DESTDIR directory.
+    HOSTNAME=`$SED -n \
+      -e "/$ADDR/s/[ 	][ 	]*/ /g"   \
+      -e "/$ADDR/s/^[^ ]* \([^ ]*\).*/\1/p" \
+      < $HOSTS`
+    [ "$HOSTNAME" ] || {
+      echo "ERROR: can not find $ADDR in $HOSTS"
+      echo "System will not use external network."
+    }
+  else
+    HOSTNAME=""
+  fi
+  if [ "$HOSTNAME" ]; then
+    NETNAME='$HOSTNAME'
+  else
+    HOSTNAME="MacMach"
+    NETNAME=""
+  fi
+  (
+    echo "# This is the system's name."
+    echo "HOSTNAME=\"$HOSTNAME\""
+    echo ""
+    echo "# Set NETNAME to \$HOSTNAME to enable external network access."
+    echo "NETNAME=\"$NETNAME\""
+    echo ""
+    echo "# This is the gateway IP address."
+    echo "GATEWAY=\"$GATEWAY\""
+  ) >$DESTDIR/.hostname
+}
+chmod 444 $DESTDIR/.hostname
+
+[ -f $DESTDIR/etc/fstab ] || {
+  echo ""
+  echo "creating $DESTDIR/etc/fstab"
+  echo /dev/sd$SCSIID"a:/:rw:0:1" > $DESTDIR/etc/fstab 
+  echo /dev/sd$SCSIID"g:/usr:rw:0:2" >> $DESTDIR/etc/fstab
+}
+chmod 444 $DESTDIR/etc/fstab
+
+PATH="$DESTDIR/bin:$DESTDIR/etc:$DESTDIR/usr/bin:$DESTDIR/usr/ucb"
+export PATH
+
+echo ""
+echo "installing configuration files..."
+[ -f $DESTDIR/etc/group ] || cp $DESTDIR/etc/newconfig/group $DESTDIR/etc/group
+[ -f $DESTDIR/etc/passwd ] || cp $DESTDIR/etc/newconfig/passwd $DESTDIR/etc/passwd
+[ -f /etc/group ] || cp $DESTDIR/etc/newconfig/group /etc/group
+[ -f /etc/passwd ] || cp $DESTDIR/etc/newconfig/passwd /etc/passwd
+cd $DESTDIR/etc/newconfig
+make DESTDIR=$DESTDIR config
+
+echo ""
+echo "creating device files..."
+cd $DESTDIR/etc/newconfig
+make DESTDIR=$DESTDIR dev
+
+# create .status to skip reboot checksum verification
+{
+  echo "# Checksums for / last verified `date`"
+  echo "echo \"`sum $DESTDIR/.fixit`\""
+} >$DESTDIR/.status
+[ "$USRSRC" ] && {
+  {
+    echo "# Checksums for /usr/src/ last verified `date`"
+    echo "echo \"`sum $DESTDIR/usr/src/.fixit`\""
+  } >$DESTDIR/usr/src/.status
+}
+
+sync
+echo ""
+echo "FTP MACMACH Update complete."
+exit 0

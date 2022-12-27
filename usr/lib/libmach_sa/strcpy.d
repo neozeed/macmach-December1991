@@ -1,0 +1,1 @@
+strcpy.o: strcpy.c 

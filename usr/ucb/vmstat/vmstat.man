@@ -1,0 +1,98 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	vmstat.man,v $
+.\" Revision 2.2  91/08/29  16:08:37  rpd
+.\" 	Created.
+.\" 	[91/08/19            rpd]
+.\" 
+.TH VMSTAT 1 6/18/90
+.CM 4
+.SH NAME
+vmstat \- display Mach VM statistics
+.SH SYNOPSIS
+\fBvmstat\fP [\fB-host\fP machine] [\fB-task\fP task] [\fB-dpager\fP pager] [interval]
+.SH DESCRIPTION
+\fIvmstat(1)\fR displays Mach Virtual Memory statistics.
+If the optional \fIinterval\fR is specified, then \fIvmstat\fR
+will display the statistics every \fIinterval\fR seconds.
+In this case, each line of output displays the \fIchange\fR
+in each statistic.  However, the first line of output following
+each banner displays the system-wide totals for each statistic.
+The following values are displayed:
+.br
+.IP "\fBfree\fR" 1.5i
+The total number of free pages in the system
+.IP "\fBactive\fR"
+The total number of pages on the active list.  These pages are
+currently in use and pageable.
+.IP "\fBinactive\fR"
+The total number of pages on the inactive list.  Like active pages,
+these pages are currently in use and pageable, but they are considered
+first for pageout.
+.IP "\fBwired\fR"
+The total number of pages wired down.
+That is, pages that
+can not be paged out.
+.IP "\fBfaults\fR"
+The number of times the "vm_fault_page" routine has been called.
+.IP "\fBcopy\fR"
+The number of faults that caused a page to be copied (generally
+caused by copy-on-write faults).
+.IP "\fBzeroed\fR"
+The number of faults that caused a page to be zeroed (generally
+caused by zero-fill faults).
+.IP "\fBreactive\fR"
+The number of pages that have been reclaimed from the inactive list.
+.IP "\fBpageins\fR"
+The number of requests for pages from a pager.
+.IP "\fBpageouts\fR"
+The number of pages that have been paged out.
+.IP "\fBspace\fR"
+The amount of free backing store available to the default pager.
+.br
+.PP
+If \fIinterval\fR is not specified, then \fIvmstat\fR displays all
+accumulated statistics along with the page size, object cache
+performance, and size of the default pager's backing store.
+.PP
+\fIvmstat\fP interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-task \fItask\fR
+Explicitly specifies the MachID of the task port to which vm_statistics(2)
+calls are directed.  This defaults to the first task on the specified
+host.
+.TP 8
+.B \-dpager \fIdefault-pager\fR
+Explicitly specifies the MachID of the default pager port to which
+default_pager_info(2) calls are directed.  This defaults to the
+default pager on the specified host.
+.SH "SEE ALSO"
+ms(1), machid(1), vm_statistics(2), default_pager_info(2)

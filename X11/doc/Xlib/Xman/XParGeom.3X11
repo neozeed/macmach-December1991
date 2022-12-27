@@ -1,0 +1,279 @@
+.ds xT X Toolkit Intrinsics \- C Language Interface
+.ds xW Athena X Widgets \- C Language X Toolkit Interface
+.ds xL Xlib \- C Language X Interface
+.ds xC Inter-Client Communication Conventions Manual
+.na
+.de Ds
+.nf
+.\\$1D \\$2 \\$1
+.ft 1
+.\".ps \\n(PS
+.\".if \\n(VS>=40 .vs \\n(VSu
+.\".if \\n(VS<=39 .vs \\n(VSp
+..
+.de De
+.ce 0
+.if \\n(BD .DF
+.nr BD 0
+.in \\n(OIu
+.if \\n(TM .ls 2
+.sp \\n(DDu
+.fi
+..
+.de FD
+.LP
+.KS
+.TA .5i 3i
+.ta .5i 3i
+.nf
+..
+.de FN
+.fi
+.KE
+.LP
+..
+.de IN		\" send an index entry to the stderr
+.tm \\n%:\\$1:\\$2:\\$3
+..
+.de C{
+.KS
+.nf
+.D
+.\"
+.\"	choose appropriate monospace font
+.\"	the imagen conditional, 480,
+.\"	may be changed to L if LB is too
+.\"	heavy for your eyes...
+.\"
+.ie "\\*(.T"480" .ft L
+.el .ie "\\*(.T"300" .ft L
+.el .ie "\\*(.T"202" .ft PO
+.el .ie "\\*(.T"aps" .ft CW
+.el .ft R
+.ps \\n(PS
+.ie \\n(VS>40 .vs \\n(VSu
+.el .vs \\n(VSp
+..
+.de C}
+.DE
+.R
+..
+.de Pn
+.ie t \\$1\fB\^\\$2\^\fR\\$3
+.el \\$1\fI\^\\$2\^\fP\\$3
+..
+.de PN
+.ie t \fB\^\\$1\^\fR\\$2
+.el \fI\^\\$1\^\fP\\$2
+..
+.de NT
+.ne 7
+.ds NO Note
+.if \\n(.$>$1 .if !'\\$2'C' .ds NO \\$2
+.if \\n(.$ .if !'\\$1'C' .ds NO \\$1
+.ie n .sp
+.el .sp 10p
+.TB
+.ce
+\\*(NO
+.ie n .sp
+.el .sp 5p
+.if '\\$1'C' .ce 99
+.if '\\$2'C' .ce 99
+.in +5n
+.ll -5n
+.R
+..
+.		\" Note End -- doug kraft 3/85
+.de NE
+.ce 0
+.in -5n
+.ll +5n
+.ie n .sp
+.el .sp 10p
+..
+.ny0
+.TH XParseGeometry 3X11 "Release 4" "X Version 11" 
+.SH NAME
+XParseGeometry, XParseColor \- parse window geometry and color
+.SH SYNTAX
+.\" $Header: XParseGeom.f,v 1.1 88/02/26 10:01:42 mento Exp $
+int XParseGeometry\^(\^\fIparsestring\fP\^, \fIx_return\fP\^, \fIy_return\fP\^, \fIwidth_return\fP\^, \fIheight_return\fP\^)
+.br
+      char *\fIparsestring\fP\^;
+.br
+      int *\fIx_return\fP\^, *\fIy_return\fP\^; 
+.br
+      int *\fIwidth_return\fP\^, *\fIheight_return\fP\^;
+.LP
+.\" $Header: XParseColor.f,v 1.2 88/05/20 05:14:03 mento Exp $
+Status XParseColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \^\fIspec\fP\^, \fIexact_def_return\fP\^)
+.br
+        Display *\fIdisplay\fP\^;
+.br
+        Colormap \fIcolormap\fP\^;
+.br
+        char *\fIspec\fP\^;
+.br
+        XColor *\fIexact_def_return\fP\^;
+.SH ARGUMENTS
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: posdef.a,v 1.1 88/02/26 10:30:34 mento Exp $
+.IP \fIposition\fP 1i
+.br
+.ns
+.IP \fIdefault_position\fP 1i
+Specify the geometry specifications.
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: def.a,v 1.2 88/04/07 16:52:05 mento Exp $
+.IP \fIexact_def_return\fP 1i
+Returns the exact color value for later use and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+.\" $Header: fwdht.a,v 1.1 88/02/26 10:27:34 mento Exp $
+.IP \fIfheight\fP 1i
+.br
+.ns
+.IP \fIfwidth\fP 1i
+Specify the font height and width in pixels (increment size).
+.\" $Header: parsestring.a,v 1.1 88/02/26 10:30:19 mento Exp $
+.IP \fIparsestring\fP 1i
+Specifies the string you want to parse.
+.IP \fIscreen\fP 1i
+Specifies the screen.
+.\" $Header: spec.a,v 1.4 88/07/10 12:59:48 mento Exp $
+.IP \fIspec\fP 1i
+Specifies the color name string;
+case is ignored.
+.\" $Header: widtheight2.a,v 1.1 88/02/26 10:32:28 mento Exp $
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height determined.
+.\" $Header: xyadder.a,v 1.1 88/02/26 10:33:00 mento Exp $
+.IP \fIxadder\fP 1i
+.br
+.ns
+.IP \fIyadder\fP 1i
+Specify additional interior padding needed in the window.
+.\" $Header: xy_ret.a,v 1.3 88/05/20 05:05:44 mento Exp $
+.IP \fIx_return\fP 1i
+.br
+.ns
+.IP \fIy_return\fP 1i
+Return the x and y offsets.
+.SH DESCRIPTION
+.\" $Header: XParseGeom.d,v 1.3 88/08/20 10:15:39 mento Exp $
+By convention,
+X applications use a standard string to indicate window size and placement.
+.PN XParseGeometry
+makes it easier to conform to this standard because it allows you
+to parse the standard window geometry.
+Specifically, this function lets you parse strings of the form:
+.LP
+.Ds
+[=][<\fIwidth\fP>x<\fIheight\fP>][{+-}<\fIxoffset\fP>{+-}<\fIyoffset\fP>] 
+.De
+.LP
+The items in this form map into the arguments associated with this
+function.
+(Items enclosed in <\^> are integers, items in [\^] are optional, and
+items enclosed in {\^} indicate ``choose one of''.
+Note that the brackets should not appear in the actual string.)
+.LP
+The
+.PN XParseGeometry
+function returns a bitmask that indicates which of the four values (width,
+height, xoffset, and yoffset) were actually found in the string 
+and whether the x and y values are negative. 
+By convention, \-0 is not equal to +0, because the user needs to
+be able to say ``position the window relative to the right or bottom edge.''
+For each value found, the corresponding argument is updated.
+For each value not found, the argument is left unchanged.
+The bits are represented by
+.PN XValue , 
+.PN YValue , 
+.PN WidthValue , 
+.PN HeightValue ,
+.PN XNegative , 
+or
+.PN YNegative
+and are defined in 
+.Pn < X11/Xutil.h >.
+They will be set whenever one of the values is defined 
+or one of the signs is set.
+.LP
+If the function returns either the 
+.PN XValue 
+or 
+.PN YValue 
+flag,
+you should place the window at the requested position.
+.LP
+.\" $Header: XParseColor.d,v 1.4 88/08/23 15:05:59 mento Exp $
+The
+.PN XParseColor
+function provides a simple way to create a standard user interface to color.
+It takes a string specification of a color, typically from a command line
+or 
+.PN XGetDefault 
+option, and returns the corresponding red, green, and blue
+values that are suitable for a subsequent call to 
+.PN XAllocColor 
+or
+.PN XStoreColor .
+The color can be specified either as a color name (as in 
+.PN XAllocNamedColor )
+or as an initial sharp sign character followed by a numeric specification,
+in one of the following formats:
+.LP
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+.R
+	#RGB	(4 bits each)
+	#RRGGBB	(8 bits each)
+	#RRRGGGBBB	(12 bits each)
+	#RRRRGGGGBBBB	(16 bits each)
+.De
+.LP
+The R, G, and B represent single hexadecimal digits 
+(both uppercase and lowercase).
+When fewer than 16 bits each are specified, 
+they represent the most-significant bits of the value.
+For example, #3a7 is the same as #3000a0007000.
+The colormap is used only to determine which screen to look up the color on.
+For example,
+you can use the screen's default colormap.
+.LP
+If the initial character is a sharp sign but the string
+otherwise fails to fit the above formats or if the initial character is
+not a sharp sign and the named color does not exist in the server's database,
+.PN XParseColor
+fails and returns zero.
+.LP
+.PN XParseColor
+can generate a
+.PN BadColor 
+error.
+.SH DIAGNOSTICS
+.\" $Header: badcolor.e,v 1.1 87/09/04 08:22:57 mento Exp $
+.TP 1i
+.PN BadColor
+A value for a Colormap argument does not name a defined Colormap.
+.SH "SEE ALSO"
+XAllocColor(3X11),
+XCreateColormap(3X11),
+XGetDefault(3X11),
+XSetWMProperties(3X11),
+XStoreColors(3X11)
+.br
+\fI\*(xL\fP

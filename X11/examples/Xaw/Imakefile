@@ -1,0 +1,39 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+           SRCS = popup.c \
+                  xboxes.c \
+                  xbuttonbox.c \
+                  xcommand.c \
+                  xcommand2.c \
+                  xhw.c \
+                  xlabel.c \
+                  xlist.c \
+                  xmenu1.c \
+                  xmenu2.c \
+                  xscroll.c \
+                  xtext.c \
+                  xwidgets.c
+LOCAL_LIBRARIES = XawClientLibs
+        DEPLIBS = XawClientDepLibs
+       PROGRAMS = popup xboxes xbuttonbox xcommand xhw xlabel xlist \
+		  xmenu1 xmenu2 xscroll xtext xwidgets
+
+AllTarget($(PROGRAMS))
+
+SingleProgramTarget(popup,popup.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xboxes,xboxes.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xbuttonbox,xbuttonbox.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xcommand,xcommand.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xcommand2,xcommand2.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xhw,xhw.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xlabel,xlabel.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xlist,xlist.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xmenu1,xmenu1.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xmenu2,xmenu2.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xscroll,xscroll.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xtext,xtext.o,$(LOCAL_LIBRARIES), /**/)
+SingleProgramTarget(xwidgets,xwidgets.o,$(LOCAL_LIBRARIES),-lm)
+
+DependTarget()

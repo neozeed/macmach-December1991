@@ -1,0 +1,80 @@
+#! /bin/sh -
+
+# /etc/rc.local for MacMach BSD 4.3
+
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# BE CAREFUL NOT TO LET THIS PROCESS WRITE TO A TERMINAL DEVICE
+# WHICH WOULD CAUSE IT TO BECOME THE CONTROLLING TERMINAL!
+
+# See /etc/rc.package and /etc/rc.andrew for CMU -- ANDREW stuff.
+
+# This script contains site-specific startup actions and daemons.
+
+# set up the default /etc/motd
+[ -r /etc/motd ] || (
+  echo ""
+  echo "            Welcome to `hostname`"
+  echo ""
+) >/etc/motd
+chmod 444 /etc/motd
+
+# start up the local daemons
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+( echo -n "local daemons:" >/dev/console )
+
+# if its configuration file exists, start up inetd
+[ -r /etc/inetd.conf ] && {
+  inetd & ( echo -n " inetd" >/dev/console )
+}
+
+# if its raw accounting file exists, turn on accounting
+[ -r /usr/adm/acct ] && {
+  /etc/accton /usr/adm/acct & ( echo -n " accton" >/dev/console )
+}
+
+# if its options are specified, start up routed
+#ROUTEDOPT="-q"
+[ "$ROUTEDOPT" ] && {
+  /etc/routed $ROUTEDOPT & ( echo -n " routed" >/dev/console )
+}
+
+# if its configuration file exists, start up named
+[ -r /etc/named.boot ] && {
+  /etc/named & ( echo -n " named" >/dev/console )
+}
+
+# if its spool directory exists, start up rwhod
+[ -d /usr/spool/rwho ] && {
+  /etc/rwhod & ( echo -n " rwhod" >/dev/console )
+}
+
+# if its configuration file exists, start up lpd
+[ -r /etc/printcap ] && {
+  /usr/lib/lpd & ( echo -n " lpd" >/dev/console )
+}
+
+# if its options are specified, start up timed
+#TIMEDOPT="-M"
+[ "$TIMEDOPT" ] && {
+  /etc/timed $TIMEDOPT & ( echo -n " timed" >/dev/console )
+}
+
+# if its configuration file exists, start up sendmail
+[ -r /usr/lib/sendmail.cf ] && {
+  rm -f /usr/spool/mqueue/lf*;
+  /usr/lib/sendmail -bd -q30m & ( echo -n " sendmail" >/dev/console )
+}
+
+# if its configuration file exists, start up bootpd
+[ -f /etc/bootptab ] && {
+  /etc/bootpd & ( echo -n " bootpd" >/dev/console )
+}
+
+# all done with local daemons
+( echo "" >/dev/console )
+
+# some more CMU -- ANDREW stuff
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+[ -r /etc/rc.andrew ] && . /etc/rc.andrew

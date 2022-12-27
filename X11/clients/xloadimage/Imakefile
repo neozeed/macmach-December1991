@@ -1,0 +1,37 @@
+      CCOPTIONS =  -fforce-mem -fforce-addr -fstrength-reduce -finline-functions
+    SYSPATHFILE = $(XAPPLOADDIR)/Xloadimage
+        DEFINES = -DSYSPATHFILE=\"$(SYSPATHFILE)\"
+        DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB)
+SYS_LIBRARIES   = -lm
+           SRCS = bright.c clip.c cmuwmraster.c compress.c dither.c \
+		  faces.c fbm.c fill.c g3.c gif.c halftone.c hash.c \
+		  imagetypes.c mac.c mcidas.c mc_tables.c merge.c misc.c \
+		  new.c options.c path.c pbm.c reduce.c rle.c rlelib.c root.c \
+                  rotate.c send.c smooth.c sunraster.c value.c window.c \
+                  xbitmap.c xloadimage.c xpixmap.c xwd.c zio.c zoom.c
+           OBJS = bright.o clip.o cmuwmraster.o compress.o dither.o \
+		  faces.o fbm.o fill.o g3.o gif.o halftone.o hash.o \
+		  imagetypes.o mac.o mcidas.o mc_tables.o merge.o misc.o \
+		  new.o options.o path.o pbm.o reduce.o rle.o rlelib.o root.o \
+                  rotate.o send.o smooth.o sunraster.o value.o window.o \
+                  xbitmap.o xloadimage.o xpixmap.o xwd.o zio.o zoom.o
+
+ComplexProgramTarget(xloadimage)
+
+install:: $(SYSPATHFILE)
+	$(RM) $(BINDIR)/xview $(BINDIR)/xsetbg
+	$(LN) -s xloadimage $(BINDIR)/xview
+	$(LN) -s xloadimage $(BINDIR)/xsetbg
+
+$(SYSPATHFILE):
+	@echo "*** Creating default $(SYSPATHFILE) since you"
+	@echo "*** don't have one. This file is used to set up default places"
+	@echo "*** and names to look for images.  You probably want to edit"
+	@echo "*** it for your site.  See the xloadimage manual page for"
+	@echo "*** details on the contents of this file."
+	cp /dev/null $(SYSPATHFILE)
+	echo "path=$(LIBDIR)/bitmaps $(LIBDIR)/images" \
+		>> $(SYSPATHFILE)
+	echo "extension=.csun .msun .sun .face .xbm .bm .gif" \
+		>>$(SYSPATHFILE)

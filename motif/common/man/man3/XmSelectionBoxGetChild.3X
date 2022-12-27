@@ -1,0 +1,78 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmSelectionBoxGetChild 3X "" "" "" ""
+.SH NAME
+\fBXmSelectionBoxGetChild \(em a SelectionBox function that is used to
+access a component.\fP
+.iX "XmSelectionBoxGetChild"
+.iX "SelectionBox functions" "XmSelectionBoxGetChild"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/SelectioB.h>
+.sp 1
+Widget XmSelectionBoxGetChild (\fIwidget, child\fP)
+.br
+.ta .5i 1.5i
+.sp 1
+	Widget	\fIwidget\fP;
+.br
+	unsigned char	\fIchild\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmSelectionBoxGetChild\fP is used to access a component within a
+SelectionBox.  The parameters given to the function are the SelectionBox 
+widget and a value indicating which child to access.
+.sp 1
+.PP
+.IP "\fIwidget\fP" .75i
+Specifies the SelectionBox widget ID.
+.IP "\fIchild\fP" .75i
+Specifies a component within the SelectionBox.  The following are
+legal values for this parameter:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_APPLY_BUTTON
+.IP \(bu 3
+\fBXmDIALOG_CANCEL_BUTTON
+.IP \(bu 3
+\fBXmDIALOG_DEFAULT_BUTTON
+.IP \(bu 3
+\fBXmDIALOG_HELP_BUTTON
+.IP \(bu 3
+\fBXmDIALOG_LIST
+.IP \(bu 3
+\fBXmDIALOG_LIST_LABEL
+.IP \(bu 3
+\fBXmDIALOG_OK_BUTTON
+.IP \(bu 3
+\fBXmDIALOG_SELECTION_LABEL
+.IP \(bu 3
+\fBXmDIALOG_SEPARATOR
+.IP \(bu 3
+\fBXmDIALOG_TEXT
+.IP \(bu 3
+\fBXmDIALOG_WORK_AREA
+.RE
+.sp 1
+.PP
+For a complete definition of SelectionBox and its associated resources, see
+\fBXmSelectionBox(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID of the specified SelectionBox child.
+An application should not assume that the returned widget will be of any
+particular class.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmSelectionBox(3X)\fP.
+.sp 1

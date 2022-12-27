@@ -1,0 +1,396 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       17.  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn ttttoooo tttthhhheeee UUUUsssseeeerrrr IIIInnnntttteeeerrrrffffaaaacccceeee LLLLaaaannnngggguuuuaaaaggggeeee              |
+
+       This chapter describes the features and benefits of the User
+       Interface Language (UIL) and provides an overview of UIL and
+       the Motif Resource Manager (MRM).
+
+       17.1  OOOOvvvveeeerrrrvvvviiiieeeewwww ooooffff UUUUIIIILLLL aaaannnndddd MMMMRRRRMMMM
+
+       UIL is a specification language for describing the initial
+       state of a user interface for a Motif application. The
+       specification describes the objects (for example, menus,
+       form boxes, labels, and push buttons) used in the interface
+       and specifies the functions to be called when the interface
+       changes state as a result of user interaction.
+
+       To create a user interface with UIL and MRM, you perform the
+       following:
+
+         1.  Specify the user interface in a UIL module, which you   |
+             store in a UIL specification file.
+
+         2.  Compile the UIL specification file to generate a User   |
+             Interface Definition (UID) file.                        |
+
+         3.  In your application program, use MRM run-time func-     |
+             tions to open the UID file and access the interface     |
+             definitions.  MRM builds the necessary argument lists
+             and calls widget creation functions in the Motif
+             Toolkit.
+
+       Using UIL, you can specify the following:
+
+          +o Objects (widgets and gadgets) that comprise your inter-
+            face
+
+          +o Arguments (attributes) of the widgets and gadgets you
+            specify
+
+          +o Callback functions for each object
+
+          +o The widget tree for your application
+
+          +o Literal values that can be fetched by the application    |
+            at run time
+
+
+                                                               17-1
+
+
+
+
+
+
+
+
+
+
+
+
+       The UIL compiler has built-in tables containing information
+       about widgets.  For every widget in the Motif Toolkit, the
+       UIL compiler knows the widgets that are valid children of
+       the widget, the widget arguments, and the valid callback
+       reasons for the widget.  The UIL compiler uses this informa-
+       tion to check the validity of your interface specification
+       at compilation time, to help you reduce run-time errors.
+
+       17.2  BBBBeeeennnneeeeffffiiiittttssss ooooffff UUUUssssiiiinnnngggg UUUUIIIILLLL aaaannnndddd MMMMRRRRMMMM
+
+       Creating a user interface for a Motif application using UIL   |
+       and MRM offers the following advantages:
+
+          +o Easier coding                                            |
+
+          +o Earlier error detection                                  |
+
+          +o Separation of form and function                          |
+
+          +o Faster prototype development                             |
+
+          +o Interface customization                                  |
+
+       17.2.1  EEEEaaaassssiiiieeeerrrr CCCCooooddddiiiinnnngggg
+
+       You can specify an interface faster using UIL because you do  |
+       not have to know the specific widget creation functions or
+       the format of their arguments lists.  You need to include
+       only those object arguments you want to change.  In general,
+       you can specify these arguments in any order.
+
+       Because UIL is a specification language that describes the
+       characteristics of an interface, it has no need for control
+       flow.  Therefore, you can define objects in your UIL specif-
+       ication in roughly the same order that the objects are
+       arranged in the widget tree for your application interface.
+       This makes it easier for a programmer reading the UIL
+       specification to interpret the design of the interface.
+
+       At run time, when the interface objects are created, MRM
+       performs some Motif Toolkit function calls for you as a con-
+       venience, simplifying your programming tasks.
+
+       17.2.2  EEEEaaaarrrrlllliiiieeeerrrr EEEErrrrrrrroooorrrr DDDDeeeetttteeeeccccttttiiiioooonnnn
+
+       The UIL compiler does type checking for you that is not
+       available with the Motif or the X Toolkits, so that the
+       interface you specify has fewer errors.
+
+       The UIL compiler issues diagnostics if you specify any of
+       the following:
+
+
+       17-2
+
+
+
+
+
+
+
+
+
+                        Introduction to the User Interface Language
+
+
+          +o The wrong type of value for an argument
+
+          +o An argument to an object that is not supported by that
+            object
+
+          +o A reason for an object that the object does not support
+
+          +o A child of an object that the object does not support
+
+       17.2.3  SSSSeeeeppppaaaarrrraaaattttiiiioooonnnn ooooffff FFFFoooorrrrmmmm aaaannnndddd FFFFuuuunnnnccccttttiiiioooonnnn
+
+       When you use UIL, you define your application interface in a
+       separate UIL module rather than by directly calling Motif
+       Toolkit creation functions in your application program. This
+       lets you separate the form your interface takes from the
+       functions provided by the application. By separating form
+       and function, you can design multiple interfaces that share
+       a common set of functions.  This is useful, for example, in   |
+       building an international application for people who speak
+       different languages.
+
+       In general, you can freely change the appearance of the
+       interface (for example, by repositioning widgets or changing
+       their borders or colors) without recompiling the application
+       program.
+
+       17.2.4  FFFFaaaasssstttteeeerrrr PPPPrrrroooottttoooottttyyyyppppeeee DDDDeeeevvvveeeellllooooppppmmmmeeeennnntttt
+
+       UIL helps you develop prototypes of user interfaces for an
+       application.  You can create a variety of interfaces in a
+       fairly short time, and get an idea of the look of each
+       interface before the functional routines are written.
+
+       The ability to specify the user interface separately lets
+       designers work with end users at the same time programmers
+       are coding the functions of the application.  Because both
+       groups can work more or less independently, the complete
+       application can be delivered in less time than if the inter-
+       face design were part of the application code.
+
+       17.2.5  IIIInnnntttteeeerrrrffffaaaacccceeee CCCCuuuussssttttoooommmmiiiizzzzaaaattttiiiioooonnnn
+
+       You can customize an interface by putting in place a hierar-  |
+       chy of UID files, called a UID hierarchy. At run time, MRM    |
+       searches this file hierarchy in the sequence you specify to
+       build the appropriate argument lists for the widget creation
+       functions.
+
+       One use of this feature would be to provide an interface in
+       several languages.  The text on title bars, menus, and so
+       on, can be displayed in the language of the end user without
+
+
+                                                               17-3
+
+
+
+
+
+
+
+
+
+
+
+
+       altering anything in the application.  In this case, the
+       files in the UID hierarchy represent alternative interfaces.
+
+       Another use of the UID hierarchy feature would be to isolate
+       individual, department, and division customizations to an
+       interface.  In this case, you can think of the files in the
+       UID hierarchy as superimposed, with the definitions in the
+       first file listed in the array supplied to the MRM function   |
+       MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy taking precedence.
+
+       17.3  FFFFeeeeaaaattttuuuurrrreeeessss ooooffff UUUUIIIILLLL
+
+       UIL offers the following features to increase productivity
+       and the flexibility of your programs:
+
+          +o Named values                                             |
+
+          +o Compile-time expressions                                 |
+
+          +o Identifiers
+
+          +o Lists
+
+          +o Support for compound strings                             |
+
+          +o Include files for useful constants                       |
+
+       17.3.1  NNNNaaaammmmeeeedddd VVVVaaaalllluuuueeeessss
+
+       Instead of directly specifying the values for widget and
+       gadget attributes, you can use named values, which are simi-
+       lar to variables in a programming language.  You give a
+       literal value (such as an integer or string) a name and then
+       use the name in place of the value specification. Using
+       named values makes your UIL specification easier to under-
+       stand and isolates changes.
+
+       In addition, you can use MRM functions to fetch named values
+       from the UID file for use at run time.
+
+       17.3.2  CCCCoooommmmppppiiiilllleeee----TTTTiiiimmmmeeee EEEExxxxpppprrrreeeessssssssiiiioooonnnnssss
+
+       You can use expressions to specify values in UIL. A valid
+       UIL expression can contain integers, strings, floating-point
+       numbers, Boolean values, named values, and operators.  Using
+       expressions can make values more descriptive (for example,    |
+       _b_u_l_l_e_t_i_n__b_o_a_r_d__w_i_d_t_h/2) and can help you avoid recomputing
+       values (for example, if you needed to change the size or
+       position of the bulletin board).
+
+
+
+
+       17-4
+
+
+
+
+
+
+
+
+
+                        Introduction to the User Interface Language
+
+
+       17.3.3  IIIIddddeeeennnnttttiiiiffffiiiieeeerrrrssss
+
+       Identifiers provide a mechanism for referencing values in
+       UIL that are provided by the application at run time.  In
+       the application program, you use an MRM function to associ-
+       ate a value with the identifier name. Unlike a named value,
+       an identifier does not have an associated data type.  You
+       can use an identifier as an attribute value or callback pro-
+       cedure tag, regardless of the data type specified in the
+       object or procedure declaration.  Identifiers are useful for
+       specifying position based on the type of terminal on which
+       the interface will be displayed or for passing a data struc-
+       ture (as opposed to a constant) to a private callback func-
+       tion.
+
+       17.3.4  LLLLiiiissssttttssss
+
+       UIL allows you to create named lists of attributes, sibling
+       widgets, and callback procedures that you can later refer to
+       by name.  This feature allows you to easily reuse common
+       definitions by simply referencing these definitions by name.
+
+       17.3.5  SSSSuuuuppppppppoooorrrrtttt ffffoooorrrr CCCCoooommmmppppoooouuuunnnndddd SSSSttttrrrriiiinnnnggggssss
+
+       Most Motif Toolkit widgets require strings used in the user
+       interface (labels, menu items, and so on) to be compound
+       strings.  UIL fully supports the use of compound strings,
+       including left-to-right and right-to-left writing direction
+       and choice of fonts.                                          *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               17-5
+
+
+
+
+

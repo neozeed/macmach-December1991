@@ -1,0 +1,68 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetSource 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetSource \(em a Text function that sets the source of the widget\fP
+.iX "XmTextSetSource"
+.iX "Text functions" "XmTextSetSource"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetSource (\fIwidget, source, top_character, cursor_position\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextSource	\fIsource\fP;
+.br
+	XmTextPosition	\fItop_character\fP;
+.br
+	XmTextPosition	\fIcursor_position\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextSetSource\fP sets the source of the Text widget.  Text
+widgets can share sources of text so that editing in one widget is
+reflected in another.  This function sets the source of one widget
+so that it can share the source of another widget.
+.PP
+Setting a new text source destroys the old text source if no other Text
+widgets are using that source.
+To replace a text source but keep it for later use, create an unmanaged
+Text widget and set its source to the text source you want to keep.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIsource\fP" .75i
+Specifies the source with which the widget displays text.  This can be a
+value returned by the \fBXmTextGetSource(3X)\fP function.  If no source
+is specified, the widget creates a default string source.
+.IP "\fItop_character\fP" .75i
+Specifies the position in the text to display at the top of the widget.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.IP "\fIcursor_position\fP" .75i
+Specifies the position in the text at which the insert cursor is
+located.  This is an integer number of characters from the beginning of
+the text buffer.  The first character position is 0.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

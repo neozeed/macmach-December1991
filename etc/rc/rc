@@ -1,0 +1,318 @@
+#! /bin/sh
+
+# /etc/rc for MacMach BSD 4.3, see RC(8)
+
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# BE CAREFUL NOT TO LET THIS PROCESS WRITE TO A TERMINAL DEVICE
+# WHICH WOULD CAUSE IT TO BECOME THE CONTROLLING TERMINAL!
+
+# See /etc/rc.network for network startup.
+# See /etc/rc.afs and /etc/rc.nfs for fileserver startup.
+# See /etc/rc.package and /etc/rc.andrew for CMU -- ANDREW stuff.
+# See /etc/rc.local for local daemons.
+# Look in /etc/newconfig for saved configuration files.
+
+# This script conditions the system before it enters multi-user mode.
+# If /install exists, the installation procedure is run instead.
+#   1) check file systems (if "/fastboot" does not exist)
+#   2) recover passwd file if needed
+#   2) start up network (/etc/rc.network)
+#   3) mount local and remote file systems
+#   4) verify system file checksums with fixit
+#   5) check quotas
+#   6) save log files (copy * to *.old)
+#   7) clear out temporary directories
+#   8) reset modes for pty devices
+#   9) start up daemons (syslogd, update, cron, mach, /etc/rc.local)
+# The /etc/rc process does no output to prevent it getting a controlling
+# terminal and thus passing a controlling terminal to the daemons that
+# should not have a controlling terminal.  All messages are echoed to the
+# console from within sub-shells.
+# The AUTOBOOT flag is set by the argument "autoboot".  This is a signal
+# from /etc/init that an operator is not present during the boot.   During
+# AUTOBOOT, if an error is encountered, /etc/rc will exit with a value of 1
+# to signal /etc/init to restart.  Otherwise, the operator is given the
+# chance to ignore the error and continue.  The operator also has the option
+# of entering a shell to fix the problem.  When AUTOBOOT is not set, the
+# operator is given the option of skipping the initial file system check.
+# The network access is started by the /etc/rc.network script.  When all
+# tasks have completed, /etc/rc exits with a value of 0 to signal /etc/init
+# to enter multi-user mode.  When the AUTOBOOT flag is not set, the file
+# "/etc/nologin" is created to prevent user logins.
+
+# initial environment, /etc/init provides none
+# assume that /bin and /etc exist in the root partition
+HOME="/"; export HOME
+PATH="/bin:/etc"; export PATH
+
+# /etc/init will call /etc/rc with or without the argument "autoboot"
+# other arguments are ignored
+# if not AUTOBOOT, assume manual boot from single-user state
+AUTOBOOT="$1"; [ "$AUTOBOOT" = "autoboot" ] || AUTOBOOT=""
+export AUTOBOOT
+
+# this "function" is used for unexpected boot-time errors
+# if not AUTOBOOT, solicit shell command
+# if exit non-zero, /etc/init should restart
+# assumes a sub-shell with stdin, stdout and stderr /dev/console
+RESTART='
+  test "$AUTOBOOT" && { echo "autoboot: failed"; exit 1; };
+  echo "entering single-user shell"
+  echo "do "exec true" to continue, "exec false" to restart /etc/init";
+  sh || { echo "restarting..."; exit 1; };
+  echo "continuing..."
+'
+
+# announce /etc/rc entry, if no /dev/console, make one
+# Note that this entire step is within a subshell for output to /dev/console
+(
+  [ -d /dev ] || mkdir /dev
+  if [ -f /dev/console ]; then
+    exec </dev/console >/dev/console 2>&1
+  else
+    mknod /dev/console c 0 0
+    exec </dev/console >/dev/console 2>&1
+    echo "NOTE: /dev/console was missing"
+  fi
+  echo ""
+  [ "$AUTOBOOT" ] && echo "/etc/rc: $AUTOBOOT"
+  exit 0
+) || exit 1
+
+# make sure that /etc/fstab exists
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  [ -f /etc/fstab ] || {
+    echo "Missing /etc/fstab."
+    eval "$RESTART"
+    [ -f /etc/fstab ] || exit 1
+  }
+) || exit 1
+
+# if AUTOBOOT, do "fsck -p"
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  CHECK="$AUTOBOOT"
+  FASTBOOT="/fastboot"
+  WARNING="WARNING: Non-fsck'ed file systems can cause kernel panic's."
+  if [ "$CHECK" -a -f $FASTBOOT ]; then
+    echo -n "fastboot: "
+    CHECK=""
+  elif [ ! "$CHECK" ]; then
+    echo "$WARNING"
+    echo -n "fsck file systems? (y/n) "
+    read X; if [ "$X" = "Y" -o "$X" = "y" ]; then CHECK="$X"; fi
+  fi
+  rm -f $FASTBOOT
+  if [ "$CHECK" ]; then
+    echo "fsck'ing file systems:"
+    cat /etc/fstab | while read X; do echo "  $X"; done
+    fsck -p
+    case $? in
+      0) echo "file systems ok"
+        ;;
+      2) exit 1
+        ;;
+      4) echo "NOTE: root fixed, rebooting (no sync)"
+        /etc/reboot -q -n
+        ;;
+      8) echo "ERROR: \"fsck -p\" failed."
+        eval "$RESTART"
+        ;;
+      12) echo "ERROR: \"fsck -p\" interrupted."
+        echo "$WARNING"
+        echo "You should reboot and start over."
+        eval "$RESTART"
+        ;;
+      *) echo "ERROR: \"fsck -p\" returned \"$?\"."
+        eval "$RESTART"
+        ;;
+    esac
+  else
+    echo "skipping fsck"
+    echo "$WARNING"
+  fi
+) || exit 1
+
+# recover passwd file if needed
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  if [ -s /etc/ptmp ]; then
+    if [ -s /etc/passwd ]; then
+      ls -l /etc/passwd /etc/ptmp
+      rm -f /etc/ptmp # should really remove the shorter
+    else
+      echo "passwd file recovered from ptmp"
+      mv /etc/ptmp /etc/passwd
+    fi
+  elif [ -r /etc/ptmp ]; then
+    echo "removing passwd lock file"
+    rm -f /etc/ptmp
+  fi
+)
+
+# startup local and external network
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+. /etc/rc.network
+
+# mount local file systems
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  echo "mounting file systems"
+  umount -a >/dev/null 2>&1
+  mount -a || {
+    echo "ERROR: \"mount -a\" failed."
+    eval "$RESTART"
+  }
+) || exit 1
+
+# full PATH now that local file systems are mounted
+PATH=/bin:/etc:/usr/ucb:/usr/bin ; export PATH
+
+# Apply fixit to .fixit, write errors to .status
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  ERRORS="/tmp/ERRORS$$"
+  for X in "/" "/usr/src/"; do
+    FIXIT="$X.fixit"; STATUS="$X.status"; CAT=""
+    [ -r $FIXIT ] && { CAT="cat $FIXIT"; rm -f $FIXIT.Z; }
+    [ -r $FIXIT.Z ] && CAT="zcat $FIXIT.Z"
+    [ -r $STATUS -a "$CAT" ] &&
+      [ "`eval $CAT | sum`" = "`sh $STATUS`" ] && CAT=""
+    [ "$CAT" ] && {
+      rm -f $ERRORS
+      eval "$CAT" | fixit -fix | grep -v ': fixed' | \
+        while read LINE; do echo "# $LINE" >>$ERRORS; done
+      {
+        echo "# Checksums for $X last verified `date`"
+        echo "echo \"`eval $CAT | sum`\""
+        [ -r $ERRORS ] && { echo "# Errors found:"; cat $ERRORS; }
+      } >$STATUS
+      [ -r $ERRORS ] && {
+        rm $ERRORS
+        cat $STATUS
+        echo "ERROR: Some files are incorrect."
+        eval "$RESTART"
+      }
+    }
+    [ -r $FIXIT ] && compress -v $FIXIT
+    [ -r $STATUS ] && { read FOO NOTE; echo $NOTE; } < $STATUS
+  done
+  exit 0
+) || exit 1
+
+# if external network, start up NFS
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+[ "$NETNAME" -a -r /etc/rc.nfs ] && . /etc/rc.nfs
+
+# if external network, start up AFS
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+[ "$NETNAME" -a -r /etc/rc.afs ] && . /etc/rc.afs
+
+# run package to update system files [ CMU -- ANDREW stuff ]
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+[ -r /etc/rc.package ] && . /etc/rc.package
+
+# check quotas
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  echo -n "checking quotas:"
+  quotacheck -a -p
+  echo " done."
+  quotaon -a || {
+    echo "ERROR: \"quotaon -a\" failed."
+    eval "$RESTART"
+  }
+) || exit 1
+
+# save old log files
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  [ -r /usr/adm/syslog.log ] && {
+    echo "saving /usr/adm/syslog.log"
+    mv /usr/adm/syslog.log /usr/adm/syslog.log.old
+  }
+  cp /dev/null /usr/adm/syslog.log
+  [ -r /usr/adm/messages ] && {
+    echo "saving /usr/adm/messages"
+    mv /usr/adm/messages /usr/adm/messages.old
+  }
+  cp /dev/null /usr/adm/messages
+)
+
+# preserve editory files
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  echo "preserving editor files"
+  (cd /tmp; /usr/lib/ex3.7preserve -a)
+)
+
+# clear temporary directories unless ".savetmp" is present
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  [ -f /tmp/.savetmp ] || (
+    echo "clearing /tmp"
+    cd /tmp
+    find . ! -name . ! -name lost+found ! -name quotas -exec rm -rf {} \;
+  )
+  [ -f /usr/tmp/.savetmp ] || (
+    echo "clearing /usr/tmp"
+    cd /usr/tmp
+    find . ! -name . ! -name lost+found -exec rm -rf {} \;
+  )
+  echo "clearing /usr/spool/at/past"
+  (cd /usr/spool/at/past; rm -f *)
+  echo "clearing /usr/spool/uucp/LCK.* /usr/spool/uucp/STST/*"
+  (cd /usr/spool/uucp; rm -f LCK.* STST/*)
+)
+
+# reset modes for pty devices
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  echo "resetting modes for pty devices"
+  chmod 666 /dev/tty[pqrs]*
+)
+
+# start up daemons
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+( echo -n "standard daemons:" >/dev/console )
+rm -f /dev/log; syslogd & ( echo -n " syslogd" >/dev/console )
+update & ( echo -n " update" >/dev/console )
+cron & ( echo -n " cron" >/dev/console )
+if mach3; then
+# /etc/netmsgserver & ( echo -n " netmsgserver" >/dev/console )
+  /etc/snames & ( echo -n " snames" >/dev/console )
+  ( sleep 5; exec /etc/machid ) & ( echo -n " machid" >/dev/console )
+else
+  /etc/netmsgserver & ( echo -n " netmsgserver" >/dev/console )
+  /etc/envmgr & ( echo -n " envmgr" >/dev/console )
+fi
+( echo "" >/dev/console )
+
+# startup local daemons -- ignore any failures here
+# /etc/init sets up stdin, stdout and stderr as "/", read-only
+# there is no controlling terminal
+[ -r /etc/rc.local ] && sh /etc/rc.local </dev/null
+
+# allow logins only if AUTOBOOT
+# Note that this entire step is within a subshell for output to /dev/console
+( exec </dev/console >/dev/console 2>&1
+  NOLOGIN="/etc/nologin"
+  if [ "$AUTOBOOT" ]; then
+    echo "allowing user logins..."
+    rm -f $NOLOGIN
+  else
+    echo "Only root logins are permitted at this time." > $NOLOGIN
+    echo "Remove $NOLOGIN to allow regular user logins." >> $NOLOGIN
+    cat $NOLOGIN
+  fi
+)
+
+# normal exit
+# /etc/init will now enter multi-user mode
+exit 0

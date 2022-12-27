@@ -1,0 +1,264 @@
+
+
+
+     XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll ---- tttthhhheeee DDDDiiiiaaaallllooooggggSSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////DDDDiiiiaaaallllooooggggSSSS....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Modal and modeless dialogs use DialogShell as the Shell
+          parent. DialogShell widgets cannot be iconified.  Instead,
+          all secondary DialogShell widgets associated with an
+          ApplicationShell widget are iconified and de-iconified as a
+          group with the primary widget.
+
+          The client indirectly manipulates DialogShell via the
+          convenience interfaces during creation, and it can directly
+          manipulate its BulletinBoard-derived child. Much of the
+          functionality of DialogShell assumes that its child is a
+          BulletinBoard subclass, although it can potentially stand
+          alone.
+
+          Setting XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt, XXXXmmmmNNNNwwwwiiiiddddtttthhhh, or XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh for either a
+          DialogShell or its child sets that resource to the same
+          value in both the parent and the child.  An application
+          should always specify these resources for the child, not the
+          parent.
+
+          For a child of a DialogShell, setting XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy sets the
+          corresponding resource of the parent but does not change the
+          child's position relative to the parent.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for
+          the child's XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy yields the value of the
+          corresponding resource in the parent.  The _x and _y
+          coordinates of the child's upper left outside corner
+          relative to the parent's upper left inside corner are both
+          zero minus the value of XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh.
+
+          Note that the _I_n_t_e_r-_C_l_i_e_n_t _C_o_m_m_u_n_i_c_a_t_i_o_n _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l
+          allows a window manager to change or control the border
+          width of a reparented top-level window.
+
+
+        CCCCllllaaaasssssssseeeessss
+          DialogShell inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, SSSShhhheeeellllllll, WWWWMMMMSSSShhhheeeellllllll, VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll, and TTTTrrrraaaannnnssssiiiieeeennnnttttSSSShhhheeeellllllll
+          classes.
+
+          The class pointer is xxxxmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+          The class name is XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          DialogShell defines no new resources but overrides the
+          XXXXmmmmNNNNddddeeeelllleeeetttteeeeRRRReeeessssppppoooonnnnsssseeee resource in the VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll class.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          DialogShell inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                          TTTTrrrraaaannnnssssiiiieeeennnnttttSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+         NNNNaaaammmmeeee              CCCCllllaaaassssssss             TTTTyyyyppppeeee     DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+         _____________________________________________________________
+         XmNtransientFor   XmCTransientFor   Widget   NULL      CSG
+
+                                   VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                     CCCCllllaaaassssssss                    TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt      AAAAcccccccceeeessssssss
+     _____________________________________________________________________________________
+     XmNdefaultFontList       XmCDefaultFontList       XmFontList      dynamic      C
+     XmNdeleteResponse        XmCDeleteResponse        unsigned char   XmUNMAP      CSG
+     XmNkeyboardFocusPolicy   XmCKeyboardFocusPolicy   unsigned char   XmEXPLICIT   CSG
+     XmNmwmDecorations        XmCMwmDecorations        int             -1           CSG
+     XmNmwmFunctions          XmCMwmFunctions          int             -1           CSG
+     XmNmwmInputMode          XmCMwmInputMode          int             -1           CSG
+     XmNmwmMenu               XmCMwmMenu               String          NULL         CSG
+
+                                  WWWWMMMMSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee               CCCCllllaaaassssssss              TTTTyyyyppppeeee      DDDDeeeeffffaaaauuuulllltttt                 AAAAcccccccceeeessssssss
+     ______________________________________________________________________________
+     XmNbaseHeight      XmCBaseHeight      int       XtUnspecifiedShellInt   CSG
+     XmNbaseWidth       XmCBaseWidth       int       XtUnspecifiedShellInt   CSG
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     XmNheightInc       XmCHeightInc       int       XtUnspecifiedShellInt   CSG
+     XmNiconMask        XmCIconMask        Pixmap    NULL                    CSG
+     XmNiconPixmap      XmCIconPixmap      Pixmap    NULL                    CSG
+     XmNiconWindow      XmCIconWindow      Window    NULL                    CSG
+     XmNiconX           XmCIconX           int       -1                      CSG
+     XmNiconY           XmCIconY           int       -1                      CSG
+     XmNinitialState    XmCInitialState    int       NormalState             CSG
+     XmNinput           XmCInput           Boolean   True                    CSG
+     XmNmaxAspectX      XmCMaxAspectX      int       XtUnspecifiedShellInt   CSG
+     XmNmaxAspectY      XmCMaxAspectY      int       XtUnspecifiedShellInt   CSG
+     XmNmaxHeight       XmCMaxHeight       int       XtUnspecifiedShellInt   CSG
+     XmNmaxWidth        XmCMaxWidth        int       XtUnspecifiedShellInt   CSG
+     XmNminAspectX      XmCMinAspectX      int       XtUnspecifiedShellInt   CSG
+     XmNminAspectY      XmCMinAspectY      int       XtUnspecifiedShellInt   CSG
+     XmNminHeight       XmCMinHeight       int       XtUnspecifiedShellInt   CSG
+     XmNminWidth        XmCMinWidth        int       XtUnspecifiedShellInt   CSG
+     XmNtitle           XmCTitle           String    dynamic                 CSG
+     XmNtitleEncoding   XmCTitleEncoding   Atom      XA_STRING               CSG
+     XmNtransient       XmCTransient       Boolean   True                    CSG
+     XmNwaitForWm       XmCWaitForWm       Boolean   True                    CSG
+     XmNwidthInc        XmCWidthInc        int       XtUnspecifiedShellInt   CSG
+     XmNwindowGroup     XmCWindowGroup     Window    dynamic                 CSG
+     XmNwinGravity      XmCWinGravity      int       dynamic                 CSG
+     XmNwmTimeout       XmCWmTimeout       int       5000 ms                 CSG
+
+                                          SSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt          AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________________
+     XmNallowShellResize       XmCAllowShellResize       Boolean          False            CG
+     XmNcreatePopupChildProc   XmCCreatePopupChildProc   (*)()            NULL             CSG
+     XmNgeometry               XmCGeometry               String           NULL             CSG
+     XmNoverrideRedirect       XmCOverrideRedirect       Boolean          False            CSG
+     XmNpopdownCallback        XmCCallback               XtCallbackList   NULL             C
+     XmNpopupCallback          XmCCallback               XtCallbackList   NULL             C
+     XmNsaveUnder              XmCSaveUnder              Boolean          True             CSG
+     XmNvisual                 XmCVisual                 Visual *         CopyFromParent   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        1                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          There are no translations for XmDialogShell.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))), SSSShhhheeeellllllll((((3333XXXX)))), TTTTrrrraaaannnnssssiiiieeeennnnttttSSSShhhheeeellllllll((((3333XXXX)))),
+          WWWWMMMMSSSShhhheeeellllllll((((3333XXXX)))), VVVVeeeennnnddddoooorrrrSSSShhhheeeellllllll((((3333XXXX)))), and XXXXmmmmCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+

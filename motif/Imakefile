@@ -1,0 +1,57 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+      WORLDOPTS = -k
+      SUBDIRS = config util lib tools/wml clients demos 
+
+  LNINSTALLDIRS = $(LIBSRC)
+
+MakeSubdirs($(SUBDIRS))
+
+/**/#
+/**/# Make sure you do make includes after removing X11....
+/**/#
+clean::
+	$(RM) -r X11
+
+includes::
+	rm -rf X11
+	mkdir X11
+	cd X11;	eval "ln -s ../../X11/X11/* ."
+
+/**/#
+/**/# before depending, be sure to have run make includes
+/**/#
+/* depend::  includes */
+
+DependSubdirs($(SUBDIRS))
+
+
+/**/# 
+/**/# install; create the directories that we''re going to need
+/**/# 
+
+DIRS_TO_CREATE = $(USRLIBDIR) $(BINDIR) $(INCDIR) $(USRINCDIR) $(LIBDIR) 
+
+MakeDirectories(install, $(DIRS_TO_CREATE))
+
+/**/# don''t name your log file make.log when you run this ...
+World::
+	cd $(IMAKESRC); $(MAKE) clean; $(MAKE) 
+	-$(MV) Makefile Makefile.bak
+	$(MAKE) -f Makefile.bak Makefile
+	$(MAKE) Makefiles
+	$(MAKE) clean
+	$(MAKE) includes
+	$(MAKE) depend
+	$(MAKE) $(WORLDOPTS)
+
+Everything::
+	cd $(IMAKESRC); $(MAKE) 
+	-$(MV) Makefile Makefile.bak
+	$(MAKE) -f Makefile.bak Makefile
+	$(MAKE) Makefiles
+	$(MAKE) includes
+	$(MAKE) depend
+	$(MAKE) $(WORLDOPTS)
+

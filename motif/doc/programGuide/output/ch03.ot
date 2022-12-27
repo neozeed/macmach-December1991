@@ -1,0 +1,2641 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3.  UUUUssssiiiinnnngggg MMMMoooottttiiiiffff WWWWiiiiddddggggeeeettttssss iiiinnnn PPPPrrrrooooggggrrrraaaammmmssss
+
+       This chapter explains how to write applications that use the
+       Motif Widgets.  Writing application programs involves nine    |
+       steps, as shown in Table 3-1.                                 |
+
+
+               TTTTAAAABBBBLLLLEEEE 3333----1111....  Steps in Writing Widget Programs
+
+       SSSStttteeeepppp   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                             RRRReeeellllaaaatttteeeedddd FFFFuuuunnnnccccttttiiiioooonnnnssss               |
+       _______________________________________________________________________________|
+7           |7|
+                                                                                      ||
+7                                                   |7|
+                                                                                      ||
+              Include required header files.         |
+7                                                      ####iiiinnnncccclllluuuuddddeeee <<<<XXXX11111111////IIIInnnnttttrrrriiiinnnnssssiiiicccc....hhhh>>>>|
+                                                      ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>   |
+                                                      ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////_w_i_d_g_e_t....hhhh>>>>|
+777        1
+
+
+        2     Initialize Xt Intrinsics.               XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee(((())))               |
+        3     Add additional top-level windows.       XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeeeSSSShhhheeeellllllll(((())))              |
+       _______________________________________________________________________________
+              Do steps 4 through 6 for each widget.                                   |
+              Set up argument lists for widget.      |
+7        4                                             XXXXttttSSSSeeeettttAAAArrrrgggg(((())))
+                                                      XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt(((())))|
+                                                      or                   |
+                                                      XXXXmmmmCCCCrrrreeeeaaaatttteeee<_W_i_d_g_e_t_N_a_m_e> |
+                                                      followed by          |
+                                                      XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd((((_w_i_d_g_e_t))))|
+77777        5     Create widget.
+
+
+
+
+        6     Add callback routines.                  XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkk(((())))                 |
+       _______________________________________________________________________________
+                                                      XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt((((_p_a_r_e_n_t))))
+                                                      XXXXttttAAAAppppppppMMMMaaaaiiiinnnnLLLLoooooooopppp(((())))      ||||
+77        7     Realize widgets and loop.
+
+                                                      cccccccc ----oooo_a_p_p_l_i_c_a_t_i_o_n _a_p_p_l_i_c_a_t_i_o_n....cccc \\\\||||
+                                                         ----llllXXXXmmmm ----llllXXXXtttt ----llllXXXX11111111 ----llllPPPPWWWW||||
+77        8     Link relevant libraries.
+
+
+                                                      ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////_c_l_a_s_s
+                                                      $$$$HHHHOOOOMMMMEEEE////....XXXXddddeeeeffffaaaauuuullllttttssss     ||||
+77        9     Create defaults files.
+
+7           |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Sections 3.2 through 3.9 of this chapter describe each of     |
+       the steps shown in the table, except Step 3, which is         |
+       covered in Section 3.12. The sample code segments of each
+       section build a simple widget program (called xxxxmmmmbbbbuuuuttttttttoooonnnn) that  |
+       implements a PushButton widget.  Section 3.1 provides back-   |
+       ground that introduces the xxxxmmmmbbbbuuuuttttttttoooonnnn program.                  |
+
+       NNNNOOOOTTTTEEEE::::  This chapter assumes you have a working knowledge of   |
+       the C programming language.  In particular, you should be     |
+       familiar with pointers and structures.  If you are not, be    |
+
+
+                                                                3-1
+
+
+
+
+
+
+
+
+
+
+
+
+       sure to study a book on programming with C.  Books on the     |
+       topic are widely available in computer bookstores.            |
+
+       3.1  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn ttttoooo tttthhhheeee xxxxmmmmbbbbuuuuttttttttoooonnnn PPPPrrrrooooggggrrrraaaammmm                     |
+
+       This section shows the widget tree diagram, code listing,     |
+       and defaults file for the xxxxmmmmbbbbuuuuttttttttoooonnnn program, as well as the    |
+       output produced by the program.                               |
+
+       3.1.1  WWWWiiiiddddggggeeeetttt TTTTrrrreeeeeeee DDDDiiiiaaaaggggrrrraaaammmm ffffoooorrrr tttthhhheeee xxxxmmmmbbbbuuuuttttttttoooonnnn PPPPrrrrooooggggrrrraaaammmm           |
+
+       The following figure shows a widget tree for the xxxxmmmmbbbbuuuuttttttttoooonnnn     |
+       widget.                                                       |
+
+                    FFFFiiiigggguuuurrrreeee 3333----1111....  xmbutton Widget Tree                |
+
+       3.1.2  PPPPrrrrooooggggrrrraaaammmm LLLLiiiissssttttiiiinnnngggg ffffoooorrrr xxxxmmmmbbbbuuuuttttttttoooonnnn....cccc                         |
+
+       The listing shown in this section, xxxxmmmmbbbbuuuuttttttttoooonnnn....cccc, is for the     |
+       xxxxmmmmbbbbuuuuttttttttoooonnnn widget program.                                      |
+
+       /**------------------------------------------------------------------|
+       ***
+       ***  file:     xmbutton.c
+       ***
+       ***  project:  Motif Widgets example programs
+       ***
+       ***  description:This program creates a PushButton widget.
+       ***
+       ***
+       ***            (c) Copyright 1989 by Open Software Foundation, Inc.
+       ***                All Rights Reserved.
+       ***
+       ***            (c) Copyright 1989 by Hewlett-Packard Company.
+       ***
+       ***----------------------------------------------------------------*/|
+
+
+       /*  include files  */
+
+       #include <X11/Intrinsic.h>
+       #include <Xm/Xm.h>
+       #include <Xm/PushB.h>
+
+
+       /*  functions defined in this program  */
+
+       void main();
+       void activateCB(); /* Callback for the PushButton */
+
+
+
+
+       3-2
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       /*  global variables  */
+
+       char *btn_text;/* button label pointer for compound string */
+
+
+       /*-------------------------------------------------------------
+       **   main - main logic for demo1 program
+       */
+       void main (argc,argv)
+       unsigned int argc;
+       char **argv;
+       {
+            Widget    toplevel; /*  Shell widget*/
+            Widget    button;/*  PushButton widget*/
+            XtAppContext app_context; /* application context */      |
+            Arg  args[10]; /*  arg list*/
+            register int n;/*  arg count*/
+
+       /*  initialize toolkit  */
+            toplevel =                                               |
+                 XtAppInitialize(&app_context, "XMdemos", NULL,      |
+                    0, &argc, argv, NULL, NULL, 0);                  |
+
+       /*  create compound string for the button text  */
+            btn_text =                                               |
+                  XmStringCreateLtoR("Push Here", XmSTRING_DEFAULT_CHARSET);|
+
+       /*  set up arglist  */
+            n = 0;
+            XtSetArg (args[n], XmNlabelString, btn_text);  n++;      *
+            XtSetArg (args[n], XmNwidth, 250);  n++;
+            XtSetArg (args[n], XmNheight, 150);  n++;
+       /*  create button  */
+            button =                                                 |
+                 XtCreateManagedWidget ("button", xmPushButtonWidgetClass,|
+                                                          toplevel, args, n);|
+       /*  add callback  */
+            XtAddCallback (button, XmNactivateCallback, activateCB, NULL);
+       /*  realize widgets  */
+            XtRealizeWidget (toplevel);
+       /*  process events  */
+            XtAppMainLoop (app_context);                             |
+       }
+
+
+       /*-------------------------------------------------------------
+       **   activateCB - callback for button
+       */
+       void activateCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+
+
+                                                                3-3
+
+
+
+
+
+
+
+
+
+
+
+
+       caddr_t   call_data;/*  data from widget class  */
+       {
+       /*  print message, free compound string memory,               |
+        *  and terminate program  */                                 |
+            printf ("PushButton selected.\n");
+            XmStringFree(btn_text);                                  |
+            exit (0);
+       }
+
+       3.1.3  DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeee XXXXMMMMddddeeeemmmmoooossss PPPPaaaarrrrttttiiiiaaaallll LLLLiiiissssttttiiiinnnngggg
+
+       The XXXXMMMMddddeeeemmmmoooossss default file, part of which is shown in this      |
+       section, contains default specifications for general appear-  |
+       ance and behavior, plus, in some cases, program-unique        |
+       specifications.  All the example programs in this guide use   |
+       this defaults file.                                           |
+
+       !                                                             |
+       !XMdemos app-defaults file for Motif demo programs            |
+       !
+       !general appearance and behavior defaults                     |
+       !
+       *foreground:   white
+       *allowShellResize:true                                        *
+       *borderWidth:  0
+       *highlightThickness:2
+       *keyboardFocusPolicy:explicit                                 *
+       *menuAccelerator:<Key>KP_F2
+
+       3.1.4  OOOOuuuuttttppppuuuutttt PPPPrrrroooodddduuuucccceeeedddd bbbbyyyy tttthhhheeee xxxxmmmmbbbbuuuuttttttttoooonnnn PPPPrrrrooooggggrrrraaaammmm                |
+
+       The following figure shows the resulting screen display for   |
+       the xxxxmmmmbbbbuuuuttttttttoooonnnn program.                                         |
+
+                                                                     *
+           FFFFiiiigggguuuurrrreeee 3333----2222....  Sample Program xmbutton Screen Display
+
+
+
+
+
+
+
+
+
+
+
+       Section 3.10 describes the use of color in screen design,     |
+       and Section 3.11 introduces some advanced programming tech-   |
+       niques.  Section 3.12 presents a more involved sample pro-    |
+       gram.
+
+
+       3-4
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       The following sections describe the process for writing       |
+       widget programs, which was summarized in Table 3-1.  Follow-
+       ing these steps will help you start writing programs that
+       use the Motif Widgets.
+
+       3.2  IIIInnnncccclllluuuuddddiiiinnnngggg HHHHeeeeaaaaddddeeeerrrr FFFFiiiilllleeeessss
+
+       Special variables and types of variables used by Motif pro-
+       grams are defined in header files.  Include the appropriate
+       files at the beginning of your program.  The manpage for      |
+       each widget specifies the header files that are needed.
+
+       Usually this section in your program will look like this:
+
+       #include <X11/Intrinsic.h>
+       #include <Xm/Xm.h>
+       #include <Xm/_w_i_d_g_e_t.h>
+
+       The order in which you place the header files is very impor-
+       tant.  Generally speaking, you should follow this format:
+
+         1.  General header files, such as <<<<ssssttttddddiiiioooo....hhhh>>>>.
+
+         2.  Intrinsics header files, such as <<<<XXXX11111111////IIIInnnnttttrrrriiiinnnnssssiiiicccc....hhhh>>>>.
+
+         3.  Motif widget header files, beginning with <<<<XXXXmmmm....hhhh>>>> and
+             including a header file for each widget class you are
+             using in your program.  The order of the widget class
+             headers is not critical.
+
+       For each widget you are using in your program, replace
+       _w_i_d_g_e_t with the name of the widget.  The manpage for each     |
+       widget shows the exact spelling of all header files you       |
+       need.  The include files for all widgets are found in the     |
+       ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXXmmmm directory.  For the PushButton widget in the
+       sample program xxxxmmmmbbbbuuuuttttttttoooonnnn, the header file name is PPPPuuuusssshhhhBBBB....hhhh.
+       Put a ####iiiinnnncccclllluuuuddddeeee statement in your program for each type of
+       widget you use.  You need to include a header file only
+       once, even if you use a given widget twice in your program.   |
+       Do not forget to include any other header files (such as
+       <<<<ssssttttddddiiiioooo....hhhh>>>>) that your program may need.
+
+       IIIInnnnttttrrrriiiinnnnssssiiiicccc....hhhh defines the Xt structures and variables.  Vari-
+       ables common to all Motif Widgets are defined in XXXXmmmm....hhhh.
+
+       3.3  IIIInnnniiiittttiiiiaaaalllliiiizzzziiiinnnngggg tttthhhheeee XXXXtttt IIIInnnnttttrrrriiiinnnnssssiiiiccccssss
+
+       You must initialize the XtIntrinsics before making any other  |
+       calls to XtIntrinsics functions.  The function XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaallll----  |
+       iiiizzzzeeee creates an application context, establishes the connec-   |
+       tion to the display server, parses the command line that
+
+
+                                                                3-5
+
+
+
+
+
+
+
+
+
+
+
+
+       invoked the application, loads the resource database, and     |
+       creates a shell widget to serve as the parent of your appli-
+       cation widgets.
+
+       By passing the command line that invoked your application to  |
+       XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee, the function can parse the line to allow     |
+       users to specify certain resources (such as fonts and
+       colors) for your application at run time.  XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee    |
+       scans the command line and removes those options.  The rest
+       of your application sees only the remaining options.
+
+       The call to XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee used by the sample program        |
+       xxxxmmmmbbbbuuuuttttttttoooonnnn is as follows:
+
+       toplevel = XtAppInitialize(NULL, "XMdemos", NULL,             |
+            0, &argc, argv, NULL, NULL, 0);                          |
+
+       This line names the application class XXXXMMMMddddeeeemmmmoooossss, passes no      |
+       additional options, and passes the command line that invoked
+       the application.  The first parameters is used in setting up  |
+       defaults files.  Defaults files are explained in Section      |
+       3.8, ``Creating Defaults Files.''
+
+       The syntax of the XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee function follows.  Note     |
+       that it returns a value of type Widget; therefore, the vari-  |
+       able _t_o_p_l_e_v_e_l in xxxxmmmmbbbbuuuuttttttttoooonnnn must be defined as type Widget.
+
+       WWWWiiiiddddggggeeeetttt XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee(_a_p_p__c_o_n_t_e_x_t__r_e_t_u_r_n,                    |
+       _a_p_p_l_i_c_a_t_i_o_n__c_l_a_s_s, _o_p_t_i_o_n_s, _n_u_m__o_p_t_i_o_n_s, _a_r_g_c__i_n__o_u_t,         |
+       _a_r_g_v__i_n__o_u_t, _f_a_l_l_b_a_c_k__r_e_s_o_u_r_c_e_s, _a_r_g_s, _n_u_m__a_r_g_s)
+            XXXXttttAAAAppppppppCCCCoooonnnntttteeeexxxxtttt   *_a_p_p__c_o_n_t_e_x_t__r_e_t_u_r_n;                      |
+            SSSSttttrrrriiiinnnngggg         _a_p_p_l_i_c_a_t_i_o_n__c_l_a_s_s;                        |
+            XXXXrrrrmmmmOOOOppppttttiiiioooonnnnDDDDeeeessssccccLLLLiiiisssstttt_o_p_t_i_o_n_s;                                |
+            CCCCaaaarrrrddddiiiinnnnaaaallll       _n_u_m__o_p_t_i_o_n_s;                              |
+            CCCCaaaarrrrddddiiiinnnnaaaallll       *_a_r_g_c__i_n__o_u_t;                             |
+            SSSSttttrrrriiiinnnngggg         *_a_r_g_v__i_n__o_u_t;                             |
+            SSSSttttrrrriiiinnnngggg         *_f_a_l_l_b_a_c_k__r_e_s_o_u_r_c_e_s;                      |
+            AAAArrrrggggLLLLiiiisssstttt        _a_r_g_s;                                     |
+            CCCCaaaarrrrddddiiiinnnnaaaallll       _n_u_m__a_r_g_s;                                 |
+
+       _a_p_p__c_o_n_t_e_x_t__r_e_t_u_r_n Specifies a pointer to the application     |
+                      context.  If this is not NULL, XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaallll----   |
+                      iiiizzzzeeee returns the application context created    |
+                      by XXXXttttCCCCrrrreeeeaaaatttteeeeAAAApppppppplllliiiiccccaaaattttiiiioooonnnnCCCCoooonnnntttteeeexxxxtttt.
+
+       _a_p_p_l_i_c_a_t_i_o_n__c_l_a_s_s                                             |
+                      Specifies the class name of this application,  |
+                      which is usually the generic name for all
+                      instances of this application.  By conven-
+                      tion, the class name is formed by reversing
+                      the case of the application's first letter.
+
+
+       3-6
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+                      The class name is used to locate the files
+                      used to initialize the resource database. For
+                      example, the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn has a     |
+                      class name of XXXXMMMMddddeeeemmmmoooossss.
+
+       _o_p_t_i_o_n_s        Specifies how to parse the command line for
+                      any application-specific resources.  The
+                      options argument is passed as a parameter to
+                      XXXXrrrrmmmmPPPPaaaarrrrsssseeeeCCCCoooommmmmmmmaaaannnndddd.                               *
+
+       _n_u_m__o_p_t_i_o_n_s    Specifies the number of entries in _o_p_t_i_o_n_s.    |
+
+       _a_r_g_c__i_n__o_u_t    Specifies a pointer to the number of command
+                      line parameters.                               |
+
+       _a_r_g_v__i_n__o_u_t    Specifies the command line parameters.         |
+
+       _f_a_l_l_b_a_c_k__r_e_s_o_u_r_c_e_s Specifies resources to be used if the      |
+                      application class resource file cannot be      |
+                      read.                                          |
+
+       _a_r_g_s           Specifies resource values to override any      |
+                      other resource specifications for the shell    |
+                      widget created.                                |
+
+       _n_u_m__a_r_g_s       Specifies the number of entries in _a_r_g_s.
+
+       You can use the alternate function, XXXXttttTTTToooooooollllkkkkiiiittttIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee, to   |
+       just initialize the Xt Intrinsics.  It is not as convenient   |
+       as XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee, but it is more flexible because it lets   |
+       you decide the type of shell you want to use. It does not
+       open the display or create an application shell.  You must
+       do this yourself using XXXXttttOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy and XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeeeSSSShhhheeeellllllll.    |
+       The advanced sample program presented in Section 3.12 ini-    |
+       tializes the toolkit in this manner.
+
+       3.4  CCCCrrrreeeeaaaattttiiiinnnngggg AAAArrrrgggguuuummmmeeeennnntttt LLLLiiiissssttttssss ffffoooorrrr WWWWiiiiddddggggeeeettttssss
+
+       The steps in Sections 3.4 through 3.7 must be performed for   |
+       each widget you wish to create.
+
+       Widgets accept argument lists (pairs of resource names and
+       values) that control their appearance and functionality.
+       The list of resources acceptable for a widget comprises not
+       only resources unique to the widget, but also those
+       resources inherited from other widgets.  The resources for a  |
+       given widget are shown in the manpage for the widget.
+
+       The simplest way to set an element of an argument list is by
+       using the XXXXttttSSSSeeeettttAAAArrrrgggg macro.  Other methods are described in     |
+       Section 3.10, ``Advanced Programming Techniques.''
+
+
+                                                                3-7
+
+
+
+
+
+
+
+
+
+
+
+
+       The following program segment declares an array aaaarrrrggggssss of up    |
+       to 10 arguments.  The size of the array is not important
+       just so long as the number of elements allocated is not less
+       than the number of elements used.  The first argument speci-
+       fies the label for the PushButton.  The label is actually a
+       pointer to a compound string that was created by a call to
+       XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR earlier in the program.  See Chapter 8     |
+       for more information about compound strings.  The last two
+       arguments specify that the widget will have a width of 250
+       pixels and a height of 150 pixels.  The third argument
+       specifies the string to display in the PushButton.
+
+       Arg args[10];
+       XtSetArg(args[0], XmNlabelString, btn_text);
+       XtSetArg(args[1], XmNwidth, 250);
+       XtSetArg(args[2], XmNheight, 150);
+
+       An alternate method for XXXXttttSSSSeeeettttAAAArrrrgggg uses a counter, _n, rather    |
+       than a hard-coded index.  This method, shown as follows,      |
+       makes it easier to add and delete argument assignments. It
+       is the method used in the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn.
+
+       Arg args[10];
+       Cardinal n=0;
+       XtSetArg(args[0], XmNlabelString, btn_text); n++;
+       XtSetArg(args[n], XmNwidth, 250); n++;
+       XtSetArg(args[n], XmNheight, 150); n++;
+
+       The variable _n contains the number of resources set.  It can  |
+       be passed to the widget create function (explained in Sec-    |
+       tion 3.6) as the argument list count.
+
+       CCCCAAAAUUUUTTTTIIIIOOOONNNN: Do not increment the counter from inside the call    |
+       to XXXXttttSSSSeeeettttAAAArrrrgggg.  As currently implemented, XXXXttttSSSSeeeettttAAAArrrrgggg is a macro
+       that dereferences the first argument twice.  This means that
+       if you increment the counter from inside the call, it would
+       actually be incremented twice for the one call.               |
+
+       The syntax for using XXXXttttSSSSeeeettttAAAArrrrgggg is as follows:
+
+       XtSetArg(_a_r_g, _n_a_m_e, _v_a_l_u_e)                                    *
+         AAAArrrrgggg      _a_r_g;                                               |
+         SSSSttttrrrriiiinnnngggg   _n_a_m_e;                                              |
+         XXXXttttAAAArrrrggggVVVVaaaallll _v_a_l_u_e;                                             |
+
+       _a_r_g       Specifies the name-value pair to set.
+
+       _n_a_m_e      Specifies the name of the resource.
+
+       _v_a_l_u_e     Specifies the value of the resource if it will fit
+                 in an XXXXttttAAAArrrrggggVVVVaaaallll, otherwise the address.
+
+
+       3-8
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       3.5  AAAAddddddddiiiinnnngggg CCCCaaaallllllllbbbbaaaacccckkkk PPPPrrrroooocccceeeedddduuuurrrreeeessss
+
+       Callbacks are one of the key features of the Motif Widget     |
+       set.  They allow you to write procedures that will be exe-
+       cuted when certain events occur within a widget.  These
+       events include mouse button presses, keyboard selections,
+       and cursor movements.  Callback procedures are the main
+       mechanism your application uses to actually get things done.
+
+       You need to complete three steps to add callbacks:
+
+         1.  Write the callback procedures.
+
+         2.  Add the appropriate callbacks.                          |
+
+         3.  Set the widget's callback resources.                    |
+
+       Each of these steps is described in the following sections.
+
+       3.5.1  WWWWrrrriiiittttiiiinnnngggg aaaa CCCCaaaallllllllbbbbaaaacccckkkk PPPPrrrroooocccceeeedddduuuurrrreeee
+
+       Callback procedures return no values, but have three argu-
+       ments:
+
+          +o The widget for which the callback is registered.
+
+          +o Data passed to the callback procedure by the applica-
+            tion.
+
+          +o Data passed to the callback procedure by the widget.
+
+       In the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn, the callback procedure        |
+       prints a message to the standard output device (usually the
+       terminal window from which the application was invoked),
+       frees the memory space used by bbbbttttnnnn____tttteeeexxxxtttt (the PushButton
+       label), and ends the program using the system eeeexxxxiiiitttt call.
+
+       void activateCB(w, client_data, call_data)
+        Widget    w;           /*widget id*/                         |
+        caddr_t   client_data; /*data from application*/             |
+        caddr_t   call_data;   /*data from widget class*/            |
+       {
+       /*print message and terminate program*/                       |
+        fprint("PushButton selected.\n")
+        XmStringFree(btn_text);                                      |
+        exit(0);
+       }
+
+       The variable type _c_a_d_d_r__t is defined by the Xt Intrinsics as  |
+       a pointer to an area of memory.  The ccccaaaallllllll____ddddaaaattttaaaa argument is
+       used only by a few widgets.  The manpage for each widget      |
+
+
+                                                                3-9
+
+
+
+
+
+
+
+
+
+
+
+
+       specifies whether it passes any data to its callbacks.
+
+       The general syntax of a callback procedure is described
+       below:
+
+       vvvvooooiiiidddd _C_a_l_l_b_a_c_k_P_r_o_c(_w, _c_l_i_e_n_t__d_a_t_a, _c_a_l_l__d_a_t_a)                  |
+             WWWWiiiiddddggggeeeetttt  _w;                                              |
+             ccccaaaaddddddddrrrr____tttt _c_l_i_e_n_t__d_a_t_a;                                    |
+             ccccaaaaddddddddrrrr____tttt _c_a_l_l__d_a_t_a;                                      |
+
+       _w              Specifies the widget for which this callback   |
+                      is invoked.                                    *
+
+       _c_l_i_e_n_t__d_a_t_a    Specifies the data that the widget should
+                      pass back to the client when the widget
+                      invokes the client's callback.  This is a way
+                      for the client registering the callback to
+                      also define client-specific data to be passed
+                      to the client:  a pointer to additional
+                      information about the widget, a reason for
+                      invoking the callback, and so on.  It is per-  |
+                      fectly normal to have _c_l_i_e_n_t__d_a_t_a be NULL if
+                      all necessary information is in the widget.
+
+       _c_a_l_l__d_a_t_a      Specifies any callback-specific data the
+                      widget wants to pass to the client.  It is
+                      widget-specific and is usually set to NULL.
+                      It will be defined in the widget's manpage if  |
+                      it is used.
+
+       3.5.2  AAAAddddddddiiiinnnngggg CCCCaaaallllllllbbbbaaaacccckkkkssss
+
+       A callback contains information about the callback routine
+       associated with a particular user action.
+
+       The sample program xxxxmmmmbbbbuuuuttttttttoooonnnn creates a callback by calling
+       the procedure XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkk.
+
+       XtAddCallback (button, XmNactivate, activateCB, NULL);
+
+       The general syntax of XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkk is as follows:            |
+
+       vvvvooooiiiidddd XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkk(_w, _c_a_l_l_b_a_c_k__n_a_m_e, _c_a_l_l_b_a_c_k, _c_l_i_e_n_t__d_a_t_a)   |
+             WWWWiiiiddddggggeeeetttt         _w;                                       |
+             SSSSttttrrrriiiinnnngggg         _c_a_l_l_b_a_c_k__n_a_m_e;                           |
+             XXXXttttCCCCaaaallllllllbbbbaaaacccckkkkPPPPrrrroooocccc _c_a_l_l_b_a_c_k;                                |
+             ccccaaaaddddddddrrrr____tttt        _c_l_i_e_n_t__d_a_t_a;                             |
+
+       _w              Specifies the widget to add the callback to.
+
+
+
+
+       3-10
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       _c_a_l_l_b_a_c_k__n_a_m_e                                                 |
+                      Specifies the callback list within the widget
+                      to append to.
+
+       _c_a_l_l_b_a_c_k       Specifies the callback procedure to add.
+
+       _c_l_i_e_n_t__d_a_t_a    Specifies the client data to be passed to the
+                      callback when it is invoked by XXXXttttCCCCaaaallllllllCCCCaaaallllllll----
+                      bbbbaaaacccckkkkssss.  The _c_l_i_e_n_t__d_a_t_a parameter is often     |
+                      NULL.
+
+       To add more callbacks, just make another call to XXXXttttAAAAddddddddCCCCaaaallllllll----
+       bbbbaaaacccckkkk.  In this way you can cause a user event to trigger
+       many callback routines.
+
+       You can add a list of callbacks by using the function XXXXttttAAAAdddddddd----  |
+       CCCCaaaallllllllbbbbaaaacccckkkkssss.
+
+       The general syntax of XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkkssss is as follows:           |
+
+       vvvvooooiiiidddd XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkkssss(_w, _c_a_l_l_b_a_c_k__n_a_m_e, _c_a_l_l_b_a_c_k_s)              |
+             WWWWiiiiddddggggeeeetttt         _w;                                       |
+             SSSSttttrrrriiiinnnngggg         _c_a_l_l_b_a_c_k__n_a_m_e;                           |
+             XXXXttttCCCCaaaallllllllbbbbaaaacccckkkkLLLLiiiisssstttt _c_a_l_l_b_a_c_k_s;                               |
+
+       _w         Specifies the widget to add the callbacks to.       |
+
+       _c_a_l_l_b_a_c_k__n_a_m_e                                                 |
+                 Specifies the callback list within the widget to
+                 append to.
+
+       _c_a_l_l_b_a_c_k_s Specifies the null-terminated list of callback
+                 procedures and corresponding client data to add.
+
+
+       3.5.3  SSSSeeeettttttttiiiinnnngggg WWWWiiiiddddggggeeeettttssss'''' CCCCaaaallllllllbbbbaaaacccckkkk RRRReeeessssoooouuuurrrrcccceeeessss
+
+       Many widgets define one or more callback resources.  Set the
+       value of the resource to the name of the callback list.
+
+       The callback resources for any particular widget are listed
+       in the man page for that widget.  The Pushbutton widget used  |
+       in the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn supports three different
+       kinds of callbacks.  Each callback could be set up by speci-
+       fying the callback list as the value of the appropriate
+       resource.
+
+          +o Callback(s) invoked when the Pushbutton widget is        |
+            activated (argument XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk).  This is the
+            callback you use in xxxxmmmmbbbbuuuuttttttttoooonnnn.
+
+
+
+                                                               3-11
+
+
+
+
+
+
+
+
+
+
+
+
+          +o Callback(s) invoked when the Pushbutton widget is armed  |
+            (argument XXXXmmmmNNNNaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk).
+
+          +o Callback(s) invoked when the Pushbutton widget is        |
+            disarmed (argument XXXXmmmmNNNNddddiiiissssaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk).
+
+       The translation table for this widget has been set so that    |
+       an activate action occurs whenever the pointer is within the
+       widget and the user presses mouse button 1.  An activate
+       action then causes the widget to invoke each of the callback
+       routines on the callback list pointed to by its XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeee----
+       CCCCaaaallllllllbbbbaaaacccckkkk argument.  These routines are invoked in the order
+       in which they appear in the callback list. In the case of
+       the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn, only the routine aaaaccccttttiiiivvvvaaaatttteeeeCCCCBBBB is
+       executed.
+
+       3.6  CCCCrrrreeeeaaaattttiiiinnnngggg tttthhhheeee WWWWiiiiddddggggeeeetttt
+
+       Now that you have established an argument list for the
+       widget, you can create the widget instance.  The following    |
+       call to XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt comes from the sample program
+       xxxxmmmmbbbbuuuuttttttttoooonnnn.
+
+       button = XtCreateManagedWidget ("button",                     |
+            xmpushButtonWidgetClass, toplevel, args, n);             |
+
+       TTTThhhhiiiissss ccccaaaallllllll nnnnaaaammmmeeeessss tttthhhheeee nnnneeeewwwwllllyyyy ccccrrrreeeeaaaatttteeeedddd wwwwiiiiddddggggeeeetttt ````````bbbbuuuuttttttttoooonnnn'''''''' aaaannnndddd
+       ddddeeeeffffiiiinnnneeeessss iiiitttt ttttoooo bbbbeeee aaaa PPPPuuuusssshhhhbbbbuuuuttttttttoooonnnn wwwwiiiiddddggggeeeetttt ((((ffffrrrroooommmm tttthhhheeee ccccllllaaaassssssss xxxxmmmmPPPPuuuusssshhhh----  ||||
+       BBBBuuuuttttttttoooonnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss))))....  TTTThhhheeee ccccllllaaaassssssss nnnnaaaammmmeeee XXXXmmmmPPPPuuuusssshhhhBBBBuuuuttttttttoooonnnn oooorrrr tttthhhheeee nnnnaaaammmmeeee  ||||
+       bbbbuuuuttttttttoooonnnn ccccaaaannnn bbbbeeee uuuusssseeeedddd iiiinnnn ddddeeeeffffaaaauuuullllttttssss ffffiiiilllleeeessss ((((ddddiiiissssccccuuuusssssssseeeedddd iiiinnnn SSSSeeeeccccttttiiiioooonnnn    ||||
+       3333....9999)))) ttttoooo rrrreeeeffffeeeerrrr ttttoooo tttthhhhiiiissss wwwwiiiiddddggggeeeetttt....  TTTThhhheeee PPPPuuuusssshhhhbbbbuuuuttttttttoooonnnn''''ssss ppppaaaarrrreeeennnntttt iiiissss     ||||
+       ````````ttttoooopppplllleeeevvvveeeellll,,,,'''''''' tttthhhheeee ttttoooopppplllleeeevvvveeeellll sssshhhheeeellllllll wwwwiiiiddddggggeeeetttt rrrreeeettttuuuurrrrnnnneeeedddd bbbbyyyy XXXXttttAAAAppppppppIIIInnnn----  ||||
+       iiiittttiiiiaaaalllliiiizzzzeeee....  TTTThhhheeee aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt aaaannnndddd nnnnuuuummmmbbbbeeeerrrr ooooffff aaaarrrrgggguuuummmmeeeennnnttttssss ccccoooommmm----
+       pppplllleeeetttteeee tttthhhheeee ccccaaaallllllll....  TTTThhhhiiiissss ccccaaaallllllll wwwwiiiillllllll ccccrrrreeeeaaaatttteeee tttthhhheeee wwwwiiiiddddggggeeeetttt aaaannnndddd nnnnoooottttiiiiffffyyyy
+       iiiittttssss ppppaaaarrrreeeennnntttt ssssoooo tttthhhhaaaatttt tttthhhheeee ppppaaaarrrreeeennnntttt ccccaaaannnn ccccoooonnnnttttrrrroooollll iiiittttssss ssssppppeeeecccciiiiffffiiiicccc llllaaaayyyy----
+       oooouuuutttt....
+
+       TTTThhhheeeerrrreeee iiiissss aaaannnnooootttthhhheeeerrrr wwwwaaaayyyy ttttoooo ccccrrrreeeeaaaatttteeee wwwwiiiiddddggggeeeettttssss,,,, oooonnnneeee tttthhhhaaaatttt ddddooooeeeessss nnnnooootttt
+       aaaauuuuttttoooommmmaaaattttiiiiccccaaaallllllllyyyy mmmmaaaannnnaaaaggggeeee tttthhhheeeemmmm....  IIIInnnnsssstttteeeeaaaadddd,,,, yyyyoooouuuu mmmmaaaannnnaaaaggggeeee tttthhhheeeemmmm wwwwhhhheeeennnn
+       yyyyoooouuuu wwwwaaaannnntttt tttthhhheeeemmmm ttttoooo bbbbeeee ddddiiiissssppppllllaaaayyyyeeeedddd....  EEEEaaaacccchhhh wwwwiiiiddddggggeeeetttt hhhhaaaassss aaaa ccccrrrreeeeaaaatttteeee      ||||
+       ffffuuuunnnnccccttttiiiioooonnnn aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh iiiitttt....  AAAA ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnn ccccrrrreeeeaaaatttteeeessss tttthhhheeee   ||||
+       wwwwiiiiddddggggeeeetttt iiiitttt iiiissss aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh bbbbuuuutttt ddddooooeeeessss nnnnooootttt mmmmaaaannnnaaaaggggeeee iiiitttt....  YYYYoooouuuu
+       mmmmaaaannnnaaaaggggeeee tttthhhheeee wwwwiiiiddddggggeeeetttt wwwwiiiitttthhhh XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd....  TTTThhhheeee aaaaddddvvvvaaaannnncccceeeedddd pppprrrrooooggggrrrraaaammmm
+       iiiinnnn SSSSeeeeccccttttiiiioooonnnn 3333....11112222 uuuusssseeeessss tttthhhhiiiissss mmmmeeeetttthhhhoooodddd ooooffff ccccrrrreeeeaaaattttiiiinnnngggg wwwwiiiiddddggggeeeettttssss....         ||||
+
+       WWWWiiiiddddggggeeeettttssss ffffoooorrrrmmmm aaaa hhhhiiiieeeerrrraaaarrrrcccchhhhiiiiccccaaaallll ssssttttrrrruuuuccccttttuuuurrrreeee ccccaaaalllllllleeeedddd aaaa wwwwiiiiddddggggeeeetttt ttttrrrreeeeeeee....
+       TTTThhhheeee wwwwiiiiddddggggeeeetttt ttttrrrreeeeeeee ffffoooorrrr tttthhhheeee pppprrrrooooggggrrrraaaammmm xxxxmmmmbbbbuuuuttttttttoooonnnn iiiissss sssshhhhoooowwwwnnnn iiiinnnn FFFFiiiigggguuuurrrreeee   ||||
+       3333----1111....  TTTThhhheeee wwwwiiiiddddggggeeeetttt rrrreeeettttuuuurrrrnnnneeeedddd bbbbyyyy XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee iiiissss tttthhhheeee iiiinnnnvvvviiiissssiiii----   ||||
+       bbbblllleeee ppppaaaarrrreeeennnntttt ffffoooorrrr tttthhhheeee ttttoooopppplllleeeevvvveeeellll aaaapppppppplllliiiiccccaaaattttiiiioooonnnn wwwwiiiiddddggggeeeetttt,,,, iiiinnnn tttthhhhiiiissss ccccaaaasssseeee
+       bbbbuuuuttttttttoooonnnn....  UUUUssssuuuuaaaallllllllyyyy tttthhhheeeerrrreeee aaaarrrreeee sssseeeevvvveeeerrrraaaallll lllleeeevvvveeeellllssss ooooffff wwwwiiiiddddggggeeeettttssss....  WWWWiiiiddddgggg----
+       eeeettttssss aaaatttt tttthhhheeee hhhhiiiigggghhhheeeerrrr lllleeeevvvveeeellllssss aaaarrrreeee llllaaaayyyyoooouuuutttt wwwwiiiiddddggggeeeettttssss ((((aaaallllssssoooo ccccaaaalllllllleeeedddd
+
+
+       3-12
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       mmmmaaaannnnaaaaggggeeeerrrr wwwwiiiiddddggggeeeettttssss)))) tttthhhhaaaatttt ccccoooonnnnttttrrrroooollll aaaannnndddd ccccoooooooorrrrddddiiiinnnnaaaatttteeee tttthhhheeee pppprrrriiiimmmmiiiittttiiiivvvveeee
+       wwwwiiiiddddggggeeeettttssss llllooooccccaaaatttteeeedddd aaaatttt tttthhhheeee lllleeeeaaaavvvveeeessss ooooffff tttthhhheeee wwwwiiiiddddggggeeeetttt ttttrrrreeeeeeee....  TTTThhhheeee mmmmoooorrrreeee
+       aaaaddddvvvvaaaannnncccceeeedddd ssssaaaammmmpppplllleeee pppprrrrooooggggrrrraaaammmm llllaaaatttteeeerrrr iiiinnnn tttthhhhiiiissss cccchhhhaaaapppptttteeeerrrr iiiilllllllluuuussssttttrrrraaaatttteeeessss
+       mmmmuuuullllttttiiiipppplllleeee lllleeeevvvveeeellllssss ooooffff wwwwiiiiddddggggeeeettttssss....
+
+       TTTThhhheeee ssssyyyynnnnttttaaaaxxxx ffffoooorrrr XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt iiiissss aaaassss ffffoooolllllllloooowwwwssss....           ||||
+
+       WWWWiiiiddddggggeeeetttt XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt((((_n_a_m_e,,,, _w_i_d_g_e_t__c_l_a_s_s,,,, _p_a_r_e_n_t,,,,      ||||
+       _a_r_g_s,,,, _n_u_m__a_r_g_s))))
+             SSSSttttrrrriiiinnnngggg     _n_a_m_e;;;;                                        ||||
+             WWWWiiiiddddggggeeeettttCCCCllllaaaassssssss _w_i_d_g_e_t__c_l_a_s_s;;;;                               ||||
+             WWWWiiiiddddggggeeeetttt      _p_a_r_e_n_t;;;;                                     ||||
+             AAAArrrrggggLLLLiiiisssstttt     _a_r_g_s;;;;                                       ||||
+             CCCCaaaarrrrddddiiiinnnnaaaallll    _n_u_m__a_r_g_s;;;;                                   ||||
+
+       _n_a_m_e      SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee rrrreeeessssoooouuuurrrrcccceeee nnnnaaaammmmeeee ffffoooorrrr tttthhhheeee ccccrrrreeeeaaaatttteeeedddd
+                 wwwwiiiiddddggggeeeetttt....  TTTThhhhiiiissss nnnnaaaammmmeeee iiiissss uuuusssseeeedddd ffffoooorrrr rrrreeeettttrrrriiiieeeevvvviiiinnnngggg
+                 rrrreeeessssoooouuuurrrrcccceeeessss aaaannnndddd sssshhhhoooouuuulllldddd nnnnooootttt bbbbeeee tttthhhheeee ssssaaaammmmeeee aaaassss aaaannnnyyyy ooootttthhhheeeerrrr
+                 wwwwiiiiddddggggeeeetttt tttthhhhaaaatttt iiiissss aaaa cccchhhhiiiilllldddd ooooffff tttthhhheeee ssssaaaammmmeeee ppppaaaarrrreeeennnntttt iiiiffff
+                 uuuunnnniiiiqqqquuuueeee vvvvaaaalllluuuueeeessss aaaarrrreeee nnnneeeecccceeeessssssssaaaarrrryyyy....
+
+       _w_i_d_g_e_t__c_l_a_s_s SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss ppppooooiiiinnnntttteeeerrrr ffffoooorrrr tttthhhheeee
+                 ccccrrrreeeeaaaatttteeeedddd wwwwiiiiddddggggeeeetttt....
+
+       _p_a_r_e_n_t    SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee ppppaaaarrrreeeennnntttt wwwwiiiiddddggggeeeetttt....
+
+       _a_r_g_s      SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt ttttoooo oooovvvveeeerrrrrrrriiiiddddeeee tttthhhheeee
+                 rrrreeeessssoooouuuurrrrcccceeee ddddeeeeffffaaaauuuullllttttssss....
+
+       _n_u_m__a_r_g_s  SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee nnnnuuuummmmbbbbeeeerrrr ooooffff aaaarrrrgggguuuummmmeeeennnnttttssss iiiinnnn _a_r_g_s....  TTTThhhheeee
+                 nnnnuuuummmmbbbbeeeerrrr ooooffff aaaarrrrgggguuuummmmeeeennnnttttssss iiiinnnn aaaannnn aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt ccccaaaannnn bbbbeeee
+                 aaaauuuuttttoooommmmaaaattttiiiiccccaaaallllllllyyyy ccccoooommmmppppuuuutttteeeedddd bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee XXXXttttNNNNuuuummmmbbbbeeeerrrr mmmmaaaaccccrrrroooo
+                 iiiiffff tttthhhheeee lllliiiisssstttt iiiissss ssssttttaaaattttiiiiccccaaaallllllllyyyy ddddeeeeffffiiiinnnneeeedddd....
+
+       3333....7777  MMMMaaaakkkkiiiinnnngggg tttthhhheeee WWWWiiiiddddggggeeeetttt VVVViiiissssiiiibbbblllleeee
+
+       All widgets are now created and linked together into a
+       widget tree.
+
+       XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt displays on the screen the widget that is
+       passed to it and the children of that widget.
+
+       The final step in the program is to call the Xt Intrinsics
+       routine that causes the application to enter a loop, await-
+       ing action by the user.
+
+       Sample code for this section is as follows:                   |
+
+       XtRealizeWidget(toplevel);
+       XtAppMainLoop(app_context);                                   |
+
+
+
+                                                               3-13
+
+
+
+
+
+
+
+
+
+
+
+
+       The preceding two statements from the sample program xxxxmmmmbbbbuuuutttt----   |
+       ttttoooonnnn display the Pushbutton widget and cause the program to
+       enter a loop, waiting for user input.  The main role of your
+       application is the setting of widget arguments and the writ-
+       ing of callback procedures.  Your application passes control
+       to the Xt Intrinsics and the Motif Widgets once the           |
+       XXXXttttAAAAppppppppMMMMaaaaiiiinnnnLLLLoooooooopppp function is called.                             |
+
+       The syntax for XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt is shown below.
+
+       vvvvooooiiiidddd XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt(_w)                                       |
+             WWWWiiiiddddggggeeeetttt _w;                                               |
+
+       _w         Specifies the widget.                               *
+
+       3.8  LLLLiiiinnnnkkkkiiiinnnngggg LLLLiiiibbbbrrrraaaarrrriiiieeeessss
+
+       When linking the program, be sure to include three            |
+       libraries, in the following order:
+
+          +o lllliiiibbbbXXXXmmmm....aaaa, which contains the Motif Widgets                |
+
+          +o lllliiiibbbbXXXXtttt....aaaa, which contains the Xt Intrinsics                |
+
+          +o lllliiiibbbbXXXX11111111....aaaa, which contains the underlying Xlib library     |
+
+       NNNNOOOOTTTTEEEE:  The XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx widget requires the lllliiiibbbbPPPPWWWW....aaaa     |
+       library.  This can be included after lllliiiibbbbXXXX11111111....aaaa.
+
+       See Section 1.3 for information about compiling the programs  |
+       in this chapter.  The order in which you place the libraries  |
+       is very important.  The preceding order shown is correct, so
+       be sure that you use the same order when linking in
+       libraries.
+
+       3.9  CCCCrrrreeeeaaaattttiiiinnnngggg DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeeessss
+
+       Up to now, all widget resources have been set by the appli-
+       cation using widget argument lists.  An additional method
+       for specifying resources is through a set of ASCII files
+       that you can set up for your user.  You may also want your
+       user to set up these files to customize the application to
+       individual requirements or preferences.
+
+       When writing a program, consider the following factors in
+       deciding whether to specify an argument in a defaults file
+       or in the program itself.
+
+          +o Using a defaults file provides additional flexibility.
+            Any user can override settings to reflect personal
+            preferences, and a systems administrator can modify the
+
+
+       3-14
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            application defaults file for system-wide customiza-
+            tion.
+
+          +o Specifying settings in the program gives the programmer
+            greater control.  They cannot be overridden.
+
+          +o Using defaults files can speed application development.
+            To change a resource value in a defaults file, simply
+            edit the file (using any ASCII editor) and rerun the
+            program.  No recompilation or relinking is necessary.
+
+          +o Using defaults files can simplify your program.
+            Resources in defaults files are specified as strings.
+            When resources are set in your program, they may have
+            to be in some internal format that takes several calls
+            to compute.
+
+          +o Specifying options in your program may provide more
+            efficient operation for the computer.  The process of
+            reading defaults files and interpreting their contents
+            adds processing overhead.
+
+       Several files can be used for customization:                  |
+
+          +o An application-specific file containing system-wide      |
+            resource defaults for an entire class.  This file is     |
+            usually located in the ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss direc-  |
+            tory, but the location can vary depending on the user's  |
+            current language environment.
+
+          +o An application-specific file containing the user's       |
+            resource defaults for an entire class.                   |
+
+          +o A file (called ....XXXXddddeeeeffffaaaauuuullllttttssss) in the user's home directory  |
+            containing the user's default values for any applica-    |
+            tion.                                                    |
+
+          +o An environment-specific file containing the user's       |
+            default values for applications running on a particular  |
+            host.  This is usually the file ....XXXXddddeeeeffffaaaauuuullllttttssss----_h_o_s_t in the   |
+            user's home directory.
+
+       All files are of the same format.  Section ***II.4*** of      |
+       this manual, ``Managing Windows With MWM,'' contains a        |
+       detailed discussion of the format of defaults files.          |
+
+       Defaults files are generally read by the Xt Intrinsics when   |
+       an application is initialized.  For a discussion of the       |
+       order in which the files are loaded, the location of the      |
+       files, and the effects of environment variables and the       |
+       current language environment, see the ``Localization''        |
+
+
+                                                               3-15
+
+
+
+
+
+
+
+
+
+
+
+
+       section in Chapter 8.
+
+       3.9.1  AAAApppppppplllliiiiccccaaaattttiiiioooonnnn DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeeessss
+
+       These files are designed to be created by the applications
+       developer or systems administrator.  They are usually         |
+       located in the ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss directory on the     |
+       machine where the application resides, though there may be a  |
+       different directory for each of several language environ-     |
+       ments.  Application programs specify the file that contains
+       the application defaults when they call XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee.      |
+       The _a_p_p_l_i_c_a_t_i_o_n__c_l_a_s_s argument to that function specifies
+       the name of the application defaults file.  Several applica-
+       tions can point to the same file.                             |
+
+       The following call (taken from the sample program xxxxmmmmbbbbuuuuttttttttoooonnnn)   |
+       causes the Xt Intrinsics to look for an application-specific  |
+       file (XXXXMMMMddddeeeemmmmoooossss in this case) for default information.
+
+       toplevel = XtAppInitialize(NULL, "XMdemos", NULL,             |
+            0, &argc, argv, NULL, NULL, 0);                          |
+
+       The following sample defaults file sets the foreground color  |
+       to white and background color to black.
+
+       *background: black
+       *foreground: white
+
+       3.9.2  UUUUsssseeeerrrr DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeeessss
+
+       Each user can create several files to specify resource        |
+       defaults:                                                     |
+
+          +o An application-specific file for an entire class of      |
+            applications.  This file is often in the user's home     |
+            directory, though there may be a different directory     |
+            for each of several language environments.               |
+
+          +o A ....XXXXddddeeeeffffaaaauuuullllttttssss file in the user's home directory to        |
+            specify resource defaults for any application.           |
+
+          +o An environment-specific file to specify resource         |
+            defaults for applications running on a particular host.  |
+
+          +o                                                          |
+
+            User defaults override application and system defaults
+            and allow different users running the same program to
+            specify personal display preferences, such as color and
+            font selection.
+
+
+
+       3-16
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            The following sample file changes the background color   |
+            to blue.
+
+            *background:  blue
+
+       3.9.3  DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeee EEEExxxxaaaammmmpppplllleeee
+
+       Here is an example to illustrate the interaction of the       |
+       defaults files with each other and with arguments specified
+       in programs.  Suppose a computer contains the program xxxxmmmmbbbbuuuutttt----  *
+       ttttoooonnnn as well as the application and user defaults files pre-   |
+       viously described.                                            |
+
+       To determine the color of the background, the Xt Intrinsics
+       will do the following:
+
+         1.  Look for the system defaults and initialize the back-   |
+             ground color to white. (These defaults are compiled
+             into the widgets.)
+
+         2.  Look for the application-specific class defaults file   |
+             and set the color to black.                             |
+
+         3.  Look for the user's application-class, general, and     |
+             environment-specific defaults files.  In this example,  |
+             the Xt Intrinsics load the user's ....XXXXddddeeeeffffaaaauuuullllttttssss file and   |
+             set the background color to blue.
+
+         4.  Look for any resource arguments on the command line     |
+             that started the application.  If the command line      |
+             sets the background resource (XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnndddd), this      |
+             overrides any defaults that have been set by resource   |
+             files.
+
+       3.10  UUUUssssiiiinnnngggg CCCCoooolllloooorrrr
+
+       The Motif Widgets have been designed to support both color
+       and monochrome systems in a consistent and attractive
+       manner.  This is accomplished by incorporating into each
+       widget a variety of visual attributes. Through proper use of  |
+       these attributes, the widgets will present a dramatic 3-      |
+       dimensional appearance, giving you the impression that you    |
+       are directly manipulating the components.  This section       |
+       describes these color attributes and shows you how to use
+       them.                                                         |
+
+
+
+
+
+
+
+
+                                                               3-17
+
+
+
+
+
+
+
+
+
+
+
+
+       3.10.1  VVVViiiissssuuuuaaaallll CCCCaaaappppaaaabbbbiiiilllliiiittttiiiieeeessss aaaannnndddd AAAAttttttttrrrriiiibbbbuuuutttteeeessss
+
+       The Motif Widgets visual capabilities are based on special-
+       ized border and background drawing.  The border drawing con-
+       sists of a band around the widget.  The band contains two
+       regions:
+
+          +o The top and left shadow                                  |
+
+          +o The bottom and right shadow                              |
+
+       The background drawing within the widget is referred to as    |
+       background. The following figure illustrates the drawing      |
+       areas.                                                        |
+
+                    FFFFiiiigggguuuurrrreeee 3333----3333....  Widget Drawing Areas                |
+
+       Each area can be drawn from either a color or a pixmap. The
+       top and left shadow is drawn using these Primitive widget
+       resources:
+
+          +o XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr
+
+          +o XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp
+
+       The background is drawn using these Primitive widget
+       resources:
+
+          +o XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnndddd
+
+          +o XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp
+
+       The bottom and right shadow is drawn using these Primitive    |
+       widget resources:
+
+          +o XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr
+
+          +o XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwPPPPiiiixxxxmmmmaaaapppp
+
+       All the widgets support the visual attributes for setting
+       the background as described.  In general, only Primitive      |
+       widgets support the border drawing.  To use the border draw-
+       ing for manager widgets, a special manager widget, XXXXmmmmFFFFrrrraaaammmmeeee,
+       is available.  This widget will maintain the geometry of a
+       single child and perform the border and background drawing.   |
+
+
+
+
+
+
+
+
+       3-18
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       3.10.2  UUUUssssiiiinnnngggg tttthhhheeee CCCCaaaappppaaaabbbbiiiilllliiiittttiiiieeeessss
+
+       When planning the 3-dimensional appearance of your program's  |
+       windows, consider the following guidelines:
+
+          +o Any selectable area should appear to be raised.
+
+          +o Nonselectable areas should appear to be flat.  This can  |
+            be accomplished by setting XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss to 0.
+
+       To give the impression that the widget is raised above its    |
+       parent, set these resources as follows:
+
+          +o Set XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr to a light color.
+
+          +o Set XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnndddd to a medium color.
+
+          +o Set the XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr to a dark color.
+
+       The foreground, background, and both top and bottom shadow
+       resources are dynamically defaulted.  This means that if you
+       do not specify any color for these resources, colors are
+       automatically generated.  A black and white color scheme is
+       generated on a monochrome system, while on a color system a
+       set of four colors is generated that displays the correct     |
+       shading to achieve the 3-dimensional appearance.  If you      |
+       specify only a background color, the foreground and both
+       shadow colors are generated (based on the background color)   |
+       to achieve the 3-dimensional appearance.  This color genera-  |
+       tion works best with nonsaturated colors, that is, using
+       pure red, green, or blue will give poor results.  Also,       |
+       colors are generated only at the time of the widget's crea-   |
+       tion.  Changing the background color by using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss     |
+       will not cause the other colors to be regenerated.            *
+
+       Reversing the top shadow and bottom shadow colors will give
+       the appearance that the widget is set into its parent.        |
+       Several of the Primitive widgets (buttons, toggles, and
+       arrows, for example) automatically reverse their shadowing
+       when selected to achieve the effect of being pressed.  They
+       return to their original shadowing when released.
+
+       Use coordinated colors such as light blue for the top shadow  |
+       color, sky blue for the background color, and navy blue for
+       the bottom shadow color to enhance the 3-dimensional appear-  |
+       ance. Using dissimilar colors loses the effect.
+
+       The 3-dimensional appearance is more difficult to achieve on  |
+       monochrome systems.  The built-in defaults for all the widg-
+       ets have been set up for monochrome systems and provide the
+       desired effect.  The top shadow is drawn with a 50 percent
+
+
+                                                               3-19
+
+
+
+
+
+
+
+
+
+
+
+
+       pixmap, the background is solid white, and the bottom shadow
+       is solid black.  This appearance can be further enhanced by
+       setting the background of a manager containing a set of
+       raised children to a pixmap of 25 percent black and 75 per-
+       cent white.
+
+       3.11  AAAAddddvvvvaaaannnncccceeeedddd PPPPrrrrooooggggrrrraaaammmmmmmmiiiinnnngggg TTTTeeeecccchhhhnnnniiiiqqqquuuueeeessss
+
+       The sample program xxxxmmmmbbbbuuuuttttttttoooonnnn described in earlier sections of
+       this chapter illustrated the writing of a very simple widget
+       program.  The Xt Intrinsics provide additional mechanisms
+       for programmers.
+
+       3.11.1  SSSSeeeettttttttiiiinnnngggg AAAArrrrgggguuuummmmeeeennnntttt VVVVaaaalllluuuueeeessss
+
+       Section 3.3 described the use of XXXXttttSSSSeeeettttAAAArrrrgggg for setting the
+       values of widget arguments.  This section describes three
+       additional methods.  The code segments show how the earlier
+       sample program could have been rewritten to use the new
+       methods.
+
+       3.11.1.1  AAAAssssssssiiiiggggnnnniiiinnnngggg AAAArrrrgggguuuummmmeeeennnntttt VVVVaaaalllluuuueeeessss
+
+       Each element of the type AAAArrrrgggg structure can be assigned indi-
+       vidually.
+
+
+       XmString btn_text;                                            |
+       Arg args[10];
+
+       btn_text = XmStringCreateLtoR ("Push Here",                   |
+            XmSTRING_DEFAULT_CHARSET);                               |
+       args[0].name = XmNwidth;
+       args[0].value = (XtArgVal) 250;
+       args[1].name = XmNheight;
+       args[1].value = (XtArgVal) 150;
+       args[2].name = XmNlabelString;
+       args[2].value = (XtArgVal) btn_text;
+
+
+       BBBBeeee ssssuuuurrrreeee ttttoooo kkkkeeeeeeeepppp nnnnaaaammmmeeee----vvvvaaaalllluuuueeee ppppaaaaiiiirrrrssss ssssyyyynnnncccchhhhrrrroooonnnniiiizzzzeeeedddd....  NNNNooootttteeee tttthhhhaaaatttt     ||||
+       aaaallllllll aaaarrrrgggguuuummmmeeeennnntttt vvvvaaaalllluuuueeeessss hhhhaaaavvvveeee bbbbeeeeeeeennnn ccccaaaasssstttt ttttoooo ttttyyyyppppeeee XXXXttttAAAArrrrggggVVVVaaaallll....
+
+       3333....11111111....1111....2222  SSSSttttaaaattttiiiicccc IIIInnnniiiittttiiiiaaaalllliiiizzzziiiinnnngggg
+
+       Initializing argument lists at compile time makes it easy to
+       add and delete argument settings in your program.  It avoids
+       the need to hard-code the maximum number of arguments when
+       declaring your argument list.  These settings are frozen at
+       compile time, however.  While the example below shows only a
+       single argument list being created, you can create any
+
+
+       3-20
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       number of lists (be sure to declare each list as type AAAArrrrgggg).
+       Note that you cannot use static initializing to initialize a
+       compound string.  You can combine static initializing with
+       run-time assignments to accomplish this, as shown in the
+       next section.
+
+
+       static Arg args[] = {
+        {XmNwidth, (XtArgVal) 250},
+        {XmNheight, (XtArgVal) 150},
+       };
+
+
+       NNNNooootttteeee tttthhhhaaaatttt tttthhhheeee vvvvaaaalllluuuueeeessss ooooffff eeeeaaaacccchhhh aaaarrrrgggguuuummmmeeeennnntttt hhhhaaaavvvveeee bbbbeeeeeeeennnn ccccaaaasssstttt ttttoooo ttttyyyyppppeeee  ||||
+       XXXXttttAAAArrrrggggVVVVaaaallll....  WWWWhhhheeeennnn tttthhhheeee ccccrrrreeeeaaaatttteeee wwwwiiiiddddggggeeeetttt ffffuuuunnnnccccttttiiiioooonnnn iiiissss iiiinnnnvvvvooookkkkeeeedddd,,,, ppppaaaassssssss----
+       iiiinnnngggg iiiitttt XXXXttttNNNNuuuummmmbbbbeeeerrrr((((aaaarrrrggggssss)))) will compute the number of elements in
+       the argument list.
+
+       button = XtCreateManagedWidget("button",                      |
+            xmPushButtonWidgetClass, toplevel, args,                 |
+            XtNumber(args));                                         |
+
+       NNNNOOOOTTTTEEEE:::: UUUUsssseeee tttthhhheeee mmmmaaaaccccrrrroooo XXXXttttNNNNuuuummmmbbbbeeeerrrr oooonnnnllllyyyy iiiiffff yyyyoooouuuu aaaarrrreeee ddddeeeeccccllllaaaarrrriiiinnnngggg tttthhhheeee    ||||
+       aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt ooooffff iiiinnnnddddeeeeffffiiiinnnniiiitttteeee ssssiiiizzzzeeee aaaassss sssshhhhoooowwwwnnnn pppprrrreeeevvvviiiioooouuuussssllllyyyy          ||||
+       ((((aaaarrrrggggssss[[[[]]]]))))....  XXXXttttNNNNuuuummmmbbbbeeeerrrr wwwwiiiillllllll rrrreeeettttuuuurrrrnnnn tttthhhheeee nnnnuuuummmmbbbbeeeerrrr ooooffff eeeelllleeeemmmmeeeennnnttttssss tttthhhhaaaatttt
+       hhhhaaaavvvveeee aaaaccccttttuuuuaaaallllllllyyyy bbbbeeeeeeeennnn aaaallllllllooooccccaaaatttteeeedddd iiiinnnn pppprrrrooooggggrrrraaaammmm mmmmeeeemmmmoooorrrryyyy....
+
+       3333....11111111....1111....3333  CCCCoooommmmbbbbiiiinnnniiiinnnngggg SSSSttttaaaattttiiiicccc IIIInnnniiiittttiiiiaaaalllliiiizzzzaaaattttiiiioooonnnn wwwwiiiitttthhhh RRRRuuuunnnn----TTTTiiiimmmmeeee
+                 AAAAssssssssiiiiggggnnnnmmmmeeeennnnttttssss
+
+       The final method for creating argument lists initializes a
+       list at compile time (described previously in ``Static Ini-   |
+       tializing'') and then modifies the values of the settings
+       using regular assignment statements.  The XXXXttttNNNNuuuummmmbbbbeeeerrrr macro can
+       be used to count the number of arguments, since the argument
+       list is declared with no definite number of arguments.  The
+       values can be changed through assignments at run time, but
+       the size of the argument list (the number of arguments that
+       can be specified) is frozen at compile time and cannot be
+       extended.
+
+       The following example initializes an argument list of three   |
+       elements.  The last is initialized to NNNNUUUULLLLLLLL so it can be
+       given a value later.  The value for argument XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt is
+       changed in the program from its initialized value of 150 to
+       a run-time value of 250.
+
+       XmString btn_text;                                            |
+
+       static Arg args[] = {
+        {XmNwidth, (XtArgVal) 500}, /* item 0 */
+
+
+                                                               3-21
+
+
+
+
+
+
+
+
+
+
+
+
+        {XmNheight, (XtArgVal) 150}, /* item 1 */
+        {XmNlabelString, (XtArgVal) NULL}, /* item 2 */
+       };
+
+       btn_text = XmStringCreateLtoR ("Push Here",                   |
+            XmSTRING_DEFAULT_CHARSET);                               |
+
+       args[1].value = (XtArgVal) 250;
+       args[2].value = (XtArgVal) btn_string;
+
+       3.11.2  MMMMaaaannnniiiippppuuuullllaaaattttiiiinnnngggg CCCCrrrreeeeaaaatttteeeedddd WWWWiiiiddddggggeeeettttssss
+
+       Widget programs to this point have set up argument lists and
+       callbacks for widgets prior to the widgets' creation.  You
+       can also modify widgets after they have been created.  Such
+       modification usually occurs in callback routines and is
+       illustrated in the sample program xxxxmmmmffffoooonnnnttttssss discussed later in
+       this chapter.
+
+       3.11.2.1  RRRReeeettttrrrriiiieeeevvvviiiinnnngggg aaaannnndddd MMMMooooddddiiiiffffyyyyiiiinnnngggg AAAArrrrgggguuuummmmeeeennnnttttssss
+
+       XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss will return the current value of specified argu-
+       ments for a created widget.  XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss will change the
+       value of specified arguments.
+
+       3.11.2.2  AAAAddddddddiiiinnnngggg CCCCaaaallllllllbbbbaaaacccckkkkssss aaaannnndddd TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+
+       XXXXttttAAAAddddddddCCCCaaaallllllllbbbbaaaacccckkkk will add a callback routine to a widget's
+       callback list after the widget has been created.
+
+       Each widget has a translation table that ties user actions
+       (for example, button presses and keyboard presses) to widget
+       actions.  Your application can modify the translation table
+       for any widget.  This process is described in any manual on
+       the Xt Intrinsics.
+
+       3.11.2.3  SSSSeeeeppppaaaarrrraaaattttiiiinnnngggg WWWWiiiiddddggggeeeetttt CCCCrrrreeeeaaaattttiiiioooonnnn aaaannnndddd MMMMaaaannnnaaaaggggeeeemmmmeeeennnntttt
+
+       By using XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt, the sample program automati-
+       cally adds the newly created widget to its parent's set of
+       managed children.  To optimize programs that add a number of
+       widgets to a single parent, you may want to create the widg-
+       ets using XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt calls and then add the entire list
+       of children to its parent with a single XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiillllddddrrrreeeennnn
+       call.  In this way, the parent widget performs its geometry
+       processing of its children only once.  This will increase
+       the performance of applications that have a large number of
+       child widgets under a single parent.
+
+       Usually, the function XXXXttttRRRReeeeaaaalllliiiizzzzeeeeWWWWiiiiddddggggeeeetttt will display a widget
+       and all of its children.  Using the function
+
+
+       3-22
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       XXXXttttSSSSeeeettttMMMMaaaappppppppeeeeddddWWWWhhhheeeennnnMMMMaaaannnnaaaaggggeeeedddd allows you to turn off automatic map-
+       ping (displaying) of particular widgets.  Your application
+       can then use XXXXttttMMMMaaaappppWWWWiiiiddddggggeeeetttt to display the widget.
+
+       The function XXXXttttDDDDeeeessssttttrrrrooooyyyyWWWWiiiiddddggggeeeetttt will destroy a created widget
+       and its children.  The destroyed widget is automatically
+       removed from its parent's list of children.
+
+       3.12  AAAAnnnn AAAAddddvvvvaaaannnncccceeeedddd SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       The program presented in this section, xxxxmmmmffffoooonnnnttttssss, displays
+       each available font as a Push button. The source code and     |
+       the application defaults file for this sample program are
+       listed later in this section.  They are located on your sys-
+       tem in ....////ddddeeeemmmmoooossss////xxxxmmmmssssaaaammmmpppplllleeeerrrrssss////xxxxmmmmffffoooonnnnttttssss....cccc and                       |
+       ....////ddddeeeemmmmoooossss////xxxxmmmmssssaaaammmmpppplllleeeerrrrssss////XXXXMMMMddddeeeemmmmoooossss....aaaadddd.
+
+       You can change the background and foreground colors and
+       other visual attributes by changing the parameters in the     |
+       XXXXMMMMddddeeeemmmmoooossss application defaults file. Remember that XXXXMMMMddddeeeemmmmoooossss is   |
+       used as a defaults file for all the example programs in this  |
+       guide.  If you change any of the general defaults at the top
+       of the file, other programs will be affected.
+
+       When you run the program, you will see the window shown in    |
+       Figure 3-4.
+                                                                     *
+                 FFFFiiiigggguuuurrrreeee 3333----4444....  Program xmfonts Main Window
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               3-23
+
+
+
+
+
+
+
+
+
+
+
+
+       Move the pointer to the push button representing the font     |
+       you want to see displayed and press mouse button 1.  Text in
+       the selected font is displayed in a separate popup window.    |
+       This window can be removed by pressing the cccclllloooosssseeee push button  |
+       or left on the screen to be compared with other text windows
+       that you might select.  You can continue this procedure for
+       as long as you desire.  Each time the mouse button is
+       pressed, the selected font will be displayed in a separate    |
+       pop-up window.  When you want to exit the program, move the   |
+       cursor to the eeeexxxxiiiitttt button in the menu bar, then drag the      |
+       pointer down until the qqqquuuuiiiitttt button appears.  Clicking mouse   |
+       button 1 on the qqqquuuuiiiitttt button will terminate the program.
+
+       3.12.1  WWWWiiiinnnnddddoooowwwwssss UUUUsssseeeedddd iiiinnnn xxxxmmmmffffoooonnnnttttssss
+
+       There are three independent windows displayed in this pro-    |
+       gram (see Figures 3-4, 3-5, and 3-6):
+
+       3.12.1.1  MMMMaaaaiiiinnnn WWWWiiiinnnnddddoooowwww
+
+       The main window is the window in which the push buttons are   |
+       displayed (see Figure 3-4). It is a combination of an appli-
+       cation shell, a MainWindow widget, a RowColumn widget, and a  |
+       number of push button gadgets. The MainWindow widget was      |
+       chosen because it has the capability of a menu bar and is a   |
+       convenient envelope for many applications.  Although a main   |
+       window can have three areas (see Chapter 2), only two of the  |
+       areas are needed here, the menu bar and work region.  In      |
+       this case the menu bar is the parent of a pull-down menu for  |
+       the exit function and a cascade button for the Help func-     |
+       tion.  The work region consists of a RowColumn widget and     |
+       possibly a vertical scroll bar.  A number of push button      |
+       gadgets, one for each font, are placed within the RowColumn
+       widget.  These are used instead of push buttons to improve    |
+       program performance.  To see the difference for yourself,     |
+       run the program as it exists.  Use the scroll bar to view     |
+       buttons not displayed.  Then change the code in the           |
+       xxxxmmmmffffoooonnnnttttssss....cccc file (be sure to move this file to your work        |
+       directory first) so that the line that now reads
+
+       button = XmCreatePushButtonGadget(row_column, name, args,
+       n);
+
+       bbbbeeeeccccoooommmmeeeessss
+
+       bbbbuuuuttttttttoooonnnn ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnn((((rrrroooowwww____ccccoooolllluuuummmmnnnn,,,, nnnnaaaammmmeeee,,,, aaaarrrrggggssss,,,, nnnn))));;;;       |
+
+       Then recompile the program and run it again.  You should see
+       considerable difference in the operation of the program,
+       particularly when scrolling through the buttons.
+
+
+
+       3-24
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       3.12.1.2  HHHHeeeellllpppp WWWWiiiinnnnddddoooowwww
+
+       The Help window is a pop-up window that is a message box      |
+       (see Figure 3-5).
+                                                                     *
+             FFFFiiiigggguuuurrrreeee 3333----5555....  Program xmfonts Help Display Window
+
+
+
+
+
+
+
+
+
+
+
+       3.12.1.3  FFFFoooonnnntttt DDDDiiiissssppppllllaaaayyyy WWWWiiiinnnnddddoooowwww
+
+       The window that displays the selected font is also a popup
+       window that is a MessageBoxDialog (see Figure 3-6).           |
+                                                                     *
+             FFFFiiiigggguuuurrrreeee 3333----6666....  Program xmfonts Font Display Window
+
+
+
+
+
+
+
+
+       You can have as many text display windows as you want.  You   |
+       can remove them all by simply exiting the program as          |
+       explained previously, or you can remove each window indivi-   |
+       dually by moving the pointer to the cccclllloooosssseeee button on the win-
+       dow and pressing mouse button 1.
+
+       3.12.2  WWWWiiiiddddggggeeeetttt HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy
+
+       This program produces three separate windows.  One contains   |
+       all the push button gadgets and its shell is created using    |
+       XXXXttttTTTToooooooollllkkkkiiiittttIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee, XXXXttttCCCCrrrreeeeaaaatttteeeeAAAApppppppplllliiiiccccaaaattttiiiioooonnnnCCCCoooonnnntttteeeexxxxtttt, XXXXttttOOOOppppeeeennnn----
+       DDDDiiiissssppppllllaaaayyyy, and finally XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeeesssshhhheeeellllllll.  Note the difference
+       between this program and xxxxmmmmbbbbuuuuttttttttoooonnnn.  Since XXXXttttAAAAppppppppIIIInnnniiiittttiiiiaaaalllliiiizzzzeeee     |
+       opens the display and creates a shell in addition to ini-
+       tializing the toolkit, xxxxmmmmbbbbuuuuttttttttoooonnnn did not need to use the
+       functions XXXXttttCCCCrrrreeeeaaaatttteeeeAAAApppppppplllliiiiccccaaaattttiiiioooonnnnCCCCoooonnnntttteeeexxxxtttt, XXXXttttOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy, and      |
+       XXXXttttAAAAppppppppCCCCrrrreeeeaaaatttteeeeSSSShhhheeeellllllll.  The other two windows are the Help window  |
+       and the window that displays text in the selected font.
+       Both of these windows are MessageBoxDialogs created by the
+       function XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg.  This function creates a
+
+
+                                                               3-25
+
+
+
+
+
+
+
+
+
+
+
+
+       MessageBox widget and a DialogShell widget.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3-26
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       The widget tree for xxxxmmmmffffoooonnnnttttssss is shown in the folllowing fig-   |
+       ure.                                                          |
+
+                     FFFFiiiigggguuuurrrreeee 3333----7777....  xmfonts Widget Tree                |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               3-27
+
+
+
+
+
+
+
+
+
+
+
+
+       3.12.3  SSSSoooouuuurrrrcccceeee CCCCooooddddeeee
+
+       The source code for xxxxmmmmffffoooonnnnttttssss and the XXXXMMMMddddeeeemmmmoooossss default file are  |
+       shown in the following sections.
+
+       3.12.3.1  TTTThhhheeee PPPPrrrrooooggggrrrraaaammmm
+
+       This section shows the program listing for xxxxmmmmffffoooonnnnttttssss.           |
+
+       /**---------------------------------------------------------------------
+       ***
+       ***  file:     xmfonts.c
+       ***
+       ***  project:  Motif Widgets example programs
+       ***
+       ***  description:This program creates a button for every font.|
+       ***            When a button is selected,                     |
+       ***            a text sample is displayed using the font.
+       ***                                                           |
+       ***
+       ***       (c) Copyright 1989, 1990 by Open Software Foundation, Inc.|
+       ***           All Rights Reserved.                            |
+       ***
+       ***       (c) Copyright 1989 by Hewlett-Packard Company.      |
+       ***
+       ***
+       ***  defaults: xmfonts.c depends on these defaults:           |
+       !
+       *allowShellResize:true                                        *
+       *borderWidth:  0
+       *highlightThickness:2
+       *traversalOn:  true
+       *keyboardFocusPolicy:explicit
+       *menuAccelerator:<Key>KP_F2
+       *fontList:     vr-20                                          |
+       !
+       xmfonts*XmScrolledWindow.height:432
+       xmfonts*XmScrolledWindow.width:690
+       xmfonts*menu_bar*background:#58f
+       !
+       ***-------------------------------------------------------------------*/
+
+       /*-------------------------------------------------------------
+       **   Include Files
+       */
+       #include <stdio.h>
+       #include <string.h>
+       #include <sys/types.h>
+       #ifdef SYS_DIR                                                |
+       #include <sys/dir.h>
+       #else
+
+
+       3-28
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+       #ifdef NDIR                                                   |
+       #include <ndir.h>                                             |
+       #else                                                         |
+       #include <dirent.h>
+       #endif
+       #endif                                                        |
+
+       #include <X11/Intrinsic.h>
+       #include <X11/IntrinsicP.h>
+       #include <X11/CoreP.h>
+       #include <X11/Shell.h>
+       #include <Xm/Xm.h>
+       #include <Xm/BulletinB.h>
+       #include <Xm/CascadeB.h>
+       #include <Xm/Frame.h>
+       #include <Xm/Label.h>
+       #include <Xm/MainW.h>
+       #include <Xm/MessageB.h>
+       #include <Xm/PushB.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/RowColumn.h>                                     |
+       #include <Xm/ScrollBar.h>
+       #include <Xm/ScrolledW.h>
+
+       /*-------------------------------------------------------------
+       **   Forward Declarations
+       */
+
+       void main ();  /*  main logic for application*/
+
+       Widget CreateApplication ();/*  create main window*/
+       Widget CreateFontSample ();/*  create font display window*/
+       Widget CreateHelp ();/*  create help window*/                 |
+
+       void SelectFontCB ();/*  callback for font buttons*/
+       void CloseCB ();/*  callback for close button*/
+       void HelpCB ();/*  callback for help button*/                 |
+       void QuitCB ();/*  callback for quit button*/
+
+       /*-------------------------------------------------------------
+       **   Global Variables
+       */
+
+       #define MAX_ARGS 20
+       #define TITLE_STRING "X Font Sampler"                         *
+
+       typedef struct {                                              |
+         char *fontpath;                                             |
+       } ApplicationData, *ApplicationDataPtr;                       |
+
+       ApplicationData AppData;                                      |
+
+
+                                                               3-29
+
+
+
+
+
+
+
+
+
+
+
+
+       #define XtNfontPath "fontPath"                                |
+       #define XtCFontPath "FontPath"                                |
+       static XtResource resources[] = {                             |
+         { XtNfontPath, XtCFontPath, XmRString, sizeof(String),      |
+           XtOffset(ApplicationDataPtr, fontpath), XmRString, "/usr/lib/X11/fonts" }|
+       };                                                            |
+
+       static XmStringCharSetcharset = (XmStringCharSet) XmSTRING_DEFAULT_CHARSET;
+
+       /*-------------------------------------------------------------
+       **   main      - main logic for application
+       */
+       void main (argc,argv)
+            unsigned intargc;
+            char      **argv;
+       {
+            Display   *display;/*  Display*/
+            Widget    app_shell;/*  ApplicationShell*/
+            Widget    main_window;/*  MainWindow*/
+            XtAppContextapp_context;                                 |
+
+            /*   Initialize toolkit and open the display.            *
+            */
+            XtToolkitInitialize();
+            app_context = XtCreateApplicationContext();              |
+            display = XtOpenDisplay (app_context, NULL, argv[0], "XMdemos", NULL, 0,|
+                      &argc, argv);
+
+            if (!display) {
+                 XtWarning ("xfonts: Can't open display, exiting...");
+                 exit (0);
+            }
+
+            /*   Create application shell.
+            */
+            app_shell = XtAppCreateShell (argv[0], "XMdemos",
+                      applicationShellWidgetClass, display, NULL, 0);
+
+            XtGetApplicationResources(app_shell,                     |
+                            &AppData,                                |
+                            resources,                               |
+                            XtNumber(resources),                     |
+                            NULL,                                    |
+                            0);                                      |
+
+            /*   Create and realize main application window.
+            */
+            main_window = CreateApplication (app_shell);
+            XtRealizeWidget (app_shell);
+
+            /*   Get and dispatch events.
+
+
+       3-30
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            */
+            XtAppMainLoop (app_context);                             |
+       }
+
+       /*-------------------------------------------------------------
+       **   CreateApplication- create main window
+       */
+       Widget CreateApplication (parent)
+       Widget         parent;/*  parent widget*/
+       {
+            Widget    main_window;/*  MainWindow*/
+            Widget    menu_bar;/*  MenuBar*/
+            Widget    menu_pane;/*  MenuPane*/
+            Widget    cascade;/*  CascadeButton*/
+            Widget    frame;/*  Frame*/
+            Widget    swindow;/*  ScrolledWindow*/
+            Widget    row_column;/*  RowColumn*/
+            Widget    button;/*  PushButtonGadget*/
+            Widget    hsb, vsb;/*  ScrollBars*/
+
+            Arg       args[MAX_ARGS];/*  arg list*/
+            register intn;/*  arg count*/
+
+            DIR       *dirp;/*  directory pointer*/
+       #if defined (SYS_DIR) || defined (NDIR)                       |
+            struct direct *item;/*  entry in directory*/
+       #else
+            struct dirent *item;/*  entry in directory*/
+       #endif
+            char      name[15];/*  name string*/
+            int       len;/*  string length*/
+
+            XmString  label_string;
+
+
+            /*   Create MainWindow.
+            */
+            n = 0;
+            main_window = XmCreateMainWindow (parent, "main1", args, n);
+            XtManageChild (main_window);
+
+            /*   Create MenuBar in MainWindow.
+            */
+            n = 0;
+            menu_bar = XmCreateMenuBar (main_window, "menu_bar", args, n);
+            XtManageChild (menu_bar);
+
+            /*   Create "Exit" PulldownMenu.
+            */
+            n = 0;
+            menu_pane = XmCreatePulldownMenu (menu_bar, "menu_pane", args, n);
+
+
+                                                               3-31
+
+
+
+
+
+
+
+
+
+
+
+
+            n = 0;
+            button = XmCreatePushButton (menu_pane, "Quit", args, n);
+            XtManageChild (button);
+            XtAddCallback (button, XmNactivateCallback, QuitCB, NULL);
+
+            n = 0;
+            XtSetArg (args[n], XmNsubMenuId, menu_pane);  n++;
+            cascade = XmCreateCascadeButton (menu_bar, "Exit", args, n);
+            XtManageChild (cascade);
+
+
+            /*   Create "Help" button.                               |
+            */
+            n = 0;
+            cascade = XmCreateCascadeButton (menu_bar, "Help", args, n);
+            XtManageChild (cascade);
+            XtAddCallback (cascade, XmNactivateCallback, HelpCB, NULL);
+
+            n = 0;
+            XtSetArg (args[n], XmNmenuHelpWidget, cascade);  n++;
+            XtSetValues (menu_bar, args, n);
+
+
+            /*   Create Frame MainWindow and ScrolledWindow in Frame.|
+            */
+            n = 0;
+            XtSetArg (args[n], XmNmarginWidth, 2);  n++;
+            XtSetArg (args[n], XmNmarginHeight, 2);  n++;
+            XtSetArg (args[n], XmNshadowThickness, 1);  n++;
+            XtSetArg (args[n], XmNshadowType, XmSHADOW_OUT);  n++;
+            frame = XmCreateFrame (main_window, "frame", args, n);
+            XtManageChild (frame);
+
+            n = 0;
+            XtSetArg (args[n], XmNscrollBarDisplayPolicy, XmAS_NEEDED);  n++;
+            XtSetArg (args[n], XmNscrollingPolicy, XmAUTOMATIC);  n++;
+            swindow = XmCreateScrolledWindow (frame, "swindow", args, n);
+            XtManageChild (swindow);
+
+
+            /*   Create RowColumn in ScrolledWindow to manage buttons.|
+            */
+            n = 0;
+            XtSetArg (args[n], XmNpacking, XmPACK_COLUMN);  n++;
+            XtSetArg (args[n], XmNnumColumns, 5);  n++;
+            row_column = XmCreateRowColumn (swindow, "row_column", args, n);
+            XtManageChild (row_column);
+
+
+            /*   Set MainWindow areas and add tab groups             |
+            */
+
+
+       3-32
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            XmMainWindowSetAreas (main_window, menu_bar, NULL, NULL, NULL,
+                      frame);
+            n = 0;
+            XtSetArg (args[n], XmNhorizontalScrollBar, &hsb);  n++;
+            XtSetArg (args[n], XmNverticalScrollBar, &vsb);  n++;
+            XtGetValues (main_window, args, n);
+            XmAddTabGroup (row_column);
+            if (hsb)
+                 XmAddTabGroup (hsb);
+            if (vsb)
+                 XmAddTabGroup (vsb);
+
+
+            /*   Create a PushButton widget for each font.           |
+            */
+            /*  open the font directory  */
+            dirp = opendir (AppData.fontpath);                       |
+            /*  read one entry each time through the loop  */
+            for (item = readdir (dirp);  item != NULL;  item = readdir (dirp))
+            {
+                 len =  (strlen (item -> d_name));
+            /*  discard entries that don't end in ".xxx"  */
+                 if ((len < 5) || (item -> d_name[len-4] != '.')) continue;
+            /*  copy the name (except extension) from the entry  */
+                 strncpy (name, item -> d_name, len-4);
+                 name[len-4] = ' ';
+            /*  create PushButton in RowCol  */
+                 n = 0;
+                 label_string = XmStringCreateLtoR(name, charset);
+                 XtSetArg (args[n], XmNlabelString, label_string);  n++;
+                 button = XmCreatePushButtonGadget (row_column, name, args, n);
+                 XtManageChild (button);
+                 XtAddCallback (button, XmNarmCallback, SelectFontCB, NULL);
+                 XmStringFree (label_string);
+            }
+
+            /*   Return MainWindow.
+            */
+            return (main_window);
+       }
+
+       /*-------------------------------------------------------------
+       **   CreateFontSample- create font display window
+       */
+       Widget CreateFontSample (parent)
+       Widget         parent;/*  parent widget*/
+       {
+            Widget    message_box;/*  MessageBox Dialog*/
+            Widget    button;
+            Arg       args[MAX_ARGS];/*  arg list*/
+            register intn;/*  arg count*/
+
+
+                                                               3-33
+
+
+
+
+
+
+
+
+
+
+
+
+
+            char      *name = NULL;/*  font name*/
+            XFontStruct*font = NULL;/*  font pointer*/
+            XmFontListfontlist = NULL;/*  fontlist pointer*/
+            static charmessage[BUFSIZ];/*  text sample*/
+            XmString  name_string = NULL;
+            XmString  message_string = NULL;
+            XmString  button_string = NULL;
+
+
+            /*   Get font name.
+            */
+            n = 0;
+            XtSetArg (args[n], XmNlabelString, &name_string); n++;
+            XtGetValues (parent, args, n);
+            XmStringGetLtoR (name_string, charset, &name);
+
+
+            /*   Load font and generate message to display.
+            */
+            if (name)
+                 font = XLoadQueryFont (XtDisplay (XtParent (parent)), name);
+            if  (!font)
+                 sprintf (message, "Unable to load font: %s ", name);|
+            else
+            {
+                 fontlist = XmFontListCreate (font, charset);
+                 sprintf (message, "\                                |
+       This is font %s.0                                             |
+       The quick brown fox jumps over the lazy dog. ", name);        |
+            }
+            message_string = XmStringCreateLtoR (message, charset);
+            button_string = XmStringCreateLtoR ("Close", charset);
+
+
+            /*   Create MessageBox dialog.                           |
+            */
+            n = 0;
+            if (fontlist)
+            {
+                 XtSetArg (args[n], XmNlabelFontList, fontlist);  n++;
+            }
+            XtSetArg (args[n], XmNdialogTitle, name_string);  n++;
+            XtSetArg (args[n], XmNokLabelString, button_string);  n++;
+            XtSetArg (args[n], XmNmessageString, message_string);  n++;
+            message_box = XmCreateMessageDialog (XtParent (XtParent(parent)), "fontbox",|
+                      args, n);                                      |
+
+            button = XmMessageBoxGetChild (message_box, XmDIALOG_CANCEL_BUTTON);
+            XtUnmanageChild (button);
+            button = XmMessageBoxGetChild (message_box, XmDIALOG_HELP_BUTTON);
+
+
+       3-34
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            XtUnmanageChild (button);
+
+            /*   Free strings and return MessageBox.
+            */
+            if (fontlist) XtFree (fontlist);
+            if (name_string) XtFree (name_string);
+            if (message_string) XtFree (message_string);
+            if (button_string) XtFree (button_string);
+            return (message_box);
+       }
+
+       /*-------------------------------------------------------------
+       **   CreateHelp- create help window                           |
+       */
+       Widget CreateHelp (parent)
+            Widget    parent;/*  parent widget*/
+       {
+            Widget    button;
+            Widget    message_box;/*  Message Dialog */
+            Arg       args[MAX_ARGS];/*  arg list*/
+            register intn;/*  arg count*/
+
+            static charmessage[BUFSIZ];/*  help text*/               |
+            XmString  title_string = NULL;
+            XmString  message_string = NULL;
+            XmString  button_string = NULL;
+
+
+
+            /*   Generate message to display.                        |
+            */
+            sprintf (message, "\                                     |
+       These are buttons for the fonts in the X11 font directory.  0 |
+       The button label is the name of the font.  When you select 0  |
+       a button, a small window will display a sample of the font.  0|
+       Press the 'close' button to close a font window.  0           |
+       Select 'quit' from the 'exit' menu to exit this application. ");|
+            message_string = XmStringCreateLtoR (message, charset);
+            button_string = XmStringCreateLtoR ("Close", charset);
+            title_string = XmStringCreateLtoR ("xmfonts help", charset);
+
+
+            /*   Create MessageBox dialog.
+            */
+            n = 0;
+            XtSetArg (args[n], XmNdialogTitle, title_string);  n++;
+            XtSetArg (args[n], XmNokLabelString, button_string);  n++;
+            XtSetArg (args[n], XmNmessageString, message_string);  n++;
+            message_box = XmCreateMessageDialog (parent, "helpbox", args, n);
+
+            button = XmMessageBoxGetChild (message_box, XmDIALOG_CANCEL_BUTTON);
+
+
+                                                               3-35
+
+
+
+
+
+
+
+
+
+
+
+
+            XtUnmanageChild (button);
+            button = XmMessageBoxGetChild (message_box, XmDIALOG_HELP_BUTTON);
+            XtUnmanageChild (button);
+
+
+            /*   Free strings and return MessageBox.
+            */
+            if (title_string) XtFree (title_string);
+            if (message_string) XtFree (message_string);
+            if (button_string) XtFree (button_string);
+            return (message_box);
+       }
+
+       /*-------------------------------------------------------------*
+       **   SelectFontCB- callback for font buttons
+       */
+       void SelectFontCB (w, client_data, call_data)
+       Widget         w;/*  widget id*/
+       caddr_t        client_data;/*  data from application   */
+       caddr_t        call_data;/*  data from widget class  */
+       {
+            Widget    message_box;
+
+
+            /*   Create font sample window.
+            */
+            message_box = CreateFontSample (w);
+
+
+            /*   Display font sample window.
+            */
+            XtManageChild (message_box);
+       }
+
+       /*-------------------------------------------------------------*
+       **   CloseCB   - callback for close button
+       */
+       void CloseCB  (w, client_data, call_data)
+       Widget         w;/*  widget id*/
+       caddr_t        client_data;/*  font pointer*/
+       caddr_t        call_data;/*  data from widget class  */
+       {
+            XFontStruct*font= (XFontStruct *) client_data;
+            Widget    message_box= XtParent (w);
+            Widget    shell= XtParent (message_box);
+
+
+            /*   Free font.
+            */
+            if (font) XFreeFont (XtDisplay (w), font);
+
+
+
+       3-36
+
+
+
+
+
+
+
+
+
+                                    Using Motif Widgets in Programs
+
+
+            /*   Unmanage and destroy widgets.
+            */
+            XtUnmanageChild (message_box);
+            XtDestroyWidget (shell);
+       }
+
+       /*-------------------------------------------------------------*
+       **   HelpCB    - callback for help button                     |
+       */
+       void HelpCB (w, client_data, call_data)
+       Widget         w;/*  widget id*/
+       caddr_t        client_data;/*  data from application   */
+       caddr_t        call_data;/*  data from widget class  */
+       {
+            Widget    message_box;/*  MessageBox*/
+
+
+            /*   Create help window.                                 |
+            */
+            message_box = CreateHelp (w);
+
+
+            /*   Display help window.                                |
+            */
+            XtManageChild (message_box);
+       }
+
+       /*-------------------------------------------------------------*
+       **   QuitCB    - callback for quit button
+       */
+       void QuitCB (w, client_data, call_data)
+       Widget         w;/*  widget id*/
+       caddr_t        client_data;/*  data from applicaiton   */     |
+       caddr_t        call_data;/*  data from widget class  */
+       {
+
+            /*   Terminate the application.                          *
+            */
+            exit (0);
+       }
+
+       3333....11112222....3333....2222  TTTThhhheeee DDDDeeeeffffaaaauuuullllttttssss FFFFiiiilllleeee
+
+       This file should be placed in the ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss   |
+       directory as a part of XXXXMMMMddddeeeemmmmoooossss.
+
+
+       !
+       !XMdemos app-defaults file for Motif demo programs            |
+       !
+       !general appearance and behavior defaults                     |
+
+
+                                                               3-37
+
+
+
+
+
+
+
+
+
+
+
+
+       !
+       *allowShellResize:              true                          |
+       *borderWidth:                   0                             |
+       *highlightThickness:            2                             |
+       *traversalOn:                   true                          |
+       *keyboardFocusPolicy:           explicit                      |
+       *menuAccelerator:               <Key>KP_F2                    |
+       *fontList:                      vr-20                         |
+       !
+       xmfonts*XmScrolledWindow.height:432
+       xmfonts*XmScrolledWindow.width:690
+       xmfonts*menu_bar*background:#58f
+       !
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3-38
+
+
+
+
+

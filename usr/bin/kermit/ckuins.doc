@@ -1,0 +1,1012 @@
+C-KERMIT 5A INSTALLATION INSTRUCTIONS, April 1991                  -*-text-*-
+
+  D R A F T
+  5A(174)
+  Tue Nov  5 21:13:43 1991
+
+  F. da Cruz, Columbia University
+
+
+BUILDING C-KERMIT FOR UNIX
+
+UNIX C-Kermit is built using the "make" utility, which contains the rules for
+building the program for each of the dozens of different kinds of UNIX systems
+that C-Kermit attempts to support.  "make" is driven by a file called
+"makefile", which is normally distributed as ckuker.mak.  You must rename this
+file to makefile before you can build the program:
+
+  mv ckuker.mak makefile
+
+and then you type "make xxx", where xxx is the system you want to build
+C-Kermit for.  These are listed in the comments at the top of the makefile.
+For example, to build C-Kermit for Berkeley Unix 4.2, type:
+
+  make bsd
+
+This file gives some supplementary information, primarily intended for when
+none of the built-in makefile entries results in a satisfactorily working
+Kermit for your UNIX system.
+
+
+BUILDING C-KERMIT FOR VAX/VMS
+
+VMS C-Kermit can be built using the CKVKER.COM DCL command procedure.  This
+procedure unconditionally compiles and links all the source modules into
+WERMIT.EXE.  If your VMS system has the TGV MultiNet sockets library
+installed, support for MultiNet is automatically included.  To use this
+method, just type "@ckvker"
+
+For those with VMS MAKE (available from DECUS, written by Todd Aven of the
+Software Sweatshop in Long Beach, NY), a makefile is supplied, called
+CKVKER.MAK, written by Terry Kennedy.  The makefile is CKVKER.MAK.  Rename
+it to MAKEFILE and then just type "make".
+
+For those with DEC's MMS product, an MMS-compatible makefile is supplied,
+called CKVKER.MMS, written by Piet Plomp.  To use it, rename CKVKER.MMS to
+MAKEFILE or DESCRIP.MMS and then give the "mms" command.  If MMS gets an
+error, you can correct the error and have it resume where it left off by
+typing "mms/skip".
+
+If your VAX has MultiNet, but you want to build VMS C-Kermit without MultiNet
+support, change the MULTINET logical name definition, for example:
+
+  $ define multinet sys$login
+
+and then use MAKE, CKVKER.COM, or CKVKER.MMS to build the program in the
+normal way.
+
+
+BUILDING C-KERMIT FOR UNIX FROM MS-DOS DISTRIBUTION DISKETTES
+
+If you have received C-Kermit on MS-DOS format diskettes (such as those
+distributed by Columbia), you should make sure that your DOS-to-UNIX
+conversion utility both: (1) changes line terminators in all files from
+carriage-return linefeed (CRLF) to just linefeed (LF) and remove any
+Ctrl-Z's, and (2) that all filenames are converted from uppercase to
+lowercase.  If these conversions were not done, you can use the following
+shell script on your UNIX system to do them:
+---(cut here)---
+#!/bin/sh
+#
+# Shell script to convert C-Kermit DOS-format files into Unix format.
+# Lowercases the filenames, strips out carriage returns and Ctrl-Z's.
+#
+x=$1	# the name of the source directory
+y=$2	# the name of the target directory
+if [ $# -lt 2 ]; then
+  echo "usage: $0 source-directory target-directory"
+  exit 1
+fi
+if cd $1 ; then
+  echo "Converting files from $1 to $2"
+else
+  echo "$0: cannot cd to $1"
+  exit 1
+fi
+for i in *; do
+  j=`echo $i | tr 'A-Z' 'a-z'`
+  echo $x/$i =\> $y/$j
+  tr -d '\015\032' < $i > $y/$j
+done
+---(cut here)---
+Cut out this shell script, save it as "convert.sh" (or any other name you
+prefer), then "chmod +x convert.sh".  Then, create a new, empty directory
+to put the converted files in, and then "convert.sh /xxx /yyy" where /xxx
+is the name of the directory where the PC-format files are, and /yyy is the
+name of the new, empty directory.  The converted files will appear in the
+new directory.
+
+UNIX VERSIONS
+
+There are several major varieties of UNIX: Bell Laboratories Seventh Edition,
+AT&T System V, Berkeley Standard Distribution (BSD), and POSIX.  Each has
+many, many subvarieties, and there are also hybrids that exhibit symptoms
+of more than one variety.
+
+Seventh edition versions of C-Kermit include the compile-time option -DV7 in
+the CFLAGS string in the makefile entry.  Various V7-based implementations are
+also supported: -DCOHERENT, -DMINIX, etc.
+
+AT&T-based versions of UNIX Kermit include the compile-time option -DATTSV
+(standing for AT&T UNIX System V).  This applies to System III and to System V
+up to and including Release 2.  For System V Release 3, the flag -DSVR3 should
+be used instead (which also implies -DATTSV).  This is because the data type
+of signal() and several other functions was changed between SVR2 and SVR3.
+For System V Release 4, include -DSVR4 because of changes in uucp lockfile
+conventions; this also implies -DSVR3 and -DATTSV.
+
+For BSD, the flag -BSDxx must be included, where xx is the BSD version
+number, for example BSD4 (for version 4.2 or later, using only 4.2 features),
+-DBSD41 (for BSD 4.1 only), -DBSD43 (for 4.3 or later), -DBSD29 (BSD 2.9 or
+later for DEC PDP-11s).
+
+For POSIX, include the flag -DPOSIX.  POSIX defines a whole new set of
+terminal i/o functions that are not found in traditional AT&T or Berkeley
+implementations, and also defines the symbol _POSIX_SOURCE, which is used
+in many system and library header files, mainly to disable non-POSIX features.
+
+There is a tendency for Unix implementations to be neither pure AT&T nor pure
+BSD nor pure POSIX, but a mixture of two or more of these, with "compatibility
+features" allowing different varieties of programs to be built on the same
+computer.  In general, Kermit tries not to mix & match but to keep a
+consistent repertoire throughout.  However, there are certain UNIX
+implementations that only work when you mix and match.  For example, the
+Silicon Graphics Iris workstation is an AT&T Unix but with a BSD file system
+(at least in software releases prior to 3.3).  The only way you can build
+Kermit for the Iris successfully is to include -DSVR3 plus the special option
+-DLONGFN, meaning "pretend I was built with -DBSDxx when it's time to compile
+directory-related code".  See the "iris" makefile entry.
+
+NEW STANDARDS
+
+In edits 166-167, C-Kermit was heavily modified to try to keep abreast of new
+standards while still remaining compatible with old versions of C and UNIX.
+There are two new standards of interest: ANSI C (as described in Kernighan and
+Ritchie, "The C Programming Language", Second Edition, Prentice Hall, 1988)
+and POSIX.1 (IEEE Standard 1003.1 and ISO/IEC 9945-1, 1990, "Portable
+Operating System Interface").  These two standards have nothing to do with
+each other: you can build C-Kermit with a non-ANSI compiler for a POSIX
+system, or for a non-POSIX system with with an ANSI compiler.
+
+(a) POSIX
+
+POSIX.1 defines a repertoire of system functions and header files for use by C
+language programs.  Most notably, the ioctl() function is not allowed in
+POSIX; all ioctl() functions have been replaced by device-specific functions
+like tcsetattr(), tcsendbreak(), etc.
+
+Computer systems (UNIX, and reportedly also forthcoming versions of VAX/VMS)
+that claim some degree of POSIX compliance have made some attempt to put their
+header files in the right places and give them the right names, and to provide
+system library functions with the right names and calling conventions.  Within
+the header files, POSIX-compliant functions are supposed to be within #ifdef
+_POSIX_SOURCE..#endif conditionals, and non-POSIX items are not within these
+conditionals.
+
+If C-Kermit is built with the -DPOSIX flag, it attempts to configure itself
+for a pure POSIX environment.  It defines _POSIX_SOURCE, it calls only
+POSIX-defined functions, and it includes POSIX-defined header files.
+
+If Kermit is built with _D_POSIX_SOURCE but not -DPOSIX, C-Kermit must be
+built with one of the -DBSD or -DATTSV flags (or one that implies them), but
+still uses only the POSIX features in the system header files.  This allows
+C-Kermit to be built on BSD or AT&T systems that have some degree of POSIX
+compliance, but still use BSD or AT&T specific features.
+
+If Kermit is built with neither _D_POSIX_SOURCE nor -DPOSIX, the functions and
+header files of the selected version of UNIX (or VMS, etc) are used according
+to the CFLAGS Kermit was built with.
+
+The POSIX standard does not define anything about uucp lockfiles.  "make
+posix" uses NO (repeat, NO) lockfile conventions.  If your POSIX-compliant
+UNIX version uses a lockfile convention such as HDBUUCP (see below), construct
+a new makefile entry for it based on the "posix" entry, but substitute the
+appropriate lockfile selection switch (see the Convex and Sun POSIX makefile
+entries for examples).
+
+POSIX.1 also lacks various other features that Kermit needs.  For example:
+
+ - There is no defined way for an application to do wildcard matching of
+   filenames.  Kermit uses the inode in the directory structure, but POSIX
+   does not include this concept.  POSIX.2 will include functions for this,
+   named (I think) glob() and fnmatch(), but these functions are not yet in
+   Kermit.
+
+ - There is no POSIX mechanism for dealing with modem signals, nor to enable
+   RTS/CTS or other hardware flow control.
+
+ - There is no way to check if characters are waiting in a communications
+   device input buffer, short of trying to read them.
+
+ - No way to do a millisecond sleep (no nap(), usleep(), select(), etc).
+
+ - There is no popen().
+
+So at this point, there cannot be one single POSIX form of C-Kermit.
+
+(b) ANSI C
+
+The major difference between ANSI C and earlier C compilers is function
+prototyping.  ANSI C allows function arguments to be checked for type
+agreement, and (when possible) type coersion in the event of a mismatch.  For
+this to work, functions must be declared before they are called.  The form for
+function declarations is different in ANSI C and non-ANSI C (but ANSI C
+accepts the earlier form). 
+
+As of edit 167, C-Kermit tries to take full advantage of ANSI C features,
+especially function prototyping.  This removes many bugs introduced by
+differing data types used or returned by the same functions on different
+computers.  ANSI C features are automatically enabled when the symbol __STDC__
+is defined.  Most ANSI C compilers, such as GNU CC and the new DEC C compiler
+define this symbol internally.
+
+To force use of ANSI C prototypes, include -DCK_ANSIC on the cc command line.
+To disable the use of ANSI prototypes, include -DNOANSI.
+
+1. PROGRAM SIZE
+
+C-Kermit 5A is a large program, much larger than previous releases because of
+all the new features, primarily the script programming language, sliding
+window packet protocol, and international character set translation.  The
+following options can cut down on the program's size at compile time:
+
+  -DNODEBUG:  Add this option to omit all debugging code.
+  -DNOTLOG:   Add this option to omit transaction logging.
+  -DNOHELP:   Add this option to omit built-in help.
+  -DTCPSOCKET:Remove this option to omit TCP/IP support.
+  -DSUNX25:   Remove this option to omit SunLink X.25 support.
+  -DNOMSEND:  Add this option to remove the MSEND command.
+  -DNODIAL:   Add this option to remove the DIAL command and modem support.
+  -DNOXMIT:   Add this option to remove the TRANSMIT command.
+  -DNOSCRIPT: Add this option to remove the UUCP-style SCRIPT command.
+  -DNOCMDL:   Add this option to remove the command-line option interface.
+  -DNOSPL:    Add this option to remove the script programming language.
+  -DNOICP:    Add this option to remove the entire interactive command parser.
+  -DDCMDBUF:  Add this option to allocate command buffers dynamically.
+  -DNOCSETS:  Add this option to remove international character set support.
+  -DNOCYRIL:  Add this option to remove Cyrillic character set translations.
+  -DKANJI:    Add this to include Kanji character set translation.
+  -DSBSIZ=nnnn -DRBSIZ=nnnnn
+     Change the overall size of the packet send and receive buffers.
+
+There are options to control Kermit's packet buffer allocations.  The
+following symbols are defined in ckcker.h in such a way that you can override
+them by redefining them in CFLAGS:
+
+  -DMAXSP=xxxx - Maximum send-packet length, default 2048.
+  -DMAXRP=xxxx - Maximum receive-packet length, 2048 for Unix, 1920 for VMS.
+  -DSBSIZ=xxxx - Total allocation for send-packet buffers, default 3008.
+  -DRBSIZ=xxxx - Total allocation for receive-packet buffers, default 3008.
+
+The program size is affected by SBSIZ and RBSIZ (send and receive packet
+buffer size).  These are static character arrays compiled into the program.
+If you wish, you can have Kermit allocate packet buffers dynamically at
+runtime using malloc() by including the CFLAGS switch:
+
+  -DDYNAMIC
+
+In this case, the default packet and buffers sizes are changed to:
+
+  -DMAXSP=9024 (for Unix, 2048 for VMS)
+  -DMAXRP=9024 (for Unix, 1920 for VMS)
+  -DSBSIZ=9050
+  -DRBSIZ=9050
+
+but you can change the packet buffer sizes (not the maximum packet size) at
+runtime using the command:
+
+  SET BUFFERS <sbsiz> <rbsiz>
+
+Using dynamic allocation (-DDYNAMIC) reduces storage requirements for the
+executable program on disk, and allows more and bigger packets at runtime.
+But dynamic allocation might not work on all systems.  Try it.  If it works
+for you, there is no reason not to use it.  But if the program hangs or core
+dumps, then omit the -DDYNAMIC option from CFLAGS.
+
+OTHER SIZE-RELATED ITEMS
+
+In order to make Kermit compile and load successfully, you may have to change
+your makefile entry to:
+
+   a. Request a larger ("large" or "huge") model.  This is particularly true
+      for PC-based Unix versions.  This is typically done with a -M and/or -F
+      switch (see your cc manual or man page for details).
+
+   b. Some systems support overlays.  If the program is too big to be built
+      as is, check your loader manual ("man ld") to see if an overlay feature
+      is available.  See the (as yet untested) 2.10 BSD example in the
+      makefile. 
+
+   c. Similarly, some systems support "code mapping", which is similar to
+      overlays.  Again, see "man ld".
+
+It is also possible to reduce the size of the executable program file in
+several other ways:
+
+   a. Include the -O (optimize) compiler switch if it isn't already included
+      in your "make" entry (and if it works!).
+
+   b. If your Unix system supports shared libraries, change the make entry
+      to take advantage of this feature.  The way to do this depends on your
+      particular system.  See the NeXT entry for an example.
+
+   c. Strip the program image after building ("man strip" for further info),
+      or add -s to the LNKFLAGS.  This strips the program of its symbol table
+      and relocation information.
+
+1.5. SPACE/TIME TRADEOFFS
+
+There are hundreds of debug() statements in the program.  If you want to save
+both space (program size) and time (program execution time), include -DNODEBUG
+in the compilation.  If you want to include debugging for tracking down
+problems, omit -DNODEBUG from the make entry.  But when you include debugging,
+you have two choices for how it's done.  One definition defines debug() to be
+a function call; this is cheap in space but expensive in execution.  The other
+defines debug as "if (deblog)" and then the function call, to omit the
+function call overhead when the debug log is not inactive.  But this adds a
+lot of space to the program.  Both methods work, take your choice.  The first
+method is the default.  To select the second method, include -DIFDEBUG in the
+compilation (and don't include -DNODEBUG).
+
+2. MAKE FAILURES
+
+First, make sure the source files are stored on your current disk and
+directory with the right names (in lowercase).  Second, make sure that the
+makefile itself does not contain any lines with leading spaces: indented lines
+must all start with horizontal TAB, and no spaces.
+
+During edits 166-167, considerable effort went into making C-Kermit compilable
+by ANSI C compilers.  This includes prototyping all of C-Kermit's functions,
+and including the ANSI-defined system header files for system and library
+functions, as defined in K & R, second edition: <string.h>, <stdlib.h>,
+<unistd.h> (except on the NeXT this is <libc.h>), and <sys/stdtypes.h>.  If
+you get warnings about any of these header files not being found, or about
+argument mismatches involving pid_t, uid_t, or gid_t, look in ckcdeb.h and
+make amendments.  C-Kermit assumes it is being compiled by an ANSI-compliant C
+compiler if __STDC__ is defined, normally defined by the compiler itself.  You
+can force ANSI compilation without defining __STDC__ (which some compilers
+won't let you define) or _POSIX_SOURCE (which has other effects) by including
+-DCK_ANSIC on the cc command line.
+
+On the other hand, if your compiler defines __STDC__ but still complains about
+the syntax of Kermit's function prototypes, you can disable the ANSI-style
+function prototyping by including -DNOANSI on the command line.
+
+If your compiler uses something other than int for the pid (process id) data
+type, put -DPID_T=pid_t or whatever in your CFLAGS.
+
+If you get complaints about unknown data types uid_t and gid_t, put
+-DUID_T=xxx -DGID_T=yyy in your CFLAGS, where xxx and yyy are the appropriate
+types.
+
+If you get complaints that getpwuid() is being called with an improper type,
+put -DPWID_T=xx in your CFLAGS.
+
+If you get a linker message to the effect that _setreuid or _setregid is not
+defined, add -DNOSETREU to CFLAGS, or add -DCKTYP_H=<blah> to CFLAGS to make
+C-Kermit read the right <types.h>-kind-of-file to pick up these definitions.
+
+If you get a message that _popen is undefined, add -DNOPOPEN to CFLAGS.
+
+If you get a complaint at compile time about an illegal pointer-integer
+combination in ckufio.c involving popen(), or at link time that _popen is an
+undefined symbol, add the declaration "FILE *popen();" to the function zxcmd()
+in ckufio.c (this declaration is supposed to be in <stdio.h>).  If making this
+change does not help, then apparently your UNIX does not have the popen()
+function, so you should add -DNOPOPEN to your make entry, in which case
+certain functions involving "file" i/o to the standard input and output of
+subprocesses will not be available.
+
+If you get complaints about NPROC having an invalid value, add a valid
+definition for it, as in the cray entry.
+
+If you get some symbol that's multiply defined, it probably means that a
+variable name used by Kermit is also used in one of your system libraries that
+Kermit is linked with.  For example, under PC/IX some library has a variable
+or function called "data", and the variable "data" is also used extensively by
+Kermit.  Rather than edit the Kermit source files, just put a -D in the make
+entry CFLAGS to change the Kermit symbol at compile time.  In this example, it
+might be -Ddata=datax.
+
+Some symbol is defined in your system's header files, but it produces
+conflicts with, or undesired results from, Kermit.  Try undefining the symbol
+in the makefile entry's CFLAGS, for example -UFIONREAD.
+
+Some well-known symbol is missing from your system header files.  Try defining
+in the makefile entry's CFLAGS, for example -DFREAD=1.
+
+You get gazillions of warnings about pointer mismatches.  This probably means
+that Kermit is assuming an int type for signal() when it should be void, or
+vice-versa.  Try adding -DSIGTYP=int or -DSIGTYP=void to CFLAGS.
+
+You get many messages about variables that are declared and/or set but never
+used.  It is difficult to avoid these because of all the conditional
+compilation in the program.  Ignore these messages.
+
+Some of C-Kermit's modules are so large, or contain so many character string
+constants, or are so offensive in some other way, that some C compilers give
+up and refuse to compile them.  This is usually because the -O (optimize)
+option is included in the make entry.  If this happens to you, you can either
+(a) remove the -O option from the make entry, which will turn off the
+optimizer for ALL modules, or (b) compile the offending module(s) by hand,
+including all the switches from make entry except for -O, and then give the
+appropriate "make" command again.
+
+As an extreme example, some compilers (e.g. gcc on the DG Aviion) have been
+known to dump core when trying to compile ckwart.c with optimization.  So just
+do this one "by hand":
+
+   cc -o wart ckwart.c
+
+and then give the "make" command again.
+
+Speaking of wart, it is unavoidable that some picky compilers might generate
+"statement unreachable" messages when compiling ckcpro.c.  Unreachable
+statements can be generated by the wart program, which generates ckcpro.c
+automatically from ckcpro.w, which translates lex-like state/input
+constructions into a big switch/case construction.
+
+Some function in Kermit wreaks havoc when it is called.  Change all
+invocations of the function into a macro that evaluates to the appropriate
+return code that would have been returned by the function had it been called,
+for example: -Dzkself()=0.  Obviously not a good idea if the function is
+really needed.
+
+
+3. FILE SYSTEM PECULIARITIES
+
+Normally, including a BSD or Sys-V flag in the make entry selects the right
+file system code.  Certain recent versions of Unix are inconsistent in this
+respect, and building in the normal way either gives compiler or linker
+errors, or results in problems at runtime, typically failure to properly
+expand wildcard file specifications when you do something like "send *.*", or
+failure to recognize long filenames, as in "send filewithaverylongname".
+C-Kermit is supposed to know about all the various styles of Unix file
+systems, but it has to be told which one to use when you build it, usually in
+the makefile entry CFLAGS as shown below, but you might also have to add
+something like -I/usr/include/bsd to CFLAGS, or something like -lbsd to LIBS.
+
+C-Kermit gives you the following CFLAGS switches to adapt to your file system's
+peculiarities:
+
+  -DDIRENT  - #include <dirent.h>
+  -DSDIRENT - #include <sys/dirent.h>
+  -DNDIR    - #include <ndir.h>
+  -DXNDIR   - #include <sys/ndir.h>
+  -DRTU     - #include "/usr/lib/ndir.h", only if NDIR and XNDIR not defined.
+  
+(Note, RTU should only be used for Masscomp RTU systems, because it also
+selects certain other RTU-specific features.)
+
+If none of these is defined, then <sys/dir.h> is used, which is (currently)
+the most common case.  IMPORTANT: If your system has the file
+/usr/include/dirent.h then be sure to add -DDIRENT to your makefile entry's
+CFLAGS.  "dirent" should be used in preference to any of the others, because
+it supports all the features of your file systems, and the others probably
+don't.
+
+Having selected the appropriate directory header file, you might also need to
+tell Kermit how to declare the routines and variables it needs to read the
+directory.  This happens most commonly on AT&T System-V based Unixes that
+provide long file and directory names (longer than 14 characters).  Examples
+include certain releases of HP-UX, DIAB DNIX, Silicon Graphics Iris, and
+perhaps also MIPS.  In this case, try adding -DLONGFN to your makefile entry.
+For further details, see the discussion under edit 5A(149) in the program
+update history, ckuker.upd.
+
+Another problem child is <sys/file.h>.  Most Unix C-Kermit versions need to
+#include this file from within ckutio.c and ckufio.c, but some not only do not
+need to include it, but MUST not include it because (a) it doesn't exist, or
+(b) it has already been included by some other header file, or (c) some other
+reason that prevents successful compilation.  If you have compilation problems
+that seem to stem from including this file, then add the following switch to
+CFLAGS in your makefile entry:
+
+  -DNOFILEH
+
+There are a few odd cases where <sys/file.h> must be included in one of the
+cku[ft]io.c files, but not the other.  In that case, add the aforementioned
+switch, but go into the file that needs <sys/file.h> and add something like
+this:
+
+  #ifdef XXX       /* (where XXX is a symbol unique to your system) */
+  #undef NOFILEH
+  #endif
+
+before the section that includes <sys/file.h>.
+
+Kermit's SEND command expands wildcard characters "?" and "*" itself.
+Formerly, commands like "send *" would send all regular (non-directory) files,
+including "hidden files" (whose names start with ".").  In version 5A, the
+default behavior is to match like the Bourne shell or the ls command, and
+not include files whose names start with dot.  Such files can still be sent
+if the dot is included explicitly in the SEND command: "send .oofa, send .*".
+To change back to the old way and let leading wildcard characters match dot
+files, include the following in your CFLAGS:
+
+  -DMATCHDOT
+
+If you get compile-time complaints about data type mismatches for process ID
+related functions like getpid(), add -DPID_T=pid_t.
+
+If you get compile-time complaints about data type mismatches for user ID
+related functions like getuid(), add -DUID_T=uid_t.
+
+If you get compile-time complaints about data type mismatches for user ID
+related functions like getgid(), add -DGID_T=gid_t.
+
+4. SPECIAL FEATURES
+
+Certain features are beneficial to Kermit's efficient operation, but depend on
+certain library functions being available, which cannot be determined at
+compile time.  Here are two that pertain to AT&T versions:
+
+  -DNAP:   Include this in CFLAGS if your libraries have the nap() function.
+  -DRDCHK: Include this in CFLAGS if your libraries have the rdchk() function.
+
+NOTE: The nap() function is assumed to be a function that puts the process
+to sleep for the given number of milliseconds.  If your system's nap()
+function does something else, uses some other units of time (like the NCR
+Tower 32, which uses clock-ticks), do not include -DNAP.
+
+RTS/CTS flow control support is available for System V R3
+and later if /usr/include/termiox.h exists.  If your SVR3-or-later Unix
+system does not has this file, add:
+
+  -DTERMIOX
+
+to your CFLAGS.  If the file is in /usr/include/sys/termiox, add:
+
+  -DSTERMIOX
+
+Finally, here's a switch you should NEVER set:
+
+  -DCOMMENT
+
+It's used for commenting out blocks of code.  If for some reason you find
+that your compiler has COMMENT defined, then add -UCOMMENT to CFLAGS!
+
+
+5. TERMINAL INTERRUPTION
+
+When C-Kermit enters interactive command mode, it sets a Control-C (terminal
+keyboard interrupt = SIGINT) trap to allow it to return to the command prompt
+whenever the user types Control-C (or whatever is assigned to be the interrupt
+character).  This is implemented using setjmp() and longjmp().  On some
+systems, depending on the machine architecture and C compiler, you might get
+"Memory fault (coredump)" or "longjmp botch" instead of the desired effect.
+In that case, add -DNOCCTRAP to your CFLAGS and rebuild the program.
+
+Job control -- the ability to "suspend" C-Kermit on a UNIX system by typing
+the "susp" character (normally Ctrl-Z) and then resume execution later (with
+the "fg" command) -- is a tricky business.  C-Kermit must trap suspend signals
+so it can put the terminal back into normal mode when you suspend it (Kermit
+puts the terminal into various strange modes during interactive command
+parsing, CONNECT, and file transfer).  Supporting code is compiled into
+C-Kermit automatically if <signal.h> includes a definition for the SIGTSTP
+signal.  HOWEVER... some systems define this signal without supporting
+job control correctly.  You can build Kermit to ignore SIGTSTP signals by
+including the -DNOJC option in CFLAGS.  (You can also do this at runtime by
+giving the command SET SUSPEND OFF.)
+
+
+6. COORDINATING WITH UUCP
+
+Unlike other operating systems, Unix allows multiple processes to access the
+same tty device at the same time, even though there is no earthly reason why
+two processes would want to do this.  When they do, process A will read some
+of the incoming characters, and process B will read the others.  Neither
+process will see them all.  As you can imagine, this can cause enormous
+difficulties for any communication program.
+
+Rather than change Unix to make exclusive access to tty devices be the
+default, Unix vendors hit upon the idea of a "lock file".  Any process that
+wants to open a tty device should first check and see if a file of a certain
+name exists, and if so, not to open the device.  If the file does not exist,
+the process creates the file and then opens the device.  When the process
+closes the device, it destroys the lockfile.  This procedure was originated
+for use with Unix's UUCP, CU, and TIP programs, and so these lockfiles are
+commonly called "UUCP lockfiles" (UUCP = Unix-to-Unix Copy Program).
+
+As you can imagine, this method is riddled with pitfalls:
+
+  - If a process does not observe the lockfile convention (or the SAME
+    lockfile convention), then it can interfere with other "polite"
+    processes.
+
+  - If a process crashes while it has the device open, the lockfile is
+    left behind, preventing further processes from using the device.
+
+  - Various versions of Unix use different names for the lockfiles, put
+    them in different directories, and specify their contents differently.
+
+  - On a given system, the lockfile conventions may change from one Unix 
+    to another. 
+
+  - The same tty device might have more than one name, and most lockfile
+    conventions don't allow for this.
+
+In order to fit in with UUCP and other Unix-based communication software,
+C-Kermit must have the same idea as your system's uucp, cu, and tip programs
+about what the UUCP lock directory is called and what its contents should be.
+In most cases, Kermit tries to figure this out automatically (see ckutio.c).
+The following CFLAGS options can be used to override C-Kermit's normal
+assumptions:
+
+  -DLCKDIR:   Tells Kermit that the UUCP lock directory is /usr/spool/uucp/LCK.
+
+  -DACUCNTRL: Tells Kermit to use the BSD 4.3 acucntrl() program to turn
+              off getty (login) on the line before using it, and restore
+              getty when done.
+
+  -DHDBUUCP:  Include this if your system uses Honey DanBer UUCP.
+
+  -DLOCK_DIR=\\\"/xxx/yyy\\\": Gives the lock directory name explicitly.
+              The triple quoting is necessary.  For example: 
+              "CFLAGS= -DBSD4 -DLOCK_DIR=\\\"/usr/local/locks\\\" -DNODEBUG"
+
+  -DLFDEVNO   The lockfile name uses the tty device inode and major and minor
+              numbers: LK.dev.maj.min, as in Sys V R4, e.g. LK.035.044.008.
+
+Honey DanBer (HDB) UUCP, which is becoming increasingly popular, has two  
+characteristics:
+
+   a. Lockfiles are kept in /usr/spool/locks/.
+   b. A lockfile contains the process id (pid) in ASCII, rather than as an int.
+
+All non-HDB selections assume the lockfile contains the pid in int form.
+
+Even if you build the program with the right lockfile option, you can still
+have problems when you try to open the device.  Here are the error messages
+you can get from SET LINE, and what they mean:
+
+   a. "Timed out, no carrier."  This one is not related to lockfiles.  It
+      means that you have SET CARRIER ON xx, where xx is the number of seconds
+      to wait for carrier, and carrier did not appear within xx seconds.
+      Solution: SET CARRIER AUTO or OFF.
+
+   b. "Sorry, access to lock denied."  Kermit has been configured to use
+      lockfiles, but (a) the lockfile directory is write-protected against
+      you, or (b) it does not exist.  The "access to lock denied" message will
+      tell you the reason.  If the lockfile does not exist, check to make sure
+      Kermit is using the right name.  Certain recent releases of Unix have
+      changed the location of the lockfile from /usr/spool/whatever to
+      /var/spool/whatever.  In this case, ask the system manager install a
+      symbolic link from the old name to the new name.
+      Other solutions: (see below)
+
+   c. "Sorry, access to tty device denied."  The tty device that you specified
+      in your SET LINE command is read/write protected against you.
+      Solution: (see below)
+
+   d. "Sorry, device is in use."  The tty device you have specified is
+      currently being used by another user.  A prefatory message gives you
+      an "ls -l" listing of the lockfile, which should show the username of
+      the person who created it, plus a message "pid = nnn" to show you the
+      process id of the user's program.  Solutions: try another device,
+      wait until the other user is finished, ask the other user to hurry up,
+      or ask the system manager for help.
+
+   e. "Sorry, can't open connection: <reason>".  The device cannot be opened
+      for some other reason, which is listed.
+
+   f. "sh: /usr/lib/uucp/acucntrl: not found".  This means your Kermit program
+      was built with the -DACUCNTRL switch, but your computer system does not
+      have the BSD 4.3 acucntrl program.  Solution: install the acucntrl
+      program if you have it, or rebuild Kermit without the -DACUCNTRL switch.
+
+There are two solutions for problems (b) and (c), both of which involve
+intervention by the manager (superuser) of your Unix system:
+
+   a. Have the superuser change the permission of the lockfile directory and
+      to the tty devices so that everyone on the system has read/write
+      permission.  The risk here is that people can write lots of junk into
+      the lockfile directory, delete other people's files in the lockfile
+      directory, and intercept other people's data as it goes in and out of
+      the tty device.  The major danger here would be intercepting a
+      privileged password.  Of course, any user could write a short, ordinary,
+      unprivileged program to do exactly the same thing!
+
+   b. Have the superuser change Kermit to run setuid or setgid to the owner of
+      the lockfile directory (and the tty devices if necessary), typically
+      uucp (see next section).
+
+	su% chown uucp kermit
+	su% chmod u+s kermit (setuid)  - or -  chmod g+s kermit (setgid)
+
+      and then make sure the lockfile directory, and the tty devices, have
+      owner (setuid) and/or group (setgid) write permission.  For example:
+
+        su% chmod o+rwx /usr/spool/uucp
+        su% chown uucp /dev/ttyXX ; chmod 600 /dev/ttyXX
+      or: 
+        su% chmod 666 /dev/ttyXX
+
+      On the whole, the setuid option should be avoided whenever possible,
+      because any loophole in this enormously complicated program could be
+      exploited to grant the user the privileges of the user to whom the
+      program is setuid'd or setgid'd to.
+
+For the lockfile mechanism to achieve its desired purpose -- prevention of
+access to the same tty device by more than one process at a time -- ALL
+programs on a given computer that open, read or write, and close tty devices
+must use the SAME lockfile conventions.  Unfortunately, this is often not the
+case.  Here is a typical example of how this can go wrong: In SUNOS 4.0 and
+earler, the lockfile directory was /usr/spool/uucp; in 4.1 it was changed to
+/var/spool/locks.  Therefore, any programs that were not modified to account
+for this change, recompiled, and reinstalled, will not be using the same
+lockfiles as uucp, tip, etc, and so the entire purpose of the lockfile is
+defeated.
+
+What if your Unix system does not have UUCP installed?  For example, you have
+a Unix workstation, and you do not use uucp, cu, or tip, or UUCP was not even
+supplied with your version of Unix.  In this case, you have two choices:
+
+   a. If there may be more than one person running Kermit at the same time,
+      competing for the same tty device, then create a special lockfile
+      directory just for Kermit, for example, /usr/spool/kermit, and make sure
+      you have read/write access to it.  Then add the following to your
+      makefile entry CFLAGS, as shown earlier:
+
+           -DLOCK_DIR=\\\"/usr/spool/kermit\\\"
+
+   b. If you are the only user on your workstation, and no other processes will
+      ever be competing with Kermit for the dialout tty device, then add 
+      -DNOUUCP to your makefile entry's CFLAGS and rebuild Kermit.
+
+
+7. RUNNING C-KERMIT SETUID
+
+Even if you don't intend to run C-Kermit setuid, somebody else might come
+along and chown and chmod it after it has been built.  You should be sure
+that it is built correctly to run setuid on your system.  For AT&T Unix
+versions, you don't have to do anything special.
+
+For BSD-based Unix versions, 4.2 and later, you normally need not add anything
+special to the makefile.  The program assumes that the setreuid() and
+setregid() functions are available, without which we cannot switch back &
+forth between real & effective uids.  If "make" complains that _setreuid or
+_setregid is/are not defined, add -DNOSETREU to CFLAGS.  In this case it is
+very likely (but not certain) that you cannot protect ttys and lockfiles
+against people and have them run Kermit setuid.
+
+If make does not complain about this, you should find out whether your BSD
+version (4.3 or later, or other systems like SUNOS 4.x that claim to include
+BSD 4.3 compatibility) includes the saved-setuid feature (see long notes under
+edit 146 in ckuker.upd).  If it does, then add -DSAVEDUID to CFLAGS.
+
+If you have a version of Unix that is not BSD-based, but which supplies the
+setreuid() and setregid() functions, and these are the only way to switch
+between real and effective uid, add -DSETREUID to your makefile entry.
+
+If you have a version of Unix that does not allow a process to switch back and
+forth between its effective and real user and group ids multiple times, you
+probably should not attempt to run Kermit setuid, because once having given up
+its effective uid or gid (which it must do in order to transfer files, fork a
+shell, etc) it can never get it back, and so it can not use the original
+effective uid or gid to create or delete uucp lockfiles.  In this case, you'll
+either have to set the permissions on your lockfile directory to make them
+publicly read/writable, or dispense with locking altogether.
+
+
+8. MODEMS
+
+C-Kermit knows about a large number of modems.  This knowledge is imbedded in
+the SET MODEM and DIAL commands, and the code is contained in the file
+ckudia.c.  This code contains comments about how to configure each type of
+modem for use with Kermit.  If you are having trouble dialing your modem:
+
+   a. SET DIAL DISPLAY ON to watch the dialing interactions between C-Kermit
+      and your modem.
+
+   b. Make sure you have given the SET MODEM <name> command BEFORE you
+      issued the SET LINE and DIAL commands, and make sure that the modem
+      name that you specified corresponds to the actual modem that you are
+      trying to use.
+
+   c. Make sure you have given a SET SPEED command to connect to the modem
+      at a speed it supports (like 2400).
+
+   d. If that doesn't help, Give the command SET DIAL HANGUP OFF and try again.
+
+   e. If that doesn't work, give the command SET CARRIER OFF and try again.
+
+   f. If that doesn't work, maybe your modem is configured incorrectly.  Use
+      SET DIAL INIT-STRING <text> to have C-Kermit send the proper
+      configuration commands to the modem at the commencement of dialing.
+
+   g. Check the hardware configuration of your modem, and check the cable that
+      connects your modem to your computer.
+
+   f. If all else fails, modify the ckudia.c code code to work as desired.
+
+
+9. WORKSTATIONS
+
+On desktop workstations that are used by only the user at the console
+keyboard, C-Kermit is always used in local mode.  But as delivered, C-Kermit
+runs in remote mode by default.  To put it in local mode at startup, you can
+put a SET LINE command in your .kermrc.
+
+You can also build C-Kermit to start up in local mode by default.  To do this,
+just include the following in the CFLAGS in your makefile entry:
+
+-DDFTTY=\\\"/dev/ttyxx\\\"
+
+where ttyxx is the name of the device you will be using for communications.
+Presently there is no way of setting the default modem type at compile time,
+so use this option only for direct lines.
+
+C-Kermit does not work well on certain workstations if it is not run from
+within a terminal window.  For example, you cannot start C-Kermit on a NeXT
+by launching it directly from NeXTstep.  For some unknown reason, it cannot
+use the serial port.  Similarly for SUN workstations in the Open Windows
+environment.
+
+12. NETWORKS
+
+C-Kermit supports not only RS-232 serial connections, direct and modem, but
+also TCP/IP and X.25 network connections.
+
+TCP/IP support requires the Berkeley sockets library, and is generally
+available on any BSD-based UNIX system.  It is also available on non-BSD-based
+UNIX systems that have a sockets library, including HP-UX and Xenix versions
+with Excelan TCP/IP.  The TCP/IP support includes built-in Telnet negotiation
+handling.  To select TCP/IP support, include -DTCPSOCKET in your makefile
+entry's CFLAGS.
+
+X.25 support requires (a) a SUN, (b) the SunLink product (libraries and header
+files), and (c) an X.25 connection into your SUN.  Special makefile entries
+sunos4x and sunos41x (for SUNOS 4.0 and 4.1, respectively) are provided to
+build in this feature, but they only work if conditions (a)-(c) are met.  To
+request this feature, include -DSUNX25 in CFLAGS.
+
+11. BIZARRE BEHAVIOR AT RUNTIME
+
+See the beware file, ckuker.bwr, for hints about runtime misbehavior.
+
+One, at least, is attributable to the environment in which C-Kermit was built.
+Unexplainable and inappropriate error messages ("Sockets not supported on this
+device", etc); the prompt disappears (because C-Kermit incorrectly concluded
+that it was running in the background).  These have been traced in at least
+one case to a lack of agreement between the system header files and the actual
+kernel.  This happened because the GNU C compiler (gcc) was being used.  gcc
+wants to have ANSI-C-compliant header files, and so part of the installation
+procedure for gcc is to run a shell script called "fixincludes", which
+translates the system's header files into a separate set of headers that gcc
+likes.  So far so good.  Later, a new version of the operating system is
+installed and nobody remembers to run fixincludes again.  From that point, any
+program compiled with gcc that makes use of header files (particularly
+ioctl.h) is very likely to misbehave.  Solution: run fixincludes again, or
+use your system's regular C compiler, libraries, and header files instead of
+gcc.
+
+12. CRASHES AND CORE DUMPS
+
+Total failure of the Kermit program can occur because of bad memory
+references, bad system calls, or problems with dynamic memory allocation.
+First, try to reproduce the problem with debugging turned on: run Kermit
+with the -d command-line option (for example, "wermit -d") and then examine
+the resulting debug.log file.  The last entry should be in the vicinity of
+the crash.  In VAX/VMS, a crash automatically produces a "stack dump" which
+shows the routine where the crash occurs.  In UNIX, you can get a stack dump
+with "adb" -- just type "adb wermit core" and then give the command "$c",
+then Ctrl-D to quit.
+
+As of edit 169, C-Kermit includes a malloc() debugging package which you may
+link with the Kermit program to catch runtime malloc errors.  See the makefile
+entries for sunos41md and nextmd for examples of how to select malloc
+debugging.  Once you have linked Kermit with the malloc debugger, it will halt
+with an informative message if a malloc-related error occurs and, if possible,
+dump core.  For this reason, malloc-debugging versions of Kermit should be
+built without the "-s" link option (which removes symbols, preventing analysis
+of the core dump).  You have several ways to track down the malloc error:
+reproduce the problem with "log debug" and then look at the code around the
+last debug.log entry.  Or run the program under gdb.  Or analyze the core dump
+with adb.
+
+APPENDIX I: SUMMARY OF COMPILE-TIME OPTIONS
+
+These are the symbols that can be specified on the cc command line, listed
+alphabetically.  Others are used internally, including those taken from header
+files, those defined by the compiler itself, and those inferred from the ones
+given below.  Kermit's SHOW VERSIONS command attempts to display most of
+these.  See ckcdeb.h and ckcnet.h for inference rules.  For example SVR3
+implies ATTSV, MULTINET implies TCPSOCKET, and so on.
+
+ACUCNTRL       Select BSD 4.3-style acucntrl() bidirection tty control.
+AIX370         Build for IBM AIX/370 for IBM mainframes.
+AIXPS2         Build for IBM AIX 3.0 for PS/2 series (never formally released).
+AIXRS          Build for IBM AIX 3.0 or later for RS/6000.
+AMIGA          Build for Commodore Amiga with Intuition OS.
+ATT6300        Build for AT&T 6300 PLUS.
+ATT7300        Build for AT&T 7300 UNIX PC (3B1).
+ATTSV          Build for AT&T System III or V UNIX.
+AUX            Build for Apple A/UX for the Macintosh.
+BSD29          Build for BSD 2.9 or 2.10.
+BSD4           Build for BSD 4.2.
+BSD41          Build for BSD 4.1.
+BSD43          Build for BSD 4.3.
+C70            Build for BBN C/70.
+CIE            Build for CIE Systems 680/20.
+CK_ANSIC       Force ANSI C function prototyping.
+CKTYP_H=xxx    Force include of xxx as <types.h> file.
+COHERENT       Build for Mark Williams Coherent UNIX
+DCLPOPEN       popen() is available but needs to be declared.
+DFTTY=xxx      Default communications device name.
+DIRENT         UNIX directory structure to be taken from <dirent.h>
+DYNAMIC        Allocate file transfer packet buffers dynamically with malloc.
+ENCORE         Build for Encore Multimax computers.
+EXCELAN        Build with excelan TCP/IP.
+FT18           Build for Fortune For:Pro 1.8.
+FT21           Build for Fortune For:Pro 2.1.
+GID_T=xxx      Group IDs are of type xxx (usually int, short, or gid_t).
+HDBUUCP        Build with support for Honey DanBer UUCP.
+HPUX           Build for Hewlett Packard HP-UX.
+I386IX         Build for Interactive System V R3.
+IFDEBUG        Add IF stmts "if (deblog)" before "debug()" calls.
+INTERLAN       Build with support for Racal/Interlan TCP/IP.
+ISIII          Build for Interactive System III.
+IX370          Build for IBM IX/370.
+KANJI          Build with Kanji character-set translation support.
+LCKDIR         UUCP lock directory is /usr/spool/uucp/LCK/.
+LFDEVNO        UUCP lockfile name uses device numbers, as in SVR4.
+LOCK_DIR=xxx   UUCP lock directory is xxx.
+LONGFN         BSD long filenames supported using <dir.h> and opendir().
+MAC            Build for Apple Macintosh with Mac OS.
+MATCHDOT       make wildcards to match filenames starting with period (.)
+MAXRP=xxx      Maximum receive-packet length.
+MAXSP=xxx      Maximum send-packet length.
+MDEBUG         Malloc-debugging requested.
+MINIX          Build for MINIX.
+MIPS           Build for MIPS workstation.
+MULTINET       Build with support for TGV MultiNet TCP/IP (VAX/VMS).
+NAP            The nap() system call is available.
+NDIR           BSD long filenames supported using <ndir.h> and opendir().
+NEXT           Build for NeXT.
+NOANSI         Disable ANSI C function prototyping.
+NOCCTRAP       Disable Control-C (SIGINT) trapping.
+NOCMDL         Build with no command-line option processing.
+NOCSETS        Build with no support for character set translation.
+NOCYRIL        Build with no support for Cyrillic character set translation.
+NODEBUG        Build with no debug logging capability.
+NODIAL         Build with no DIAL or SET DIAL commands.
+NOFILEH        Do not #include <sys/file.h>.
+NOFRILLS       Build with "no frills".
+NOHELP         Build with no built-in help.
+NOICP          Build with no interactive command parser.
+NOJC           Build with no support for job control (suspend).
+NOMSEND        Build with no MSEND command.
+NOPOPEN        The popen() system call is not available.
+NOSCRIPT       Build with no SCRIPT command.
+NOSPL          Build with no script programming language.    
+NOSETREU       setreuid() and/or setregid() not available.
+NOSYSIOCTLH    Do not #include <sys/ioctl.h>.
+NOTLOG         Build with no support for transaction logging.
+NOUUCP         Build with no UUCP lockfile support (dangerous!).
+NOXMIT         Build with no TRANSMIT command.
+OS2            Build for OS/2.
+OSK            Build for OS-9.
+OXOS           Build for Olivetti X/OS 2.3.
+PARAMH         ??? (something to do with <param.h>? apparently not used)
+PCIX           Build for PC/IX
+PID_T=xxx      Type for pids is xxx (normally int or pid_t).
+POSIX          Build for POSIX: use POSIX header files, functions, etc.
+_POSIX_SOURCE  Disable non-POSIX features.
+PROVX1         Build for Venix 1.0 on DEC Professional 3xx.
+PWID_T=xxx     getpwid() type is xxx.
+RBSIZ=xxx      Define overall size of receive-packet buffer (with DYNAMIC).
+RDCHK          rdchk() system call is available.
+RTAIX          Build for AIX 2.2.1 on IBM RT PC.
+RTU            Build for Masscomp / Concurrent RTU.
+SAVEDUID       BSD or other non-AT&T UNIX has saved-setuid feature.
+SBSIZ=xxx      Define overall size of send-packet buffer (with DYNAMIC).
+SDIRENT        Directory structure specified in <sys/dirent.h>.
+SIGTYP=xxx     Type for signal() is xxx (normally int or void).
+SONYNEWS       Build for Sony NEWS-OS.
+STERMIOX       <sys/termiox.h> is available.
+SUN4S5         Build for SUNOS 4.x in the System V R3 environment.
+SUNOS4         Build for SUNOS 4.0 in the BSD environment.
+SUNOS41        Build for SUNOS 4.1 in the BSD environment.
+SUNX25         Build with support for SunLink X.25.
+SVR3           Build for AT&T System V Release 3.
+SVR4           Build for AT&T System V Release 4.
+sxaE50         Build for PFU Compact A Series SX/A TISP.
+TCPSOCKET      Build with support for TCP/IP via Berkeley sockets library.
+TERMIOX        <termiox.h> is available.
+TOWER1         Build for NCR Tower 1632 with OS 1.02.
+TRS16          Build for Tandy 16/6000.
+UID_T=xxx      Type for uids is xxx (normally int or uid_t).
+USLEEP         usleep() system call available (conflicts with NAP).
+UTEK           Build for Tektronix workstations with UTEK OS.
+UTS24          Build for Amdahl UTS 2.4.
+V7             Build for Version 7 UNIX.
+VMS            Build for VAX/VMS.
+VOID=xxx       VOID type for functions (int or void).
+VXVE           Build for CDC VX/VE 5.2.1.
+WAIT_T=xxx     Type for wait().
+XENIX          Build for Xenix (SCO, Tandy, others).
+XNDIR          Support for BSD long filenames via <sys/ndir.h>.
+ZILOG          Build for Zilog ZEUS.
+
+(end of ckuins.doc)

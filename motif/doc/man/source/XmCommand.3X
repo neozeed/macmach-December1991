@@ -1,0 +1,365 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCommand 3X "" "" "" ""
+.SH NAME
+\fBXmCommand \(em The Command widget class.\fP
+.iX "XmCommand"
+.iX "widget class" "Command"
+.SH SYNOPSIS
+\fB#include <Xm/Command.h>\fP
+.sp 1
+.SH DESCRIPTION
+Command is a special-purpose composite widget for command
+entry that provides a built-in command-history mechanism.
+Command includes a command-line text-input field, a command-line prompt,
+and a command-history list region.  
+.PP
+One additional \fBWorkArea\fP child may be added to the Command after
+creation.
+.PP
+Whenever a command is entered, it is
+automatically added to the end of the command-history list and made visible.
+This does not change the selected item in the list, if there is one.
+.PP
+Many of the new resources specified for Command are actually SelectionBox
+resources that have been renamed for clarity and ease of use.
+.sp 1
+.br
+.ne 10
+.SS "Classes"
+Command inherits behavior and resources from \fBCore\fP, 
+\fBComposite\fP, \fBConstraint\fP, \fBXmManager\fP, 
+\fBXmBulletinBoard\fP, and \fBXmSelectionBox\fP classes.
+.PP
+The class pointer is \fBxmCommandWidgetClass\fP.
+.PP
+The class name is \fBXmCommand\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1 
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmCommand Resource Set
+Name	Class	Type	Default	Access
+_
+XmNcommand	XmCTextString	XmString	""	CSG
+XmNcommandChangedCallback	XmCCallback	XtCallbackList	NULL	C
+XmNcommandEnteredCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhistoryItems	XmCItems	XmStringTable	NULL	CSG
+XmNhistoryItemCount	XmCItemCount	int	0	CSG
+XmNhistoryMaxItems	XmCMaxItems	int	100	CSG
+XmNhistoryVisibleItemCount	XmCVisibleItemCount	int	dynamic	CSG
+XmNpromptString	XmCPromptString	XmString	dynamic	CSG
+.TE
+.sp 1
+.IP "\fBXmNcommand\fP"
+Contains the current command-line text.  This is the \fBXmNtextString\fP 
+resource in SelectionBox, renamed for Command.  
+This resource can also be modified via 
+\fBXmCommandSetValue\fP and \fBXmCommandAppendValue\fP functions.
+The command area is a Text widget.
+.IP "\fBXmNcommandChangedCallback\fP"
+Specifies the list of callbacks that is called 
+when the value of the command changes.
+The callback reason is \fBXmCR_COMMAND_CHANGED\fP.
+This is equivalent to the \fBXmNvalueChangedCallback\fP of the Text
+widget, except that a pointer to an \fBXmCommandCallbackStructure\fP is
+passed, and the structure's \fIvalue\fP member contains the
+\fBXmString\fP.
+.br
+.ne 8
+.IP "\fBXmNcommandEnteredCallback\fP"
+Specifies the list of callbacks that is called
+when a command is entered in the Command.
+The callback reason is \fBXmCR_COMMAND_ENTERED\fP.  A pointer to an
+\fBXmCommandCallback\fP structure is passed.
+.IP "\fBXmNhistoryItems\fP"
+Lists \fBXmString\fP items that make up the contents
+of the history list.  This is the \fBXmNlistItems\fP resource in 
+SelectionBox, renamed for Command.
+\fBXtGetValues\fP for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items.
+.IP "\fBXmNhistoryItemCount\fP"
+Specifies the number of \fBXmStrings\fP in \fBXmNhistoryItems\fP.  This is
+the \fBXmNlistItemCount\fP resource in SelectionBox, renamed for Command.
+The value must not be negative.
+.IP "\fBXmNhistoryMaxItems\fP"
+Specifies the maximum number of items allowed in the history list.  Once
+this number is reached, an existing list item must be removed before 
+a new item can be added to the list.  For each command entered, the first list 
+item is removed from the list, so the new command can be added to the list. 
+The value must be greater than 0.
+.IP "\fBXmNhistoryVisibleItemCount\fP"
+Specifies the number of items in the history list that should be visible at
+one time.  In effect, it sets the height (in lines) of the history list
+window.  This is the \fBXmNlistVisibleItemCount\fP resource in SelectionBox, 
+renamed for Command.
+The value must be greater than 0.
+The default is dynamic based on the height of the list.
+.IP "\fBXmNpromptString\fP"
+Specifies a prompt for the command line.
+This is the \fBXmNselectionLabelString\fP 
+resource in SelectionBox, renamed for Command.
+The default may vary depending on the value of the
+\fBXmNstringDirection\fP resource.
+.sp 1
+.SS "Inherited Resources"
+Command inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmSelectionBox Resource Set
+Name	Class	Type	Default	Access
+_
+XmNapplyCallback	XmCCallback	XtCallbackList	NULL	N/A
+XmNapplyLabelString	XmCApplyLabelString	XmString	"Apply"	N/A
+XmNcancelCallback	XmCCallback	XtCallbackList	NULL	N/A
+XmNcancelLabelString	XmCCancelLabelString	XmString	"Cancel" 	N/A
+XmNdialogType	XmCDialogType	unsigned char	XmDIALOG_COMMAND 	G
+XmNhelpLabelString	XmCHelpLabelString	XmString	"Help" 	N/A
+XmNlistItemCount	XmCItemCount	int	0 	CSG
+XmNlistItems	XmCItems	XmStringTable	NULL	CSG
+XmNlistLabelString	XmCListLabelString	XmString	NULL	N/A
+XmNlistVisibleItemCount	XmCVisibleItemCount	int	dynamic 	CSG
+XmNminimizeButtons	XmCMinimizeButtons	Boolean	False	N/A
+XmNmustMatch	XmCMustMatch	Boolean	False 	N/A
+XmNnoMatchCallback	XmCCallback	XtCallbackList	NULL	N/A
+.tH
+XmNokCallback	XmCCallback	XtCallbackList	NULL	N/A
+XmNokLabelString	XmCOkLabelString	XmString	"OK"	N/A
+XmNselectionLabelString	XmCSelectionLabelString	XmString	">"	CSG
+XmNtextAccelerators	XmCTextAccelerators	XtAccelerators	default	C
+XmNtextColumns	XmCColumns	short	dynamic	CSG
+XmNtextString	XmCTextString	XmString	""	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmBulletinBoard Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowOverlap	XmCAllowOverlap	Boolean	True	CSG
+XmNautoUnmanage	XmCAutoUnmanage	Boolean	False	N/A
+XmNbuttonFontList	XmCButtonFontList	XmFontList	dynamic	N/A
+XmNcancelButton	XmCWidget	Widget	NULL	N/A
+XmNdefaultButton	XmCWidget	Widget	NULL	N/A
+XmNdefaultPosition	XmCDefaultPosition	Boolean	False	CSG
+XmNdialogStyle	XmCDialogStyle	unsigned char	dynamic	CSG
+XmNdialogTitle	XmCDialogTitle	XmString	NULL	CSG
+XmNfocusCallback	XmCCallback	XtCallbackList	NULL	C
+XmNlabelFontList	XmCLabelFontList	XmFontList	dynamic	CSG
+XmNmapCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmarginHeight	XmCMarginHeight	Dimension	10	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	10 	CSG
+XmNnoResize	XmCNoResize	Boolean	False	CSG
+.tH
+XmNresizePolicy	XmCResizePolicy	unsigned char	XmRESIZE_NONE	CSG
+XmNshadowType	XmCShadowType	unsigned char	XmSHADOW_OUT	CSG
+XmNtextFontList	XmCTextFontList	XmFontList	dynamic	CSG
+XmNtextTranslations	XmCTranslations	XtTranslations	NULL	C
+XmNunmapCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	dynamic	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	N/A
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+.sp 1
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+	\fBXmString\fP	\fIvalue\fP;
+	\fBint\fP	\fIlength\fP;
+} \fBXmCommandCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback
+.IP "\fIvalue\fP" .75i
+Specifies the \fBXmString\fP in the CommandArea
+.IP "\fIlength\fP" .75i
+Specifies the size of the command in \fBXmString\fP
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmCommand inherits translations from XmSelectionBox.
+.sp 1 \"Adds space before the SS
+.SS "Accelerators"
+The \fBXmNtextAccelerators\fP from XmSelectionBox are added to the Text
+descendant of XmCommand.
+.sp 1 \"Adds space before the SS
+.SS "Action Routines"
+The XmCommand action routines are described below:
+.IP "\fBSelectionBoxUpOrDown(0|1|2|3)\fP:"
+When called with a 0 argument, selects the previous item in the history
+list and replaces the text with that item.
+.IP
+When called with a 1 argument, selects the next item in the history
+list and replaces the text with that item.
+.IP
+When called with a 2 argument, selects the first item in the history
+list and replaces the text with that item.
+.IP
+When called with a 3 argument, selects the last item in the history
+list and replaces the text with that item.
+.IP
+Calls the callbacks for \fBXmNcommandChangedCallback\fP.
+.sp 1 \"Adds space before the SS
+.SS "Additional Behavior"
+The Command widget has the additional behavior described below:
+.IP "\fB<KActivate>\fP\ in\ Text:"
+Calls the Text widget's \fBXmNactivateCallback\fP callbacks.
+If the text is empty, this action then returns.
+Otherwise, if the history list has \fBXmNhistoryMaxItems\fP items, it
+removes the first item in 
+the list.
+.ne 6
+It adds the text to the history list as the last item, clears the text,
+and calls the \fBXmNcommandEnteredCallback\fP callbacks.
+.IP "\fB<Key>\fP\ in\ Text:"
+When any change is made to the text edit widget, this action
+calls the callbacks for
+\fBXmNcommandChangedCallback\fP.
+.IP "\fB<DoubleClick>\fP\ or\ \fB<KActivate>\fP\ in\ List:"
+Calls the List widget's \fBXmNdefaultActionCallback\fP callbacks.
+If the history list has \fBXmNhistoryMaxItems\fP items, this action
+removes the first item in the list.
+It adds the selected List item to the history list as the last item,
+clears the text, and calls the \fBXmNcommandEnteredCallback\fP
+callbacks.
+.IP "\fB<FocusIn>\fP:"
+Calls the callbacks for \fBXmNfocusCallback\fP.
+.IP "\fB<MapWindow>\fP:"
+When a Command that is the child of a DialogShell is mapped, this action
+calls the callbacks for \fBXmNmapCallback\fP.
+.IP "\fB<UnmapWindow>\fP:
+When a Command that is the child of a DialogShell is unmapped, this
+action calls the
+callbacks for \fBXmNunmapCallback\fP.
+.sp 1
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see \fBVirtualBindings(3X)\fP.
+.SH RELATED INFORMATION
+.na
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, 
+\fBCore(3X)\fP,
+\fBXmBulletinBoard(3X)\fP, 
+\fBXmCommandAppendValue(3X)\fP, 
+\fBXmCommandError(3X)\fP, 
+\fBXmCommandGetChild(3X)\fP, 
+\fBXmCommandSetValue(3X)\fP, 
+\fBXmCreateCommand(3X)\fP,
+\fBXmManager(3X)\fP, and
+\fBXmSelectionBox(3X)\fP. 
+.ad

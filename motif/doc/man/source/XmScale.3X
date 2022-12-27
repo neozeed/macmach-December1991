@@ -1,0 +1,402 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmScale 3X "" "" "" ""
+.SH NAME
+\fBXmScale \(em the Scale widget class.\fP
+.iX "XmScale"
+.iX "widget class" "Scale"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/Scale.h>\fP
+.sp 1
+.SH DESCRIPTION
+Scale is used by an application to indicate a 
+value from within a range of values, and it allows the user to input or modify 
+a value from the same range.
+.PP
+A Scale has an elongated rectangular region similar to a
+ScrollBar.  A slider inside this region
+indicates the current value along the Scale.  The user can also 
+modify the Scale's value by moving the slider within the
+rectangular region of the Scale.  A Scale can also include a label set
+located outside the Scale region.  
+These can indicate the relative value at various positions
+along the scale.
+.PP
+A Scale can be either input/output or output only.  An input/output
+Scale's value can be set by the application and also 
+modified by the user with the slider.  An output-only Scale 
+is used strictly as an indicator of the current value of something 
+and cannot be modified interactively by the user.
+.sp 1
+.SS "Classes"
+Scale inherits behavior and resources from 
+\fBCore\fP, \fBComposite\fP, \fBConstraint\fP, and \fBXmManager\fP classes.
+.PP
+The class pointer is \fBxmScaleWidgetClass\fP.
+.PP
+The class name is \fBXmScale\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmScale Resource Set
+Name	Class	Type	Default	Access
+_
+XmNdecimalPoints	XmCDecimalPoints	short	0	CSG
+XmNdragCallback	XmCCallback	XtCallbackList	NULL	C
+XmNfontList	XmCFontList	XmFontList	dynamic	CSG
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	2	CSG
+XmNmaximum	XmCMaximum	int	100	CSG
+XmNminimum	XmCMinimum	int	0	CSG
+XmNorientation	XmCOrientation	unsigned char	XmVERTICAL	CSG
+XmNprocessingDirection	XmCProcessingDirection	unsigned char	dynamic	CSG
+XmNscaleHeight	XmCScaleHeight	Dimension	0	CSG
+XmNscaleMultiple	XmCScaleMultiple	int	dynamic	CSG
+XmNscaleWidth	XmCScaleWidth	Dimension	0	CSG
+XmNshowValue	XmCShowValue	Boolean	False	CSG
+.tH
+XmNtitleString	XmCTitleString	XmString	NULL	CSG
+XmNvalue	XmCValue	int	0	CSG
+XmNvalueChangedCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.sp 1
+.IP \fBXmNdecimalPoints\fP
+Specifies the number of decimal points to shift the slider value when 
+displaying it.  For example, a slider value of 2,350
+and an \fBXmdecimalPoints\fP
+value of 2 results in a display value of 23.50. 
+The value must not be negative.
+.IP \fBXmNdragCallback\fP
+Specifies the list of callbacks that is called 
+when the slider position changes as the slider is being
+dragged.  The reason sent by the callback is \fBXmCR_DRAG\fP.
+.IP \fBXmNfontList\fP
+Specifies the font list to use for the title text string specified by 
+\fBXmNtitleString\fP.
+If this value is NULL at initialization, it is initialized by
+looking up the parent hierarchy of the widget for an ancestor that is a
+subclass of the XmBulletinBoard, VendorShell, or XmMenuShell widget class.
+If such an ancestor is found, the font list is initialized to the appropriate
+default font list of the ancestor widget (XmNdefaultFontList for VendorShell
+and XmMenuShell, XmNlabelFontList for XmBulletinBoard).
+.IP \fBXmNhighlightOnEnter\fP
+Specifies whether the highlighting rectangle is drawn when the cursor moves
+into the widget.
+If the shell's focus policy is \fBXmEXPLICIT\fP, this resource is
+ignored, and the widget is highlighted when it has the focus.
+If the shell's focus policy 
+.ne 10
+is \fBXmPOINTER\fP and if this resource is
+True, the highlighting rectangle is drawn when the the cursor moves into
+the widget.
+If the shell's focus policy is \fBXmPOINTER\fP and if this resource is
+False, the highlighting rectangle is not drawn when the the cursor moves
+into the widget.
+The default is False.
+.IP \fBXmNhighlightThickness\fP
+Specifies the size of the 
+slider's border drawing rectangle used for enter window and 
+traversal highlight drawing.
+.IP \fBXmNmaximum\fP
+Specifies the slider's maximum value.
+.IP \fBXmNminimum\fP
+Specifies the slider's minimum value.
+.IP \fBXmNorientation\fP
+Displays Scale vertically or horizontally.
+This resource can have values of \fBXmVERTICAL and XmHORIZONTAL\fP.
+.IP \fBXmNprocessingDirection\fP
+Specifies whether the value for \fBXmNmaximum\fP is on the right or 
+left side of \fBXmNminimum\fP for horizontal Scales
+or above or below \fBXmNminimum\fP for vertical Scales.
+This resource can have values of \fBXmMAX_ON_TOP, XmMAX_ON_BOTTOM,
+XmMAX_ON_LEFT\fP, and \fBXmMAX_ON_RIGHT\fP.
+If the XmScale is oriented vertically, the default value is
+\fBXmMAX_ON_TOP\fP.
+If the XmScale is oriented horizontally, the default value
+may depend on the value of the \fBXmNstringDirection\fP resource.
+.IP \fBXmNscaleHeight\fP
+Specifies the height of the slider area.
+The value should be in the specified unit type (the default is pixels).
+If no value is specified a default height is computed.
+.IP \fBXmNscaleMultiple\fP
+Specifies the amount to move the slider when the user takes an action
+that moves the slider by a multiple increment.
+The default is (\fBXmNmaximum\fP \- \fBXmNminimum\fP) divided by 10,
+with a minimum of 1.
+.IP \fBXmNscaleWidth\fP
+Specifies the width of the slider area.
+The value should be in the specified unit type (the default is pixels).
+If no value is specified a default width is computed.
+.br
+.ne 6
+.IP \fBXmNshowValue\fP
+Specifies whether a label for the current slider
+value should be displayed next to the slider.  If the value is True, the
+current slider value is displayed.
+.IP \fBXmNtitleString\fP
+Specifies the title text string to appear in the Scale widget window.
+.IP \fBXmNvalue\fP
+Specifies the slider's current position along the scale,
+between \fBXmNminimum\fP and \fBXmNmaximum\fP.
+The value is constrained to be within these inclusive bounds.
+.IP \fBXmNvalueChangedCallback\fP
+Specifies the list of callbacks that is called 
+when the value of the slider has changed.  The reason
+sent by the callback is \fBXmCR_VALUE_CHANGED\fP.
+.sp 1
+.SS "Inherited Resources"
+Scale inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	G
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+	\fBint\fP	\fIvalue\fP;
+} \fBXmScaleCallbackStruct\fP;
+.fi
+.fi
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback
+.IP "\fIvalue\fP" .75i
+Is the new slider value
+.sp 1 \"Adds space before the SS
+.SS "Behavior"
+XmScale behavior is described below:
+.IP "\fBBSelect Press\fP or \fBBDrag Press\fP:"
+(in region between an end of the Scale and the slider): Moves the
+slider by one multiple increment in the direction of the end of the
+Scale and calls the \fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP or
+\fBXmMAX_ON_BOTTOM\fP, movement toward the right or
+bottom increments the Scale value,
+and movement toward the left or top decrements the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP or
+\fBXmMAX_ON_TOP\fP, movement toward the right or
+bottom decrements the Scale value,
+and movement toward the left or top increments the Scale value.
+If the button is held down longer than a delay period, the slider is
+moved again by the same increment and the same callbacks are called.
+.IP
+(in slider):  Activates the interactive dragging of the slider.
+.IP "\fBBSelect Motion\fP or \fBBDrag Motion\fP:"
+If the button press occurs within the slider, the subsequent motion
+events move the slider to the position of the pointer and call the
+callbacks for \fBXmNdragCallback\fP.
+.IP "\fBBSelect Release\fP or \fBBDrag Release\fP:"
+If the button press occurs within the slider and the slider position
+is changed, the callbacks for \fBXmNvalueChangedCallback\fP are called.
+.IP "\fBMCtrl BSelect Press\fP:"
+\fB(in region between an end of the Scale and the slider)\fP: Moves the
+slider to that end of the Scale and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP or
+\fBXmMAX_ON_BOTTOM\fP, 
+movement toward the right or bottom increments the Scale value,
+and movement toward 
+the left or top
+decrements 
+the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP or
+\fBXmMAX_ON_TOP\fP, movement toward the right or
+bottom decrements the Scale value,
+and movement toward the left or top increments the Scale value.
+.IP "\fBKUp\fP:"
+For vertical Scales,
+moves the slider up one increment and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_TOP\fP, movement toward
+the top increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_BOTTOM\fP, movement toward
+the top decrements the Scale value.
+.IP "\fBKDown\fP:"
+For vertical Scales,
+moves the slider down one increment and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_BOTTOM\fP, movement toward
+the bottom increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_TOP\fP, movement toward
+the bottom decrements the Scale value.
+.IP "\fBKLeft\fP:"
+For horizontal Scales,
+moves the slider one increment to the left and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP, movement toward
+the left increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP, movement toward
+the left decrements the Scale value.
+.IP "\fBKRight\fP:"
+For horizontal Scales,
+moves the slider one increment to the right and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP, movement toward
+the right increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP, movement toward
+the right decrements the Scale value.
+.IP "\fBMCtrl KUp\fP or \fBKPageUp\fP:"
+For vertical Scales,
+moves the slider up one multiple increment and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_TOP\fP, movement toward
+the top increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_BOTTOM\fP, movement toward
+the top decrements the Scale value.
+.IP "\fBMCtrl KDown\fP or \fBKPageDown\fP:"
+For vertical Scales,
+moves the slider down one multiple increment and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_BOTTOM\fP, movement toward
+the bottom increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_TOP\fP, movement toward
+the bottom decrements the Scale value.
+.IP "\fBMCtrl KLeft\fP or \fBKPageLeft\fP:"
+For horizontal Scales,
+moves the slider one multiple increment to the left and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP, movement toward
+the left increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP, movement toward
+the left decrements the Scale value.
+.IP "\fBMCtrl KRight\fP or \fBKPageRight\fP:"
+For horizontal Scales,
+moves the slider one multiple increment to the right and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_RIGHT\fP, movement toward
+the right increments the Scale value.
+If \fBXmNprocessingDirection\fP is \fBXmMAX_ON_LEFT\fP, movement toward
+the right decrements the Scale value.
+.IP "\fBKBeginLine\fP or \fBKBeginData\fP:"
+Moves the slider to the minimum value and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+.IP "\fBKEndLine\fP or \fBKEndData\fP:"
+Moves the slider to the maximum value and calls the
+\fBXmNvalueChangedCallback\fP callbacks.
+.IP "\fBKNextField\fP:"
+Traverses to the first item in the next tab group.  If
+the current tab group is the last entry in the tab group list, it
+wraps to the beginning of the tab group list.
+.IP "\fBKPrevField\fP:"
+Traverses to the first item in the previous tab group.
+If the beginning of the tab group list is reached, it wraps to the end
+of the tab group list. 
+.IP "\fBKHelp\fP:"
+Calls the callbacks for \fBXmNhelpCallback\fP if any exist.
+If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see \fBVirtualBindings(3X)\fP.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, \fBCore(3X)\fP, 
+\fBXmCreateScale(3X)\fP, 
+\fBXmManager(3X)\fP,
+\fBXmScaleGetValue(3X)\fP, and 
+\fBXmScaleSetValue(3X)\fP.

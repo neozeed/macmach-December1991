@@ -1,0 +1,93 @@
+.\"
+.\" $Id: fmap.3,v 1.2 90/01/09 17:18:40 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	fmap.3,v $
+.\" Revision 1.2  90/01/09  17:18:40  bww
+.\" 	Canonicalized NAME section.
+.\" 	[90/01/09  17:17:45  bww]
+.\" 
+.\" Revision 1.1  89/12/28  14:39:32  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 17-Apr-87  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created man page.
+.\"
+.TH FMAP 3 4/17/87
+.CM 4
+.SH NAME
+.nf
+fmap \- cause a file to be mapped into virtual memory
+fremap \- remaps a file to a different sized (probably bigger) buffer
+fbufsize \- returns the size of the virtual buffer for a file
+.SH SYNOPSIS
+.nf
+#include <stdio.h>
+
+char *fmap(iop,size)
+	FILE	*iop;
+	int	size;
+
+char *fremap(iop,size)
+	FILE	*iop;
+	int	size;
+
+int  fbufsize(iop)
+	FILE 	*iop;
+
+.SH ARGUMENTS
+
+.TP 15
+.B iop
+stream on which the file is to be mapped.
+.TP 15
+.B size
+suggested size for the buffer. If the file is opened for
+reading, the buffer is set to the length of the file, unless
+it is a zero length file, in which case it is set to size.
+If the file is opened for writing, the buffer length is
+set to size. If size is <= 0, the buffer length is set to
+a constant MAPBUFSIZE.
+
+.SH DESCRIPTION
+For a file that has been opened but does not yet have a buffer
+associated with it, 
+.I fmap
+allocates a buffer as long as the file (for read) or as long
+as 
+.I size
+(for write files).
+If the file is already mapped this call does nothing
+except return a pointer to the existing buffer.
+The returned buffer pointer may be used
+to directly refer to data in the file.
+
+.I fremap
+will change the size of the buffer to which a file is mapped.
+If the new buffer is to be larger than the old one it may allocate
+a new buffer and copy over any data that is currently in the old
+buffer. It will return the new buffer pointer.
+
+.I fbufsize
+returns the size of the buffer to which the file is mapped.
+If a user is directly accessing data in the file via the
+buffer pointer, he must take care not to reference past the
+bufsize. If references to the file are made via the usual
+stdio calls: e.g. getc and putc, they will continue to
+return EOF if the reference goes beyond the end of the buffer.
+
+Note that the mach library version of filbuf will automatically
+map a file, if it is called and there is no buffer yet for the 
+file.  The 
+.I setbuf(3) or setfbuffer(3)
+calls may be used to assign a user specified buffer to the file.
+This buffer will not be mapped unless the user has explicitly
+mapped the memory.
+
+ 
+.SH SEE ALSO
+.I intro(3), fopen(3)
+
+.SH BUGS
+Not installed in mach_lib yet

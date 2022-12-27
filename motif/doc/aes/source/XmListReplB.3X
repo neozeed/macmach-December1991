@@ -1,0 +1,62 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListReplaceItemsPos 3X "" "" "" ""
+.SH NAME
+\fBXmListReplaceItemsPos \(em a List function that replaces the specified
+elements in the list.\fP
+.iX "XmListReplaceItemsPos"
+.iX "List functions" "XmListReplaceItemsPos"
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+void XmListReplaceItemsPos (\fIwidget, new_items, item_count, position\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	XmString	*\fInew_items\fP;
+.br
+	int	\fIitem_count\fP;
+.br
+	int	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListReplaceItemsPos\fP replaces the specified number of
+items of the List with new items, starting at the specified position
+in the List.
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the List widget.
+.IP "\fInew_items\fP" .75i
+Specifies the replacement items.
+.IP "\fIitem_count\fP" .75i
+Specifies the number of items in \fInew_items\fP and the number of
+items in the list to replace.
+.IP "\fIposition\fP" .75i
+Specifies the position of the first item in the list to be replaced.
+A value of 1 indicates that the first item replaced is the first item in
+the list; a value of 2 indicates that it is the second item; and so on.
+.\"A value of 0 indicates that the first item replaced is the last item in
+.\"the list.
+.PP
+Beginning with the item specified in \fIposition\fP, \fIitem_count\fP
+items in the list are replaced with the corresponding elements from
+\fInew_items\fP.
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

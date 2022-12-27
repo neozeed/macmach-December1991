@@ -1,0 +1,65 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringHasSubstring 3X "" "" "" ""
+.SH NAME
+\fBXmStringHasSubstring \(em a compound string function that indicates
+whether one compound string is contained within another.\fP
+.iX "XmStringHasSubstring"
+.iX "compound string functions" "XmStringHasSubstring"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmStringHasSubstring (\fIstring, substring\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmString	\fIstring\fP;
+.br
+	XmString	\fIsubstring\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringHasSubstring\fP 
+indicates whether or not one compound string is contained within
+another.
+.sp 1
+.IP "\fIstring\fP" .75i
+Specifies the compound string to be searched
+.IP "\fIstring\fP" .75i 
+Specifies the compound string to be searched for
+.sp 1
+.br
+.ne 10
+.SH RETURN VALUE
+Returns True if
+\fIsubstring\fP
+has a single segment and if its text is completely contained within any
+single segment of
+\fIstring\fP;
+otherwise, returns False.
+If two compound strings created using
+\fBXmStringCreateSimple\fP in the same language environment
+satisfy this condition, the function returns True.
+If two compound strings created with the same character set using
+\fBXmStringCreate\fP satisfy this condition, the function returns True.
+The result of comparing a compound string created with
+\fBXmStringCreate\fP
+against a compound string created with
+\fBXmStringCreateSimple\fP
+is undefined.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

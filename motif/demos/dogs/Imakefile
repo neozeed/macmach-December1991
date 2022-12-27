@@ -1,0 +1,19 @@
+
+INCLUDES = -I. -I$(UILSRC) -I$(MTOOLKITSRC) -I$(LIBSRC)
+LOCAL_LIBRARIES = $(MRESOURCELIB) $(XMLIB) 
+
+SRCS1=	dogs.c Dog.c Square.c
+
+OBJS1=	dogs.o Dog.o Square.o
+
+UILS1= dogs.uil
+
+PROGRAMS = dogs 
+
+NormalLibraryObjectRule()
+
+ComplexProgramTarget_1(dogs,$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+MComplexUidTarget_1(dogs)
+
+DependTarget()

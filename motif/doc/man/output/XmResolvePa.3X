@@ -1,0 +1,198 @@
+
+
+
+     XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss ---- aaaa ffffuuuunnnnccccttttiiiioooonnnn tttthhhhaaaatttt aaaalllllllloooowwwwssss wwwwrrrriiiittttiiiinnnngggg ooooffff
+          uuuuppppwwwwaaaarrrrdddd----ccccoooommmmppppaaaattttiiiibbbblllleeee aaaapppppppplllliiiiccccaaaattttiiiioooonnnnssss aaaannnndddd wwwwiiiiddddggggeeeettttssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmmPPPP....hhhh>>>>
+
+          vvvvooooiiiidddd XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss ((((_w_i_d_g_e_t__c_l_a_s_s, _o_f_f_s_e_t))))
+               WWWWiiiiddddggggeeeettttCCCCllllaaaassssssss_w_i_d_g_e_t__c_l_a_s_s;;;;
+               XXXXmmmmOOOOffffffffsssseeeettttPPPPttttrrrr* _o_f_f_s_e_t;;;;
+
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The use of offset records requires one extra global variable
+          per widget class.  The variable consists of a pointer to an
+          array of offsets into the widget record for each part of the
+          widget structure.  The XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss function
+          allocates the offset records needed by an application to
+          guarantee upward-compatible access to widget instance
+          records by applications and widgets.  These offset records
+          are used by the widget to access all of the widget's
+          variables.  A widget needs to take the following steps:
+
+          +o  Instead of creating a resource list, the widget creates
+             an offset resource list.  To help you accomplish this,
+             use the XXXXmmmmPPPPaaaarrrrttttRRRReeeessssoooouuuurrrrcccceeee structure and the XXXXmmmmPPPPaaaarrrrttttOOOOffffffffsssseeeetttt
+             macro.  The XXXXmmmmPPPPaaaarrrrttttRRRReeeessssoooouuuurrrrcccceeee data structure looks just like
+             a resource list, but instead of having one integer for
+             its offset, it has two shorts.  This is put into the
+             class record as if it were a normal resource list.
+             Instead of using XXXXttttOOOOffffffffsssseeeetttt for the offset, the widget uses
+             XXXXmmmmPPPPaaaarrrrttttOOOOffffffffsssseeeetttt.
+             XmPartResource resources[] = {
+               { BarNxyz, BarCXyz, XmRBoolean,
+                 sizeof(Boolean), XmPartOffset(Bar,xyz),
+                 XmRImmediate, (caddr_t)False }
+             }}}};;;;
+
+          ++++oooo  Instead of putting the widget size in the class record,
+             the widget puts the widget part size in the same field.
+
+          +o  Instead of putting XXXXttttVVVVeeeerrrrssssiiiioooonnnn in the class record, the
+             widget puts XXXXttttVVVVeeeerrrrssssiiiioooonnnnDDDDoooonnnnttttCCCChhhheeeecccckkkk in the class record.
+
+          +o  The widget defines a variable, of type XXXXmmmmOOOOffffffffsssseeeettttPPPPttttrrrr, to
+             point to the offset record.  This can be part of the
+             widget's class record or a separate global variable.
+
+          +o  In class initialization, the widget calls
+             XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss, passing it a pointer to contain the
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))
+
+
+
+             address of the offset record and the class record.  This
+             does several things:
+
+             Adds the superclass (which, by definition, has already
+             been initialized) size field to the part size field
+
+             Allocates an array based upon the number of superclasses
+
+             Fills in the offsets of all the widget parts with the
+             appropriate values, determined by examining the size
+             fields of all superclass records
+
+             Uses the part offset array to modify the offset entries
+             in the resource list to be real offsets, in place
+
+          +o  The widget defines a constant which will be the index to
+             its part structure in the offsets array.  The value
+             should be 1 greater than the index of the widget's
+             superclass.  Constants defined for all Xm widgets can be
+             found in XXXXmmmmPPPP....hhhh.
+
+             #define BarIndex (XmBulletinBIndex + 1)
+
+          +o  Instead of accessing fields directly, the widget must
+             always go through the offset table.  The XXXXmmmmFFFFiiiieeeelllldddd macro
+             helps you access these fields.  Because the XXXXmmmmPPPPaaaarrrrttttOOOOffffffffsssseeeetttt
+             and XXXXmmmmFFFFiiiieeeelllldddd macros concatenate things together, you must
+             ensure that there is no space after the part argument.
+             For example, the following macros do not work because of
+             the space after the part (Label) argument:
+
+             XmField(w, offset, Label , text, char *)
+             XmPartOffset(Label , text)
+
+             Therefore, you must not have any spaces after the part
+             (Label) argument, as illustrated here:
+
+             XmField(w, offset, Label, text, char *)
+
+             You can define macros for each field to make this easier.
+             Assume an integer field _x_y_z:
+             #define BarXyz(w) (*(int *)(((char *) w) + \
+               offset[BarIndex] + XtOffset(BarPart,xyz)))
+
+
+          The parameters for XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss are defined below:
+
+          _w_i_d_g_e_t__c_l_a_s_s
+                    Specifies the widget class pointer for the created
+                    widget.
+
+          _o_f_f_s_e_t    Returns the offset record.
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmRRRReeeessssoooollllvvvveeeePPPPaaaarrrrttttOOOOffffffffsssseeeettttssss((((3333XXXX))))
+
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmRRRReeeessssoooollllvvvveeeeAAAAllllllllPPPPaaaarrrrttttOOOOffffffffsssseeeettttssss.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+

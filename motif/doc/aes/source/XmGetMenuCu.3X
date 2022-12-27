@@ -1,0 +1,50 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmGetMenuCursor 3X "" "" "" ""
+.SH NAME
+\fBXmGetMenuCursor \(em a RowColumn
+function that returns the cursor ID for the current
+menu cursor.\fP
+.iX "XmGetMenuCursor"
+.iX "RowColumn functions" "XmGetMenuCursor"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+Cursor XmGetMenuCursor (\fIdisplay\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmGetMenuCursor\fP queries the menu 
+cursor currently being used by this client on the specified display and returns
+the cursor ID.
+.sp 1
+.IP "\fIdisplay\fP" .75i
+Specifies the display whose menu cursor is to be queried
+.sp 1
+.PP
+For a complete definition of the menu cursor resource, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the cursor ID for the current menu cursor or the value None if
+a cursor is not yet defined.  A cursor will not be defined
+if the application makes this call before the client has created any menus
+on the specified display.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmRowColumn(3X)\fP.
+.sp 1

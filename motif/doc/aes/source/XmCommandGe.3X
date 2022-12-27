@@ -1,0 +1,66 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCommandGetChild 3X "" "" "" ""
+.SH NAME
+\fBXmCommandGetChild \(em a Command function that is used to access a
+component.\fP
+.iX "XmCommandGetChild"
+.iX "Command functions" "XmCommandGetChild"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Command.h>
+.sp 1
+Widget XmCommandGetChild (\fIwidget, child\fP)
+.br
+.ta .5i 1.5i
+  Widget	\fIwidget\fP;
+.br
+  unsigned char	\fIchild\fP;
+.fi
+\fP
+.br
+.ne 12
+.SH DESCRIPTION
+\fBXmCommandGetChild\fP is used to access a component within a Command.  The
+parameters given to the function are the Command widget and a value
+indicating which child to access.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Command widget ID.
+.IP "\fIchild\fP" .75i
+Specifies a component within the Command.
+The following are legal values for
+this parameter:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_COMMAND_TEXT\fP
+.IP \(bu 3
+\fBXmDIALOG_PROMPT_LABEL\fP
+.IP \(bu 3
+\fBXmDIALOG_HISTORY_LIST\fP
+.RE
+.sp 1
+.PP
+For a complete definition of Command and its associated resources, see
+\fBXmCommand(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID of the specified Command child.
+An application should not assume that the returned widget will be of any
+particular class.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmCommand(3X)\fP.
+.sp 1

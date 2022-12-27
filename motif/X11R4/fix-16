@@ -1,0 +1,2368 @@
+This patch is a continuation of fix-15.  You must apply it at the same time
+as fix-15 and fix-17.
+
+cd to the top of the X tree and apply with "patch -p0".
+
+*** /tmp/,RCSt1a13145	Fri Sep 28 14:19:22 1990
+--- mit/lib/Xt/EventI.h	Fri Sep 28 14:19:22 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: EventI.h,v 1.11 89/12/15 11:31:27 swick Exp $ */
+  /* $oHeader: EventI.h,v 1.3 88/08/24 09:21:11 asente Exp $ */
+  
+  /***********************************************************
+--- 1,4 ----
+! /* $XConsortium: EventI.h,v 1.14 90/08/20 15:26:28 swick Exp $ */
+  /* $oHeader: EventI.h,v 1.3 88/08/24 09:21:11 asente Exp $ */
+  
+  /***********************************************************
+***************
+*** 39,53 ****
+  
+  typedef struct _XtGrabRec  *XtGrabList;
+  
+! extern void _XtEventInitialize();
+  
+! extern void _XtRegisterWindow(); /* window, widget */
+!     /* Window window; */
+!     /* Widget widget; */
+  
+! extern void _XtUnregisterWindow(); /* window, widget */
+!     /* Window window; */
+!     /* Widget widget; */
+  
+  typedef struct _XtEventRec {
+       XtEventTable	next;
+--- 39,63 ----
+  
+  typedef struct _XtGrabRec  *XtGrabList;
+  
+! extern void _XtEventInitialize(
+! #if NeedFunctionPrototypes
+!     void
+! #endif
+! );
+  
+! extern void _XtRegisterWindow(
+! #if NeedFunctionPrototypes
+!     Window 	/* window */,
+!     Widget 	/* widget */
+! #endif
+! );
+  
+! extern void _XtUnregisterWindow(
+! #if NeedFunctionPrototypes
+!     Window 	/* window */,
+!     Widget 	/* widget */
+! #endif
+! );
+  
+  typedef struct _XtEventRec {
+       XtEventTable	next;
+***************
+*** 68,80 ****
+  }XtGrabRec;
+  
+  
+! extern void _XtFreeEventTable(); /* event_table */
+!     /* XtEventTable *event_table; */
+  
+! extern void _XtAsyncMainLoop(); /* closure */
+!     /* Opaque closure; */
+  
+! extern void _XtRegisterAsyncHandlers(); /* widget */
+!     /* Widget widget; */
+  
+  #endif /* _Event_h_ */
+--- 78,100 ----
+  }XtGrabRec;
+  
+  
+! extern void _XtFreeEventTable(
+! #if NeedFunctionPrototypes
+!     XtEventTable*	/* event_table */
+! #endif
+! );
+  
+! extern Boolean _XtOnGrabList(
+! #if NeedFunctionPrototypes
+!     Widget	/* widget */,
+!     XtGrabRec*	/* grabList */
+! #endif
+! );
+  
+! extern void _XtRemoveAllInputs(
+! #if NeedFunctionPrototypes
+!     XtAppContext /* app */
+! #endif
+! );
+  
+  #endif /* _Event_h_ */
+*** /tmp/,RCSt1a13162	Fri Sep 28 14:19:25 1990
+--- mit/lib/Xt/EventUtil.c	Fri Sep 28 14:19:25 1990
+***************
+*** 1,6 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: EventUtil.c,v 1.4 89/12/19 08:36:09 swick Exp $";
+! #endif
+  
+  /********************************************************
+  
+--- 1,4 ----
+! /* $XConsortium: EventUtil.c,v 1.6 90/07/26 10:11:17 swick Exp $ */
+  
+  /********************************************************
+  
+***************
+*** 32,78 ****
+  #include "PassivGraI.h"
+  #include "StringDefs.h"
+  
+- /*
+-  * This routine gets the passive key list assiciated with the widget
+-  * from the context manager. If the key list does not exist it creates
+-  * an empty one.
+-  */
+- XtPerDisplayInput _XtGetPerDisplayInput(dpy)
+-     Display	*dpy;
+- {
+-     static XContext 	pdiContext = NULL;
+-     XtPerDisplayInput 	pdi;
+-     
+-     if (pdiContext == NULL)
+-       pdiContext = XUniqueContext();
+-     
+-     if (XFindContext(dpy, 
+- 		     (Window)0, 
+- 		     pdiContext, 
+- 		     (caddr_t *)&pdi)) 
+-       {
+- 	  pdi = (XtPerDisplayInputRec *) 
+- 	    XtMalloc((unsigned) sizeof(XtPerDisplayInputRec));	
+- 	  pdi->grabList = NULL;
+- 	  pdi->trace = NULL;
+- 	  pdi->traceDepth = 0;
+- 	  pdi->traceMax = 0;
+- 	  pdi->focusWidget = NULL;
+- 	  pdi->activatingKey = 0;
+- 
+- 	  pdi->keyboard.grabType = XtNoServerGrab;
+- 
+- 	  pdi->pointer.grabType  = XtNoServerGrab;
+- 	  
+- 	  (void) XSaveContext(dpy, 
+- 			      (Window)0, 
+- 			      pdiContext, 
+- 			      (caddr_t) pdi);
+-       }
+-     return pdi;
+- }
+- 
+- 
+  static XContext 	perWidgetInputContext = NULL;
+  
+  void _XtFreePerWidgetInput(w, pwi)
+--- 30,35 ----
+***************
+*** 86,93 ****
+      XtFree((char *)pwi);
+  }
+  
+- 
+- 
+  /*
+   * This routine gets the passive list assiciated with the widget
+   * from the context manager.
+--- 43,48 ----
+***************
+*** 108,115 ****
+  		     (caddr_t *)&pwi) &&
+  	create) 
+        {
+- 	  extern void _XtDestroyServerGrabs();
+- 
+  	  pwi = (XtPerWidgetInput) 
+  	    XtMalloc((unsigned) sizeof(XtPerWidgetInputRec));
+  	  
+--- 63,68 ----
+***************
+*** 163,169 ****
+  	    /* This should rarely happen, but if it does it'll probably
+  	       happen again, so grow the ancestor list */
+  	    *maxElemsPtr += CACHESIZE;
+! 	    trace = (Widget *) XtRealloc(trace, 
+  					 sizeof(Widget) * (*maxElemsPtr));
+  	}
+  	trace[i] = w;
+--- 116,122 ----
+  	    /* This should rarely happen, but if it does it'll probably
+  	       happen again, so grow the ancestor list */
+  	    *maxElemsPtr += CACHESIZE;
+! 	    trace = (Widget *) XtRealloc((char*)trace,
+  					 sizeof(Widget) * (*maxElemsPtr));
+  	}
+  	trace[i] = w;
+***************
+*** 190,219 ****
+  				      cache */
+        }
+      if (mask & (KeyPressMask | KeyReleaseMask))
+!       {
+! 	  extern Widget _XtProcessKeyboardEvent();
+! 
+! 	  dspWidget = _XtProcessKeyboardEvent(event, widget,
+! 					      pdi);
+!       }
+      else if (mask &(ButtonPressMask | ButtonReleaseMask))
+!       {
+! 	  extern Widget _XtProcessPointerEvent();
+  
+- 	  dspWidget = _XtProcessPointerEvent((XButtonEvent*)event, widget,
+- 					     pdi);
+-       }
+      return dspWidget;
+  }
+  
+- 
+- XtGrabList * _XtGetGrabList(pdi)
+-     XtPerDisplayInput pdi;
+- {
+-     return &pdi->grabList;
+- }
+- 
+- 
+  void _XtUngrabBadGrabs(event, widget, mask, pdi)
+      XEvent	*event;
+      Widget	widget;
+--- 143,155 ----
+  				      cache */
+        }
+      if (mask & (KeyPressMask | KeyReleaseMask))
+! 	  dspWidget = _XtProcessKeyboardEvent((XKeyEvent*)event, widget, pdi);
+      else if (mask &(ButtonPressMask | ButtonReleaseMask))
+! 	  dspWidget = _XtProcessPointerEvent((XButtonEvent*)event, widget,pdi);
+  
+      return dspWidget;
+  }
+  
+  void _XtUngrabBadGrabs(event, widget, mask, pdi)
+      XEvent	*event;
+      Widget	widget;
+***************
+*** 221,227 ****
+      XtPerDisplayInput pdi;
+  {
+      XKeyEvent	* ke = (XKeyEvent *) event;
+-     extern	Boolean _XtOnGrabList();
+  
+      if (mask & (KeyPressMask | KeyReleaseMask))
+        {
+--- 157,162 ----
+*** /tmp/,RCSt1a13196	Fri Sep 28 14:19:33 1990
+--- mit/lib/Xt/Geometry.c	Fri Sep 28 14:19:34 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Geometry.c,v 1.46 90/04/10 17:07:18 swick Exp $";
+! /* $oHeader: Geometry.c,v 1.3 88/08/23 11:37:50 asente Exp $ */
+! #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Geometry.c,v 1.49 90/09/05 10:26:16 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 436,441 ****
+--- 433,439 ----
+      register Position *rootx, *rooty;	/* return */
+  {
+      Position garbagex, garbagey;
++     Widget passed = w;
+  
+      if (rootx == NULL) rootx = &garbagex;
+      if (rooty == NULL) rooty = &garbagey;
+***************
+*** 449,455 ****
+      }
+  
+      if (w == NULL)
+!         XtWarningMsg("invalidShell","xtTranslateCoords",XtCXtToolkitError,
+                  "Widget has no shell ancestor",
+  		(String *)NULL, (Cardinal *)NULL);
+      else {
+--- 447,454 ----
+      }
+  
+      if (w == NULL)
+!         XtAppWarningMsg(XtWidgetToApplicationContext(passed),
+! 		"invalidShell","xtTranslateCoords",XtCXtToolkitError,
+                  "Widget has no shell ancestor",
+  		(String *)NULL, (Cardinal *)NULL);
+      else {
+*** /tmp/,RCSt1a13259	Fri Sep 28 14:19:48 1990
+--- mit/lib/Xt/InitialI.h	Fri Sep 28 14:19:48 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: InitialI.h,v 1.32 90/07/15 21:40:45 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: InitialI.h,v 1.35 90/08/31 08:13:11 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 43,49 ****
+  #define MIN(a,b) (((a) < (b)) ? (a) : (b))
+  #endif
+  
+- 
+  #include "fd.h"
+  
+  typedef struct _TimerEventRec {
+--- 43,48 ----
+***************
+*** 94,99 ****
+--- 93,100 ----
+      int		bytes_remaining;
+  } Heap;
+  
++ typedef struct _DestroyRec DestroyRec;
++ 
+  typedef struct _XtAppStruct {
+      XtAppContext next;		/* link to next app in process context */
+      ProcessContext process;	/* back pointer to our process context */
+***************
+*** 113,149 ****
+      short count;			/* num of assigned entries in list */
+      short max;				/* allocate size of list */
+      short last;
+!     Boolean sync, being_destroyed, error_inited, in_phase2_destroy;
+!     Heap heap;
+!     String * fallback_resources;	/* Set by XtAppSetFallbackResources. */
+!     struct _ActionHookRec* action_hook_list;
+  #ifndef NO_IDENTIFY_WINDOWS
+      Boolean identify_windows;		/* debugging hack */
+  #endif
+  } XtAppStruct;
+  
+! extern char* _XtHeapAlloc( /* Heap*, Cardinal */ );
+  
+! extern void _XtSetDefaultErrorHandlers();
+! extern void _XtSetDefaultSelectionTimeout();
+! extern void _XtSetDefaultConverterTable();
+! extern void _XtFreeConverterTable();
+  
+! extern XtAppContext _XtDefaultAppContext();
+! extern ProcessContext _XtGetProcessContext();
+! extern void _XtDestroyAppContexts();
+! extern void _XtCloseDisplays();
+  extern int _XtAppDestroyCount;
+  extern int _XtDpyDestroyCount;
+  
+! extern int _XtwaitForSomething(); /* ignoreTimers, ignoreInputs, ignoreEvents,
+! 				     block, howlong, appContext */
+!     /* Boolean ignoreTimers; */
+!     /* Boolean ignoreInputs; */
+!     /* Boolean ignoreEvents; */
+!     /* Boolean block; */
+!     /* unsigned long *howlong; */
+!     /* XtAppContext app */
+  
+  typedef struct {		/* support for XtGetGC */
+      Screen* screen;		/* root to which drawables apply */
+--- 114,211 ----
+      short count;			/* num of assigned entries in list */
+      short max;				/* allocate size of list */
+      short last;
+!     Boolean sync, being_destroyed, error_inited;
+  #ifndef NO_IDENTIFY_WINDOWS
+      Boolean identify_windows;		/* debugging hack */
+  #endif
++     Heap heap;
++     String * fallback_resources;	/* Set by XtAppSetFallbackResources. */
++     struct _ActionHookRec* action_hook_list;
++     int destroy_list_size;		/* state data for 2-phase destroy */
++     int destroy_count;
++     int dispatch_level;
++     DestroyRec* destroy_list;
++     Widget in_phase2_destroy;
+  } XtAppStruct;
+  
+! extern char* _XtHeapAlloc(
+! #if NeedFunctionPrototypes
+!     Heap*	/* heap */,
+!     Cardinal	/* size */
+! #endif
+! );
+  
+! extern void _XtSetDefaultErrorHandlers(
+! #if NeedFunctionPrototypes
+!     XtErrorMsgHandler*	/* errMsg */,
+!     XtErrorMsgHandler*	/* warnMsg */,
+!     XtErrorHandler*	/* err */,
+!     XtErrorHandler*	/* warn */
+! #endif
+! );
+  
+! extern void _XtSetDefaultSelectionTimeout(
+! #if NeedFunctionPrototypes
+!     unsigned long* /* timeout */
+! #endif
+! );
+! 
+! extern void _XtSetDefaultConverterTable(
+! #if NeedFunctionPrototypes
+!     ConverterTable* /* table */
+! #endif
+! );
+! 
+! extern void _XtFreeConverterTable(
+! #if NeedFunctionPrototypes
+!     ConverterTable /* table */
+! #endif
+! );
+! 
+! extern XtAppContext _XtDefaultAppContext(
+! #if NeedFunctionPrototypes
+!     void
+! #endif
+! );
+! 
+! extern ProcessContext _XtGetProcessContext(
+! #if NeedFunctionPrototypes
+!     void
+! #endif
+! );
+! 
+! extern void _XtDestroyAppContexts(
+! #if NeedFunctionPrototypes
+!     void
+! #endif
+! );
+! 
+! extern void _XtCloseDisplays(
+! #if NeedFunctionPrototypes
+!     void
+! #endif
+! );
+! 
+  extern int _XtAppDestroyCount;
+  extern int _XtDpyDestroyCount;
+  
+! extern int _XtwaitForSomething(
+! #if NeedFunctionPrototypes
+! #if NeedWidePrototypes
+!     /* Boolean */ int	/* ignoreTimers */,
+!     /* Boolean */ int	/* ignoreInputs */,
+!     /* Boolean */ int	/* ignoreEvents */,
+!     /* Boolean */ int	/* block */,
+! #else
+!     Boolean 		/* ignoreTimers */,
+!     Boolean 		/* ignoreInputs */,
+!     Boolean 		/* ignoreEvents */,
+!     Boolean 		/* block */,
+! #endif /*NeedWidePrototypes*/
+!     unsigned long*	/* howlong */,
+!     XtAppContext 	/* app */
+! #endif
+! );
+  
+  typedef struct {		/* support for XtGetGC */
+      Screen* screen;		/* root to which drawables apply */
+***************
+*** 180,189 ****
+      int multi_click_time;	       /* for XtSetMultiClickTime */
+      struct _TMContext* tm_context;     /* for XtGetActionKeysym */
+      CallbackList mapping_callbacks;    /* special case for TM */
+  } XtPerDisplayStruct, *XtPerDisplay;
+  
+- extern void _XtPerDisplayInitialize();
+- 
+  typedef struct _PerDisplayTable {
+  	Display *dpy;
+  	XtPerDisplayStruct perDpy;
+--- 242,250 ----
+      int multi_click_time;	       /* for XtSetMultiClickTime */
+      struct _TMContext* tm_context;     /* for XtGetActionKeysym */
+      CallbackList mapping_callbacks;    /* special case for TM */
++     XtPerDisplayInputRec pdi;	       /* state for modal grabs & kbd focus */
+  } XtPerDisplayStruct, *XtPerDisplay;
+  
+  typedef struct _PerDisplayTable {
+  	Display *dpy;
+  	XtPerDisplayStruct perDpy;
+***************
+*** 192,220 ****
+  
+  extern PerDisplayTablePtr _XtperDisplayList;
+  
+! extern XtPerDisplay _XtSortPerDisplayList();
+!     /* Display *dpy */
+  
+  #ifdef DEBUG
+  #define _XtGetPerDisplay(display) \
+      ((_XtperDisplayList != NULL && (_XtperDisplayList->dpy == (display))) \
+       ? &_XtperDisplayList->perDpy \
+       : _XtSortPerDisplayList(display))
+  #else
+  #define _XtGetPerDisplay(display) \
+      ((_XtperDisplayList->dpy == (display)) \
+       ? &_XtperDisplayList->perDpy \
+       : _XtSortPerDisplayList(display))
+  #endif /*DEBUG*/
+  
+! extern void _XtDisplayInitialize();
+!     /* 	Display *dpy; */
+!     /* 	String name, classname; */
+!     /* 	XrmOptionDescRec *urlist; */
+!     /* 	Cardinal num_urs; */
+!     /* 	Cardinal *argc; */
+!     /* 	char *argv[];  */
+  
+! extern void _XtCacheFlushTag();
+!     /*  XtAppContext app; */
+!     /*	XtPointer tag;	  */
+--- 253,320 ----
+  
+  extern PerDisplayTablePtr _XtperDisplayList;
+  
+! extern XtPerDisplay _XtSortPerDisplayList(
+! #if NeedFunctionPrototypes
+!     Display* /* dpy */
+! #endif
+! );
+  
++ /*
++ extern XtPerDisplay _XtGetPerDisplay( Display* );
++ extern XtPerDisplayInputRec* _XtGetPerDisplayInput( Display* );
++ */
++ 
+  #ifdef DEBUG
+  #define _XtGetPerDisplay(display) \
+      ((_XtperDisplayList != NULL && (_XtperDisplayList->dpy == (display))) \
+       ? &_XtperDisplayList->perDpy \
+       : _XtSortPerDisplayList(display))
++ #define _XtGetPerDisplayInput(display) \
++     ((_XtperDisplayList != NULL && (_XtperDisplayList->dpy == (display))) \
++      ? &_XtperDisplayList->perDpy.pdi \
++      : &_XtSortPerDisplayList(display)->pdi)
+  #else
+  #define _XtGetPerDisplay(display) \
+      ((_XtperDisplayList->dpy == (display)) \
+       ? &_XtperDisplayList->perDpy \
+       : _XtSortPerDisplayList(display))
++ #define _XtGetPerDisplayInput(display) \
++     ((_XtperDisplayList->dpy == (display)) \
++      ? &_XtperDisplayList->perDpy.pdi \
++      : &_XtSortPerDisplayList(display)->pdi)
+  #endif /*DEBUG*/
+  
+! extern void _XtDisplayInitialize(
+! #if NeedFunctionPrototypes
+!     Display*		/* dpy */,
+!     XtPerDisplay	/* pd */,
+!     String		/* name */,
+!     String		/* classname */,
+!     XrmOptionDescRec*	/* urlist */,
+!     Cardinal 		/* num_urs */,
+!     Cardinal*		/* argc */,
+!     char** 		/* argv */
+! #endif
+! );
+  
+! extern void _XtCacheFlushTag(
+! #if NeedFunctionPrototypes
+!     XtAppContext /* app */,
+!     XtPointer	 /* tag */
+! #endif
+! );
+! 
+! extern void _XtFreeActions(
+! #if NeedFunctionPrototypes
+!     struct _ActionListRec* /* action_table */
+! #endif
+! );
+! 
+! extern void _XtDoPhase2Destroy(
+! #if NeedFunctionPrototypes
+!     XtAppContext /* app */,
+!     int		 /* dispatch_level */
+! #endif
+! );
+! 
+! #define _XtSafeToDestroy(app) ((app)->dispatch_level == 0)
+*** /tmp/,RCSt1a13284	Fri Sep 28 14:19:54 1990
+--- mit/lib/Xt/Initialize.c	Fri Sep 28 14:19:55 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Initialize.c,v 1.155 89/12/12 18:56:39 swick Exp $";
+  /* $oHeader: Initialize.c,v 1.7 88/08/31 16:33:39 asente Exp $ */
+- #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,5 ----
+! /* "$XConsortium: Initialize.c,v 1.158 90/08/23 12:58:40 swick Exp $"; */
+  /* $oHeader: Initialize.c,v 1.7 88/08/31 16:33:39 asente Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 43,48 ****
+--- 41,52 ----
+  #include "ShellP.h"
+  #include "Quarks.h"
+  
++ #ifdef __STDC__
++ #define Const const
++ #else
++ #define Const /**/
++ #endif
++ 
+  extern void _XtConvertInitialize();
+  
+  #if defined(SUNSHLIB) && defined(SHAREDCODE)
+***************
+*** 56,65 ****
+  #define XtInitialize _XtInitialize
+  #endif /* SUNSHLIB && SHAREDCODE */
+  
+  
+- #ifdef hpux
+- #define USE_UNAME
+- #endif
+  #ifdef USG
+  #define USE_UNAME
+  #endif
+--- 60,71 ----
+  #define XtInitialize _XtInitialize
+  #endif /* SUNSHLIB && SHAREDCODE */
+  
++ /*
++  * hpux
++  * Hand-patched versions of HP-UX prior to version 7.0 can usefully add
++  * -DUSE_UNAME in the appropriate config file to get long hostnames.
++  */
+  
+  #ifdef USG
+  #define USE_UNAME
+  #endif
+***************
+*** 79,85 ****
+   policy, which the toolkit avoids but I hate differing programs at this level.
+  */
+  
+! static XrmOptionDescRec opTable[] = {
+  {"+rv",		"*reverseVideo", XrmoptionNoArg,	(XtPointer) "off"},
+  {"+synchronous","*synchronous",	XrmoptionNoArg,		(XtPointer) "off"},
+  {"-background",	"*background",	XrmoptionSepArg,	(XtPointer) NULL},
+--- 85,91 ----
+   policy, which the toolkit avoids but I hate differing programs at this level.
+  */
+  
+! static XrmOptionDescRec Const opTable[] = {
+  {"+rv",		"*reverseVideo", XrmoptionNoArg,	(XtPointer) "off"},
+  {"+synchronous","*synchronous",	XrmoptionNoArg,		(XtPointer) "off"},
+  {"-background",	"*background",	XrmoptionSepArg,	(XtPointer) NULL},
+***************
+*** 137,143 ****
+  
+  void _XtInherit()
+  {
+!     XtErrorMsg("invalidProcedure","inheritanceProc","XtToolkitError",
+              "Unresolved inheritance operation",
+                (String *)NULL, (Cardinal *)NULL);
+  }
+--- 143,149 ----
+  
+  void _XtInherit()
+  {
+!     XtErrorMsg("invalidProcedure","inheritanceProc",XtCXtToolkitError,
+              "Unresolved inheritance operation",
+                (String *)NULL, (Cardinal *)NULL);
+  }
+***************
+*** 670,676 ****
+  			options, num_options, argc_in_out, argv_in_out);
+  
+      if (dpy == NULL)
+! 	XtErrorMsg("invalidDisplay","xtInitialize","XtToolkitError",
+                     "Can't Open display", (String *) NULL, (Cardinal *)NULL);
+  
+      XtSetArg(args[num], XtNscreen, DefaultScreenOfDisplay(dpy)); num++;
+--- 676,682 ----
+  			options, num_options, argc_in_out, argv_in_out);
+  
+      if (dpy == NULL)
+! 	XtErrorMsg("invalidDisplay","xtInitialize",XtCXtToolkitError,
+                     "Can't Open display", (String *) NULL, (Cardinal *)NULL);
+  
+      XtSetArg(args[num], XtNscreen, DefaultScreenOfDisplay(dpy)); num++;
+*** /tmp/,RCSt1a13302	Fri Sep 28 14:20:05 1990
+--- mit/lib/Xt/Intrinsic.c	Fri Sep 28 14:20:06 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: Intrinsic.c,v 1.150 90/07/12 17:50:41 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Intrinsic.c,v 1.153 90/08/22 12:48:37 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 382,388 ****
+      int in_depth, *out_depth, *found_depth;
+  {
+      register Cardinal   i;
+!     Widget w, result;
+      int d, min = 10000;
+  
+      for (i = 0; i < num; i++) {
+--- 382,388 ----
+      int in_depth, *out_depth, *found_depth;
+  {
+      register Cardinal   i;
+!     Widget w, result = NULL;
+      int d, min = 10000;
+  
+      for (i = 0; i < num; i++) {
+***************
+*** 437,442 ****
+--- 437,447 ----
+  	return root;
+      }
+  
++     if (! XtIsWidget(root)) {
++ 	*out_depth = 10000;
++ 	return NULL;
++     }
++ 
+      if (*bindings == XrmBindTightly) {
+  	return SearchChildren(root, names, bindings, MatchExactChildren,
+  		in_depth, out_depth, found_depth);
+***************
+*** 572,587 ****
+   * Internal routine; must be called only after XtIsWidget returns false
+   */
+  Widget _XtWindowedAncestor(object)
+! 	Widget object;
+  {
+      for (object = XtParent(object); object && !XtIsWidget(object);)
+  	object = XtParent(object);
+  
+      if (object == NULL) {
+! 	String params = XtName(object);
+  	Cardinal num_params = 1;
+! 	XtAppErrorMsg(XtWidgetToApplicationContext(object),
+! 		   "noWidgetAncestor", "windowedAncestor", XtCXtToolkitError,
+  		   "Object \"%s\" does not have windowed ancestor",
+  		   &params, &num_params);
+      }
+--- 577,592 ----
+   * Internal routine; must be called only after XtIsWidget returns false
+   */
+  Widget _XtWindowedAncestor(object)
+!     register Widget object;
+  {
++     Widget obj = object;
+      for (object = XtParent(object); object && !XtIsWidget(object);)
+  	object = XtParent(object);
+  
+      if (object == NULL) {
+! 	String params = XtName(obj);
+  	Cardinal num_params = 1;
+! 	XtErrorMsg("noWidgetAncestor", "windowedAncestor", XtCXtToolkitError,
+  		   "Object \"%s\" does not have windowed ancestor",
+  		   &params, &num_params);
+      }
+*** /tmp/,RCSt1a13335	Fri Sep 28 14:20:15 1990
+--- mit/lib/Xt/Intrinsic.h	Fri Sep 28 14:20:17 1990
+***************
+*** 1,5 ****
+  /*
+! * $XConsortium: Intrinsic.h,v 1.136 90/04/03 11:37:20 swick Exp $
+  * $oHeader: Intrinsic.h,v 1.10 88/09/01 10:33:34 asente Exp $
+  */
+  
+--- 1,5 ----
+  /*
+! * $XConsortium: Intrinsic.h,v 1.139 90/08/22 14:21:01 swick Exp $
+  * $oHeader: Intrinsic.h,v 1.10 88/09/01 10:33:34 asente Exp $
+  */
+  
+***************
+*** 157,163 ****
+--- 157,168 ----
+  typedef unsigned int	Cardinal;
+  typedef unsigned short	Dimension;  /* Size in pixels			*/
+  typedef short		Position;   /* Offset from 0 coordinate		*/
++ 
++ #ifdef __STDC__
++ typedef void*		XtPointer;
++ #else
+  typedef char*		XtPointer;
++ #endif
+  
+  typedef XtPointer	Opaque;
+  
+***************
+*** 693,699 ****
+  #endif
+  );
+  
+! extern void XtTransformCoords(
+  #if NeedFunctionPrototypes
+      Widget 		/* widget */,
+  #if NeedWidePrototypes
+--- 698,704 ----
+  #endif
+  );
+  
+! extern void XtTranslateCoords(
+  #if NeedFunctionPrototypes
+      Widget 		/* widget */,
+  #if NeedWidePrototypes
+***************
+*** 703,710 ****
+      Position		/* x */,
+      Position		/* y */,
+  #endif /* NeedWidePrototypes */
+!     Position*		/* rootx */,
+!     Position*		/* rooty */
+  #endif
+  );
+  
+--- 708,715 ----
+      Position		/* x */,
+      Position		/* y */,
+  #endif /* NeedWidePrototypes */
+!     Position*		/* rootx_return */,
+!     Position*		/* rooty_return */
+  #endif
+  );
+  
+***************
+*** 753,760 ****
+--- 758,770 ----
+  #endif
+  );
+  
++ #if defined(__STDC__)
++ externalref XtConvertArgRec const colorConvertArgs[];
++ externalref XtConvertArgRec const screenConvertArg[];
++ #else
+  externalref XtConvertArgRec colorConvertArgs[];
+  externalref XtConvertArgRec screenConvertArg[];
++ #endif
+  
+  extern void XtAppAddConverter( /* obsolete */
+  #if NeedFunctionPrototypes
+*** /tmp/,RCSt1a13367	Fri Sep 28 14:20:25 1990
+--- mit/lib/Xt/IntrinsicI.h	Fri Sep 28 14:20:26 1990
+***************
+*** 1,5 ****
+  /*
+! * $XConsortium: IntrinsicI.h,v 1.41 90/04/03 10:51:57 swick Exp $
+  * $oHeader: IntrinsicI.h,v 1.5 88/08/31 16:21:08 asente Exp $
+  */
+  
+--- 1,5 ----
+  /*
+! * $XConsortium: IntrinsicI.h,v 1.42 90/07/26 10:05:52 swick Exp $
+  * $oHeader: IntrinsicI.h,v 1.5 88/08/31 16:21:08 asente Exp $
+  */
+  
+***************
+*** 42,50 ****
+  #include "CallbackI.h"
+  #include "CompositeI.h"
+  #include "ConvertI.h"
+  #include "InitialI.h"
+  #include "ResourceI.h"
+- #include "EventI.h"
+  
+  #define RectObjClassFlag	0x02
+  #define WidgetClassFlag		0x04
+--- 42,51 ----
+  #include "CallbackI.h"
+  #include "CompositeI.h"
+  #include "ConvertI.h"
++ #include "EventI.h"
++ #include "PassivGraI.h"
+  #include "InitialI.h"
+  #include "ResourceI.h"
+  
+  #define RectObjClassFlag	0x02
+  #define WidgetClassFlag		0x04
+*** /tmp/,RCSt1a13397	Fri Sep 28 14:20:34 1990
+--- mit/lib/Xt/Keyboard.c	Fri Sep 28 14:20:34 1990
+***************
+*** 1,6 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Keyboard.c,v 1.14 90/04/03 17:03:54 swick Exp $";
+! #endif
+  
+  /********************************************************
+  
+--- 1,4 ----
+! /* $XConsortium: Keyboard.c,v 1.20 90/08/24 18:49:18 swick Exp $ */
+  
+  /********************************************************
+  
+***************
+*** 38,49 ****
+  extern void _XtFillAncestorList();
+  extern void _XtSendFocusEvent();
+  
+! static XtServerGrabPtr CheckServerGrabs(event, trace,
+! 					traceDepth, pdi)
+      XEvent	*event;
+      Widget	*trace;
+      Cardinal	traceDepth;
+-     XtPerDisplayInput pdi;
+  {
+      XtServerGrabPtr 	grab;
+      Cardinal		i;
+--- 36,45 ----
+  extern void _XtFillAncestorList();
+  extern void _XtSendFocusEvent();
+  
+! static XtServerGrabPtr CheckServerGrabs(event, trace, traceDepth)
+      XEvent	*event;
+      Widget	*trace;
+      Cardinal	traceDepth;
+  {
+      XtServerGrabPtr 	grab;
+      Cardinal		i;
+***************
+*** 50,57 ****
+  
+      for (i = traceDepth;  i > 0; i--)
+        {
+! 	 if (grab = _XtCheckServerGrabsOnWidget(event, trace[i-1],
+! 						KEYBOARD, pdi))
+  	   return (grab);
+       }
+      return (XtServerGrabPtr)0;
+--- 46,52 ----
+  
+      for (i = traceDepth;  i > 0; i--)
+        {
+! 	 if (grab = _XtCheckServerGrabsOnWidget(event, trace[i-1], KEYBOARD))
+  	   return (grab);
+       }
+      return (XtServerGrabPtr)0;
+***************
+*** 162,168 ****
+      XKeyEvent	*e;
+      Widget	w;
+  {
+!     int left, right, top, bottom;
+      
+      /*
+       * if the pointer is outside the shell or inside
+--- 157,163 ----
+      XKeyEvent	*e;
+      Widget	w;
+  {
+!     Position left, right, top, bottom;
+      
+      /*
+       * if the pointer is outside the shell or inside
+***************
+*** 294,301 ****
+  			{
+  			    static Display	*pseudoTraceDisplay = NULL;
+  			    static Widget	*pseudoTrace = NULL;
+! 			    static Cardinal     pseudoTraceDepth = 0;
+! 			    static Cardinal	pseudoTraceMax = 0;
+  			    XtServerGrabPtr	grab;
+  
+  			    if (!pseudoTraceDepth || 
+--- 289,296 ----
+  			{
+  			    static Display	*pseudoTraceDisplay = NULL;
+  			    static Widget	*pseudoTrace = NULL;
+! 			    static int		pseudoTraceDepth = 0;
+! 			    static int		pseudoTraceMax = 0;
+  			    XtServerGrabPtr	grab;
+  
+  			    if (!pseudoTraceDepth || 
+***************
+*** 320,326 ****
+  			      }
+  			    if (grab = CheckServerGrabs((XEvent*)event,
+  							pseudoTrace,
+! 							pseudoTraceDepth, pdi))
+  			      {
+  				  XtDevice device = &pdi->keyboard;
+  				  
+--- 315,321 ----
+  			      }
+  			    if (grab = CheckServerGrabs((XEvent*)event,
+  							pseudoTrace,
+! 							pseudoTraceDepth))
+  			      {
+  				  XtDevice device = &pdi->keyboard;
+  				  
+***************
+*** 365,371 ****
+  	      if (!IsServerGrab(device->grabType) && 
+  		  (newGrab = CheckServerGrabs((XEvent*)event,
+  					      pdi->trace,
+! 					      pdi->traceDepth, pdi)))
+  		{
+  		    /*
+  		     * honor pseudo-grab from prior event by X
+--- 360,366 ----
+  	      if (!IsServerGrab(device->grabType) && 
+  		  (newGrab = CheckServerGrabs((XEvent*)event,
+  					      pdi->trace,
+! 					      pdi->traceDepth)))
+  		{
+  		    /*
+  		     * honor pseudo-grab from prior event by X
+***************
+*** 427,434 ****
+      Widget	widget;
+  {
+      static Widget	*pathTrace = NULL;
+!     static Cardinal     pathTraceDepth = 0;
+!     static Cardinal	pathTraceMax = 0;
+      static Display	*display = NULL;
+      Boolean		isTarget;
+      
+--- 422,429 ----
+      Widget	widget;
+  {
+      static Widget	*pathTrace = NULL;
+!     static int		pathTraceDepth = 0;
+!     static int		pathTraceMax = 0;
+      static Display	*display = NULL;
+      Boolean		isTarget;
+      
+***************
+*** 457,466 ****
+  
+  
+  /* ARGSUSED */
+! void _XtHandleFocus(widget, client_data, event)
+      Widget widget;
+      XtPointer client_data;	/* child who wants focus */
+      XEvent *event;
+  {
+      XtPerDisplayInput 	pdi = _XtGetPerDisplayInput(XtDisplay(widget));
+      XtPerWidgetInput	pwi = (XtPerWidgetInput)client_data;
+--- 452,462 ----
+  
+  
+  /* ARGSUSED */
+! void _XtHandleFocus(widget, client_data, event, cont)
+      Widget widget;
+      XtPointer client_data;	/* child who wants focus */
+      XEvent *event;
++     Boolean *cont;		/* unused */
+  {
+      XtPerDisplayInput 	pdi = _XtGetPerDisplayInput(XtDisplay(widget));
+      XtPerWidgetInput	pwi = (XtPerWidgetInput)client_data;
+***************
+*** 546,552 ****
+  	  Widget	descendant = pwi->focusKid;
+  
+  	  if ((oldFocalPoint == XtUnrelated) &&
+! 	      InActiveSubtree(widget))
+  	    {
+  		pdi->focusWidget = NULL; /* invalidate the cache */
+  		pwi->haveFocus = TRUE;
+--- 542,548 ----
+  	  Widget	descendant = pwi->focusKid;
+  
+  	  if ((oldFocalPoint == XtUnrelated) &&
+! 	      InActiveSubtree(widget) != NotActive)
+  	    {
+  		pdi->focusWidget = NULL; /* invalidate the cache */
+  		pwi->haveFocus = TRUE;
+***************
+*** 578,604 ****
+  }
+  
+  
+! static void AddFocusHandler(widget, descendant, pwi, pdi, oldEventMask)
+      Widget widget, descendant;
+      XtPerWidgetInput pwi;
+      XtPerDisplayInput pdi;
+      EventMask oldEventMask;
+  {
+-     XtPerWidgetInput	psi;
+-     Widget		shell;
+      EventMask	 	eventMask, targetEventMask;
+      Widget		target;
+  
+      /*
+!      * we are having this handler server double duty as the
+!      * heir of ForwardEvent in R3. One thing that is needed is
+!      * to guarantee that the descendant gets keyevents if
+!      * interested 
+!      */
+!     shell = GetShell(widget);
+!     psi = _XtGetPerWidgetInput(shell, TRUE);
+! 
+!     /*
+       * shell borders are not occluded by the child, they're occluded
+       * by reparenting window managers. !!!
+       */
+--- 574,593 ----
+  }
+  
+  
+! static void AddFocusHandler(widget, descendant, pwi, psi, pdi, oldEventMask)
+      Widget widget, descendant;
+      XtPerWidgetInput pwi;
++     XtPerWidgetInput psi;
+      XtPerDisplayInput pdi;
+      EventMask oldEventMask;
+  {
+      EventMask	 	eventMask, targetEventMask;
+      Widget		target;
+  
+      /*
+!      * widget must now select for key events if the descendant is
+!      * interested in them.
+!      *
+       * shell borders are not occluded by the child, they're occluded
+       * by reparenting window managers. !!!
+       */
+***************
+*** 696,703 ****
+  
+      /* use of 'target' is non-standard hackery; allows focus to non-widget */
+      if (pwi && (pwi->focusKid == target)) {
+! 	XtPerDisplayInput pdi = _XtGetPerDisplayInput(XtDisplay(ancestor));
+! 	AddFocusHandler(ancestor, target, pwi, pdi, (EventMask)0);
+      }
+      XtRemoveEventHandler(widget, XtAllEvents, True,
+  			 QueryEventMask, client_data);
+--- 685,694 ----
+  
+      /* use of 'target' is non-standard hackery; allows focus to non-widget */
+      if (pwi && (pwi->focusKid == target)) {
+! 	AddFocusHandler(ancestor, target, pwi,
+! 			_XtGetPerWidgetInput(GetShell(ancestor), TRUE),
+! 			_XtGetPerDisplayInput(XtDisplay(ancestor)),
+! 			(EventMask)0);
+      }
+      XtRemoveEventHandler(widget, XtAllEvents, True,
+  			 QueryEventMask, client_data);
+***************
+*** 756,761 ****
+--- 747,755 ----
+  		pwi->map_handler_added = FALSE;
+  	    }
+  
++ 	    if (pwi->haveFocus)
++ 		pdi->focusWidget = NULL; /* invalidate cache */
++ 
+  	    /*
+  	     * If there was a forward path then remove the handler if
+  	     * the path is being set to null and it isn't a shell.
+***************
+*** 773,783 ****
+  	}
+  	
+  	if (descendant) {
+  	    XtAddCallback (descendant, XtNdestroyCallback, 
+  			   FocusDestroyCallback, (XtPointer) widget);
+  
+! 	    AddFocusHandler(widget, descendant, pwi, pdi,
+  			    oldTarget ? XtBuildEventMask(oldTarget) : 0);
+  	    if (! XtIsRealized(target)) {
+  		XtAddEventHandler(target, (EventMask)StructureNotifyMask,
+  				  False, QueryEventMask, (XtPointer)widget);
+--- 767,789 ----
+  	}
+  	
+  	if (descendant) {
++ 	    Widget shell = GetShell(widget);
++ 	    XtPerWidgetInput psi = _XtGetPerWidgetInput(shell, TRUE);
+  	    XtAddCallback (descendant, XtNdestroyCallback, 
+  			   FocusDestroyCallback, (XtPointer) widget);
+  
+! 	    AddFocusHandler(widget, descendant, pwi, psi, pdi,
+  			    oldTarget ? XtBuildEventMask(oldTarget) : 0);
++ 
++ 	    if (widget != shell)
++ 		XtAddEventHandler(
++ 			shell,
++ 			FocusChangeMask | EnterWindowMask | LeaveWindowMask,
++ 			False,
++ 			_XtHandleFocus,
++ 			(XtPointer)psi
++ 		       );
++ 
+  	    if (! XtIsRealized(target)) {
+  		XtAddEventHandler(target, (EventMask)StructureNotifyMask,
+  				  False, QueryEventMask, (XtPointer)widget);
+*** /tmp/,RCSt1a13421	Fri Sep 28 14:20:42 1990
+--- mit/lib/Xt/Manage.c	Fri Sep 28 14:20:42 1990
+***************
+*** 1,7 ****
+! #ifndef lint
+! static char Xrcsid[] = "$XConsortium: Manage.c,v 1.20 89/09/14 10:34:44 swick Exp $";
+! /* $oHeader: Manage.c,v 1.3 88/09/01 11:41:51 asente Exp $ */
+! #endif /* lint */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: Manage.c,v 1.24 90/08/31 16:05:28 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 29,34 ****
+--- 26,35 ----
+  
+  #include "IntrinsicI.h"
+  
++ static String XtNinvalidChild = "invalidChild";
++ static String XtNxtUnmanageChildren = "xtUnmanageChildren";
++ static String XtNxtManageChildren = "xtManageChildren";
++ 
+  void XtUnmanageChildren(children, num_children)
+      WidgetList children;
+      Cardinal num_children;
+***************
+*** 41,47 ****
+  
+      if (num_children == 0) return;
+      if (children[0] == NULL) {
+! 	XtWarningMsg("invalidChild","xtUnmanageChildren","XtToolkitError",
+                    "Null child passed to XtUnmanageChildren",
+  		  (String *)NULL, (Cardinal *)NULL);
+  	return;
+--- 42,48 ----
+  
+      if (num_children == 0) return;
+      if (children[0] == NULL) {
+! 	XtWarningMsg(XtNinvalidChild,XtNxtUnmanageChildren,XtCXtToolkitError,
+                    "Null child passed to XtUnmanageChildren",
+  		  (String *)NULL, (Cardinal *)NULL);
+  	return;
+***************
+*** 59,65 ****
+      for (i = 0; i < num_children; i++) {
+  	child = children[i];
+  	if (child == NULL) {
+!         XtWarningMsg("invalidChild","xtUnmanageChildren","XtToolkitError",
+                    "Null child passed to XtUnmanageChildren",
+  		  (String *)NULL, (Cardinal *)NULL);
+  	    return;
+--- 60,67 ----
+      for (i = 0; i < num_children; i++) {
+  	child = children[i];
+  	if (child == NULL) {
+! 	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		  XtNinvalidChild,XtNxtUnmanageChildren,XtCXtToolkitError,
+                    "Null child passed to XtUnmanageChildren",
+  		  (String *)NULL, (Cardinal *)NULL);
+  	    return;
+***************
+*** 66,72 ****
+  	}
+          if ((CompositeWidget) child->core.parent != parent) {
+  	   XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		   "ambigiousParent","xtUnmanageChildren","XtToolkitError",
+             "Not all children have same parent in XtUnmanageChildren",
+               (String *)NULL, (Cardinal *)NULL);
+  	} else
+--- 68,74 ----
+  	}
+          if ((CompositeWidget) child->core.parent != parent) {
+  	   XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		   "ambiguousParent",XtNxtUnmanageChildren,XtCXtToolkitError,
+             "Not all children have same parent in XtUnmanageChildren",
+               (String *)NULL, (Cardinal *)NULL);
+  	} else
+***************
+*** 93,99 ****
+          }
+      }
+      if (num_unique_children != 0 && change_managed != NULL && parent_realized) {
+! 	(*change_managed) (parent);
+      }
+  } /* XtUnmanageChildren */
+  
+--- 95,101 ----
+          }
+      }
+      if (num_unique_children != 0 && change_managed != NULL && parent_realized) {
+! 	(*change_managed) ((Widget)parent);
+      }
+  } /* XtUnmanageChildren */
+  
+***************
+*** 120,126 ****
+  
+      if (num_children == 0) return;
+      if (children[0] == NULL) {
+! 	XtWarningMsg("invalidChild","xtManageChildren","XtToolkitError",
+           "null child passed to XtManageChildren",
+  	 (String *)NULL, (Cardinal *)NULL);
+  	return;
+--- 122,128 ----
+  
+      if (num_children == 0) return;
+      if (children[0] == NULL) {
+! 	XtWarningMsg(XtNinvalidChild,XtNxtManageChildren,XtCXtToolkitError,
+           "null child passed to XtManageChildren",
+  	 (String *)NULL, (Cardinal *)NULL);
+  	return;
+***************
+*** 133,139 ****
+  
+      } else {
+  	XtAppErrorMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		"invalidParent","xtManageChildren", "XtToolkitError",
+  	    "Attempt to manage a child when parent is not Composite",
+  	    (String *) NULL, (Cardinal *) NULL);
+      }
+--- 135,141 ----
+  
+      } else {
+  	XtAppErrorMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		"invalidParent",XtNxtManageChildren, XtCXtToolkitError,
+  	    "Attempt to manage a child when parent is not Composite",
+  	    (String *) NULL, (Cardinal *) NULL);
+      }
+***************
+*** 149,155 ****
+      for (i = 0; i < num_children; i++) {
+  	child = children[i];
+  	if (child == NULL) {
+! 	    XtWarningMsg("invalidChild","xtManageChildren","XtToolkitError",
+  		"null child passed to XtManageChildren",
+  		(String *)NULL, (Cardinal *)NULL);
+  	    if (unique_children != cache) XtFree((char *) unique_children);
+--- 151,158 ----
+      for (i = 0; i < num_children; i++) {
+  	child = children[i];
+  	if (child == NULL) {
+! 	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		XtNinvalidChild,XtNxtManageChildren,XtCXtToolkitError,
+  		"null child passed to XtManageChildren",
+  		(String *)NULL, (Cardinal *)NULL);
+  	    if (unique_children != cache) XtFree((char *) unique_children);
+***************
+*** 162,168 ****
+  	    params[0] = XtName(child);
+  	    params[1] = child->core.widget_class->core_class.class_name;
+  	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 			    "notRectObj","xtManageChildren","XtToolkitError",
+  			    "child \"%s\", class %s is not a RectObj",
+  			    params, &num_params);
+  	    continue;
+--- 165,171 ----
+  	    params[0] = XtName(child);
+  	    params[1] = child->core.widget_class->core_class.class_name;
+  	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 			    "notRectObj",XtNxtManageChildren,XtCXtToolkitError,
+  			    "child \"%s\", class %s is not a RectObj",
+  			    params, &num_params);
+  	    continue;
+***************
+*** 170,176 ****
+  #endif /*DEBUG*/
+          if ((CompositeWidget) child->core.parent != parent) {
+  	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		    "ambigiousParent","xtManageChildren","XtToolkitError",
+  		"Not all children have same parent in XtManageChildren",
+  		(String *)NULL, (Cardinal *)NULL);
+  	} else if (! child->core.managed && !child->core.being_destroyed) {
+--- 173,179 ----
+  #endif /*DEBUG*/
+          if ((CompositeWidget) child->core.parent != parent) {
+  	    XtAppWarningMsg(XtWidgetToApplicationContext((Widget)parent),
+! 		    "ambiguousParent",XtNxtManageChildren,XtCXtToolkitError,
+  		"Not all children have same parent in XtManageChildren",
+  		(String *)NULL, (Cardinal *)NULL);
+  	} else if (! child->core.managed && !child->core.being_destroyed) {
+***************
+*** 181,187 ****
+  
+      if (num_unique_children != 0 && parent_realized) {
+  	/* Compute geometry of new managed set of children. */
+! 	if (change_managed != NULL) (*change_managed) (parent);
+  
+  	/* Realize each child if necessary, then map if necessary */
+  	for (i = 0; i < num_unique_children; i++) {
+--- 184,190 ----
+  
+      if (num_unique_children != 0 && parent_realized) {
+  	/* Compute geometry of new managed set of children. */
+! 	if (change_managed != NULL) (*change_managed) ((Widget)parent);
+  
+  	/* Realize each child if necessary, then map if necessary */
+  	for (i = 0; i < num_unique_children; i++) {
+*** /tmp/,RCSt1a13439	Fri Sep 28 14:20:51 1990
+--- mit/lib/Xt/NextEvent.c	Fri Sep 28 14:20:52 1990
+***************
+*** 1,4 ****
+! /* $XConsortium: NextEvent.c,v 1.84 90/07/15 21:44:05 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+--- 1,4 ----
+! /* $XConsortium: NextEvent.c,v 1.91 90/09/28 11:51:06 swick Exp $ */
+  
+  /***********************************************************
+  Copyright 1987, 1988 by Digital Equipment Corporation, Maynard, Massachusetts,
+***************
+*** 34,51 ****
+  static TimerEventRec* freeTimerRecs;
+  static WorkProcRec* freeWorkRecs;
+  
+- #if defined(USG) && !defined(CRAY)
+- static int gettimeofday (tvp, tzp)
+-     struct timeval *tvp;
+-     struct timezone *tzp;
+- {
+-     time (&tvp->tv_sec);
+-     tvp->tv_usec = 0L;
+- 
+-     /* ignore tzp for now since this file doesn't use it */
+- }
+- #endif
+- 
+  /* Some systems running NTP daemons are known to return strange usec
+   * values from gettimeofday.  At present (3/90) this has only been
+   * reported on SunOS...
+--- 34,39 ----
+***************
+*** 128,134 ****
+   * has not already been enqueued.
+   *
+   *
+!  * _XtWaitForSomething( ignoreTimers, ignoreInputs, ignoreEvents,
+   *			block, howlong, appContext)
+   * Boolean ignoreTimers;     (Don't return if a timer would fire
+   *				Also implies forget timers exist)
+--- 116,122 ----
+   * has not already been enqueued.
+   *
+   *
+!  * _XtwaitForSomething( ignoreTimers, ignoreInputs, ignoreEvents,
+   *			block, howlong, appContext)
+   * Boolean ignoreTimers;     (Don't return if a timer would fire
+   *				Also implies forget timers exist)
+***************
+*** 159,165 ****
+  	unsigned long *howlong;
+  	XtAppContext app;
+  {
+- 	struct timezone cur_timezone;
+  	struct timeval  cur_time;
+  	struct timeval  start_time;
+  	struct timeval  wait_time;
+--- 147,152 ----
+***************
+*** 176,182 ****
+  #endif
+  	
+   	if (block) {
+! 		(void) gettimeofday (&cur_time, &cur_timezone);
+  		FIXUP_TIMEVAL(cur_time);
+  		start_time = cur_time;
+  		if(howlong == NULL) { /* special case for ever */
+--- 163,169 ----
+  #endif
+  	
+   	if (block) {
+! 		(void) gettimeofday (&cur_time, NULL);
+  		FIXUP_TIMEVAL(cur_time);
+  		start_time = cur_time;
+  		if(howlong == NULL) { /* special case for ever */
+***************
+*** 230,237 ****
+  			 */
+  			if (errno == EINTR) {
+  			    errno = 0;  /* errno is not self reseting */
+! 			    if(block && wait_time_ptr != NULL) {
+! 				(void)gettimeofday (&new_time, &cur_timezone);
+  				FIXUP_TIMEVAL(new_time);
+  				TIMEDELTA(time_spent, new_time, cur_time);
+  				cur_time = new_time;
+--- 217,226 ----
+  			 */
+  			if (errno == EINTR) {
+  			    errno = 0;  /* errno is not self reseting */
+! 			    if (block) {
+! 				if (wait_time_ptr == NULL) /*howlong == NULL*/
+! 				    continue;
+! 				(void)gettimeofday (&new_time, NULL);
+  				FIXUP_TIMEVAL(new_time);
+  				TIMEDELTA(time_spent, new_time, cur_time);
+  				cur_time = new_time;
+***************
+*** 261,267 ****
+  					 wait_time_ptr->tv_sec,
+  					 wait_time_ptr->tv_usec,
+  					 loop_count );
+! 				XtWarning( msg );
+  			    }
+  #endif /*DEBUG_SELECT*/
+  			    continue;
+--- 250,256 ----
+  					 wait_time_ptr->tv_sec,
+  					 wait_time_ptr->tv_usec,
+  					 loop_count );
+! 				XtAppWarning( app, msg );
+  			    }
+  #endif /*DEBUG_SELECT*/
+  			    continue;
+***************
+*** 275,281 ****
+  		return -1;
+  	}
+  	if(block && howlong != NULL) { /* adjust howlong */
+! 	    (void) gettimeofday (&new_time, &cur_timezone);
+  	    FIXUP_TIMEVAL(new_time);
+  	    TIMEDELTA(time_spent, new_time, start_time);
+  	    if(*howlong <= (time_spent.tv_sec*1000+time_spent.tv_usec/1000))
+--- 264,270 ----
+  		return -1;
+  	}
+  	if(block && howlong != NULL) { /* adjust howlong */
+! 	    (void) gettimeofday (&new_time, NULL);
+  	    FIXUP_TIMEVAL(new_time);
+  	    TIMEDELTA(time_spent, new_time, start_time);
+  	    if(*howlong <= (time_spent.tv_sec*1000+time_spent.tv_usec/1000))
+***************
+*** 391,397 ****
+  {
+  	TimerEventRec *tptr;
+          struct timeval current_time;
+- 	struct timezone timezone;
+  
+  	if (freeTimerRecs) {
+  	    tptr = freeTimerRecs;
+--- 380,385 ----
+***************
+*** 405,411 ****
+  	tptr->app = app;
+  	tptr->te_timer_value.tv_sec = interval/1000;
+  	tptr->te_timer_value.tv_usec = (interval%1000)*1000;
+!         (void) gettimeofday(&current_time,&timezone);
+  	FIXUP_TIMEVAL(current_time);
+          ADD_TIME(tptr->te_timer_value,tptr->te_timer_value,current_time);
+  	QueueTimerEvent(app, tptr);
+--- 393,399 ----
+  	tptr->app = app;
+  	tptr->te_timer_value.tv_sec = interval/1000;
+  	tptr->te_timer_value.tv_usec = (interval%1000)*1000;
+!         (void) gettimeofday(&current_time, NULL);
+  	FIXUP_TIMEVAL(current_time);
+          ADD_TIME(tptr->te_timer_value,tptr->te_timer_value,current_time);
+  	QueueTimerEvent(app, tptr);
+***************
+*** 550,561 ****
+  	if(app->input_list && (sptr = app->input_list[source]) != NULL) {
+  		for( lptr = NULL ; sptr; sptr = sptr->ie_next ){
+  			if(sptr == (InputEvent *) id) {
+  				if(lptr == NULL) {
+! 					app->input_list[source] = sptr->ie_next;
+! 					FD_CLR(source, &app->fds.rmask);
+  				} else {
+! 					lptr->ie_next = sptr->ie_next;
+  				}
+  				XtFree((char *) sptr);
+  				found = True;
+  				break;
+--- 538,561 ----
+  	if(app->input_list && (sptr = app->input_list[source]) != NULL) {
+  		for( lptr = NULL ; sptr; sptr = sptr->ie_next ){
+  			if(sptr == (InputEvent *) id) {
++ 				XtInputMask condition;
+  				if(lptr == NULL) {
+! 				    app->input_list[source] = sptr->ie_next;
+  				} else {
+! 				    lptr->ie_next = sptr->ie_next;
+  				}
++ 				for (condition = 0, lptr = sptr->ie_next;
++ 				     lptr; lptr = lptr->ie_next)
++ 				    condition |= lptr->ie_condition;
++ 				if ((sptr->ie_condition & XtInputReadMask) &&
++ 				    !(condition & XtInputReadMask))
++ 				   FD_CLR(source, &app->fds.rmask);
++ 				if ((sptr->ie_condition & XtInputWriteMask) &&
++ 				    !(condition & XtInputWriteMask))
++ 				   FD_CLR(source, &app->fds.wmask);
++ 				if ((sptr->ie_condition & XtInputExceptMask) &&
++ 				    !(condition & XtInputExceptMask))
++ 				   FD_CLR(source, &app->fds.emask);
+  				XtFree((char *) sptr);
+  				found = True;
+  				break;
+***************
+*** 572,577 ****
+--- 572,591 ----
+  		   (String *)NULL, (Cardinal *)NULL);
+  }
+  
++ void _XtRemoveAllInputs(app)
++     XtAppContext app;
++ {
++     int i;
++     for (i = 0; i < NOFILE; i++) {
++ 	InputEvent* ep = app->input_list[i];
++ 	while (ep) {
++ 	    InputEvent *next = ep->ie_next;
++ 	    XtFree( (char*)ep );
++ 	    ep = next;
++ 	}
++     }
++ }
++ 
+  /* Do alternate input and timer callbacks if there are any */
+  
+  static void DoOtherSources(app)
+***************
+*** 580,586 ****
+  	TimerEventRec *te_ptr;
+  	InputEvent *ie_ptr;
+  	struct timeval  cur_time;
+- 	struct timezone cur_timezone;
+  
+  #define DrainQueue() \
+  	for (ie_ptr = app->outstandingQueue; ie_ptr != NULL;) { \
+--- 594,599 ----
+***************
+*** 598,604 ****
+  	    DrainQueue();
+  	}
+  	if (app->timerQueue != NULL) {	/* check timeout queue */
+! 	    (void) gettimeofday (&cur_time, &cur_timezone);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    while(IS_AFTER (app->timerQueue->te_timer_value, cur_time)) {
+  		te_ptr = app->timerQueue;
+--- 611,617 ----
+  	    DrainQueue();
+  	}
+  	if (app->timerQueue != NULL) {	/* check timeout queue */
+! 	    (void) gettimeofday (&cur_time, NULL);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    while(IS_AFTER (app->timerQueue->te_timer_value, cur_time)) {
+  		te_ptr = app->timerQueue;
+***************
+*** 718,736 ****
+  	int i, d;
+  	XEvent event;
+  	struct timeval cur_time;
+- 	struct timezone curzone;
+  
+  	if (mask == 0) return;
+  
+  	for (;;) {
+  	    if (mask & XtIMTimer && app->timerQueue != NULL) {
+! 		(void) gettimeofday (&cur_time, &curzone);
+  		FIXUP_TIMEVAL(cur_time);
+  		if (IS_AFTER(app->timerQueue->te_timer_value, cur_time)) {
+  		    TimerEventRec *te_ptr = app->timerQueue;
+  		    app->timerQueue = app->timerQueue->te_next;
+  		    te_ptr->te_next = NULL;
+!                     if (te_ptr->te_proc != 0)
+  		        TeCallProc(te_ptr);
+  		    te_ptr->te_next = freeTimerRecs;
+  		    freeTimerRecs = te_ptr;
+--- 731,748 ----
+  	int i, d;
+  	XEvent event;
+  	struct timeval cur_time;
+  
+  	if (mask == 0) return;
+  
+  	for (;;) {
+  	    if (mask & XtIMTimer && app->timerQueue != NULL) {
+! 		(void) gettimeofday (&cur_time, NULL);
+  		FIXUP_TIMEVAL(cur_time);
+  		if (IS_AFTER(app->timerQueue->te_timer_value, cur_time)) {
+  		    TimerEventRec *te_ptr = app->timerQueue;
+  		    app->timerQueue = app->timerQueue->te_next;
+  		    te_ptr->te_next = NULL;
+!                     if (te_ptr->te_proc != NULL)
+  		        TeCallProc(te_ptr);
+  		    te_ptr->te_next = freeTimerRecs;
+  		    freeTimerRecs = te_ptr;
+***************
+*** 800,806 ****
+  	XtAppContext app;
+  {
+  	struct timeval cur_time;
+- 	struct timezone curzone;
+  	int d;
+  	XtInputMask ret = 0;
+  
+--- 812,817 ----
+***************
+*** 826,832 ****
+   * Check for pending alternate input
+   */
+  	if (app->timerQueue != NULL) {	/* check timeout queue */ 
+! 	    (void) gettimeofday (&cur_time, &curzone);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    if ((IS_AFTER(app->timerQueue->te_timer_value, cur_time))  &&
+                  (app->timerQueue->te_proc != 0)) {
+--- 837,843 ----
+   * Check for pending alternate input
+   */
+  	if (app->timerQueue != NULL) {	/* check timeout queue */ 
+! 	    (void) gettimeofday (&cur_time, NULL);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    if ((IS_AFTER(app->timerQueue->te_timer_value, cur_time))  &&
+                  (app->timerQueue->te_proc != 0)) {
+***************
+*** 851,857 ****
+  	XtAppContext app;
+  {
+  	struct timeval  cur_time;
+- 	struct timezone cur_timezone;
+  
+  	if (app->outstandingQueue != NULL) return TRUE;
+  
+--- 862,867 ----
+***************
+*** 863,869 ****
+  	}
+  
+  	if (app->timerQueue != NULL) {	/* check timeout queue */
+! 	    (void) gettimeofday (&cur_time, &cur_timezone);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    if (IS_AFTER (app->timerQueue->te_timer_value, cur_time)) return TRUE;
+  	}
+--- 873,879 ----
+  	}
+  
+  	if (app->timerQueue != NULL) {	/* check timeout queue */
+! 	    (void) gettimeofday (&cur_time, NULL);
+  	    FIXUP_TIMEVAL(cur_time);
+  	    if (IS_AFTER (app->timerQueue->te_timer_value, cur_time)) return TRUE;
+  	}
+***************
+*** 900,906 ****
+  	    if (foundCall) {
+  		event->xany.type = 0;
+  		event->xany.display = NULL;
+! 		event->xany.window = NULL;
+  		return FALSE;
+  	    }
+  
+--- 910,916 ----
+  	    if (foundCall) {
+  		event->xany.type = 0;
+  		event->xany.display = NULL;
+! 		event->xany.window = 0;
+  		return FALSE;
+  	    }
+  
+*** /tmp/,RCSt1a13510	Fri Sep 28 14:21:05 1990
+--- mit/lib/Xt/PassivGraI.h	Fri Sep 28 14:21:05 1990
+***************
+*** 1,5 ****
+  /*
+! * $XConsortium: PassivGraI.h,v 1.4 89/12/16 19:23:09 rws Exp $
+  */
+  
+  /********************************************************
+--- 1,5 ----
+  /*
+! * $XConsortium: PassivGraI.h,v 1.5 90/07/26 10:13:08 swick Exp $
+  */
+  
+  /********************************************************
+***************
+*** 108,118 ****
+  
+  #define IsPseudoGrab(g) ((g == XtPseudoPassiveServerGrab))
+  
+! extern XtPerWidgetInput _XtGetPerWidgetInput();
+  
+! extern XtPerDisplayInput _XtGetPerDisplayInput();
+  
+! extern XtServerGrabPtr _XtCheckServerGrabsOnWidget();
+  
+  
+  #endif /* _PDI_h_ */
+--- 108,169 ----
+  
+  #define IsPseudoGrab(g) ((g == XtPseudoPassiveServerGrab))
+  
+! extern void _XtDestroyServerGrabs(
+! #if NeedFunctionPrototypes
+!     Widget		/* w */,
+!     XtPointer		/* pwi */, /*XtPerWidgetInput*/
+!     XtPointer		/* call_data */
+! #endif
+! );
+  
+! #if NeedWidePrototypes
+! #define Boolean int
+! #endif
+  
+! extern XtPerWidgetInput _XtGetPerWidgetInput(
+! #if NeedFunctionPrototypes
+!     Widget	/* widget */,
+!     Boolean	/* create */
+! #endif
+! );
+  
++ extern XtServerGrabPtr _XtCheckServerGrabsOnWidget(
++ #if NeedFunctionPrototypes
++     XEvent*		/* event */,
++     Widget		/* widget */,
++     Boolean		/* isKeyboard */
++ #endif
++ );
++ 
++ #undef Boolean
++ 
++ /*
++ extern XtGrabList* _XtGetGrabList( XtPerDisplayInput );
++ */
++ 
++ #define _XtGetGrabList(pdi) (&(pdi)->grabList)
++ 
++ extern void _XtFreePerWidgetInput(
++ #if NeedFunctionPrototypes
++     Widget		/* w */,
++     XtPerWidgetInput	/* pwi */
++ #endif
++ );
++ 
++ extern Widget _XtProcessKeyboardEvent(
++ #if NeedFunctionPrototypes
++     XKeyEvent*		/* event */,
++     Widget		/* widget */,
++     XtPerDisplayInput	/* pdi */
++ #endif
++ );
++ 
++ extern Widget _XtProcessPointerEvent(
++ #if NeedFunctionPrototypes
++     XButtonEvent*	/* event */,
++     Widget		/* widget */,
++     XtPerDisplayInput	/* pdi */
++ #endif
++ );
+  
+  #endif /* _PDI_h_ */
+*** /tmp/,RCSt1a13526	Fri Sep 28 14:21:10 1990
+--- mit/lib/Xt/PassivGrab.c	Fri Sep 28 14:21:10 1990
+***************
+*** 1,5 ****
+  #ifndef lint
+! static char Xrcsid[] = "$XConsortium: PassivGrab.c,v 1.11 90/04/03 20:14:33 swick Exp $";
+  #endif
+  
+  /********************************************************
+--- 1,5 ----
+  #ifndef lint
+! static char Xrcsid[] = "$XConsortium: PassivGrab.c,v 1.14 90/07/26 10:07:39 swick Exp $";
+  #endif
+  
+  /********************************************************
+***************
+*** 33,38 ****
+--- 33,39 ----
+  #include "StringDefs.h"
+  #include "PassivGraI.h"
+  
++ static String XtNinvalidWidget = "invalidWidget";
+  
+  /* typedef unsigned long Mask; */
+  #define BITMASK(i) (((Mask)1) << ((i) & 31))
+***************
+*** 487,498 ****
+   * This function is called at widget destroy time to clean up
+   */
+  /*ARGSUSED*/
+! void _XtDestroyServerGrabs(w, pwi, call_data)
+      Widget		w;
+!     XtPerWidgetInput	pwi;
+      XtPointer		call_data; /* unused */
+  {
+!     XtPerDisplayInput		pdi;
+      
+      pdi = _XtGetPerDisplayInput(XtDisplay(w));
+      
+--- 488,500 ----
+   * This function is called at widget destroy time to clean up
+   */
+  /*ARGSUSED*/
+! void _XtDestroyServerGrabs(w, closure, call_data)
+      Widget		w;
+!     XtPointer		closure;
+      XtPointer		call_data; /* unused */
+  {
+!     XtPerWidgetInput	pwi = (XtPerWidgetInput)closure;
+!     XtPerDisplayInput	pdi;
+      
+      pdi = _XtGetPerDisplayInput(XtDisplay(w));
+      
+***************
+*** 515,525 ****
+   * the grab.  The grab will remain in effect until the key is released.
+   */
+  
+! XtServerGrabPtr _XtCheckServerGrabsOnWidget (event, widget, isKeyboard, pdi)
+!     XKeyEvent 		* event;
+      Widget		widget;
+      Boolean		isKeyboard;
+-     XtPerDisplayInput	pdi;
+  {
+      register XtServerGrabPtr grab;
+      XtServerGrabRec 	tempGrab;
+--- 517,526 ----
+   * the grab.  The grab will remain in effect until the key is released.
+   */
+  
+! XtServerGrabPtr _XtCheckServerGrabsOnWidget (event, widget, isKeyboard)
+!     XEvent 		*event;
+      Widget		widget;
+      Boolean		isKeyboard;
+  {
+      register XtServerGrabPtr grab;
+      XtServerGrabRec 	tempGrab;
+***************
+*** 543,550 ****
+      
+      
+      tempGrab.widget = widget;
+!     tempGrab.detail.exact = event->keycode; /* also button */
+!     tempGrab.modifiersDetail.exact = event->state;
+      tempGrab.detail.pMask = NULL;
+      tempGrab.modifiersDetail.pMask = NULL;
+  
+--- 544,551 ----
+      
+      
+      tempGrab.widget = widget;
+!     tempGrab.detail.exact = event->xkey.keycode; /* also xbutton.button */
+!     tempGrab.modifiersDetail.exact = event->xkey.state; /*also xbutton.state*/
+      tempGrab.detail.pMask = NULL;
+      tempGrab.modifiersDetail.pMask = NULL;
+  
+***************
+*** 710,716 ****
+      
+      if (!XtIsWidget(widget)){
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		     "invalidWidget", "grabKeyOrButton", "XtToolkitError",
+  		     "Widget specified in grab is not a widget",
+  		     (String *)NULL, (Cardinal *)NULL);
+  	return;
+--- 711,717 ----
+      
+      if (!XtIsWidget(widget)){
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		     XtNinvalidWidget, "grabKeyOrButton", XtCXtToolkitError,
+  		     "Widget specified in grab is not a widget",
+  		     (String *)NULL, (Cardinal *)NULL);
+  	return;
+***************
+*** 763,769 ****
+      
+      if (!XtIsWidget(widget)){
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		     "invalidWidget", "ungrabKeyOrButton", "XtToolkitError",
+  		     "Widget specified in ungrab is not a widget",
+  		     (String *)NULL, (Cardinal *)NULL);
+  	return;
+--- 764,770 ----
+      
+      if (!XtIsWidget(widget)){
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		     XtNinvalidWidget, "ungrabKeyOrButton", XtCXtToolkitError,
+  		     "Widget specified in ungrab is not a widget",
+  		     (String *)NULL, (Cardinal *)NULL);
+  	return;
+***************
+*** 785,791 ****
+      if (!pwi)
+        {
+  	  XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		       "invalidGrab", "ungrabKeyOrButton", "XtToolkitError",
+  		       "Attempt to remove non-existant passive grab",
+  		       (String *)NULL, (Cardinal *)NULL);
+  	  return;
+--- 786,792 ----
+      if (!pwi)
+        {
+  	  XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		       "invalidGrab", "ungrabKeyOrButton", XtCXtToolkitError,
+  		       "Attempt to remove non-existant passive grab",
+  		       (String *)NULL, (Cardinal *)NULL);
+  	  return;
+***************
+*** 887,893 ****
+      
+      if (!XtIsWidget(widget) || !XtIsRealized(widget))
+        XtAppErrorMsg(XtWidgetToApplicationContext(widget),
+! 		    "invalidWidget", "grabDevice", "XtToolkitError",
+  		    "Grab widget must be a realized widget",
+  		    (String*)NULL, (Cardinal*)NULL);
+      
+--- 888,894 ----
+      
+      if (!XtIsWidget(widget) || !XtIsRealized(widget))
+        XtAppErrorMsg(XtWidgetToApplicationContext(widget),
+! 		    XtNinvalidWidget, "grabDevice", XtCXtToolkitError,
+  		    "Grab widget must be a realized widget",
+  		    (String*)NULL, (Cardinal*)NULL);
+      
+***************
+*** 937,943 ****
+  
+      if (!XtIsWidget(widget) || !XtIsRealized(widget))
+        XtAppErrorMsg(XtWidgetToApplicationContext(widget),
+! 		    "invalidWidget", "ungrabDevice", "XtToolkitError",
+  		    "Grab widget must be a realized widget",
+  		    (String*)NULL, (Cardinal*)NULL);
+       
+--- 938,944 ----
+  
+      if (!XtIsWidget(widget) || !XtIsRealized(widget))
+        XtAppErrorMsg(XtWidgetToApplicationContext(widget),
+! 		    XtNinvalidWidget, "ungrabDevice", XtCXtToolkitError,
+  		    "Grab widget must be a realized widget",
+  		    (String*)NULL, (Cardinal*)NULL);
+       
+*** /tmp/,RCSt1a13634	Fri Sep 28 14:21:44 1990
+--- mit/lib/Xt/Resources.c	Fri Sep 28 14:21:45 1990
+***************
+*** 1,8 ****
+! #ifndef lint
+! static char Xrcsid[] =
+!     "$XConsortium: Resources.c,v 1.83 90/03/19 13:03:13 swick Exp $";
+! /* $oHeader: Resources.c,v 1.6 88/09/01 13:39:14 asente Exp $ */
+! #endif /*lint*/
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+--- 1,5 ----
+! /* $XConsortium: Resources.c,v 1.88 90/09/04 10:50:38 swick Exp $ */
+! 
+  /*LINTLIBRARY*/
+  
+  /***********************************************************
+***************
+*** 52,64 ****
+  {
+      if (widget->core.parent == NULL) {
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidParent","xtCopyFromParent","XtToolkitError",
+                    "CopyFromParent must have non-NULL parent",
+  		  (String *)NULL, (Cardinal *)NULL);
+          value->addr = NULL;
+          return;
+      }
+!     value->addr = ((XtPointer)widget->core.parent) + offset;
+  } /* XtCopyFromParent */
+  
+  /*ARGSUSED*/
+--- 49,61 ----
+  {
+      if (widget->core.parent == NULL) {
+  	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidParent","xtCopyFromParent",XtCXtToolkitError,
+                    "CopyFromParent must have non-NULL parent",
+  		  (String *)NULL, (Cardinal *)NULL);
+          value->addr = NULL;
+          return;
+      }
+!     value->addr = (caddr_t)(((char *)widget->core.parent) + offset);
+  } /* XtCopyFromParent */
+  
+  /*ARGSUSED*/
+***************
+*** 67,73 ****
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (XtPointer)(&widget->core.screen);
+  } /* XtCopyScreen */
+  
+  /*ARGSUSED*/
+--- 64,70 ----
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (caddr_t)(&widget->core.screen);
+  } /* XtCopyScreen */
+  
+  /*ARGSUSED*/
+***************
+*** 76,82 ****
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (XtPointer)(&DefaultColormapOfScreen(XtScreenOfObject(widget)));
+  } /* XtCopyDefaultColormap */
+  
+  
+--- 73,79 ----
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (caddr_t)(&DefaultColormapOfScreen(XtScreenOfObject(widget)));
+  } /* XtCopyDefaultColormap */
+  
+  
+***************
+*** 90,96 ****
+  	   Widget   parent = widget->core.parent;
+  
+      sensitive = (parent->core.ancestor_sensitive & parent->core.sensitive);
+!     value->addr = (XtPointer)(&sensitive);
+  } /* XtCopyAncestorSensitive */
+  
+  /*ARGSUSED*/
+--- 87,93 ----
+  	   Widget   parent = widget->core.parent;
+  
+      sensitive = (parent->core.ancestor_sensitive & parent->core.sensitive);
+!     value->addr = (caddr_t)(&sensitive);
+  } /* XtCopyAncestorSensitive */
+  
+  /*ARGSUSED*/
+***************
+*** 99,105 ****
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (XtPointer)(&DefaultDepthOfScreen(XtScreenOfObject(widget)));
+  } /* XtCopyDefaultDepth */
+  
+  /* If the alignment characteristics of your machine are right, these may be
+--- 96,102 ----
+      int		offset;
+      XrmValue    *value;
+  {
+!     value->addr = (caddr_t)(&DefaultDepthOfScreen(XtScreenOfObject(widget)));
+  } /* XtCopyDefaultDepth */
+  
+  /* If the alignment characteristics of your machine are right, these may be
+***************
+*** 292,298 ****
+  
+      params[0] = (String) size;
+      params[1] = XrmQuarkToString(name);
+!     XtWarningMsg("invalidSizeOverride", "xtDependencies", "XtToolkitError",
+  	"Representation size %d must match superclass's to override %s",
+  	params, &num_params);
+  } /* BadType */
+--- 289,295 ----
+  
+      params[0] = (String) size;
+      params[1] = XrmQuarkToString(name);
+!     XtWarningMsg("invalidSizeOverride", "xtDependencies", XtCXtToolkitError,
+  	"Representation size %d must match superclass's to override %s",
+  	params, &num_params);
+  } /* BadType */
+***************
+*** 461,467 ****
+  
+      if ((args == NULL) && (num_args != 0)) {
+      	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidArgCount","getResources","XtToolkitError",
+                   "argument count > 0 on NULL argument list",
+                     (String *)NULL, (Cardinal *)NULL);
+  	num_args = 0;
+--- 458,464 ----
+  
+      if ((args == NULL) && (num_args != 0)) {
+      	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidArgCount","getResources",XtCXtToolkitError,
+                   "argument count > 0 on NULL argument list",
+                     (String *)NULL, (Cardinal *)NULL);
+  	num_args = 0;
+***************
+*** 470,476 ****
+  	return NULL;
+      } else if (table == NULL) {
+      	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidResourceCount","getResources","XtToolkitError",
+                "resource count > 0 on NULL resource list",
+  	      (String *)NULL, (Cardinal *)NULL);
+  	return NULL;
+--- 467,473 ----
+  	return NULL;
+      } else if (table == NULL) {
+      	XtAppWarningMsg(XtWidgetToApplicationContext(widget),
+! 		"invalidResourceCount","getResources",XtCXtToolkitError,
+                "resource count > 0 on NULL resource list",
+  	      (String *)NULL, (Cardinal *)NULL);
+  	return NULL;
+***************
+*** 496,502 ****
+  	    if (argName == QinitialResourcesPersistent) {
+  		persistent_resources = (Boolean)arg->value;
+  		found_persistence = True;
+! 		break;
+  	    }
+  	    for (j = 0, res = table; j < num_resources; j++, res++) {
+  		rx = *res;
+--- 493,499 ----
+  	    if (argName == QinitialResourcesPersistent) {
+  		persistent_resources = (Boolean)arg->value;
+  		found_persistence = True;
+! 		continue;
+  	    }
+  	    for (j = 0, res = table; j < num_resources; j++, res++) {
+  		rx = *res;
+***************
+*** 577,583 ****
+  		if (rawType != QBoolean) {
+  		    rawValue = value;
+  		    value.size = sizeof(Boolean);
+! 		    value.addr = (XtPointer)&persistent_resources;
+  		    if (!_XtConvert(widget, rawType, &rawValue, QBoolean,
+  				    &value, NULL))
+  			persistent_resources = *(Boolean*)value.addr;
+--- 574,580 ----
+  		if (rawType != QBoolean) {
+  		    rawValue = value;
+  		    value.size = sizeof(Boolean);
+! 		    value.addr = (caddr_t)&persistent_resources;
+  		    if (!_XtConvert(widget, rawType, &rawValue, QBoolean,
+  				    &value, NULL))
+  			persistent_resources = *(Boolean*)value.addr;
+***************
+*** 661,667 ****
+  		    if (rawType != xrm_type) {
+  			rawValue = *pv;
+  			value.size = rx->xrm_size;
+! 			value.addr = (XtPointer)(base - rx->xrm_offset - 1);
+  			already_copied = have_value =
+  			    _XtConvert(widget, rawType, &rawValue,
+  				       xrm_type, &value,
+--- 658,664 ----
+  		    if (rawType != xrm_type) {
+  			rawValue = *pv;
+  			value.size = rx->xrm_size;
+! 			value.addr = (caddr_t)(base - rx->xrm_offset - 1);
+  			already_copied = have_value =
+  			    _XtConvert(widget, rawType, &rawValue,
+  				       xrm_type, &value,
+***************
+*** 694,715 ****
+  			if (xrm_type == QString) {
+  			    pv->addr = rx->xrm_default_addr;
+  			} else if (rx->xrm_size == sizeof(int)) {
+! 			    int_val = (int)rx->xrm_default_addr;
+! 			    pv->addr = (XtPointer) &int_val;
+  			} else if (rx->xrm_size == sizeof(short)) {
+! 			    short_val = (short)rx->xrm_default_addr;
+! 			    pv->addr = (XtPointer) &short_val;
+  			} else if (rx->xrm_size == sizeof(char)) {
+! 			    char_val = (char)rx->xrm_default_addr;
+! 			    pv->addr = (XtPointer) &char_val;
+  			} else if (rx->xrm_size == sizeof(long)) {
+  			    long_val = (long)rx->xrm_default_addr;
+! 			    pv->addr = (XtPointer) &long_val;
+  			} else if (rx->xrm_size == sizeof(char*)) {
+  			    char_ptr = (char*)rx->xrm_default_addr;
+! 			    pv->addr = (XtPointer) &char_ptr;
+  			} else {
+! 			    pv->addr = (XtPointer) &(rx->xrm_default_addr);
+  			}
+  		    } else if (xrm_default_type == xrm_type) {
+  			pv->addr = rx->xrm_default_addr;
+--- 691,712 ----
+  			if (xrm_type == QString) {
+  			    pv->addr = rx->xrm_default_addr;
+  			} else if (rx->xrm_size == sizeof(int)) {
+! 			    int_val = (int)(long)rx->xrm_default_addr;
+! 			    pv->addr = (caddr_t) &int_val;
+  			} else if (rx->xrm_size == sizeof(short)) {
+! 			    short_val = (short)(long)rx->xrm_default_addr;
+! 			    pv->addr = (caddr_t) &short_val;
+  			} else if (rx->xrm_size == sizeof(char)) {
+! 			    char_val = (char)(long)rx->xrm_default_addr;
+! 			    pv->addr = (caddr_t) &char_val;
+  			} else if (rx->xrm_size == sizeof(long)) {
+  			    long_val = (long)rx->xrm_default_addr;
+! 			    pv->addr = (caddr_t) &long_val;
+  			} else if (rx->xrm_size == sizeof(char*)) {
+  			    char_ptr = (char*)rx->xrm_default_addr;
+! 			    pv->addr = (caddr_t) &char_ptr;
+  			} else {
+! 			    pv->addr = (caddr_t) &(rx->xrm_default_addr);
+  			}
+  		    } else if (xrm_default_type == xrm_type) {
+  			pv->addr = rx->xrm_default_addr;
+***************
+*** 721,727 ****
+  			    rawValue.size = sizeof(XtPointer);
+  			}
+  			value.size = rx->xrm_size;
+! 			value.addr = (XtPointer)(base - rx->xrm_offset - 1);
+  			already_copied =
+  			    _XtConvert(widget, xrm_default_type,
+  				       &rawValue, xrm_type, &value,
+--- 718,724 ----
+  			    rawValue.size = sizeof(XtPointer);
+  			}
+  			value.size = rx->xrm_size;
+! 			value.addr = (caddr_t)(base - rx->xrm_offset - 1);
+  			already_copied =
+  			    _XtConvert(widget, xrm_default_type,
+  				       &rawValue, xrm_type, &value,
+***************
+*** 857,867 ****
+      }
+      FreeCache(quark_cache, quark_args);
+      return cache_refs;
+! } /* XtGetResources */
+  
+  
+! void XtGetSubresources
+! 	(w, base, name, class, resources, num_resources, args, num_args)
+      Widget	  w;		  /* Widget "parent" of subobject   */
+      XtPointer	  base;		  /* Base address to write to       */
+      String	  name;		  /* name of subobject		    */
+--- 854,864 ----
+      }
+      FreeCache(quark_cache, quark_args);
+      return cache_refs;
+! } /* _XtGetResources */
+  
+  
+! void XtGetSubresources (w, base, name, class, resources, num_resources,
+! 			args, num_args)
+      Widget	  w;		  /* Widget "parent" of subobject   */
+      XtPointer	  base;		  /* Base address to write to       */
+      String	  name;		  /* name of subobject		    */
+***************
+*** 967,973 ****
+  void _XtResourceListInitialize()
+  {
+      if (initialized) {
+! 	XtWarningMsg("initializationError","xtInitialize","XtToolkitError",
+                    "Initializing Resource Lists twice",
+  		  (String *)NULL, (Cardinal *)NULL);
+      	return;
+--- 964,970 ----
+  void _XtResourceListInitialize()
+  {
+      if (initialized) {
+! 	XtWarningMsg("initializationError","xtInitialize",XtCXtToolkitError,
+                    "Initializing Resource Lists twice",
+  		  (String *)NULL, (Cardinal *)NULL);
+      	return;

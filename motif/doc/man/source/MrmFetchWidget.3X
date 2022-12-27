@@ -1,0 +1,125 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchWidget 3X
+.SH NAME
+\fBMrmFetchWidget\fP \- Fetches and creates any indexed 
+(UIL named) application widgets
+and its children.
+.iX "MrmFetchWidget"
+.iX "uil functions" "MrmFetchWidget"
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchWidget"
+.NX R "MrmFetchWidget" "definition"
+.BI "Cardinal MrmFetchWidget(" "hierarchy_id" ","
+.IB "index" ","
+.IB "parent_widget" ","
+.IB "widget" ","
+.IB "class" ")"
+.br
+.in +5n
+.BI "MrmHierarchy " "hierarchy_id" ";"
+.br
+.BI "String " "index" ";"
+.br
+.BI "Widget " "parent_widget" ";"
+.br
+.BI "Widget *" "widget" ";"
+.br
+.BI "MrmType *" "class" ";"
+.in -5n
+.SH DESCRIPTION
+The
+\fBMrmFetchWidget\fP
+function
+.NX R "MrmFetchWidget" "description"
+fetches and creates an
+indexed application widget and its children.
+The indexed application widget is any widget that is named in UIL
+and that is not the child of
+any other widget in the \fBuid\fP hierarchy.
+In 
+.ne 2i
+fetch operations, the fetched widget's subtree is also
+fetched and created.
+This widget must not appear as the child of a widget within its own
+subtree. \fBMrmFetchWidget\fP does not execute \fBXtManageChild\fP
+for the newly created widget.
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the \fBuid\fP hierarchy that contains the 
+interface definition.
+The \fIhierarchy_id\fP was returned in a previous call to
+\fBMrmOpenHierarchy\fP.
+.IP \fIindex\fP 1.5i
+Specifies the UIL name of the widget to fetch. 
+.IP \fIparent_widget\fP   1.5i
+Specifies the parent widget ID.
+.IP \fIwidget\fP 1.5i
+Returns the widget ID of the created widget.
+If this is not NULL when you call \fBMrmFetchWidgetOverride\fP,
+MRM assumes that the widget has already been created and 
+\fBMrmFetchWidgetOverride\fP returns \fBMrmFAILURE\fP.
+.IP \fIclass\fP 1.5i
+Returns the class code identifying MRM's widget class.
+The widget class code for the main window widget, for example, is
+\fBMRMwcMainWindow\fP.
+Literals identifying MRM widget class codes are defined in \fBMrm.h\fP.
+.PP
+An application can fetch
+any named widget in the \fBuid\fP hierarchy using
+\fBMrmFetchWidget\fP.
+\fBMrmFetchWidget\fP
+can be called at any time to fetch a widget that was not fetched at
+application startup.
+\fBMrmFetchWidget\fP
+determines if a widget has already been fetched by checking
+\fIwidget\fP
+for a NULL value.
+Non-NULL values signify that the widget has already been fetched,
+and
+\fBMrmFetchWidget\fP
+fails.
+\fBMrmFetchWidget\fP
+can be used to defer fetching pop-up
+widgets until they are first
+referenced (presumably in a callback), and then used to fetch them
+once.
+.PP
+\fBMrmFetchWidget\fP
+can also create multiple instances of a widget (and its subtree).
+In this case, the \fBuid\fP definition functions as a template;
+a widget definition can be fetched any number of times. 
+An application can use
+this to make multiple instances of a widget, for example, in a
+dialog box box or menu. 
+.PP
+The index (UIL name) that identifies the widget must be 
+known to the application. 
+.br
+.ne 15
+.SH RETURN VALUE
+.NX R "MrmSUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmNOT_FOUND"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 2.0i
+The function executed successfully.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmNOT_FOUND\fP
+The widget was not found in UID hierarchy.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+\fBMrmFetchWidgetOverride(3X)\fP

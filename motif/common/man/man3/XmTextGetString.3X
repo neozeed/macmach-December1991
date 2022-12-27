@@ -1,0 +1,47 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextGetString 3X "" "" "" ""
+.SH NAME
+\fBXmTextGetString \(em a Text function that accesses the string value.\fP
+.iX "XmTextGetString"
+.iX "Text functions" "XmTextGetString"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+char * XmTextGetString (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextGetString\fP 
+accesses the string value of the Text widget.  The application
+is responsible for freeing the storage associated with the string by
+calling \fBXtFree\fP.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns a character pointer to the string value of the text widget.
+Returns an empty string if the length of the Text widget's string is 0.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

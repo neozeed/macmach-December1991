@@ -1,0 +1,209 @@
+#! /bin/sh
+
+# disk.macmach, version 02
+
+# shell script for local disk installation/update of a MacMach system
+
+# First the /.fixit file is copied, along with fixit and sed.
+# Next, fixit is applied to the /.fixit and any need files are
+# copied to the destination.  If they do not already exist, the
+# /.hostname and /etc/fstab files are created.  Fixit is again
+# applied to the /.fixit to set file protections.  The Makefile
+# in /etc/newconfig is used to install all configuration files
+# and then to install all device files in /dev.
+
+if [ "$#" != 5 -a "$#" != 0 ] ; then
+   echo "usage: disk.macmach [ <addr> <gateway> <scsi id> <dest root> <source root> ]"
+   exit 1
+fi
+
+ADDR="$1"
+GATEWAY="$2"
+SCSIID="$3"
+DESTDIR="$4"
+SRCDIR="$5"
+
+echo "DISK MacMach System Installation / Update"
+[ "$ADDR" ] || { echo -n "Enter network address: "; read ADDR; }
+[ "$GATEWAY" ] || { echo -n "Enter network gateway address: "; read GATEWAY; }
+[ "$SCSIID" ] || { echo -n "Enter disk scsi id: "; read SCSIID; }
+[ "$DESTDIR" ] || { echo -n "Enter destination root: "; read DESTDIR; }
+[ "$SRCDIR" ] || { echo -n "Enter source root: "; read SRCDIR; }
+
+echo "Normally, system sources are not included in an installation."
+echo "They take up a lot of space (150MB) and are protected under"
+echo "various copyrights.  If you have the space, and are allowed to,"
+echo "you can have /usr/src installed/updated at this time."
+while true; do
+  echo -n "Ok to include /usr/src? [NO] "
+  read USRSRC
+  [ "$USRSRC" ] || USRSRC="NO"
+  case "$USRSRC" in
+    Y|y|YES|yes) USRSRC="YES"; break;;
+    N|n|NO|no) USRSRC=""; break;;
+    *) echo "Please enter YES or NO.";;
+  esac
+done
+
+# This is the directory where common configuration files reside.
+[ "$COMMON" ] || COMMON="$SRCDIR/etc/newconfig"
+
+echo ""
+echo "ADDR    = $ADDR"
+echo "SCSIID  = $SCSIID"
+echo "DESTDIR = $DESTDIR"
+echo "SRCDIR  = $SRCDIR"
+echo "COMMON  = $COMMON"
+
+# common installation files
+HOSTS=$COMMON/hosts
+RESOLV=$COMMON/resolv.conf
+
+# These commands are essential.
+[ -d $DESTDIR/tmp ] || mkdir $DESTDIR/tmp
+FIXIT=$DESTDIR/tmp/fixit
+SED=$DESTDIR/tmp/sed
+CPIO=$DESTDIR/tmp/cpio
+
+# assume $DESTDIR/usr exists
+[ "$USRSRC" ] && mkdir $DESTDIR/usr/src
+
+echo ""
+echo "Getting $DESTDIR/.fixit from DISK."
+[ -f $SED ] || cp $SRCDIR/bin/sed $SED
+chmod 755 $SED
+[ -f $FIXIT ] || cp $SRCDIR/usr/bin/fixit $FIXIT
+chmod 755 $FIXIT
+[ -f $CPIO ] || cp $SRCDIR/bin/cpio $CPIO
+chmod 755 $CPIO
+cp $SRCDIR/.fixit $DESTDIR/.fixit
+[ "$USRSRC" ] && cp $SRCDIR/usr/src/.fixit $DESTDIR/usr/src/.fixit
+[ -f $DESTDIR/.fixit ] || {
+  echo "failed to get $DESTDIR/.fixit"
+  exit 1
+}
+if [ "$USRSRC" ]; then
+  [ -f $DESTDIR/usr/src/.fixit ] || {
+    echo "You can not access the system sources."
+    exit 1
+  }
+fi
+chmod 444 $DESTDIR/.fixit
+README="$DESTDIR/.fixit"
+if [ -f $DESTDIR/usr/src/.fixit ]; then
+  chmod 444 $DESTDIR/usr/src/.fixit
+  README="$README $DESTDIR/usr/src/.fixit"
+fi
+
+echo ""
+echo "Checking $DESTDIR for files to fix."
+cat $README | $FIXIT -fix $DESTDIR | $SED -n "
+  /^\/.*: missing file$/ {
+    s\"$DESTDIR/\"\"
+    s\": missing file\"\"
+    p
+  }
+  /^\/.*: sum .*$/ {
+    s\"$DESTDIR/\"\"
+    s\": sum .*\"\"
+    p
+  }
+" >$DESTDIR/tmp/FILES$$
+
+echo ""
+echo "Copying files..."
+( cd $SRCDIR; $CPIO -pduv $DESTDIR <$DESTDIR/tmp/FILES$$ )
+rm $DESTDIR/tmp/FILES$$
+
+[ -f $DESTDIR/.hostname ] || {
+  echo ""
+  echo "creating $DESTDIR/.hostname"
+  [ "$GATEWAY" = "NONE" ] && GATEWAY=""
+  [ "$ADDR" = "NONE" ] && ADDR=""
+  if [ "$ADDR" ]; then
+    # translate the IP address into the primary hostname
+    # and put it in the .hostname file in the DESTDIR directory.
+    HOSTNAME=`$SED -n \
+      -e "/$ADDR/s/[ 	][ 	]*/ /g"   \
+      -e "/$ADDR/s/^[^ ]* \([^ ]*\).*/\1/p" \
+      < $HOSTS`
+    [ "$HOSTNAME" ] || {
+      echo "ERROR: can not find $ADDR in $HOSTS"
+      echo "System will not use external network."
+    }
+  else
+    HOSTNAME=""
+  fi
+  if [ "$HOSTNAME" ]; then
+    NETNAME='$HOSTNAME'
+  else
+    HOSTNAME="MacMach"
+    NETNAME=""
+  fi
+  (
+    echo "# This is the system's name."
+    echo "HOSTNAME=\"$HOSTNAME\""
+    echo ""
+    echo "# Set NETNAME to \$HOSTNAME to enable external network access."
+    echo "NETNAME=\"$NETNAME\""
+    echo ""
+    echo "# This is the gateway IP address."
+    echo "GATEWAY=\"$GATEWAY\""
+  ) >$DESTDIR/.hostname
+}
+chmod 444 $DESTDIR/.hostname
+
+[ -f $DESTDIR/etc/fstab ] || {
+  echo ""
+  echo "creating $DESTDIR/etc/fstab"
+  echo /dev/sd$SCSIID"a:/:rw:0:1" > $DESTDIR/etc/fstab 
+  echo /dev/sd$SCSIID"g:/usr:rw:0:2" >> $DESTDIR/etc/fstab
+}
+chmod 444 $DESTDIR/etc/fstab
+
+echo ""
+echo "copying network configuration files..."
+[ -f $DESTDIR/etc/newconfig/resolv.conf ] ||
+  cp $RESOLV $DESTDIR/etc/newconfig/resolv.conf
+chmod 444 $DESTDIR/etc/newconfig/resolv.conf
+[ -f $DESTDIR/etc/hosts ] ||
+  cp $HOSTS $DESTDIR/etc/hosts
+chmod 444 $DESTDIR/etc/hosts
+
+echo ""
+echo "setting protections on $DESTDIR using $DESTDIR/.fixit..."
+cat $README | $FIXIT -fastfix $DESTDIR
+
+PATH="$DESTDIR/bin:$DESTDIR/etc:$DESTDIR/usr/bin:$DESTDIR/usr/ucb"
+export PATH
+
+echo ""
+echo "installing configuration files..."
+[ -f $DESTDIR/etc/group ] || cp $DESTDIR/etc/newconfig/group $DESTDIR/etc/group
+[ -f $DESTDIR/etc/passwd ] || cp $DESTDIR/etc/newconfig/passwd $DESTDIR/etc/passwd
+[ -f /etc/group ] || cp $DESTDIR/etc/newconfig/group /etc/group
+[ -f /etc/passwd ] || cp $DESTDIR/etc/newconfig/passwd /etc/passwd
+cd $DESTDIR/etc/newconfig
+make DESTDIR=$DESTDIR config
+
+echo ""
+echo "creating device files..."
+cd $DESTDIR/etc/newconfig
+make DESTDIR=$DESTDIR dev
+
+# create .status to skip reboot checksum verification
+{
+  echo "# Checksums for / last verified `date`"
+  echo "echo \"`sum $DESTDIR/.fixit`\""
+} >$DESTDIR/.status
+[ "$USRSRC" ] && {
+  {
+    echo "# Checksums for /usr/src/ last verified `date`"
+    echo "echo \"`sum $DESTDIR/usr/src/.fixit`\""
+  } >$DESTDIR/usr/src/.status
+}
+
+sync
+echo ""
+echo "DISK MACMACH Update complete."
+exit 0

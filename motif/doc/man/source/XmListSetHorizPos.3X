@@ -1,0 +1,50 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListSetHorizPos 3X "" "" "" ""
+.SH NAME
+\fBXmListSetHorizPos \(em a List function that scrolls to the
+specified position in the list.\fP
+.iX "XmListSetHorizPos"
+.iX "List functions" "XmListSetHorizPos"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+void XmListSetHorizPos (\fIwidget, position\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	int	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListSetHorizPos\fP sets the \fBXmNvalue\fP resource of the 
+horizontal ScrollBar to the 
+specified position and updates the visible portion of the list with the
+new value if the List widget's \fBXmNlistSizePolicy\fP is set to 
+\fBXmCONSTANT\fP or \fBXmRESIZE_IF_POSSIBLE\fP
+and the horizontal ScrollBar is currently visible.
+This is equivalent to moving the horizontal ScrollBar to the specified
+position.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the List widget
+.IP "\fIposition\fP" .75i
+Specifies the horizontal position
+.sp 1
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

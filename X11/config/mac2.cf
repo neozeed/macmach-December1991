@@ -1,0 +1,26 @@
+/*
+ * SET VERSION NUMBERS BEFORE MAKING MAKEFILES
+ *
+ * If you change either of the following numbers, you will need to do a 
+ * full build (make World) at the top of the sources....
+ */
+#define OSName            MacMach 1.0
+#define OSMajorVersion    1
+#define OSMinorVersion    0
+#define HasNdbm           YES
+#define Xmac2Server Xmac2
+
+#define HasGcc YES
+
+#define HasVoidSignalReturn NO
+
+#define ExtensionDefines -DSHAPE -DMULTIBUFFER -DMITMISC
+
+#define ServerDefines -DXDMCP ExtensionDefines
+
+#define DefaultFontPath $(FONTDIR)/misc/,$(FONTDIR)/75dpi/
+
+#if HasGcc
+#define CppCmd /lib/gcc-cpp -traditional
+#define CcCmd /bin/gcc -DNOSTDHDRS -fstrength-reduce
+#endif

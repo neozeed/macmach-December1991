@@ -1,0 +1,53 @@
+.\"
+.\" $Id: pathof.3,v 1.4 89/12/26 20:13:14 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	pathof.3,v $
+.\" Revision 1.4  89/12/26  20:13:14  bww
+.\" 	Updated version macro.
+.\" 	[89/12/26  20:12:12  bww]
+.\" 
+.\" Revision 1.3  89/12/26  11:20:55  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" Revision 1.2  89/05/26  12:16:16  bww
+.\" 	CMU CS as of 89/05/15
+.\" 	[89/05/26  09:46:50  bww]
+.\" 
+.\" Revision 2.2  88/11/15  23:24:16  gm0w
+.\" 	Created.
+.\" 	[88/11/15            gm0w]
+.\" 
+.TH PATHOF 3  "11/15/88"
+.CM 4
+.SH NAME
+pathof \- find absolute path of subprogram
+.SH SYNOPSIS
+.B char *pathof(identifier)
+.br
+.B
+char *identifier;
+.SH DESCRIPTION
+.I Pathof
+returns a pointer to the path associated with
+.I identifier
+found in
+.IR /usr/lib/paths .
+.I Identifier
+should be in the form of the invoking program name and a
+path identifier separated by a ``.'' (e.g. ``csh.profiledir'')
+.SH EXAMPLES
+If
+.I /usr/lib/paths
+contained a line like
+.br
+csh.profiledir /usr/lib/profiles/csh
+.br
+.IR pathof ( "csh.profiledir" )
+would return a pointer to
+.IR "/usr/lib/profiles/csh" .
+.SH FILES
+/usr/lib/paths
+.SH "SEE ALSO"
+pathof(1), paths(5)

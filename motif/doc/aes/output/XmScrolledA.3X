@@ -1,0 +1,528 @@
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww ---- tttthhhheeee SSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////SSSSccccrrrroooolllllllleeeeddddWWWW....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The ScrolledWindow widget combines one or two ScrollBar
+          widgets and a viewing area to implement a visible window
+          onto some other (usually larger) data display.  The visible
+          part of the window can be scrolled through the larger
+          display by the use of ScrollBars.
+
+          To use ScrolledWindow, an application first creates a
+          ScrolledWindow widget, any needed ScrollBar widgets, and a
+          widget capable of displaying any desired data as the work
+          area of ScrolledWindow.  ScrolledWindow positions the work
+          area widget and display the ScrollBars if so requested.
+          When the user performs some action on the ScrollBar, the
+          application is notified through the normal ScrollBar
+          callback interface.
+
+          ScrolledWindow can be configured to operate automatically so
+          that it performs all scrolling and display actions with no
+          need for application program involvement.  It can also be
+          configured to provide a minimal support framework in which
+          the application is responsible for processing all user input
+          and making all visual changes to the displayed data in
+          response to that input.
+
+          When ScrolledWindow is performing automatic scrolling it
+          creates a clipping window.  Conceptually, this window
+          becomes the viewport through which the user examines the
+          larger underlying data area.  The application simply creates
+          the desired data, then makes that data the work area of the
+          ScrolledWindow.  When the user moves the slider to change
+          the displayed data, the workspace is moved under the viewing
+          area so that a new portion of the data becomes visible.
+
+          Sometimes it is impractical for an application to create a
+          large data space and simply display it through a small
+          clipping window.  For example, in a text editor, creating a
+          single data area that consisted of a large file would
+          involve an undesirable amount of overhead. The application
+          needs to use a ScrolledWindow (a small viewport onto some
+          larger data), but needs to be notified when the user
+          scrolled the viewport so it could bring in more data from
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+          storage and update the display area.  For these cases the
+          ScrolledWindow can be configured so that it provides only
+          visual layout support.  No clipping window is created, and
+          the application must maintain the data displayed in the work
+          area, as well as respond to user input on the ScrollBars.
+
+
+        CCCCllllaaaasssssssseeeessss
+          ScrolledWindow inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr Classes.
+
+          The class pointer is xxxxmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwwwWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                             XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt                 AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNclipWindow                   XmCClipWindow                   Widget          dynamic                 G
+     XmNhorizontalScrollBar          XmCHorizontalScrollBar          Widget          dynamic                 CSG
+     XmNscrollBarDisplayPolicy       XmCScrollBarDisplayPolicy       unsigned char   dynamic                 CSG
+     XmNscrollBarPlacement           XmCScrollBarPlacement           unsigned char   XmBOTTOM_RIGHT          CSG
+     XmNscrolledWindowMarginHeight   XmCScrolledWindowMarginHeight   Dimension       0                       CSG
+     XmNscrolledWindowMarginWidth    XmCScrolledWindowMarginWidth    Dimension       0                       CSG
+     XmNscrollingPolicy              XmCScrollingPolicy              unsigned char   XmAPPLICATION_DEFINED   CG
+     XmNspacing                      XmCSpacing                      Dimension       4                       CSG
+     XmNverticalScrollBar            XmCVerticalScrollBar            Widget          dynamic                 CSG
+     XmNvisualPolicy                 XmCVisualPolicy                 unsigned char   dynamic                 CG
+     XmNworkWindow                   XmCWorkWindow                   Widget          NULL                    CSG
+
+
+          XXXXmmmmNNNNcccclllliiiippppWWWWiiiinnnnddddoooowwww
+               Specifies the widget ID of the clipping area.  This is
+               automatically created by ScrolledWindow when the
+               XXXXmmmmNNNNvvvviiiissssuuuuaaaallllPPPPoooolllliiiiccccyyyy resource is set to XXXXmmmmCCCCOOOONNNNSSSSTTTTAAAANNNNTTTT and can
+               only be read by the application.  Any attempt to set
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+               this resource to a new value causes a warning message
+               to be printed by the scrolled window.  If the
+               XXXXmmmmNNNNvvvviiiissssuuuuaaaallllPPPPoooolllliiiiccccyyyy resource is set to XXXXmmmmVVVVAAAARRRRIIIIAAAABBBBLLLLEEEE, this
+               resource is set to NULL, and no clipping window is
+               created.
+
+          XXXXmmmmNNNNhhhhoooorrrriiiizzzzoooonnnnttttaaaallllSSSSccccrrrroooollllllllBBBBaaaarrrr
+               Specifies the widget ID of the horizontal ScrollBar.
+               This is automatically created by ScrolledWindow when
+               the XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is initialized to XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC;
+               otherwise, the default is NULL.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllBBBBaaaarrrrDDDDiiiissssppppllllaaaayyyyPPPPoooolllliiiiccccyyyy
+               Controls the automatic placement of the ScrollBars.  If
+               it is set to XXXXmmmmAAAASSSS____NNNNEEEEEEEEDDDDEEEEDDDD and if XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is
+               set to XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, ScrollBars are displayed only if
+               the workspace exceeds the clip area in one or both
+               dimensions.  A resource value of XXXXmmmmSSSSTTTTAAAATTTTIIIICCCC causes the
+               ScrolledWindow to display the ScrollBars whenever they
+               are managed, regardless of the relationship between the
+               clip window and the work area.  This resource must be
+               XXXXmmmmSSSSTTTTAAAATTTTIIIICCCC when XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is
+               XXXXmmmmAAAAPPPPPPPPLLLLIIIICCCCAAAATTTTIIIIOOOONNNN____DDDDEEEEFFFFIIIINNNNEEEEDDDD.  The default is XXXXmmmmAAAASSSS____NNNNEEEEEEEEDDDDEEEEDDDD when
+               XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, and XXXXmmmmSSSSTTTTAAAATTTTIIIICCCC
+               otherwise.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllBBBBaaaarrrrPPPPllllaaaacccceeeemmmmeeeennnntttt
+               Specifies the positioning of the ScrollBars in relation
+               to the work window.  The following are the values:
+
+               +o  XXXXmmmmTTTTOOOOPPPP____LLLLEEEEFFFFTTTT - The horizontal ScrollBar is placed
+                  above the work window; the vertical ScrollBar to the
+                  left.
+
+               +o  XXXXmmmmBBBBOOOOTTTTTTTTOOOOMMMM____LLLLEEEEFFFFTTTT - The horizontal ScrollBar is placed
+                  below the work window; the vertical ScrollBar to the
+                  left.
+
+               +o  XXXXmmmmTTTTOOOOPPPP____RRRRIIIIGGGGHHHHTTTT - The horizontal ScrollBar is placed
+                  above the work window; the vertical ScrollBar to the
+                  right.
+
+               +o  XXXXmmmmBBBBOOOOTTTTTTTTOOOOMMMM____RRRRIIIIGGGGHHHHTTTT - The horizontal ScrollBar is placed
+                  below the work window; the vertical ScrollBar to the
+                  right.
+
+               The default value may depend on the value of the
+               XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.
+
+          XXXXmmmmNNNNssssccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwwwMMMMaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the margin height on the top and bottom of
+               the ScrolledWindow.
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNssssccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwwwMMMMaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the margin width on the right and left sides
+               of the ScrolledWindow.
+
+          XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy
+               Performs automatic scrolling of the work area with no
+               application interaction.  If the value of this resource
+               is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, ScrolledWindow automatically creates
+               the ScrollBars; attaches callbacks to the ScrollBars;
+               sets the visual policy to XXXXmmmmCCCCOOOONNNNSSSSTTTTAAAANNNNTTTT; and automatically
+               moves the work area through the clip window in response
+               to any user interaction with the ScrollBars.  An
+               application can also add its own callbacks to the
+               ScrollBars.  This allows the application to be notified
+               of a scroll event without having to perform any layout
+               procedures.
+
+               NNNNOOOOTTTTEEEE:  Since the ScrolledWindow adds callbacks to the
+               ScrollBars, an application should not perform an
+               XXXXttttRRRReeeemmmmoooovvvveeeeAAAAllllllllCCCCaaaallllllllbbbbaaaacccckkkkssss on any of the ScrollBar widgets.
+
+               When XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is set to
+               XXXXmmmmAAAAPPPPPPPPLLLLIIIICCCCAAAATTTTIIIIOOOONNNN____DDDDEEEEFFFFIIIINNNNEEEEDDDD, the application is responsible
+               for all aspects of scrolling.  The ScrollBars must be
+               created by the application, and it is responsible for
+               performing any visual changes in the work area in
+               response to user input.
+
+               This resource must be set to the desired policy at the
+               time the ScrolledWindow is created.  It cannot be
+               changed through SSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+          XXXXmmmmNNNNssssppppaaaacccciiiinnnngggg
+               Specifies the distance that separates the ScrollBars
+               from the work window.
+
+          XXXXmmmmNNNNvvvveeeerrrrttttiiiiccccaaaallllSSSSccccrrrroooollllllllBBBBaaaarrrr
+               Specifies the widget ID of the vertical ScrollBar.
+               This is automatically created by ScrolledWindow when
+               the XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is initialized to XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC;
+               otherwise, the default is NULL.
+
+          XXXXmmmmNNNNvvvviiiissssuuuuaaaallllPPPPoooolllliiiiccccyyyy
+               Grows the ScrolledWindow to match the size of the work
+               area, or it can be used as a static viewport onto a
+               larger data space.  If the visual policy is XXXXmmmmVVVVAAAARRRRIIIIAAAABBBBLLLLEEEE,
+               the ScrolledWindow forces the ScrollBar display policy
+               to XXXXmmmmSSSSTTTTAAAATTTTIIIICCCC and allow the work area to grow or shrink
+               at any time and adjusts its layout to accommodate the
+               new size.  When the policy is XXXXmmmmCCCCOOOONNNNSSSSTTTTAAAANNNNTTTT, the work area
+               grows or shrinks as requested, but a clipping window
+               forces the size of the visible portion to remain
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+               constant.  The only time the viewing area can grow is
+               in response to a resize from the ScrolledWindow's
+               parent.  The default is XXXXmmmmCCCCOOOONNNNSSSSTTTTAAAANNNNTTTT when
+               XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, and XXXXmmmmVVVVAAAARRRRIIIIAAAABBBBLLLLEEEE
+               otherwise.
+
+               NNNNOOOOTTTTEEEE:  This resource must be set to the desired policy
+               at the time the ScrolledWindow is created.  It cannot
+               be changed through SSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+          XXXXmmmmNNNNwwwwoooorrrrkkkkWWWWiiiinnnnddddoooowwww
+               Specifies the widget ID of the viewing area.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          ScrolledWindow inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    XmTAB_GROUP            CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          ScrolledWindow defines no new callback structures.  The
+          application must use the ScrollBar callbacks to be notified
+          of user input.
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmScrolledWindow includes the translations from XmManager.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          This widget has the additional behavior described below:
+
+          KKKKPPPPaaaaggggeeeeUUUUpppp:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window up the height of the viewport.  The distance
+               scrolled my be reduced to provide some overlap.  The
+               actual distance scrolled depends on the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt resource of the vertical ScrollBar.
+
+          KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window down the height of the viewport.  The distance
+               scrolled my be reduced to provide some overlap.  The
+               actual distance scrolled depends on the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt resource of the vertical ScrollBar.
+
+          KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window left the width of the viewport.  The distance
+               scrolled my be reduced to provide some overlap.  The
+               actual distance scrolled depends on the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt resource of the horizontal ScrollBar.
+
+          KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window right the width of the viewport.  The distance
+               scrolled my be reduced to provide some overlap.  The
+               actual distance scrolled depends on the
+               XXXXmmmmNNNNppppaaaaggggeeeeIIIInnnnccccrrrreeeemmmmeeeennnntttt resource of the horizontal ScrollBar.
+
+          KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window horizontally to the edge corresponding to the
+               horizontal ScrollBar's minimum value.
+
+          KKKKEEEEnnnnddddLLLLiiiinnnneeee:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window horizontally to the edge corresponding to the
+               horizontal ScrollBar's maximum value.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+          KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window vertically to the edge corresponding to the
+               vertical ScrollBar's minimum value.
+
+          KKKKEEEEnnnnddddDDDDaaaattttaaaa:
+               If XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy is XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC, scrolls the
+               window vertically to the edge corresponding to the
+               vertical ScrollBar's maximum value.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX)))), XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))), and
+          XXXXmmmmSSSSccccrrrroooolllllllleeeeddddWWWWiiiinnnnddddoooowwwwSSSSeeeettttAAAArrrreeeeaaaassss((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+

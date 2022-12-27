@@ -1,0 +1,77 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmRemoveProtocols 3X "" "" "" ""
+.SH NAME
+\fBXmRemoveProtocols \(em a VendorShell function that removes the protocols
+from the protocol manager and deallocates the internal tables.\fP
+.iX "XmRemoveProtocols"
+.iX "VendorShell functions" "XmRemoveProtocols"
+.iX "protocols"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmRemoveProtocols (\fIshell, property, protocols, num_protocols\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIproperty\fP;
+.br
+	Atom	\fI* protocols\fP;
+.br
+	Cardinal	\fInum_protocols\fP;
+.sp 1
+void XmRemoveWMProtocols (\fIshell, protocols, num_protocols\fP)
+.br
+	Widget	\fIshell\fP;
+.br
+	Atom	\fI * protocols\fP;
+.br
+	Cardinal	\fInum_protocols\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmRemoveProtocols\fP removes the protocols from the protocol manager and
+deallocates the internal tables.  If any of the protocols are active, it
+will update the handlers and update the property if \fIshell\fP is
+realized.
+.PP
+\fBXmRemoveWMProtocols\fP is a convenience interface.  
+It calls \fBXmRemoveProtocols\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.sp 1
+.IP "\fIshell\fP" 1.25i
+Specifies the widget with which the protocol property is associated
+.IP "\fIproperty\fP" 1.25i
+Specifies the protocol property
+.IP "\fIprotocols\fP" 1.25i
+Specifies the protocol atoms (or ints cast to Atom)
+.IP "\fInum_protocols\fP" 1.25i
+Specifies the number of elements in protocols
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+.na
+\fBVendorShell(3X)\fP,
+\fBXmInternAtom(3X)\fP, and \fBXmRemoveWMProtocols(3X)\fP.
+.ad

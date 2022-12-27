@@ -1,0 +1,12 @@
+
+INCLUDES = -I. -I$(CLIENTSRC) -I$(UILSRC) -I$(MTOOLKITSRC) -I$(LIBSRC)
+LOCAL_LIBRARIES = $(UILLIB) $(MRESOURCELIB) $(XMLIB) 
+
+SRCS=uilsymdump.c
+
+OBJS=uilsymdump.o
+
+MSimpleProgramTarget(uilsymdump)
+InstallProgram(uilsymdump,$(BINDIR))
+
+DependTarget()

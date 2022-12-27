@@ -1,0 +1,198 @@
+
+
+
+     SSSShhhheeeellllllll((((3333XXXX))))           OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn            SSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          SSSShhhheeeellllllll ---- TTTThhhheeee SSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXX11111111////SSSShhhheeeellllllll....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Shell is a top-level widget (with only one managed child)
+          that encapsulates the interaction with the window manager.
+
+          When the width of both the shell and its child are
+          specified, the larger of the shell's width and the child's
+          width is used for both widgets.  When either the shell's
+          width or the child's width, but not the other, is specified,
+          the specified width is used for both widgets.  The same
+          relations hold for the height of the shell and its child.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Shell inherits behavior and resources from CCCCoooommmmppppoooossssiiiitttteeee and
+          CCCCoooorrrreeee.
+
+               The class pointer is sssshhhheeeellllllllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+               The class name is SSSShhhheeeellllllll.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     SSSShhhheeeellllllll((((3333XXXX))))           OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn            SSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+                                          SSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt          AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________________
+     XmNallowShellResize       XmCAllowShellResize       Boolean          False            CG
+     XmNcreatePopupChildProc   XmCCreatePopupChildProc   (*)()            NULL             CSG
+     XmNgeometry               XmCGeometry               String           NULL             CSG
+     XmNoverrideRedirect       XmCOverrideRedirect       Boolean          False            CSG
+     XmNpopdownCallback        XmCCallback               XtCallbackList   NULL             C
+     XmNpopupCallback          XmCCallback               XtCallbackList   NULL             C
+     XmNsaveUnder              XmCSaveUnder              Boolean          False            CSG
+     XmNvisual                 XmCVisual                 Visual *         CopyFromParent   CSG
+
+
+          XXXXmmmmNNNNaaaalllllllloooowwwwSSSShhhheeeellllllllRRRReeeessssiiiizzzzeeee
+               Specifies that if this resource is False, the Shell
+               widget instance returns XXXXttttGGGGeeeeoooommmmeeeettttrrrryyyyNNNNoooo to all geometry
+               requests from its children.
+
+          XXXXmmmmNNNNccccrrrreeeeaaaatttteeeePPPPooooppppuuuuppppCCCChhhhiiiillllddddPPPPrrrroooocccc
+               Specifies the pointer to a function that is called when
+               the Shell widget instance is popped up by XXXXttttPPPPooooppppuuuupppp.  The
+               function creates the child widget when the shell is
+               popped up instead of when the application starts up.
+               This can be used if the child needs to be reconfigured
+               each time the shell is popped up.  The function takes
+               one argument, the popup shell, and returns no result.
+               It is called after the popup callbacks specified by
+               XXXXmmmmNNNNppppooooppppuuuuppppCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+          XXXXmmmmNNNNggggeeeeoooommmmeeeettttrrrryyyy
+               Specifies the desired geometry for the widget instance.
+               This resource is examined only when the widget instance
+               is unrealized and the number of its managed children is
+               changed.  It is to change the values of the XXXXmmmmNNNNxxxx, XXXXmmmmNNNNyyyy,
+               XXXXmmmmNNNNwwwwiiiiddddtttthhhh, and XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt resources.
+
+          XXXXmmmmNNNNoooovvvveeeerrrrrrrriiiiddddeeeeRRRReeeeddddiiiirrrreeeecccctttt
+               Specifies this is True if the widget instance is a
+               temporary window which should be ignored by the window
+               manager.  Applications and users should not normally
+               alter this resource.
+
+          XXXXmmmmNNNNppppooooppppddddoooowwwwnnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when the
+               widget instance is popped down by XXXXttttPPPPooooppppddddoooowwwwnnnn.
+
+          XXXXmmmmNNNNppppooooppppuuuuppppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when the
+               widget instance is popped up by XXXXttttPPPPooooppppuuuupppp.
+
+          XXXXmmmmNNNNssssaaaavvvveeeeUUUUnnnnddddeeeerrrr
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     SSSShhhheeeellllllll((((3333XXXX))))           OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn            SSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+               Specifies a True value if it is desirable to save the
+               contents of the screen beneath this widget instance,
+               avoiding expose events when the instance is unmapped.
+               This is a hint, and an implementation may save contents
+               whenever it desires, including always or never.
+
+          XXXXmmmmNNNNvvvviiiissssuuuuaaaallll
+               Specifies the visual used in creating the widget.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Shell inherits behavior and resources from the following
+          superclass.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        1                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          There are no translations for Shell.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))) and CCCCoooorrrreeee((((3333XXXX)))).
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+

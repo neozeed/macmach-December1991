@@ -1,0 +1,256 @@
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 13\fP\s-1
+
+\s+1\fBEvolution of The \*(xI\fP\s-1
+.sp 2
+.nr H1 13
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.LP
+.XS
+Chapter 13 \- Evolution of The \*(xI
+.XE
+.LP
+The interfaces described by this specification have undergone several
+sets of revisions in the course of adoption as an X Consortium
+standard specification.  Having now been adopted by the Consortium as
+a standard part of the X Window System, it is expected that this and
+future revisions will retain
+backward compatibility in the sense that fully conforming
+implementations of these specifications may be produced which provide
+source compatibility with widgets and applications written to
+previous Consortium standard revisions.
+.LP
+The \*(xI do not place any special requirement on widget
+programmers to retain source or binary compatibility for their widgets
+as they evolve, but several conventions have been established to
+assist those developers who want to provide such compatibility.
+.LP
+In particular, widget programmers may wish to conform to the convention
+described in section 1.6.12 when defining class extension records.
+
+.NH 2
+Determining Specification Revision Level
+.XS
+\fB\*(SN Determining Specification Revision Level\fP
+.XE
+.LP
+Widget and application developers who wish to maintain a common source
+pool which will build properly with implementations of the \*(xI
+at different revision levels of these specifications may use the
+symbolic macro
+.PN XtSpecificationRelease .
+.LP
+.Ds 0
+#define XtSpecificationRelease 4
+.De
+.IN "XtSpecificationRelease" "" "@DEF@"
+.LP
+As the symbol
+.PN XtSpecificationRelease
+is new to release 4, widgets and
+applications desiring to build against earlier implementations should
+test for the presence of this symbol and assume only Release 3
+interfaces if the definition is not present.
+
+.NH 2
+Release 3 to Release 4 Compatibility
+.XS
+\fB\*(SN Release 3 to Release 4 Compatibility\fP
+.XE
+.LP
+At the data structure level, Release 4 retains binary compatibility
+with Release 3 (the first X Consortium standard release) for all data
+structures except
+.PN WMShellPart, 
+.PN TopLevelShellPart
+and
+.PN TransientShellPart .
+Release 4 changed the argument type to most procedures that now take
+arguments of type XtPointer
+and structure members that are now of type XtPointer
+in order to avoid potential ANSI C conformance problems.  It is
+expected that most implementations will be binary compatible with the
+previous definition.
+.LP
+Two fields in
+.PN CoreClassPart
+were changed from Boolean to XtEnum
+to allow implementations additional freedom in specifying the
+representations of each.  This change should require no source
+modification.
+
+.NH 3
+Additional Arguments
+.XS
+\fB\*(SN Additional Arguments\fP
+.XE
+.LP
+Arguments were added to the procedure definitions for
+.PN XtInitProc ,
+.PN XtSetValuesFunc
+and
+.PN XtEventHandler
+to provide more information and to
+allow event handlers to abort further dispatching of the current event
+(caution is advised!).  The added arguments to
+.PN XtInitProc
+and
+.PN XtSetValuesFunc
+make the initialize_hook and set_values_hook functions
+obsolete but the hooks have been retained for those widgets which used
+them in Release 3.
+
+.NH 3
+Set_values_almost Procedures
+.XS
+\*(SN Set_values_almost Procedures
+.XE
+.LP
+The use of the arguments by a set_values_almost procedure was poorly
+described in Release 3 and was inconsistent with other conventions.
+.LP
+The current specification for the manner in which a set_values_almost
+procedure returns information to the \*(xI is not compatible with
+the Release 3 specification, and all widget implementations should
+verify that any set_values_almost procedures conform to the current
+interface.
+.LP
+No known implementation of the \*(xI correctly implemented the
+Release 3 interface, so it is expected that the impact of this
+specification change is small.
+
+.NH 3
+Query Geometry
+.XS
+\*(SN Query Geometry
+.XE
+.LP
+A Composite widget layout routine which calls
+.PN XtQueryGeometry
+is now expected to store the complete new geometry in the intended structure;
+previously the specification said ``store the changes it intends to
+make''.  Only by storing the complete geometry does the child have
+any way to know what other parts of the geometry may still be
+flexible.  Existing widgets should not be impacted by this, except
+to take advantage of the new information.
+
+.NH 3
+UnrealizeCallback Callback List
+.XS
+\*(SN UnrealizeCallback Callback List
+.XE
+.LP
+In order to provide a mechanism for widgets to be notified when they
+become unrealized through a call to
+.PN XtUnrealizeWidget ,
+the callback
+list name ``unrealizeCallback'' has been defined by the \*(xI.  A
+widget class which requires notification on unrealize may declare a
+callback list resource by this name.  No class is required to declare
+this resource, but any class which did so in a prior revision may find
+it necessary to modify the resource name if it does not wish the new
+semantics.
+
+.NH 3
+Subclasses of WMShell
+.XS
+\*(SN Subclasses of WMShell
+.XE
+.LP
+The formal adoption of the \fI\*(xC\fP as
+an X Consortium standard has meant the addition of four fields to
+.PN WMShellPart
+and one field to
+.PN TopLevelShellPart .
+In deference to some
+widget libraries which had developed their own additional conventions
+to provide binary compatibility, these five new fields were added at
+the end of the respective data structures. 
+.LP
+To provide more convenience for TransientShells, a field was added
+to the previously empty
+.PN TransientShellPart .
+On some architectures the size of the part structure will not
+have changed as a result of this.
+.LP
+Any widgets which are subclasses of
+.PN TopLevelShell
+or
+.PN TransientShell
+must at minimum
+recompile with the new data structure declarations.  Because
+.PN WMShellPart
+no longer contains a contiguous
+.PN XSizeHints
+data structure,
+a subclass which expected to do a single structure assignment of an
+.PN XSizeHints
+structure to the size_hints field of
+.PN WMShellPart
+must be revised, though the old fields remain at the same positions within
+.PN WMShellPart .
+
+.NH 3
+Resource Type Converters
+.XS
+\*(SN Resource Type Converters
+.XE
+.LP
+A new interface declaration for resource type converters was defined
+to provide more information to converters, to support conversion
+cache cleanup with resource reference counting, and to allow
+additional procedures to be declared to free resources.  The old
+interfaces remain (in the compatibility section) and a new set of
+procedures was defined which work only with the new type converter
+interface.
+.LP
+In the now obsolete old type converter interface, converters are
+reminded that they must return the size of the converted value as well
+as its address.  The example indicated this but the description of
+.PN XtConverter
+was incomplete.
+
+.NH 3
+KeySym Case Conversion Procedure
+.XS
+\*(SN KeySym Case Conversion Procedure
+.XE
+.LP
+The specification for the
+.PN XtCaseProc
+function type has been changed
+to match the Release 3 implementation, which included necessary
+additional information required by the function (a pointer to the
+display connection) and corrects the argument type of the source
+KeySym parameter.  No known implementation of the \*(xI
+implemented the previously documented interface.
+
+.NH 3
+Non-widget Objects
+.XS
+\*(SN Non-widget Objects
+.XE
+.LP
+Formal support for non-widget objects is new to Release 4.  A
+prototype implementation was latent in at least one Release 3
+implementation of the \*(xI but the specification has changed
+somewhat.  The most significant change is the requirement for a
+composite widget to declare the
+.PN CompositeClassExtension
+record with the accepts_objects field set to
+.PN True
+in order to permit a client to create a non-widget child.
+.LP
+The addition of this extension field insures that Composite widgets
+written under Release 3 will not encounter unexpected errors if an
+application attempts to create a non-widget child.  In Release 4 there
+is no requirement that all Composite widgets implement the extra
+functionality required to manage windowless children, so the
+accept_objects field also allows a Composite widget to declare that it
+is never prepared to do so.
+.bp

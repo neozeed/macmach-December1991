@@ -1,0 +1,73 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateMessageBox 3X "" "" "" ""
+.SH NAME
+\fB
+XmCreateMessageBox \(em the MessageBox widget creation function.\fP
+.iX "XmCreateMessageBox"
+.iX "creation functions" "XmCreateMessageBox"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/MessageB.h>
+.sp 1
+Widget XmCreateMessageBox (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.sp 1
+.sp
+.ne 2i
+.SH DESCRIPTION
+\fBXmCreateMessageBox\fP creates an unmanaged MessageBox.
+A MessageBox is used for common interaction tasks, which include giving
+information, asking questions, and reporting errors.
+.ne 4
+It includes an optional symbol, a message, and three buttons.
+.PP
+By default, there is no symbol.  The default button labels are \fBOK\fP,
+\fBCancel\fP, and \fBHelp\fP.
+.PP
+If the parent of the MessageBox is a Dialogshell, use \fBXtManageChild\fP to
+pop up the MessageBox (passing the MessageBox as the widget parameter); use
+\fBXtUnmanageChild\fP to pop it down.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of MessageBox and its associated resources, see
+\fBXmMessageBox(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the MessageBox widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmMessageBox(3X)\fP.
+.sp 1

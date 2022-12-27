@@ -1,0 +1,1129 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989 OPEN SOFTWARE FOUNDATION, INC.
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+module MotifBurger_demo
+        version = 'v1.1'
+        names = case_sensitive
+
+!       toggle button must be widgets 
+!       due to XmToggleButtonSetState call in c source
+        objects = {
+                XmSeparator = gadget ;
+                XmLabel = gadget ;
+                XmPushButton = gadget ;
+                XmToggleButton = widget ;
+                }
+
+procedure                                  
+        toggle_proc   (integer);
+        activate_proc (integer);
+        create_proc   (integer);
+        scale_proc    (integer);
+        list_proc     (integer);
+        quit_proc     (string);
+        show_hide_proc (integer);
+        pull_proc       (integer);
+
+value
+    k_create_order          : 1;
+    k_order_pdme            : 2;
+    k_file_pdme             : 3;
+    k_edit_pdme             : 4;    
+    k_nyi                   : 5;
+    k_apply                 : 6;
+    k_dismiss               : 7;
+    k_noapply               : 8;
+    k_cancel_order          : 9;
+    k_submit_order          : 10;
+    k_order_box             : 11;
+    k_burger_rare           : 12;
+    k_burger_medium         : 13;
+    k_burger_well           : 14;
+    k_burger_ketchup        : 15;
+    k_burger_mustard        : 16;
+    k_burger_onion          : 17;
+    k_burger_mayo           : 18;
+    k_burger_pickle         : 19;
+    k_burger_quantity       : 20;
+    k_fries_tiny            : 21;
+    k_fries_small           : 22;
+    k_fries_medium          : 23;
+    k_fries_large           : 24;
+    k_fries_huge            : 25;
+    k_fries_quantity        : 26;               
+    k_drink_list            : 27;
+    k_drink_add             : 28;
+    k_drink_sub             : 29;
+    k_drink_quantity        : 30;
+    k_total_order           : 31;
+    k_burger_label          : 32;
+    k_fries_label           : 33;
+    k_drink_label           : 34;
+    k_menu_bar              : 35;
+    k_file_menu             : 36;
+    k_edit_menu             : 37;
+    k_order_menu            : 38;
+
+value
+        k_motifburger_title		: imported compound_string;
+        k_nyi_label_text		: imported compound_string;
+	k_file_label_text               : imported compound_string;
+	  k_quit_label_text             : imported compound_string;
+	k_edit_label_text               : imported compound_string;
+	  k_cut_dot_label_text		: imported compound_string;
+	  k_copy_dot_label_text		: imported compound_string;
+	  k_paste_dot_label_text	: imported compound_string;
+	  k_clear_dot_label_text	: imported compound_string;
+	  k_select_all_label_text	: imported compound_string;
+        k_order_label_text              : imported compound_string;
+	  k_show_controls_label_text	: imported compound_string;
+	  k_cancel_order_label_text	: imported compound_string;
+	  k_submit_order_label_text	: imported compound_string;
+	k_hamburgers_label_text         : imported compound_string;
+	  k_rare_label_text		: imported compound_string;
+	  k_medium_label_text		: imported compound_string;
+	  k_well_done_label_text	: imported compound_string;
+	  k_ketchup_label_text		: imported compound_string;
+	  k_mustard_label_text		: imported compound_string;
+	  k_onion_label_text		: imported compound_string;
+	  k_mayonnaise_label_text	: imported compound_string;
+	  k_pickle_label_text		: imported compound_string;
+	  k_quantity_label_text		: imported compound_string;
+        k_fries_label_text		: imported compound_string;
+	  k_size_label_text		: imported compound_string;
+	  k_tiny_label_text		: imported compound_string;
+	  k_medium_fries_label_text	: imported compound_string;
+	  k_small_label_text		: imported compound_string;
+	  k_large_label_text		: imported compound_string;
+	  k_huge_label_text		: imported compound_string;
+        k_drinks_label_text		: imported compound_string;
+	  k_0_label_text		: imported compound_string;
+	  k_drink_list_text		: imported string_table;
+	  k_drink_list_select		: imported string_table;
+	  k_u_label_text		: imported compound_string;
+	  k_d_label_text		: imported compound_string;
+        k_apply_label_text		: imported compound_string;
+        k_reset_label_text		: imported compound_string;
+        k_cancel_label_text		: imported compound_string;
+        k_dismiss_label_text		: imported compound_string;
+	k_quit_accelerator_text		: imported compound_string;
+	k_ketchup_accelerator_text	: imported compound_string;
+
+value
+	k_quit_accelerator		: "Ctrl<Key>z:";
+        k_ketchup_accelerator		: "Ctrl<Key>k:";
+
+value
+	k_string_direction		: imported integer;
+	k_scroll_bar_placement		: imported integer;
+
+value
+	k_font_table			: imported font_table;
+	k_button_font_table		: imported font_table;
+
+value
+	k_mnemonic_charset		: imported string;
+	k_file_mnemonic			: imported keysym;	! "F"
+	k_quit_mnemonic			: imported keysym; 	! "Q"
+	k_edit_mnemonic			: imported keysym; 	! "E"
+	k_order_mnemonic		: imported keysym;	! "O"
+	k_rare_mnemonic			: imported keysym;	! "R"
+	k_medium_mnemonic		: imported keysym;	! "M" 
+	k_ketchup_mnemonic		: imported keysym;	! "K"
+
+
+! Colors, color tables, and icons.
+
+value
+        yellow                          : color('yellow', foreground);                        
+        red                             : color('red', background);
+        green                           : color('green', foreground);
+        magenta                         : color('magenta', background);
+        gold                            : color('gold', foreground);
+        lightblue                       : color('lightblue', background);
+
+value
+        button_ct                       : color_table(
+                                                yellow='o'
+                                                ,red='.'
+                                                ,background color=' ');
+
+value
+
+        drink_up_icon: icon(color_table=button_ct,
+                        '                        ',
+                        ' ..........oo.......... ',
+                        ' .........oooo......... ',
+                        ' ........oooooo........ ',
+                        ' .......oo....oo....... ',
+                        ' ......oo......oo...... ',
+                        ' .....oo........oo..... ',
+                        ' ....oo..........oo.... ',
+                        ' ...oo............oo... ',
+                        ' ..oo..............oo.. ',
+                        ' .oo................oo. ',
+                        ' oooooooooooooooooooooo ',
+                        ' oooooooooooooooooooooo ',
+                        ' .........oooo......... ',
+                        ' .........oooo......... ',
+                        ' .........oooo......... ',
+                        ' .........oooo......... ',
+                        ' .........oooo......... ',
+                        ' .........oooo......... ',
+                        '                        ');
+
+
+
+! First declare the 'top level' widgets.  These are not controlled by
+! any other widgets.  They are each fetched individually as needed.
+
+
+object                                  ! The main window widget.
+                                        ! This displays the current order
+                                        ! as it is taken.
+        S_MAIN_WINDOW : XmMainWindow {
+
+            arguments {
+            };
+
+            controls {                  ! S_MAIN_WINDOW has two children.
+                XmMenuBar        s_menu_bar;
+                XmScrolledList	total_order;
+            };
+        };
+
+
+
+object                                  ! The control panel.  All order entry
+                                        ! is done through this dialog box.
+    control_box : XmBulletinBoardDialog {
+        arguments {
+	    XmNbuttonFontList = k_font_table;
+	    XmNlabelFontList = k_font_table;
+	    XmNtextFontList = k_font_table;
+            XmNdialogTitle = k_motifburger_title;
+            XmNdialogStyle = XmDIALOG_MODELESS;
+            XmNx = 600;
+            XmNy = 200;
+            XmNmarginWidth = 20;
+            XmNbackground = lightblue;
+	    XmNstringDirection = k_string_direction;
+        };
+
+        controls {
+                                        ! Some labels and decoration.
+            XmLabel           burger_label;
+            XmLabel           fries_label;
+            XmLabel           drink_label;
+
+            XmSeparator       {arguments {
+                                XmNx = 220;
+                                XmNy = 20;
+				XmNunitType = XmPIXELS;
+                                XmNorientation = XmVERTICAL;
+                                XmNheight = 180; };};
+
+            XmSeparator       {arguments {
+                                XmNx = 410;
+                                XmNy = 20;
+				XmNunitType = XmPIXELS;
+                                XmNorientation = XmVERTICAL;
+                                XmNheight = 180; };};
+
+            XmRowColumn 	button_box; ! Command push buttons inside a menu
+                                        ! across the bottom.
+
+                                        ! For the hamburger, fries, and drink
+                                        ! entry we use a different mechanism
+                                        ! to demonstrate various widgets and
+                                        ! techniques.
+
+                                        ! Hamburger 'doneness' uses a radio box
+                                        ! because although it is a '1 of N' type
+                                        ! of entry, one (and only one) entry
+                                        ! is allowed.
+            XmRadioBox       burger_doneness_box;
+
+                                        ! Toppings entry uses a menu with toggle
+                                        ! buttons since more than one topping
+                                        ! (M of N selection) is allowed.
+            XmRowColumn  burger_toppings_menu;                                
+
+                                        ! Number of burgers uses
+                                        ! a scale widget.
+            XmScale           burger_quantity;
+
+                                        
+                                        ! Fries size uses an option
+                                        ! menu, for '1 of N' selection.
+            XmOptionMenu     fries_option_menu;
+
+                                        ! Fries quantity uses a label
+                                        ! and text widget.
+            XmLabel           fries_quantity_label;
+            XmText     fries_quantity;
+
+
+                                        ! Drink selection uses a list
+                                        ! box because this is a '1 of N'
+                                        ! selection where N is a big number
+            XmScrolledWindow	    drink_list_box_window;
+
+                                        ! Drink quantity uses an 
+                                        ! assembly of our own widgets.
+            XmForm     drink_quantity;
+            };
+
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_order_box);
+            };
+    };
+
+
+
+object                                  ! A popup dialog box, called by any
+        nyi : XmInformationDialog {             ! code that is not finished.  Useful
+                                        ! for prototyping.
+
+            arguments {
+		XmNbuttonFontList = k_font_table;
+		XmNlabelFontList = k_font_table;
+                XmNmessageString = k_nyi_label_text;
+                XmNdefaultPosition = true;
+		XmNautoUnmanage = true;
+            };
+
+            callbacks {
+                MrmNcreateCallback = procedure create_proc (k_nyi);
+            };
+        };
+
+
+
+! Now define all remaining widgets alluded to in the definition of the top
+! level widgets.
+
+
+! The main window has a list box for displaying the order as it is built.
+
+object
+        total_order : XmScrolledList {
+                                                                                
+            arguments {
+		XmNwidth = 500;
+                XmNvisibleItemCount = 15;
+		XmNunitType = XmPIXELS;
+		XmNlistSizePolicy = XmVARIABLE;
+		XmNscrollBarDisplayPolicy = XmSTATIC;
+		XmNscrollBarPlacement = k_scroll_bar_placement;
+		XmNstringDirection = k_string_direction;
+		XmNfontList = k_font_table;
+            };
+            callbacks {
+                MrmNcreateCallback = procedure create_proc (k_total_order);
+            };
+        };
+                                                                                              
+! Now define the menu bar and the pulldown widgets in the menu bar.
+
+object
+    s_menu_bar : XmMenuBar {
+
+        arguments {                                                                       
+            XmNorientation = XmHORIZONTAL;
+            XmNspacing     = 15;                   ! Pixels between items in menu
+        };
+
+        controls {                              
+            XmCascadeButton file_menu_entry;
+            XmCascadeButton edit_menu_entry;
+            XmCascadeButton order_menu_entry;    
+        };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_menu_bar);
+        };
+    };
+
+
+! The file pulldown menu entry widget (what shows up in the menu bar itself).
+! All these pulldown entries can be set up to function in one of two ways by           ! removing comment characters:
+!       1. If the 'controls' clause specifying the pulldown menu is
+!          commented out, then the pulldown menus are loaded by the
+!          cascading callback when the entry is first activated.
+!       2. If the 'controls' clause is not commented out, then the pulldown
+!          menu is loaded when its parent is created.
+! Method 1 demonstrates deferred menu creation.  The pulldown entry
+! creates its pulldown menu at a later time, rather than at the
+! time the pulldown entry is created.
+! Method 2 demonstrates the standard technique -- creating the pulldown menu at 
+! the time the pulldown entry is created.
+
+object
+        file_menu_entry : XmCascadeButton {
+
+            arguments {
+		XmNstringDirection = k_string_direction;
+		XmNfontList = k_font_table;
+                XmNlabelString = k_file_label_text;
+		XmNmnemonicCharSet = k_mnemonic_charset;
+		XmNmnemonic = k_file_mnemonic;
+            };                                            
+
+!            controls {
+!                pulldown_menu file_menu;
+!            };
+            callbacks {
+                XmNcascadingCallback = procedure pull_proc (k_file_pdme);
+                MrmNcreateCallback = procedure create_proc (k_file_pdme);
+            };
+        };
+
+
+! The pulldown menu with the push buttons it controls.
+
+object
+        file_menu : XmPulldownMenu {
+            controls {
+                XmPushButton m_quit_button;
+            };
+            callbacks {
+                MrmNcreateCallback = procedure create_proc (k_file_menu);
+            };
+        };
+
+        
+object
+        m_quit_button : XmPushButton {
+
+            arguments {
+		XmNstringDirection = k_string_direction;
+		XmNfontList = k_font_table;
+                XmNlabelString = k_quit_label_text;                                                    
+		XmNaccelerator = k_quit_accelerator;
+		XmNacceleratorText = k_quit_accelerator_text;
+		XmNmnemonicCharSet = k_mnemonic_charset;
+		XmNmnemonic = k_quit_mnemonic;
+            };
+
+            callbacks {
+                XmNactivateCallback = procedure quit_proc ('normal demo exit');
+            };
+        };      
+
+
+! The edit pulldown entry and the associated pulldown menu.
+
+object
+        edit_menu_entry : XmCascadeButton {
+
+            arguments {
+		XmNstringDirection = k_string_direction;
+		XmNfontList = k_font_table;
+                XmNlabelString = k_edit_label_text;
+		XmNmnemonicCharSet = k_mnemonic_charset;
+		XmNmnemonic = k_edit_mnemonic;
+            };
+
+!            controls {
+!                pulldown_menu edit_menu;
+!            };
+            callbacks {
+                XmNcascadingCallback = procedure pull_proc (k_edit_pdme);
+                MrmNcreateCallback = procedure create_proc (k_edit_pdme);
+            };
+        };
+
+object
+    edit_menu : XmPulldownMenu {
+        controls {
+            XmPushButton m_select_all_button;
+            XmPushButton m_clear_button;
+            XmPushButton m_paste_button;
+            XmPushButton m_copy_button;
+            XmPushButton m_cut_button;
+        };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_edit_menu);
+        };
+    };
+  
+object
+    m_cut_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_cut_dot_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_nyi);
+        };
+    };  
+            
+object
+    m_copy_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_copy_dot_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_nyi);
+        };
+    };  
+            
+object
+    m_paste_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_paste_dot_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_nyi);
+        };
+    };  
+            
+object
+    m_clear_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_clear_dot_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_nyi);
+        };
+    };  
+            
+object
+    m_select_all_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_select_all_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_nyi);
+        };
+    };  
+
+
+! Finally, the pulldown entry for ordering and its associated pulldown menu.
+
+object
+    order_menu_entry : XmCascadeButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_order_label_text;
+	    XmNmnemonicCharSet = k_mnemonic_charset;
+	    XmNmnemonic = k_order_mnemonic;
+        };
+!        controls {
+!            pulldown_menu order_menu;
+!        };
+        callbacks {
+            XmNcascadingCallback = procedure pull_proc (k_order_pdme);
+            MrmNcreateCallback = procedure create_proc (k_order_pdme);
+        };
+    };
+
+object
+    order_menu : XmPulldownMenu {
+        controls {
+            XmPushButton m_show_control_button;
+            XmSeparator   {};
+            XmPushButton m_cancel_order_button;
+            XmPushButton m_submit_order_button;
+        };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_order_menu);
+        };
+    };
+            
+object
+    m_show_control_button : XmPushButton {
+	arguments {
+		XmNstringDirection = k_string_direction;
+		XmNfontList = k_font_table;
+	    };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_create_order);
+            XmNactivateCallback = procedure show_hide_proc (k_create_order);
+        };
+    };  
+            
+object
+    m_cancel_order_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_cancel_order_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_cancel_order);
+        };
+    };  
+
+object
+    m_submit_order_button : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_submit_order_label_text;
+        };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_submit_order);
+        };
+    };  
+
+
+
+
+ 
+object
+    burger_label : XmLabel {
+        arguments {
+	    XmNunitType = XmPIXELS;
+            XmNx = 50;
+            XmNy = 10;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_hamburgers_label_text;
+            };
+        callbacks {
+                MrmNcreateCallback = procedure create_proc (k_burger_label);
+        };
+    };
+
+object
+    burger_doneness_box : XmRadioBox {
+        arguments {
+	    XmNunitType = XmPIXELS;
+            XmNx = 20;
+            XmNy = 44;
+            XmNorientation = XmVERTICAL;
+            XmNborderWidth = 0;
+!	    entry_class = class_rec_name("XmToggleButtonGadget");
+	XmNisHomogeneous = false;
+            };
+        controls {
+            XmToggleButton   burger_rare;
+            XmToggleButton   burger_medium;
+            XmToggleButton   burger_well;
+            };
+        };
+                                                                                                              
+object
+    burger_rare : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_rare_label_text;
+	    XmNmnemonicCharSet = k_mnemonic_charset;
+	    XmNmnemonic = k_rare_mnemonic;
+            };                                                             
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_rare);
+            MrmNcreateCallback = procedure create_proc (k_burger_rare);
+            };
+        };
+
+object
+    burger_medium : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_medium_label_text;
+            XmNindicatorOn = on;      ! A radio box requires one toggle to be set.
+	    XmNmnemonicCharSet = k_mnemonic_charset;
+	    XmNmnemonic = k_medium_mnemonic;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_medium);
+            MrmNcreateCallback = procedure create_proc (k_burger_medium);
+            };
+        };
+
+object
+    burger_well : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_well_done_label_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_well);
+            MrmNcreateCallback = procedure create_proc (k_burger_well);
+            };
+        };
+
+
+object
+    burger_toppings_menu : XmRowColumn {
+        arguments {
+	    XmNunitType = XmPIXELS;
+            XmNx = 120;
+            XmNy = 44;
+            XmNorientation = XmVERTICAL;
+            XmNborderWidth = 0;
+            };
+        controls {
+            XmToggleButton   ketchup;
+            XmToggleButton   mustard;
+            XmToggleButton   pickle;
+            XmToggleButton   onion;
+            XmToggleButton   mayo;
+            };
+        };
+
+
+
+object
+    ketchup : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_ketchup_label_text;
+	    XmNmnemonicCharSet = k_mnemonic_charset;
+	    XmNmnemonic = k_ketchup_mnemonic;
+	    XmNaccelerator = k_ketchup_accelerator;
+	    XmNacceleratorText = k_ketchup_accelerator_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_ketchup);
+            MrmNcreateCallback = procedure create_proc (k_burger_ketchup);
+            };
+        };
+
+
+object
+     mustard : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_mustard_label_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_mustard);
+            MrmNcreateCallback = procedure create_proc (k_burger_mustard);
+            };
+        };
+
+object
+     onion : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_onion_label_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_onion);
+            MrmNcreateCallback = procedure create_proc (k_burger_onion);
+            };
+        };
+
+object
+    mayo : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_mayonnaise_label_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_mayo);
+            MrmNcreateCallback = procedure create_proc (k_burger_mayo);
+            };
+        };
+
+object
+    pickle : XmToggleButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_pickle_label_text;
+            };
+        callbacks {
+            XmNvalueChangedCallback = procedure toggle_proc (k_burger_pickle);
+            MrmNcreateCallback = procedure create_proc (k_burger_pickle);
+            };
+        };
+
+
+object
+    burger_quantity : XmScale {
+        arguments {
+            XmNx = 20;
+            XmNy = 175;
+	    XmNunitType = XmPIXELS;
+            XmNminimum = 0;
+            XmNmaximum = 10;
+            XmNwidth = 90;
+            XmNborderWidth = 0;
+!	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNtitleString = k_quantity_label_text;
+	    XmNshowValue = true;
+            };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_burger_quantity);
+            XmNvalueChangedCallback = procedure scale_proc (k_burger_quantity);                                                  
+        };
+    };
+
+
+object
+    fries_label : XmLabel {
+        arguments {
+            XmNx = 300;
+            XmNy = 10;
+	    XmNunitType = XmPIXELS;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_fries_label_text;
+            };
+        callbacks {
+                MrmNcreateCallback = procedure create_proc (k_fries_label);
+        };
+    };
+
+
+object
+    fries_option_menu : XmOptionMenu {
+        arguments {
+            XmNx = 260;
+            XmNy = 44;
+	    XmNunitType = XmPIXELS;
+!	    XmNlabelFontList = k_font_table;
+!	    XmNstringDirection = k_string_direction;
+            XmNlabelString = k_size_label_text;
+            XmNmenuHistory = XmPushButton medium_fries;
+            };
+        controls {                                                             
+            XmPulldownMenu fries_menu;
+            };
+        };
+
+object
+    fries_menu : XmPulldownMenu {
+        controls {
+            XmPushButton     tiny_fries;
+            XmPushButton     small_fries;
+            XmPushButton     medium_fries;
+            XmPushButton     large_fries;
+            XmPushButton     huge_fries;
+            };
+        };
+
+
+object
+    tiny_fries : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_tiny_label_text;
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_fries_tiny);
+            };
+        };
+
+object
+    small_fries : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_small_label_text;
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_fries_small);
+            };
+        };
+
+object
+    medium_fries : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_medium_fries_label_text;
+            };
+        callbacks {                                                   
+            XmNactivateCallback = procedure activate_proc (k_fries_medium);
+            };
+        };
+
+object
+    large_fries : XmPushButton {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_large_label_text;
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_fries_large);
+            };
+        };
+
+object
+    huge_fries : XmPushButton {
+        arguments {
+	    XmNfontList = k_font_table;
+	    XmNstringDirection = k_string_direction;
+            XmNlabelString = k_huge_label_text;
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_fries_huge);
+            };
+        };
+
+
+object
+    fries_quantity_label : XmLabel {
+        arguments {
+            XmNx = 260;
+            XmNy = 200;
+	    XmNunitType = XmPIXELS;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_quantity_label_text;
+            };
+        };
+
+object
+    fries_quantity : XmText {
+        arguments {
+            XmNx = 165 + 165;
+            XmNy = 200;
+            XmNunitType = XmPIXELS;
+            XmNwidth = 30;
+            XmNmaxLength = 3;
+            XmNvalue = k_0_label_text;
+            };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_fries_quantity);
+            ! There is no text callback for text.  You have to provide
+            ! one in the application code.
+            };
+        };
+
+
+
+object
+    drink_label : XmLabel {
+        arguments {
+            XmNx = 480;
+            XmNy = 10;
+	    XmNunitType = XmPIXELS;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_drinks_label_text;
+            };
+        callbacks {
+                MrmNcreateCallback = procedure create_proc (k_drink_label);
+        };
+    };
+
+object
+	drink_list_box_window	: XmScrolledWindow {
+		arguments {
+			XmNscrollBarPlacement = k_scroll_bar_placement;
+		        XmNx = 460;
+		        XmNy = 44;
+		  };
+		controls
+		{ XmList	drink_list_box;
+		};
+	};
+
+object
+    drink_list_box : XmList {
+        arguments {                                                                               
+
+	    XmNunitType = XmPIXELS;
+            XmNvisibleItemCount = 4;                                                
+            XmNitems = k_drink_list_text;
+            XmNselectedItems = k_drink_list_select;
+	    XmNselectionPolicy = XmSINGLE_SELECT;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            };
+        callbacks {
+            XmNsingleSelectionCallback = procedure list_proc (k_drink_list);
+            };                         
+        };
+
+                                                                                               
+object
+    drink_quantity : XmForm {
+        arguments {
+            XmNx = 460;
+            XmNy = 170;
+	    XmNunitType = XmPIXELS;
+            };
+        controls {
+            XmLabel           quantity_label;
+            XmLabel           value_label;
+            XmPushButton     up_value;
+            XmPushButton     down_value;
+            };
+        };
+
+
+object
+    quantity_label : XmLabel widget {     ! You cannot use gadgets as children
+        arguments {                     ! of an attached dialog box.
+            XmNx = 10;
+            XmNy = 10;
+	    XmNunitType = XmPIXELS;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = k_quantity_label_text;
+            };
+        };
+
+object
+    value_label : XmLabel widget {
+        arguments {
+            XmNleftAttachment = XmATTACH_WIDGET;
+            XmNleftOffset = 10 ;
+            XmNleftWidget = XmLabel quantity_label ;
+            XmNy = 20 ;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelString = ' 0 ';
+            };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_drink_quantity);
+            };
+        };
+
+object
+    up_value : XmPushButton widget {
+        arguments {
+            XmNy = 00 ;
+            XmNleftAttachment = XmATTACH_WIDGET;
+            XmNleftOffset = 20 ;
+            XmNleftWidget = XmLabel value_label ;
+            XmNlabelType = XmPIXMAP;
+            XmNlabelPixmap = drink_up_icon;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_drink_add);
+            };
+        };
+
+object
+    down_value : XmPushButton widget {
+        arguments {
+            XmNy = 35 ;
+            XmNleftAttachment = XmATTACH_WIDGET;
+            XmNleftOffset = 20 ;
+            XmNleftWidget = XmLabel value_label ;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_font_table;
+            XmNlabelType = XmPIXMAP;
+            XmNlabelPixmap = xbitmapfile('icon.xbm');
+            };
+        callbacks {
+            XmNactivateCallback = procedure activate_proc (k_drink_sub);
+            };
+        };
+
+
+object
+    button_box : XmRowColumn {
+        arguments {
+            XmNorientation = XmHORIZONTAL;
+            XmNspacing = 100;
+            XmNx = 90;
+            XmNy = 280;
+	    XmNunitType = XmPIXELS;
+            XmNborderWidth = 0;
+            XmNentryBorder = 3;
+            };
+        controls {                                                  
+            XmPushButton     apply_button;
+            XmPushButton     dismiss_button;
+            XmPushButton     can_button;
+            };
+        };
+
+object
+    apply_button : XmPushButton widget { ! The menu positions the buttons
+        arguments {                     !  automatically.
+            XmNlabelString = k_apply_label_text;
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_button_font_table;
+            XmNforeground = yellow;
+            XmNbackground = red;
+            XmNhighlightColor = magenta;
+            XmNborderColor = green;
+            };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_apply);
+            XmNactivateCallback = procedure activate_proc (k_apply);
+        };
+    };
+
+object
+    can_button : XmPushButton widget {                       
+        arguments {
+	    XmNstringDirection = k_string_direction;
+	    XmNfontList = k_button_font_table;
+            XmNlabelString = k_reset_label_text;
+            XmNforeground = yellow;
+            XmNbackground = red;
+            XmNhighlightColor = magenta;
+            XmNborderColor = green;
+            };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_noapply);
+            XmNactivateCallback = procedure activate_proc (k_noapply);
+        };
+    };
+
+object
+    dismiss_button : XmPushButton widget {
+        arguments {
+	    XmNstringDirection = k_string_direction;
+            XmNlabelString = k_dismiss_label_text;
+	    XmNfontList = k_button_font_table;
+            XmNforeground = yellow;
+            XmNbackground = red;
+            XmNhighlightColor = magenta;
+            XmNborderColor = green;
+        };
+        callbacks {
+            MrmNcreateCallback = procedure create_proc (k_dismiss);
+            XmNactivateCallback = procedure activate_proc (k_dismiss);
+        };
+    };
+
+
+
+end module;

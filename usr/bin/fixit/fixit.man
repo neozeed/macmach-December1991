@@ -1,0 +1,28 @@
+.TH FIXIT 1 "Feb 14, 1990"
+.UC
+.SH NAME
+fixit \- check and fix files and directories
+.SH SYNOPSIS
+.B fixit
+options
+.SH DESCRIPTION
+.I Fixit
+helps to maintain large directories by keeping track of
+file checksums, uid, gid and mode bits.  It is able to fix
+just about anything except corrupted files or incorrect
+file type.  It will fix protection modes, user/group ids,
+device files and symbolic links.  Execute
+.I Fixit
+without any arguments to list the various options.
+The usual way to use
+.I Fixit
+is as follows.  First, create a description file like
+"fixit /dir >dirdesc".  Then, the directory can be
+checked by "fixit <dirdesc".  If problems are found, they
+can be fixed with "fixit -f <dirdesc".
+
+Note that
+.I Fixit
+can also secure a directory for a user, copy a directory
+using symbolic links or compare two directories, generating
+a list of extra, missing and changed files.

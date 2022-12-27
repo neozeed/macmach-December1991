@@ -1,0 +1,271 @@
+.\" 
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS"
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie Mellon
+.\" the rights to redistribute these changes.
+.\" 
+.\" 
+.\" HISTORY
+.\" $Log:	ddb.man,v $
+.\" Revision 2.5  91/06/25  13:50:22  rpd
+.\" 	Added some watchpoint explanation.
+.\" 	[91/06/25            rpd]
+.\" 
+.\" Revision 2.4  91/06/17  15:47:31  jsb
+.\" 	Added documentation for continue/c, match, search, and watchpoints.
+.\" 	I've not actually explained what a watchpoint is; maybe Rich can
+.\" 	do that (hint, hint).
+.\" 	[91/06/17  10:58:08  jsb]
+.\" 
+.\" Revision 2.3  91/05/14  17:04:23  mrt
+.\" 	Correcting copyright
+.\" 
+.\" Revision 2.2  91/02/14  14:10:06  mrt
+.\" 	Changed to new Mach copyright
+.\" 	[91/02/12  18:10:12  mrt]
+.\" 
+.\" Revision 2.2  90/08/30  14:23:15  dbg
+.\" 	Created.
+.\" 	[90/08/30            dbg]
+.\" 
+.TH ddb 8 8/30/90
+.CM 4
+.SH NAME
+.nf
+ddb \- new kernel debugger
+
+The new kernel debugger has most of the features of the old kdb,
+but with a more rational (gdb-like) syntax.
+
+The current location is called 'dot'.  Examine and write commands update
+dot to the address of the last line examined or the last location modified,
+and set 'next' to the address of the next location to be examined or
+changed.  Other commands don't change 'dot' and set 'next' to be the same
+as 'dot'.
+
+The general command syntax is:
+
+command [/modifier] address [,count]
+
+A blank line repeats the previous command with a count of 1 and
+no modifiers.  The address used is 'next'.
+
+Specifying 'address' sets 'dot' to address.
+Omitting 'address' uses 'dot'.
+
+A missing 'count' is taken to be 1 (for printing commands) or infinity
+(for stack traces).
+
+The commands are:
+
+examine (x)
+    Display the addressed locations according to the formats in
+    the modifier.  Multiple modifier formats display multiple locations.
+    The format characters are:
+    
+    b		look at bytes from now on
+    h		look at halfwords (16-bits) from now on
+    l		look at longwords (32-bits) from now on
+
+    a		print the location being displayed
+    
+    x		display in unsigned hex
+    z		display in signed hex
+    o		display in unsigned octal
+    d		display in signed decimal
+    u		display in unsigned decimal
+    r		display in current radix, signed
+    
+    c		display low 8 bits as a character.  Non-printing characters
+		are displayed as an octal escape code (e.g. '\000').
+    s		display the null-terminated string at location.  Non-printing
+		characters are displayed as octal escapes.
+
+    i		Display as an instruction.
+    I		Display as an instruction, with possible alternate formats
+		depending on the machine:
+		    VAX		don't assume that each external label
+				is a procedure entry mask
+		    i386	don't round to the next longword boundary
+				after jumps
+		    mips	print register contents
+
+If the format is not specified the last format specified for 'x' is used.
+
+print
+    Print 'address' according to the modifier character.  Valid formats
+    are: a x z o d u r c.  If no modifier is specified, the last one
+    specified for 'p' is used.
+
+write/size addr expr1 [ expr2 ... ]
+    Writes the expressions at succeeding locations.  The 'size' may be
+    b (bytes), h (halfwords), l (longwords); if omitted, 'long' is assumed.
+
+    Warning - since there is no delimiter between expressions, strange
+    things may happen.  It's best to enclose each expression in
+    parentheses.
+
+set $variable = expr
+    Set the named variable or register to 'expr'.
+
+break
+    Set a breakpoint at 'address'.  If count is supplied, continues
+    (count-1) times before stopping at the breakpoint.
+
+delete
+    Delete the breakpoint at 'address'.
+
+dwatch
+    Delete the watchpoint at 'address'.
+
+step[/p]	(s)
+    Single step 'count' times.  If /p, print each instruction; otherwise,
+    only print the last instruction.
+
+    Warning: depending on machine type, it may not be possible to
+    single-step through some low-level code paths.  On machines with
+    software-emulated single-stepping (eg, pmax), stepping through
+    code executed by interrupt handlers will probably do the wrong thing.
+
+continue[/c]	(c)
+    Continue execution until a breakpoint or watchpoint.
+    If /c, count instructions while executing.
+    Some machines (eg, pmax) also count loads and stores.
+
+    Warning: when counting, the debugger is really silently
+    single-stepping.
+
+until
+    Stop at the next call or return instruction.	(:j)
+
+next[/p]						(:J)
+    Stop at the matching return instruction.  If /p, print the
+    call nesting depth and the cumulative instruction count at
+    each call or return; otherwise, only print when the matching
+    return is hit.
+
+match[/p]
+    A synonym for 'next'.
+
+trace
+    Stack trace.  /u traces user space; if omitted, only traces
+    kernel space.  /t treats 'addr' as a thread address, and traces
+    that thread.  If '/t' is not used, a supplied address is treated
+    as a frame pointer to start from.  If the address is omitted,
+    traces the current thread.  'count' is the number of frames to
+    trace; if 'count' is omitted, all frames are printed.
+    
+    Warning: you must be executing in the same task as a thread
+    for 't/tu <thread>' to work; otherwise, the debugger will read
+    user addresses from the wrong address space.
+
+search [/bhl] addr value [mask] [,count]
+    Search memory for a value. This command might fail in interesting
+    ways if it doesn't find the searched-for value.  This is because
+    ddb doesn't always recover from touching bad memory.  The optional
+    count argument limits the search.
+
+show
+    Has several subcommands:
+
+show all threads			($l)
+    Displays all threads.
+
+show registers				($r)
+    Displays the current register set.
+
+show breaks				($b)
+    Displays all breakpoints.
+
+show thread <addr>
+    Displays only the specified thread.
+
+show map <addr>
+    Prints the vm_map at 'address'.
+
+show object <addr>
+    prints the vm_object at 'address'.
+
+show page <addr>
+    prints the vm_page structure at 'address'
+
+show port <addr>
+    prints the ipc_port structure at 'address'.
+
+show watches
+    Displays all watchpoints.
+
+watch <addr> <size>
+    Set a watchpoint for a region.  Execution stops
+    when an attempt to modify the region occurs.
+    The 'size' argument defaults to 4.
+
+    Warning: Attempts to watch wired kernel memory
+    will likely fail.  Watchpoints on user addresses
+    work best.
+
+Variables:
+
+    The debugger accesses registers and variables as '$<name>'.
+    Register names are as in the 'show registers' command.
+    Only a few built-in variables exist so far:
+    
+    radix		Input and output radix
+    maxoff		Addresses are printed as "symbol"+offset
+			unless offset is greater than maxoff.
+    maxwidth		The width of the displayed line.
+    tabstops		Tab stop width.
+
+Expressions:
+    Operator precedence is as in C.
+
+    Terms are:
+	identifier		value of identifier, from symbol table
+	number			0o: octal
+				0t: decimal
+				0x: hex
+				otherwise: current radix.
+	.			'dot'
+	+			'next'
+	..			Address of start of last line examined.
+				Unlike 'dot' or 'next', this is only
+				changed by 'x' or 'w' commands.
+	"			Last address explicitly specified.
+	$register
+	$variable		Value of named register or variable.
+	
+	(expr)
+
+    Unary operators are
+	*			indirection - reads a longword.
+	-			unary minus
+
+    Binary operators are:
+	* / % #			(signed) multiply, divide, remainder,
+				roundup.  '#' rounds up lhs to the next
+				multiple of rhs.
+
+	+ -			addition, subtraction
+	
+	<< >>			unsigned left/right shift.
+
+

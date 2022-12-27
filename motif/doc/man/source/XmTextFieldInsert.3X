@@ -1,0 +1,51 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldInsert 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldInsert \(em a TextField function that inserts a character string into a text string.\fP
+.iX "XmTextFieldInsert"
+.iX "TextField functions" "XmTextFieldInsert"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldInsert (\fIwidget, position, value\fP)
+.br
+.ta .5i 1.7i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldInsert\fP inserts a character string into the text string in
+the TextField widget.  The character positions begin at zero and are numbered
+sequentially from the beginning of the text.  For example, to insert a
+string after the fourth character,
+the parameter \fIposition\fP must be 4.
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIposition\fP" .75i
+Specifies the position in the text string where the character string is
+to be inserted
+.IP "\fIvalue\fP" .75i
+Specifies the character string value to be added to the text widget
+.PP
+.ne 4
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

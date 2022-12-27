@@ -1,0 +1,116 @@
+.\"
+.\" $Id: getoct.3,v 1.3 89/12/26 11:18:12 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getoct.3,v $
+.\" Revision 1.3  89/12/26  11:18:12  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 23-Oct-82  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Error or EOF on standard input now causes default value to be used.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH GETOCT 3 10/23/82
+.CM 3
+.SH "NAME"
+getoct, gethex \- ask user to type an octal or hexadecimal integer
+.SH "SYNOPSIS"
+.B
+#include <stdio.h>
+.br
+.B
+#include <ctype.h>
+.sp
+.B
+unsigned int getoct (prompt,min,max,defalt);
+.br
+.B
+unsigned int gethex (prompt,min,max,defalt);
+.sp
+.B
+char *prompt;
+.br
+.B
+unsigned int min,max,defalt;
+.SH "DESCRIPTION"
+.I
+Getoct
+and
+.I
+gethex
+ask the user to type in an unsigned octal or hexadecimal integer.
+.sp
+They begin by printing the string
+.I
+prompt
+as a message to the user.
+The user then types in a number of
+the appropriate form.
+If the number is valid and is
+within the range
+.I
+min
+to
+.I
+max,
+then it is returned as the value of
+.I
+getoct
+or
+.I
+gethex.
+If it is invalid or is out of range, then an error message is
+printed and the prompt-and-response cycle is repeated.
+If the user types just a carriage return, then the value
+.I
+defalt
+is assumed.
+.sp
+.I
+Getoct
+and
+.I
+gethex
+are identical, except in the manner in which the user's
+input is converted into an unsigned integer.
+.sp
+.I
+Getoct
+converts the input by assuming it represents a
+string of octal digits.
+Leading blanks and tabs are ignored; conversion
+stops at the first character which is not a legal
+octal digit.
+No signs (+ or \-) are allowed.
+.sp
+.I
+Gethex
+converts the input by assuming it represents a
+string of hexadecimal digits.
+There may be leading
+blanks and tabs; in addition, the digit string may be
+preceded by "0x" or "0X", which will be ignored.
+The valid characters include "0" through "9", "a" through "f",
+and "A" through "F".
+Conversion stops at the first character
+which is not a legal hexadecimal digit.
+No signs (+ or \-) are
+allowed.
+.SH "SEE ALSO"
+.IR atoo (3), 
+.IR atoh (3),
+.IR getint (3), 
+.IR getbool (3), 
+.IR getstr (3), 
+etc.
+.br
+.IR octarg (3), 
+.IR hexarg (3)
+.SH "BUGS"
+No provision is made for overflow.

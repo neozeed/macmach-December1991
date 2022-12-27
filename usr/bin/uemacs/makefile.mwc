@@ -1,0 +1,38 @@
+#
+# Makefile for MicroEMACS 3.9 on the Atari ST using Mark Williams C
+#
+SRC=.
+INC=.
+CC=cc
+CFLAGS=-I. -VPEEP
+
+OBJS=	atari.o basic.o bind.o buffer.o char.o crypt.o display.o eval.o exec.o\
+	file.o fileio.o input.o isearch.o line.o main.o mouse.o random.o \
+	region.o search.o st520.o word.o window.o stmouse.o
+
+emacs.prg:	$(OBJS)
+		$(CC) -o emacs.prg $(OBJS) -laes -lvdi
+
+atari.o: $(SRC)\atari.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+basic.o: $(SRC)\basic.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+bind.o: $(SRC)\bind.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+buffer.o: $(SRC)\buffer.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+crypt.o: $(SRC)\crypt.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+char.o: $(SRC)\char.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+display.o: $(SRC)\display.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+eval.o: $(SRC)\eval.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h $(INC)\evar.h
+exec.o: $(SRC)\exec.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+file.o: $(SRC)\file.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+fileio.o: $(SRC)\fileio.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+input.o: $(SRC)\input.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+isearch.o: $(SRC)\isearch.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+line.o: $(SRC)\line.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+main.o: $(SRC)\main.c $(INC)\ebind.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+mouse.o: $(SRC)\mouse.c $(INC)\ebind.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+random.o: $(SRC)\random.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+region.o: $(SRC)\region.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+search.o: $(SRC)\search.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+st520.o: $(SRC)\st520.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+word.o: $(SRC)\word.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+window.o: $(SRC)\window.c $(INC)\ebind.h $(INC)\epath.h $(INC)\efunc.h $(INC)\edef.h $(INC)\estruct.h
+stmouse.o: $(SRC)\stmouse.s

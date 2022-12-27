@@ -1,0 +1,61 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringExtent 3X "" "" "" ""
+.SH NAME
+\fBXmStringExtent \(em a compound string function that determines the size
+of the smallest rectangle that will enclose the compound string.\fP
+.iX "XmStringExtent"
+.iX "compound string functions" "XmStringExtent"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmStringExtent (\fIfontlist, string, width, height\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmFontList	\fIfontlist\fP;
+.br
+	XmString	\fIstring\fP;
+.br
+	Dimension	\fI*width\fP;
+.br
+	Dimension	\fI*height\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringExtent\fP determines the width and height, in pixels, of the smallest
+rectangle that will enclose the provided compound string.
+.PP
+.ne 2i
+When \fIstring\fP has been created with \fBXmStringCreateSimple\fP, the
+font associated with the character set derived from the
+current language environment must
+appear at the front of \fIfontlist\fP.
+Otherwise, the result of the function is undefined.
+.sp 1
+.IP "\fIfontlist\fP" .75i
+Specifies the font list
+.IP "\fIstring\fP" .75i
+Specifies the string
+.IP "\fIwidth\fP" .75i
+Specifies a pointer to the width of the rectangle
+.IP "\fIheight\fP" .75i
+Specifies a pointer to the height of the rectangle
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

@@ -1,0 +1,59 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextInsert 3X "" "" "" ""
+.SH NAME
+\fBXmTextInsert \(em a Text function that inserts a character string into a text string.\fP
+.iX "XmTextInsert"
+.iX "Text functions" "XmTextInsert"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextInsert(\fIwidget, position, value\fP)
+.br
+.ta .5i 2i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextInsert\fP inserts a character string into the text string in
+the Text widget.  The character positions begin at zero and are numbered
+sequentially from the beginning of the text.  For example, to insert a
+string after the fourth character, the parameter \fIposition\fP must be
+4.
+.PP
+.ne 2i
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID.
+.IP "\fIposition\fP" .75i
+Specifies the position in the text string where the character string is
+to be inserted.
+.IP "\fIvalue\fP" .75i
+Specifies the character string value to be added to the text widget.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

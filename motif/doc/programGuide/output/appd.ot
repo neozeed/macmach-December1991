@@ -1,0 +1,1254 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       D.  UUUUIIIILLLL DDDDiiiiaaaaggggnnnnoooossssttttiiiicccc MMMMeeeessssssssaaaaggggeeeessss                                   |
+
+       This appendix lists the diagnostic messages produced by the   |
+       UIL compiler.  The severity, a description of the message,    |
+       and a suggestion for correcting the problem are listed for    |
+       each message.  The following strings are used to represent
+       data that varies in the actual message you receive from the
+       UIL compiler:
+
+       SSSSttttrrrriiiinnnngggg   DDDDaaaattttaaaa RRRReeeepppprrrreeeesssseeeennnntttteeeedddd                                     |*
+        %c      Character
+        %d      Decimal number
+        %s      String
+
+       Messages are listed alphabetically by IDENT code.             *
+
+       arg_count      procedure %s was previously declared with %d
+                      arguments                                      |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The declaration of the marked procedure
+                      specified a different number of arguments
+                      than are present in this procedure reference.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check that you are calling the correct func-
+                      tion.  If you intend to call the procedure
+                      with a varying number of arguments, omit the
+                      argument list in the procedure declaration.
+
+       arg_type       found %s value - procedure %s argument must
+                      be %s value
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The declaration of the marked procedure
+                      specified a different type of argument than
+                      is present in this procedure reference.
+
+
+
+
+
+
+                                                                D-1
+
+
+
+
+
+
+
+
+
+
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check that you are passing the correct argu-
+                      ment to the correct function.  If you intend
+                      to call the procedure with varying argument
+                      types, declare the procedure specifying aaaannnnyyyy
+                      for the type of the argument.
+
+       backslash_ignored  unknown escape sequence "\%c" -  ignored
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      A backslash was followed by an unknown escape  |
+                      character. The \ (backslash) is the escape
+                      character in UIL.  A selected set of single
+                      characters can follow a backslash such as \n
+                      for newline or \\ to insert a backslash.  The
+                      character following the backslash was not one
+                      of the selected set.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      If you want to add a backslash, use \\.  See   |
+                      Section 2.4.1 for a description of the sup-
+                      ported escape sequences.
+
+       bug_check      internal error: %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler diagnosed an internal error.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Submit a software problem report.
+
+       circular_def   widget %s is part of a circular definition
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The indicated object is referenced as a des-
+                      cendant of itself, either within its own
+                      definition or within the definition of one of
+                      the objects in the widget tree it controls.    |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Change the definition of the indicated object
+                      so that it is not a descendant of itself.
+
+
+
+
+       D-2
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+       control_char   unprintable character \%d\ ignored             |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The compiler encountered an illegal control    |
+                      character in the UIL specification file.  The  |
+                      decimal value of the character is given        |
+                      between the \ (backslash) characters.          |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Replace the character with the sequence
+                      specified in  the message (for example, \3 if
+                      the control character's internal value  is
+                      3).  UIL provides several built-in control
+                      characters such as \n  and \r for newline and  |
+                      carriage return.  See Section 2.4.1 for a      |
+                      complete list of supported escape sequences.
+
+       create_proc    creation procedure is not supported by the %s
+                      widget                                         |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You specified a creation procedure for a
+                      Motif Toolkit widget.  You can specify a
+                      creation procedure only for a user-defined
+                      widget.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Remove the procedure clause following the
+                      object type.
+
+       create_proc_inv  creation procedure is not allowed in a %s
+                      widget reference
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You specified a creation procedure when
+                      referencing an object.  You can specify a
+                      creation procedure only when you declare the
+                      object.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Remove the procedure clause following the
+                      object type.
+
+       create_proc_req  creation procedure is required in a %s
+                      widget declaration
+
+
+                                                                D-3
+
+
+
+
+
+
+
+
+
+
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      When defining a user-defined widget, you must
+                      specify the name of the creation function for
+                      creating an instance of this widget.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Insert a procedure clause following the
+                      widget type in the widget declaration. You     |
+                      also need to declare the creation procedure    |
+                      using a procedure declaration.  For example:   |
+
+                      procedure my_list_box_creation_proc();         |
+                      object list_box:                               |
+                       user_defined procedure my_list_box_creation_proc()|
+                          { arguments ... };                         |
+
+       ctx_req        context requires a %s - %s was specified
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      At the point marked in the specification, one
+                      type of object (such as a widget) is required
+                      and your specification supplied a different
+                      type of object (such as value).
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check for misspelling or that you have
+                      referred to the intended object.
+
+       d_add_source   additional UIL source file: %s was ignored
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      More than one source file was specified.
+                      Only the first source file will be compiled.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Compile additional source files using
+                      separate invocations of the compiler.
+
+       d_dupl_opt     duplicate option \ "%s" \ was ignored
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      The same command line option has been
+                      repeated more than once (for example, the "-
+                      o" option or the "-v" option)
+
+
+       D-4
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Remove duplicate command line option.
+
+       d_miss_opt_arg  %s missing following  \ "%s" \ option
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You used a command line option that requires
+                      an argument and you did not provide that
+                      argument.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Omit the option or provide the argument.
+
+       d_no_source    no source file specified
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      No source file was specified to compile.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Specify the name of a UIL specification file
+                      to compile.
+
+       d_unknown_opt  unknown option \ "%s" \ was ignored
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      An unknown option has been used in the com-
+                      piler command line.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check what you typed on the command line.
+
+       dup_letter     color letter used for prior color in this
+                      table
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      Each of the letters used to represent a color
+                      in a color table must be unique. If not, that  |
+                      letter in an icon would represent more than    |
+                      one color; each pixel can have only one color
+                      associated with it at a time.  The letter
+                      marked has been assigned to more than one
+                      color.
+
+
+
+                                                                D-5
+
+
+
+
+
+
+
+
+
+
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Choose which color the letter is to represent  |
+                      and remove any duplicates or assign them a     |
+                      new character.
+
+       dup_list       %s %s already specified for this %s %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      A widget or gadget declaration can have at
+                      most one arguments list, one callbacks list,
+                      and one controls list.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      If you want to specify multiple lists of
+                      arguments, controls, and callbacks, you can
+                      do so within one list.  For example:           |
+
+                      arguments { arguments_list1; arguments_list2; };|
+
+       gadget_not_sup  %s gadget is not supported - %s widget will
+                      be used instead
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      The indicated object type does not support a
+                      gadget variant; only a widget variant is sup-
+                      ported for this object type.  The UIL com-
+                      piler ignores the gadget indication, and
+                      creates widgets of this object type.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Specify that this object type is a widget
+                      instead of a gadget.
+
+       icon_letter    row %d, column %d: letter \"%c"\ not in color
+                      table
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You have specified a color to be used in an
+                      icon that is not in that icon's color table.
+                      The invalid color is identified in the mes-
+                      sage by displaying the letter used to          |
+                      represent that color between the \             |
+                      (backslashes). This letter was not defined in
+                      the specified color table.
+
+
+
+       D-6
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Either add the color to the icon's color
+                      table or use a character representing a color  |
+                      in the color table.  The default color table   |
+                      defines " " (double quotation marks) as back-  |
+                      ground and * (asterisk) as foreground.
+
+       icon_width     row %d must have same width as row 1
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The icons supported by UIL are rectangular
+                      (that is, x pixels wide by y pixels high).
+                      As a result, each of the strings used to
+                      represent a row of pixels in an icon must
+                      have the same length.  The specified row does
+                      not have the same length as the first row.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Make all the strings in the icon function the
+                      same length.
+
+       inv_module     invalid module structure - check UIL module
+                      syntax
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The structure of the UIL module is incorrect.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      If there are any syntax errors reported, fix
+                      them and recompile.  For example, if the
+                      error occurs before the first object declara-
+                      tion (that is, before your value and object
+                      declarations), check the syntax of the module
+                      header for unwanted ; (semicolons) after the   |
+                      module clauses.  If the error occurs at the
+                      end of the module, check that the module con-
+                      cludes with the keywords "end module;".
+
+       list_item      %s item not allowed in %s %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The indicated list item is not of the type
+                      required by the list.  Arguments lists must
+                      contain argument entries, callbacks lists
+                      must contain callback entries, controls lists
+
+
+                                                                D-7
+
+
+
+
+
+
+
+
+
+
+
+
+                      must contain control entries, and procedures
+                      lists must contain callback entries.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check the syntax for the type of list entry
+                      that is required in this context and change
+                      the indicated list item.
+
+       listing_open   error opening listing file: %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler could not create the listing
+                      file noted in the message.                     |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check that you have write access to the
+                      directory you specified to hold the listing
+                      file.
+
+       listing_write  error writing to listing file: %s              |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler could not write a line into the
+                      listing file noted in the message.             |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check to see that there is adequate space on
+                      the disk specified to hold the listing file.
+
+       name_too_long  name exceeds 31 characters - truncated to: %s  |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The UIL compiler encountered a name longer
+                      than 31 characters. The compiler truncated
+                      the name to the leftmost 31 characters.        |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Shorten the name in the UIL module source.
+
+       names          place names clause before other module
+                      clauses                                        |
+
+
+
+
+
+       D-8
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The case-sensitivity clause, if specified,     |
+                      must be the first clause following the
+                      module's name.  You have inserted another
+                      module clause before this clause.              |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Reorder the module clauses so that the case-   |
+                      sensitivity clause is first. (It is accept-    |
+                      able to place the version clause ahead of the  |
+                      case-sensitivity clause; this is the only
+                      exception.)
+
+       never_def      %s %s was never defined                        |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      Certain UIL objects such as gadgets and widg-
+                      ets can be referred to before they are         |
+                      defined.  The marked object is such an         |
+                      object.  However, the compiler never found
+                      the object's declaration.                      |
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check for misspelling.   If the module is
+                      case sensitive, the spellings of names in
+                      declarations and in references must match
+                      exactly.
+
+       no_uid         no UID file was produced                       |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Informational                       |
+
+                      If the compiler reported error or severe
+                      diagnostics (that is, any of the diagnostic
+                      abbreviations starting with %UIL-E or %UIL-
+                      F), a UID file is not created.  This diagnos-
+                      tic informs you that the compiler did not
+                      produce a UID file.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Fix the problems reported by the compiler.
+
+       non_pvt        value used in this context must be private
+
+
+
+
+
+                                                                D-9
+
+
+
+
+
+
+
+
+
+
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      A private value is one that is not imported
+                      or exported.  In the context marked by the
+                      message, only a private value is legal.
+                      Situations where this message is issued        |
+                      include defining one value in terms of         |
+                      another, and arguments to functions.  In gen-
+                      eral, a value must be private when the com-
+                      piler must know the value at compilation
+                      time.  Exported values are disallowed in
+                      these contexts, even though a value is
+                      present, because that value could be overrid-
+                      den at run time.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Change the value to be private.
+
+       not_impl       %s is not implemented yet
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You are using a feature of UIL that has not
+                      been implemented.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Try an alternate technique.
+
+       null           a null character in a string is not supported  |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      You have created a string that has an embed-
+                      ded null character. Strings are represented
+                      in a UID file and in many Motif Toolkit data
+                      structures as null terminated strings.  So,
+                      although the embedded nulls will be placed in  |
+                      the UID file, Motif Toolkit functions may      |
+                      interpret an embedded null as the terminator
+                      for the string.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Be very careful using embedded nulls.
+
+       obj_type       found %s %s when expecting %s %s
+
+
+
+
+
+       D-10
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      Most arguments take values of a specific
+                      type.  The value specified is not correct for
+                      this argument.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      The message indicates the expected type of
+                      argument. Check that you have specified the
+                      intended value and that you specified the
+                      correct argument.
+
+       operand_type   %s type is not valid for %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The indicated operand is not of a type that
+                      is supported by this operator.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check the definition of the operator and make
+                      sure the type of the operand you specify is
+                      supported by the operator.
+
+       out_of_memory  compiler ran out of virtual memory
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler ran out of virtual memory.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Reduce the size of your application.
+
+       out_range      value of %s is out of range %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The value specified is outside the legal
+                      range of its type.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Change the UIL module source.
+
+       prev_error     compilation terminated - fix previous errors
+
+
+
+
+
+                                                               D-11
+
+
+
+
+
+
+
+
+
+
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      Errors encountered during the compilation
+                      have caused the compiler to abort.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Fix the errors already diagnosed by the com-
+                      piler and recompile.
+
+       previous_def   name %s previously defined as %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The name marked by the message was used in a
+                      previous declaration. UIL requires that the
+                      names of all objects declared within a module
+                      be unique.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check for a misspelling. If the module is
+                      case sensitive, the spellings of names in
+                      declarations and in references must match
+                      exactly.
+
+       single_letter  color letter string must be a single charac-
+                      ter
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The string associated with each color in a
+                      color table must hold exactly one character.
+                      You have specified a string with either fewer
+                      or more characters.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Use a single character to represent each
+                      color in a color table.
+
+       single_occur   %s %s supports only a single %s %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      You have specified a particular clause more
+                      than once in a context where that clause can   |
+                      occur only once.  For example, the version     |
+                      clause in the module can only occur once.
+
+
+
+
+       D-12
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Choose the correct clause and delete the oth-
+                      ers.
+
+       src_limit      too many source files open: %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler has a fixed limit for the number
+                      of source and include files that it can pro-
+                      cess.  This number is reported in the mes-
+                      sage.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Use fewer include files.
+
+       src_null_char  source line contains a null character
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The specified source line contains a null
+                      character.  The compiler ignores any text
+                      following the null character.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Replace each null character with the escape    |
+                      sequence \ (backslash).
+
+       src_open       error opening source file: %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler could not open the UIL specifi-
+                      cation file listed in the message.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check that the file listed in the message is
+                      the one you want to compile, that it exists,
+                      and that you have read access to the file.
+                      If you are using a large number of include
+                      files, you may have exceeded your quota for
+                      open files.
+
+       src_read       error reading next line of source file: %s
+
+
+
+
+
+                                                               D-13
+
+
+
+
+
+
+
+
+
+
+
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler could not read a line of the UIL
+                      specification file listed in the message.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      In the listing file, this message should
+                      appear following the last line the compiler
+                      read successfully.  First check that the file
+                      you are compiling is a UIL specification
+                      file.  If it is, the file mostly likely con-
+                      tains corrupted records.
+
+       src_truncate   line truncated at %d characters
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The compiler encountered a source line
+                      greater than 132 characters. Characters
+                      beyond the 132 character limit were ignored.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Break each source line longer than 132 char-
+                      acters into several source lines. Long string
+                      literals can be created using the concatena-
+                      tion operator.
+
+       submit_spr     internal error - submit an SPR
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler diagnosed an internal error.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Get a listing and look where the error is
+                      being issued.  Try fixing any faulty syntax
+                      in this area.  If you are unable to prevent
+                      this error, submit a software problem report.
+
+       summary        errors: %d  warnings: %d  informationals: %d
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Informational                       |
+
+                      This message lists a summary of the diagnos-
+                      tics issued by the compiler, and appears only
+                      when diagnostics have been issued.
+
+
+
+
+       D-14
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Fix the problems reported.  You can use the
+                      -I option qualifier to suppress informational
+                      and warning diagnostics that you have deter-
+                      mined to be harmless.
+
+       supersede      this %s %s supersedes a previous definition
+                      in this %s %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Informational                       |
+
+                      An argument or callback list has either a
+                      duplicate argument or duplicate reason.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      This is not necessarily an error.  The com-
+                      piler is alerting you to make sure that you    |
+                      intended to override a prior argument's        |
+                      value. This informational message can be
+                      suppressed using the -I option qualifier.
+
+       syntax         unexpected %s token seen - parsing resumes
+                      after \"%c"\
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      At the point marked in the module, the com-
+                      piler found a construct such as a punctuation
+                      mark, name, or keyword when it was expecting
+                      a different construct.  The compiler contin-
+                      ued analyzing the module at the next
+                      occurrence of the construct stated in the
+                      message.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check the syntax of your UIL module at the
+                      point marked by the compiler.  If the module
+                      specifies case-sensitive names, check that
+                      your keywords are in lowercase characters.
+
+       too_many       too many %ss in %s, limit is %d
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      You exceeded a compiler limit such as the
+                      number of fonts in a font table or the number
+                      of strings in a translation table.  The mes-
+                      sage indicates the limit imposed by the
+
+
+                                                               D-15
+
+
+
+
+
+
+
+
+
+
+
+
+                      compiler.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Restructure your UIL module.
+
+       uid_open       error opening UID file: %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Severe                              |
+
+                      The compiler could not create the UID file
+                      noted in the message. A UID file holds the     |
+                      compiled user-interface specification.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check that you have write access to the
+                      directory you specified to hold the UID file.
+                      If you have a large number of source and
+                      include files, check that you have not
+                      exceeded your open file quota.
+
+       undefined      %s %s must be defined before this reference
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The object pointed to in the message was
+                      either never defined or not defined prior to   |
+                      this point in the module.  The compiler        |
+                      requires the object to be defined before you   |
+                      refer to the object.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check for a misspelling of the object's name,
+                      a missing declaration for the object, or
+                      declaring the object after its first  refer-
+                      ence.   If names in the module are case sen-
+                      sitive, the spellings of the name in the
+                      declaration and in the reference must match
+                      exactly.
+
+       unknown_charset  unknown character set                        |
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The message is pointing to a context where a
+                      character set name is required. You have not
+                      specified the name of a character set in that
+                      context.
+
+
+
+       D-16
+
+
+
+
+
+
+
+
+
+                                            UIL Diagnostic Messages
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check for misspelling.  A list of the sup-
+                      ported character sets is given in Section      |
+                      2.1.  If you specified case-sensitive names    |
+                      in the module, check that the character set
+                      name is in lowercase characters.
+
+       unknown_seq    unknown sequence \"%s"\ ignored
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The compiler detected a sequence of printable
+                      characters it did not understand. The com-     |
+                      piler omitted the sequence of characters       |
+                      listed between the " " (double quotation       |
+                      marks).
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Fix the UIL module source.
+
+       unsupported    the %s %s is not supported for the %s %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Warning                             |
+
+                      Each widget or gadget supports a specific set
+                      of arguments, reasons, and children.  The
+                      particular argument, reason, or child you
+                      specified is not supported for this widget or
+                      gadget.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      See the UIL built-in tables in Appendix B for
+                      the arguments, reasons, and children  sup-
+                      ported for each object.  If a widget creation
+                      function accepts an  argument that UIL
+                      rejects, this does not necessarily indicate
+                      that the UIL compiler is in error.  Widget
+                      creation functions ignore arguments that they
+                      do not support, without notifying you that
+                      the argument is being ignored.
+
+       unterm_seq     %s not terminated %s
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The compiler detected a sequence that was not
+                      properly terminated, such as a string literal
+                      without the closing quotation mark.
+
+
+                                                               D-17
+
+
+
+
+
+
+
+
+
+
+
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Insert the proper termination characters.
+
+       wrong_type     found %s value when expecting %s value
+
+                      SSSSeeeevvvveeeerrrriiiittttyyyy::::  Error                               |
+
+                      The indicated value is not of the specific
+                      type required by UIL in this context.
+
+                      UUUUsssseeeerrrr AAAAccccttttiiiioooonnnn::::                                   |
+
+                      Check the definition of the function or
+                      clause.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       D-18
+
+
+
+
+

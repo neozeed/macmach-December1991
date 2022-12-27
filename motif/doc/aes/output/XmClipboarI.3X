@@ -1,0 +1,132 @@
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss ---- AAAA cccclllliiiippppbbbbooooaaaarrrrdddd ffffuuuunnnnccccttttiiiioooonnnn tttthhhhaaaatttt
+          rrrreeeettttuuuurrrrnnnnssss aaaa lllliiiisssstttt ooooffff _d_a_t_a__i_d/_p_r_i_v_a_t_e__i_d ppppaaaaiiiirrrrssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////CCCCuuuuttttPPPPaaaasssstttteeee....hhhh>>>>
+
+          iiiinnnntttt XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss ((((_d_i_s_p_l_a_y, _w_i_n_d_o_w,
+          _f_o_r_m_a_t__n_a_m_e, _i_t_e_m__l_i_s_t, _c_o_u_n_t))))
+               DDDDiiiissssppppllllaaaayyyy          * _d_i_s_p_l_a_y;;;;
+               WWWWiiiinnnnddddoooowwww           _w_i_n_d_o_w;;;;
+               cccchhhhaaaarrrr             * _f_o_r_m_a_t__n_a_m_e;;;;
+               XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddPPPPeeeennnnddddiiiinnnnggggLLLLiiiisssstttt* _i_t_e_m__l_i_s_t;;;;
+               uuuunnnnssssiiiiggggnnnneeeedddd lllloooonnnngggg    * _c_o_u_n_t;;;;
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss returns a list of
+          _d_a_t_a__i_d/_p_r_i_v_a_t_e__i_d pairs for the specified format name.  A
+          data item is considered pending if the application
+          originally passed it by name, the application has not yet
+          copied the data, and the item has not been deleted from the
+          clipboard.  The application is responsible for freeing the
+          memory provided by this function to store the list.  To free
+          the memory, call XXXXttttFFFFrrrreeeeeeee.
+
+          This function is used by an application when exiting, to
+          determine if the data that is passed by name should be sent
+          to the clipboard.
+
+
+          _d_i_s_p_l_a_y     Specifies a pointer to the DDDDiiiissssppppllllaaaayyyy structure
+                      that was returned in a previous call to
+                      XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy or XXXXttttDDDDiiiissssppppllllaaaayyyy.
+
+          _w_i_n_d_o_w      Specifies a widget's window ID that relates the
+                      application window to the clipboard.  The
+                      widget's window ID can be obtained by using
+                      XXXXttttWWWWiiiinnnnddddoooowwww.  The same application instance should
+                      pass the same window ID to each of the clipboard
+                      functions that it calls.
+
+          _f_o_r_m_a_t__n_a_m_e Specifies a string that contains the name of the
+                      format for which the list of data ID/private ID
+                      pairs is to be obtained.
+
+          _i_t_e_m__l_i_s_t   Specifies the address of the array of data
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeePPPPeeeennnnddddiiiinnnnggggIIIItttteeeemmmmssss((((3333XXXX))))
+
+
+
+                      ID/private ID pairs for the specified format
+                      name.  This argument is a type
+                      XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddPPPPeeeennnnddddiiiinnnnggggLLLLiiiisssstttt.  The application is
+                      responsible for freeing the memory provided by
+                      this function for storing the list.
+
+          _i_t_e_m__c_o_u_n_t  Specifies the number of items returned in the
+                      list.  If there is no data for the specified
+                      format name, or if there is no item on the
+                      clipboard, this argument equals zero.
+
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss
+                      The function is successful.
+
+          CCCClllliiiippppbbbbooooaaaarrrrddddLLLLoooocccckkkkeeeedddd
+                      The function failed because the clipboard was
+                      locked by another application.  The application
+                      can continue to call the function again with the
+                      same parameters until the lock goes away.  This
+                      gives the application the opportunity to ask if
+                      the user wants to keep trying or to give up on
+                      the operation.
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+

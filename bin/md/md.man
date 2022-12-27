@@ -1,0 +1,88 @@
+.\"
+.\" $Id: md.1,v 1.1 89/12/29 16:01:37 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	md.man,v $
+.\" Revision 2.2  91/03/27  17:35:04  mrt
+.\" 
+.\" 
+.\" Revision 1.1  89/12/29  16:01:37  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/29  16:01:28  bww]
+.\" 
+.\" 09-Oct-86  Robert Baron (rvb) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH MD 1 1/19/87
+.CM 1
+.SH NAME
+md \- create makefile dependencies from .d files created by -MD option to cc
+.SH SYNOPSIS
+md [-d] [-f] [-m] [-u] [-v] [-x] [-D] file ...
+.SH DESCRIPTION
+Basically, "md" does two things:
+
+It processes the raw dependency files produced by the
+.I cpp -MD
+option.  There is one line in the file for every #include
+encountered, but there are repeats and patterns
+like .../dir1/../dir2 appear which should reduce to .../dir2.
+.I Md
+canonicalizes and flushes repeats from the dependency
+list.  It also sorts the file names and "fills" them to a 78
+character line.
+
+.I Md
+also updates a file with the dependency
+information (a separate dependency file or the makefile itself), 
+so the .d file can be thrown away (-d option)
+This is done to save space.
+
+.I Md
+assumes that dependency
+information  is sorted by .o file name and it
+procedes to merge in (add/or replace [as appropriate])  the new
+dependency lines that it has generated.  For time efficiency,
+.I md 
+assumes that any .d files it is given that were created
+before the creation date of the "makefile" were processed
+already.
+.PP
+The options are:
+.TP							    
+-d
+delete the .d file after it is processed
+.TP
+-f
+force an update of the dependencies
+even though the dependency file is more recent than the .d file
+(This implies that 
+.I md 
+has been run already.) This is the default.
+.TP
+-m  <filename>
+specifies the dependency file to be upgraded.  If -m is not explicitly
+specified then the dependencies are updated in either
+.I makefile
+or
+.I Makefile.
+.TP
+-u <filename>
+specifies a dependency file to be updated. If this file does not
+initially exist it is created.
+.TP
+-v
+set the verbose flag
+.TP
+-x
+expunge old dependency info
+.TP
+-D
+subswitch for debugging. Expert mode.
+.i0
+.DT
+.PP
+.SH FILES
+Makefile, makefile
+.SH "SEE ALSO"
+cc(1)

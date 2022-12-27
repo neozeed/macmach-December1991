@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldSetHighlight 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldSetHighlight \(em a TextField function that highlights text\fP
+.iX "XmTextFieldSetHighlight"
+.iX "TextField functions" "XmTextFieldSetHighlight"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldSetHighlight (\fIwidget, left, right, mode\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIleft\fP;
+.br
+	XmTextPosition	\fIright\fP;
+.br
+	XmHighlightMode	\fImode\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldSetHighlight\fP highlights text between the two specified
+character positions.  The \fImode\fP parameter determines the type of
+highlighting.  Highlighting text merely changes the visual appearance of
+the text; it does not set the selection.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIleft\fP" .75i
+Specifies the position of the left boundary of text to be highlighted.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.IP "\fIright\fP" .75i
+Specifies the position of the right boundary of text to be highlighted.
+This is an integer number of characters from the beginning of the text
+buffer.  The first character position is 0.
+.IP "\fImode\fP" .75i
+Specifies the type of highlighting to be done.  A value of
+\fBXmHIGHLIGHT_NORMAL\fP removes highlighting.  A value of
+\fBXmHIGHLIGHT_SELECTED\fP highlights the test using reverse video.  A
+value of \fBXmHIGHLIGHT_SECONDARY_SELECTED\fP highlights the text using
+underlining.
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

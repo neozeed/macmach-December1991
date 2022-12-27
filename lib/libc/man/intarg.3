@@ -1,0 +1,109 @@
+.\"
+.\" $Id: intarg.3,v 1.3 89/12/26 11:19:01 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	intarg.3,v $
+.\" Revision 1.3  89/12/26  11:19:01  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH INTARG 3 12/5/79
+.CM 1
+.SH "NAME"
+intarg, longarg, shortarg \- parse integer argument or ask user
+.SH "SYNOPSIS"
+.B
+#include <ctype.h>
+.br
+.B
+#include <stdio.h>
+.sp
+.B
+int intarg (ptr,brk,prompt,min,max,defalt);
+.br
+.B
+char **ptr,*brk,*prompt;
+.br
+.B
+int min,max,defalt;
+.sp
+.B
+long longarg (ptr,brk,prompt,min,max,defalt);
+.br
+.B
+char **ptr,*brk,*prompt;
+.br
+.B
+long min,max,defalt;
+.sp
+.B
+short shortarg (ptr,brk,prompt,min,max,defalt);
+.br
+.B
+char **ptr,*brk,*prompt;
+.br
+.B
+short min,max,defalt;
+.SH "DESCRIPTION"
+.I
+Intarg, longarg,
+and
+.I
+shortarg
+attempt to parse an argument from a string, passing
+the string pointer
+.I
+ptr
+and the break character set
+.I
+brk
+to the
+.IR nxtarg (3)
+routine.
+If there is an argument parsed, and it is a legal
+integer whose value is between
+.I
+min
+and
+.I
+max,
+then its value is returned by
+.I
+intarg, longarg,
+or
+.I
+shortarg.
+If there is no argument, or it is not a valid integer, or the
+value is out of range, then an error message is printed and
+the remaining arguments are passed to
+.IR getint (3),
+.IR getlong (3),
+or
+.IR getshort (3).
+The resulting value is then returned by
+.I
+intarg, longarg,
+or
+.I
+shortarg.
+.sp
+.I
+Intarg, longarg,
+and
+.I
+shortarg
+are especially useful for parsing integer values
+from argument lists in programs using the command interpreter,
+.IR ci (3).
+.SH "SEE ALSO"
+.IR nxtarg (3), 
+.IR getint (3), 
+.IR getlong (3), 
+.IR getshort (3), 
+.IR ci (3)

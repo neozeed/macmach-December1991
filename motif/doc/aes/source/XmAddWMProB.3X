@@ -1,0 +1,60 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmAddWMProtocols 3X "" "" "" ""
+.SH NAME
+\fBXmAddWMProtocols \(em A VendorShell convenience interface 
+that adds the protocols
+to the protocol manager and allocates the internal tables.\fP
+.iX "XmAddWMProtocols"
+.iX "VendorShell functions" "XmAddWMProtocols"
+.iX "protocols"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmAddWMProtocols (\fIshell, protocols, num_protocols\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fI* protocols\fP;
+.br
+	Cardinal	\fInum_protocols\fP;
+.fi
+\fP
+.sp
+.ne 3i
+.SH DESCRIPTION
+\fBXmAddWMProtocols\fP is a convenience interface.  
+It calls \fBXmAddProtocols\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.IP "\fIshell\fP" 1.25i
+Specifies the widget with which the protocol property is associated.
+.IP "\fIprotocols\fP" 1.25i
+Specifies the protocol \fBAtoms\fP (or \fBint\fR types cast to \fBAtom\fP).
+.IP "\fInum_protocols\fP" 1.25i
+Specifies the number of elements in \fIprotocols\fP.
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBVendorShell(3X)\fP, \fBXmAddProtocols(3X)\fP, and \fBXmInternAtom(3X)\fP.
+.sp 1

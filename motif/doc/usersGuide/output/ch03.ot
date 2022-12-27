@@ -1,0 +1,530 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3.  CCCCuuuussssttttoooommmmiiiizzzziiiinnnngggg YYYYoooouuuurrrr MMMMoooottttiiiiffff EEEEnnnnvvvviiiirrrroooonnnnmmmmeeeennnntttt
+
+       Your Motif environment--and the programs you run in it--
+       collect configuration information from a variety of places.
+       Most of this information comes from configuration files.
+
+       In this chapter you will get some hands-on experience edit-
+       ing your .Xdefaults and .mwmrc files.  More specifically,
+       you will learn about:
+
+          +o Changing colors and fonts manually
+
+          +o Adding a root menu
+
+          +o Starting programs automatically
+
+       Typically, configuration files are read once when a program
+       is first started.  The files may be read again if the pro-
+       gram has a restart feature.  For example, MWM has a Restart
+       function that makes it easy to activate changes you have
+       made in a resource file.
+
+       If a client does not have a reset or restart feature that
+       rereads configuration files, you must close and restart the
+       program yourself for changes to take effect.
+
+       After working through this chapter, you may want to learn
+       more about the things you can customize.  Refer to the
+       appendixes to this guide, the mmmmwwwwmmmm man page, and the MWM sec-
+       tion of the _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _G_u_i_d_e.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                3-1
+
+
+
+
+
+
+
+
+
+
+
+
+       3.1  CCCChhhhaaaannnnggggiiiinnnngggg CCCCoooolllloooorrrrssss aaaannnndddd FFFFoooonnnnttttssss MMMMaaaannnnuuuuaaaallllllllyyyy
+
+       You can specify the colors and fonts used by a client in
+       several ways:
+
+          +o Edit the system-wide defaults for the program listed in
+            a file named ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////_C_l_i_e_n_t_C_l_a_s_s
+            (where _C_l_i_e_n_t_C_l_a_s_s is a file name).  You may need spe-
+            cial permissions to edit this file since it is used by
+            every user on the system.
+
+          +o Edit your own ....XXXXddddeeeeffffaaaauuuullllttttssss file (by hand or using the mmmmrrrreeee
+            program).
+
+          +o Specify the colors and fonts on the command line that
+            starts the client.
+
+       3.1.1  EEEEddddiiiittttiiiinnnngggg YYYYoooouuuurrrr ....XXXXddddeeeeffffaaaauuuullllttttssss FFFFiiiilllleeee
+
+       Suppose you want all of your terminal windows to have a blue
+       background, a yellow foreground, and use the fixed font.
+       Follow these steps:
+
+         1.  Start your text editor and open the ....XXXXddddeeeeffffaaaauuuullllttttssss file in
+             your home directory.
+
+         2.  Insert the following lines into the file:
+
+             XXXXTTTTeeeerrrrmmmm****ffffoooorrrreeeeggggrrrroooouuuunnnndddd::::       yyyyeeeelllllllloooowwww
+             XXXXTTTTeeeerrrrmmmm****bbbbaaaacccckkkkggggrrrroooouuuunnnndddd::::       bbbblllluuuueeee
+             XXXXTTTTeeeerrrrmmmm****ffffoooonnnntttt::::             ffffiiiixxxxeeeedddd
+
+         3.  Save the file.  (Exit from your editor if you wish.)
+
+       Now start a new terminal window by typing this command in
+       the current active terminal window:
+
+       xxxxtttteeeerrrrmmmm &&&& <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       The new window's background should be blue and the fore-
+       ground (text) should be yellow.
+
+
+
+
+
+
+
+
+
+
+
+
+       3-2
+
+
+
+
+
+
+
+
+
+                                 Customizing Your Motif Environment
+
+
+       3.1.2  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg CCCCoooolllloooorrrrssss aaaannnndddd FFFFoooonnnnttttssss oooonnnn tttthhhheeee CCCCoooommmmmmmmaaaannnndddd LLLLiiiinnnneeee
+
+       Suppose you want to start a new terminal window, but want it
+       to have a red background.  You can override the settings in
+       your ....XXXXddddeeeeffffaaaauuuullllttttssss file by specifying colors on the command
+       line.  For example, type this command:
+
+       xxxxtttteeeerrrrmmmm ----bbbbgggg rrrreeeedddd &&&& <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       Since you didn't specify a foreground color (----ffffgggg), the yel-
+       low value was read from the ....XXXXddddeeeeffffaaaauuuullllttttssss file.  The following
+       table lists common command-line options for specifying
+       colors.  (To see which options are actually available for a
+       particular client, refer to the client's documentation.)
+
+            TTTTAAAABBBBLLLLEEEE 3333----1111....  Common Command-Line Options for Color
+
+                 TTTToooo ccccoooolllloooorrrr tttthhhhiiiissss ............
+7                                     UUUUsssseeee tttthhhhiiiissss ooooppppttttiiiioooonnnn ............
+7
+                 Background                  ----bbbbgggg
+                 Foreground                  ----ffffgggg
+                 Text cursor                 ----ccccrrrr
+                 Pointer                     ----mmmmssss
+
+       To specify a font on the command line, use the ----ffffnnnn option.
+       For example, this command creates an xxxxtttteeeerrrrmmmm window using a
+       font named ccccrrrr....11112222xxxx22220000:
+
+       xxxxtttteeeerrrrmmmm ----ffffnnnn ccccrrrr....11112222xxxx22220000 &&&& <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       The 11112222xxxx22220000 in the font's name implies that each character in
+       the font is 12 pixels wide and 20 pixels high, a large font.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                3-3
+
+
+
+
+
+
+
+
+
+
+
+
+       3.2  AAAAccccttttiiiivvvvaaaattttiiiinnnngggg tttthhhheeee RRRRooooooootttt MMMMeeeennnnuuuu
+
+       The ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc file is a text file that controls the menus
+       and other operations of MWM.  You can copy the file into
+       your home directory and edit it, just like any other text
+       file.
+
+       This section describes how to make a personal copy of ....mmmmwwwwmmmmrrrrcccc
+       and add a root menu.  A root menu can be displayed anywhere
+       in the root window.  Useful functions in the root menu allow
+       you to start your own programs, shuffle your windows,
+       refresh your display, and restart the window manager.
+
+       SSSStttteeeepppp 1111:::: CCCCooooppppyyyyiiiinnnngggg ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc iiiinnnnttttoooo YYYYoooouuuurrrr HHHHoooommmmeeee DDDDiiiirrrreeeeccccttttoooorrrryyyy
+
+       If you aren't already there, change to your home directory
+       and then type the following command:
+
+       ccccpppp  ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc  ....mmmmwwwwmmmmrrrrcccc  <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       This copies ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc into your home directory as ....mmmmwwwwmmmmrrrrcccc.
+
+       SSSStttteeeepppp 2222:::: EEEEddddiiiittttiiiinnnngggg YYYYoooouuuurrrr ....mmmmwwwwmmmmrrrrcccc FFFFiiiilllleeee
+
+       Start your text editor and open the ....mmmmwwwwmmmmrrrrcccc file you just
+       created in your home directory.  Search for the following
+       line:
+
+       MMMMeeeennnnuuuu DDDDeeeeffffaaaauuuullllttttWWWWiiiinnnnddddoooowwwwMMMMeeeennnnuuuu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3-4
+
+
+
+
+
+
+
+
+
+                                 Customizing Your Motif Environment
+
+
+       Insert the following text immediately before this line:
+
+       MMMMeeeennnnuuuu DDDDeeeeffffaaaauuuullllttttRRRRoooooooottttMMMMeeeennnnuuuu
+       {{{{
+         """"RRRRooooooootttt MMMMeeeennnnuuuu""""     ffff....ttttiiiittttlllleeee
+         """"NNNNeeeewwww WWWWiiiinnnnddddoooowwww""""    ffff....eeeexxxxeeeecccc """"xxxxtttteeeerrrrmmmm &&&&""""
+         """"SSSSttttaaaarrrrtttt CCCClllloooocccckkkk""""   ffff....eeeexxxxeeeecccc """"xxxxcccclllloooocccckkkk ----ggggeeeeoooommmmeeeettttrrrryyyy 111100000000xxxx99990000----1111++++1111 &&&&""""
+         """"SSSSttttaaaarrrrtttt LLLLooooaaaadddd""""    ffff....eeeexxxxeeeecccc """"xxxxllllooooaaaadddd ----ggggeeeeoooommmmeeeettttrrrryyyy 88880000xxxx66660000----111133330000++++1111 &&&&""""
+         """"SSSShhhhuuuufffffffflllleeee UUUUpppp""""    ffff....cccciiiirrrrcccclllleeee____uuuupppp
+         """"SSSShhhhuuuufffffffflllleeee DDDDoooowwwwnnnn""""  ffff....cccciiiirrrrcccclllleeee____ddddoooowwwwnnnn
+         """"RRRReeeeffffrrrreeeesssshhhh""""       ffff....rrrreeeeffffrrrreeeesssshhhh
+         nnnnoooo----llllaaaabbbbeeeellll        ffff....sssseeeeppppaaaarrrraaaattttoooorrrr
+         """"RRRReeeessssttttaaaarrrrtttt mmmmwwwwmmmm""""   ffff....rrrreeeessssttttaaaarrrrtttt
+       }}}}
+
+       When you are done, double check your typing and then save
+       the file.
+
+       SSSStttteeeepppp 3333:::: RRRReeeessssttttaaaarrrrttttiiiinnnngggg MMMMWWWWMMMM
+
+       The changes you've just made to ....mmmmwwwwmmmmrrrrcccc aren't read by MWM
+       until it is restarted.  Restart it using the reset key
+       sequence:
+
+       <<<<AAAAlllltttt>>>> <<<<CCCCTTTTRRRRLLLL>>>> <<<<SSSShhhhiiiifffftttt>>>> <<<<!!!!>>>>
+
+       You must reset the window manager twice.  The first time,
+       MWM restarts using its built-in defaults.  The second time,
+       it restarts using your configuration files.  (You can use
+       the reset sequence to toggle between custom and default
+       behavior at any time.)
+
+       3.2.4  UUUUssssiiiinnnngggg tttthhhheeee RRRRooooooootttt MMMMeeeennnnuuuu
+
+       To display the root menu, point to the root window (the
+       backdrop behind all other windows), then press and hold the
+       menu button.  Remember, the menu button is the middle button
+       if you are using a three-button mouse, or both buttons
+       simultaneously if you are using a two-button mouse.
+
+       Just as with pull-down menus, to choose a function in the
+       root menu, drag the pointer to the desired function and then
+       release.
+
+
+
+
+
+
+
+
+
+
+                                                                3-5
+
+
+
+
+
+
+
+
+
+
+
+
+       3.3  SSSSttttaaaarrrrttttiiiinnnngggg CCCClllliiiieeeennnnttttssss AAAAuuuuttttoooommmmaaaattttiiiiccccaaaallllllllyyyy
+
+       Most implementations of X provide a way to customize the
+       clients that start automatically when you start it.  As you
+       saw in Chapter 1, the default environment is a single termi-
+       nal window.
+
+       SSSStttteeeepppp 1111:::: EEEEddddiiiittttiiiinnnngggg YYYYoooouuuurrrr SSSSttttaaaarrrrttttuuuupppp FFFFiiiilllleeee
+
+       Check with your system administrator to find out which file
+       is read when X is started on your computer.  Follow these
+       steps to add another terminal window (xxxxtttteeeerrrrmmmm), an analog
+       clock (xxxxcccclllloooocccckkkk), a load histogram (xxxxllllooooaaaadddd), and the Motif
+       Resource Editor (mmmmrrrreeee) to your environment:
+
+         1.  In a terminal window, start your text editor and open
+             the file that is read when X starts.
+
+         2.  Search for the line that starts the default xxxxtttteeeerrrrmmmm win-
+             dow (it will look something like xxxxtttteeeerrrrmmmm &&&&).  Insert
+             these command lines just after the existing xxxxtttteeeerrrrmmmm
+             line:
+             xxxxtttteeeerrrrmmmm ----ggggeeeeoooommmmeeeettttrrrryyyy 88880000xxxx22224444++++222266660000++++222266660000 &&&&
+             xxxxcccclllloooocccckkkk ----aaaannnnaaaalllloooogggg ----uuuuppppddddaaaatttteeee 1111 ----ggggeeeeoooommmmeeeettttrrrryyyy 111100000000xxxx99990000----1111++++1111 &&&&
+             xxxxllllooooaaaadddd ----ggggeeeeoooommmmeeeettttrrrryyyy 88880000xxxx66660000----111133330000++++1111 &&&&
+             mmmmrrrreeee ----iiiiccccoooonnnniiiicccc &&&&
+
+         3.  Save the file and exit from your text editor.
+
+       The first line adds an xxxxtttteeeerrrrmmmm window, the second line adds an
+       analog clock, the third line adds a load histogram, and the
+       fourth line adds mmmmrrrreeee.  The ----iiiiccccoooonnnniiiicccc option for mmmmrrrreeee causes it
+       to start as an icon.
+
+       Note that all three lines end with an ampersand (&&&&).  The &&&&
+       is important.  It tells the computer to start the client as
+       a background process, a process that doesn't require the
+       total attention of the computer.  Background processing
+       enables you to have more than one program running at the
+       same time.  It also frees the system for further use.
+
+
+
+
+
+
+
+
+
+
+
+
+
+       3-6
+
+
+
+
+
+
+
+
+
+                                 Customizing Your Motif Environment
+
+
+       SSSStttteeeepppp 2222:::: VVVViiiieeeewwwwiiiinnnngggg tttthhhheeee RRRReeeessssuuuulllltttt
+
+       Since these changes are intended to affect the programs that
+       start when you first start X you must exit just as you did
+       at the end of Chapter 1.
+
+       Now restart X.  Your startup environment should now look
+       like Figure 3-1.
+
+             FFFFiiiigggguuuurrrreeee 3333----1111....  Your New Default Motif Environment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                3-7
+
+
+
+
+

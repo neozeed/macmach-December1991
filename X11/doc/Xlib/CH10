@@ -1,0 +1,3436 @@
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 10\fP\s-1
+
+\s+1\fBApplication Utility Functions\fP\s-1
+.sp 2
+.nr H1 10
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Chapter 10: Application Utility Functions 
+.XE
+Once you have initialized the X system,
+you can use the Xlib utility functions to:
+.IP \(bu 5
+Handle keyboard events
+.IP \(bu 5
+Obtain the X environment defaults
+.IP \(bu 5
+Parse window geometry strings
+.IP \(bu 5
+Parse hardware colors strings
+.IP \(bu 5
+Generate regions
+.IP \(bu 5
+Manipulate regions
+.IP \(bu 5
+Use cut and paste buffers
+.IP \(bu 5
+Determine the appropriate visual 
+.IP \(bu 5
+Manipulate images
+.IP \(bu 5
+Manipulate bitmaps
+.IP \(bu 5
+Use the resource manager
+.IP \(bu 5
+Use the context manager
+.RE
+As a group,
+the functions discussed in this chapter provide the functionality that 
+is frequently needed and that spans toolkits.
+Many of these functions do not generate actual protocol requests to the server.
+.NH 2
+Keyboard Utility Functions
+.XS
+\*(SN Keyboard Utility Functions 
+.XE
+.LP
+This section discusses keyboard event functions 
+and KeySym classification macros.
+.NH 3
+Keyboard Event Functions
+.XS
+\*(SN Keyboard Event Functions 
+.XE
+.LP
+The X server does not predefine the keyboard to be ASCII characters.
+It is often useful to know that the \fIa\fP key was just pressed
+or that it was just released.
+When a key is pressed or released, 
+the X server sends keyboard events to client programs.
+The structures associated with keyboard events contain a keycode member that
+assigns a number to each physical key on the keyboard.
+For a discussion of keyboard event processing,
+see section 8.4.1.
+For information on how to manipulate the keyboard encoding,
+see section 7.9.
+.LP
+Because KeyCodes are completely arbitrary and may differ from server to server,
+client programs wanting to deal with ASCII text, for example, must explicitly
+convert the KeyCode value into ASCII.
+Therefore, Xlib provides functions to help you customize the keyboard layout.
+Keyboards differ dramatically, so writing code that presumes the existence
+of a particular key on the main keyboard creates portability problems.
+.LP
+Keyboard events are usually sent to the deepest viewable window
+underneath the pointer's position that is interested in that type of event.
+It is also possible to assign the keyboard input focus to a specific
+window.
+When the input focus is attached to a window,
+keyboard events go to the client that has selected
+input on that window rather than the window under the pointer.
+.LP
+The functions in this section handle the shift modifier computations
+suggested by the protocol.
+The KeySym table is internally modified to define the lowercase transformation
+of a\-z by adding the lowercase KeySym to the first element of the KeySym list
+(used internally) defined for the KeyCode, when the list is of length 1.
+If you want the untransformed KeySyms defined for a key,
+you should only use the functions described in section 7.9.
+.LP
+.sp
+To look up the KeySyms, use
+.PN XLookupKeysym .
+.IN "XLookupKeysym" "" "@DEF@"
+.FD 0
+KeySym XLookupKeysym(\^\fIkey_event\fP, \fIindex\fP\^)
+.br
+      XKeyEvent *\fIkey_event\fP\^;
+.br
+      int \fIindex\fP\^;
+.FN
+.IP \fIkey_event\fP 1i
+Specifies the 
+.PN KeyPress
+or
+.PN KeyRelease
+event.
+.IP \fIindex\fP 1i
+Specifies the index into the KeySyms list for the event's KeyCode.
+.LP
+.\" $Header: XLKeysym.d,v 1.3 88/04/07 15:54:30 mento Exp $
+The
+.PN XLookupKeysym
+function uses a given keyboard event and the index you specified to return
+the KeySym from the list that corresponds to the KeyCode member in the
+.PN XKeyPressedEvent
+or
+.PN XKeyReleasedEvent
+structure.
+If no KeySym is defined for the KeyCode of the event,
+.PN XLookupKeysym
+returns
+.PN NoSymbol .
+.LP
+.sp
+To refresh the stored modifier and keymap information, use
+.PN XRefreshKeyboardMapping .
+.IN "XRefreshKeyboardMapping" "" "@DEF@"
+.FD 0
+XRefreshKeyboardMapping(\^\fIevent_map\fP\^)
+.br
+      XMappingEvent *\fIevent_map\fP\^;
+.FN
+.IP \fIevent_map\fP 1i
+Specifies the mapping event that is to be used.
+.LP
+.\" $Header: XRKMap.d,v 1.2 88/06/11 07:52:44 mento Exp $
+The
+.PN XRefreshKeyboardMapping
+function refreshes the stored modifier and keymap information.
+You usually call this function when a
+.PN MappingNotify
+event with a request member of
+.PN MappingKeyboard
+or
+.PN MappingModifier
+occurs.
+The result is to update Xlib's knowledge of the keyboard.
+.LP
+.sp
+To map a key event to an ISO Latin-1 string, use
+.PN XLookupString .
+.IN "XLookupString" "" "@DEF@"
+.FD 0
+int XLookupString(\^\fIevent_struct\fP, \fIbuffer_return\fP,\
+ \fIbytes_buffer\fP, \fIkeysym_return\fP, \fIstatus_in_out\fP\^)
+.br
+      XKeyEvent *\fIevent_struct\fP\^;
+.br
+      char *\fIbuffer_return\fP\^;
+.br
+      int \fIbytes_buffer\fP\^;
+.br
+      KeySym *\fIkeysym_return\fP\^;
+.br
+      XComposeStatus *\fIstatus_in_out\fP\^;
+.FN
+.IP \fIevent_struct\fP 1i
+Specifies the key event structure to be used.
+You can pass
+.PN XKeyPressedEvent
+or
+.PN XKeyReleasedEvent .
+.IP \fIbuffer_return\fP 1i
+Returns the translated characters.
+.IP \fIbytes_buffer\fP 1i
+Specifies the length of the buffer.
+No more than bytes_buffer of translation are returned.
+.IP \fIkeysym_return\fP 1i
+Returns the KeySym computed from the event if this argument is not NULL.
+.IP \fIstatus_in_out\fP 1i
+Specifies or returns the 
+.PN XComposeStatus 
+structure or NULL.
+.LP
+.\" $Header: XLookStr.d,v 1.4 88/08/20 10:08:02 mento Exp $
+The
+.PN XLookupString
+function translates a key event to a KeySym and a string.
+The KeySym is obtained by using the standard interpretation of the Shift,
+Lock, and group modifiers as defined in the X Protocol specification.
+If the KeySym has been rebound (see
+.PN XRebindKeysym ),
+the bound string will be stored in the buffer.
+Otherwise, the KeySym is mapped, if possible, to an ISO Latin-1 character
+or (if the Control modifier is on) to an ASCII control character,
+and that character is stored in the buffer.
+.PN XLookupString
+returns the number of characters that are stored in the buffer.
+.LP
+If present (non-NULL),
+the
+.PN XComposeStatus
+structure records the state,
+which is private to Xlib,
+that needs preservation across calls to
+.PN XLookupString
+to implement compose processing.
+.LP
+.sp
+To rebind the meaning of a KeySym for a client, use
+.PN XRebindKeysym .
+.IN "XRebindKeysym" "" "@DEF@"
+.FD 0
+XRebindKeysym(\^\fIdisplay\fP, \fIkeysym\fP, \fIlist\fP, \fImod_count\fP, \fIstring\fP, \fIbytes_string\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      KeySym \fIkeysym\fP\^;
+.br
+      KeySym \fIlist\fP\^[\^]\^;
+.br
+      int \fImod_count\fP\^;
+.br
+      unsigned char *\fIstring\fP\^;
+.br
+      int \fIbytes_string\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Fn rebound
+.IP \fIkeysym\fP 1i
+Specifies the KeySym that is to be \*(Fn.
+.IP \fIlist\fP 1i
+Specifies the KeySyms to be used as modifiers.
+.IP \fImod_count\fP 1i
+Specifies the number of modifiers in the modifier list.
+.IP \fIstring\fP 1i
+Specifies a pointer to the string that is copied and will be returned by 
+.PN XLookupString .
+.IP \fIbytes_string\fP 1i
+Specifies the length of the string.
+.LP
+.\" $Header: XRKeySym.d,v 1.3 88/06/11 07:52:44 mento Exp $
+The
+.PN XRebindKeysym
+function can be used to rebind the meaning of a KeySym for the client.
+It does not redefine any key in the X server but merely
+provides an easy way for long strings to be attached to keys.
+.PN XLookupString
+returns this string when the appropriate set of
+modifier keys are pressed and when the KeySym would have been used for
+the translation.
+Note that you can rebind a KeySym that may not exist.
+.LP
+KeySysms that are not part of the Xlib standard may be obtained by using 
+.PN XStringToKeysym
+and
+.PN XKeysymToString .
+Note that the set of KeySysms that are available in this manner 
+and the mechanisms by which Xlib obtains them is implementation dependent.
+.LP
+.sp
+To convert the name of the KeySym to the KeySym code, use
+.PN XStringToKeysym .
+.IN "XStringToKeysym" "" "@DEF@"
+.FD 0
+KeySym XStringToKeysym\^(\^\fIstring\fP\^)
+.br
+      char *\fIstring\fP\^;
+.FN
+.IP \fIstring\fP 1i
+Specifies the name of the KeySym that is to be converted.
+.LP
+.\" $Header: XSTKeysym.d,v 1.3 88/06/11 07:52:54 mento Exp $
+Valid KeySym names are listed in
+.Pn < X11/keysymdef.h >
+by removing the XK_ prefix from each name.
+If the specified string does not match a valid KeySym,
+.PN XStringToKeysym
+returns
+.PN NoSymbol .
+.LP
+.sp
+To convert a KeySym code to the name of the KeySym, use
+.PN XKeysymToString .
+.IN "XKeysymToString" "" "@DEF@"
+.FD 0
+char *XKeysymToString\^(\^\fIkeysym\fP\^)
+.br
+      KeySym \fIkeysym\fP\^;
+.FN
+.ds Fn converted
+.IP \fIkeysym\fP 1i
+Specifies the KeySym that is to be \*(Fn.
+.LP
+.\" $Header: XKTString.d,v 1.3 88/06/11 07:51:44 mento Exp $
+The returned string is in a static area and must not be modified.
+If the specified KeySym is not defined,
+.PN XKeysymToString
+returns a NULL.
+.LP
+.sp
+To convert a key code to a defined KeySym, use
+.PN XKeycodeToKeysym .
+.IN "XKeycodeToKeysym" "" "@DEF@"
+.FD 0
+KeySym XKeycodeToKeysym\^(\^\fIdisplay\fP, \fIkeycode\fP, \fIindex\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      KeyCode \fIkeycode\fP\^;
+.br
+      int \fIindex\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: keycode.a,v 1.2 88/04/06 17:41:50 mento Exp $
+.IP \fIkeycode\fP 1i
+Specifies the KeyCode.
+.IP \fIindex\fP 1i
+Specifies the element of KeyCode vector.
+.LP
+.\" $Header: XKTKeysym.d,v 1.4 88/08/20 10:08:36 mento Exp $
+The
+.PN XKeycodeToKeysym
+function uses internal Xlib tables
+and returns the KeySym defined for the specified KeyCode and
+the element of the KeyCode vector.
+If no symbol is defined,
+.PN XKeycodeToKeysym
+returns
+.PN NoSymbol .
+.LP
+.sp
+To convert a KeySym to the appropriate KeyCode, use
+.PN XKeysymToKeycode .
+.IN "XKeysymToKeycode" "" "@DEF@"
+.FD 0
+KeyCode XKeysymToKeycode\^(\^\fIdisplay\fP, \fIkeysym\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      KeySym \fIkeysym\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIkeysym\fP 1i
+Specifies the KeySym that is to be searched for.
+.LP
+.\" $Header: XKTKeycode.d,v 1.4 88/06/11 07:51:42 mento Exp $
+If the specified KeySym is not defined for any KeyCode,
+.PN XKeysymToKeycode
+returns zero.
+.NH 3
+Keysym Classification Macros
+.XS
+\*(SN Keysym Classification Macros 
+.XE
+.LP
+You may want to test if a KeySym is, for example, 
+on the keypad or on one of the function keys.
+You can use the KeySym macros to perform the following tests.
+.LP
+.sp
+.FD 0
+IsCursorKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsCursorKey" "" "@DEF@"
+Returns
+.PN True
+if the specified KeySym is a cursor key.
+.LP
+.sp
+.FD 0
+IsFunctionKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsFunctionKey" "" "@DEF@"
+Returns 
+.PN True
+if the specified KeySym is a function key.
+.LP
+.sp
+.FD 0
+IsKeypadKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsKeypadKey" "" "@DEF@"
+Returns
+.PN True
+if the specified KeySym is a keypad key.
+.LP
+.sp
+.FD 0
+IsMiscFunctionKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsMiscFunctionKey" "" "@DEF@"
+Returns 
+.PN True
+if the specified KeySym is a miscellaneous function key.
+.LP
+.sp
+.FD 0
+IsModifierKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsModiferKey" "" "@DEF@"
+Returns 
+.PN True
+if the specified KeySym is a modifier key.
+.LP
+.sp
+.FD 0
+IsPFKey\^(\^\fIkeysym\fP\^)
+.FN
+.IN "IsPFKey" "" "@DEF@"
+Returns 
+.PN True
+if the specified KeySym is a PF key.
+.NH 2
+Obtaining the X Environment Defaults
+.XS
+\*(SN Obtaining the X Environment Defaults 
+.XE
+.LP
+A program often needs a variety of options in the X environment
+(for example, fonts, colors, mouse, background, text, and cursor).
+Specifying these options on the command line is inefficient and
+unmanageable because individual users have a variety of tastes
+with regard to window appearance.
+.PN XGetDefault
+makes it easy to find out the fonts, colors, and
+other environment defaults favored by a particular user.
+Defaults are usually loaded into the RESOURCE_MANAGER property 
+on the root window at login.
+If no such property exists,
+a resource file in the user's home directory is loaded.
+On a POSIX system, 
+this file is
+.PN "$HOME/.Xdefaults" .
+.IN "Files" "$HOME/.Xdefaults"
+After loading these defaults,
+.PN XGetDefault
+merges additional defaults specified by the XENVIRONMENT
+environment variable.
+If XENVIRONMENT is defined,
+it contains a full path name for the additional resource file.
+If XENVIRONMENT is not defined,
+.PN XGetDefault
+looks for
+.PN "$HOME/.Xdefaults-\fIname\fP" ,
+where \fIname\fP specifies the name of the machine on which the application
+is running.
+For details of the format of these files,
+see section 10.11. 
+.LP
+The
+.PN XGetDefault
+function provides a simple interface for clients not wishing to use
+the X toolkit or the more elaborate interfaces provided by the
+resource manager discussed in section 10.11.
+.IN "XGetDefault" "" "@DEF@"
+.FD 0
+.\" $Header: XGetDefault.f,v 1.1 88/02/26 10:00:26 mento Exp $
+char *XGetDefault\^(\^\fIdisplay\fP, \fIprogram\fP\^, \fIoption\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      char *\fIprogram\fP\^;
+.br
+      char *\fIoption\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: program.a,v 1.3 88/05/20 05:05:05 mento Exp $
+.IP \fIprogram\fP 1i
+Specifies the program name for the Xlib defaults (usually argv[0] 
+of the main program).
+.\" $Header: option.a,v 1.1 88/02/26 10:30:09 mento Exp $
+.IP \fIoption\fP 1i
+Specifies the option name.
+.LP
+.\" $Header: XGetDefault.d,v 1.3 88/08/20 10:10:09 mento Exp $
+The
+.PN XGetDefault
+function returns the value NULL if the option name specified 
+in this argument does not exist for the program.
+The strings returned by
+.PN XGetDefault
+are owned by Xlib and should not
+be modified or freed by the client.
+.LP
+.sp
+To obtain a pointer to the resource manager string of a display, use
+.PN XResourceManagerString .
+.IN "XResourceManagerString" "" "@DEF@"
+.FD 0
+char *XResourceManagerString\^(\^\fIdisplay\fP\^)
+.br
+        Display *\fIdisplay\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+The
+.PN XResourceManagerString
+returns the RESOURCE_MANAGER property from the server's root window of screen
+zero, which was returned when the connection was opened using
+.PN XOpenDisplay .
+Note that the property value must be in a format that is acceptable to
+.PN XrmGetStringDatabase .
+.NH 2
+Parsing the Window Geometry
+.XS
+\*(SN Parsing the Window Geometry 
+.XE
+.LP
+To parse standard window geometry strings, use
+.PN XParseGeometry .
+.IN "Window" "determining location"
+.IN "XParseGeometry" "" "@DEF@"
+.LP
+.FD 0
+.\" $Header: XParseGeom.f,v 1.1 88/02/26 10:01:42 mento Exp $
+int XParseGeometry\^(\^\fIparsestring\fP\^, \fIx_return\fP\^, \fIy_return\fP\^, \fIwidth_return\fP\^, \fIheight_return\fP\^)
+.br
+      char *\fIparsestring\fP\^;
+.br
+      int *\fIx_return\fP\^, *\fIy_return\fP\^; 
+.br
+      int *\fIwidth_return\fP\^, *\fIheight_return\fP\^;
+.FN
+.\" $Header: parsestring.a,v 1.1 88/02/26 10:30:19 mento Exp $
+.IP \fIparsestring\fP 1i
+Specifies the string you want to parse.
+.\" $Header: xy_ret.a,v 1.3 88/05/20 05:05:44 mento Exp $
+.IP \fIx_return\fP 1i
+.br
+.ns
+.IP \fIy_return\fP 1i
+Return the x and y offsets.
+.\" $Header: widtheight2.a,v 1.1 88/02/26 10:32:28 mento Exp $
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height determined.
+.LP
+.\" $Header: XParseGeom.d,v 1.3 88/08/20 10:15:39 mento Exp $
+By convention,
+X applications use a standard string to indicate window size and placement.
+.PN XParseGeometry
+makes it easier to conform to this standard because it allows you
+to parse the standard window geometry.
+Specifically, this function lets you parse strings of the form:
+.LP
+.Ds
+[=][<\fIwidth\fP>x<\fIheight\fP>][{+-}<\fIxoffset\fP>{+-}<\fIyoffset\fP>] 
+.De
+.LP
+The items in this form map into the arguments associated with this
+function.
+(Items enclosed in <\^> are integers, items in [\^] are optional, and
+items enclosed in {\^} indicate ``choose one of''.
+Note that the brackets should not appear in the actual string.)
+.LP
+The
+.PN XParseGeometry
+function returns a bitmask that indicates which of the four values (width,
+height, xoffset, and yoffset) were actually found in the string 
+and whether the x and y values are negative. 
+By convention, \-0 is not equal to +0, because the user needs to
+be able to say ``position the window relative to the right or bottom edge.''
+For each value found, the corresponding argument is updated.
+For each value not found, the argument is left unchanged.
+The bits are represented by
+.PN XValue , 
+.PN YValue , 
+.PN WidthValue , 
+.PN HeightValue ,
+.PN XNegative , 
+or
+.PN YNegative
+and are defined in 
+.Pn < X11/Xutil.h >.
+They will be set whenever one of the values is defined 
+or one of the signs is set.
+.LP
+If the function returns either the 
+.PN XValue 
+or 
+.PN YValue 
+flag,
+you should place the window at the requested position.
+.NH 2
+Parsing the Color Specifications
+.XS
+\*(SN Parsing the Color Specifications 
+.XE
+.LP
+To parse color values, use
+.PN XParseColor .
+.IN "Color" "parsing command lines"
+.IN "XParseColor" "" "@DEF@"
+.FD 0
+.\" $Header: XParseColor.f,v 1.2 88/05/20 05:14:03 mento Exp $
+Status XParseColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \^\fIspec\fP\^, \fIexact_def_return\fP\^)
+.br
+        Display *\fIdisplay\fP\^;
+.br
+        Colormap \fIcolormap\fP\^;
+.br
+        char *\fIspec\fP\^;
+.br
+        XColor *\fIexact_def_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: spec.a,v 1.4 88/07/10 12:59:48 mento Exp $
+.IP \fIspec\fP 1i
+Specifies the color name string;
+case is ignored.
+.\" $Header: def.a,v 1.2 88/04/07 16:52:05 mento Exp $
+.IP \fIexact_def_return\fP 1i
+Returns the exact color value for later use and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+.LP 
+.\" $Header: XParseColor.d,v 1.4 88/08/23 15:05:59 mento Exp $
+The
+.PN XParseColor
+function provides a simple way to create a standard user interface to color.
+It takes a string specification of a color, typically from a command line
+or 
+.PN XGetDefault 
+option, and returns the corresponding red, green, and blue
+values that are suitable for a subsequent call to 
+.PN XAllocColor 
+or
+.PN XStoreColor .
+The color can be specified either as a color name (as in 
+.PN XAllocNamedColor )
+or as an initial sharp sign character followed by a numeric specification,
+in one of the following formats:
+.LP
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+.R
+	#RGB	(4 bits each)
+	#RRGGBB	(8 bits each)
+	#RRRGGGBBB	(12 bits each)
+	#RRRRGGGGBBBB	(16 bits each)
+.De
+.LP
+The R, G, and B represent single hexadecimal digits 
+(both uppercase and lowercase).
+When fewer than 16 bits each are specified, 
+they represent the most-significant bits of the value.
+For example, #3a7 is the same as #3000a0007000.
+The colormap is used only to determine which screen to look up the color on.
+For example,
+you can use the screen's default colormap.
+.LP
+If the initial character is a sharp sign but the string
+otherwise fails to fit the above formats or if the initial character is
+not a sharp sign and the named color does not exist in the server's database,
+.PN XParseColor
+fails and returns zero.
+.LP
+.PN XParseColor
+can generate a
+.PN BadColor 
+error.
+.NH 2
+Generating Regions 
+.XS
+\*(SN Generating Regions
+.XE
+.LP
+Regions are arbitrary sets of pixel locations.
+Xlib provides functions for manipulating regions.
+The opaque type 
+.PN Region
+is defined in 
+.Pn < X11/Xutil.h >.
+.LP
+.sp
+To generate a region from a polygon, use
+.PN XPolygonRegion .
+.IN "XPolygonRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XPolyRegion.f,v 1.1 88/02/26 10:01:56 mento Exp $
+Region XPolygonRegion\^(\^\fIpoints\fP\^, \fIn\fP\^, \fIfill_rule\fP\^)
+.br
+      XPoint \fIpoints[]\fP\^;
+.br
+      int \fIn\fP\^;
+.br
+      int \fIfill_rule\fP\^;	
+.FN
+.\" $Header: points1.a,v 1.1 88/02/26 10:30:33 mento Exp $
+.IP \fIpoints\fP 1i
+Specifies an array of points.
+.\" $Header: n1.a,v 1.1 88/02/26 10:29:03 mento Exp $
+.IP \fIn\fP 1i
+Specifies the number of points in the polygon. 
+.\" $Header: fill_rule.a,v 1.3 88/05/09 11:57:36 mento Exp $
+.IP \fIfill_rule\fP 1i
+Specifies the fill-rule you want to set for the specified GC.
+You can pass 
+.PN EvenOddRule
+or
+.PN WindingRule .
+.LP 
+.\" $Header: XPolyRegion.d,v 1.3 88/06/11 07:52:19 mento Exp $
+The
+.PN XPolygonRegion
+function returns a region for the polygon defined by the points array.
+For an explanation of fill_rule,
+see
+.PN XCreateGC .
+.LP
+.sp
+To generate the smallest rectangle enclosing the region, use
+.PN XClipBox .
+.IN "XClipBox" "" "@DEF@"
+.FD 0
+.\" $Header: XClipBox.f,v 1.2 88/04/07 16:55:50 mento Exp $
+XClipBox\^(\^\fIr\fP\^, \fIrect_return\fP\^)
+.br
+      Region \fIr\fP\^;
+.br
+      XRectangle *\fIrect_return\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.\" $Header: rect.a,v 1.2 88/04/07 16:56:54 mento Exp $
+.IP \fIrect_return\fP 1i
+Returns the smallest enclosing rectangle.
+.LP
+.\" $Header: XClipBox.d,v 1.3 88/04/23 12:41:53 mento Exp $
+The
+.PN XClipBox
+function returns the smallest rectangle enclosing the specified region.
+.NH 2
+Manipulating Regions
+.XS
+\*(SN Manipulating Regions 
+.XE
+.LP
+Xlib provides functions that you can use to manipulate regions.
+This section discusses how to:
+.IP \(bu 5
+Create, copy, or destroy regions
+.IP \(bu 5
+Move or shrink regions
+.IP \(bu 5
+Compute with regions
+.IP \(bu 5
+Determine if regions are empty or equal
+.IP \(bu 5
+Locate a point or rectangle in a region
+.LE
+.NH 3
+Creating, Copying, or Destroying Regions
+.XS
+\*(SN Creating, Copying, or Destroying Regions 
+.XE
+.LP
+To create a new empty region, use
+.PN XCreateRegion .
+.IN "XCreateRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XCreRegion.f,v 1.1 88/02/26 09:59:13 mento Exp $
+Region XCreateRegion\^()
+.FN
+.LP
+.sp
+To set the clip-mask of a GC to a region, use
+.PN XSetRegion .
+.IN "XSetRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XSetRegion.f,v 1.1 88/02/26 10:03:27 mento Exp $
+XSetRegion\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIr\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Region \fIr\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.LP
+.\" $Header: XSetRegion.d,v 1.3 88/05/20 05:32:45 mento Exp $
+The
+.PN XSetRegion
+function sets the clip-mask in the GC to the specified region.
+Once it is set in the GC,
+the region can be destroyed.
+.LP 
+.sp
+To deallocate the storage associated with a specified region, use
+.PN XDestroyRegion .
+.IN "XDestroyRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XDestroyReg.f,v 1.1 88/02/26 09:59:38 mento Exp $
+XDestroyRegion\^(\^\fIr\fP\^)
+.br
+      Region \fIr\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.NH 3
+Moving or Shrinking Regions
+.XS
+\*(SN Moving or Shrinking Regions 
+.XE
+.LP
+To move a region by a specified amount, use 
+.PN XOffsetRegion .
+.IN "XOffsetRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XOffsetReg.f,v 1.1 88/02/26 10:01:40 mento Exp $
+XOffsetRegion\^(\^\fIr\fP\^, \fIdx\fP\^, \fIdy\fP\^)
+.br
+      Region \fIr\fP\^;
+.br
+      int \fIdx\fP\^, \fIdy\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.ds Dy move
+.\" $Header: dxdy.a,v 1.3 88/08/04 11:11:24 mento Exp $
+.IP \fIdx\fP 1i
+.br
+.ns
+.IP \fIdy\fP 1i
+Specify the x and y coordinates,
+which define the amount you want to \*(Dy the specified region.
+.LP 
+.sp
+To reduce a region by a specified amount, use
+.PN XShrinkRegion .
+.IN "XShrinkRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XShrinkReg.f,v 1.1 88/02/26 10:03:47 mento Exp $
+XShrinkRegion\^(\^\fIr\fP\^, \fIdx\fP\^, \fIdy\fP\^)
+.br
+      Region \fIr\fP\^;
+.br
+      int \fIdx\fP\^, \fIdy\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.ds Dy shrink
+.\" $Header: dxdy.a,v 1.3 88/08/04 11:11:24 mento Exp $
+.IP \fIdx\fP 1i
+.br
+.ns
+.IP \fIdy\fP 1i
+Specify the x and y coordinates,
+which define the amount you want to \*(Dy the specified region.
+.LP
+Positive values shrink the size of the region, 
+and negative values expand the region.
+.NH 3
+Computing with Regions
+.XS
+\*(SN Computing with Regions 
+.XE
+.LP
+To compute the intersection of two regions, use
+.PN XIntersectRegion .
+.IN "XIntersectRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XInterReg.f,v 1.2 88/04/07 17:02:01 mento Exp $
+XIntersectRegion\^(\^\fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^)
+.br
+      Region \fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^;
+.FN
+.\" $Header: srasrb.a,v 1.1 88/02/26 10:31:19 mento Exp $
+.IP \fIsra\fP 1i
+.br
+.ns
+.IP \fIsrb\fP 1i
+Specify the two regions with which you want to perform the computation.
+.\" $Header: dr.a,v 1.2 88/04/07 17:02:49 mento Exp $
+.IP \fIdr_return\fP 1i
+Returns the result of the computation.
+.LP
+.sp
+To compute the union of two regions, use
+.PN XUnionRegion .
+.IN "XUnionRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XUnionRegion.f,v 1.2 88/04/07 17:03:24 mento Exp $
+XUnionRegion\^(\^\fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^)
+.br
+      Region \fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^;
+.FN
+.\" $Header: srasrb.a,v 1.1 88/02/26 10:31:19 mento Exp $
+.IP \fIsra\fP 1i
+.br
+.ns
+.IP \fIsrb\fP 1i
+Specify the two regions with which you want to perform the computation.
+.\" $Header: dr.a,v 1.2 88/04/07 17:02:49 mento Exp $
+.IP \fIdr_return\fP 1i
+Returns the result of the computation.
+.LP
+.sp
+To create a union of a source region and a rectangle, use
+.PN XUnionRectWithRegion .
+.IN "XUnionRectWithRegion" "" "@DEF@"
+.FD 0
+XUnionRectWithRegion\^(\^\fIrectangle\fP, \fIsrc_region\fP, \
+\fIdest_region_return\fP\^)
+.br
+     XRectangle *\fIrectangle\fP\^;
+.br
+     Region \fIsrc_region\fP\^;
+.br
+     Region \fIdest_region_return\fP\^;
+.FN
+.IP \fIrectangle\fP 1i
+Specifies the rectangle.
+.IP \fIsrc_region\fP 1i
+Specifies the source region to be used.
+.IP \fIdest_region_return\fP 1i
+Returns the destination region.
+.LP
+The
+.PN XUnionRectWithRegion
+function updates the destination region from a union of the specified rectangle
+and the specified source region.
+.LP
+.sp
+To subtract two regions, use
+.PN XSubtractRegion .
+.IN "XSubtractRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XSubtractReg.f,v 1.2 88/04/07 17:07:58 mento Exp $
+XSubtractRegion\^(\^\fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^)
+.br
+      Region \fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^;
+.FN
+.\" $Header: srasrb.a,v 1.1 88/02/26 10:31:19 mento Exp $
+.IP \fIsra\fP 1i
+.br
+.ns
+.IP \fIsrb\fP 1i
+Specify the two regions with which you want to perform the computation.
+.\" $Header: dr.a,v 1.2 88/04/07 17:02:49 mento Exp $
+.IP \fIdr_return\fP 1i
+Returns the result of the computation.
+.LP
+.\" $Header: XSubtractReg.d,v 1.3 88/08/20 10:20:59 mento Exp $
+The
+.PN XSubtractRegion
+function subtracts srb from sra and stores the results in dr_return.
+.LP
+.sp
+To calculate the difference between the union and intersection 
+of two regions, use
+.PN XXorRegion .
+.IN "XXorRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XXorRegion.f,v 1.2 88/04/07 17:09:05 mento Exp $
+XXorRegion\^(\^\fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^)
+.br
+      Region \fIsra\fP\^, \fIsrb\fP\^, \fIdr_return\fP\^;
+.FN
+.\" $Header: srasrb.a,v 1.1 88/02/26 10:31:19 mento Exp $
+.IP \fIsra\fP 1i
+.br
+.ns
+.IP \fIsrb\fP 1i
+Specify the two regions with which you want to perform the computation.
+.\" $Header: dr.a,v 1.2 88/04/07 17:02:49 mento Exp $
+.IP \fIdr_return\fP 1i
+Returns the result of the computation.
+.NH 3
+Determining if Regions Are Empty or Equal
+.XS
+\*(SN Determining if Regions Are Empty or Equal 
+.XE
+.LP
+To determine if the specified region is empty, use
+.PN XEmptyRegion .
+.IN "XEmptyRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XEmptyRegion.f,v 1.2 88/04/07 17:09:49 mento Exp $
+Bool XEmptyRegion\^(\^\fIr\fP\^)
+.br
+      Region \fIr\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.LP 
+.\" $Header: XEmptyRegion.d,v 1.2 88/06/11 07:50:03 mento Exp $
+The
+.PN XEmptyRegion
+function returns
+.PN True
+if the region is empty.
+.LP
+.sp
+To determine if two regions have the same offset, size, and shape, use
+.PN XEqualRegion .
+.IN "XEqualRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XEqualRegion.f,v 1.2 88/04/07 17:10:16 mento Exp $
+Bool XEqualRegion\^(\^\fIr1\fP\^, \fIr2\fP\^)
+.br
+      Region \fIr1\fP\^, \fIr2\fP\^;
+.FN
+.\" $Header: r1r2.a,v 1.1 88/02/26 10:30:48 mento Exp $
+.IP \fIr1\fP 1i
+.br
+.ns
+.IP \fIr2\fP 1i
+Specify the two regions.
+.LP
+.\" $Header: XEqualRegion.d,v 1.2 88/06/11 07:50:04 mento Exp $
+The
+.PN XEqualRegion
+function returns
+.PN True
+if the two regions have the same offset, size, and shape.
+.NH 3
+Locating a Point or a Rectangle in a Region
+.XS
+\*(SN Locating a Point or a Rectangle in a Region 
+.XE
+.LP
+To determine if a specified point resides in a specified region, use
+.PN XPointInRegion .
+.IN "XPointInRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XPointInReg.f,v 1.2 88/04/07 17:10:45 mento Exp $
+Bool XPointInRegion\^(\^\fIr\fP\^, \fIx\fP\^, \fIy\fP\^)
+.br
+      Region \fIr\fP\^;
+.br
+      int \fIx\fP\^, \fIy\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.ds Xy , which define the point
+.\" $Header: xy_gen.a,v 1.2 88/08/04 11:22:37 mento Exp $
+.IP \fIx\fP 1i
+.br
+.ns
+.IP \fIy\fP 1i
+Specify the x and y coordinates\*(Xy.
+.LP
+.\" $Header: XPointInReg.d,v 1.3 88/04/23 12:44:36 mento Exp $
+The
+.PN XPointInRegion
+function returns 
+.PN True
+if the point (x, y) is contained in the region r.
+.LP
+.sp
+To determine if a specified rectangle is inside a region, use
+.PN XRectInRegion .
+.IN "XRectInRegion" "" "@DEF@"
+.FD 0
+.\" $Header: XRectInReg.f,v 1.1 88/02/26 10:02:37 mento Exp $
+int XRectInRegion\^(\^\fIr\fP\^, \fIx\fP\^, \fIy\fP\^, \fIwidth\fP\^, \fIheight\fP\^)
+.br
+      Region \fIr\fP\^;
+.br
+      int \fIx\fP\^, \fIy\fP\^; 
+.br
+      unsigned int \fIwidth\fP\^, \fIheight\fP\^;
+.FN
+.\" $Header: r.a,v 1.1 88/02/26 10:29:50 mento Exp $
+.IP \fIr\fP 1i
+Specifies the region.
+.ds Xy , which define the coordinates of the upper-left corner of the rectangle
+.\" $Header: xy_gen.a,v 1.2 88/08/04 11:22:37 mento Exp $
+.IP \fIx\fP 1i
+.br
+.ns
+.IP \fIy\fP 1i
+Specify the x and y coordinates\*(Xy.
+.ds Wh , which define the rectangle 
+.\" $Header: w+h_gen.a,v 1.2 88/08/04 11:21:28 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height\*(Wh.
+.LP 
+.\" $Header: XRectInReg.d,v 1.1 88/02/26 10:50:04 mento Exp $
+The
+.PN XRectInRegion
+function returns
+.PN RectangleIn
+if the rectangle is entirely in the specified region,
+.PN RectangleOut
+if the rectangle is entirely out of the specified region,
+and
+.PN RectanglePart
+if the rectangle is partially in the specified region.
+.NH 2
+Using the Cut and Paste Buffers
+.XS
+\*(SN Using the Cut and Paste Buffers 
+.XE
+.LP
+Xlib provides functions that you can use to cut and paste buffers
+for programs using this form of communications.
+Selections are a more useful mechanism for interchanging data between clients
+because typed information can be exchanged.
+X provides property names for properties in which bytes can be stored 
+for implementing cut and paste between windows
+.IN "Cut Buffers"
+.IN "Paste Buffers"
+(implemented by use of properties on the first root window of the display).
+It is up to applications to agree on how to represent the 
+data in the buffers.
+The data is most often ISO Latin-1 text.
+The atoms for eight such buffer names are provided
+and can be accessed as a ring or as explicit buffers (numbered 0 through 7).
+New applications are encouraged to share data by using selections
+(see section 4.4).
+.LP
+.sp
+To store data in cut buffer 0, use 
+.PN XStoreBytes .
+.IN "XStoreBytes" "" "@DEF@"
+.FD 0
+.\" $Header: XStoreBytes.f,v 1.2 88/04/07 17:21:31 mento Exp $
+XStoreBytes\^(\^\fIdisplay\fP, \fIbytes\fP\^, \fInbytes\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      char *\fIbytes\fP\^;
+.br
+      int \^\fInbytes\fP\^;
+.br
+.FN 
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: bytes.a,v 1.2 88/05/20 05:55:18 mento Exp $
+.IP \fIbytes\fP 1i
+Specifies the bytes, which are not necessarily ASCII or null-terminated.
+.IP \fInbytes\fP 1i
+Specifies the number of bytes to be stored.
+.LP
+.\" $Header: XStoreBytes.d,v 1.2 88/06/11 07:53:46 mento Exp $
+Note that the cut buffer's contents need not be text, so zero bytes
+are not special.
+The cut buffer's contents can be retrieved later by
+any client calling
+.PN XFetchBytes .
+.LP
+.PN XStoreBytes
+can generate a
+.PN BadAlloc
+error.
+.LP
+.sp
+To store data in a specified cut buffer, use
+.PN XStoreBuffer .
+.IN "XStoreBuffer" "" "@DEF@"
+.FD 0
+.\" $Header: XStoreBuffer.f,v 1.2 88/04/07 17:22:43 mento Exp $
+XStoreBuffer\^(\^\fIdisplay\fP, \fIbytes\fP\^, \fInbytes\fP\^, \fIbuffer\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      char *\fIbytes\fP\^;
+.br
+      int \^\fInbytes\fP\^;
+.br
+      int \fIbuffer\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: bytes.a,v 1.2 88/05/20 05:55:18 mento Exp $
+.IP \fIbytes\fP 1i
+Specifies the bytes, which are not necessarily ASCII or null-terminated.
+.IP \fInbytes\fP 1i
+Specifies the number of bytes to be stored.
+.ds Fn in which you want to store the bytes
+.\" $Header: buffer.a,v 1.4 88/08/04 11:02:57 mento Exp $
+.IP \fIbuffer\fP 1i
+Specifies the buffer \*(Fn.
+.LP
+.\" $Header: XStoreBuffer.d,v 1.2 88/06/11 07:53:45 mento Exp $
+If the property for the buffer has never been created,
+a
+.PN BadAtom
+error results.
+.LP
+.PN XStoreBuffer
+can generate
+.PN BadAlloc 
+and
+.PN BadAtom 
+errors.
+.LP
+.sp
+To return data from cut buffer 0, use 
+.PN XFetchBytes .
+.IN "XFetchBytes" "" "@DEF@"
+.FD 0
+.\" $Header: XFetchBytes.f,v 1.1 88/02/26 10:00:00 mento Exp $
+char *XFetchBytes\^(\^\fIdisplay\fP, \fInbytes_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      int *\fInbytes_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: nbytes.a,v 1.2 88/05/20 05:59:12 mento Exp $
+.IP \fInbytes_return\fP 1i
+Returns the number of bytes in the buffer.
+.LP
+.\" $Header: XFetchBytes.d,v 1.3 88/08/20 10:22:26 mento Exp $
+The
+.PN XFetchBytes
+function
+returns the number of bytes in the nbytes_return argument,
+if the buffer contains data.
+Otherwise, the function
+returns NULL and sets nbytes to 0.
+The appropriate amount of storage is allocated and the pointer returned.
+The client must free this storage when finished with it by calling
+.PN XFree .
+Note that the cut buffer does not necessarily contain text, so it may
+contain embedded zero bytes and may not terminate with a null byte.
+.LP
+.sp
+To return data from a specified cut buffer, use 
+.PN XFetchBuffer .
+.IN "XFetchBuffer" "" "@DEF@"
+.FD 0
+.\" $Header: XFetchBuffer.f,v 1.2 88/04/07 17:31:40 mento Exp $
+char *XFetchBuffer\^(\^\fIdisplay\fP, \fInbytes_return\fP\^, \fIbuffer\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      int *\fInbytes_return\fP\^;
+.br
+      int \fIbuffer\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: nbytes.a,v 1.2 88/05/20 05:59:12 mento Exp $
+.IP \fInbytes_return\fP 1i
+Returns the number of bytes in the buffer.
+.ds Fn from which you want the stored data returned
+.\" $Header: buffer.a,v 1.4 88/08/04 11:02:57 mento Exp $
+.IP \fIbuffer\fP 1i
+Specifies the buffer \*(Fn.
+.LP
+.\" $Header: XFetchBuffer.d,v 1.3 88/08/20 10:23:20 mento Exp $
+The
+.PN XFetchBuffer
+function returns zero to the nbytes_return argument 
+if there is no data in the buffer.
+.LP
+.PN XFetchBuffer
+can generate a
+.PN BadValue 
+error.
+.LP
+.sp
+To rotate the cut buffers, use 
+.PN XRotateBuffers .
+.IN "XRotateBuffers" "" "@DEF@"
+.FD 0
+.\" $Header: XRotateBufs.f,v 1.1 88/02/26 10:02:45 mento Exp $
+XRotateBuffers\^(\^\fIdisplay\fP, \fIrotate\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      int \fIrotate\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: rotate.a,v 1.2 88/05/20 06:01:18 mento Exp $
+.IP \fIrotate\fP 1i
+Specifies how much to rotate the cut buffers.
+.LP 
+.\" $Header: XRotateBufs.d,v 1.3 88/06/11 07:52:52 mento Exp $
+The
+.PN XRotateBuffers
+function rotates the cut
+buffers, such that buffer 0 becomes buffer n, 
+buffer 1 becomes n + 1 mod 8, and so on.
+This cut buffer numbering is global to the display.
+Note that
+.PN XRotateBuffers
+generates
+.PN BadMatch
+errors if any of the eight buffers have not been created.
+.NH 2
+Determining the Appropriate Visual Type
+.XS
+\*(SN Determining the Appropriate Visual Type
+.XE
+.LP
+A single display can support multiple screens.
+Each screen can have several different visual types supported 
+at different depths.
+You can use the functions described in this section to determine
+which visual to use for your application.
+.LP
+The functions in this section use the visual information masks and the
+.PN XVisualInfo 
+structure,
+which is defined in
+.Pn < X11/Xutil.h >
+and contains:
+.LP
+/* Visual information mask bits */
+.TS
+lw(.5i) lw(2.5i) lw(.75i).
+T{
+#define
+T}	T{
+.PN VisualNoMask
+T}	T{
+0x0
+T}
+T{
+#define
+T}	T{
+.PN VisualIDMask
+T}	T{
+0x1
+T}
+T{
+#define
+T}	T{
+.PN VisualScreenMask
+T}	T{
+0x2
+T}
+T{
+#define
+T}	T{
+.PN VisualDepthMask
+T}	T{
+0x4
+T}
+T{
+#define
+T}	T{
+.PN VisualClassMask
+T}	T{
+0x8
+T}
+T{
+#define
+T}	T{
+.PN VisualRedMaskMask
+T}	T{
+0x10
+T}
+T{
+#define
+T}	T{
+.PN VisualGreenMaskMask
+T}	T{
+0x20
+T}
+T{
+#define
+T}	T{
+.PN VisualBlueMaskMask
+T}	T{
+0x40
+T}
+T{
+#define
+T}	T{
+.PN VisualColormapSizeMask
+T}	T{
+0x80
+T}
+T{
+#define
+T}	T{
+.PN VisualBitsPerRGBMask
+T}	T{
+0x100
+T}
+T{
+#define
+T}	T{
+.PN VisualAllMask
+T}	T{
+0x1FF
+T}
+.TE
+.IN "XVisualInfo" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+/* Values */
+
+typedef struct {
+	Visual *visual;
+	VisualID visualid;
+	int screen;
+	unsigned int depth;
+	int class;
+	unsigned long red_mask;
+	unsigned long green_mask;
+	unsigned long blue_mask;
+	int colormap_size;
+	int bits_per_rgb;
+} XVisualInfo;
+.De
+.LP
+To obtain a list of visual information structures that match a specified
+template, use
+.PN XGetVisualInfo .
+.IN "XGetVisualInfo" "" "@DEF@"
+.FD 0
+XVisualInfo *XGetVisualInfo\^(\^\fIdisplay\fP, \fIvinfo_mask\fP, \fIvinfo_template\fP, \fInitems_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      long \fIvinfo_mask\fP\^;
+.br
+      XVisualInfo *\fIvinfo_template\fP\^;
+.br
+      int *\fInitems_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIvinfo_mask\fP 1i
+Specifies the visual mask value.
+.IP \fIvinfo_template\fP 1i
+Specifies the visual attributes that are to be used in matching the visual
+structures.
+.IP \fInitems_return\fP 1i
+Returns the number of matching visual structures.
+.LP
+.\" $Header: XGetVInfo.d,v 1.3 88/06/11 07:51:29 mento Exp $
+The
+.PN XGetVisualInfo
+function returns a list of visual structures that match the attributes specified
+by vinfo_template.
+If no visual structures match the template using the specified vinfo_mask,
+.PN XGetVisualInfo
+returns a NULL.
+To free the data returned by this function, use
+.PN XFree .
+.LP
+.sp
+To obtain the visual information that matches the specified depth and
+class of the screen, use
+.PN XMatchVisualInfo .
+.IN "XMatchVisualInfo" "" "@DEF@"
+.FD 0
+Status XMatchVisualInfo\^(\^\fIdisplay\fP, \fIscreen\fP, \fIdepth\fP, \fIclass\fP, \fIvinfo_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      int \fIscreen\fP\^;
+.br
+      int \fIdepth\fP\^;
+.br
+      int \fIclass\fP\^;
+.br
+      XVisualInfo *\fIvinfo_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen\fP 1i
+Specifies the screen.
+.IP \fIdepth\fP 1i
+Specifies the depth of the screen.
+.IP \fIclass\fP 1i
+Specifies the class of the screen.
+.IP \fIvinfo_return\fP 1i
+Returns the matched visual information.
+.LP
+.\" $Header: XMatVInfo.d,v 1.2 88/06/11 07:51:59 mento Exp $
+The
+.PN XMatchVisualInfo
+function returns the visual information for a visual that matches the specified
+depth and class for a screen.
+Because multiple visuals that match the specified depth and class can exist,
+the exact visual chosen is undefined.
+If a visual is found,
+.PN XMatchVisualInfo
+returns nonzero and the information on the visual to vinfo_return.
+Otherwise, when a visual is not found,
+.PN XMatchVisualInfo
+returns zero.
+.NH 2
+Manipulating Images
+.XS
+\*(SN Manipulating Images 
+.XE
+.LP
+Xlib provides several functions that perform basic operations on images.
+All operations on images are defined using an 
+.PN XImage 
+structure, 
+as defined in
+.Pn < X11/Xlib.h >.
+Because the number of different types of image formats can be very large,
+this hides details of image storage properly from applications.
+.LP
+This section describes the functions for generic operations on images.
+Manufacturers can provide very fast implementations of these for the
+formats frequently encountered on their hardware.
+These functions are neither sufficient nor desirable to use for general image
+processing.
+Rather, they are here to provide minimal functions on screen format
+images.
+The basic operations for getting and putting images are
+.PN XGetImage
+and 
+.PN XPutImage .
+.LP
+Note that no functions have been defined, as yet, to read and write images 
+to and from disk files.
+.LP
+The
+.PN XImage 
+structure describes an image as it exists in the client's memory.  
+The user can request that some of the members such as height, width, 
+and xoffset be changed when the image is sent to the server.
+Note that bytes_per_line in concert with offset can be used to
+extract a subset of the image.
+Other members (for example, byte order, bitmap_unit, and so forth)
+are characteristics of both the image and the server.  
+If these members
+differ between the image and the server, 
+.PN XPutImage 
+makes the appropriate conversions.
+The first byte of the first line of
+plane n must be located at the address (data + (n * height * bytes_per_line)).
+For a description of the 
+.PN XImage 
+structure,
+see section 6.7.
+.LP
+.sp
+To allocate sufficient memory for an 
+.PN XImage 
+structure, use
+.PN XCreateImage .
+.IN "XCreateImage" "" "@DEF@"
+.FD 0
+XImage *XCreateImage\^(\^\fIdisplay\fP, \fIvisual\fP, \fIdepth\fP, \fIformat\fP, \fIoffset\fP, \fIdata\fP, \fIwidth\fP, \fIheight\fP\^, \fIbitmap_pad\fP, 
+.br
+                        \fIbytes_per_line\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Visual *\fIvisual\fP\^;
+.br
+      unsigned int \fIdepth\fP\^;
+.br
+      int \fIformat\fP\^;
+.br
+      int \fIoffset\fP\^;
+.br
+      char *\fIdata\fP\^;
+.br
+      unsigned int \fIwidth\fP\^;
+.br
+      unsigned int \fIheight\fP\^;
+.br
+      int \fIbitmap_pad\fP\^;
+.br
+      int \fIbytes_per_line\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIvisual\fP 1i
+Specifies a pointer to the visual.
+.IP \fIdepth\fP 1i
+Specifies the depth of the image.
+.IP \fIformat\fP 1i
+Specifies the format for the image.
+You can pass
+.PN XYBitmap ,
+.PN XYPixmap ,
+or 
+.PN ZPixmap .
+.IP \fIoffset\fP 1i
+Specifies the number of pixels to ignore at the beginning of the scanline.
+.IP \fIdata\fP 1i
+Specifies a pointer to the image data.
+.IP \fIwidth\fP 1i
+Specifies the width of the image, in pixels.
+.IP \fIheight\fP 1i
+Specifies the height of the image, in pixels.
+.IP \fIbitmap_pad\fP 1i
+Specifies the quantum of a scanline (8, 16, or 32).
+In other words, the start of one scanline is separated in client memory from 
+the start of the next scanline by an integer multiple of this many bits.  
+.IP \fIbytes_per_line\fP 1i
+Specifies the number of bytes in the client image between
+the start of one scanline and the start of the next.  
+.LP
+.\" $Header: XCreImage.d,v 1.4 88/08/20 10:25:28 mento Exp $
+The
+.PN XCreateImage
+function allocates the memory needed for an
+.PN XImage
+structure for the
+specified display but does not allocate space for the image itself.
+Rather, it initializes the structure byte-order, bit-order, and bitmap-unit
+values from the display and returns a pointer to the 
+.PN XImage 
+structure.
+The red, green, and blue mask values are defined for Z format images only
+and are derived from the 
+.PN Visual 
+structure passed in.
+Other values also are passed in.
+The offset permits the rapid displaying of the image without requiring each 
+scanline to be shifted into position.
+If you pass a zero value in bytes_per_line,
+Xlib assumes that the scanlines are contiguous
+in memory and calculates the value of bytes_per_line itself.
+.LP
+Note that when the image is created using
+.PN XCreateImage ,
+.PN XGetImage ,
+or
+.PN XSubImage ,
+the destroy procedure that the 
+.PN XDestroyImage
+function calls frees both the image structure 
+and the data pointed to by the image structure.
+.LP
+The basic functions used to get a pixel, set a pixel, create a subimage,
+and add a constant offset to a Z format image are defined in the image object.
+The functions in this section are really macro invocations of the functions
+in the image object and are defined in
+.Pn < X11/Xutil.h >.
+.LP
+.sp
+To obtain a pixel value in an image, use
+.PN XGetPixel .
+.IN "XGetPixel" "" "@DEF@"
+.FD 0
+unsigned long XGetPixel\^(\^\fIximage\fP, \fIx\fP, \fIy\fP\^)
+.br
+      XImage *\fIximage\fP\^;
+.br
+      int \fIx\fP\^;
+.br
+      int \fIy\fP\^;
+.FN
+.IP \fIximage\fP 1i
+Specifies a pointer to the image.
+.\" $Header: xy.a,v 1.1 88/02/26 10:32:54 mento Exp $
+.IP \fIx\fP 1i
+.br
+.ns
+.IP \fIy\fP 1i
+Specify the x and y coordinates.
+.LP
+.\" $Header: XGetPixel.d,v 1.2 88/06/11 07:51:14 mento Exp $
+The
+.PN XGetPixel
+function returns the specified pixel from the named image.
+The pixel value is returned in normalized format (that is,
+the least-significant byte of the long is the least-significant byte
+of the pixel).
+The image must contain the x and y coordinates.
+.LP
+.sp
+To set a pixel value in an image, use
+.PN XPutPixel .
+.IN "XPutPixel" "" "@DEF@"
+.FD 0
+XPutPixel\^(\^\fIximage\fP, \fIx\fP, \fIy\fP, \fIpixel\fP\^)
+.br
+      XImage *\fIximage\fP\^;
+.br
+      int \fIx\fP\^;
+.br
+      int \fIy\fP\^;
+.br
+      unsigned long \fIpixel\fP\^;
+.FN
+.IP \fIximage\fP 1i
+Specifies a pointer to the image.
+.\" $Header: xy.a,v 1.1 88/02/26 10:32:54 mento Exp $
+.IP \fIx\fP 1i
+.br
+.ns
+.IP \fIy\fP 1i
+Specify the x and y coordinates.
+.IP \fIpixel\fP 1i
+Specifies the new pixel value.
+.LP
+.\" $Header: XPutPixel.d,v 1.2 88/06/11 07:52:30 mento Exp $
+The
+.PN XPutPixel
+function overwrites the pixel in the named image with the specified pixel value.
+The input pixel value must be in normalized format
+(that is, the least-significant byte of the long is the least-significant
+byte of the pixel).
+The image must contain the x and y coordinates.
+.LP
+.sp
+To create a subimage, use
+.PN XSubImage .
+.IN "XSubImage" "" "@DEF@"
+.FD 0
+XImage *XSubImage\^(\^\fIximage\fP, \fIx\fP, \fIy\fP, \fIsubimage_width\fP, \fIsubimage_height\fP\^)
+.br
+      XImage *\fIximage\fP\^;
+.br
+      int \fIx\fP\^;
+.br
+      int \fIy\fP\^;
+.br
+      unsigned int \fIsubimage_width\fP\^;
+.br
+      unsigned int \fIsubimage_height\fP\^;
+.FN
+.IP \fIximage\fP 1i
+Specifies a pointer to the image.
+.\" $Header: xy.a,v 1.1 88/02/26 10:32:54 mento Exp $
+.IP \fIx\fP 1i
+.br
+.ns
+.IP \fIy\fP 1i
+Specify the x and y coordinates.
+.IP \fIsubimage_width\fP 1i
+Specifies the width of the new subimage, in pixels.
+.IP \fIsubimage_height\fP 1i
+Specifies the height of the new subimage, in pixels.
+.LP
+.\" $Header: XSubImage.d,v 1.3 88/08/20 10:26:23 mento Exp $
+The
+.PN XSubImage
+function creates a new image that is a subsection of an existing one.
+It allocates the memory necessary for the new
+.PN XImage
+structure
+and returns a pointer to the new image.
+The data is copied from the source image,
+and the image must contain the rectangle defined by x, y, subimage_width,
+and subimage_height.
+.LP
+.sp
+To increment each pixel in the pixmap by a constant value, use
+.PN XAddPixel .
+.IN "XAddPixel" "" "@DEF@"
+.FD 0
+XAddPixel\^(\^\fIximage\fP, \fIvalue\fP\^)
+.br
+      XImage *\fIximage\fP\^;
+.br
+      long \fIvalue\fP\^;
+.FN
+.IP \fIximage\fP 1i
+Specifies a pointer to the image.
+.IP \fIvalue\fP 1i
+Specifies the constant value that is to be added.
+.LP
+.\" $Header: XAddPixel.d,v 1.2 88/06/11 07:48:34 mento Exp $
+The
+.PN XAddPixel
+function adds a constant value to every pixel in an image.
+It is useful when you have a base pixel value from allocating
+color resources and need to manipulate the image to that form.
+.LP
+.sp
+To deallocate the memory allocated in a previous call to
+.PN XCreateImage ,
+use
+.PN XDestroyImage .
+.IN "XDestroyImage" "" "@DEF@"
+.FD 0
+XDestroyImage\^(\^\fIximage\fP\^)
+.br
+        XImage *\^\fIximage\fP\^; 
+.FN
+.IP \fIximage\fP 1i
+Specifies a pointer to the image.
+.LP
+.\" $Header: XDestImage.d,v 1.1 88/02/26 10:41:47 mento Exp $
+The
+.PN XDestroyImage
+function deallocates the memory associated with the
+.PN XImage
+structure.
+.LP
+Note that when the image is created using
+.PN XCreateImage ,
+.PN XGetImage ,
+or 
+.PN XSubImage ,
+the destroy procedure that this macro calls
+frees both the image structure and the data pointed to by the image structure. 
+.NH 2
+Manipulating Bitmaps
+.XS
+\*(SN Manipulating Bitmaps 
+.XE
+.LP
+Xlib provides functions that you can use to read a bitmap from a file,
+save a bitmap to a file, or create a bitmap. 
+This section describes those functions that transfer bitmaps to and
+from the client's file system, thus allowing their reuse in a later
+connection (for example, from an entirely different client or to a
+different display or server).
+.LP
+The X version 11 bitmap file format is:
+.LP
+.Ds 0
+#define \fIname\fP_width \fIwidth\fP
+#define \fIname\fP_height \fIheight\fP
+#define \fIname\fP_x_hot \fIx\fP
+#define \fIname\fP_y_hot \fIy\fP
+static char \fIname\fP_bits[] = { 0x\fINN\fP,... }
+.De
+.LP
+The variables ending with _x_hot and _y_hot suffixes are optional
+because they are present only if a hotspot has been defined for this bitmap.
+The other variables are required.
+The _bits array must be large enough to contain the size bitmap.
+The bitmap unit is eight.
+The name is derived from the name of the file that you specified
+on the original command line by deleting the directory path and extension.
+.LP
+.sp
+To read a bitmap from a file, use
+.PN XReadBitmapFile .
+.IN "XReadBitmapFile" "" "@DEF@"
+.FD 0
+int XReadBitmapFile(\^\fIdisplay\fP, \fId\fP, \fIfilename\fP, \fIwidth_return\fP, \fIheight_return\fP, \fIbitmap_return\fP, \fIx_hot_return\fP, 
+.br
+                       \fIy_hot_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fId\fP\^;
+.br
+      char *\fIfilename\fP\^;
+.br
+      unsigned int *\fIwidth_return\fP, *\fIheight_return\fP\^;
+.br
+      Pixmap *\fIbitmap_return\fP\^;
+.br
+      int *\fIx_hot_return\fP, *\fIy_hot_return\fP\^;	
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Dr \ that indicates the screen
+.\" $Header: d_gen.a,v 1.2 88/08/04 11:09:21 mento Exp $
+.IP \fId\fP 1i
+Specifies the drawable\*(Dr. 
+.\" $Header: filename.a,v 1.2 88/05/20 07:30:24 mento Exp $
+.IP \fIfilename\fP 1i
+Specifies the file name to use.
+The format of the file name is operating-system dependent.
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height values of the read in bitmap file.
+.IP \fIbitmap_return\fP 1i
+Returns the bitmap that is created.
+.IP \fIx_hot_return\fP 1i
+.br
+.ns
+.IP \fIy_hot_return\fP 1i
+Return the hotspot coordinates.
+.LP
+.\" $Header: XRBitFile.d,v 1.2 88/06/11 07:52:43 mento Exp $
+The
+.PN XReadBitmapFile
+function reads in a file containing a bitmap.
+The ability to read other than the standard format 
+is implementation dependent.
+If the file cannot be opened, 
+.PN XReadBitmapFile 
+returns 
+.PN BitmapOpenFailed .  
+If the file can be opened but does not contain valid bitmap data, 
+it returns 
+.PN BitmapFileInvalid .  
+If insufficient working storage is allocated,
+it returns
+.PN BitmapNoMemory .  
+If the file is readable and valid,
+it returns 
+.PN BitmapSuccess .
+.LP
+.PN XReadBitmapFile 
+returns the bitmap's height and width, as read
+from the file, to width_return and height_return.
+It then creates a pixmap of the appropriate size, 
+reads the bitmap data from the file into the pixmap,
+and assigns the pixmap to the caller's variable bitmap.  
+The caller must free the bitmap using 
+.PN XFreePixmap 
+when finished.
+If \fIname\fP_x_hot and \fIname\fP_y_hot exist,
+.PN XReadBitmapFile 
+returns them to x_hot_return and y_hot_return;
+otherwise, it returns \-1,\-1.
+.LP
+.PN XReadBitmapFile
+can generate
+.PN BadAlloc
+and
+.PN BadDrawable
+errors.
+.LP
+.sp
+To write out a bitmap to a file, use
+.PN XWriteBitmapFile .
+.IN "XWriteBitmapFile" "" "@DEF@"
+.FD 0
+int XWriteBitmapFile(\^\fIdisplay\fP, \fIfilename\fP, \fIbitmap\fP, \fIwidth\fP, \fIheight\fP, \fIx_hot\fP, \fIy_hot\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      char *\fIfilename\fP\^;
+.br
+      Pixmap \fIbitmap\fP\^;
+.br
+      unsigned int \fIwidth\fP, \fIheight\fP\^;
+.br
+      int \fIx_hot\fP, \fIy_hot\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: filename.a,v 1.2 88/05/20 07:30:24 mento Exp $
+.IP \fIfilename\fP 1i
+Specifies the file name to use.
+The format of the file name is operating-system dependent.
+.IP \fIbitmap\fP 1i
+Specifies the bitmap.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.IP \fIx_hot\fP 1i
+.br
+.ns
+.IP \fIy_hot\fP 1i
+Specify where to place the hotspot coordinates (or -1,-1 if none are present)
+in the file.
+.LP
+.\" $Header: XWBitFile.d,v 1.2 88/06/11 07:54:35 mento Exp $
+The
+.PN XWriteBitmapFile
+function writes a bitmap out to a file in the X version 11 format.
+If the file cannot be opened for writing, 
+it returns 
+.PN BitmapOpenFailed .  
+If insufficient memory is allocated,
+.PN XWriteBitmapFile
+returns
+.PN BitmapNoMemory ;
+otherwise, on no error,
+it returns
+.PN BitmapSuccess .
+If x_hot and y_hot are not \-1, \-1, 
+.PN XWriteBitmapFile
+writes them out as the hotspot coordinates for the bitmap.
+.LP
+.PN XWriteBitmapFile
+can generate
+.PN BadDrawable
+and
+.PN BadMatch
+errors.
+.LP
+.sp
+To create a pixmap and then store bitmap-format data into it, use
+.PN XCreatePixmapFromBitmapData .
+.IN "XCreatePixmapFromBitmapData" "" "@DEF@"
+.FD 0
+Pixmap XCreatePixmapFromBitmapData\^(\^\fIdisplay\fP, \fId\fP, \fIdata\fP, \fIwidth\fP, \fIheight\fP, \fIfg\fP, \fIbg\fP, \fIdepth\fP\^)
+.br
+     Display *\fIdisplay\fP\^;
+.br
+     Drawable \fId\fP\^;
+.br
+     char *\fIdata\fP\^;
+.br
+     unsigned int \fIwidth\fP, \fIheight\fP\^;
+.br
+     unsigned long \fIfg\fP, \fIbg\fP\^;
+.br
+     unsigned int \fIdepth\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Dr \ that indicates the screen
+.\" $Header: d_gen.a,v 1.2 88/08/04 11:09:21 mento Exp $
+.IP \fId\fP 1i
+Specifies the drawable\*(Dr. 
+.IP \fIdata\fP 1i
+Specifies the data in bitmap format.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.IP \fIfg\fP 1i
+.br
+.ns
+.IP \fIbg\fP 1i
+Specify the foreground and background pixel values to use.
+.\" $Header: depth1.a,v 1.3 88/05/09 09:53:55 mento Exp $
+.IP \fIdepth\fP 1i
+Specifies the depth of the pixmap.
+.LP
+The
+.PN XCreatePixmapFromBitmapData
+function creates a pixmap of the given depth and then does a bitmap-format
+.PN XPutImage
+of the data into it.
+The depth must be supported by the screen of the specified drawable,
+or a
+.PN BadMatch
+error results.
+.LP
+.PN XCreatePixmapFromBitmapData
+can generate
+.PN BadAlloc
+and
+.PN BadMatch
+errors.
+.LP
+.sp
+To include a bitmap written out by 
+.PN XWriteBitmapFile 
+.IN "XWriteBitmapFile"
+in a program directly, as opposed to reading it in every time at run time, use
+.PN XCreateBitmapFromData .
+.IN "XCreateBitmapFromData" "" "@DEF@"
+.FD 0
+Pixmap XCreateBitmapFromData(\^\fIdisplay\fP, \fId\fP, \fIdata\fP, \fIwidth\fP, \fIheight\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fId\fP\^;
+.br
+      char *\fIdata\fP\^;
+.br
+      unsigned int \fIwidth\fP, \fIheight\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Dr \ that indicates the screen
+.\" $Header: d_gen.a,v 1.2 88/08/04 11:09:21 mento Exp $
+.IP \fId\fP 1i
+Specifies the drawable\*(Dr. 
+.IP \fIdata\fP 1i
+Specifies the location of the bitmap data.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.LP
+.\" $Header: XCreBmap.d,v 1.6 88/08/24 09:09:07 mento Exp $
+The
+.PN XCreateBitmapFromData
+function allows you to include in your C program (using #include) a bitmap file
+that was written out by
+.PN XWriteBitmapFile
+(X version 11 format only) without reading in the bitmap file.
+The following example creates a gray bitmap:
+.LP
+.Ds 0
+#include "gray.bitmap"
+.sp 6p
+Pixmap bitmap;
+bitmap = XCreateBitmapFromData(display, window, gray_bits, gray_width, gray_height);
+.De
+.LP
+If insufficient working storage was allocated,
+.PN XCreateBitmapFromData
+returns
+.PN None .
+It is your responsibility to free the
+bitmap using
+.PN XFreePixmap
+when finished.
+.LP
+.PN XCreateBitmapFromData
+can generate a
+.PN BadAlloc
+error.
+.NH 2
+Using the Resource Manager
+.XS
+\*(SN Using the Resource Manager 
+.XE
+.LP
+The resource manager is a database manager with a twist.
+In most database systems, 
+you perform a query using an imprecise specification,
+and you get back a set of records.
+The resource manager, however, allows you to specify a large
+set of values with an imprecise specification, to query the database 
+with a precise specification, and to get back only a single value.
+This should be used by applications that need to know what the
+user prefers for colors, fonts, and other resources.
+It is this use as a database for dealing with X resources that
+inspired the name ``Resource Manager,''
+although the resource manager can be and is used in other ways.
+.LP
+For example, 
+a user of your application may want to specify 
+that all windows should have a blue background 
+but that all mail-reading windows should have a red background.
+Presuming that all applications use the resource manager, 
+a user can define this information using only two lines of specifications.
+Your personal resource database usually is stored in a file
+and is loaded onto a server property when you log in.
+This database is retrieved automatically by Xlib when a connection
+is opened.
+.LP
+As an example of how the resource manager works,
+consider a mail-reading application called 
+.PN xmh .
+Assume that it is designed so that it uses a
+complex window hierarchy all the way down to individual command buttons,
+which may be actual small subwindows in some toolkits.
+These are often called objects or widgets.
+In such toolkit systems,
+each user interface object can be composed of other objects
+and can be assigned a name and a class.
+Fully qualified names or classes can have arbitrary numbers of component names,
+but a fully qualified name always has the same number of component names as a
+fully qualified class.
+This generally reflects the structure of the application as composed
+of these objects, starting with the application itself.
+.LP
+For example, the xmh mail program has a name ``xmh'' and is one
+of a class of ``Mail'' programs.
+By convention, the first character of class components is capitalized,
+and the first letter of name components is in lowercase.
+Each name and class finally has an attribute
+(for example ``foreground'' or ``font'').
+If each window is properly assigned a name and class,
+it is easy for the user to specify attributes of any portion 
+of the application.
+.LP
+At the top level, 
+the application might consist of a paned window (that is, a window divided
+into several sections) named ``toc''.
+One pane of the paned window is a button box window named ``buttons''
+and is filled with command buttons. 
+One of these command buttons is used to retrieve (include)
+new mail and has the name ``include''.
+This window has a fully qualified name, ``xmh.toc.buttons.include'',
+and a fully qualified class, ``Xmh.VPaned.Box.Command''.
+Its fully qualified name is the name of its parent, ``xmh.toc.buttons'', 
+followed by its name, ``include''.
+Its class is the class of its parent, ``Xmh.VPaned.Box'', 
+followed by its particular class, ``Command''.  
+The fully qualified name of a resource is
+the attribute's name appended to the object's fully qualified
+name, and the fully qualified class is its class appended to the object's
+class.
+.LP
+This include button needs the following resources: 
+.IP \(bu 5
+Title string
+.IP \(bu 5
+Font
+.IP \(bu 5
+Foreground color for its inactive state
+.IP \(bu 5
+Background color for its inactive state
+.IP \(bu 5
+Foreground color for its active state
+.IP \(bu 5
+Background color for its active state
+.LP
+Each of the resources that this button needs are considered
+to be attributes of the button and, as such, have a name and
+a class.
+For example, the foreground color for the button in
+its active state might be named ``activeForeground'',
+and its class would be ``Foreground.''
+.LP
+When an application looks up a resource (for example, a color),
+it passes the complete name and complete class of the resource
+to a look-up routine.
+After look up, 
+the resource manager returns the resource value and the representation type.
+.LP
+The resource manager allows applications to store resources 
+by an incomplete specification of name, class, and a
+representation type, as well as to retrieve them given a
+fully qualified name and class.
+.LP
+Resource specifications are usually stored in human-readable files
+and in server properties (see
+.PN XResourceManagerString ).
+The BNF of a resource specification is:
+.LP
+.Ds 0
+.TA 1.5i 1.75i
+.ta 1.5i 1.75i
+ResourceLine	=	Comment | ResourceSpec
+Comment	=	"!" string | <empty line>
+ResourceSpec	=	WhiteSpace ResourceName WhiteSpace ":" WhiteSpace value
+ResourceName	=	[Binding] ComponentName {Binding ComponentName}
+Binding	=	"\&." | "*"
+WhiteSpace	=	{" " | "\\t"}
+ComponentName	=	{"a"\-"z" | "A"\-"Z" | "0"\-"9" | "_" | "-"}
+value	=	string
+string	=	{<any character not including "\\n">}
+.De
+.LP
+Note that elements enclosed in curly braces ({\&.\&.\&.}) indicate
+zero or more occurrences of the enclosed elements
+.NH 3
+Resource Manager Matching Rules
+.XS
+\*(SN Resource Manager Matching Rules
+.XE
+.LP
+The algorithm for determining which resource name or names
+match a given query is the heart of the database.
+Resources are stored with only partially specified names and classes, 
+using pattern matching constructs.
+An asterisk (*) is used to represent any number of intervening components 
+(including none).
+A period (.) is used to separate immediately adjacent components.
+All queries fully specify the name and class of the resource needed.
+A trailing period and asterisk are not removed.
+The library supports 100 components in a name or class.
+The look-up algorithm then searches the database for the name that most closely 
+matches (is most specific) this full name and class.
+The rules for a match in order of precedence are:
+.IP 1. 5
+The attribute of the name and class must match.
+For example, queries for:
+.IP
+.Ds 
+.TA 2.5i
+.ta 2.5i
+xterm.scrollbar.background	(name)
+XTerm.Scrollbar.Background	(class)
+.De
+.IP
+will not match the following database entry:
+.IP
+.Ds
+.TA 2.5i
+.ta 2.5i
+xterm.scrollbar:on
+.De
+.IP 2. 5
+Database entries with name or class prefixed by a period (.) 
+are more specific than those prefixed by an asterisk (*).
+For example, 
+the entry xterm.geometry is more specific than the entry xterm*geometry.
+.IP 3. 5
+Names are more specific than classes.
+For example,
+the entry ``*scrollbar.background'' is more specific than 
+the entry ``*Scrollbar.Background''.
+.IP 4. 5.
+Specifying a name or class is more specific than omitting either.
+For example,
+the entry ``Scrollbar*Background'' is more specific than the
+entry ``*Background''.
+.IP 5. 5
+Left components are more specific than right components.
+For example, ``*vt100*background'' is more specific than 
+the entry ``*scrollbar*background''
+for the query ``.vt100.scrollbar.background''.
+.IP 6. 5
+If neither a period (.) nor an asterisk (*) is specified 
+at the beginning, a period (.) is implicit.
+For example, ``xterm.background'' is identical to ``.xterm.background''.
+.LP
+Names and classes can be mixed.
+As an example of these rules, 
+assume the following user preference specification:
+.LP
+.Ds 
+.TA 2.5i
+.ta 2.5i
+xmh*background:	red
+*command.font:	8x13
+*command.background:	blue
+*Command.Foreground:	green
+xmh.toc*Command.activeForeground:	black
+.De
+.LP
+A query for the name
+``xmh.toc.messagefunctions.include.activeForeground'' and class
+``Xmh.VPaned.Box.Command.Foreground'' would match
+``xmh.toc*Command.activeForeground'' and return ``black''.
+However, it also matches ``*Command.Foreground''.
+.LP
+Using the precedence algorithm described above, 
+the resource manager would return the value specified by
+``xmh.toc*Command.activeForeground''.
+.NH 3
+Basic Resource Manager Definitions
+.XS
+\*(SN Basic Resource Manager Definitions
+.XE
+.LP
+The definitions for the resource manager's use are contained in
+.Pn < X11/Xresource.h >.
+Xlib also uses the resource manager internally to allow for
+non-English language error messages.
+.LP
+Database values consist of a size, an address, and a representation type.
+The size is specified in bytes.
+The representation type is a way for you to store data tagged by some 
+application-defined type (for example, ``font'' or ``color'').
+It has nothing to do with the C data type or with its class. 
+The
+.PN XrmValue 
+structure contains:
+.LP
+.IN "XrmValue" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	unsigned int size;
+	caddr_t addr;
+} XrmValue, *XrmValuePtr;
+.De
+.LP
+A resource database is an opaque type used by the look-up functions.
+.LP
+.Ds 0
+typedef struct _XrmHashBucketRec *XrmDatabase;
+.De
+.LP
+To initialize the resource manager, use
+.PN XrmInitialize .
+.IN "XrmInitialize" "" "@DEF@"
+.FD 0
+void XrmInitialize\^(\|);
+.FN
+Most uses of the resource manager involve defining names,
+classes, and representation types as string constants.
+However, always referring to strings in the resource manager can be slow,
+because it is so heavily used in some toolkits.
+To solve this problem, 
+a shorthand for a string is used in place of the string
+in many of the resource manager functions.
+Simple comparisons can be performed rather than string comparisons.
+The shorthand name for a string is called a quark and is the
+type 
+.PN XrmQuark .
+On some occasions,
+you may want to allocate a quark that has no string equivalent.
+.LP
+A quark is to a string what an atom is to a string in the server,
+but its use is entirely local to your application.
+.LP
+.sp
+To allocate a new quark, use
+.PN XrmUniqueQuark .
+.IN "XrmUniqueQuark" "" "@DEF@"
+.FD 0
+XrmQuark XrmUniqueQuark\^(\|)
+.FN
+.LP
+The
+.PN XrmUniqueQuark
+function allocates a quark that is guaranteed not to represent any string that
+is known to the resource manager.
+.LP
+.sp
+To allocate some memory you will never give back, use
+.PN Xpermalloc .
+.IN "Xpermalloc" "" "@DEF@"
+.FD 0
+char *Xpermalloc\^(\^\fIsize\fP\^)
+.br
+     unsigned int \fIsize\fP\^;
+.FN
+.LP
+The
+.PN Xpermalloc
+function is used by some toolkits for permanently allocated storage
+and allows some performance and space savings over the completely general
+memory allocator.
+.LP
+Each name, class, and representation type is typedef'd as an
+.PN XrmQuark .
+.LP
+.Ds 0
+typedef int XrmQuark, *XrmQuarkList;
+typedef XrmQuark XrmName;
+typedef XrmQuark XrmClass;
+typedef XrmQuark XrmRepresentation;
+.De
+.LP
+Lists are represented as null-terminated arrays of quarks.
+The size of the array must be large enough for the number of components used.
+.LP
+.Ds 0
+typedef XrmQuarkList XrmNameList;
+typedef XrmQuarkList XrmClassList;
+.De
+.LP
+.sp
+To convert a string to a quark, use
+.PN XrmStringToQuark .
+.IN "XrmStringToQuark" "" "@DEF@"
+.FD 0
+#define XrmStringToName(string) XrmStringToQuark(string)
+#define XrmStringToClass(string) XrmStringToQuark(string)
+#define XrmStringToRepresentation(string) XrmStringToQuark(string)
+.sp
+XrmQuark XrmStringToQuark\^(\^\fIstring\fP\^)
+.br
+     char *\fIstring\fP\^;
+.FN
+.IP \fIstring\fP 1i
+Specifies the string for which a quark is to be allocated.
+.LP
+.sp
+To convert a quark to a string, use 
+.PN XrmQuarkToString .
+.IN "XrmQuarkToString" "" "@DEF@"
+.FD 0
+#define XrmNameToString(name) XrmQuarkToString(name)
+#define XrmClassToString(class) XrmQuarkToString(class)
+#define XrmRepresentationToString(type) XrmQuarkToString(type)
+.sp
+char *XrmQuarkToString\^(\^\fIquark\fP\^)
+.br
+     XrmQuark \fIquark\fP\^;
+.FN
+.IP \fIquark\fP 1i
+Specifies the quark for which the equivalent string is desired.
+.LP
+These functions can be used to convert to and from quark representations.
+The string pointed to by the return value must not be modified or freed.
+If no string exists for that quark,
+.PN XrmQuarkToString
+returns NULL.
+.LP
+.sp
+To convert a string with one or more components to a quark list, use
+.PN XrmStringToQuarkList .
+.IN "XrmStringToQuarkList" "" "@DEF@"
+.FD 0
+#define XrmStringToNameList(str, name)  XrmStringToQuarkList((str), (name))
+#define XrmStringToClassList(str,class) XrmStringToQuarkList((str), (class))
+.sp
+void XrmStringToQuarkList\^(\^\fIstring\fP, \fIquarks_return\fP\^)
+.br
+     char *\fIstring\fP\^;
+.br
+     XrmQuarkList \fIquarks_return\fP\^;
+.FN
+.IP \fIstring\fP 1i
+Specifies the string for which a quark is to be allocated.
+.IP \fIquarks_return\fP 1i
+Returns the list of quarks.
+.LP
+The
+.PN XrmStringToQuarkList
+function converts the null-terminated string (generally a fully qualified name)
+to a list of quarks.
+Note that the string must be in the valid ResourceName format 
+(see section 10.11).
+The components of the string are separated by a period or asterisk character.
+.LP
+A binding list is a list of type
+.PN XrmBindingList
+and indicates if components of name or class lists are bound tightly or loosely
+(that is, if wildcarding of intermediate components is specified).
+.LP
+.Ds 0
+typedef enum {XrmBindTightly, XrmBindLoosely} XrmBinding, *XrmBindingList;
+.De
+.LP
+.PN XrmBindTightly
+indicates that a period separates the components, and
+.PN XrmBindLoosely
+indicates that an asterisk separates the components.
+.LP
+.sp
+To convert a string with one or more components to a binding list
+and a quark list, use
+.PN XrmStringToBindingQuarkList .
+.IN "XrmStringToBindingQuarkList" "" "@DEF@"
+.FD 0
+XrmStringToBindingQuarkList\^(\^\fIstring\fP, \fIbindings_return\fP, \
+\fIquarks_return\fP\^)
+.br
+     char *\fIstring\fP\^;
+.br
+     XrmBindingList \fIbindings_return\fP\^;
+.br
+     XrmQuarkList \fIquarks_return\fP\^;
+.FN
+.IP \fIstring\fP 1i
+Specifies the string for which a quark is to be allocated.
+.IP \fIbindings_return\fP 1i
+Returns the binding list.
+The caller must allocate sufficient space for the binding list before calling 
+.PN XrmStringToBindingQuarkList .
+.IP \fIquarks_return\fP 1i
+Returns the list of quarks.
+The caller must allocate sufficient space for the quarks list before calling 
+.PN XrmStringToBindingQuarkList .
+.LP
+Component names in the list are separated by a period or 
+an asterisk character.
+The string must be in the format of a valid ResourceName (see section 10.11).
+If the string does not start with a period or an asterisk, 
+a Binding, XrmBindTightly is assumed.
+For example, ``*a.b*c'' becomes:
+.LP
+.Ds 0
+.TA .75i 1.5i 2.25i
+.ta .75i 1.5i 2.25i
+quarks	a	b	c
+bindings	loose	tight	loose
+.De
+.NH 3
+Resource Database Access
+.XS
+\*(SN Resource Database Access
+.XE
+.LP
+Xlib provides resource management functions that you
+can use to manipulate resource databases.
+The next sections discuss how to:
+.IP \(bu 5
+Store and get resources
+.IP \(bu 5
+Get database levels
+.IP \(bu 5
+Merge two databases
+.IP \(bu 5
+Retrieve and store databases
+.NH 4
+Storing Into a Resource Database
+.XS
+\*(SN Storing Into a Resource Database
+.XE
+.LP
+To store resources into the database, use
+.PN XrmPutResource 
+or
+.PN XrmQPutResource .
+Both functions take a partial resource specification, a
+representation type, and a value.
+This value is copied into the specified database.
+.LP
+.sp
+.IN "XrmPutResource" "" "@DEF@"
+.FD 0
+void XrmPutResource\^(\^\fIdatabase\fP, \fIspecifier\fP, \fItype\fP, \fIvalue\fP\^)
+.br
+     XrmDatabase *\fIdatabase\fP\^;
+.br
+     char *\fIspecifier\fP\^;
+.br
+     char *\fItype\fP\^;
+.br
+     XrmValue *\fIvalue\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fIspecifier\fP 1i
+Specifies a complete or partial specification of the resource.
+.IP \fItype\fP 1i
+Specifies the type of the resource.
+.IP \fIvalue\fP 1i
+Specifies the value of the resource, which is specified as a string.
+.LP
+If database contains NULL,
+.PN XrmPutResource
+creates a new database and returns a pointer to it.
+.PN XrmPutResource
+is a convenience function that calls
+.PN XrmStringToBindingQuarkList
+followed by:
+.LP
+.Ds
+XrmQPutResource(database, bindings, quarks, XrmStringToQuark(type), value)
+.De
+.LP
+.sp
+.IN "XrmQPutResource" "" "@DEF@"
+.FD 0
+void XrmQPutResource\^(\^\fIdatabase\fP, \fIbindings\fP, \fIquarks\fP, \
+\fItype\fP, \fIvalue\fP\^)
+.br
+     XrmDatabase *\fIdatabase\fP\^;
+.br
+     XrmBindingList \fIbindings\fP\^;
+.br
+     XrmQuarkList \fIquarks\fP\^;
+.br
+     XrmRepresentation \fItype\fP\^;
+.br
+     XrmValue *\fIvalue\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fIbindings\fP 1i
+Specifies a list of bindings.
+.IP \fIquarks\fP 1i
+Specifies the complete or partial name or the class list of the resource.
+.IP \fItype\fP 1i
+Specifies the type of the resource.
+.IP \fIvalue\fP 1i
+Specifies the value of the resource, which is specified as a string.
+.LP
+If database contains NULL,
+.PN XrmQPutResource
+creates a new database and returns a pointer to it.
+.LP
+.sp
+To add a resource that is specified as a string, use
+.PN XrmPutStringResource .
+.IN "XrmPutStringResource" "" "@DEF@"
+.FD 0
+void XrmPutStringResource\^(\^\fIdatabase\fP, \fIspecifier\fP, \fIvalue\fP\^)
+.br
+     XrmDatabase *\fIdatabase\fP\^;
+.br
+     char *\fIspecifier\fP\^;
+.br
+     char *\fIvalue\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fIspecifier\fP 1i
+Specifies a complete or partial specification of the resource.
+.IP \fIvalue\fP 1i
+Specifies the value of the resource, which is specified as a string.
+.LP
+If database contains NULL,
+.PN XrmPutStringResource
+creates a new database and returns a pointer to it.
+.PN XrmPutStringResource
+adds a resource with the specified value to the specified database.
+.PN XrmPutStringResource
+is a convenience function that first calls
+.PN XrmStringToBindingQuarkList
+on the specifier and then calls
+.PN XrmQPutResource ,
+using a ``String'' representation type.
+.LP
+.sp
+To add a string resource using quarks as a specification, use
+.PN XrmQPutStringResource .
+.IN "XrmQPutStringResource" "" "@DEF@"
+.FD 0
+void XrmQPutStringResource\^(\^\fIdatabase\fP, \fIbindings\fP, \fIquarks\fP, \
+\fIvalue\fP\^)
+.br
+     XrmDatabase *\fIdatabase\fP\^;
+.br
+     XrmBindingList \fIbindings\fP\^;
+.br
+     XrmQuarkList \fIquarks\fP\^;
+.br
+     char *\fIvalue\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fIbindings\fP 1i
+Specifies a list of bindings.
+.IP \fIquarks\fP 1i
+Specifies the complete or partial name or the class list of the resource.
+.IP \fIvalue\fP 1i
+Specifies the value of the resource, which is specified as a string.
+.LP
+If database contains NULL,
+.PN XrmQPutStringResource
+creates a new database and returns a pointer to it.
+.PN XrmQPutStringResource
+is a convenience routine that constructs an
+.PN XrmValue
+for the value string (by calling
+.PN strlen
+to compute the size) and
+then calls
+.PN XrmQPutResource ,
+using a ``String'' representation type.
+.LP
+.sp
+To add a single resource entry that is specified as a string that contains
+both a name and a value, use
+.PN XrmPutLineResource .
+.IN "XrmPutLineResource" "" "@DEF@"
+.FD 0
+void XrmPutLineResource\^(\^\fIdatabase\fP, \fIline\fP\^)
+.br
+     XrmDatabase *\fIdatabase\fP\^;
+.br
+     char *\fIline\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fIline\fP 1i
+Specifies the resource name and value pair as a single string
+in the valid ResourceLine format (see section 10.11).
+A single colon (:) separates the name from the value.
+Note that comment lines are not stored.
+.LP
+If database contains NULL,
+.PN XrmPutLineResource
+creates a new database and returns a pointer to it.
+.PN XrmPutLineResource
+adds a single resource entry to the specified database.
+Any white space before or after the name or colon in the line argument
+is ignored.
+The value is terminated by a new-line or a NULL character.
+To allow values to contain embedded new-line characters,
+a ``\\n'' is recognized and replaced by a new-line character.
+For example, line might have the value ``xterm*background:green\\n''.
+Null-terminated strings without a new line are also permitted.
+.LP
+To allow values to contain arbitrary octets,
+the 4-character sequence \\\fInnn\fP\^,
+where n is a digit in the range of "0"\-"7",
+is recognized and replaced with a single byte that contains
+this sequence interpreted as an octal number.
+For example,
+a value containing a NULL byte can be stored by specifying "\\000"
+in the string.
+.NH 4
+Looking Up from a Resource Database
+.XS
+\*(SN Looking Up from a Resource Database
+.XE
+.LP
+To retrieve a resource from a resource database, use
+.PN XrmGetResource
+or
+.PN XrmQGetResource .
+.LP
+.sp
+.IN "XrmGetResource" "" "@DEF@"
+.FD 0
+Bool XrmGetResource\^(\^\fIdatabase\fP, \fIstr_name\fP, \fIstr_class\fP, \
+\fIstr_type_return\fP, \fIvalue_return\fP\^)
+.br
+     XrmDatabase \fIdatabase\fP\^;
+.br
+     char *\fIstr_name\fP\^;
+.br
+     char *\fIstr_class\fP\^;
+.br
+     char **\fIstr_type_return\fP\^;
+.br
+     XrmValue *\fIvalue_return\fP\^; 
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the database that is to be used.
+.IP \fIstr_name\fP 1i
+Specifies the fully qualified name of the value being retrieved (as a string).
+.IP \fIstr_class\fP 1i
+Specifies the fully qualified class of the value being retrieved (as a string).
+.IP \fIstr_type_return\fP 1i
+Returns a pointer to the representation type of the destination (as a string).
+.IP \fIvalue_return\fP 1i
+Returns the value in the database.
+.LP
+.sp
+.IN "XrmQGetResource" "" "@DEF@"
+.FD 0
+Bool XrmQGetResource\^(\^\fIdatabase\fP, \fIquark_name\fP, \fIquark_class\fP, \
+\fIquark_type_return\fP, \fIvalue_return\fP\^)
+.br
+     XrmDatabase \fIdatabase\fP\^;
+.br
+     XrmNameList \fIquark_name\fP\^;
+.br
+     XrmClassList \fIquark_class\fP\^;
+.br
+     XrmRepresentation *\fIquark_type_return\fP\^;
+.br
+     XrmValue *\fIvalue_return\fP\^; 
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the database that is to be used.
+.IP \fIquark_name\fP 1i
+Specifies the fully qualified name of the value being retrieved (as a quark).
+.IP \fIquark_class\fP 1i
+Specifies the fully qualified class of the value being retrieved (as a quark).
+.IP \fIquark_type_return\fP 1i
+Returns a pointer to the representation type of the destination (as a quark).
+.IP \fIvalue_return\fP 1i
+Returns the value in the database.
+.LP
+The 
+.PN XrmGetResource 
+and 
+.PN XrmQGetResource 
+functions retrieve a resource from the specified database.
+Both take a fully qualified name/class pair, a destination
+resource representation, and the address of a value
+(size/address pair).  
+The value and returned type point into database memory;
+therefore, you must not modify the data.
+.LP
+The database only frees or overwrites entries on
+.PN XrmPutResource , 
+.PN XrmQPutResource ,
+or 
+.PN XrmMergeDatabases .
+A client that is not storing new values into the database or
+is not merging the database should be safe using the address passed 
+back at any time until it exits.
+If a resource was found, both
+.PN XrmGetResource 
+and
+.PN XrmQGetResource 
+return 
+.PN True ;
+otherwise, they return 
+.PN False .
+.NH 4
+Database Search Lists
+.XS
+\*(SN Database Search Lists
+.XE
+.LP
+Most applications and toolkits do not make random probes
+into a resource database to fetch resources.
+The X toolkit access pattern for a resource database is quite stylized.
+A series of from 1 to 20 probes are made with only the 
+last name/class differing in each probe.
+The 
+.PN XrmGetResource 
+function is at worst a %2 sup n% algorithm,
+where \fIn\fP is the length of the name/class list.
+This can be improved upon by the application programmer by prefetching a list
+of database levels that might match the first part of a name/class list.
+.LP
+.sp
+To return a list of database levels, use
+.PN XrmQGetSearchList .
+.IN "XrmQGetSearchList" "" "@DEF@"
+.FD 0
+typedef XrmHashTable *XrmSearchList;
+.sp
+Bool XrmQGetSearchList\^(\^\fIdatabase\fP, \fInames\fP, \fIclasses\fP, \
+\fIlist_return\fP, \fIlist_length\fP\^)
+.br
+     XrmDatabase \fIdatabase\fP\^;
+.br
+     XrmNameList \fInames\fP\^;
+.br
+     XrmClassList \fIclasses\fP\^;
+.br
+     XrmSearchList \fIlist_return\fP\^;
+.br
+     int \fIlist_length\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the database that is to be used.
+.IP \fInames\fP 1i
+Specifies a list of resource names.
+.IP \fIclasses\fP 1i
+Specifies a list of resource classes.
+.IP \fIlist_return\fP 1i
+Returns a search list for further use.
+The caller must allocate sufficient space for the list before calling 
+.PN XrmQGetSearchList .
+.IP \fIlist_length\fP 1i
+Specifies the number of entries (not the byte size) allocated for list_return.
+.LP
+.EQ
+delim %%
+.EN
+The
+.PN XrmQGetSearchList
+function takes a list of names and classes
+and returns a list of database levels where a match might occur.
+The returned list is in best-to-worst order and
+uses the same algorithm as 
+.PN XrmGetResource 
+for determining precedence.
+If list_return was large enough for the search list,
+.PN XrmQGetSearchList
+returns 
+.PN True ;
+otherwise, it returns
+.PN False .
+.LP
+The size of the search list that the caller must allocate is
+dependent upon the number of levels and wildcards in the resource specifiers 
+that are stored in the database.
+The worst case length is %3 sup n%,
+where \fIn\fP is the number of name or class components in names or classes.
+.LP
+When using 
+.PN XrmQGetSearchList 
+followed by multiple probes for resources with a common name and class prefix,
+only the common prefix should be specified in the name and class list to 
+.PN XrmQGetSearchList .
+.LP
+.sp
+To search resource database levels for a given resource, use
+.PN XrmQGetSearchResource .
+.IN "XrmQGetSearchResource" "" "@DEF@"
+.FD 0
+Bool XrmQGetSearchResource\^(\^\fIlist\fP, \fIname\fP, \fIclass\fP, \
+\fItype_return\fP, \fIvalue_return\fP\^)
+.br
+     XrmSearchList \fIlist\fP\^;
+.br
+     XrmName \fIname\fP\^;
+.br
+     XrmClass \fIclass\fP\^;
+.br
+     XrmRepresentation *\fItype_return\fP\^;
+.br
+     XrmValue *\fIvalue_return\fP\^;
+.FN
+.IP \fIlist\fP 1i
+Specifies the search list returned by
+.PN XrmQGetSearchList .
+.IP \fIname\fP 1i
+Specifies the resource name.
+.IP \fIclass\fP 1i
+Specifies the resource class.
+.IP \fItype_return\fP 1i
+Returns data representation type.
+.IP \fIvalue_return\fP 1i
+Returns the value in the database.
+.LP
+The
+.PN XrmQGetSearchResource
+function searches the specified database levels for the resource 
+that is fully identified by the specified name and class.
+The search stops with the first match.
+.PN XrmQGetSearchResource
+returns 
+.PN True 
+if the resource was found;
+otherwise, it returns
+.PN False .
+.LP
+A call to 
+.PN XrmQGetSearchList 
+with a name and class list containing all but the last component 
+of a resource name followed by a call to 
+.PN XrmQGetSearchResource 
+with the last component name and class returns the same database entry as 
+.PN XrmGetResource 
+and 
+.PN XrmQGetResource 
+with the fully qualified name and class.
+.NH 4
+Merging Resource Databases
+.XS
+\*(SN Merging Resource Databases
+.XE
+.LP
+To merge the contents of one database into another database, use
+.PN XrmMergeDatabases .
+.IN "XrmMergeDatabases" "" "@DEF@"
+.FD 0
+void XrmMergeDatabases(\^\fIsource_db\fP, \fItarget_db\fP\^)
+.br
+      XrmDatabase \fIsource_db\fP, *\fItarget_db\fP\^;
+.FN
+.IP \fIsource_db\fP 1i
+Specifies the resource database that is to be merged into the target database.
+.IP \fItarget_db\fP 1i
+Specifies a pointer to the resource database into which the source 
+database is to be merged.
+.LP 
+.\" $Header: XrmMDBase.d,v 1.2 88/06/11 07:54:46 mento Exp $
+The
+.PN XrmMergeDatabases
+function merges the contents of one database into another.
+It may overwrite entries in the destination database.
+This function is used to combine databases
+(for example, an application specific database of
+defaults and a database of user preferences).
+The merge is destructive; that is, the source database is destroyed.
+.NH 4
+Retrieving and Storing Databases
+.XS
+\*(SN Retrieving and Storing Databases
+.XE
+.LP
+To retrieve a database from disk, use
+.PN XrmGetFileDatabase .
+.IN "XrmGetFileDatabase" "" "@DEF@"
+.FD 0
+XrmDatabase XrmGetFileDatabase\^(\^\fIfilename\fP\^)
+.br
+     char *\fIfilename\fP\^;
+.FN
+.IP \fIfilename\fP 1i
+Specifies the resource database file name.
+.LP
+The
+.PN XrmGetFileDatabase
+function opens the specified file,
+creates a new resource database, and loads it with the specifications
+read in from the specified file.
+The specified file must contain lines in the format accepted by
+.PN XrmPutLineResource .
+If it cannot open the specified file,
+.PN XrmGetFileDatabase
+returns NULL.
+.LP
+.sp
+To store a copy of a database to disk, use
+.PN XrmPutFileDatabase .
+.IN "XrmPutFileDatabase" "" "@DEF@"
+.FD 0
+void XrmPutFileDatabase\^(\^\fIdatabase\fP, \fIstored_db\fP\^)
+.br
+     XrmDatabase \fIdatabase\fP\^;
+.br
+     char *\fIstored_db\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the database that is to be used.
+.IP \fIstored_db\fP 1i
+Specifies the file name for the stored database.
+.LP
+The
+.PN XrmPutFileDatabase
+function stores a copy of the specified database in the specified file.
+The file is an ASCII text file that contains lines in the format that is
+accepted by
+.PN XrmPutLineResource .
+.LP
+.sp
+To create a database from a string, use
+.PN XrmGetStringDatabase .
+.IN "XrmGetStringDatabase" "" "@DEF@"
+.FD 0
+XrmDatabase XrmGetStringDatabase\^(\^\fIdata\fP\^)
+.br
+     char *\fIdata\fP\^;
+.FN
+.IP \fIdata\fP 1i
+Specifies the database contents using a string.
+.LP
+The
+.PN XrmGetStringDatabase
+function creates a new database and stores the resources specified
+in the specified null-terminated string.
+.PN XrmGetStringDatabase
+is similar to
+.PN XrmGetFileDatabase
+except that it reads the information out of a string instead of out of a file.
+Each line is separated by a new-line character in the format
+accepted by
+.PN XrmPutLineResource .
+.LP
+.sp
+To destroy a resource database and free its allocated memory, use
+.PN XrmDestroyDatabase .
+.IN "XrmDestroyDatabase" "" "@DEF@"
+.FD 0
+void XrmDestroyDatabase\^(\^\fIdatabase\fP\^)
+.br
+      XrmDatabase \fIdatabase\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.LP
+If database is NULL,
+.PN XrmDestroyDatabase
+returns immediately.
+.NH 3
+Parsing Command Line Options
+.XS
+\*(SN Parsing Command Line Options 
+.XE
+.LP
+The
+.PN XrmParseCommand
+function can be used to parse the command line arguments to a program
+and modify a resource database with selected entries from the command line.
+.LP
+.IN "XrmOptionKind" "" "@DEF@"
+.Ds 0
+.TA .5i 2.5i
+.ta .5i 2.5i
+typedef enum {
+	XrmoptionNoArg,	/* Value is specified in XrmOptionDescRec.value */
+	XrmoptionIsArg,	/* Value is the option string itself */
+	XrmoptionStickyArg,	/* Value is characters immediately following option */
+	XrmoptionSepArg,	/* Value is next argument in argv */
+	XrmoptionResArg,	/* Resource and value in next argument in argv */
+	XrmoptionSkipArg,	/* Ignore this option and the next argument in argv */
+	XrmoptionSkipLine,	/* Ignore this option and the rest of argv */
+	XrmoptionSkipNArgs	/* Ignore this option and the next
+		\ \ \ XrmOptionDescRec.value arguments in argv */
+} XrmOptionKind;
+.De
+.LP
+Note that
+.PN XrmoptionSkipArg
+is equivalent to 
+.PN XrmoptionSkipNArgs
+with the
+.PN XrmOptionDescRec.value
+field containing the value one.
+Note also that the value zero for
+.PN XrmoptionSkipNArgs
+indicates that only the option itself is to be skipped.
+.LP
+.IN "XrmOptionDescRec" "" "@DEF@"
+.Ds 0
+.TA .5i 2.5i
+.ta .5i 2.5i
+typedef struct {
+	char *option;	/* Option specification string in argv		    */
+	char *specifier;	/* Binding and resource name (sans application name)    */
+	XrmOptionKind argKind;	/* Which style of option it is	    */
+	caddr_t value;	/* Value to provide if XrmoptionNoArg or 
+		\ \ \ XrmoptionSkipNArgs   */
+} XrmOptionDescRec, *XrmOptionDescList;
+.De
+.LP
+.sp
+To load a resource database from a C command line, use
+.PN XrmParseCommand .
+.IN "XrmParseCommand" "" "@DEF@"
+.FD 0
+void XrmParseCommand\^(\^\fIdatabase\fP\^, \^\fItable\fP\^, \^\fItable_count\fP\^, \
+\^\fIname\fP\^, \^\fIargc_in_out\fP\^, \^\fIargv_in_out\fP\^,)
+.br
+      XrmDatabase *\fIdatabase\fP\^;
+.br
+      XrmOptionDescList \fItable\fP\^;
+.br
+      int \fItable_count\fP\^;
+.br
+      char *\fIname\fP\^;
+.br
+      int *\fIargc_in_out\fP\^;
+.br
+      char **\fIargv_in_out\fP\^;
+.FN
+.IP \fIdatabase\fP 1i
+Specifies the resource database.
+.IP \fItable\fP 1i
+Specifies the table of command line arguments to be parsed.
+.IP \fItable_count\fP 1i
+Specifies the number of entries in the table.
+.\" $Header: parname.a,v 1.1 88/02/26 10:30:16 mento Exp $
+.IP \fIname\fP 1i
+Specifies the application name.
+.IP \fIargc_in_out\fP 1i
+Specifies the number of arguments and returns the number of remaining arguments.
+.IP \fIargv_in_out\fP 1i
+Specifies a pointer to the command line arguments
+and returns the remaining arguments.
+.LP
+.\" $Header: XrmParse.d,v 1.7 88/08/20 10:49:05 mento Exp $
+The
+.PN XrmParseCommand
+function parses an (argc, argv) pair according to the specified option table,
+loads recognized options into the specified database with type ``String,''
+and modifies the (argc, argv) pair to remove all recognized options.
+.LP
+The specified table is used to parse the command line.
+Recognized entries in the table are removed from argv,
+and entries are made in the specified resource database.
+The table entries contain information on the option string,
+the option name, the style of option, 
+and a value to provide if the option kind is 
+.PN XrmoptionNoArg .
+The argc argument specifies the number of arguments in argv
+and is set to the remaining number of arguments that were not parsed.
+The name argument should be the name of your application
+for use in building the database entry.
+The name argument is prefixed to the resourceName in the option table
+before storing the specification.
+No separating (binding) character is inserted.
+The table must contain either a period (.) or an asterisk (*)
+as the first character in each resourceName entry.
+To specify a more completely qualified resource name,
+the resourceName entry can contain multiple components.
+.LP
+The following provides a sample standard option table from an X toolkit
+initialization function:
+.LP
+.Ds 0
+.TA 1.25i 3.25i 4.75i
+.ta 1.25i 3.25i 4.75i
+static XrmOptionDescRec opTable[] = {
+{"\-background",	"*background",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-bd",	"*borderColor",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-bg",	"*background",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-borderwidth",	"*TopLevelShell.borderWidth",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-bordercolor",	"*borderColor",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-bw",	"*TopLevelShell.borderWidth",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-display",	".display",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-fg",	"*foreground",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-fn",	"*font",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-font",	"*font",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-foreground",	"*foreground",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-geometry",	".TopLevelShell.geometry",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-iconic",	".TopLevelShell.iconic",	XrmoptionNoArg,	(caddr_t) "on"},
+{"\-name",	".name",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-reverse",	"*reverseVideo",	XrmoptionNoArg,	(caddr_t) "on"},
+{"\-rv",	"*reverseVideo",	XrmoptionNoArg,	(caddr_t) "on"},
+{"\-synchronous",	"*synchronous",	XrmoptionNoArg,	(caddr_t) "on"},
+{"\-title",	".TopLevelShell.title",	XrmoptionSepArg,	(caddr_t) NULL},
+{"\-xrm",	NULL,	XrmoptionResArg,	(caddr_t) NULL},
+};
+.De
+.LP
+In this table, if the \-background (or \-bg) option is used to set
+background colors, the stored resource specifier matches all
+resources of attribute background.  
+If the \-borderwidth option is used, 
+the stored resource specifier applies only to border width
+attributes of class TopLevelShell (that is, outer-most windows, including
+pop-up windows).  
+If the \-title option is used to set a window name,
+only the topmost application windows receive the resource.
+.LP
+When parsing the command line,
+any unique unambiguous abbreviation for an option name in the table is 
+considered a match for the option.
+Note that uppercase and lowercase matter.
+.NH 2
+Using the Context Manager
+.XS
+\*(SN Using the Context Manager 
+.XE
+.LP
+The context manager provides a way of associating data with a window in your
+program.  
+Note that this is local to your program;
+the data is not stored in the server on a property list.
+Any amount of data in any number of pieces can be associated with a window,
+and each piece of data has a type associated with it.  
+The context manager requires knowledge of the window
+and type to store or retrieve data.
+.LP
+Essentially, the context manager can be viewed as a two-dimensional, 
+sparse array:  one dimension is subscripted by the window
+and the other by a context type field.
+Each entry in the array contains a pointer to the data.
+Xlib provides context management functions with which you can
+save data values, get data values, delete entries, and create a unique
+context type.
+The symbols used are in
+.Pn < X11/Xutil.h >.
+.LP
+.sp
+To save a data value that corresponds to a window and context type, use
+.PN XSaveContext .
+.IN "XSaveContext" "" "@DEF@"
+.FD 0
+int XSaveContext(\^\fIdisplay\fP, \fIw\fP, \fIcontext\fP, \fIdata\fP\^)
+.br
+      Display *\fIdisplay\fP\^;	
+.br
+      Window \fIw\fP\^;
+.br
+      XContext \fIcontext\fP\^;
+.br
+      caddr_t \fIdata\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIw\fP 1i
+Specifies the window with which the data is associated.
+.IP \fIcontext\fP 1i
+Specifies the context type to which the data belongs.
+.IP \fIdata\fP 1i
+Specifies the data to be associated with the window and type.
+.LP
+.\" $Header: XSContext.d,v 1.2 88/06/11 07:52:54 mento Exp $
+If an entry with the specified window and type already exists,
+.PN XSaveContext
+overrides it with the specified context.
+The
+.PN XSaveContext
+function returns a nonzero error code if an error has occurred
+and zero otherwise.
+Possible errors are
+.PN XCNOMEM
+(out of memory).
+.LP
+.sp
+To get the data associated with a window and type, use
+.PN XFindContext .
+.IN "XFindContext" "" "@DEF@"
+.FD 0
+int XFindContext(\^\fIdisplay\fP, \fIw\fP, \fIcontext\fP, \fIdata_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP\^;
+.br
+      XContext \fIcontext\fP\^;
+.br
+      caddr_t *\fIdata_return\fP\^;	
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIw\fP 1i
+Specifies the window with which the data is associated.
+.IP \fIcontext\fP 1i
+Specifies the context type to which the data belongs.
+.IP \fIdata_return\fP 1i
+Returns a pointer to the data.
+.LP
+.\" $Header: XFContext.d,v 1.2 88/06/11 07:50:11 mento Exp $
+Because it is a return value,
+the data is a pointer.
+The
+.PN XFindContext
+function returns a nonzero error code if an error has occurred
+and zero otherwise.
+Possible errors are
+.PN XCNOENT
+(context-not-found).
+.LP
+.sp
+To delete an entry for a given window and type, use
+.PN XDeleteContext .
+.IN "XDeleteContext" "" "@DEF@"
+.FD 0
+int XDeleteContext(\^\fIdisplay\fP, \fIw\fP, \fIcontext\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP;
+.br
+      XContext \fIcontext\fP;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIw\fP 1i
+Specifies the window with which the data is associated.
+.IP \fIcontext\fP 1i
+Specifies the context type to which the data belongs.
+.LP
+.\" $Header: XDContext.d,v 1.3 88/08/20 10:50:15 mento Exp $
+The
+.PN XDeleteContext
+function deletes the entry for the given window 
+and type from the data structure.
+This function returns the same error codes that
+.PN XFindContext
+returns if called with the same arguments.
+.PN XDeleteContext
+does not free the data whose address was saved.
+.LP
+.sp
+To create a unique context type that may be used in subsequent calls to
+.PN XSaveContext 
+and
+.PN XFindContext ,
+use
+.PN XUniqueContext .
+.IN "XUniqueContext" "" "@DEF@"
+.FD 0
+XContext XUniqueContext(\^)
+.FN
+.bp

@@ -1,0 +1,386 @@
+######################################################################
+# HISTORY
+# $Log:	files,v $
+# Revision 2.6  90/09/09  22:31:55  rpd
+# 	Add MAP_ETHER option
+# 	[90/08/30  17:52:05  af]
+# 
+# 	Restored syslog support code.
+# 	[90/08/14  10:25:51  af]
+# 
+# Revision 2.5  90/06/02  15:23:19  rpd
+# 	Added uxkern/mfs_prim.c.
+# 	[90/06/01            rpd]
+# 
+# 	Removed uxkern/ux_notify.c.
+# 	[90/03/26  19:44:05  rpd]
+# 
+# Revision 2.4  90/03/14  21:27:39  rwd
+# 	Add MAP_UAREA option
+# 	[90/01/22            rwd]
+# 
+# Revision 2.3  90/01/23  00:04:22  af
+# 	Added namei_macros option for @sys/@cpu expansion.
+# 	[90/01/20  23:17:25  af]
+# 
+# Revision 2.2  89/09/15  15:28:48  rwd
+# 	Added MAP_TIME option
+# 	[89/09/13            rwd]
+# 
+# 	Out-of-kernel version.
+# 	[89/01/03            dbg]
+# 
+# Revision 2.1  89/08/04  15:28:03  rwd
+# Created.
+# 
+# Revision 2.14  88/12/20  13:48:44  rpd
+# 	Added mach_ipc_rcvhack and mach_ipc_sighack.
+# 	[88/11/26  21:18:04  rpd]
+# 
+# Revision 2.13  88/12/19  02:40:36  mwyoung
+# 	Remove old options.
+# 	[88/12/14            mwyoung]
+# 
+# Revision 2.12  88/10/27  10:43:53  rpd
+# 	Added the mach_sctimes option.
+# 	[88/10/26  14:39:13  rpd]
+# 
+# Revision 2.11  88/10/01  21:51:39  rpd
+# 	Changed cs_assert to cmucs_assert.
+# 	[88/10/01  21:15:07  rpd]
+# 	
+# 	Added mach_xp_fpd option.
+# 	[88/09/29  01:06:42  rpd]
+# 
+# Revision 2.10  88/09/25  22:08:33  rpd
+# 	Added options mach_ipc_tcache and mach_ipc_wwa.
+# 	[88/09/19  23:24:00  rpd]
+# 	
+# 	Added mach_costats option and kern/callout_statistics.c, present
+# 	when mach_costats is enabled.
+# 	[88/09/09  04:41:04  rpd]
+# 
+# Revision 2.9  88/08/25  19:17:17  mwyoung
+# 	Eliminate old options.
+# 	[88/08/22            mwyoung]
+# 	
+# 	Eliminate old options.
+# 	[88/08/25  19:27:33  mwyoung]
+# 
+# Revision 2.8  88/08/25  18:41:56  mwyoung
+# 	Picked up fix from Rick for mach_np.
+# 	[88/08/18  17:25:00  rpd]
+# 
+# Revision 2.7  88/08/06  18:08:13  rpd
+# Added ipc_copyin.c, ipc_copyout.c, ipc_kport.c, ipc_kset.c, ipc_pobj.c.
+# Changed mach_ipc_netport.c to ipc_netportc; now conditional on mach_np.
+# Added CMUCS_DEBUG option.
+# 
+# Revision 2.6  88/07/22  07:34:30  rpd
+# New files ipc_globals.c, ipc_mports.c, ipc_prims.c, ipc_statistics.c.
+# 
+# Revision 2.5  88/07/20  16:21:20  rpd
+# Split mach_ipc.c into ipc_basics.c, ipc_port.c, and ipc_tt.c.
+# Add cs_assert, mach_ldebug, mach_ipcstats options.
+# Removed mach_port_sets, because it is standard now.
+# 
+# Revision 2.4  88/07/17  17:53:19  mwyoung
+# Add vm/memory_object.c for the external memory management interface.
+# 
+# Added MACH_PORT_SETS option, until it becomes standard.
+# 
+# Revision 2.3.2.2  88/07/04  15:27:13  mwyoung
+# Add vm/memory_object.c for the external memory management interface.
+# 
+# Revision 2.3.2.1  88/06/28  20:28:19  mwyoung
+# Added MACH_PORT_SETS option, until it becomes standard.
+# 
+# 27-Jun-88  Michael Young (mwyoung) at Carnegie-Mellon University
+#	Added MACH_PORT_SETS option, until it becomes standard.
+#
+#  7-Jun-88  Michael Young (mwyoung) at Carnegie-Mellon University
+#	Move MiG-generated files into the build directory.
+#
+#  4-May-88  David Black (dlb) at Carnegie-Mellon University
+#	Removed mach_time_new, slow_clock options.  Added stat_time.
+#
+#  9-Apr-88  Daniel Julin (dpj) at Carnegie-Mellon University
+#	Added files needed by MACH_NP.
+#
+#  1-Mar-88  Michael Young (mwyoung) at Carnegie-Mellon University
+#	Added kern/debug.c.
+#
+# 24-Mar-88  Douglas Orr (dorr) at Carnegie-Mellon University
+#	Add mach_emulation and mach_device options
+#
+# 18-Mar-88  Robert Baron (rvb) at Carnegie-Mellon University
+#	Add cs_disk option.  If off, hp.c and uda.c use bsd layouts.
+#
+# 12-May-88  Mike Accetta (mja) at Carnegie-Mellon University
+#	Added "mach_compat" option and "compat/xxx_syscalls.c" entry.
+#	[ V5.1(XF24) ]
+#
+# 09-Apr-88  Mike Accetta (mja) at Carnegie-Mellon University
+#	Added MACH and CMUCS* options.	
+#	[ V5.1(XF23) ]
+#
+# 26-Dec-87  David Golub (dbg) at Carnegie-Mellon University
+#	Removed obsolete options files: mach_nofloat, mach_pager,
+#	mach_remote, mach_who, new_sched.
+#
+# 12-Dec-87  Michael Young (mwyoung) at Carnegie-Mellon University
+#	MACH_XP: Added kern/pager_default_user.c and vm/device_pager.c.
+#
+#  8-Dec-87  David Black (dlb) at Carnegie-Mellon University
+#	MACH_EXCEPTION also requires kernel RPCs from a builtin task.
+#
+#  4-Dec-87  Michael Young (mwyoung) at Carnegie-Mellon University
+#	Added files to allow builtin tasks to make kernel RPCs
+#	[currently under MACH_XP switch].
+#
+#  1-Dec-87  David Black (dlb) at Carnegie-Mellon University
+#	Changes for new exception stuff.
+#
+# 27-Nov-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Flushed obsolete CS_TCP option.
+#	[ V5.1(XF21) ]
+#
+# 19-Nov-87  David Black (dlb) at Carnegie-Mellon University
+#	Added net/netisr.c; implements softnet interrupts in a separate
+#
+# 18-Nov-87  Avadis Tevanian (avie) at Carnegie-Mellon University
+#	Cleanup, removed old history.
+#
+# 16-Oct-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Zap MPX and BBNNET 4.1 compatability files.
+#	[ V5.1(XF19) ]
+#
+# 13-Oct-87  Mike Accetta (mja) at Carnegie-Mellon University
+#	Flush obsolete CS_COMPAT, CS_OLDFS, CS_MSYS and CS_ONLY
+#	options.
+#	[ V5.1(XF18) ]
+#
+######################################################################
+OPTIONS/map_ether	optional map_ether
+OPTIONS/map_time	optional map_time
+OPTIONS/map_uarea	optional map_uarea
+OPTIONS/mach_no_kernel	optional mach_no_kernel
+OPTIONS/cs_kdb		optional cs_kdb
+OPTIONS/cs_lint		optional cs_lint
+OPTIONS/cs_tty		optional cs_tty
+OPTIONS/cs_ttyloc	optional cs_ttyloc
+OPTIONS/cmucs		optional cmucs
+OPTIONS/cmucs_assert	optional cmucs_assert
+OPTIONS/cmucs_debug	optional cmucs_debug
+OPTIONS/cmucs_disk	optional cmucs_disk
+OPTIONS/cmucs_kdb	optional cmucs_kdb
+OPTIONS/cmucs_rfs	optional cmucs_rfs
+OPTIONS/dli		optional dli
+OPTIONS/generic		optional generic
+OPTIONS/igmproto	optional igmproto
+OPTIONS/mach		optional mach
+OPTIONS/mach_compat	optional mach_compat
+OPTIONS/mach_directory	optional mach_directory
+OPTIONS/mach_nbc	optional mach_nbc
+OPTIONS/mach_net	optional mach_net
+OPTIONS/mach_np		optional mach_np
+OPTIONS/mach_sctimes	optional mach_sctimes
+OPTIONS/mach_syscall	optional mach_syscall
+OPTIONS/mach_time	optional mach_time
+OPTIONS/mach_vmtp	optional mach_vmtp
+OPTIONS/mach_xp		optional mach_xp
+OPTIONS/mach_xp_fpd	optional mach_xp_fpd
+OPTIONS/mach_device	optional mach_device
+OPTIONS/mach_emulation	optional mach_emulation
+OPTIONS/multibind	optional multibind
+OPTIONS/multicast	optional multicast
+OPTIONS/multicast_agent	optional multicast_agent
+OPTIONS/namei_macros	optional namei_macros
+OPTIONS/net_bugfix	optional net_bugfix
+OPTIONS/quota		optional quota
+OPTIONS/simple_clock	optional simple_clock
+OPTIONS/stat_time	optional stat_time
+OPTIONS/ttlcontrol	optional ttlcontrol
+OPTIONS/vice		optional vice
+OPTIONS/xpr_debug	optional xpr_debug
+bsd/cmu_syscalls.c	optional cmucs
+bsd/init_sysent.c	standard
+bsd/kern_acct.c		standard
+bsd/kern_descrip.c	standard
+bsd/kern_mman.c		standard
+bsd/kern_proc.c		standard
+bsd/kern_prot.c		standard
+bsd/kern_resource.c	standard
+bsd/kern_time.c		standard
+bsd/kern_xxx.c		standard
+bsd/mach_init.c		optional mach
+bsd/mach_clock.c	optional mach
+bsd/mach_core.c		optional mach
+bsd/mach_directory.c	optional mach_directory
+bsd/mach_exec.c		optional mach
+bsd/mach_exit.c		optional mach
+bsd/mach_fork.c		optional mach
+bsd/mach_process.c	optional mach
+bsd/mach_signal.c	optional mach
+bsd/mach_synch.c	optional mach
+bsd/quota_kern.c	optional quota
+bsd/quota_subr.c	optional quota
+bsd/quota_sys.c		standard
+bsd/quota_ufs.c		optional quota
+bsd/rfs_control.c	optional cmucs_rfs
+bsd/rfs_descrip.c	optional cmucs_rfs
+bsd/rfs_init.c		optional cmucs_rfs
+bsd/rfs_kern.c		optional cmucs_rfs
+bsd/rfs_socket.c	optional cmucs_rfs
+bsd/rfs_subr.c		optional cmucs_rfs
+bsd/rfs_syscalls.c	optional cmucs_rfs
+bsd/subr_log.c		standard
+bsd/subr_mcount.c	optional profiling-routine
+bsd/subr_prf.c		standard
+bsd/subr_rmap.c		standard
+bsd/subr_xxx.c		standard
+bsd/syscalls.c		standard
+bsd/sys_generic.c	standard
+bsd/sys_ild.c		optional ild
+bsd/sys_inode.c		standard
+bsd/sys_process.c	optional not mach
+bsd/sys_socket.c	standard
+bsd/tty.c		standard
+bsd/tty_bk.c		optional bk
+bsd/tty_cmupty.c	optional cmupty
+bsd/tty_conf.c		standard
+bsd/tty_fe.c		optional fe
+bsd/tty_pty.c		optional pty
+bsd/tty_subr.c		standard
+bsd/tty_tb.c		optional tb
+bsd/tty_tty.c		standard
+bsd/ufs_alloc.c		standard
+bsd/ufs_bio.c		standard
+bsd/ufs_bmap.c		standard
+bsd/ufs_dsort.c		standard
+bsd/ufs_fio.c		standard
+bsd/ufs_inode.c		standard
+bsd/ufs_mount.c		standard
+bsd/ufs_namei.c		optional not mach_directory
+bsd/ufs_subr.c		standard
+bsd/ufs_syscalls.c	standard
+bsd/ufs_tables.c	standard
+bsd/ufs_xxx.c		standard
+bsd/uipc_domain.c	standard
+bsd/uipc_mbuf.c		standard
+bsd/uipc_proto.c	standard
+bsd/uipc_socket.c	standard
+bsd/uipc_socket2.c	standard
+bsd/uipc_syscalls.c	standard
+bsd/uipc_usrreq.c	standard
+bsd/vmtp_syscalls.c	optional mach_vmtp
+compat/xxx_syscalls.c	optional mach_compat
+conf/param.c		standard
+net/af.c		standard
+net/dli.c		optional dli
+net/if.c		standard
+net/if_loop.c		optional loop
+net/if_sl.c		optional sl
+net/netisr.c		optional mach
+net/raw_cb.c		standard
+net/raw_usrreq.c	standard
+net/route.c		standard
+netimp/if_imp.c		optional imp
+netimp/if_imphost.c	optional imp
+netimp/raw_imp.c	optional imp
+netinet/agent.c		optional multicast_agent
+netinet/esp_cache.c	optional mach_vmtp
+netinet/esp_hdlprp.c	optional mach_vmtp
+netinet/esp_hdlprq.c	optional mach_vmtp
+netinet/esp_key.c	optional mach_vmtp
+netinet/esp_probe.c	optional mach_vmtp
+netinet/esp_sendprp.c	optional mach_vmtp
+netinet/esp_sendprq.c	optional mach_vmtp
+netinet/esp_subr.c	optional mach_vmtp
+netinet/esp_timeout.c	optional mach_vmtp
+netinet/group.c		optional igmproto
+netinet/if_ether.c	optional ether
+netinet/igmp_input.c	optional igmproto
+netinet/igmp_output.c	optional igmproto
+netinet/igmp_timing.c	optional igmproto
+netinet/igmp_usrreq.c	optional igmproto
+netinet/in.c		optional inet
+netinet/in_pcb.c	optional inet
+netinet/in_proto.c	optional inet
+netinet/ip_icmp.c	optional inet
+netinet/ip_input.c	optional inet
+netinet/ip_output.c	optional inet
+netinet/raw_ip.c	optional inet
+netinet/tcp_debug.c	optional inet
+netinet/tcp_input.c	optional inet
+netinet/tcp_output.c	optional inet
+netinet/tcp_subr.c	optional inet
+netinet/tcp_timer.c	optional inet
+netinet/tcp_usrreq.c	optional inet
+netinet/udp_usrreq.c	optional inet
+netinet/vmtp_buf.c	optional mach_vmtp
+netinet/vmtp_debug.c	optional mach_vmtp
+netinet/vmtp_ether.c	optional mach_vmtp
+netinet/vmtp_group.c	optional mach_vmtp
+netinet/vmtp_hdlfrp.c	optional mach_vmtp
+netinet/vmtp_hdlfrq.c	optional mach_vmtp
+netinet/vmtp_hdlrp.c	optional mach_vmtp
+netinet/vmtp_hdlrpa.c	optional mach_vmtp
+netinet/vmtp_hdlrq.c	optional mach_vmtp
+netinet/vmtp_hdlrqa.c	optional mach_vmtp
+netinet/vmtp_igmp.c	optional mach_vmtp
+netinet/vmtp_init.c	optional mach_vmtp
+netinet/vmtp_input.c	optional mach_vmtp
+netinet/vmtp_ip.c	optional mach_vmtp
+netinet/vmtp_local.c	optional mach_vmtp
+netinet/vmtp_manager.c	optional mach_vmtp
+netinet/vmtp_sendpg.c	optional mach_vmtp
+netinet/vmtp_sendpgmbuf.c	optional mach_vmtp
+netinet/vmtp_sendrpa.c	optional mach_vmtp
+netinet/vmtp_sendrqa.c	optional mach_vmtp
+netinet/vmtp_subr.c	optional mach_vmtp
+netinet/vmtp_synq.c	optional mach_vmtp
+netinet/vmtp_timer.c	optional mach_vmtp
+netinet/vmtp_usrreq.c	optional mach_vmtp
+netns/idp_usrreq.c	optional ns
+netns/ns.c		optional ns
+netns/ns_error.c	optional ns
+netns/ns_input.c	optional ns
+netns/ns_ip.c		optional ns
+netns/ns_output.c	optional ns
+netns/ns_pcb.c		optional ns
+netns/ns_proto.c	optional ns
+netns/spp_debug.c	optional ns
+netns/spp_usrreq.c	optional ns
+uxkern/block_io.c	optional mach
+uxkern/cons.c		optional mach
+uxkern/device_misc.c	optional mach
+uxkern/device_reply_hdlr.c	optional mach
+uxkern/device_utils.c	optional mach
+uxkern/disk_io.c	optional mach
+uxkern/ether_io.c	optional mach
+uxkern/inittodr.c	optional mach
+uxkern/mfs_prim.c	optional mach_nbc
+uxkern/misc.c		optional mach
+uxkern/port_hash.c	optional mach
+uxkern/proc_to_task.c	optional mach
+uxkern/stubs.c		optional mach
+uxkern/syscall.c	optional mach
+uxkern/syscall_subr.c	optional mach
+uxkern/tty_io.c		optional mach
+uxkern/user_copy.c	optional mach
+uxkern/user_reply_msg.c	optional mach
+uxkern/ux_exception.c	optional mach
+uxkern/ux_server_loop.c	optional mach
+uxkern/zalloc.c		optional mach
+uxkern/bsd_server.c	optional mach
+uxkern/bsd_server_side.c optional mach
+vice/rmt_dev.c		optional vicefs
+vice/rmt_syscalls.c	optional vice
+vm/inode_pager.c	optional mach
+
+#
+# Network code needs two header files:
+#
+net/NOTHING		optional hy
+net/NOTHING		optional en

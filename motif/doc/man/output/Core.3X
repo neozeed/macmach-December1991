@@ -1,0 +1,264 @@
+
+
+
+     CCCCoooorrrreeee((((3333XXXX))))            OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn             CCCCoooorrrreeee((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          CCCCoooorrrreeee ---- TTTThhhheeee CCCCoooorrrreeee wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Core is the Xt Intrinsic base class for windowed widgets.
+          The OOOObbbbjjjjeeeecccctttt and RRRReeeeccccttttOOOObbbbjjjj classes provide support for
+          windowless widgets.
+
+
+        CCCCllllaaaasssssssseeeessss
+          All widgets are built from CCCCoooorrrreeee.
+
+               The class pointer is wwwwiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+               The class name is CCCCoooorrrreeee.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        1                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     CCCCoooorrrreeee((((3333XXXX))))            OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn             CCCCoooorrrreeee((((3333XXXX))))
+
+
+
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+          XXXXmmmmNNNNaaaacccccccceeeelllleeeerrrraaaattttoooorrrrssss
+               Specifies a translation table that is bound with its
+               actions in the context of a particular widget.  The
+               accelerator table can then be installed on some
+               destination widget.
+
+          XXXXmmmmNNNNaaaannnncccceeeessssttttoooorrrrSSSSeeeennnnssssiiiittttiiiivvvveeee
+               Specifies whether the immediate parent of the widget
+               receives input events.  Use the function XXXXttttSSSSeeeettttSSSSeeeennnnssssiiiittttiiiivvvveeee
+               to change the argument to preserve data integrity (see
+               XXXXmmmmNNNNsssseeeennnnssssiiiittttiiiivvvveeee below). For shells, the default is copied
+               from the parent's XXXXmmmmNNNNaaaannnncccceeeessssttttoooorrrrSSSSeeeennnnssssiiiittttiiiivvvveeee resource if
+               there is a parent; otherwise, it is True.  For other
+               widgets, the default is the bitwise AND of the parent's
+               XXXXmmmmNNNNsssseeeennnnssssiiiittttiiiivvvveeee and XXXXmmmmNNNNaaaannnncccceeeessssttttoooorrrrSSSSeeeennnnssssiiiittttiiiivvvveeee resources.
+
+          XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnndddd
+               Specifies the background color for the widget.
+
+          XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp
+               Specifies a pixmap for tiling the background.  The
+               first tile is placed at the upper left-hand corner of
+               the widget's window.
+
+          XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrCCCCoooolllloooorrrr
+               Specifies the color of the border in a pixel value.
+
+          XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrPPPPiiiixxxxmmmmaaaapppp
+               Specifies a pixmap to be used for tiling the border.
+               The first tile is placed at the upper left-hand corner
+               of the border.
+
+          XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh
+               Specifies the width of the border that surrounds the
+               widget's window on all four sides.  The width is
+               specified in pixels.  A width of zero means that no
+               border shows.
+
+          XXXXmmmmNNNNccccoooolllloooorrrrmmmmaaaapppp
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     CCCCoooorrrreeee((((3333XXXX))))            OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn             CCCCoooorrrreeee((((3333XXXX))))
+
+
+
+               Specifies the colormap that is used for conversions to
+               the type PPPPiiiixxxxeeeellll for this widget instance.  When changed,
+               previously generated pixel values are not affected, but
+               newly generated values are in the new colormap.  For
+               shells without parents, the default is the default
+               colormap of the widget's screen.  Otherwise, the
+               default is copied from the parent.
+
+          XXXXmmmmNNNNddddeeeepppptttthhhh
+               Specifies the number of bits that can be used for each
+               pixel in the widget's window.  Applications should not
+               change or set the value of this resource as it is set
+               by the Xt Intrinsics when the widget is created.  For
+               shells without parents, the default is the default
+               depth of the widget's screen.  Otherwise, the default
+               is copied from the parent.
+
+          XXXXmmmmNNNNddddeeeessssttttrrrrooooyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called when the
+               widget is destroyed.
+
+          XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt
+               Specifies the inside height (excluding the border) of
+               the widget's window.
+
+          XXXXmmmmNNNNiiiinnnniiiittttiiiiaaaallllRRRReeeessssoooouuuurrrrcccceeeessssPPPPeeeerrrrssssiiiisssstttteeeennnntttt
+               Specifies whether or not resources are reference
+               counted.  If the value is True when the widget is
+               created, the resources referenced by the widget are not
+               reference counted, regardless of how the resource type
+               converter is registered.  An application that expects
+               to destroy the widget and wants to have resources
+               deallocated should specify a value of False.  The
+               default is True, implying an assumption that the widget
+               will not be destroyed during the life of the
+               application.
+
+          XXXXmmmmNNNNmmmmaaaappppppppeeeeddddWWWWhhhheeeennnnMMMMaaaannnnaaaaggggeeeedddd
+               If set to True it maps the widget (makes it visible) as
+               soon as it is both realized and managed.  If set to
+               False, the client is responsible for mapping and
+               unmapping the widget.  If the value is changed from
+               True to False after the widget has been realized and
+               managed, the widget is unmapped.
+
+          XXXXmmmmNNNNssssccccrrrreeeeeeeennnn
+               Specifies the screen on which a widget instance
+               resides.  It is read only.  When the Toolkit is
+               initialized, the top-level widget obtains its default
+               value from the default screen of the display.
+               Otherwise, the default is copied from the parent.
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     CCCCoooorrrreeee((((3333XXXX))))            OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn             CCCCoooorrrreeee((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNsssseeeennnnssssiiiittttiiiivvvveeee
+               Determines whether a widget receives input events.  If
+               a widget is sensitive, the Xt Intrinsics' Event Manager
+               dispatches to the widget all keyboard, mouse button,
+               motion, window enter/leave, and focus events.
+               Insensitive widgets do not receive these events.  Use
+               the function XXXXttttSSSSeeeettttSSSSeeeennnnssssiiiittttiiiivvvveeee to change the sensitivity
+               argument.  Using XXXXttttSSSSeeeettttSSSSeeeennnnssssiiiittttiiiivvvveeee ensures that if a
+               parent widget has XXXXmmmmNNNNsssseeeennnnssssiiiittttiiiivvvveeee set to False, the
+               ancestor-sensitive flag of all its children is
+               appropriately set.
+
+          XXXXmmmmNNNNttttrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+               Points to a translations list.  A translations list is
+               a list of events and actions that are to be performed
+               when the events occur.
+
+          XXXXmmmmNNNNwwwwiiiiddddtttthhhh
+               Specifies the inside width (excluding the border) of
+               the widget's window.
+
+          XXXXmmmmNNNNxxxx Specifies the x-coordinate of the upper left outside
+               corner of the widget's window.  The value is relative
+               to the upper left inside corner of the parent window.
+
+          XXXXmmmmNNNNyyyy Specifies the y-coordinate of the upper left outside
+               corner of the widget's window.  The value is relative
+               to the upper left inside corner of the parent window.
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          There are no translations for Core.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          OOOObbbbjjjjeeeecccctttt((((3333XXXX)))) and RRRReeeeccccttttOOOObbbbjjjj((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+

@@ -1,0 +1,1 @@
+strcmp.o: strcmp.c 

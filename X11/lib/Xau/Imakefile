@@ -1,0 +1,62 @@
+#include <Library.tmpl>
+
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+       INCLUDES = -I. -I$(TOP)
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB)
+
+HEADERS = \
+	Xauth.h
+
+SRCS =	AuDispose.c AuFileName.c AuGetAddr.c AuLock.c \
+	AuRead.c AuUnlock.c AuWrite.c
+
+OBJS =	AuDispose.o AuFileName.o AuGetAddr.o AuLock.o \
+	AuRead.o AuUnlock.o AuWrite.o
+
+all::
+
+#if DebugLibXau && ProfileLibXau
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXau
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXau
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+NormalLibraryTarget(Xau,$(OBJS))
+LintLibraryTarget(Xau,$(SRCS))
+InstallLibrary(Xau,$(USRLIBDIR))
+InstallLintLibrary(Xau,$(LINTLIBDIR))
+
+#if ProfileLibXau
+ProfiledLibraryTarget(Xau,$(OBJS))
+InstallLibrary(Xau_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibXau
+DebuggedLibraryTarget(Xau,$(OBJS))
+#endif
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(INCDIR))
+
+InstallManPage(Xau,$(MANDIR))
+
+#ifdef HasSaberC
+saber_src:
+	/**/#load $(CFLAGS) $(SRCS)
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

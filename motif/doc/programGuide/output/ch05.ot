@@ -1,0 +1,2347 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5.  DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeettttssss aaaannnndddd FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       Dialog widgets are container widgets that provide a means of
+       communicating between the user of an application and the
+       application itself.  A Dialog widget will normally ask a
+       question or present some information to the user.  In some
+       cases, the application is suspended until the user provides
+       a response.
+
+       This chapter explains the Dialog widgets that are available
+       and how they can be used in your application.
+
+       5.1  DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeettttssss aaaannnndddd MMMMeeeennnnuuuussss
+
+       There are two types of Dialog widgets: single-reply and
+       multiple-reply. A single-reply Dialog widget consists of a
+       single question,  and a single reply is expected.  A
+       multiple-reply Dialog widget consists of a number of ques-
+       tions that require a number of responses.  Generally speak-
+       ing, a single-reply Dialog widget is modal in nature.  This   |
+       means that a reply is required before the application can
+       continue.  A multiple-reply Dialog widget is usually mode-    |
+       less.  It does not require a reply and does not stop the
+       progress of the application.
+
+       There are many similarities between Dialog widgets and        |
+       menus, and knowing when to use a Dialog widget and when to    |
+       use a menu may be difficult.  You should understand the       |
+       differences between Dialog widgets and menus in order to
+       make this determination.
+
+       A menu is short-lived.  It exists only while a selection is
+       being made, then it disappears.  A Dialog widget stays visi-
+       ble until it is told to disappear.
+
+       A menu is usually modal.  Until the user of the application   |
+       makes some selection on the menu, interaction with any other
+       part of the application is not possible.  Since multiple-     |
+       reply Dialog widgets are modeless, interaction with other
+       parts of the application is possible.  Thus, if a modeless
+       state is required, a multiple-reply or modeless single-reply
+       Dialog widget should be used instead of a menu.  A menu is
+       faster when there is a need to identify current settings or
+       make a single selection. When multiple selections are
+
+
+                                                                5-1
+
+
+
+
+
+
+
+
+
+
+
+
+       needed, a menu disappears after each selection and has to be
+       displayed over and over, so in this case a Dialog widget      |
+       works better.
+
+       5.2  AAAA LLLLiiiisssstttt ooooffff tttthhhheeee DDDDiiiiaaaalllloooogggg WWWWiiiiddddggggeeeettttssss
+
+       The following list identifies the Dialog widgets by name and
+       provides a brief description of each widget's function.
+       Each widget will be described in more detail in later sec-
+       tions of this chapter.  Additional information can be found   |
+       in the manpage for the respective widget.  Manpages are con-  |
+       tained in the _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.
+
+          +o XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll.  This widget is used as the parent for
+            all Dialogs.  It is automatically created by Dialog      |
+            convenience functions (described in a later section).
+
+          +o XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd.  This is a composite widget that pro-
+            vides simple geometry management for its child widgets.
+            It is the base widget for most Dialog widgets, but is
+            also used as a container widget.
+
+          +o XXXXmmmmCCCCoooommmmmmmmaaaannnndddd.  This widget is a subclass of the XXXXmmmmSSSSeeeelllleeeecccc----
+            ttttiiiioooonnnnBBBBooooxxxx widget.  It includes a command line input text
+            field, a command line prompt, and a command history
+            region.
+
+          +o XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx.  This widget is used to traverse
+            through file system directories.  You can view the
+            files in the directories and then select a single file
+            on which you intend to perform some action.              |
+
+          +o XXXXmmmmFFFFoooorrrrmmmm.  This widget is a constraint-based Manager       |
+            widget that establishes and maintains spatial relation-
+            ships between its children. These relationships are
+            maintained even though the Form or any of its children
+            are resized, unmanaged, remanaged, or destroyed.
+
+          +o XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx.  This widget is used to pass information
+            to the user of an application.  It contains up to three  |
+            standard push buttons (OOOOKKKK, CCCCaaaannnncccceeeellll, and HHHHeeeellllpppp by           |
+            default), a message symbol, and the message itself.
+
+          +o XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx.  This widget provides the capability of
+            selecting a single item from a list of items.
+
+
+
+
+
+
+
+
+       5-2
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       5.3  CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaallllooooggggssss
+
+       In this guide, Dialog widget describes a particular type of   |
+       widget.  When used by itself, the word Dialog takes on a      |
+       special meaning.  A Dialog is a collection of widgets that    |
+       are used for a specific purpose.  A Dialog normally consists
+       of a DialogShell, some BulletinBoard resources, and various
+       other widgets such as Label, PushButton, and Text.  The col-
+       lection of widgets that forms a Dialog can be built from      |
+       scratch using argument lists and creating each individual     |
+       widget of the Dialog.  However, there is an easier, more
+       convenient method to create the Dialog.  Functions (called,   |
+       appropriately, Dialog convenience functions) exist that       |
+       create the collection of widgets that make up the Dialog in
+       one step.  The Dialogs that are created by these convenience  |
+       functions are referred to as convenience Dialogs.  The fol-
+       lowing table identifies the convenience dialogs that are
+       available.                                                    |
+
+                     TTTTAAAABBBBLLLLEEEE 5555----1111....  Convenience Dialogs                 |
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn       |
+       ________________________________________________________________________|
+7                          |7|
+                                                                               ||
+7                                                 |7|
+                                                                               ||
+                             Used for interac-     |
+                             tions that are not    |
+                             supported by the      |
+                             standard Dialog set.
+7777       BulletinBoardDialog                          XXXXmmmmCCCCrrrreeeeaaaatttteeeeBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrddddDDDDiiiiaaaalllloooogggg
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-
+                             tiates a MessageBox
+                             and a DialogShell.
+                             It uses a message
+                             and a symbol (circle
+                             with backslash) to
+                             warn the user that
+                             an error has
+                             occurred.             |
+
+7777777777       ErrorDialog                                  XXXXmmmmCCCCrrrreeeeaaaatttteeeeEEEErrrrrrrroooorrrrDDDDiiiiaaaalllloooogggg
+
+
+
+
+
+
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-
+                             tiates a FileSelec-
+                             tionBox and a Dia-
+                             logShell.             |
+7777       FileSelectionDialog                          XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a Form and a   |
+                             DialogShell.          |
+777       FormDialog                                   XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmmDDDDiiiiaaaalllloooogggg
+
+
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a MessageBox   |
+                             and a DialogShell.    |
+7                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                       |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                5-3
+
+
+
+
+
+
+
+
+
+
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+                             This Dialog provides  |
+                             information to the    |
+                             user and it has a     |
+                             symbol that consists  |
+                             of a large lowercase  |
+                             ``i'' that is posi-   |
+                             tioned on the left
+                             side of the Message-
+                             Box.                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       InformationDialog                            XXXXmmmmCCCCrrrreeeeaaaatttteeeeIIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+7                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5-4
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                5-5
+
+
+
+
+
+
+
+
+
+
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a Selection-   |
+                             Box and a Dialog-     |
+                             Shell.  It is used    |
+                             to prompt the user    |
+                             for input.            |
+777777       PromptDialog                                 XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPrrrroooommmmppppttttDDDDiiiiaaaalllloooogggg
+
+
+
+
+
+       ________________________________________________________________________|
+                             This Dialog instan-   |                 *
+                             tiates a MessageBox   |
+                             and a DialogShell.    |
+                             It is used to get an  |
+                             answer from the       |
+                             user.  It has a sym-  |
+                             bol that consists of  |
+                             a large question      |
+                             mark that is posi-    |
+                             tioned on the left    |
+                             side of the Message-  |
+                             Box.                  |
+777777777777       QuestionDialog                               XXXXmmmmCCCCrrrreeeeaaaatttteeeeQQQQuuuueeeessssttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a Selection-   |
+                             Box and a Dialog-     |
+                             Shell.                |
+7777       SelectionDialog                              XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a MessageBox   |
+                             and a DialogShell.    |
+                             It is used to warn    |
+                             the user of some      |
+                             potential danger.     |
+                             It has a symbol that  |
+                             consists of a large   |
+                             exclamation point     |
+                             contained within a    |
+                             triangle.  The sym-   |
+                             bol is positioned on  |
+                             the left side of the  |
+                             MessageBox.           |
+77777777777777       WarningDialog                                XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg
+
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________________________
+                             This Dialog instan-   |
+                             tiates a MessageBox   |
+                             and a DialogShell.    |
+                             It is used to inform  |
+                             the user that a       |
+                             potentially time-     |
+                             consuming operation   |
+                             is in progress.  It   |
+7                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                       |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5-6
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+                             has a symbol that is  |
+                             an hourglass posi-    |
+                             tioned on the left    |
+                             side of the Message-  |
+                             Box.                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       WorkingDialog                                XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaalllloooogggg
+7                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                5-7
+
+
+
+
+
+
+
+
+
+
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7                          |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5-8
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg    DDDDeeeeffffiiiinnnniiiittttiiiioooonnnn             CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+       ________________________________________________________________________
+7                          |7|
+                                                                               |
+7                                                 |7|
+                                                                               |
+7
+7
+
+       5.4  UUUUssssiiiinnnngggg DDDDiiiiaaaallllooooggggssss aaaannnndddd CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       Now that you have an idea of what Dialogs and convenience     |
+       Dialogs are available, you can learn how and when to use
+       them in an application.  This section explains each Dialog    |
+       and its associated convenience functions.  Code segments are
+       included to help you understand how to use them in your own   |
+       applications.  More detailed information about these widgets  |
+       can be found in the respective manpages in the _O_S_F/_M_o_t_i_f      |
+       _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e .
+
+       5.4.1  XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll
+
+       XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll is the Shell parent widget for all Dialogs.     |
+       It provides the necessary communication with the window
+       manager to allow the Dialogs to be managed and unmanaged.     |
+       XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll is automatically created by the Dialog con-
+       venience functions and is used as the parent widget for       |
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd or any subclass of XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd. It can
+       also be directly instantiated by using either of the two
+       create functions that are available:
+
+       Widget XtCreatePopupShell (name,                              |
+                          xmDialogShellWidgetClass, parent,          |
+                          arglist, argcount)                         |
+
+       Widget XmCreateDialogShell (parent, name, arglist,            |
+                          argcount)                                  |
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff aaaa DDDDiiiiaaaa----
+       llllooooggggSSSShhhheeeellllllll aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....  TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg
+       ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll uuuussssiiiinnnngggg
+       XXXXttttCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppSSSShhhheeeellllllll::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll ==== XXXXttttCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppSSSShhhheeeellllllll ((((""""ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll"""",,,,            ||||
+       xxxxmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,, ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;             ||||
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll
+       uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+
+
+                                                                5-9
+
+
+
+
+
+
+
+
+
+
+
+
+       WWWWiiiiddddggggeeeetttt             ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,             ||||
+       """"ddddiiiiaaaalllloooogggg____sssshhhheeeellllllll"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                                     ||||
+
+       RRRReeeemmmmeeeemmmmbbbbeeeerrrr tttthhhhaaaatttt XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll iiiissss aaaauuuuttttoooommmmaaaattttiiiiccccaaaallllllllyyyy ccccrrrreeeeaaaatttteeeedddd ffffoooorrrr yyyyoooouuuu  ||||
+       wwwwhhhheeeennnn yyyyoooouuuu ccccrrrreeeeaaaatttteeee aaaannnnyyyy ooooffff tttthhhheeee ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaallllooooggggssss....  YYYYoooouuuu ddddoooo nnnnooootttt
+       nnnneeeeeeeedddd ttttoooo uuuusssseeee eeeeiiiitttthhhheeeerrrr ooooffff tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnnssss pppprrrreeeevvvviiiioooouuuussssllllyyyy ddddeeeessssccccrrrriiiibbbbeeeedddd      ||||
+       wwwwhhhheeeennnn yyyyoooouuuu ccccrrrreeeeaaaatttteeee aaaa ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee DDDDiiiiaaaalllloooogggg....  AAAAllllssssoooo,,,, nnnnooootttteeee tttthhhhaaaatttt XXXXmmmmDDDDiiii----  ||||
+       aaaallllooooggggSSSShhhheeeellllllll sssshhhhoooouuuulllldddd bbbbeeee ppppooooppppppppeeeedddd uuuupppp bbbbyyyy uuuussssiiiinnnngggg XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd oooonnnn iiiittttssss   ||||
+       DDDDiiiiaaaalllloooogggg cccchhhhiiiilllldddd....  IIIIffff tttthhhheeee cccchhhhiiiilllldddd iiiissss ccccrrrreeeeaaaatttteeeedddd uuuussssiiiinnnngggg                  ||||
+       XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt,,,, iiiitttt wwwwiiiillllllll ttttrrrryyyy ttttoooo ppppoooopppp uuuupppp tttthhhheeee sssshhhheeeellllllll        ||||
+       bbbbeeeeffffoooorrrreeee iiiitttt hhhhaaaassss bbbbeeeeeeeennnn rrrreeeeaaaalllliiiizzzzeeeedddd....  TTTThhhhiiiissss wwwwiiiillllllll rrrreeeessssuuuulllltttt iiiinnnn aaaannnn eeeerrrrrrrroooorrrr....
+
+       5555....4444....2222  XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd
+
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd is a composite widget that can be instan-
+       tiated alone.  Its main purpose with Dialog widgets, how-
+       ever, is as a superclass widget that supplies resources to
+       the subclass Dialog widgets.  All of the other Dialog widg-
+       ets except XXXXmmmmDDDDiiiiaaaallllooooggggSSSShhhheeeellllllll are built in part from XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnn----
+       BBBBooooaaaarrrrdddd.  Refer to the XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd manpage in the           |
+       _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e for a description of the     |
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd resources.                                    |
+
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd can be directly instantiated by using either
+       of the two create functions that are available:
+
+       Widget XtCreateWidget (name,                                  |
+                          xmBulletinBoardWidgetClass,                |
+                          parent, arglist, argcount)                 |
+
+       Widget XmCreateBulletinBoard (parent, name,                   |
+                          arglist, argcount)                         |
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff aaaa BBBBuuuullll----
+       lllleeeettttiiiinnnnBBBBooooaaaarrrrdddd aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....  TTTThhhheeee ffffoooolllllllloooowwww----
+       iiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             bbbbbbbbooooaaaarrrrdddd;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       bbbbbbbbooooaaaarrrrdddd ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""bbbbbbbbooooaaaarrrrdddd"""",,,,                            ||||
+                          xxxxmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrddddWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,                ||||
+                          ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;                    ||||
+
+
+       5-10
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((bbbbbbbbooooaaaarrrrdddd))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             bbbbbbbbooooaaaarrrrdddd;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       bbbbbbbbooooaaaarrrrdddd ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,                 ||||
+                          """"bbbbbbbbooooaaaarrrrdddd"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                        ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((bbbbbbbbooooaaaarrrrdddd))));;;;
+
+       RRRReeeemmmmeeeemmmmbbbbeeeerrrr tttthhhhaaaatttt yyyyoooouuuu ddddoooo nnnnooootttt nnnneeeeeeeedddd ttttoooo uuuusssseeee eeeeiiiitttthhhheeeerrrr ooooffff tttthhhheeee ccccrrrreeeeaaaatttteeee
+       ffffuuuunnnnccccttttiiiioooonnnnssss pppprrrreeeevvvviiiioooouuuussssllllyyyy ddddeeeessssccccrrrriiiibbbbeeeedddd iiiiffff yyyyoooouuuu aaaarrrreeee ccccrrrreeeeaaaattttiiiinnnngggg ccccoooonnnnvvvveeeennnniiii----   ||||
+       eeeennnncccceeee DDDDiiiiaaaallllooooggggssss....
+
+       5555....4444....3333  XXXXmmmmCCCCoooommmmmmmmaaaannnndddd
+
+       XXXXmmmmCCCCoooommmmmmmmaaaannnndddd allows you to choose one selection from a list of
+       selections.  It is very much like the XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx widget
+       except that it can record selections in a history region.     |
+       The history region is accessible so that choices can be made
+       from it as well as entering a choice from the keyboard.  The  |
+       following figure shows an example of a Command widget.
+                                                                     *
+                      FFFFiiiigggguuuurrrreeee 5555----1111....  XmCommand Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The history region is displayed in the top box and the        |
+       current selection is displayed in the command line box at
+       the bottom.  The history region will scroll automatically as
+
+
+                                                               5-11
+
+
+
+
+
+
+
+
+
+
+
+
+       the need arises.  In Figure 5-2 for example, more entries     |
+       have been placed in the history region, causing the vertical
+       ScrollBar to appear.
+                                                                     *
+        FFFFiiiigggguuuurrrreeee 5555----2222....  XmCommand Widget with Scrolled History Region
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XXXXmmmmCCCCoooommmmmmmmaaaannnndddd can be directly instantiated by using either of     |
+       the two create functions that are available:
+
+       Widget XtCreateWidget (name,                                  |
+                          xmCommandWidgetClass,                      |
+                          parent, arglist, argcount)                 |
+
+       Widget XmCreateCommand (parent, name, arglist,                |
+                          argcount)                                  |
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff aaaa CCCCoooommmm----
+       mmmmaaaannnndddd wwwwiiiiddddggggeeeetttt aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....  TTTThhhheeee ffffoooollll----
+       lllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmCCCCoooommmmmmmmaaaannnndddd uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ccccoooommmmmmmmaaaannnndddd;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ccccoooommmmmmmmaaaannnndddd ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""ccccoooommmmmmmmaaaannnndddd"""",,,,                          ||||
+           xxxxmmmmCCCCoooommmmmmmmaaaannnnddddWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,, ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;             ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ccccoooommmmmmmmaaaannnndddd))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmCCCCoooommmmmmmmaaaannnndddd uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeCCCCoooommmmmmmmaaaannnndddd::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ccccoooommmmmmmmaaaannnndddd;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+
+       5-12
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       nnnn ==== 0000;;;;
+       ccccoooommmmmmmmaaaannnndddd ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeCCCCoooommmmmmmmaaaannnndddd ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, """"ccccoooommmmmmmmaaaannnndddd"""",,,,           ||||
+                          aaaarrrrggggssss,,,, nnnn))));;;;                                  ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ccccoooommmmmmmmaaaannnndddd))));;;;
+
+       TTTThhhheeeerrrreeee aaaarrrreeee sssseeeevvvveeeerrrraaaallll ooootttthhhheeeerrrr ffffuuuunnnnccccttttiiiioooonnnnssss aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh XXXXmmmmCCCCoooommmmmmmmaaaannnndddd   ||||
+       tttthhhhaaaatttt ppppeeeerrrrffffoooorrrrmmmm cccceeeerrrrttttaaaaiiiinnnn ooooppppeeeerrrraaaattttiiiioooonnnnssss ttttoooo tttthhhheeee ccccoooommmmmmmmaaaannnndddd aaaarrrreeeeaaaa ssssttttrrrriiiinnnngggg
+       oooorrrr tttthhhheeee hhhhiiiissssttttoooorrrryyyy rrrreeeeggggiiiioooonnnn ssssttttrrrriiiinnnngggg....  TTTThhhheeeesssseeee ffffuuuunnnnccccttttiiiioooonnnnssss aaaarrrreeee eeeexxxxppppllllaaaaiiiinnnneeeedddd
+       iiiinnnn tttthhhheeee ffffoooolllllllloooowwwwiiiinnnngggg lllliiiisssstttt::::
+
+          ++++oooo XXXXmmmmCCCCoooommmmmmmmaaaannnnddddAAAAppppppppeeeennnnddddVVVVaaaalllluuuueeee                                     ||||
+            vvvvooooiiiidddd XXXXmmmmCCCCoooommmmmmmmaaaannnnddddAAAAppppppppeeeennnnddddVVVVaaaalllluuuueeee ((((wwwwiiiiddddggggeeeetttt,,,, ccccoooommmmmmmmaaaannnndddd))))
+
+            WWWWiiiiddddggggeeeetttt             wwwwiiiiddddggggeeeetttt;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg           ccccoooommmmmmmmaaaannnndddd;;;;
+
+            TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn aaaappppppppeeeennnnddddssss tttthhhheeee ppppaaaasssssssseeeedddd,,,, nnnnuuuullllllll----tttteeeerrrrmmmmiiiinnnnaaaatttteeeedddd ccccoooommmm----
+            mmmmaaaannnndddd ssssttttrrrriiiinnnngggg ttttoooo tttthhhheeee eeeennnndddd ooooffff tttthhhheeee ssssttttrrrriiiinnnngggg tttthhhhaaaatttt iiiissss ccccuuuurrrrrrrreeeennnnttttllllyyyy   ||||
+            ddddiiiissssppppllllaaaayyyyeeeedddd iiiinnnn tttthhhheeee ccccoooommmmmmmmaaaannnndddd lllliiiinnnneeee....  TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ffffiiiigggguuuurrrreeee     ||||
+            sssshhhhoooowwwwssss tttthhhheeee rrrreeeessssuuuullllttttiiiinnnngggg wwwwiiiinnnnddddoooowwww ffffrrrroooommmm tttthhhheeee XXXXmmmmCCCCoooommmmmmmmaaaannnnddddAAAAppppppppeeeennnndddd----     ||||
+            VVVVaaaalllluuuueeee call.
+                                                                     |
+          FFFFiiiigggguuuurrrreeee 5555----3333....  Results of XmCommandAppendValue Operation     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            The code segment to accomplish this is as follows.       |
+
+            XmString           str;
+            Widget             w;
+
+            str = XmStringCreateLtoR ("addValue",                    |
+                               XmSTRING_DEFAULT_CHARSET);            |
+            XmCommandAppendValue (w, str);
+
+          ++++oooo XXXXmmmmCCCCoooommmmmmmmaaaannnnddddSSSSeeeettttVVVVaaaalllluuuueeee                                        ||||
+            vvvvooooiiiidddd XXXXmmmmCCCCoooommmmmmmmaaaannnnddddSSSSeeeettttVVVVaaaalllluuuueeee ((((wwwwiiiiddddggggeeeetttt,,,, ccccoooommmmmmmmaaaannnndddd))))
+
+            WWWWiiiiddddggggeeeetttt             wwwwiiiiddddggggeeeetttt;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg           ccccoooommmmmmmmaaaannnndddd;;;;
+
+
+                                                               5-13
+
+
+
+
+
+
+
+
+
+
+
+
+            TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn rrrreeeeppppllllaaaacccceeeessss tttthhhheeee ssssttttrrrriiiinnnngggg tttthhhhaaaatttt iiiissss ccccuuuurrrrrrrreeeennnnttttllllyyyy
+            ddddiiiissssppppllllaaaayyyyeeeedddd iiiinnnn tttthhhheeee ccccoooommmmmmmmaaaannnndddd lllliiiinnnneeee wwwwiiiitttthhhh tttthhhheeee ppppaaaasssssssseeeedddd,,,, nnnnuuuullllllll----
+            tttteeeerrrrmmmmiiiinnnnaaaatttteeeedddd ssssttttrrrriiiinnnngggg....
+
+          ++++oooo XXXXmmmmCCCCoooommmmmmmmaaaannnnddddEEEErrrrrrrroooorrrr                                           ||||
+            vvvvooooiiiidddd XXXXmmmmCCCCoooommmmmmmmaaaannnnddddEEEErrrrrrrroooorrrr ((((wwwwiiiiddddggggeeeetttt,,,, eeeerrrrrrrroooorrrr))))
+
+            WWWWiiiiddddggggeeeetttt             wwwwiiiiddddggggeeeetttt;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg           eeeerrrrrrrroooorrrr;;;;
+
+            TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn ddddiiiissssppppllllaaaayyyyssss aaaannnn eeeerrrrrrrroooorrrr mmmmeeeessssssssaaaaggggeeee iiiinnnn tttthhhheeee hhhhiiiissssttttoooorrrryyyy
+            rrrreeeeggggiiiioooonnnn....
+
+          ++++oooo XXXXmmmmCCCCoooommmmmmmmaaaannnnddddGGGGeeeettttCCCChhhhiiiilllldddd                                        ||||
+            vvvvooooiiiidddd XXXXmmmmCCCCoooommmmmmmmaaaannnnddddGGGGeeeettttCCCChhhhiiiilllldddd ((((wwwwiiiiddddggggeeeetttt,,,, cccchhhhiiiilllldddd))))
+
+            WWWWiiiiddddggggeeeetttt             wwwwiiiiddddggggeeeetttt;;;;
+            uuuunnnnssss cccchhhhaaaarrrr           cccchhhhiiiilllldddd;;;;
+
+            TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn rrrreeeettttuuuurrrrnnnnssss tttthhhheeee wwwwiiiiddddggggeeeetttt IIIIDDDD ooooffff tttthhhheeee ggggiiiivvvveeeennnn cccchhhhiiiilllldddd....
+            TTTThhhheeee ffffuuuunnnnccccttttiiiioooonnnn ttttaaaakkkkeeeessss tttthhhheeeesssseeee cccchhhhiiiilllldddd ttttyyyyppppeeeessss::::
+
+               ++++oooo XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____PPPPRRRROOOOMMMMPPPPTTTT____LLLLAAAABBBBEEEELLLL                               ||||
+
+               ++++oooo XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____CCCCOOOOMMMMMMMMAAAANNNNDDDD____TTTTEEEEXXXXTTTT                               ||||
+
+               ++++oooo XXXXmmmmDDDDIIIIAAAALLLLOOOOGGGG____HHHHIIIISSSSTTTTOOOORRRRYYYY____LLLLIIIISSSSTTTT                               ||||
+
+       5555....4444....4444  XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx
+
+       XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx is a widget very similar to XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnn----
+       BBBBooooxxxx.  The difference is that XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx is used to
+       traverse through directories, viewing the names of the files
+       and finally selecting a file on which to perform some         |
+       action.  One thing to remember about this widget is that you  |
+       must link in the library PW (-lPW) in order for FileSelec-    |
+       tionBox to work properly.  The follwoingfigure shows an       |
+       example of a FileSelectionBox.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5-14
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+                                                                     *
+                     FFFFiiiigggguuuurrrreeee 5555----4444....  XmFileSelectionBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx can be directly instantiated by using      |
+       either of the two create functions that are available:
+
+       Widget XtCreateWidget (name,                                  |
+                          xmFileSelectionBoxWidgetClass,             |
+                          parent, arglist, argcount)                 |
+
+       Widget XmCreateFileSelectionBox (parent, name,                |
+                          arglist, argcount)                         |
+
+
+
+
+
+
+
+
+                                                               5-15
+
+
+
+
+
+
+
+
+
+
+
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff aaaa        ||||
+       FFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx wwwwiiiiddddggggeeeetttt aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn
+       iiiinnnnssssttttaaaannnncccceeee ooooffff XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ffffsssseeeellllbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ffffsssseeeellllbbbbooooxxxx ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""ffffsssseeeellllbbbbooooxxxx"""",,,,                          ||||
+                          xxxxmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,             ||||
+                          ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;                    ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ffffsssseeeellllbbbbooooxxxx))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ffffsssseeeellllbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ffffsssseeeellllbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,             ||||
+                          """"ffffsssseeeellllbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                       ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ffffsssseeeellllbbbbooooxxxx))));;;;
+
+       IIIInnnn tttthhhheeee eeeexxxxaaaammmmpppplllleeee sssshhhhoooowwwwnnnn iiiinnnn FFFFiiiigggguuuurrrreeee 5555----4444,,,, tttthhhheeee FFFFiiiilllltttteeeerrrr iiiissss aaaannnn aaaasssstttteeeerrrr----   ||||
+       iiiisssskkkk ffffoooolllllllloooowwwwiiiinnnngggg aaaa ddddiiiirrrreeeeccccttttoooorrrryyyy nnnnaaaammmmeeee,,,, iiiinnnnddddiiiiccccaaaattttiiiinnnngggg tttthhhhaaaatttt aaaallllllll ffffiiiilllleeeessss iiiinnnn
+       tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy sssshhhhoooouuuulllldddd bbbbeeee lllliiiisssstttteeeedddd....  HHHHeeeerrrreeee,,,, aaaallllllll ffffiiiilllleeeessss iiiinnnn tttthhhheeee       ||||
+       ddddiiiirrrreeeeccccttttoooorrrryyyy xxxxmmmmssssaaaammmmpppplllleeeerrrrssss aaaarrrreeee lllliiiisssstttteeeedddd....  TTTThhhheeee ssssuuuubbbbddddiiiirrrreeeeccccttttoooorrrriiiieeeessss aaaappppppppeeeeaaaarrrr   ||||
+       iiiinnnn tttthhhheeee DDDDiiiirrrreeeeccccttttoooorrrriiiieeeessss lllliiiisssstttt,,,, aaaannnndddd tttthhhheeee ffffiiiilllleeeessss aaaappppppppeeeeaaaarrrr iiiinnnn tttthhhheeee FFFFiiiilllleeeessss    ||||
+       lllliiiisssstttt....  TTTThhhheeee SSSSeeeelllleeeeccccttttiiiioooonnnn wwwwiiiinnnnddddoooowwww aaaatttt tttthhhheeee bbbboooottttttttoooommmm ooooffff tttthhhheeee
+       XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx ssssppppeeeecccciiiiffffiiiieeeessss tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy....  OOOOnnnncccceeee yyyyoooouuuu hhhhaaaavvvveeee    ||||
+       sssseeeelllleeeecccctttteeeedddd aaaa ffffiiiilllleeee ffffrrrroooommmm tttthhhheeee FFFFiiiilllleeeessss lllliiiisssstttt,,,, yyyyoooouuuu ccccaaaannnn pppprrrreeeessssssss tttthhhheeee OOOOKKKK     ||||
+       bbbbuuuuttttttttoooonnnn aaaannnndddd,,,, ddddeeeeppppeeeennnnddddiiiinnnngggg oooonnnn wwwwhhhhaaaatttt tttthhhheeee aaaapppppppplllliiiiccccaaaattttiiiioooonnnn hhhhaaaassss iiiinnnn tttthhhheeee
+       ccccaaaallllllllbbbbaaaacccckkkk aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh tttthhhhiiiissss bbbbuuuuttttttttoooonnnn,,,, ppppeeeerrrrffffoooorrrrmmmm ssssoooommmmeeee aaaaccccttttiiiioooonnnn oooonnnn
+       tttthhhheeee sssseeeelllleeeecccctttteeeedddd ffffiiiilllleeee....  NNNNooootttteeee tttthhhhaaaatttt yyyyoooouuuu ccccaaaannnn sssseeeelllleeeecccctttt aaaa ffffiiiilllleeee aaaassss mmmmaaaannnnyyyy
+       ttttiiiimmmmeeeessss aaaassss ddddeeeessssiiiirrrreeeedddd....  TTTThhhheeee ooooppppeeeerrrraaaattttiiiioooonnnn oooonnnn tttthhhhaaaatttt ffffiiiilllleeee iiiissss nnnnooootttt ppppeeeerrrr----     ||||
+       ffffoooorrrrmmmmeeeedddd uuuunnnnttttiiiillll yyyyoooouuuu sssseeeelllleeeecccctttt tttthhhheeee OOOOKKKK ppppuuuusssshhhh bbbbuuuuttttttttoooonnnn....
+
+       YYYYoooouuuu ccccaaaannnn cccchhhhaaaannnnggggeeee tttthhhheeee FFFFiiiilllltttteeeerrrr bbbbyyyy mmmmoooovvvviiiinnnngggg tttthhhheeee ppppooooiiiinnnntttteeeerrrr iiiinnnnttttoooo tttthhhheeee      ||||
+       FFFFiiiilllltttteeeerrrr wwwwiiiinnnnddddoooowwww aaaannnndddd cccclllliiiicccckkkkiiiinnnngggg BBBBSSSSeeeelllleeeecccctttt....  TTTThhhhiiiissss aaaaccccttttiiiivvvvaaaatttteeeessss tttthhhheeee wwwwiiiinnnn----  ||||
+       ddddoooowwww aaaannnndddd iiiitttt iiiissss hhhhiiiigggghhhhlllliiiigggghhhhtttteeeedddd....  YYYYoooouuuu ccccaaaannnn tttthhhheeeennnn eeeennnntttteeeerrrr tttthhhheeee ddddeeeessssiiiirrrreeeedddd    ||||
+       ffffiiiilllltttteeeerrrr bbbbyyyy ttttyyyyppppiiiinnnngggg iiiitttt iiiinnnn ffffrrrroooommmm tttthhhheeee kkkkeeeeyyyybbbbooooaaaarrrrdddd....  YYYYoooouuuu ccccaaaannnn aaaallllssssoooo       ||||
+       cccchhhhaaaannnnggggeeee tttthhhheeee FFFFiiiilllltttteeeerrrr bbbbyyyy sssseeeelllleeeeccccttttiiiinnnngggg aaaa ddddiiiirrrreeeeccccttttoooorrrryyyy iiiinnnn tttthhhheeee DDDDiiiirrrreeeecccc----      ||||
+       ttttoooorrrriiiieeeessss lllliiiisssstttt....  TTTThhhhiiiissss aaaaccccttttiiiioooonnnn rrrreeeeppppllllaaaacccceeeessss tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy ppppoooorrrrttttiiiioooonnnn ooooffff   ||||
+       tttthhhheeee FFFFiiiilllltttteeeerrrr wwwwiiiitttthhhh tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy yyyyoooouuuu sssseeeelllleeeecccctttt ffffrrrroooommmm tttthhhheeee DDDDiiiirrrreeeecccc----      ||||
+       ttttoooorrrriiiieeeessss lllliiiisssstttt,,,, lllleeeeaaaavvvviiiinnnngggg tttthhhheeee sssseeeeaaaarrrrcccchhhh ppppaaaatttttttteeeerrrrnnnn iiiinnnn tttthhhheeee FFFFiiiilllltttteeeerrrr         ||||
+
+
+       5-16
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       uuuunnnncccchhhhaaaannnnggggeeeedddd....
+
+       WWWWhhhheeeennnn yyyyoooouuuu hhhhaaaavvvveeee ffffiiiinnnniiiisssshhhheeeedddd eeeennnntttteeeerrrriiiinnnngggg tttthhhheeee nnnneeeewwww ffffiiiilllltttteeeerrrr,,,, pppprrrreeeessssssss KKKKAAAAcccc----    ||||
+       ttttiiiivvvvaaaatttteeee iiiinnnn tttthhhheeee FFFFiiiilllltttteeeerrrr oooorrrr mmmmoooovvvveeee tttthhhheeee ppppooooiiiinnnntttteeeerrrr iiiinnnnttttoooo tttthhhheeee FFFFiiiilllltttteeeerrrr      ||||
+       bbbbuuuuttttttttoooonnnn aaaatttt tttthhhheeee bbbboooottttttttoooommmm ooooffff tttthhhheeee mmmmaaaaiiiinnnn wwwwiiiinnnnddddoooowwww aaaannnndddd pppprrrreeeessssssss BBBBSSSSeeeelllleeeecccctttt....    ||||
+       TTTThhhheeee ssssuuuubbbbddddiiiirrrreeeeccccttttoooorrrriiiieeeessss ooooffff tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy ssssppppeeeecccciiiiffffiiiieeeedddd bbbbyyyy tttthhhheeee FFFFiiiilllltttteeeerrrr   ||||
+       aaaarrrreeee ddddiiiissssppppllllaaaayyyyeeeedddd iiiinnnn tttthhhheeee DDDDiiiirrrreeeeccccttttoooorrrriiiieeeessss lllliiiisssstttt,,,, aaaannnndddd tttthhhheeee ffffiiiilllleeeessss tttthhhhaaaatttt     ||||
+       mmmmaaaattttcccchhhh tttthhhheeee sssseeeeaaaarrrrcccchhhh ppppaaaatttttttteeeerrrrnnnn ssssppppeeeecccciiiiffffiiiieeeedddd bbbbyyyy tttthhhheeee FFFFiiiilllltttteeeerrrr aaaarrrreeee          ||||
+       ddddiiiissssppppllllaaaayyyyeeeedddd iiiinnnn tttthhhheeee FFFFiiiilllleeeessss lllliiiisssstttt....
+
+       YYYYoooouuuu ccccaaaannnn aaaallllssssoooo ggggeeeennnneeeerrrraaaatttteeee aaaa nnnneeeewwww ffffiiiilllleeee lllliiiissssttttiiiinnnngggg bbbbyyyy ddddoooouuuubbbblllleeee cccclllliiiicccckkkkiiiinnnngggg   ||||
+       oooonnnn aaaannnn iiiitttteeeemmmm iiiinnnn tttthhhheeee DDDDiiiirrrreeeeccccttttoooorrrriiiieeeessss lllliiiisssstttt....  TTTThhhhiiiissss ccccrrrreeeeaaaatttteeeessss aaaa nnnneeeewwww       ||||
+       FFFFiiiilllltttteeeerrrr,,,, uuuussssiiiinnnngggg tttthhhheeee ddddiiiirrrreeeeccccttttoooorrrryyyy sssseeeelllleeeecccctttteeeedddd ffffrrrroooommmm tttthhhheeee DDDDiiiirrrreeeeccccttttoooorrrriiiieeeessss     ||||
+       lllliiiisssstttt aaaannnndddd tttthhhheeee sssseeeeaaaarrrrcccchhhh ppppaaaatttttttteeeerrrrnnnn ffffrrrroooommmm tttthhhheeee eeeexxxxiiiissssttttiiiinnnngggg FFFFiiiilllltttteeeerrrr....  IIIItttt     ||||
+       tttthhhheeeennnn uuuusssseeeessss tttthhhheeee nnnneeeewwww FFFFiiiilllltttteeeerrrr ttttoooo ggggeeeennnneeeerrrraaaatttteeee nnnneeeewwww lllliiiissssttttssss ooooffff ddddiiiirrrreeeecccc----      ||||
+       ttttoooorrrriiiieeeessss aaaannnndddd ffffiiiilllleeeessss....
+
+       5555....4444....5555  XXXXmmmmFFFFoooorrrrmmmm
+
+       The Form widget is a container widget that has no input
+       characteristics of its own.  Constraints are placed on the
+       Form widget's children.  These constraints define attach-
+       ments for each of the four sides of each child, and the
+       attachments determine the layout of the Form widget when any
+       resizing occurs.  The child widgets' attachments can be to
+       the Form widget, to another child of the Form widget, to a
+       relative position within the Form widget, or to the initial
+       position of the child.                                        |
+
+       XXXXmmmmFFFFoooorrrrmmmm can be directly instantiated by using either of the
+       two create functions that are available:
+
+       Widget XtCreateWidget (name, xmFormWidgetClass,               |
+                          parent, arglist,argcount)                  |
+
+       Widget XmCreateForm (parent, name, arglist,                   |
+                          argcount)                                  |
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff tttthhhheeee
+       FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....  TTTThhhheeee ffffoooollll----
+       lllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmFFFFoooorrrrmmmm uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ffffoooorrrrmmmm;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ffffoooorrrrmmmm ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""ffffoooorrrrmmmm"""",,,, xxxxmmmmFFFFoooorrrrmmmmWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,             ||||
+                          ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;                    ||||
+
+
+                                                               5-17
+
+
+
+
+
+
+
+
+
+
+
+
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ffffoooorrrrmmmm))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmFFFFoooorrrrmmmm uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmm::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ffffoooorrrrmmmm;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ffffoooorrrrmmmm ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmm ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, """"ffffoooorrrrmmmm"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ffffoooorrrrmmmm))));;;;
+
+       YYYYoooouuuu ccccaaaannnn ccccrrrreeeeaaaatttteeee aaaa FFFFoooorrrrmmmm DDDDiiiiaaaalllloooogggg bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee ffffuuuunnnncccc----   ||||
+       ttttiiiioooonnnn XXXXmmmmFFFFoooorrrrmmmmCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaalllloooogggg....  TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn ccccrrrreeeeaaaatttteeeessss aaaannnndddd rrrreeeettttuuuurrrrnnnnssss
+       aaaa FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt aaaassss aaaa cccchhhhiiiilllldddd ooooffff aaaa DDDDiiiiaaaallllooooggggSSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt....
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             ffffoooorrrrmmmm;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       ffffoooorrrrmmmm ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFoooorrrrmmmmDDDDiiiiaaaalllloooogggg ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, """"ffffoooorrrrmmmm"""",,,,              ||||
+                          aaaarrrrggggssss,,,, nnnn))));;;;                                  ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((ffffoooorrrrmmmm))));;;;
+
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ffffiiiigggguuuurrrreeee sssshhhhoooowwwwssss aaaannnn eeeexxxxaaaammmmpppplllleeee ooooffff aaaa FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt....       ||||
+                                                                     ||||
+                FFFFiiiigggguuuurrrreeee 5555----5555....  FFFFoooorrrrmmmm WWWWiiiiddddggggeeeetttt WWWWiiiitttthhhh AAAArrrrrrrroooowwwwBBBBuuuuttttttttoooonnnnssss           ||||
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTThhhheeeerrrreeee aaaarrrreeee tttthhhhrrrreeeeeeee AAAArrrrrrrroooowwwwBBBBuuuuttttttttoooonnnn wwwwiiiiddddggggeeeettttssss ppppoooossssiiiittttiiiioooonnnneeeedddd wwwwiiiitttthhhhiiiinnnn tttthhhheeee     ||||
+       FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt....  TTTThhhheeee AAAArrrrrrrroooowwwwBBBBuuuuttttttttoooonnnn oooonnnn tttthhhheeee lllleeeefffftttt iiiissss sssseeeetttt ssssoooo tttthhhhaaaatttt iiiittttssss  ||||
+       lllleeeefffftttt ssssiiiiddddeeee ppppoooossssiiiittttiiiioooonnnn iiiissss ooooffffffffsssseeeetttt aaaannnn aaaammmmoooouuuunnnntttt eeeeqqqquuuuaaaallll ttttoooo 11110000 ppppeeeerrrrcccceeeennnntttt
+       ooooffff tttthhhheeee FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt''''ssss wwwwiiiiddddtttthhhh,,,, iiiittttssss rrrriiiigggghhhhtttt ssssiiiiddddeeee ppppoooossssiiiittttiiiioooonnnn iiiissss
+       ooooffffffffsssseeeetttt 33330000 ppppeeeerrrrcccceeeennnntttt ooooffff tttthhhheeee FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt''''ssss wwwwiiiiddddtttthhhh,,,, aaaannnndddd tttthhhheeee ttttoooopppp iiiissss
+       sssseeeetttt ttttoooo aaaa ffffiiiixxxxeeeedddd ooooffffffffsssseeeetttt ooooffff 22220000 ppppiiiixxxxeeeellllssss ffffrrrroooommmm tttthhhheeee ttttoooopppp ooooffff tttthhhheeee FFFFoooorrrrmmmm   ||||
+
+
+       5-18
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       wwwwiiiiddddggggeeeetttt....  WWWWhhhheeeennnn tttthhhheeee FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt iiiissss rrrreeeessssiiiizzzzeeeedddd,,,, tttthhhheeee ssssppppaaaattttiiiiaaaallll rrrreeeellllaaaa----
+       ttttiiiioooonnnnsssshhhhiiiippppssss bbbbeeeettttwwwweeeeeeeennnn tttthhhheeee FFFFoooorrrrmmmm wwwwiiiiddddggggeeeetttt aaaannnndddd iiiittttssss cccchhhhiiiillllddddrrrreeeennnn rrrreeeemmmmaaaaiiiinnnn     ||||
+       tttthhhheeee ssssaaaammmmeeee....  TTTThhhhiiiissss iiiissss sssshhhhoooowwwwnnnn iiiinnnn tttthhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ffffiiiigggguuuurrrreeee....
+                                                                     ||||
+                 FFFFiiiigggguuuurrrreeee 5555----6666....  FFFFoooorrrrmmmm WWWWiiiiddddggggeeeetttt AAAAfffftttteeeerrrr RRRReeeessssiiiizzzziiiinnnngggg             ||||
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTThhhheeee ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt tttthhhhaaaatttt ppppoooossssiiiittttiiiioooonnnnssss tttthhhheeee AAAArrrrrrrroooowwwwBBBBuuuuttttttttoooonnnn oooonnnn tttthhhheeee lllleeeefffftttt   ||||
+       iiiissss aaaassss ffffoooolllllllloooowwwwssss::::
+
+       WWWWiiiiddddggggeeeetttt             aaaarrrrrrrroooowwww1111;;;;                                    ||||
+       iiiinnnntttt                nnnn;;;;
+
+       nnnn ==== 0000;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNlllleeeeffffttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt,,,, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNlllleeeeffffttttPPPPoooossssiiiittttiiiioooonnnn,,,, 11110000))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNrrrriiiigggghhhhttttAAAAttttttttaaaacccchhhhmmmmeeeennnntttt,,,, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNrrrriiiigggghhhhttttPPPPoooossssiiiittttiiiioooonnnn,,,, 33330000))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt,,,, XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNttttooooppppOOOOffffffffsssseeeetttt,,,, 22220000))));;;; nnnn++++++++;;;;
+       aaaarrrrrrrroooowwww1111 ==== XXXXttttCCCCrrrreeeeaaaatttteeeeMMMMaaaannnnaaaaggggeeeeddddWWWWiiiiddddggggeeeetttt((((""""aaaarrrrrrrroooowwww1111"""",,,, xxxxmmmmAAAArrrrrrrroooowwwwBBBBuuuuttttttttoooonnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,
+          ffffoooorrrrmmmm,,,, aaaarrrrggggssss,,,, nnnn))));;;;
+
+            NNNNooootttteeee tttthhhhaaaatttt tttthhhheeee ppppoooossssiiiittttiiiioooonnnn ooooffff tttthhhheeee ttttoooopppp ssssiiiiddddeeee ooooffff tttthhhheeee AAAArrrrrrrroooowwwwBBBBuuuutttt----  ||||
+            ttttoooonnnn iiiissss aaaa ccccoooonnnnssssttttaaaannnntttt vvvvaaaalllluuuueeee ((((22220000 ppppiiiixxxxeeeellllssss iiiinnnn tttthhhhiiiissss ccccaaaasssseeee)))),,,,
+            rrrreeeeggggaaaarrrrddddlllleeeessssssss ooooffff aaaannnnyyyy rrrreeeessssiiiizzzziiiinnnngggg ooooppppeeeerrrraaaattttiiiioooonnnnssss tttthhhhaaaatttt mmmmaaaayyyy ooooccccccccuuuurrrr....    ||||
+            TTTThhhhiiiissss iiiissss bbbbeeeeccccaaaauuuusssseeee tttthhhheeee XXXXmmmmNNNNttttooooppppAAAAttttttttaaaacccchhhhmmmmeeeennnntttt rrrreeeessssoooouuuurrrrcccceeee iiiissss sssseeeetttt ttttoooo
+            XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____FFFFOOOORRRRMMMM aaaassss ooooppppppppoooosssseeeedddd ttttoooo XXXXmmmmAAAATTTTTTTTAAAACCCCHHHH____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN....           ||||
+
+
+
+
+
+
+
+
+                                                               5-19
+
+
+
+
+
+
+
+
+
+
+
+
+       5555....4444....6666  XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx
+
+       A MessageBox is used just as its name implies, to pass mes-
+       sages to the user of an application. XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx is a sub-   |
+       class of XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd and inherits a large number of the   |
+       BulletinBoard resources.  Convenience Dialogs based on        |
+       XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx are provided for several user-interaction func-
+       tions: providing information, asking questions, and notify-   |
+       ing the user if errors occur.  The figure below shows some    |
+       examples of XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx.
+                                                                     *
+                     FFFFiiiigggguuuurrrreeee 5555----7777....  MessageBox Examples
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx can be directly instantiated by using either of  |
+       the two create functions that are available:
+
+       Widget XtCreateWidget (name,                                  |
+                          xmMessageBoxWidgetClass,                   |
+                          parent, arglist, argcount)                 |
+
+       Widget XmCreateMessageBox (parent, name, arglist,             |
+                          argcount)                                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       5-20
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff tttthhhheeee      ||||
+       MMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx wwwwiiiiddddggggeeeetttt aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....  TTTThhhheeee
+       ffffoooolllllllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee
+       ooooffff XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             mmmmssssggggbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       mmmmssssggggbbbbooooxxxx ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""mmmmssssggggbbbbooooxxxx"""",,,,                            ||||
+                          xxxxmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxxWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,                   ||||
+                          ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;                    ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((mmmmssssggggbbbbooooxxxx))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff  ||||
+       XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             mmmmssssggggbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       mmmmssssggggbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,                    ||||
+                          """"mmmmssssggggbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                        ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((mmmmssssggggbbbbooooxxxx))));;;;
+
+       YYYYoooouuuu ccccaaaannnn ccccrrrreeeeaaaatttteeee aaaa MMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx DDDDiiiiaaaalllloooogggg bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee
+       ffffuuuunnnnccccttttiiiioooonnnn XXXXmmmmMMMMeeeessssssssaaaaggggeeeeCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaalllloooogggg....  TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn ccccrrrreeeeaaaatttteeeessss aaaannnndddd
+       rrrreeeettttuuuurrrrnnnnssss aaaa MMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx wwwwiiiiddddggggeeeetttt aaaassss aaaa cccchhhhiiiilllldddd ooooffff aaaa DDDDiiiiaaaallllooooggggSSSShhhheeeellllllll
+       wwwwiiiiddddggggeeeetttt....
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             mmmmssssggggbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       mmmmssssggggbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,                 ||||
+                          """"mmmmssssggggbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                        ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((mmmmssssggggbbbbooooxxxx))));;;;
+
+
+
+
+
+
+
+
+
+
+                                                               5-21
+
+
+
+
+
+
+
+
+
+
+
+
+       AAAA MMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx ccccaaaannnn ccccoooonnnnttttaaaaiiiinnnn aaaa mmmmeeeessssssssaaaaggggeeee ssssyyyymmmmbbbboooollll,,,, aaaa mmmmeeeessssssssaaaaggggeeee,,,, aaaannnndddd uuuupppp  ||||
+       ttttoooo tttthhhhrrrreeeeeeee ssssttttaaaannnnddddaaaarrrrdddd PPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnssss ((((tttthhhheeee ddddeeeeffffaaaauuuulllltttt bbbbuuuuttttttttoooonnnnssss aaaarrrreeee OOOOKKKK,,,,    ||||
+       CCCCaaaannnncccceeeellll,,,, aaaannnndddd HHHHeeeellllpppp))))....  TTTThhhheeee ssssyyyymmmmbbbboooollll ((((iiiiffff aaaannnnyyyy)))) aaaappppppppeeeeaaaarrrrssss iiiinnnn tttthhhheeee uuuuppppppppeeeerrrr  ||||
+       lllleeeefffftttt ppppaaaarrrrtttt ooooffff tttthhhheeee MMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx ((((sssseeeeeeee FFFFiiiigggguuuurrrreeee 5555----7777)))),,,, tttthhhheeee mmmmeeeessssssssaaaaggggeeee     ||||
+       aaaappppppppeeeeaaaarrrrssss iiiinnnn tttthhhheeee ttttoooopppp aaaannnndddd cccceeeennnntttteeeerrrr----ttttoooo----rrrriiiigggghhhhtttt ssssiiiiddddeeee,,,, aaaannnndddd tttthhhheeee bbbbuuuuttttttttoooonnnnssss  ||||
+       aaaappppppppeeeeaaaarrrr aaaalllloooonnnngggg tttthhhheeee bbbboooottttttttoooommmm eeeeddddggggeeee....
+
+       TTTThhhheeee ddddeeeeffffaaaauuuullllttttssss ffffoooorrrr tttthhhheeee bbbbuuuuttttttttoooonnnn llllaaaabbbbeeeellllssss aaaannnndddd tttthhhheeee mmmmeeeessssssssaaaaggggeeee ssssyyyymmmmbbbboooollllssss
+       ccccaaaannnn bbbbeeee cccchhhhaaaannnnggggeeeedddd....  TTTThhhheeee bbbbuuuuttttttttoooonnnn llllaaaabbbbeeeellllssss ccccaaaannnn bbbbeeee cccchhhhaaaannnnggggeeeedddd bbbbyyyy sssseeeettttttttiiiinnnngggg
+       aaaa rrrreeeessssoooouuuurrrrcccceeee iiiinnnn tttthhhheeee pppprrrrooooggggrrrraaaammmm oooorrrr iiiinnnn aaaa ddddeeeeffffaaaauuuullllttttssss ffffiiiilllleeee....  FFFFoooorrrr eeeexxxxaaaammmm----
+       pppplllleeee,,,, iiiiffff yyyyoooouuuu wwwwaaaannnntttteeeedddd ttttoooo cccchhhhaaaannnnggggeeee tttthhhheeee OOOOKKKK llllaaaabbbbeeeellll ttttoooo CCCClllloooosssseeee,,,, yyyyoooouuuu       ||||
+       ccccoooouuuulllldddd uuuusssseeee tttthhhhiiiissss ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt::::
+
+       nnnn ==== 0000;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNooookkkkLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg,,,,                          ||||
+                          XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""CCCClllloooosssseeee"""",,,,               ||||
+                          XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))))))));;;; nnnn++++++++;;;;           ||||
+       mmmmeeeessssssssaaaaggggeeeeDDDD ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg ((((ppppaaaarrrreeeennnntttt,,,,                     ||||
+                          """"ffffoooonnnnttttbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                       ||||
+
+       XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR iiiissss aaaa ccccoooommmmppppoooouuuunnnndddd ssssttttrrrriiiinnnngggg ffffuuuunnnnccccttttiiiioooonnnn....  SSSSeeeeeeee        ||||
+       CCCChhhhaaaapppptttteeeerrrr 8888,,,, ````````AAAAddddddddiiiittttiiiioooonnnnaaaallll FFFFuuuunnnnccccttttiiiioooonnnnaaaalllliiiittttyyyy,,,,'''''''' ffffoooorrrr mmmmoooorrrreeee iiiinnnnffffoooorrrrmmmmaaaa----
+       ttttiiiioooonnnn oooonnnn tttthhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn aaaannnndddd ccccoooommmmppppoooouuuunnnndddd ssssttttrrrriiiinnnnggggssss iiiinnnn ggggeeeennnneeeerrrraaaallll....  YYYYoooouuuu
+       ccccaaaannnn mmmmaaaakkkkeeee tttthhhheeee ssssaaaammmmeeee cccchhhhaaaannnnggggeeee bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ssssttttaaaatttteeeemmmmeeeennnntttt iiiinnnn
+       aaaa ddddeeeeffffaaaauuuullllttttssss ffffiiiilllleeee::::
+
+       ****mmmmssssggggbbbbooooxxxx....ooookkkkLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg:::: CCCClllloooosssseeee
+
+       NNNNooootttteeee tttthhhhaaaatttt tttthhhheeee pppprrrreeeecccceeeeddddiiiinnnngggg ssssttttaaaatttteeeemmmmeeeennnntttt aaaapppppppplllliiiieeeessss oooonnnnllllyyyy ttttoooo tttthhhheeee MMMMeeeessss----    ||||
+       ssssaaaaggggeeeeBBBBooooxxxx wwwwiiiiddddggggeeeetttt wwwwhhhhoooosssseeee nnnnaaaammmmeeee iiiissss mmmmssssggggbbbbooooxxxx aaaassss ssssppppeeeecccciiiiffffiiiieeeedddd iiiinnnn tttthhhheeee       ||||
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeDDDDiiiiaaaalllloooogggg oooorrrr XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx....
+
+       TTTThhhheeee mmmmeeeessssssssaaaaggggeeee llllaaaabbbbeeeellll ccccaaaannnn bbbbeeee cccchhhhaaaannnnggggeeeedddd iiiinnnn tttthhhheeee ssssaaaammmmeeee mmmmaaaannnnnnnneeeerrrr aaaassss tttthhhheeee
+       bbbbuuuuttttttttoooonnnn....  UUUUsssseeee tttthhhheeee rrrreeeessssoooouuuurrrrcccceeee XXXXmmmmNNNNmmmmeeeessssssssaaaaggggeeeeSSSSttttrrrriiiinnnngggg iiiinnnnsssstttteeeeaaaadddd ooooffff XXXXmmmmNNNNooookkkk----
+       LLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg....
+
+       TTTThhhheeeerrrreeee aaaarrrreeee sssseeeevvvveeeerrrraaaallll ooootttthhhheeeerrrr ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee ddddiiiiaaaallllooooggggssss tttthhhhaaaatttt aaaalllllllloooowwww yyyyoooouuuu
+       ttttoooo ccccrrrreeeeaaaatttteeee ssssppppeeeecccciiiiaaaallll vvvveeeerrrrssssiiiioooonnnnssss ooooffff XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxx....  TTTThhhheeeesssseeee ccccoooonnnnvvvveeeennnniiii----   ||||
+       eeeennnncccceeee ddddiiiiaaaallllooooggggssss aaaarrrreeee XXXXmmmmCCCCrrrreeeeaaaatttteeeeEEEErrrrrrrroooorrrrDDDDiiiiaaaalllloooogggg,,,, XXXXmmmmCCCCrrrreeeeaaaatttteeeeIIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnnDDDDiiii----
+       aaaalllloooogggg,,,, XXXXmmmmCCCCrrrreeeeaaaatttteeeeQQQQuuuueeeessssttttiiiioooonnnnDDDDiiiiaaaalllloooogggg,,,, XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWaaaarrrrnnnniiiinnnnggggDDDDiiiiaaaalllloooogggg,,,, aaaannnndddd
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWoooorrrrkkkkiiiinnnnggggDDDDiiiiaaaalllloooogggg....  YYYYoooouuuu uuuusssseeee tttthhhheeeesssseeee ffffuuuunnnnccccttttiiiioooonnnnssss ttttoooo ccccrrrreeeeaaaatttteeee
+       tttthhhheeee aaaapppppppprrrroooopppprrrriiiiaaaatttteeee ddddiiiiaaaallllooooggggssss iiiinnnn eeeexxxxaaaaccccttttllllyyyy tttthhhheeee ssssaaaammmmeeee mmmmaaaannnnnnnneeeerrrr aaaassss
+       ddddeeeessssccccrrrriiiibbbbeeeedddd eeeeaaaarrrrlllliiiieeeerrrr ffffoooorrrr tttthhhheeee XXXXmmmmMMMMeeeessssssssaaaaggggeeeeBBBBooooxxxxDDDDiiiiaaaalllloooogggg....                 ||||
+
+
+
+
+
+
+
+
+
+
+       5-22
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+       5555....4444....7777  XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx
+
+       A SelectionBox is a general Dialog widget that allows you to  |
+       select an item from a list of items.  SelectionBox can con-
+       tain a label, a list of items from which to choose, a selec-
+       tion text edit window that allows you to enter a selection
+       directly, and three PushButtons (OK, Cancel, and Help).  An   |
+       example of a SelectionBox widget is shown in the following    |
+       figure.
+                                                                     *
+                     FFFFiiiigggguuuurrrreeee 5555----8888....  SelectionBox Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       You can select an item from the SelectionBox in either of     |
+       two ways:
+
+          +o By scrolling through the list of items and selecting
+            one.  The item you select will be displayed in the
+            SelectionBox text edit window.
+
+          +o By entering the item name directly into the text edit
+            window.
+
+       You can select a new item as many times as you desire since   |
+       no action is taken until you move the pointer to the OK but-  |
+       ton and click mouse button 1.                                 |
+
+
+
+
+
+
+
+
+
+
+                                                               5-23
+
+
+
+
+
+
+
+
+
+
+
+
+       XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx can be directly instantiated by using either
+       of the two create functions that are available:
+
+       Widget XtCreateWidget (name,                                  |
+                          xmSelectionBoxWidgetClass, parent,         |
+                          arglist,argcount)                          |
+
+       Widget XmCreateSelectionBox (parent, name,                    |
+                          arglist, argcount)                         |
+
+       BBBBooootttthhhh ooooffff tttthhhheeeesssseeee ccccrrrreeeeaaaatttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff tttthhhheeee
+       SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx wwwwiiiiddddggggeeeetttt aaaannnndddd rrrreeeettttuuuurrrrnnnn tttthhhheeee aaaassssssssoooocccciiiiaaaatttteeeedddd wwwwiiiiddddggggeeeetttt IIIIDDDD....
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn
+       iiiinnnnssssttttaaaannnncccceeee ooooffff XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             sssseeeelllleeeeccccttttbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       sssseeeelllleeeeccccttttbbbbooooxxxx ==== XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt ((((""""sssseeeelllleeeeccccttttbbbbooooxxxx"""",,,,                      ||||
+                          xxxxmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss,,,,                 ||||
+                          ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, aaaarrrrggggssss,,,, nnnn))));;;;                    ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((sssseeeelllleeeeccccttttbbbbooooxxxx))));;;;
+
+       TTTThhhheeee nnnneeeexxxxtttt ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss yyyyoooouuuu hhhhoooowwww ttttoooo ccccrrrreeeeaaaatttteeee aaaannnn iiiinnnnssssttttaaaannnncccceeee ooooffff
+       XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx uuuussssiiiinnnngggg XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx::::
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             sssseeeelllleeeeccccttttbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       sssseeeelllleeeeccccttttbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,,               ||||
+                          """"sssseeeelllleeeeccccttttbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                     ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((sssseeeelllleeeeccccttttbbbbooooxxxx))));;;;
+
+       YYYYoooouuuu ccccaaaannnn ccccrrrreeeeaaaatttteeee aaaa SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx DDDDiiiiaaaalllloooogggg bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee ccccoooonnnnvvvveeeennnniiii----    ||||
+       eeeennnncccceeee ffffuuuunnnnccccttttiiiioooonnnn XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCrrrreeeeaaaatttteeeeDDDDiiiiaaaalllloooogggg....  TTTThhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn
+       ccccrrrreeeeaaaatttteeeessss aaaannnndddd rrrreeeettttuuuurrrrnnnnssss aaaa SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx wwwwiiiiddddggggeeeetttt aaaassss aaaa cccchhhhiiiilllldddd ooooffff aaaa
+       DDDDiiiiaaaallllooooggggSSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt....
+
+       AAAArrrrgggg                aaaarrrrggggssss;;;;
+       iiiinnnntttt                nnnn;;;;
+       WWWWiiiiddddggggeeeetttt             sssseeeelllleeeeccccttttbbbbooooxxxx;;;;
+       WWWWiiiiddddggggeeeetttt             ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll;;;;
+
+       nnnn ==== 0000;;;;
+       sssseeeelllleeeeccccttttbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxDDDDiiiiaaaalllloooogggg                        ||||
+
+
+       5-24
+
+
+
+
+
+
+
+
+
+                                       Dialog Widgets and Functions
+
+
+                          ((((ppppaaaarrrreeeennnntttt____sssshhhheeeellllllll,,,, """"sssseeeelllleeeeccccttttbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;      ||||
+       XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd ((((sssseeeelllleeeeccccttttbbbbooooxxxx))));;;;
+
+       TTTThhhheeee ddddeeeeffffaaaauuuullllttttssss ffffoooorrrr tttthhhheeee bbbbuuuuttttttttoooonnnn llllaaaabbbbeeeellllssss aaaannnndddd tttthhhheeee lllliiiisssstttt aaaannnndddd tttteeeexxxxtttt      ||||
+       wwwwiiiinnnnddddoooowwww llllaaaabbbbeeeellllssss ccccaaaannnn bbbbeeee cccchhhhaaaannnnggggeeeedddd....  TTTThhhheeee bbbbuuuuttttttttoooonnnn llllaaaabbbbeeeellllssss ccccaaaannnn bbbbeeee
+       cccchhhhaaaannnnggggeeeedddd bbbbyyyy sssseeeettttttttiiiinnnngggg aaaa rrrreeeessssoooouuuurrrrcccceeee iiiinnnn tttthhhheeee pppprrrrooooggggrrrraaaammmm oooorrrr iiiinnnn aaaa
+       ddddeeeeffffaaaauuuullllttttssss ffffiiiilllleeee....  FFFFoooorrrr eeeexxxxaaaammmmpppplllleeee,,,, iiiiffff yyyyoooouuuu wwwwaaaannnntttteeeedddd ttttoooo cccchhhhaaaannnnggggeeee tttthhhheeee OOOOKKKK   ||||
+       llllaaaabbbbeeeellll ttttoooo CCCClllloooosssseeee,,,, yyyyoooouuuu ccccoooouuuulllldddd uuuusssseeee tttthhhhiiiissss ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt::::
+
+       nnnn ==== 0000;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNooookkkkLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg,,,,                          ||||
+                          XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""CCCClllloooosssseeee"""",,,,               ||||
+                          XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))))))));;;; nnnn++++++++;;;;           ||||
+       sssseeeelllleeeeccccttttbbbbooooxxxx ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxDDDDiiiiaaaalllloooogggg ((((ppppaaaarrrreeeennnntttt,,,,               ||||
+                          """"sssseeeelllleeeeccccttttbbbbooooxxxx"""",,,, aaaarrrrggggssss,,,, nnnn))));;;;                     ||||
+
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt sssshhhhoooowwwwssss hhhhoooowwww ttttoooo sssseeeetttt tttthhhheeee lllliiiisssstttt iiiitttteeeemmmmssss
+       tttthhhhaaaatttt aaaappppppppeeeeaaaarrrr iiiinnnn tttthhhheeee lllliiiisssstttt wwwwiiiinnnnddddoooowwww....
+
+       XXXXmmmmSSSSttttrrrriiiinnnngggg           iiiitttteeeemmmm[[[[5555]]]];;;;                                   ||||
+                          ....
+                          ....
+       iiiitttteeeemmmm[[[[0000]]]] ==== XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""oooonnnneeee"""",,,, XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))));;;;
+       iiiitttteeeemmmm[[[[1111]]]] ==== XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""ttttwwwwoooo"""",,,, XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))));;;;
+       iiiitttteeeemmmm[[[[2222]]]] ==== XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""tttthhhhrrrreeeeeeee"""",,,, XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))));;;;
+       iiiitttteeeemmmm[[[[3333]]]] ==== NNNNUUUULLLLLLLL
+                          ....
+                          ....
+
+       nnnn ==== 0000;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmssss,,,, iiiitttteeeemmmm))));;;; nnnn++++++++;;;;
+       XXXXttttSSSSeeeettttAAAArrrrgggg ((((aaaarrrrggggssss[[[[nnnn]]]],,,, XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt,,,, 3333))));;;; nnnn++++++++;;;;
+
+            AAAAnnnn aaaarrrrrrrraaaayyyy ooooffff ttttyyyyppppeeee XXXXmmmmSSSSttttrrrriiiinnnngggg iiiissss ddddeeeeffffiiiinnnneeeedddd ttttoooo hhhhoooolllldddd tttthhhheeee lllliiiisssstttt    ||||
+            iiiitttteeeemmmmssss....  SSSSiiiinnnncccceeee oooonnnnllllyyyy tttthhhhrrrreeeeeeee ooooffff tttthhhheeee ffffiiiivvvveeee eeeennnnttttrrrriiiieeeessss iiiinnnn tttthhhheeee
+            aaaarrrrrrrraaaayyyy aaaarrrreeee uuuusssseeeedddd,,,, tttthhhheeee ffffoooouuuurrrrtttthhhh iiiissss sssseeeetttt ttttoooo NNNNUUUULLLLLLLL ttttoooo iiiiddddeeeennnnttttiiiiffffyyyy
+            tttthhhheeee eeeennnndddd ooooffff tttthhhheeee lllliiiisssstttt....  EEEEaaaacccchhhh eeeennnnttttrrrryyyy iiiissss sssseeeetttt mmmmaaaannnnuuuuaaaallllllllyyyy,,,, aaaannnndddd
+            tttthhhheeeennnn tttthhhheeee aaaarrrrgggguuuummmmeeeennnntttt lllliiiisssstttt iiiissss sssseeeetttt iiiinnnn tttthhhheeee nnnnoooorrrrmmmmaaaallll mmmmaaaannnnnnnneeeerrrr....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               5-25
+
+
+
+
+

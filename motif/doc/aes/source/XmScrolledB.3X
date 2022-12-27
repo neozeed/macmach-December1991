@@ -1,0 +1,70 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmScrolledWindowSetAreas 3X "" "" "" ""
+.SH NAME
+\fBXmScrolledWindowSetAreas \(em a ScrolledWindow function that
+adds or changes a window work region and a horizontal or vertical
+ScrollBar widget to the ScrolledWindow widget.\fP
+.iX "XmScrolledWindowSetAreas"
+.iX "ScrolledWindow functions" "XmScrolledWindowSetAreas"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/ScrolledW.h>
+.sp 1
+void XmScrolledWindowSetAreas (\fIwidget, horizontal_scrollbar, 
+vertical_scrollbar, work_region\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	Widget	\fIhorizontal_scrollbar\fP;
+.br
+	Widget	\fIvertical_scrollbar\fP;
+.br
+	Widget	\fIwork_region\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmScrolledWindowSetAreas\fP adds or changes a window work region and
+a horizontal or vertical ScrollBar widget to the ScrolledWindow widget for 
+the application.  Each widget is optional and may be passed as NULL.
+.sp 1
+.IP "\fIwidget\fP" 1.5i
+Specifies the ScrolledWindow widget ID.
+.IP "\fIhorizontal_scrollbar\fP" 1.5i
+Specifies the ScrollBar widget ID for the 
+horizontal ScrollBar to be associated 
+with the ScrolledWindow widget.  Set this ID only after creating an instance
+of the ScrolledWindow widget.  The resource name associated with this
+argument is \fBXmNhorizontalScrollBar\fP.
+.IP "\fIvertical_scrollbar\fP" 1.5i
+Specifies the ScrollBar widget ID for the 
+vertical ScrollBar to be associated 
+with the ScrolledWindow widget.  Set this ID only after creating an instance
+of the ScrolledWindow widget.  The resource name associated with this
+argument is \fBXmNverticalScrollBar\fP.
+.IP "\fIwork_region\fP" 1.5i
+Specifies the widget ID for the work window to be associated with the
+ScrolledWindow widget.  Set this ID only after creating an instance of the
+ScrolledWindow widget.  The attribute name associated with this argument is
+\fBXmNworkWindow\fP.
+.sp 1
+.PP
+For a complete definition of ScrolledWindow and its associated resources, see
+\fBXmScrolledWindow(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmScrolledWindow(3X)\fP.
+.sp 1

@@ -1,0 +1,65 @@
+Various minor editorial corrections and clarifications have been made.
+
+The Protocol now defines the use of a "group modifier" to obtain up to
+two additional keysyms per key.
+
+The interpretation of characters ``?'' (octal value 77) and ``*''
+(octal value 52) in OpenFont is not defined by the core protocol,
+but is reserved for future definition.
+
+The set of "standard" properties has been replaced by a reference
+to the X Logical Font Description Conventions standard.
+
+In QueryTextExtents, characters with all zero metrics are specified
+to be ignored.
+
+In FillPoly, contiguous coincident points in the path are not treated
+as self-intersection.  Convex means that for every pair of points inside
+the polygon, the line segment connecting them does not intersect the path.
+
+VoidSymbol has been added as a new keysym.
+
+The spelling of numerous keysym names has been changed to match the
+ISO standards.
+
+000	045	02/13	HYPHEN, MINUS SIGN	Latin-1
+is split into
+000	045	02/13	MINUS SIGN	Latin-1
+000	173	10/13	HYPHEN		Latin-1
+
+003	187	11/11	LATIN SMALL LETTER g WITH ACUTE ACCENT	Latin-4
+is changed to
+003	187	11/11	LATIN SMALL LETTER g WITH CEDILLA ABOVE	Latin-4
+
+The following keysyms are added:
+007	174	10/14	DIAERESIS AND ACCENT	Greek
+007	175	10/15	HORIZONTAL BAR		Greek
+
+The following keysyms are removed:
+007	166	10/06	GREEK CAPITAL LETTER IOTA WITH ACCENT+DIAERESIS		Greek
+007	170	10/10	GREEK CAPITAL LETTER UPSILON WITH ACCENT+DIAERESIS	Greek
+
+The following keysym is added:
+012	223	13/15	DOUBLE LOW LINE		Hebrew
+
+255	019	01/03	PAUSE, HOLD, SCROLL LOCK	Keyboard
+is split into
+255	019	01/03	PAUSE, HOLD			Keyboard
+255	020	01/04	SCROLL LOCK			Keyboard
+
+The following keysyms are added:
+255	034	02/02	MUHENKAN			Keyboard
+255	035	02/03	HENKAN MODE			Keyboard
+255	036	02/04	ROMAJI				Keyboard
+255	037	02/05	HIRAGANA			Keyboard
+255	038	02/06	KATAKANA			Keyboard
+255	039	02/07	HIRAGANA/KATAKANA TOGGLE	Keyboard
+255	040	02/08	ZENKAKU				Keyboard
+255	041	02/09	HANKAKU				Keyboard
+255	042	02/10	ZENKAKU/HANKAKU TOGGLE		Keyboard
+255	043	02/11	TOUROKU				Keyboard
+255	044	02/12	MASSYO				Keyboard
+255	045	02/13	KANA LOCK			Keyboard
+255	046	02/14	KANA SHIFT			Keyboard
+255	047	02/15	EISU SHIFT			Keyboard
+255	048	03/00	EISU TOGGLE			Keyboard

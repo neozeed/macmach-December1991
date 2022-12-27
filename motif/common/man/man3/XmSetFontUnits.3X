@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmSetFontUnits 3X "" "" "" ""
+.SH NAME
+\fB
+XmSetFontUnits \(em a function that sets the font unit value for
+a display.\fP
+.iX "XmSetFontUnits"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmSetFontUnits (\fIdisplay, h_value, v_value\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	int	\fIh_value\fP;
+.br
+	int	\fIv_value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmSetFontUnits\fP provides an external function to initialize font unit
+values.  Applications may want to specify resolution-independent data based
+on a global font size.  This function must be called before any widgets with
+resolution-independent data are created.  See the \fBXmNunitType\fP
+resource description in the manual pages for
+\fBXmGadget\fP, \fBXmManager\fP, and \fBXmPrimitive\fP for more information
+on resolution independence.
+.sp 1
+.ne 12
+.IP "\fIdisplay\fP" 1.25i
+Defines the display for which this font unit value is to be applied.
+.IP "\fIh_value\fP"1.25i
+Specifies the value to be used for horizontal
+units in the conversion calculations.
+.IP "\fIh_value\fP"1.25i
+Specifies the value to be used for vertical
+units in the conversion calculations.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmConvertUnits(3X)\fP,
+\fBXmSetFontUnit(3X)\fP,
+\fBXmGadget(3X)\fP,
+\fBXmManager(3X)\fP, and
+\fBXmPrimitive(3X)\fP.
+.sp 1

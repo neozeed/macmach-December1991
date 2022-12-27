@@ -1,0 +1,164 @@
+
+
+		    X Window System, Version 11, Release 4
+				    Roadmap
+
+
+
+This is a brief overview of the contents of R4 from MIT and is intended for
+people who are familiar with R3.  More detailed information is provided in the
+release notes stored in the file RELNOTES.* (ms source, PostScript, and text
+versions are provided) for people installing this release for the first time.
+
+
+
+Building the Release
+--------------------
+
+The imake sources and configuration files have been consolidated into the
+directory ./config/.  The machine-dependent files are named *.cf and use cpp
+symbols instead of make variables so that defaults can be provided.  The imake
+and makedepend predefine constants have been moved into ./config/imakemdep.h
+so that there is only one file to edit when porting to a new system.  Here is
+what you need to do to build:
+
+	1.  Set the OSMajorVersion and OSMinorVersion variables in the
+		appropriate ./config/*.cf files.  You may also want to set
+		HasGcc if you have it (especially recommended for vax and
+		680x0 systems).
+
+	2.  Double-check the parameters in ./config/site.def.
+
+	3.  Look in ./server/ddx/*/README for any specific instructions.
+
+	4.  Type "make World >& make.world &" (do not name the log file
+		make.log or it will get deleted).
+
+	5.  Have a long lunch (unless you are on a Cray Y-MP :-).
+
+	6.  Check the log file for any errors.  The release should build
+		clean (except for optimizer warnings on some systems).
+
+	7.  Save your old /usr/bin/X11/, /usr/include/X11/, /usr/lib/X11/,
+		and /usr/lib/libX*.
+
+	8.  As root, type "make install".  If you want manual pages installed,
+		also type "make install.man".
+
+	9.  Check to see that xterm is setuid to root and xload is either
+		setuid to root or setgid to whichever group owns /dev/kmem.
+
+	10. Remove any xterm -L lines from /etc/ttys.  You must use either xdm
+		or a script around xinit.
+
+	11. Double-check the xdm configuration files in /usr/lib/X11/xdm/.
+		In particular, make sure that the Xservers file contains
+		the appropriate name for your type of server (e.g. Xqvss,
+		Xqdss, Xsun, Xibm, Xapollo, Xhp, XmacII, Xcfbpmax, Xmfbpmax,
+		or Xtek) or that you have created a link named /usr/bin/X11/X.
+
+	12. Make sure that /usr/bin/X11 is in your path.
+
+	13. Have fun!
+
+No provisions are made for automatically building the user-contributed
+distribution.  However, each directory should have an Imakefile, so you
+should be able to just type "xmkmf" to desired Makefiles.  Note that the
+larger packages (such as XView, andrew, InterViews, and Xgks) have special
+build instructions.
+
+
+
+Installing the Release
+----------------------
+
+By default, this release will install files into the following places:
+
+	/usr/bin/X11/		executable programs
+
+	/usr/lib/X11/		fonts, color databases, and 
+				application default resources
+
+	/usr/lib/		programming libraries
+
+	/usr/include/X11/	programming header files
+
+
+Although you can change these directories by setting the appropriate
+configuration parameters, it is recommended that you leave them as is and
+make symbolic links to the alternate locations.
+
+
+
+Useful Documents
+----------------
+
+You should read the following documents:
+
+	o  Release Notes - ./RELNOTES.ms
+
+	o  X general information man page - ./X.man
+
+	o  Xlib Changes - doc/Xlib/R4Xlib.tbl.ms
+
+	o  Server Changes - doc/Server/r4.tbl.ms
+
+	o  xdm man page - clients/xdm/xdm.man
+
+	o  Copyrights info - ./COPYRIGHTS
+
+	o  Standards info - ./Standards.man
+
+
+
+
+Porting to a New Platform
+-------------------------
+
+If you are trying to port this release to a new platform, you will need to do
+the following:
+
+	1.  Read the Release Notes.
+
+	2.  Follow the (terse) directions in ./config/ about setting up a 
+		.cf file and adding an #ifdef block to Imake.tmpl.  The
+		best way is to find a system similar to yours and start from
+		there.
+
+	3.  Check the definitions in ./include/Xos.h.
+
+	4.  Check the networking code in the following files in the
+		./lib/X/ directory:  Xlibos.h, Xlibint.h, XlibInt.c,
+		XConnDis.c, Xstreams.h, Xstreams.c.
+
+	5.  Check the definitions in ./lib/Xt/Xtos.h.
+
+	6.  If you plan to build the server, check the definitions in 
+		./server/include/os.h, the networking code in ./server/os/*,
+		and add appropriate blocks of definitions to 
+		./server/Imakefile.
+
+	7.  If you are not building a server, make sure the BuildServer
+		parameter in your .cf file is set to NO.
+
+	8.  Type "make World >& make.world &".
+
+If you are going to build the release on more than one type of machine and have
+a networked file system and symbolic links, you can save substantial amounts of
+disk space and aggravation by building a shadow link tree that points to the
+master sources.  This has the added advantage of keeping your object files
+out of your source tree.  See ./util/scripts/lndir.sh.
+
+
+
+Copyrights
+----------
+
+See the file ./COPYRIGHTS for the full copyright and permission notice.
+
+
+
+
+			 It's a window system named X,
+			  not a system named X Window.
+

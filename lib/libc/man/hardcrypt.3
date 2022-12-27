@@ -1,0 +1,58 @@
+.\"
+.\" $Id: hardcrypt.3,v 1.4 89/12/26 20:12:58 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	hardcrypt.3,v $
+.\" Revision 1.4  89/12/26  20:12:58  bww
+.\" 	Updated version macro.
+.\" 	[89/12/26  20:11:43  bww]
+.\" 
+.\" Revision 1.3  89/12/26  11:18:52  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 18-May-88  Glenn Marcy (gm0w) at Carnegie-Mellon University
+.\"	Created from crypt(3).
+.\"
+.\"
+.\"	@(#)hardcrypt.3	6.1 (Berkeley) 5/15/85
+.\"
+.TH HARDCRYPT 3  "May 15, 1985"
+.CM 4
+.SH NAME
+hardcrypt \- harder DES encryption
+.SH SYNOPSIS
+.nf
+.B char *hardcrypt(key, salt)
+.B char *key, *salt;
+.fi
+.SH DESCRIPTION
+.I Hardcrypt
+is the password encryption routine used on facilities maintained systems
+for users login passwords instead crypt(3).
+It is based on the NBS Data Encryption Standard, with
+variations intended (among other things) to frustrate use of hardware
+implementations of the DES for key search.  It uses an improved
+implementation of crypt(3) with a greater number of iterations to
+decrease the likelyhood that the work required to perform an encryption
+can be significantly improved further.
+.PP
+The first argument to
+.I hardcrypt
+is normally a user's typed password.
+The second is a 2-character string chosen from the
+set [a-zA-Z0-9./].
+The
+.I salt
+string is used to perturb the DES algorithm in one of 4096
+different ways, after which the password
+is used as the key to encrypt repeatedly a constant string.
+The returned value points to the encrypted password,
+in the same alphabet as the salt.
+The first two characters are the salt itself.
+.SH "SEE ALSO"
+passwd(1), passwd(5), login(1), getpass(3), crypt(3)
+.SH BUGS
+The return value
+points to static data whose content is overwritten
+by each call.

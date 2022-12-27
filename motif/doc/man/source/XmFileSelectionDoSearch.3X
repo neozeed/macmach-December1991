@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFileSelectionDoSearch 3X "" "" "" ""
+.SH NAME
+\fBXmFileSelectionDoSearch \(em a FileSelectionBox function that
+initiates a directory search.\fP
+.iX "XmFileSelectionDoSearch"
+.iX "FileSelectionBox functions" "XmFileSelectionDoSearch"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/FileSB.h>
+.sp 1
+void XmFileSelectionDoSearch (\fIwidget, dirmask\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmString	\fIdirmask\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmFileSelectionDoSearch\fP initiates a directory and file search in a
+FileSelectionBox widget.
+For a description of the actions that the FileSelectionBox takes when
+doing a search, see \fBXmFileSelectionBox(3X)\fP.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the FileSelectionBox widget ID.
+.IP "\fIdirmask\fP" .75i
+Specifies the directory mask used in determining the directories and
+files displayed in the FileSelectionBox lists.
+This value is used as the \fImask\fP member of the input data
+\fBXmFileSelectionBoxCallbackStruct\fP structure passed to the
+FileSelectionBox's \fBXmNqualifySearchDataProc\fP.
+The \fIdir\fP and \fIpattern\fP members of that structure are NULL.
+.sp 1
+.PP
+For a complete definition of FileSelectionBox and its associated resources, see
+\fBXmFileSelectionBox(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmFileSelectionBox(3X)\fP.
+.sp 1

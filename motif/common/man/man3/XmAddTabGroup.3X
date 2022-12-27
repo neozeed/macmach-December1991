@@ -1,0 +1,53 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmAddTabGroup 3X "" "" "" ""
+.SH NAME
+\fBXmAddTabGroup \(em A function that adds a manager or a primitive
+widget to the list of tab groups.\fP
+.iX "XmAddTabGroup"
+.iX "VendorShell functions" "XmAddTabGroup"
+.iX "protocols"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmAddTabGroup (\fItab_group\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fItab_group\fP;
+\fP
+.fi
+.SH DESCRIPTION
+When using the keyboard to traverse through a widget hierarchy, primitive
+or manager
+widgets are grouped together into what are known as \fBtab groups\fP.  Any
+manager or primitive widget can be a tab group.  Within
+a tab group, move the focus to the next widget within the tab
+group by using the arrow keys.  To move to another tab group, use
+\fBKNextField\fP or \fBKPrevField\fP.
+.PP
+Tab groups are ordinarily specified by the \fBXmNnavigationType\fP
+resource.
+\fBXmAddTabGroup\fP is called to control the order of traversal of tab
+groups.The widget specified 
+.ne 10
+by \fItab_group\fP is appended to the list of tab
+groups to be traversed, and the widget's \fBXmNnavigationType\fP is set
+to \fBXmEXCLUSIVE_TAB_GROUP\fP.
+.sp 1
+.IP "\fItab_group\fP" .75i
+Specifies the manager or primitive widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmManager(3X)\fP, \fBXmPrimitive(3X)\fP and \fBXmRemoveTabGroup(3X)\fP.
+.sp 1

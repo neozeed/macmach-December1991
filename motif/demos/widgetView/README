@@ -1,0 +1,33 @@
+widgetView - Motif examination program for exploring widgets.
+
+
+widgetView
+----------
+
+WidgetView provides a mechanism for you to interactively manipulate Motif
+widgets.  Selecting a widget will recall all resources from the widget and
+display the widget.  You then may change the values of the resources and
+apply the changes.
+
+BUGS:
+
+	1. Between X11R3 and X11R4, the data types Dimension and Position were
+	   changed from an unsigned integer to an unsigned short, and from an
+	   integer to a short, respectively.  We did not have time before the
+	   release of Motif 1.1 to modify widgetView to reflect these changes.
+	   As a result, this demo will not run on architectures which utilize
+	   different byte ordering than the DEC PMAX reference platform (the
+	   PMAX is a "little-endian" machine, so widgetView will fail on all
+	   "big-endian" machines).
+
+
+If you stress widgetView, it will break.  Don't depend on it.
+
+Many of the functions do work, however, and the tool provides an excellent
+training environment for learning Motif.
+
+If you notice any other bugs in this demo, please see the bug list in
+the Release Notes to see if the problem is a known Toolkit defect.
+
+
+pjlevine.

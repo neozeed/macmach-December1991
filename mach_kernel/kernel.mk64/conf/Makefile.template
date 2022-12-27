@@ -1,0 +1,795 @@
+#
+# Mach Operating System
+# Copyright (c) 1991,1990,1989,1988,1987,1986 Carnegie Mellon University
+# All Rights Reserved.
+# 
+# Permission to use, copy, modify and distribute this software and its
+# documentation is hereby granted, provided that both the copyright
+# notice and this permission notice appear in all copies of the
+# software, derivative works or modified versions, and any portions
+# thereof, and that both notices appear in supporting documentation.
+# 
+# CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS" 
+# CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+# ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+# 
+# Carnegie Mellon requests users of this software to return to
+# 
+#  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+#  School of Computer Science
+#  Carnegie Mellon University
+#  Pittsburgh PA 15213-3890
+# 
+# any improvements or extensions that they make and grant Carnegie Mellon
+# the rights to redistribute these changes.
+#  
+#
+# HISTORY
+# $Log:	Makefile.template,v $
+# Revision 2.21  91/09/12  16:36:16  bohman
+# 	Added task_get_special_port to MACH_FUNCS.
+# 	[91/09/11  16:59:30  bohman]
+# 
+# Revision 2.20  91/08/28  11:10:23  jsb
+# 	Added support for lineno build option.
+# 	[91/08/26  11:26:52  jsb]
+# 
+# 	Added sequence numbers to the memory object interface.
+# 	Updated MACH_PORT_FUNCS.
+# 	[91/08/13            rpd]
+# 	Add new external memory management routines to libmig.
+# 	[91/07/03  13:58:50  dlb]
+# 	Removed rules pertaining to mach/norma_task.defs.
+# 	Added rules for building mach_user.o and mach_norma_user.o.
+# 	[91/08/15  13:24:48  jsb]
+# 
+# Revision 2.19  91/07/31  17:27:30  dbg
+# 	Removed vm_pageable.  Added mach_host functions to libmig.a.
+# 	[91/07/30  16:41:07  dbg]
+# 
+# Revision 2.18  91/06/25  10:26:20  rpd
+# 	Added dependencies for file_io.o.
+# 	[91/05/21            rpd]
+# 
+# Revision 2.17  91/06/18  20:49:47  jsb
+# 	Moved mach/proxy.defs to norma/xmm_proxy.defs.
+# 	[91/06/18  18:46:36  jsb]
+# 
+# Revision 2.16  91/06/17  15:43:35  jsb
+# 	NORMA_VM: added rule for xmm_proxy.defs.
+# 	[91/06/17  13:49:10  jsb]
+# 
+# Revision 2.15  91/06/06  17:03:33  jsb
+# 	Added rules for mach_norma.defs, norma_task.defs.
+# 	[91/05/13  16:47:34  jsb]
+# 
+# Revision 2.14  91/05/14  15:28:02  mrt
+# 	Correcting copyright
+# 
+# Revision 2.13  91/03/16  14:42:07  rpd
+# 	Moved VOLATILE from LINTOPTS to ALLOPTS.
+# 	[91/03/13            rpd]
+# 
+# Revision 2.12  91/02/05  17:03:12  mrt
+# 	Changed to new copyright
+# 	[91/01/28  14:47:11  mrt]
+# 
+# Revision 2.11  90/12/14  10:59:15  jsb
+# 	Added rule for building dev_forward.c (for cross-node device support).
+# 	[90/12/13  20:58:23  jsb]
+# 
+# Revision 2.10  90/12/04  14:45:43  jsb
+# 	Removed workaround for libmig.a; this can be worked around entirely
+# 	in Makefile.{machine}.
+# 	[90/12/04  11:37:33  jsb]
+# 
+# Revision 2.9  90/11/25  17:48:22  jsb
+# 	Added support for cross-compilation, using existing KCC technology:
+# 	KCC is used to build images to be run on target machine (machine
+# 	for which kernel is being built), and CC is used to build images
+# 	to be run on host machine (machine upon which compilation is done).
+# 	Use KCC (not CC) to build vers.o. Use CC (not KCC) to build genassym.
+# 	Ignore errors from size command. Add workaround so that machine
+# 	dependent makefile can choose to link kernel with LIBMIG_OBJS instead
+# 	of with libmig.a, in case we don't have a working ranlib.
+# 	This is all in support of building i860 kernels on i386.
+# 	[90/11/25  16:46:51  jsb]
+# 
+# Revision 2.8  90/11/05  14:25:27  rpd
+# 	Added REG_EXP.
+# 	[90/10/29            rwd]
+# 
+# Revision 2.7  90/10/25  14:43:20  rwd
+# 	Added explicit dependency for ds_routines.o.
+# 	[90/10/18            rpd]
+# 
+# Revision 2.6  90/08/27  21:46:33  dbg
+# 	Remove symbols.raw from LDDEPS dependency list.  Remove
+# 	symbols.sort make rules.  Remove ioconf.c from LINTFILES.
+# 	Remove BSD license - this file was written entirely at CMU,
+# 	using only features from the (public domain) src/config program.
+# 	[90/08/13            dbg]
+# 
+# Revision 2.5  90/06/19  22:57:19  rpd
+# 	Replaced mach_user.c and mach_port_user.c with libmig.a.
+# 	[90/06/03            rpd]
+# 
+# Revision 2.4  90/06/02  14:46:37  rpd
+# 	New style rules for default_pager_object.defs.
+# 	[90/05/03            rpd]
+# 	Don't barf if xstrip fails.
+# 	[90/05/02            rpd]
+# 
+# 	From jsb: don't rearrange symbols.
+# 	Use xstrip instead of -x.
+# 	[90/04/23            rpd]
+# 	Added explicit rules for running mig.
+# 	Moved generated dependencies to Makedep.
+# 	[90/03/26  21:39:19  rpd]
+# 
+# Revision 2.3  90/03/14  21:10:31  rwd
+# 	Add default_pager_object.defs refs
+# 	[90/01/22            rwd]
+# 
+#
+# Condensed history:
+#	Changes for MACH_KERNEL (dbg).
+#	Added mach_host.defs and related files (dlb).
+#	Mucho hacking at Mig rules (rpd).
+#	Lint hacking (mwyoung).
+#	New memory_object files (mwyoung).
+#	CPATH and -I hacking (mja, rpd).
+#	Running Mig in the build directory (mwyoung).
+#	VOLATILE hacking (rvb).
+#	Created from old Makefile.vax (mja).
+#	Reorganized for simplified config program (mja).
+#	Introduced new make depend stuff (rvb).
+#
+
+#
+#  This must be here before any rules are possibly defined by the
+#  machine dependent makefile fragment so that a plain "make" command
+#  always works.  The config program will emit an appropriate rule to
+#  cause "all" to depend on every kernel configuration it generates.
+#
+
+default: all
+
+#
+#  In order to move the link commands out of config and back into the
+#  template makefile, config has been changed to emit a dendency rule
+#  of the form *vmunix.sys: *vmunix.swap for each configuration so that
+#  the common commands for building each configuration can be placed
+#  directly in the template in the default rule for the .sys.swap
+#  dependency.
+#
+.SUFFIXES: .swap .sys
+
+#
+#  Make sure we don't remove this by accident if interrupted at the wrong
+#  time.
+#
+.PRECIOUS: Makefile
+
+#
+#  Compilation components
+#
+CC=	cc
+CPP=	${CC} -ES
+C2=	/lib/c2
+LD=	ld
+MD=	/usr/mach/bin/md
+ENCODE=	uuencode
+DECODE=	uudecode
+VOLATILE="-Dvolatile=" 
+FORCE_VOLATILE=
+
+KCC=	${CC}
+KCPP=	${KCC} -ES
+
+#
+#  This changed in the 4.3 CPP from .n to .d
+#
+MD_SUFFIX=d
+
+#
+#  Pre-processor environment
+#
+DEPENDS = -MD
+INCLUDES =
+DEFINES = $(IDENT) -DKERNEL
+ALLOPTS = $(INCLUDES) $(DEFINES) ${VOLATILE}
+LINTOPTS = ${ALLOPTS}
+
+#
+#  Common C-compilation flags
+#
+COPTS_P = ${DEPENDS} ${ALLOPTS}
+COPTS = ${COPTS_P}
+CDEBUGFLAGS = -O
+CMACHFLAGS =
+CFLAGS=	$(CDEBUGFLAGS) $(CLINENO) $(CMACHFLAGS) $(COPTS)
+
+#
+#  Common assembly flags
+#
+SFLAGS=	${DEPENDS} ${INCLUDES} ${IDENT} -DKERNEL -DASSEMBLER
+
+
+#
+#  Path name of the version identification file.
+#
+FEATURES=$(SOURCE_DIR)/machine/FEATURES.h
+VERSION_FILES= \
+	$(SOURCE_DIR)/conf/version.major \
+	$(SOURCE_DIR)/conf/version.minor \
+	$(SOURCE_DIR)/conf/version.variant \
+	$(SOURCE_DIR)/conf/version.edit \
+	$(SOURCE_DIR)/conf/version.patch
+
+#
+#  LDOBJS is the set of object files which comprise the kernel.
+#  It is used both in the dependency list for each *vmunix.swap
+#  rule emitted by config and also in the .sys.swap rule
+#  below which links the kernel from these objects.
+#  
+#  LDOBJS_PREFIX and LDOBJS_SUFFIX are defined in the machine
+#  dependent Makefile (if necessary).
+#
+LDOBJS=${LDOBJS_PREFIX} ${OBJS} ${LDOBJS_SUFFIX} libmig.a
+
+#
+#  LDDEPS is the set of extra dependencies associated with each
+#  *vmunix.swap rule (in addition to $LDOBJS and the swap*.o file).
+#
+#  LDDEPS_PREFIX is defined in the machine dependent Makefile
+#  (if necessary).
+#
+LDDEPS=${LDDEPS_PREFIX} ${VERSION_FILES} \
+	$(SOURCE_DIR)/conf/newvers.sh $(SOURCE_DIR)/conf/copyright
+
+#
+#  PRELDDEPS is another set of extra dependencies associated with each
+#  *vmunix.swap rule (in addition to $LDOBJS and the swap*.o file).
+#  It is defined in the machine dependent Makefile (if necessary).
+#
+#  The generated rule looks like
+#	vmunix.sys : ${PRELDDEPS} ${LDOBJS} ${LDDEPS}
+#
+
+#
+#  SWAPDEPS is the set of extra dependencies associated with each
+#  swap*.o rule emitted by config (in addition to the
+#  ../machine/swap*.c file).
+#
+#  SWAPDEPS_PREFIX is defined in the machine dependent Makefile
+#  (if necessary).
+#
+SWAPDEPS=${SWAPDEPS_PREFIX} 
+
+#
+#  SYSDEPS is the set of extra dependencies associated with each
+#  *vmunix rule (in addition to *vmunix.sys).
+#
+#  SYSDEPS_PREFIX is defined in the machine dependent Makefile
+#  (if necessary).
+#
+SYSDEPS=${SYSDEPS_PREFIX}
+
+
+
+#
+#  Compilation rules to generate *vmunix from *vmunix.sys
+#
+SYS_RULE_1=@eval `awk 'NR==1{S=$$1;next;}\
+END {\
+  C = "ln $@.sys $@";\
+  if (S != "") {\
+    C = C "; ln $@ $@" S; \
+    printf "rm -f $@%s; ", S; \
+  }\
+  printf "echo \"%s\"; %s\n", C, C; \
+}' vers.suffix`
+SYS_RULE_2=
+SYS_RULE_3=
+SYS_RULE_4=
+
+#
+#  Things to be done just before exiting
+#
+EXIT_RULE=${MD} -u Makedep -f -d `ls *.${MD_SUFFIX}`
+
+#
+# Compilation rules to generate .o from .b
+#
+B_RULE_1A=rm -f $*.o; ${DECODE} 
+B_RULE_1B=$*.b
+
+#
+# Compilation rules to generate .o from .o
+#
+O_RULE_1A=rm -f $*.o; cp 
+O_RULE_1B=$*.o .
+
+#
+# Compilation rules to generate .o from .s
+#
+S_RULE_1A=${KCPP} ${SFLAGS} 
+S_RULE_1B=$*.s >$*.i 
+S_RULE_2=${AS} -o $*.o $*.i
+S_RULE_3=rm -f $*.i
+
+#
+# Compilation rules to generate .o from .c for normal files
+#
+C_RULE_1A=${KCC} -c ${CFLAGS} 
+C_RULE_1B=$*.c
+C_RULE_2=
+C_RULE_3=
+C_RULE_4=
+
+#
+# Compilation rules to generate .o from .c for driver files
+#
+C_RULE_1A_D=${C_RULE_1A}
+C_RULE_1B_D=${C_RULE_1B}
+C_RULE_2_D=${C_RULE_2}
+C_RULE_3_D=${C_RULE_3}
+C_RULE_4_D=${C_RULE_4}
+
+#
+# Compilation rules to generate .o from .c for profiling routine files
+#
+C_RULE_1A_P=${KCC} -c -S ${COPTS_P} 
+C_RULE_1B_P=${C_RULE_1B}
+C_RULE_2_P=ex - $*.s < ${GPROF.EX}
+C_RULE_3_P=${AS} -o $*.o $*.s
+C_RULE_4_P=rm -f $*.s
+
+
+
+gprof: kgmon_on all kgmon_off
+
+kgmon_on:
+	kgmon -r -b
+
+kgmon_off:
+	kgmon -h -p
+	gprof /mach >GPROF
+
+
+#
+#  These macros are filled in by the config program depending on the
+#  current configuration.  The MACHDEP macro is replaced by the
+#  contents of the machine dependent makefile template and the others
+#  are replaced by the corresponding symbol definitions for the
+#  configuration.
+#
+
+
+%OBJS
+
+%CFILES
+
+%SFILES
+
+%BFILES
+
+%ORDERED
+%MACHDEP
+
+
+#
+#  Default rule used to build a *vmunix.sys configuration from the
+#  object list and a particular *vmunix.swap module.  The *vmunix.swap
+#  module is a normal object file compiled from the appropriate swap*.c
+#  file and then copied to the *vmunix.swap name to trigger the full
+#  kernel link using this default rule.
+#
+
+.swap.sys:
+	@/bin/sh $(SOURCE_DIR)/conf/newvers.sh \
+			 $(SOURCE_DIR)/conf/copyright \
+			`cat ${VERSION_FILES}`
+	@${KCC} -c vers.c
+	@rm -f $* $*.sys
+	@echo loading $*.sys
+	@${LD} ${LDFLAGS} ${LDOBJS} vers.o $*.swap ${LIBS}
+	@echo stripping $*.sys
+	@-xstrip a.out
+	@-size a.out
+	@chmod 755 a.out
+	@-mv a.out $*.sys
+
+
+
+#
+#  OBJSDEPS is the set of files (defined in the machine dependent
+#  template if necessary) which all objects depend on (such as an
+#  in-line assembler expansion filter
+#
+
+${OBJS}: ${OBJSDEPS}
+
+
+
+#
+#  This macro is replaced by three rules per configuration, plus a
+#  final definition for the LOAD symbol consisting of all configuration
+#  names and a dependency of "all" on this symbol (so that the
+#  "default" rule above will build everything).  The three rules in
+#  each configuration are:
+#
+#  - a *vmunix from *vmunix.sys dependency using the SYS_RULE_* rules,
+#  - a *vmunix.swap from LDDEPS, swap*.o, and LDDEPS dependency that
+#    simply copies the swap file to the target name, and
+#  - a swap*.o from swap*.c and SWAPDEPS dependency using the C_RULE_* rules.
+#
+
+%LOAD
+
+
+
+#
+#  Rules for components which are not part of the kernel proper or that
+#  need to be built in a special manner.
+#
+
+genassym.o: $(SOURCE_DIR)/machine/genassym.c
+	${CC} -c ${COPTS_P} ${VOLATILE} $(SOURCE_DIR)/machine/genassym.c
+
+assym.s: genassym.o
+	${CC} genassym.o
+	./a.out > assym.s; rm -f a.out
+
+locore.o: assym.s ${LOCORE_HEADS}
+
+#
+#  Mach IPC-based interfaces
+#
+
+#  Explicit dependencies on generated files,
+#  to ensure that Mig has been run by the time
+#  these files are compiled.
+
+vm_pageout.o: mach/memory_object_user.h mach/memory_object_default.h
+
+vm_object.o: mach/memory_object_user.h mach/memory_object_default.h
+
+vm_fault.o: mach/memory_object_user.h
+
+memory_object.o: mach/memory_object_user.h
+
+exception.o: mach/exc.h
+
+bootstrap.o: mach/mach_interface.h mach/mach_user_internal.h \
+	mach/mach_port_internal.h
+
+default_pager.o: device/device.h mach/mach_user_internal.h \
+	mach/mach_port_internal.h mach/memory_object_server.c \
+	mach/memory_object_default_server.c \
+	mach/default_pager_object_server.c
+
+def_pager_setup.o : mach/mach_interface.h mach/mach_user_internal.h \
+	mach/mach_port_internal.h
+
+load.o : mach/mach_interface.h mach/mach_user_internal.h \
+	mach/mach_port_internal.h \
+	mach/mach_debug_interface.h mach/mach_debug_internal.h
+
+file_io.o : mach/mach_interface.h mach/mach_user_internal.h device/device.h \
+	mach/mach_port_internal.h \
+	mach/mach_host_interface.h mach/mach_host_internal.h
+
+dev_pager.o : device/device_pager_server.c
+
+boot_printf.o : mach/mach_user_internal.h mach/mach_port_internal.h
+
+file_io.o : device/device.h mach/mach_interface.h mach/mach_user_internal.h \
+	mach/mach_port_internal.h
+
+ds_routines.o : device/device_reply.h
+
+#  The Mig-generated files go into subdirectories.
+#  These macros create the subdirectories as they are needed.
+
+MAKE_MACH = [ -d mach ] || mkdir mach
+MAKE_MACH_DEBUG = [ -d mach_debug ] || mkdir mach_debug
+MAKE_DEVICE = [ -d device ] || mkdir device
+
+#MIGFLAGS = -DKERNEL
+MIGFLAGS = -DKERNEL -I.
+MIGKSFLAGS = $(MIGFLAGS) -DKERNEL_SERVER
+MIGKUFLAGS = $(MIGFLAGS) -DKERNEL_USER
+
+MIGDEPS = ../bin/mig ../lib/migcom
+MIG = PATH=../bin:$$PATH LPATH=../lib:$$LPATH mig
+
+MACHDIR = mach/
+
+MACH_FUNCS = thread_resume thread_create task_create task_set_special_port \
+	vm_set_default_memory_manager vm_allocate vm_deallocate \
+	vm_write vm_protect \
+	memory_object_data_provided memory_object_data_unavailable \
+	memory_object_data_error memory_object_set_attributes \
+	memory_object_data_supply memory_object_ready \
+	memory_object_change_attributes task_get_special_port
+
+MACH_FFILES = $(MACH_FUNCS/$(REG_EXP)/$(MACHDIR)&.c)
+
+MACH_FILES = mach/mach_interface.h mach/mach_user_internal.h \
+	mach/mach_server.c $(MACH_FFILES)
+
+$(MACH_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/mach.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header mach/mach_interface.h \
+	    -i mach/ \
+	    -server mach/mach_server.c \
+	    -iheader mach/mach_user_internal.h \
+		$(SOURCE_DIR)/mach/mach.defs
+
+MACH_PORT_FUNCS = mach_port_allocate mach_port_deallocate \
+	mach_port_insert_right mach_port_move_member \
+	mach_port_mod_refs mach_port_request_notification
+
+MACH_PORT_FFILES = $(MACH_PORT_FUNCS/$(REG_EXP)/$(MACHDIR)&.c)
+
+MACH_PORT_FILES = mach/mach_port_interface.h mach/mach_port_internal.h \
+	mach/mach_port_server.c $(MACH_PORT_FFILES)
+
+$(MACH_PORT_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/mach_port.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header mach/mach_port_interface.h \
+	    -i mach/ \
+	    -server mach/mach_port_server.c \
+	    -iheader mach/mach_port_internal.h \
+		$(SOURCE_DIR)/mach/mach_port.defs
+
+MEMORY_OBJECT_FILES = mach/memory_object_user.h \
+	mach/memory_object_user.c mach/memory_object_server.c
+
+$(MEMORY_OBJECT_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/memory_object.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) -DSEQNOS \
+	    -header mach/memory_object_user.h \
+	    -user mach/memory_object_user.c \
+	    -server mach/memory_object_server.c \
+		$(SOURCE_DIR)/mach/memory_object.defs
+
+MEMORY_OBJECT_DEFAULT_FILES = mach/memory_object_default.h \
+	mach/memory_object_default_user.c \
+	mach/memory_object_default_server.c
+
+$(MEMORY_OBJECT_DEFAULT_FILES): $(MIGDEPS) \
+		$(SOURCE_DIR)/mach/memory_object_default.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) -DSEQNOS \
+	    -header mach/memory_object_default.h \
+	    -user mach/memory_object_default_user.c \
+	    -server mach/memory_object_default_server.c \
+		$(SOURCE_DIR)/mach/memory_object_default.defs
+
+EXC_FILES = mach/exc.h mach/exc_user.c mach/exc_server.c
+
+$(EXC_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/exc.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header mach/exc.h \
+	    -user mach/exc_user.c \
+	    -server mach/exc_server.c \
+		$(SOURCE_DIR)/mach/exc.defs
+
+PROXY_FILES = mach/proxy.h mach/proxy_user.c mach/proxy_server.c
+
+$(PROXY_FILES): $(MIGDEPS) $(SOURCE_DIR)/norma/xmm_proxy.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header mach/proxy.h \
+	    -user mach/proxy_user.c \
+	    -server /dev/null \
+		$(SOURCE_DIR)/norma/xmm_proxy.defs
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header /dev/null \
+	    -user /dev/null \
+	    -server mach/proxy_server.c \
+		$(SOURCE_DIR)/norma/xmm_proxy.defs
+
+DEVKUSER_FILES = mach/dev_forward.c
+
+$(DEVKUSER_FILES): $(MIGDEPS) $(SOURCE_DIR)/device/device.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header mach/dev_forward.h \
+	    -user mach/dev_forward.c \
+	    -server /dev/null \
+		$(SOURCE_DIR)/device/dev_forward.defs
+
+MACH_HOST_FUNCS = vm_wire thread_wire
+
+MACH_HOST_FFILES = $(MACH_HOST_FUNCS/$(REG_EXP)/$(MACHDIR)&.c)
+
+MACH_HOST_FILES = mach/mach_host_interface.h mach/mach_host_internal.h \
+	mach/mach_host_server.c $(MACH_HOST_FFILES)
+
+$(MACH_HOST_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/mach_host.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header mach/mach_host_interface.h \
+	    -i mach/ \
+	    -server mach/mach_host_server.c \
+	    -iheader mach/mach_host_internal.h \
+		$(SOURCE_DIR)/mach/mach_host.defs
+
+#MACH_DEBUG_FUNCS = host_load_symbol_table
+MACH_DEBUG_FUNCS =
+
+MACH_DEBUG_FFILES = $(MACH_DEBUG_FUNCS/$(REG_EXP)/$(MACHDIR)&.c)
+
+MACH_DEBUG_FILES = mach/mach_debug_interface.h mach/mach_debug_internal.h \
+	mach_debug/mach_debug_server.c $(MACH_DEBUG_FFILES)
+
+$(MACH_DEBUG_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach_debug/mach_debug.defs
+	-$(MAKE_MACH_DEBUG)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header mach/mach_debug_interface.h \
+	    -i mach/ \
+	    -server mach_debug/mach_debug_server.c \
+	    -iheader mach/mach_debug_internal.h \
+		$(SOURCE_DIR)/mach_debug/mach_debug.defs
+
+DEVICE_FILES = device/device.h device/device_server.c device/device_user.c
+
+$(DEVICE_FILES): $(MIGDEPS) $(SOURCE_DIR)/device/device.defs
+	-$(MAKE_DEVICE)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header device/device.h \
+	    -user device/device_user.c \
+	    -server device/device_server.c \
+		$(SOURCE_DIR)/device/device.defs
+
+DEVICE_REPLY_FILES = device/device_reply.h device/device_reply_user.c
+
+$(DEVICE_REPLY_FILES): $(MIGDEPS) $(SOURCE_DIR)/device/device_reply.defs
+	-$(MAKE_DEVICE)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header device/device_reply.h \
+	    -user device/device_reply_user.c \
+	    -server /dev/null \
+		$(SOURCE_DIR)/device/device_reply.defs
+
+DEVICE_PAGER_FILES = device/device_pager_server.c
+
+$(DEVICE_PAGER_FILES): $(MIGDEPS) $(SOURCE_DIR)/mach/memory_object.defs
+	-$(MAKE_DEVICE)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header /dev/null \
+	    -user /dev/null \
+	    -server device/device_pager_server.c \
+		$(SOURCE_DIR)/mach/memory_object.defs
+
+DEFAULT_PAGER_OBJECT_FILES = mach/default_pager_object_server.c
+
+$(DEFAULT_PAGER_OBJECT_FILES): $(MIGDEPS) \
+		$(SOURCE_DIR)/mach/default_pager_object.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGFLAGS) \
+	    -header /dev/null \
+	    -user /dev/null \
+	    -server mach/default_pager_object_server.c \
+		$(SOURCE_DIR)/mach/default_pager_object.defs
+
+mach/mach_norma_server.c: $(MIGDEPS) $(SOURCE_DIR)/mach/mach_norma.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKSFLAGS) \
+	    -header mach/mach_norma.h \
+	    -user /dev/null \
+	    -server mach/mach_norma_server.c \
+		$(SOURCE_DIR)/mach/mach_norma.defs
+
+mach/mach_norma_user.c: $(MIGDEPS) $(SOURCE_DIR)/mach/mach_norma.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header mach/mach_norma.h \
+	    -user mach/mach_norma_user.c \
+	    -server /dev/null \
+		$(SOURCE_DIR)/mach/mach_norma.defs
+
+mach/mach_user.c: $(MIGDEPS) $(SOURCE_DIR)/mach/mach.defs
+	-$(MAKE_MACH)
+	$(MIG) -MD $(MIGKUFLAGS) \
+	    -header mach/mach_user.h \
+	    -user mach/mach_user.c \
+	    -server /dev/null \
+		$(SOURCE_DIR)/mach/mach.defs
+
+LIBMIG_OBJS = $(MACH_FUNCS/$(REG_EXP)/&.o) $(MACH_PORT_FUNCS/$(REG_EXP)/&.o) \
+	$(MACH_HOST_FUNCS/$(REG_EXP)/&.o) $(MACH_DEBUG_FUNCS/$(REG_EXP)/&.o)
+
+$(LIBMIG_OBJS): mach/$$(@:r).c
+	$(KCC) -c $(CFLAGS) mach/$*.c
+
+libmig.a:	$(LIBMIG_OBJS)
+	rm -f libmig.a
+	ar cq libmig.a $(LIBMIG_OBJS)
+	ranlib libmig.a
+
+#  Update the Makefile when any dependency files exist rather than only
+#  when they are newer than the makefile (since it often gets touched
+#  during reconfigurations when dependency files have yet to be
+#  integrated).  The makefile is copied before doing any potential
+#  integration so that the new and old versions can be compared when
+#  done (by the SYS_RULE_* rules) to prevent re-building things when no
+#  dependencies change.
+#
+#  N.B.  There is always an empty artificial dependency file M.d
+#  (created by config) which will never be integrated and simply
+#  prevents the wild-card expansion below from failing.
+#
+#  The default exit rule now brings the Makefile up to date, so it
+#  shouldn't be necessary to execute this rule manually.
+#
+
+Makedep: *.${MD_SUFFIX}
+	${EXIT_RULE}
+
+.EXIT:
+	${EXIT_RULE}
+
+depend: 
+	@echo you don\'t make depend any more.
+
+
+
+#
+#  Permit manually forced checkout of modules when the dependency
+#  information is not current.
+#
+
+checkout:	${USE}
+
+
+
+#
+#  Clean up the current build directory.
+#
+
+clean:
+	@for f in ${LOAD}; do echo rm -f $$f $$f.* && rm -f $$f $$f.*; done
+	rm -f eddep tags *.o locore.i \
+		errs linterrs makelinks *.log *LOG* ${CLEAN_EXTRA}
+
+
+#
+#  Run "lint" on the current build directory.  This will often be done
+#  with a special configuration that defines the union of all options
+#  used in all configurations so that all combinations are checked.
+#  The LINTFILES variable allows lint to be easily run on an optional
+#  sub-set of files specified on the make command line when this is
+#  desired.
+#
+
+LINTFILES=$(SOURCE_DIR)/machine/Locore.c \
+	${CFILES} \
+	$(SOURCE_DIR)/machine/swapgeneric.c
+
+lint:	ALWAYS assym.s
+	@lint -n -hbxn -DGENERIC ${LINTOPTS} ${LINTFILES} | \
+	    egrep -v 'struct/union .* never defined' | \
+	    egrep -v 'possible pointer alignment problem'
+
+ALWAYS:
+
+MACHINEDIR=$(SOURCE_DIR)/machine
+
+#
+#  This macro is replaced by the set of rules which build everything in
+#  OBJS.  The extra dependencies for each object file are inserted
+#  following this by md which uses the keys on the sentinel line
+#  below.
+#
+
+%RULES
+
+-include Makedep

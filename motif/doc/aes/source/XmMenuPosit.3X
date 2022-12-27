@@ -1,0 +1,49 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmMenuPosition 3X "" "" "" ""
+.SH NAME
+\fBXmMenuPosition \(em a RowColumn function that positions a Popup MenuPane.\fP
+.iX "XmMenuPosition"
+.iX "RowColumn functions" "XmMenuPosition"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+void XmMenuPosition (\fImenu, event\fP)
+.br
+.ta .5i 2i
+	Widget	\fImenu\fP;
+.br
+	XButtonPressedEvent	\fI* event\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmMenuPosition\fP positions a Popup MenuPane using the information in the
+specified event.  Unless an application is positioning the MenuPane
+itself, it must first invoke this function before managing the PopupMenu.
+The \fIx_root\fP and \fIy_root\fP values in the specified event are used to 
+determine the menu position.
+.sp 1
+.IP "\fImenu\fP" .75i
+Specifies the PopupMenu to be positioned
+.IP "\fIevent\fP" .75i
+Specifies the event passed to the action procedure which manages the 
+PopupMenu
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmRowColumn(3X)\fP.

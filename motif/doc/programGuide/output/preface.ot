@@ -1,0 +1,264 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       PPPPrrrreeeeffffaaaacccceeee
+
+       This manual is a guide to programming using the various com-  |
+       ponents of the OSF/MotifTM environment; the toolkit, window   |
+       manager, and user interface language.
+
+       AAAAuuuuddddiiiieeeennnncccceeee
+
+       This document is written for programmers who want to create   |
+       applications in the OSF/Motif environment.                    |
+
+       CCCCoooonnnntttteeeennnnttttssss
+
+       This document contains 23 chapters and 4 appendixes.          |
+       Chapters 1 through 9 discuss the MotifTM Toolkit.  Chapters   |
+       10 through 16 discuss the Motif Window Manager (MWM).         |
+       Chapters 17 through 23 discuss the User Interface Language    |
+       (UIL) and Motif Resource Manager (MRM).                       |
+
+       _C_h_a_p_t_e_r _1 provides introductory information on the Motif
+                 widget system.                                      |
+
+       _C_h_a_p_t_e_r _2 provides a brief description of each widget,
+                 gadget, and convenience function in the Motif sys-
+                 tem.                                                |
+
+       _C_h_a_p_t_e_r _3 describes how to program using the Motif widget
+                 set.  Two sample programs are presented.            |
+
+       _C_h_a_p_t_e_r _4 describes the various Shell widgets and how they
+                 are used.                                           |
+
+       _C_h_a_p_t_e_r _5 describes Dialog Widgets and their associated con-
+                 venience functions.                                 |
+
+       _C_h_a_p_t_e_r _6 describes each of the various types of menus and
+                 presents a sample program for each menu type.       |
+
+       _C_h_a_p_t_e_r _7 describes in detail three widgets that are con-
+                 sidered specialized:  List, RowColumn, and Text.    |
+
+       _C_h_a_p_t_e_r _8 describes a number of additional features of the
+                 Motif system.                                       |
+
+
+
+                                  - xv -
+
+
+
+
+
+
+
+
+
+       OSF/Motif Programmer's Guide
+
+
+       _C_h_a_p_t_e_r _9 describes how to use the keyboard for traversal
+                 between widgets.                                    |
+
+       _C_h_a_p_t_e_r _1_0 introduces the Motif Window Manager (MWM)          |
+
+       _C_h_a_p_t_e_r _1_1 explains the general principles and terminology    |
+                 of OSF/Motif window management.                     |
+
+       _C_h_a_p_t_e_r _1_2 provides the technical details programmers need
+                 to set up communications between MWM and client
+                 applications.                                       |
+
+       _C_h_a_p_t_e_r _1_3 discusses how the end user can set MWM resources
+                 to configure the window environment.                |
+
+       _C_h_a_p_t_e_r _1_4 discusses how the end user can use MWM functions
+                 to create or modify menus, and to set mouse button
+                 bindings and keyboard bindings.                     |
+
+       _C_h_a_p_t_e_r _1_5 discusses how the end user can set MWM resources
+                 to configure icons and the icon box.                |
+
+       _C_h_a_p_t_e_r _1_6 provides reference tables for quick access to MWM
+                 resources and functions.                            |
+
+       _C_h_a_p_t_e_r _1_7 is an introduction to the User Interface Language  |
+                 (UIL) and Motif Resource Manager (MRM).             |
+
+       _C_h_a_p_t_e_r _1_8 describes the syntax of low-level elements of
+                 UIL, including names, keywords, literals, func-
+                 tions, supported character sets for string
+                 literals, and compile-time value expressions.       |
+
+       _C_h_a_p_t_e_r _1_9 describes the syntax of UIL module components
+                 (module header, value, procedure, identifier, and
+                 object declarations; arguments, controls, call-
+                 backs, and procedures lists) and describes addi-
+                 tional features of UIL, including symbolic refer-
+                 ences to widget IDs and UIL identifiers.            |
+
+       _C_h_a_p_t_e_r _2_0 explains how to use the UIL compiler, including    |
+                 command-line qualifiers, and how to interpret com-  |
+                 piler diagnostics.                                  |
+
+       _C_h_a_p_t_e_r _2_1 provides reference information on the MRM func-    |
+                 tions.                                              |
+
+       _C_h_a_p_t_e_r _2_2 explains how to specify a user interface for a
+                 Motif application, and describes how to access the
+                 compiled interface specification at run time using
+                 MRM functions.                                      |
+
+
+                                 - xvi -
+
+
+
+
+
+
+
+
+
+                                                            Preface
+
+
+       _C_h_a_p_t_e_r _2_3 describes the Widget Meta-Language facility, that  |
+                 can be used to add new widgets to the UIL com-      |
+                 piler.                                              |
+
+       _A_p_p_e_n_d_i_x _A lists constraint arguments that can be specified   |
+                 for children of some widgets.                       |
+
+       _A_p_p_e_n_d_i_x _B lists the UIL built-in tables.  For each object    |
+                 in the Motif Toolkit, this appendix lists the       |
+                 callback reasons and children supported by the UIL  |
+                 compiler.                                           |
+
+       _A_p_p_e_n_d_i_x _C provides an alphabetical listing of the UIL argu-
+                 ments, their data type, and their equivalent name
+                 in the Motif Toolkit.                               |
+
+       _A_p_p_e_n_d_i_x _D lists diagnostic messages issued by the UIL com-   |
+                 piler and provides corrective action.               *
+
+       TTTTyyyyppppooooggggrrrraaaapppphhhhiiiiccccaaaallll CCCCoooonnnnvvvveeeennnnttttiiiioooonnnnssss
+
+       This volume uses the following typographical conventions:
+
+          +o BBBBoooollllddddffffaaaacccceeeedddd strings represent literals; type them exactly
+            as they appear.
+
+          +o _I_t_a_l_i_c_i_z_e_d strings represent variables (for example,
+            function or macro arguments).
+
+          +o Ellipses (...) indicate that additional arguments are
+            optional.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 - xvii -
+
+
+
+
+

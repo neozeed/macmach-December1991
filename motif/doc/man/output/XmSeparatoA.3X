@@ -1,0 +1,264 @@
+
+
+
+     XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr ---- tttthhhheeee SSSSeeeeppppaaaarrrraaaattttoooorrrr wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////SSSSeeeeppppaaaarrrraaaattttoooorrrr....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Separator is a primitive widget that separates items in a
+          display.  Several different line drawing styles are
+          provided, as well as horizontal or vertical orientation.
+
+          The Separator line drawing is automatically centered within
+          the height of the widget for a horizontal orientation and
+          centered within the width of the widget for a vertical
+          orientation.  An XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss with a new XXXXmmmmNNNNsssseeeeppppaaaarrrraaaattttoooorrrrTTTTyyyyppppeeee
+          resizes the widget to its minimal height (for horizontal
+          orientation) or its minimal width (for vertical orientation)
+          unless height or width is explicitly set in the XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss
+          call.
+
+          Separator does not draw shadows around the separator. The
+          Primitive resource XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss is used for the
+          Separator's thickness when XXXXmmmmNNNNsssseeeeppppaaaarrrraaaattttoooorrrrTTTTyyyyppppeeee is
+          XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____IIIINNNN or XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____OOOOUUUUTTTT.
+
+          Separator does not highlight and allows no traversing.  The
+          primitive resource XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn is forced to False.
+
+          The XXXXmmmmNNNNsssseeeeppppaaaarrrraaaattttoooorrrrTTTTyyyyppppeeee of XXXXmmmmNNNNOOOO____LLLLIIIINNNNEEEE provides an escape to the
+          application programmer who needs a different style of
+          drawing. A pixmap the height of the widget can be created
+          and used as the background pixmap by building an argument
+          list using the XXXXmmmmNNNNbbbbaaaacccckkkkggggrrrroooouuuunnnnddddPPPPiiiixxxxmmmmaaaapppp argument type as defined
+          by CCCCoooorrrreeee.  Whenever the widget is redrawn, its background is
+          displayed containing the desired separator drawing.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Separator inherits behavior and resources from CCCCoooorrrreeee and
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee Classes.
+
+          The class pointer is xxxxmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrrWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))
+
+
+
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                 XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee               CCCCllllaaaassssssss              TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt              AAAAcccccccceeeessssssss
+     _________________________________________________________________________________
+     XmNmargin          XmCMargin          Dimension       0                    CSG
+     XmNorientation     XmCOrientation     unsigned char   XmHORIZONTAL         CSG
+     XmNseparatorType   XmCSeparatorType   unsigned char   XmSHADOW_ETCHED_IN   CSG
+
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnn
+               For horizontal orientation, specifies the space on the
+               left and right sides between the border of the
+               Separator and the line drawn. For vertical orientation,
+               specifies the space on the top and bottom between the
+               border of the Separator and the line drawn.
+
+          XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn
+               Displays Separator vertically or horizontally.  This
+               resource can have values of XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL and
+               XXXXmmmmHHHHOOOORRRRIIIIZZZZOOOONNNNTTTTAAAALLLL.
+
+          XXXXmmmmNNNNsssseeeeppppaaaarrrraaaattttoooorrrrTTTTyyyyppppeeee
+               Specifies the type of line drawing to be done in the
+               Separator widget.
+
+               +o  XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE - single line.
+
+               +o  XXXXmmmmDDDDOOOOUUUUBBBBLLLLEEEE____LLLLIIIINNNNEEEE - double line.
+
+               +o  XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____DDDDAAAASSSSHHHHEEEEDDDD____LLLLIIIINNNNEEEE - single-dashed line.
+
+               +o  XXXXmmmmDDDDOOOOUUUUBBBBLLLLEEEE____DDDDAAAASSSSHHHHEEEEDDDD____LLLLIIIINNNNEEEE - double-dashed line.
+
+               +o  XXXXmmmmNNNNOOOO____LLLLIIIINNNNEEEE - no line.
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))
+
+
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____IIIINNNN - double line giving the effect
+                  of a line etched into the window. The thickness of
+                  the double line is equal to the value of
+                  XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.  For horizontal orientation, the
+                  top line is drawn in XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr and the
+                  bottom line is drawn in XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr. For
+                  vertical orientation, the left line is drawn in
+                  XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr and the right line is drawn in
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr.
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____OOOOUUUUTTTT - double line giving the effect
+                  of an etched line coming out from the window. The
+                  thickness of the double line is equal to the value
+                  of XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.  For horizontal orientation,
+                  the top line is drawn in XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr and
+                  the bottom line is drawn in XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr. For
+                  vertical orientation, the left line is drawn in
+                  XXXXmmmmNNNNbbbboooottttttttoooommmmSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr and the right line is drawn in
+                  XXXXmmmmNNNNttttooooppppSSSShhhhaaaaddddoooowwwwCCCCoooolllloooorrrr.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Separator inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          0                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmNONE                 G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            False                  G
+     XmNunitType             XmCUnitType             unsigned char      dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX))))
+
+
+
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          There are no translations for XmSeparator.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX)))), and XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+

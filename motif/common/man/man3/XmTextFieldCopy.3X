@@ -1,0 +1,47 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldCopy 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldCopy \(em a TextField function that copies the primary selection to the clipboard\fP
+.iX "XmTextFieldCopy"
+.iX "TextField functions" "XmTextFieldCopy"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+Boolean XmTextFieldCopy (\fIwidget, time\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	Time	\fItime\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldCopy\fP copies the primary selected text to the clipboard.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID.
+.IP "\fItime\fP" .75i
+Specifies the time at which the selection value is to be modified.  This
+should be the time of the event which triggered this request. 
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.br
+.ne 10
+.SH RETURN VALUE
+This function returns False if the primary selection is NULL, if the
+\fIwidget\fP doesn't own the primary selection, or if the function is
+unable to gain ownership of the clipboard selection.  Otherwise, it
+returns True.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

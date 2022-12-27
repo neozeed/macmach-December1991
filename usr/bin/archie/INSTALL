@@ -1,0 +1,58 @@
+[Last changed: 08/20/91 v1.1]
+
+ This is the minimal set of things you need for an archie client using
+the Prospero system.  It is derived from the 4.2beta version of the
+full Prospero system, currently available in:
+
+	cs.washington.edu:/pub/prospero.tar.Z
+
+ To make the client:
+
+	- edit the Makefile, changing CC, OPTIONS, LDFLAGS, and RM if
+	  necessary
+	- edit the DEFINEs as necessary
+	- add the line
+		dirsrv			1525/udp
+	  to your system's services file (recommended, but not
+	  absolutely necessary; it will default to this)
+	- if you're closer to Finland or Australia than you are
+	  Canada, please edit ARCHIE_HOST in archie.h appropriately
+	- type `make'
+
+ Note that if you build this using gcc on Suns, you *must* compile dirsend.c
+with the Sun compiler and not the GNU one.  The current version of GNU C
+doesn't fully support Sun's structure passing; as a result, the inet_ntoa()
+function used in dirsend.c will segmentation fault.  (Aka, you're probably
+better off just building the whole thing with /bin/cc anyway right now.)
+
+ It's been successfully built on:
+
+  Machine			OS
+
+* Apple Mac IIsomething		A/UX v2.01
+* CDC 4320 (Mips)		EP/IX 1.2.3
+* CDC 4680 (Mips)		EP/IX 1.3.1
+* Convex c210 & others		ConvexOS 9.0
+* DecStation 2100, 3100 & 5400	Ultrix 4.1
+* DecStation 5000-100		Ultrix 4.2
+* Encore Multimax 520 (XPC)	Encore UMAX 4.3
+* Encore Multimax 520		Encore Mach 1.1alpha
+* HP 9000/s300			MORE/bsd-4.3
+* HP 9000/s834			HP/UX 7.0
+* IBM RS/6000			AIX
+* IBM RT			4.3BSD
+* NeXT				NeXT OS 2.1
+* Sequent Symmetry		Dynix 3.1.1
+* SGI 4D/220GTX			SGI Irix 3.3.2
+* Solbourne Series 5/600	OS/MP 4.0Da
+* Stardent 3030			SysV Rel 3.0.1
+* Sun Sparc1 & Sparc2		SunOS 4.1.1 (& SunOS 4.1 on the Sparc1) 
+* Sun 3/280			SunOS 4.0.3
+* Sun 4/110			SunOS 4.1
+* Sun 4/280			SunOS 4.0.3
+* Vax 8600			MORE/bsd-4.3
+
+ (I have it *almost* working under VMS with Multinet TCP.  I haven't found
+  a good select() yet---once I get that, it'll work.  Contributions? :) )
+
+-- Brendan Kehoe (brendan@cs.widener.edu)

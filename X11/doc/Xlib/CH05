@@ -1,0 +1,3654 @@
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 5\fP\s-1
+
+\s+1\fBGraphics Resource Functions\fP\s-1
+.sp 2
+.nr H1 5
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Chapter 5: Graphics Resource Functions 
+.XE
+After you connect your program to the X server by calling
+.PN XOpenDisplay ,
+you can use the Xlib graphics resource functions to:
+.IP \(bu 5
+Create, copy, and destroy colormaps
+.IP \(bu 5
+Allocate, modify, and free color cells
+.IP \(bu 5
+Read entries in a colormap
+.IP \(bu 5
+Create and free pixmaps
+.IP \(bu 5
+Create, copy, change, and destroy graphics contexts
+.LP
+A number of resources are used when performing graphics operations in X.
+Most information about performing graphics (for example, foreground
+color, background color, line style, and so on) are stored in
+resources called graphics contexts (GC).
+.IN "Graphics context"
+Most graphics operations (see chapter 6) take a 
+GC as an argument.
+Although in theory it is possible to share GCs between applications, 
+it is expected that applications will use their own
+GCs when performing operations. 
+Sharing of GCs is highly discouraged because the library may cache GC state.
+.LP
+Each X window always has an associated colormap that
+provides a level of indirection between pixel values and colors displayed
+on the screen.
+Many of the hardware displays
+built today have a single colormap, so the primitives
+are written to encourage sharing of colormap entries between applications.
+Because colormaps are associated with windows, X will support displays
+with multiple colormaps and, indeed, different types of colormaps.
+If there are not sufficient colormap resources in the display,
+some windows may not be displayed in their true colors.
+A client or window manager can control which windows are displayed
+in their true colors if more than one colormap is required for
+the color resources the applications are using.
+.LP
+Off-screen memory or pixmaps are often used to define frequently
+used images for later use in graphics operations.
+Pixmaps are also used to define tiles or
+patterns for use as window backgrounds, borders, or cursors.
+A single bit-plane pixmap is sometimes referred to as a bitmap.
+.LP
+Note that some screens have very limited off-screen memory.
+Therefore, you should regard off-screen memory as a precious resource.
+.LP
+Graphics operations can be performed to either windows or pixmaps, 
+which collectively are called drawables.
+.IN "Root"
+Each drawable exists on a single screen and
+can only be used on that screen.
+GCs can also only be used with drawables of matching
+screens and depths.
+.NH 2
+Colormap Functions
+.XS
+\*(SN Colormap Functions
+.XE
+.LP
+Xlib provides functions that you can use to manipulate a colormap.
+This section discusses how to:
+.IP \(bu 5
+Create, copy, and destroy a colormap
+.IP \(bu 5
+Allocate, modify, and free color cells
+.IP \(bu 5
+Read entries in a colormap
+.LP
+The following functions manipulate the representation of color on the
+screen.
+For each possible value that a pixel can take in a window,
+there is a color cell in the colormap.
+For example, 
+if a window is 4 bits deep, pixel values 0 through 15 are defined. 
+A colormap is a collection of color cells.
+A color cell consists of a triple of red, green, and blue.
+As each pixel is read out of display memory, its value
+is taken and looked up in the colormap.
+The values of the cell determine what color is displayed on the screen.
+On a multiplane  display with a black-and-white monitor 
+(with grayscale but not color), 
+these values can be combined to determine the brightness on the screen.
+.LP
+Screens always have a default colormap,
+and programs typically allocate cells out of this colormap.
+You should not write applications that monopolize 
+color resources.
+On a screen that either cannot load the colormap or cannot have a fully
+independent colormap, 
+only certain kinds of allocations may work.
+Depending on the hardware,
+one or more colormaps may be resident (installed) at one time.
+To install a colormap,
+use
+.PN XInstallColormap .
+The 
+.PN DefaultColormap 
+macro returns the default colormap.
+The 
+.PN DefaultVisual 
+macro
+returns the default visual type for the specified screen.
+Colormaps are local to a particular screen.
+.IN "Color map"
+Possible visual types are 
+.PN StaticGray , 
+.PN GrayScale , 
+.PN StaticColor ,
+.PN PseudoColor , 
+.PN TrueColor , 
+or 
+.PN DirectColor 
+(see section 3.1).
+.LP
+The functions discussed in this section operate on an
+.PN XColor
+structure, which contains:
+.LP
+.IN "XColor" "" "@DEF@"
+.Ds 0
+.TA .5i 2.5i
+.ta .5i 2.5i
+typedef struct {
+	unsigned long pixel;	/* pixel value */
+	unsigned short red, green, blue;	/* rgb values */
+	char flags;	/* DoRed, DoGreen, DoBlue */	
+	char pad;
+} XColor;
+.De
+.LP
+The red, green, and blue values are scaled between 0 and 65535. 
+On full in a color is a value of 65535 independent of the number
+of bits actually used in the display hardware.
+.IN "Color"
+Half brightness in a color is a value of 32767, and off is 0.
+This representation gives uniform results for color values across
+different screens.
+In some functions,
+the flags member controls which of the red, green, and blue members is used 
+and can be one or more of
+.PN DoRed ,
+.PN DoGreen ,
+and 
+.PN DoBlue .
+.LP
+The introduction of color changes the view a programmer should
+take when dealing with a bitmap display.
+For example, when printing text, 
+you write a pixel value, which is defined as a specific color,
+rather than setting or clearing bits.
+Hardware will impose limits (the number of significant
+bits, for example) on these values.
+Typically, one allocates color cells or sets of color cells.
+If read-only, 
+the pixel values for these colors can be shared 
+among multiple applications, and the RGB values of the cell cannot be changed.
+If read/write, they are exclusively owned by the program,
+and the color cell associated with the pixel value may be changed at will.
+.NH 3
+Creating, Copying, and Destroying Colormaps
+.XS
+\*(SN Creating, Copying, and Destroying Colormaps
+.XE
+.LP
+To create a colormap for a screen, use
+.PN XCreateColormap .
+.IN "XCreateColormap" "" "@DEF@"
+.FD 0
+.\" $Header: XCreateCmap.f,v 1.1 88/02/26 09:59:15 mento Exp $
+Colormap XCreateColormap\^(\^\fIdisplay\fP, \fIw\fP\^, \fIvisual\fP\^, \fIalloc\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP\^;
+.br
+      Visual *\fIvisual\fP\^;
+.br
+      int \fIalloc\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Wi on whose screen you want to create a colormap
+.\" $Header: w_gen.a,v 1.4 88/08/04 11:21:56 mento Exp $
+.IP \fIw\fP 1i
+Specifies the window \*(Wi.
+.\" $Header: visual1.a,v 1.3 88/05/09 05:55:50 mento Exp $
+.IP \fIvisual\fP 1i
+Specifies a pointer to a visual type supported on the screen.
+If the visual type is not one supported by the screen, 
+a
+.PN BadMatch
+error results.
+.\" $Header: alloc.a,v 1.3 88/05/09 13:32:50 mento Exp $
+.IP \fIalloc\fP 1i
+Specifies the colormap entries to be allocated.
+You can pass 
+.PN AllocNone 
+or 
+.PN AllocAll .
+.LP
+.\" $Header: XCreateCmap.d,v 1.5 88/08/18 07:31:05 mento Exp $
+The
+.PN XCreateColormap
+function creates a colormap of the specified visual type for the screen 
+on which the specified window resides and returns the colormap ID 
+associated with it.
+Note that the specified window is only used to determine the screen.
+.LP
+The initial values of the colormap entries are undefined for the 
+visual classes
+.PN GrayScale ,
+.PN PseudoColor ,
+and
+.PN DirectColor .
+For
+.PN StaticGray ,
+.PN StaticColor ,
+and
+.PN TrueColor ,
+the entries have defined values,
+but those values are specific to the visual and are not defined by X.
+For
+.PN StaticGray ,
+.PN StaticColor ,
+and
+.PN TrueColor ,
+alloc must be
+.PN AllocNone ,
+or a
+.PN BadMatch
+error results.
+For the other visual classes,
+if alloc is
+.PN AllocNone ,
+the colormap initially has no allocated entries,
+and clients can allocate them.
+For information about the visual types,
+see section 3.1.
+.LP
+If alloc is
+.PN AllocAll ,
+the entire colormap is allocated writable.
+The initial values of all allocated entries are undefined.
+For
+.PN GrayScale
+and
+.PN PseudoColor ,
+the effect is as if an
+.PN XAllocColorCells
+call returned all pixel values from zero to N \- 1,
+where N is the colormap entries value in the specified visual.
+For
+.PN DirectColor ,
+the effect is as if an
+.PN XAllocColorPlanes
+call returned a pixel value of zero and red_mask, green_mask, 
+and blue_mask values containing the same bits as the corresponding
+masks in the specified visual.
+However, in all cases,
+none of these entries can be freed by using
+.PN XFreeColors .
+.LP
+.PN XCreateColormap
+can generate
+.PN BadAlloc ,
+.PN BadMatch ,
+.PN BadValue ,
+and
+.PN BadWindow 
+errors.
+.LP
+.sp
+.LP
+To create a new colormap when the allocation out of a previously
+shared colormap has failed because of resource exhaustion, use
+.PN XCopyColormapAndFree .
+.IN "XCopyColormapAndFree" "" "@DEF@"
+.FD 0
+.\" $Header: XCopyCmapFr.f,v 1.2 88/05/09 06:38:00 mento Exp $
+Colormap XCopyColormapAndFree\^(\^\fIdisplay\fP, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.LP
+.\" $Header: XCopyCmapFr.d,v 1.3 88/06/11 07:49:27 mento Exp $
+The
+.PN XCopyColormapAndFree
+function creates a colormap of the same visual type and for the same screen
+as the specified colormap and returns the new colormap ID.
+It also moves all of the client's existing allocation from the specified
+colormap to the new colormap with their color values intact 
+and their read-only or writable characteristics intact and frees those entries 
+in the specified colormap.
+Color values in other entries in the new colormap are undefined.
+If the specified colormap was created by the client with alloc set to
+.PN AllocAll ,
+the new colormap is also created with 
+.PN AllocAll ,
+all color values for all entries are copied from the specified colormap,
+and then all entries in the specified colormap are freed.
+If the specified colormap was not created by the client with
+.PN AllocAll ,
+the allocations to be moved are all those pixels and planes
+that have been allocated by the client using
+.PN XAllocColor ,
+.PN XAllocNamedColor ,
+.PN XAllocColorCells ,
+or
+.PN XAllocColorPlanes
+and that have not been freed since they were allocated.
+.LP
+.PN XCopyColormapAndFree
+can generate
+.PN BadAlloc
+and
+.PN BadColor 
+errors.
+.LP
+.sp
+To set the colormap of a given window, use
+.PN XSetWindowColormap .
+.IN "XSetWindowColormap" "" "@DEF@"
+.FD 0
+.\" $Header: XChCmap.f,v 1.2 88/05/09 06:54:34 mento Exp $
+XSetWindowColormap\^(\^\fIdisplay\fP, \fIw\fP\^, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: w.a,v 1.2 88/05/07 11:35:31 mento Exp $
+.IP \fIw\fP 1i
+Specifies the window.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.LP
+.\" $Header: XChCmap.d,v 1.3 88/05/09 06:57:38 mento Exp $
+The
+.PN XSetWindowColormap
+function sets the specified colormap of the specified window.
+The colormap must have the same visual type as the window,
+or a
+.PN BadMatch
+error results.
+.LP
+.PN XSetWindowColormap
+can generate
+.PN BadColor ,
+.PN BadMatch ,
+and
+.PN BadWindow 
+errors.
+.LP
+.sp
+To destroy a colormap, use 
+.PN XFreeColormap .
+.IN "XFreeColormap" "" "@DEF@"
+.FD 0
+.\" $Header: XFreeCmap.f,v 1.2 88/05/09 07:01:35 mento Exp $
+XFreeColormap\^(\^\fIdisplay\fP, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.ds Cm that you want to destroy
+.\" $Header: cmap_gen.a,v 1.2 88/08/04 11:07:18 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap \*(Cm.
+.LP
+.\" $Header: XFreeCmap.d,v 1.4 88/06/11 07:50:44 mento Exp $
+The
+.PN XFreeColormap
+function deletes the association between the colormap resource ID 
+and the colormap and frees the colormap storage.
+However, this function has no effect on the default colormap for a screen.
+If the specified colormap is an installed map for a screen,
+it is uninstalled (see
+.PN XUninstallColormap ).
+If the specified colormap is defined as the colormap for a window (by
+.PN XCreateWindow ,
+.PN XSetWindowColormap ,
+or
+.PN XChangeWindowAttributes ),
+.PN XFreeColormap
+changes the colormap associated with the window to
+.PN None 
+and generates a
+.PN ColormapNotify
+event.
+X does not define the colors displayed for a window with a colormap of
+.PN None .
+.LP
+.PN XFreeColormap
+can generate a
+.PN BadColor 
+error.
+.NH 3
+Allocating, Modifying, and Freeing Color Cells
+.XS
+\*(SN Allocating, Modifying, and Freeing Color Cells 
+.XE
+.LP
+There are two ways of allocating color cells: 
+explicitly as read-only entries by pixel value 
+or read/write,
+where you can allocate a number of color cells and planes simultaneously.
+.IN "XAllocColor"
+.IN "read/write colormap cells"
+The read/write cells you allocate do not have defined colors until
+set with 
+.PN XStoreColor
+or
+.PN XStoreColors .
+.LP
+To determine the color names,
+the X server uses a color database.
+.IN "Color" "database"
+Although you can change the values in a read/write color cell
+that is allocated by another application,
+this is considered ``antisocial'' behavior.
+.LP
+.sp
+To allocate a read-only color cell, use
+.PN XAllocColor .
+.IN "Allocation" "read-only colormap cells"
+.IN "read-only colormap cells" "allocating"
+.IN "XAllocColor" "" "@DEF@"
+.FD 0
+.\" $Header: XGetHardClr.f,v 1.2 88/05/09 07:09:13 mento Exp $
+Status XAllocColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIscreen_in_out\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor *\fIscreen_in_out\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: def_io.a,v 1.3 88/05/10 05:17:05 mento Exp $
+.IP \fIscreen_in_out\fP 1i
+Specifies and returns the values actually used in the colormap.
+.LP
+.\" $Header: XGetHardClr.d,v 1.4 88/06/11 07:51:02 mento Exp $
+The
+.PN XAllocColor
+function allocates a read-only colormap entry corresponding to the closest
+RGB values supported by the hardware.
+.PN XAllocColor
+returns the pixel value of the color closest to the specified
+RGB elements supported by the hardware
+and returns the RGB values actually used.
+The corresponding colormap cell is read-only.
+In addition,
+.PN XAllocColor
+returns nonzero if it succeeded or zero if it failed.
+.IN "Color map"
+.IN "Color" "allocation"
+.IN "Allocation" "colormap"
+.IN "read-only colormap cells"
+Multiple clients that request the same effective RGB values can be assigned
+the same read-only entry, thus, allowing entries to be shared.
+When the last client deallocates a shared cell, it is deallocated.
+.PN XAllocColor
+does not use or affect the flags in the
+.PN XColor
+structure.
+.LP
+.PN XAllocColor
+can generate a
+.PN BadColor 
+error.
+.EQ
+delim %%
+.EN
+.LP
+.sp
+To allocate a read-only color cell by name and return the closest
+color supported by the hardware, use
+.PN XAllocNamedColor .
+.IN "Allocation" "read-only colormap cells"
+.IN "read-only colormap cells" "allocating"
+.IN "Color" "naming"
+.IN "XAllocNamedColor" "" "@DEF@"
+.FD 0
+.\" $Header: XGetColor.f,v 1.5 88/05/09 07:13:26 mento Exp $
+Status XAllocNamedColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \
+\fIcolor_name\fP\^, \fIscreen_def_return\fP\^, \fIexact_def_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      char *\fIcolor_name\fP\^;
+.br
+      XColor *\fIscreen_def_return\fP\^, *\fIexact_def_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: colorname.a,v 1.2 88/05/09 07:14:45 mento Exp $
+.IP \fIcolor_name\fP 1i
+Specifies the color name string (for example, red) whose color 
+definition structure you want returned.
+.\" $Header: hard_def.a,v 1.2 88/04/23 08:59:18 mento Exp $
+.IP \fIscreen_def_return\fP 1i
+Returns the closest RGB values provided by the hardware.
+.\" $Header: exact_def.a,v 1.1 88/02/26 10:26:55 mento Exp $
+.IP \fIexact_def_return\fP 1i
+Returns the exact RGB values.
+.LP 
+.\" $Header: XGetColor.d,v 1.3 88/06/11 07:50:59 mento Exp $
+The
+.PN XAllocNamedColor
+function looks up the named color with respect to the screen that is
+associated with the specified colormap.
+It returns both the exact database definition and
+the closest color supported by the screen.
+The allocated color cell is read-only.
+You should use the ISO Latin-1 encoding;
+uppercase and lowercase do not matter.
+.LP
+.PN XAllocNamedColor
+can generate a
+.PN BadColor
+error. 
+.LP
+.sp
+To look up the name of a color, use
+.PN XLookupColor .
+.IN "XLookupColor" "" "@DEF@"
+.FD 0
+Status XLookupColor\^(\^\fIdisplay\fP, \fIcolormap\fP, \fIcolor_name\fP, \
+\fIexact_def_return\fP\^, \fIscreen_def_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      char *\fIcolor_name\fP\^;
+.br
+      XColor *\fIexact_def_return\fP\^, *\fIscreen_def_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: colorname.a,v 1.2 88/05/09 07:14:45 mento Exp $
+.IP \fIcolor_name\fP 1i
+Specifies the color name string (for example, red) whose color 
+definition structure you want returned.
+.\" $Header: exact_def.a,v 1.1 88/02/26 10:26:55 mento Exp $
+.IP \fIexact_def_return\fP 1i
+Returns the exact RGB values.
+.\" $Header: hard_def.a,v 1.2 88/04/23 08:59:18 mento Exp $
+.IP \fIscreen_def_return\fP 1i
+Returns the closest RGB values provided by the hardware.
+.LP
+.\" $Header: XLkUpColor.d,v 1.3 88/06/11 07:51:53 mento Exp $
+The
+.PN XLookupColor
+function looks up the string name of a color with respect to the screen
+associated with the specified colormap.
+It returns both the exact color values and
+the closest values provided by the screen 
+with respect to the visual type of the specified colormap.
+You should use the ISO Latin-1 encoding;
+uppercase and lowercase do not matter.
+.PN XLookupColor
+returns nonzero if the name existed in the color database
+or zero if it did not exist.
+.LP
+.sp
+To allocate read/write color cell and color plane combinations for a
+.PN PseudoColor
+model, use
+.PN XAllocColorCells .
+.IN "read/write colormap cells" "allocating"
+.IN "Allocation" "read/write colormap cells"
+.IN "Color" "allocation"
+.IN "XAllocColorCells" "" "@DEF@"
+.FD 0
+.\" $Header: XAllocCells.f,v 1.3 88/07/10 10:24:51 mento Exp $
+Status XAllocColorCells\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIcontig\fP\^, \
+\fIplane_masks_return\fP\^, \fInplanes\fP\^, 
+.br
+                          \fIpixels_return\fP\^, \fInpixels\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      Bool \fIcontig\fP\^;
+.br
+      unsigned long \fIplane_masks_return\fP[\^]\^;
+.br
+      unsigned int \fInplanes\fP\^;
+.br
+      unsigned long \fIpixels_return\fP[\^]\^;
+.br
+      unsigned int \fInpixels\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: contig.a,v 1.4 88/05/09 07:26:02 mento Exp $
+.IP \fIcontig\fP 1i
+Specifies a Boolean value that indicates whether the planes must be contiguous.
+.\" $Header: plane_masks.a,v 1.1 88/02/26 10:30:29 mento Exp $
+.IP \fIplane_mask_return\fP 1i
+Returns an array of plane masks.
+.\" *** JIM: NEED MORE INFO FOR THIS. ***
+.\" $Header: nplanes.a,v 1.1 88/02/26 10:29:45 mento Exp $
+.IP \fInplanes\fP 1i
+Specifies the number of plane masks that are to be returned in the plane masks 
+array. 
+.\" $Header: pixels.a,v 1.1 88/02/26 10:30:24 mento Exp $
+.IP \fIpixels_return\fP 1i
+Returns an array of pixel values. 
+.\" $Header: npixels1.a,v 1.1 88/07/10 10:22:06 mento Exp $
+.IP \fInpixels\fP 1i
+Specifies the number of pixel values that are to be returned in the 
+pixels_return array. 
+.LP
+.\" $Header: XAllocCells.d,v 1.4 88/08/18 07:35:58 mento Exp $
+.EQ
+delim %%
+.EN
+The
+.PN XAllocColorCells
+function allocates read/write color cells.
+The number of colors must be positive and the number of planes nonnegative,
+or a
+.PN BadValue
+error results.
+If ncolors and nplanes are requested, 
+then ncolors pixels
+and nplane plane masks are returned.
+No mask will have any bits set to 1 in common with
+any other mask or with any of the pixels.
+By ORing together each pixel with zero or more masks,
+ncolors * %2 sup nplanes% distinct pixels can be produced.
+All of these are
+allocated writable by the request.
+For 
+.PN GrayScale 
+or 
+.PN PseudoColor , 
+each mask has exactly one bit set to 1. 
+For 
+.PN DirectColor , 
+each has exactly three bits set to 1.
+If contig is 
+.PN True 
+and if all masks are ORed
+together, a single contiguous set of bits set to 1 will be formed for 
+.PN GrayScale
+or 
+.PN PseudoColor 
+and three contiguous sets of bits set to 1 (one within each
+pixel subfield) for 
+.PN DirectColor .
+The RGB values of the allocated
+entries are undefined.
+.PN XAllocColorCells
+returns nonzero if it succeeded or zero if it failed.
+.LP
+.PN XAllocColorCells
+can generate
+.PN BadColor
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To allocate read/write color resources for a
+.PN DirectColor
+model, use
+.PN XAllocColorPlanes .
+.IN "Color" "allocation"
+.IN "XAllocColorPlanes" "" "@DEF@"
+.FD 0
+.\" $Header: XAllocPlanes.f,v 1.2 88/05/09 07:36:19 mento Exp $
+Status XAllocColorPlanes\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIcontig\fP\^, \fIpixels_return\fP\^, \fIncolors\fP\^, \fInreds\fP\^, \fIngreens\fP\^, 
+.br
+                           \fInblues\fP\^, \fIrmask_return\fP\^, \fIgmask_return\fP\^, \fIbmask_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      Bool \fIcontig\fP\^;
+.br
+      unsigned long \fIpixels_return\fP[\^]\^;
+.br
+      int \fIncolors\fP\^;
+.br
+      int \fInreds\fP\^, \fIngreens\fP\^, \fInblues\fP\^;
+.br
+      unsigned long *\fIrmask_return\fP\^, *\fIgmask_return\fP\^, *\fIbmask_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: contig.a,v 1.4 88/05/09 07:26:02 mento Exp $
+.IP \fIcontig\fP 1i
+Specifies a Boolean value that indicates whether the planes must be contiguous.
+.\" $Header: pixels.a,v 1.1 88/02/26 10:30:24 mento Exp $
+.IP \fIpixels_return\fP 1i
+Returns an array of pixel values. 
+.PN XAllocColorPlanes
+returns the pixel values in this array.
+.\" $Header: ncolors1.a,v 1.1 88/02/26 10:29:29 mento Exp $
+.IP \fIncolors\fP 1i
+Specifies the number of pixel values that are to be returned in the 
+pixels_return array. 
+.\" $Header: nredgrbl.a,v 1.3 88/05/09 07:37:51 mento Exp $
+.IP \fInreds\fP 1i
+.br
+.ns
+.IP \fIngreens\fP 1i
+.br
+.ns
+.IP \fInblues\fP 1i
+.br
+.ns
+Specify the number of red, green, and blue planes.
+The value you pass must be nonnegative. 
+.\" $Header: rgbmask.a,v 1.1 88/02/26 10:31:01 mento Exp $
+.IP \fIrmask_return\fP 1i
+.br
+.ns
+.IP \fIgmask_return\fP 1i
+.br
+.ns
+.IP \fIbmask_return\fP 1i
+Return bit masks for the red, green, and blue planes.
+.LP
+.\" $Header: XAllocPlanes.d,v 1.3 88/08/18 07:38:01 mento Exp $
+.EQ
+delim %%
+.EN
+The specified ncolors must be positive; 
+and nreds, ngreens, and nblues must be nonnegative,
+or a
+.PN BadValue
+error results.
+If ncolors colors, nreds reds, ngreens greens, and nblues blues are requested, 
+ncolors pixels are returned; and the masks have nreds, ngreens, and 
+nblues bits set to 1, respectively.
+If contig is 
+.PN True , 
+each mask will have
+a contiguous set of bits set to 1.
+No mask will have any bits set to 1 in common with
+any other mask or with any of the pixels.
+For 
+.PN DirectColor , 
+each mask
+will lie within the corresponding pixel subfield.
+By ORing together
+subsets of masks with each pixel value, 
+ncolors * %2 sup (nreds+ngreens+nblues)% distinct pixel values can be produced. 
+All of these are allocated by the request.
+However, in the
+colormap, there are only ncolors * %2 sup nreds% independent red entries, 
+ncolors * %2 sup ngreens% independent green entries, 
+and ncolors * %2 sup nblues% independent blue entries. 
+This is true even for 
+.PN PseudoColor .
+When the colormap entry of a pixel
+value is changed (using 
+.PN XStoreColors ,
+.PN XStoreColor ,
+or 
+.PN XStoreNamedColor ),
+the pixel is decomposed according to the masks, 
+and the corresponding independent entries are updated.
+.PN XAllocColorPlanes
+returns nonzero if it succeeded or zero if it failed.
+.LP
+.PN XAllocColorPlanes
+can generate
+.PN BadColor
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To store RGB values into colormap cells, use
+.PN XStoreColors .
+.IN "Color" "setting cells"
+.IN "XStoreColors" "" "@DEF@"
+.FD 0
+.\" $Header: XStoreColors.f,v 1.2 88/05/09 07:41:37 mento Exp $
+XStoreColors\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIcolor\fP\^, \fIncolors\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor \fIcolor\fP\^[\^]\^;
+.br
+      int \fIncolors\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: defs.a,v 1.1 88/02/26 10:06:27 mento Exp $
+.IP \fIcolor\fP 1i
+Specifies an array of color definition structures to be stored.
+.\" $Header: ncolors.a,v 1.1 88/02/26 10:29:17 mento Exp $
+.IP \fIncolors\fP 1i
+.\"Specifies the number of color definition structures. 
+Specifies the number of 
+.PN XColor
+structures in the color definition array.
+.LP
+.\" $Header: XStoreColors.d,v 1.3 88/06/11 07:53:50 mento Exp $
+The
+.PN XStoreColors
+function changes the colormap entries of the pixel values
+specified in the pixel members of the
+.PN XColor
+structures.
+You specify which color components are to be changed by setting 
+.PN DoRed ,
+.PN DoGreen ,
+and/or
+.PN DoBlue
+in the flags member of the
+.PN XColor
+structures.
+If the colormap is an installed map for its screen, the
+changes are visible immediately.
+.PN XStoreColors 
+changes the specified pixels if they are allocated writable in the colormap 
+by any client, even if one or more pixels generates an error.
+If a specified pixel is not a valid index into the colormap, a
+.PN BadValue
+error results.
+If a specified pixel either is unallocated or is allocated read-only, a
+.PN BadAccess
+error results.
+If more than one pixel is in error, 
+the one that gets reported is arbitrary.
+.LP
+.PN XStoreColors
+can generate
+.PN BadAccess ,
+.PN BadColor ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To store an RGB value in a single colormap cell, use
+.PN XStoreColor .
+.IN "XStoreColor" "" "@DEF@"
+.FD 0
+.\" $Header: XStoreColor.f,v 1.2 88/05/09 07:46:50 mento Exp $
+XStoreColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIcolor\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor *\fIcolor\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.IP \fIcolor\fP 1i
+Specifies the pixel and RGB values.
+.LP
+.\" $Header: XStoreColor.d,v 1.3 88/08/18 07:39:08 mento Exp $
+The
+.PN XStoreColor
+function changes the colormap entry of the pixel value specified in the
+pixel member of the
+.PN XColor
+structure.
+You specified this value in the
+pixel member of the
+.PN XColor
+structure.
+This pixel value must be a read/write cell and a valid index into the colormap.
+If a specified pixel is not a valid index into the colormap,
+a
+.PN BadValue
+error results.
+.PN XStoreColor
+also changes the red, green, and/or blue color components.
+You specify which color components are to be changed by setting
+.PN DoRed ,
+.PN DoGreen ,
+and/or
+.PN DoBlue
+in the flags member of the
+.PN XColor
+structure.
+If the colormap is an installed map for its screen, 
+the changes are visible immediately.
+.LP
+.PN XStoreColor
+can generate
+.PN BadAccess ,
+.PN BadColor ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the color of a pixel to a named color, use
+.PN XStoreNamedColor .
+.IN "XStoreNamedColor" "" "@DEF@"
+.FD 0
+.\" $Header: XStoreNColor.f,v 1.2 88/05/09 08:40:00 mento Exp $
+XStoreNamedColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIcolor\fP\^, \fIpixel\fP\^, \fIflags\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      char *\^\fIcolor\fP\^;
+.br
+      unsigned long \fIpixel\fP\^;
+.br
+      int \fIflags\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: color.a,v 1.3 88/05/09 13:49:43 mento Exp $
+.IP \fIcolor\fP 1i
+Specifies the color name string (for example, red). 
+.\" $Header: pixel.a,v 1.2 88/05/09 08:44:04 mento Exp $
+.IP \fIpixel\fP 1i
+Specifies the entry in the colormap. 
+.\" $Header: flags.a,v 1.2 88/04/05 17:24:55 mento Exp $
+.IP \fIflags\fP 1i
+Specifies which red, green, and blue components are set.
+.LP 
+.\" $Header: XStoreNColor.d,v 1.3 88/06/11 07:53:51 mento Exp $
+The
+.PN XStoreNamedColor
+function looks up the named color with respect to the screen associated with
+the colormap and stores the result in the specified colormap.
+The pixel argument determines the entry in the colormap.
+The flags argument determines which of the red, green, and blue components 
+are set. 
+You can set this member to the
+bitwise inclusive OR of the bits 
+.PN DoRed , 
+.PN DoGreen , 
+and 
+.PN DoBlue .
+If the specified pixel is not a valid index into the colormap, a
+.PN BadValue
+error results.
+If the specified pixel either is unallocated or is allocated read-only, a
+.PN BadAccess
+error results.
+You should use the ISO Latin-1 encoding; 
+uppercase and lowercase do not matter.
+.LP
+.PN XStoreNamedColor
+can generate
+.PN BadAccess ,
+.PN BadColor ,
+.PN BadName ,
+and 
+.PN BadValue 
+errors.
+.LP
+.sp
+.IN "Freeing" "colors"
+To free colormap cells, use
+.PN XFreeColors .
+.IN "XFreeColors" "" "@DEF@"
+.FD 0
+.\" $Header: XFreeColors.f,v 1.3 88/05/09 09:12:36 mento Exp $
+XFreeColors\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIpixels\fP\^, \fInpixels\fP\^, \fIplanes\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      unsigned long \fIpixels\fP\^[\^];
+.br
+      int \fInpixels\fP\^;
+.br
+      unsigned long \fIplanes\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.ds Pi that map to the cells in the specified colormap
+.\" $Header: pixels_gen.a,v 1.2 88/08/04 11:18:34 mento Exp $
+.IP \fIpixels\fP 1i
+Specifies an array of pixel values \*(Pi. 
+.\" $Header: npixels.a,v 1.1 88/02/26 10:29:44 mento Exp $
+.IP \fInpixels\fP 1i
+Specifies the number of pixels. 
+.\" $Header: planes.a,v 1.1 88/02/26 10:30:29 mento Exp $
+.IP \fIplanes\fP 1i
+Specifies the planes you want to free.
+.LP
+.\" $Header: XFreeColors.d,v 1.2 88/06/11 07:50:45 mento Exp $
+The
+.PN XFreeColors
+function frees the cells represented by pixels whose values are in the
+pixels array.
+The planes argument should not have any bits set to 1 in common with any of the
+pixels. 
+The set of all pixels is produced by ORing together subsets of
+the planes argument with the pixels.
+The request frees all of these pixels that
+were allocated by the client (using 
+.IN XAllocColor
+.IN XAllocNamedColor
+.IN XAllocColorCells
+.IN XAllocColorPlanes
+.PN XAllocColor , 
+.PN XAllocNamedColor ,
+.PN XAllocColorCells ,
+and 
+.PN XAllocColorPlanes ).
+Note that freeing an
+individual pixel obtained from 
+.PN XAllocColorPlanes 
+may not actually allow
+it to be reused until all of its related pixels are also freed.
+Similarly,
+a read-only entry is not actually freed until it has been freed by all clients,
+and if a client allocates the same read-only entry multiple times,
+it must free the entry that many times before the entry is actually freed.
+.LP
+All specified pixels that are allocated by the client in the colormap are
+freed, even if one or more pixels produce an error. 
+If a specified pixel is not a valid index into the colormap, a 
+.PN BadValue 
+error results.
+If a specified pixel is not allocated by the
+client (that is, is unallocated or is only allocated by another client), a
+.PN BadAccess
+error results. 
+If more than one pixel is in error, 
+the one that gets reported is arbitrary.
+.LP
+.PN XFreeColors
+can generate
+.PN BadAccess ,
+.PN BadColor ,
+and
+.PN BadValue 
+errors.
+.NH 3
+Reading Entries in a Colormap
+.XS
+\*(SN Reading Entries in a Colormap 
+.XE
+.LP
+.\" $Header: XQueryCol.d,v 1.1 88/06/10 06:04:55 mento Exp $
+The
+.PN XQueryColor
+and
+.PN XQueryColors
+functions return the RGB values stored in the
+specified colormap for the pixel value you pass in the pixel member of the
+.PN XColor
+structure(s).
+The values returned for an unallocated entry are undefined.
+These functions also set the flags member in the
+.PN XColor
+structure to all three colors.
+If a pixel is not a valid index into the specified colormap, a
+.PN BadValue
+error results.
+If more than one pixel is in error,
+the one that gets reported is arbitrary.
+.LP
+.sp
+To query the RGB values of a single specified pixel value, use
+.PN XQueryColor .
+.IN "XQueryColor" "" "@DEF@"
+.FD 0
+.\" $Header: XQueryColor.f,v 1.3 88/05/09 09:40:30 mento Exp $
+XQueryColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIdef_in_out\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor *\fIdef_in_out\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.IP \fIdef_in_out\fP 1i
+Specifies and returns the RGB values for the pixel specified in the structure.
+.LP
+.\" $Header: XQueryColor.d,v 1.4 88/06/11 07:52:34 mento Exp $
+The
+.PN XQueryColor
+function returns the hardware-specific RGB values for each pixel in the
+.PN XColor
+structures and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+.LP
+.PN XQueryColor
+can generate
+.PN BadColor
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To query the RGB values of an array of pixels stored in color structures, use
+.PN XQueryColors .
+.IN "Color" "getting values"
+.IN "XQueryColors" "" "@DEF@"
+.FD 0
+.\" $Header: XQueryColors.f,v 1.3 88/05/09 09:42:25 mento Exp $
+XQueryColors\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIdefs_in_out\fP\^, \fIncolors\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor \fIdefs_in_out\fP[\^]\^;
+.br
+      int \fIncolors\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: defs_ret.a,v 1.4 88/05/09 09:43:05 mento Exp $
+.IP \fIdefs_in_out\fP 1i
+Specifies and returns an array of color definition structures for the pixel
+specified in the structure.
+.\" $Header: ncolors.a,v 1.1 88/02/26 10:29:17 mento Exp $
+.IP \fIncolors\fP 1i
+.\"Specifies the number of color definition structures. 
+Specifies the number of 
+.PN XColor
+structures in the color definition array.
+.LP
+The
+.PN XQueryColors
+function returns the RGB values for each pixel in the
+.PN XColor
+structures and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+.LP
+.PN XQueryColors
+can generate
+.PN BadColor
+and
+.PN BadValue 
+errors.
+.NH 2
+Creating and Freeing Pixmaps
+.XS
+\*(SN Creating and Freeing Pixmaps 
+.XE
+.LP
+Pixmaps can only be used on the screen on which they were created.
+Pixmaps are off-screen resources that are used for various operations,
+for example, defining cursors as tiling patterns 
+or as the source for certain raster operations.
+Most graphics requests can operate either on a window or on a pixmap.
+A bitmap is a single bit-plane pixmap.
+.LP
+.sp
+To create a pixmap of a given size, use
+.PN XCreatePixmap .
+.IN "XCreatePixmap" "" "@DEF@"
+.FD 0
+.\" $Header: XCrePmap.f,v 1.1 88/02/26 09:59:10 mento Exp $
+Pixmap XCreatePixmap\^(\^\fIdisplay\fP, \fId\fP\^, \fIwidth\fP\^, \fIheight\fP\^, \fIdepth\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fId\fP\^;
+.br
+      unsigned int \fIwidth\fP\^, \fIheight\fP\^;
+.br
+      unsigned int \fIdepth\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: d_crepix.a,v 1.1 88/02/26 10:06:13 mento Exp $
+.IP \fId\fP 1i
+Specifies which screen the pixmap is created on. 
+.ds Wh , which define the dimensions of the pixmap
+.\" $Header: w+h_gen.a,v 1.2 88/08/04 11:21:28 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height\*(Wh.
+.\" $Header: depth1.a,v 1.3 88/05/09 09:53:55 mento Exp $
+.IP \fIdepth\fP 1i
+Specifies the depth of the pixmap.
+.LP 
+.\" $Header: XCrePmap.d,v 1.5 88/08/18 07:41:46 mento Exp $
+The
+.PN XCreatePixmap
+function creates a pixmap of the width, height, and depth you specified
+and returns a pixmap ID that identifies it.
+It is valid to pass an 
+.PN InputOnly
+window to the drawable argument.
+The width and height arguments must be nonzero,
+or a 
+.PN BadValue
+error results.
+The depth argument must be one of the depths supported by the screen
+of the specified drawable,
+or a
+.PN BadValue
+error results.
+.LP
+The server uses the specified drawable to determine on which screen
+to create the pixmap.
+The pixmap can be used only on this screen
+and only with other drawables of the same depth (see
+.PN XCopyPlane
+for an exception to this rule).
+The initial contents of the pixmap are undefined.
+.LP
+.PN XCreatePixmap
+can generate
+.PN BadAlloc ,
+.PN BadDrawable ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To free all storage associated with a specified pixmap, use
+.PN XFreePixmap .
+.IN "XFreePixmap" "" "@DEF@"
+.FD 0
+.\" $Header: XFreePixmap.f,v 1.1 88/02/26 10:00:19 mento Exp $
+XFreePixmap\^(\^\fIdisplay\fP, \fIpixmap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Pixmap \fIpixmap\fP\^;
+.FN	
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIpixmap\fP 1i
+Specifies the pixmap.
+.LP 
+.\" $Header: XFreePixmap.d,v 1.2 88/05/09 09:56:57 mento Exp $
+The
+.PN XFreePixmap
+function first deletes the association between the pixmap ID and the pixmap.
+Then, the X server frees the pixmap storage when there are no references to it.
+The pixmap should never be referenced again.
+.LP
+.PN XFreePixmap
+can generate a
+.PN BadPixmap 
+error.
+.NH 2
+Manipulating Graphics Context/State
+.XS
+\*(SN Manipulating Graphics Context/State 
+.XE
+.LP
+Most attributes of graphics operations are stored in Graphic Contexts (GCs).
+These include line width, line style, plane mask, foreground, background,
+tile, stipple, clipping region, end style, join style, and so on.
+Graphics operations (for example, drawing lines) use these values
+to determine the actual drawing operation.
+Extensions to X may add additional components to GCs.
+The contents of a GC are private to Xlib.
+.LP
+Xlib implements a write-back cache for all elements of a GC that are not
+resource IDs to allow Xlib to implement the transparent coalescing of changes 
+to GCs.
+For example,
+a call to
+.PN XSetForeground
+of a GC followed by a call to
+.PN XSetLineAttributes
+results in only a single-change GC protocol request to the server.
+GCs are neither expected nor encouraged to be shared between client 
+applications, so this write-back caching should present no problems.
+Applications cannot share GCs without external synchronization.
+Therefore,
+sharing GCs between applications is highly discouraged. 
+.LP
+To set an attribute of a GC,
+set the appropriate member of the
+.PN XGCValues
+structure and OR in the corresponding value bitmask in your subsequent calls to
+.PN XCreateGC .
+The symbols for the value mask bits and the
+.PN XGCValues
+structure are:
+.LP
+/* GC attribute value mask bits */
+.TS
+lw(.5i) lw(2.5i) lw(.75i).
+#define\
+	T{
+.PN GCFunction
+T}	T{
+(1L<<0)
+T}
+#define\
+	T{
+.PN GCPlaneMask
+T}	T{
+(1L<<1)
+T}
+#define\
+	T{
+.PN GCForeground
+T}	T{
+(1L<<2)
+T}
+#define\
+	T{
+.PN GCBackground
+T}	T{
+(1L<<3)
+T}
+#define\
+	T{
+.PN GCLineWidth
+T}	T{
+(1L<<4)
+T}
+#define\
+	T{
+.PN GCLineStyle
+T}	T{
+(1L<<5)
+T}
+#define\
+	T{
+.PN GCCapStyle
+T}	T{
+(1L<<6)
+T}
+#define\
+	T{
+.PN GCJoinStyle
+T}	T{
+(1L<<7)
+T}
+#define\
+	T{
+.PN GCFillStyle
+T}	T{
+(1L<<8)
+T}
+#define\
+	T{
+.PN GCFillRule
+T}	T{
+(1L<<9)
+T}
+#define\
+	T{
+.PN GCTile
+T}	T{
+(1L<<10)
+T}
+#define\
+	T{
+.PN GCStipple
+T}	T{
+(1L<<11)
+T}
+#define\
+	T{
+.PN GCTileStipXOrigin
+T}	T{
+(1L<<12)
+T}
+#define\
+	T{
+.PN GCTileStipYOrigin
+T}	T{
+(1L<<13)
+T}
+#define\
+	T{
+.PN GCFont
+T}	T{
+(1L<<14)
+T}
+#define\
+	T{
+.PN GCSubwindowMode
+T}	T{
+(1L<<15)
+T}
+#define\
+	T{
+.PN GCGraphicsExposures
+T}	T{
+(1L<<16)
+T}
+#define\
+	T{
+.PN GCClipXOrigin
+T}	T{
+(1L<<17)
+T}
+#define\
+	T{
+.PN GCClipYOrigin
+T}	T{
+(1L<<18)
+T}
+#define\
+	T{
+.PN GCClipMask
+T}	T{
+(1L<<19)
+T}
+#define\
+	T{
+.PN GCDashOffset
+T}	T{
+(1L<<20)
+T}
+#define\
+	T{
+.PN GCDashList
+T}	T{
+(1L<<21)
+T}
+#define\
+	T{
+.PN GCArcMode
+T}	T{
+(1L<<22)
+T}
+.TE
+.IN "XGCValues" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+/* Values */
+
+typedef struct {
+	int function;	/* logical operation */
+	unsigned long plane_mask;	/* plane mask */
+	unsigned long foreground;	/* foreground pixel */
+	unsigned long background;	/* background pixel */
+	int line_width;	/* line width (in pixels) */
+	int line_style;	/* LineSolid, LineOnOffDash, LineDoubleDash */
+	int cap_style;	/* CapNotLast, CapButt, CapRound, CapProjecting */
+	int join_style;	/* JoinMiter, JoinRound, JoinBevel */
+	int fill_style;	/* FillSolid, FillTiled, FillStippled FillOpaqueStippled*/
+	int fill_rule;	/* EvenOddRule, WindingRule */
+	int arc_mode;	/* ArcChord, ArcPieSlice */
+	Pixmap tile;	/* tile pixmap for tiling operations */
+	Pixmap stipple;	/* stipple 1 plane pixmap for stippling */
+	int ts_x_origin;	/* offset for tile or stipple operations */
+	int ts_y_origin;
+	Font font;	/* default text font for text operations */
+	int subwindow_mode;	/* ClipByChildren, IncludeInferiors */
+	Bool graphics_exposures;	/* boolean, should exposures be generated */
+	int clip_x_origin;	/* origin for clipping */
+	int clip_y_origin;
+	Pixmap clip_mask;	/* bitmap clipping; other calls for rects */
+	int dash_offset;	/* patterned/dashed line information */
+	char dashes;
+} XGCValues;
+.De
+.LP 
+The default GC values are:
+.TS H
+center;
+l l.
+_
+.sp 6p
+.TB
+Component	Default
+.sp 6p
+_
+.sp 6p
+.TH
+.R
+T{
+function
+T}	T{
+.PN GXcopy
+T}
+plane_mask	All ones
+foreground	0
+background	1
+line_width	0
+T{
+line_style
+T}	T{
+.PN LineSolid
+T}
+T{
+cap_style
+T}	T{
+.PN CapButt
+T}
+T{
+join_style
+T}	T{
+.PN JoinMiter
+T}
+T{
+fill_style
+T}	T{
+.PN FillSolid
+T}
+T{
+fill_rule
+T}	T{
+.PN EvenOddRule
+T}
+T{
+arc_mode
+T}	T{
+.PN ArcPieSlice
+T}
+tile	Pixmap of unspecified size filled with foreground pixel
+	(that is, client specified pixel if any, else 0)
+	(subsequent changes to foreground do not affect this pixmap)
+stipple	Pixmap of unspecified size filled with ones
+ts_x_origin	0
+ts_y_origin	0
+font	<implementation dependent>
+T{
+subwindow_mode
+T}	T{
+.PN ClipByChildren
+T}
+T{
+graphics_exposures
+T}	T{
+.PN True
+T}
+clip_x_origin	0
+clip_y_origin	0
+T{
+clip_mask
+T}	T{
+.PN None
+T}
+dash_offset	0
+dashes	4 (that is, the list [4, 4])
+.sp 6p
+_
+.TE
+.LP
+Note that foreground and background are not set to any values likely
+to be useful in a window.
+.LP
+.IN "Display Functions" "" "@DEF@"
+.IN "Source" "" "@DEF@"
+.IN "Destination" "" "@DEF@"
+The function attributes of a GC are used when you update a section of
+a drawable (the destination) with bits from somewhere else (the source).  
+The function in a GC defines how the new destination bits are to be
+computed from the source bits and the old destination bits.
+.PN GXcopy
+is typically the most useful because it will work on a color display,
+but special applications may use other functions,
+particularly in concert with particular planes of a color display.
+The 16 GC functions, defined in 
+.Pn < X11/X.h >,
+are:
+.\" are listed in Table 5-1 along with the 
+.\"the associated hexadecimal code
+.\" and operation.
+.\".CP T 1
+.\"Display Functions
+.TS H
+center;
+lw(1.5i) cw(.5i) lw(2i).
+_
+.sp 6p
+.TB
+Function Name	Hex Code	Operation
+.sp 6p
+_
+.sp 6p
+.R
+T{
+.PN GXclear
+T}	T{
+0x0
+T}	T{
+0
+T}
+T{
+.PN GXand
+T}	T{
+0x1
+T}	T{
+src AND dst
+T}
+T{
+.PN GXandReverse
+T}	T{
+0x2
+T}	T{
+src AND NOT dst
+T}
+T{
+.PN GXcopy
+T}	T{
+0x3
+T}	T{
+src
+T}
+T{
+.PN GXandInverted
+T}	T{
+0x4
+T}	T{
+(NOT src) AND dst
+T}
+T{
+.PN GXnoop
+T}	T{
+0x5
+T}	T{
+dst
+T}
+T{
+.PN GXxor
+T}	T{
+0x6
+T}	T{
+src XOR dst
+T}
+T{
+.PN GXor
+T}	T{
+0x7
+T}	T{
+src OR dst
+T}
+T{
+.PN GXnor
+T}	T{
+0x8
+T}	T{
+(NOT src) AND (NOT dst)
+T}
+T{
+.PN GXequiv
+T}	T{
+0x9
+T}	T{
+(NOT src) XOR dst
+T}
+T{
+.PN GXinvert
+T}	T{
+0xa
+T}	T{
+NOT dst
+T}
+T{
+.PN GXorReverse
+T}	T{
+0xb
+T}	T{
+src OR (NOT dst)
+T}
+T{
+.PN GXcopyInverted
+T}	T{
+0xc
+T}	T{
+NOT src
+T}
+T{
+.PN GXorInverted
+T}	T{
+0xd
+T}	T{
+(NOT src) OR dst
+T}
+T{
+.PN GXnand
+T}	T{
+0xe
+T}	T{
+(NOT src) OR (NOT dst)
+T}
+T{
+.PN GXset
+T}	T{
+0xf
+T}	T{
+1
+T}
+.sp 6p
+_
+.TE
+.LP
+Many graphics operations depend on either pixel values or planes in a GC.
+.IN "Pixel value"
+The planes attribute is of type long, and it specifies which planes of the
+destination are to be modified, one bit per plane.
+.IN "Plane" "mask"
+A monochrome display has only one plane and
+will be the least-significant bit of the word.
+As planes are added to the display hardware, they will occupy more
+significant bits in the plane mask.
+.LP
+In graphics operations, given a source and destination pixel, 
+the result is computed bitwise on corresponding bits of the pixels.
+That is, a Boolean operation is performed in each bit plane.  
+The plane_mask restricts the operation to a subset of planes.
+A macro constant
+.PN AllPlanes
+can be used to refer to all planes of the screen simultaneously.
+The result is computed by the following:
+.LP
+.Ds 
+.R
+((src FUNC dst) AND plane-mask) OR (dst AND (NOT plane-mask))
+.De
+Range checking is not performed on the values for foreground,
+background, or plane_mask.
+They are simply truncated to the appropriate
+number of bits.
+The line-width is measured in pixels and either can be greater than or equal to
+one (wide line) or can be the special value zero (thin line).
+.LP
+Wide lines are drawn centered on the path described by the graphics request.
+Unless otherwise specified by the join-style or cap-style,
+the bounding box of a wide line with endpoints [x1, y1], [x2, y2] and
+width w is a rectangle with vertices at the following real coordinates:
+.LP
+.Ds
+.TA .5i 2.5i
+.ta .5i 2.5i
+[x1-(w*sn/2), y1+(w*cs/2)], [x1+(w*sn/2), y1-(w*cs/2)],
+[x2-(w*sn/2), y2+(w*cs/2)], [x2+(w*sn/2), y2-(w*cs/2)]
+.De
+Here sn is the sine of the angle of the line,
+and cs is the cosine of the angle of the line.
+A pixel is part of the line and so is drawn
+if the center of the pixel is fully inside the bounding box
+(which is viewed as having infinitely thin edges).
+If the center of the pixel is exactly on the bounding box,
+it is part of the line if and only if the interior is immediately to its right
+(x increasing direction).
+Pixels with centers on a horizontal edge are a special case and are part of
+the line if and only if the interior or the boundary is immediately below 
+(y increasing direction) and the interior or the boundary is immediately
+to the right (x increasing direction).
+.LP
+Thin lines (zero line-width) are one-pixel-wide lines drawn using an
+unspecified, device-dependent algorithm.
+There are only two constraints on this algorithm. 
+.IP 1. 5
+If a line is drawn unclipped from [x1,y1] to [x2,y2] and
+if another line is drawn unclipped from [x1+dx,y1+dy] to [x2+dx,y2+dy],
+a point [x,y] is touched by drawing the first line 
+if and only if the point [x+dx,y+dy] is touched by drawing the second line.
+.IP 2. 5
+The effective set of points comprising a line cannot be affected by clipping.
+That is, a point is touched in a clipped line if and only if the point 
+lies inside the clipping region and the point would be touched
+by the line when drawn unclipped.
+.LP
+A wide line drawn from [x1,y1] to [x2,y2] always draws the same pixels 
+as a wide line drawn from [x2,y2] to [x1,y1], not counting cap-style 
+and join-style.
+It is recommended that this property be true for thin lines, 
+but this is not required.
+A line-width of zero may differ from a line-width of one in which pixels are
+drawn.
+This permits the use of many manufacturers' line drawing hardware,
+which may run many times faster than the more precisely specified
+wide lines.
+.LP
+In general, 
+drawing a thin line will be faster than drawing a wide line of width one.
+However, because of their different drawing algorithms,
+thin lines may not mix well aesthetically with wide lines.
+If it is desirable to obtain precise and uniform results across all displays,
+a client should always use a line-width of one rather than a line-width of zero.
+.LP
+The line-style defines which sections of a line are drawn:
+.TS
+lw(1.25i) lw(4.5i).
+T{
+.PN LineSolid
+T}	T{
+The full path of the line is drawn.
+T}
+.sp 6p
+T{
+.PN LineDoubleDash
+T}	T{
+The full path of the line is drawn, 
+but the even dashes are filled differently 
+than the odd dashes (see fill-style) with
+.PN CapButt 
+style used where even and odd dashes meet.
+T}
+.sp 6p
+T{
+.PN LineOnOffDash
+T}	T{
+Only the even dashes are drawn,
+and cap-style applies to 
+all internal ends of the individual dashes,
+except 
+.PN CapNotLast
+is treated as 
+.PN CapButt . 
+T}
+.TE
+.LP
+The cap-style defines how the endpoints of a path are drawn:
+.IN "Graphics context" "path"
+.TS
+lw(1.25i) lw(4.5i).
+T{
+.PN CapNotLast
+T}	T{
+This is equivalent to 
+.PN CapButt  
+except that for a line-width of zero the final endpoint is not drawn.
+T}
+.sp 6p
+T{
+.PN CapButt
+T}	T{
+The line is square at the endpoint (perpendicular to the slope of the line)
+with no projection beyond.
+T}
+.sp 6p
+T{
+.PN CapRound
+T}	T{
+The line has a circular arc with the diameter equal to the line-width,
+centered on the endpoint.
+(This is equivalent to 
+.PN CapButt 
+for line-width of zero).
+T}
+.sp 6p
+T{
+.PN CapProjecting
+T}	T{
+The line is square at the end, but the path continues beyond the endpoint 
+for a distance equal to half the line-width.
+(This is equivalent to 
+.PN CapButt 
+for line-width of zero).
+T}
+.TE
+.LP
+The join-style defines how corners are drawn for wide lines:
+.TS
+lw(1.25i) lw(4.5i).
+T{
+.PN JoinMiter
+T}	T{
+The outer edges of two lines extend to meet at an angle.
+However, if the angle is less than 11 degrees,
+then a
+.PN JoinBevel
+join-style is used instead.
+T}
+.sp 6p
+T{
+.PN JoinRound
+T}	T{
+The corner is a circular arc with the diameter equal to the line-width, 
+centered on the joinpoint.
+T}
+.sp 6p
+T{
+.PN JoinBevel
+T}	T{
+The corner has
+.PN CapButt 
+endpoint styles with the triangular notch filled.
+T}
+.TE
+.LP
+For a line with coincident endpoints (x1=x2, y1=y2), 
+when the cap-style is applied to both endpoints, 
+the semantics depends on the line-width and the cap-style:
+.TS
+lw(1.25i) lw(.5i) lw(4i).
+T{
+.PN CapNotLast
+T}	T{
+thin
+T}	T{
+The results are device-dependent, 
+but the desired effect is that nothing is drawn.
+T}
+.sp 6p
+T{
+.PN CapButt
+T}	T{
+thin
+T}	T{
+The results are device-dependent, 
+but the desired effect is that a single pixel is drawn.
+T}
+.sp 6p
+T{
+.PN CapRound
+T}	T{
+thin
+T}	T{
+The results are the same as for
+.PN CapButt /thin.
+T}
+.sp 6p
+T{
+.PN CapProjecting
+T}	T{
+thin
+T}	T{
+The results are the same as for
+.PN Butt /thin.
+T}
+.sp 6p
+T{
+.PN CapButt
+T}	T{
+wide
+T}	T{
+Nothing is drawn.
+T}
+.sp 6p
+T{
+.PN CapRound
+T}	T{
+wide
+T}	T{
+The closed path is a circle, centered at the endpoint, and
+with the diameter equal to the line-width.
+T}
+.sp 6p
+T{
+.PN CapProjecting
+T}	T{
+wide
+T}	T{
+The closed path is a square, aligned with the coordinate axes, centered at the
+endpoint, and with the sides equal to the line-width.
+T}
+.TE
+.LP
+For a line with coincident endpoints (x1=x2, y1=y2), 
+when the join-style is applied at one or both endpoints, 
+the effect is as if the line was removed from the overall path.
+However, if the total path consists of or is reduced to a single point joined
+with itself, the effect is the same as when the cap-style is applied at both
+endpoints.
+.LP
+The tile/stipple and clip origins are interpreted relative to the
+origin of whatever destination drawable is specified in a graphics
+request.
+The tile pixmap must have the same root and depth as the GC,
+or a
+.PN BadMatch 
+error results.
+The stipple pixmap must have depth one and must have the same root as the
+GC, or a 
+.PN BadMatch 
+error results.  
+For stipple operations where the fill-style is
+.PN FillStippled
+but not 
+.PN FillOpaqueStippled ,
+the stipple pattern is tiled in a
+single plane and acts as an additional clip mask to be ANDed with the clip-mask.
+Although some sizes may be faster to use than others,
+any size pixmap can be used for tiling or stippling.
+.LP
+The fill-style defines the contents of the source for line, text, and
+fill requests.  
+For all text and fill requests (for example,
+.PN XDrawText , 
+.PN XDrawText16 ,
+.PN XFillRectangle , 
+.PN XFillPolygon , 
+and
+.PN XFillArc );
+for line requests 
+with line-style 
+.PN LineSolid 
+(for example,
+.PN XDrawLine ,
+.PN XDrawSegments , 
+.PN XDrawRectangle ,
+.PN XDrawArc );
+and for the even dashes for line requests with line-style 
+.PN LineOnOffDash 
+or 
+.PN LineDoubleDash ,
+the following apply:
+.TS
+lw(1.75i) lw(4i).
+T{
+.PN FillSolid
+T}	T{
+Foreground
+T}
+.sp 6p
+T{
+.PN FillTiled
+T}	T{
+Tile
+T}
+.sp 6p
+T{
+.PN FillOpaqueStippled
+T}	T{
+A tile with the same width and height as stipple,
+but with background everywhere stipple has a zero
+and with foreground everywhere stipple has a one
+T}
+.sp 6p
+T{
+.PN FillStippled
+T}	T{
+Foreground masked by stipple
+T}
+.TE
+.LP
+When drawing lines with line-style
+.PN LineDoubleDash ,
+the odd dashes are controlled by the fill-style in the following manner:
+.TS
+lw(1.75i) lw(4i).
+T{
+.PN FillSolid
+T}	T{
+Background
+T}
+.sp 6p
+T{
+.PN FillTiled
+T}	T{
+Same as for even dashes
+T}
+.sp 6p
+T{
+.PN FillOpaqueStippled
+T}	T{
+Same as for even dashes
+T}
+.sp 6p
+T{
+.PN FillStippled
+T}	T{
+Background masked by stipple
+T}
+.TE
+.LP
+Storing a pixmap in a GC might or might not result in a copy
+being made.
+If the pixmap is later used as the destination for a graphics request,
+the change might or might not be reflected in the GC.
+If the pixmap is used simultaneously in a graphics request both as
+a destination and as a tile or stipple,
+the results are undefined.
+.LP
+For optimum performance,
+you should draw as much as possible with the same GC 
+(without changing its components).
+The costs of changing GC components relative to using different GCs
+depend upon the display hardware and the server implementation.
+It is quite likely that some amount of GC information will be
+cached in display hardware and that such hardware can only cache a small number
+of GCs.
+.LP
+The dashes value is actually a simplified form of the
+more general patterns that can be set with 
+.PN XSetDashes .  
+Specifying a
+value of N is equivalent to specifying the two-element list [N, N] in 
+.PN XSetDashes . 
+The value must be nonzero,
+or a
+.PN BadValue
+error results.
+.LP
+The clip-mask restricts writes to the destination drawable.  
+If the clip-mask is set to a pixmap,
+it must have depth one and have the same root as the GC,
+or a
+.PN BadMatch 
+error results.
+If clip-mask is set to
+.PN None ,
+the pixels are always drawn regardless of the clip origin.
+The clip-mask also can be set by calling the
+.PN XSetClipRectangles
+or
+.PN XSetRegion
+functions.
+Only pixels where the clip-mask has a bit set to 1 are drawn.  
+Pixels are not drawn outside the area covered by the clip-mask 
+or where the clip-mask has a bit set to 0.
+The clip-mask affects all graphics requests.
+The clip-mask does not clip sources.
+The clip-mask origin is interpreted relative to the origin of whatever
+destination drawable is specified in a graphics request.
+.LP
+You can set the subwindow-mode to
+.PN ClipByChildren
+or
+.PN IncludeInferiors .
+For 
+.PN ClipByChildren , 
+both source and destination windows are
+additionally clipped by all viewable 
+.PN InputOutput
+children.  
+For 
+.PN IncludeInferiors ,
+neither source nor destination window is clipped by inferiors. 
+This will result in including subwindow contents in the source
+and drawing through subwindow boundaries of the destination.
+The use of 
+.PN IncludeInferiors 
+on a window of one depth with mapped
+inferiors of differing depth is not illegal, but the semantics are
+undefined by the core protocol.
+.LP
+The fill-rule defines what pixels are inside (drawn) for
+paths given in 
+.PN XFillPolygon 
+requests and can be set to 
+.PN EvenOddRule 
+or
+.PN WindingRule .
+For
+.PN EvenOddRule ,
+a point is inside if
+an infinite ray with the point as origin crosses the path an odd number
+of times.  
+For 
+.PN WindingRule , 
+a point is inside if an infinite ray with the
+point as origin crosses an unequal number of clockwise and
+counterclockwise directed path segments.
+A clockwise directed path segment is one that crosses the ray from left to
+right as observed from the point.
+A counterclockwise segment is one that crosses the ray from right to left
+as observed from the point.
+The case where a directed line segment is coincident with the ray is
+uninteresting because you can simply choose a different ray that is not
+coincident with a segment.
+.LP
+For both 
+.PN EvenOddRule
+and
+.PN WindingRule ,
+a point is infinitely small, 
+and the path is an infinitely thin line.  
+A pixel is inside if the center point of the pixel is inside
+and the center point is not on the boundary.  
+If the center point is on the boundary,
+the pixel is inside if and only if the polygon interior is immediately to
+its right (x increasing direction).  
+Pixels with centers on a horizontal edge are a special case 
+and are inside if and only if the polygon interior is immediately below 
+(y increasing direction).
+.LP
+The arc-mode controls filling in the 
+.PN XFillArcs
+function and can be set to
+.PN ArcPieSlice
+or
+.PN ArcChord .
+For
+.PN ArcPieSlice ,
+the arcs are pie-slice filled.
+For
+.PN ArcChord ,
+the arcs are chord filled.
+.LP
+The graphics-exposure flag controls 
+.PN GraphicsExpose 
+event generation
+for 
+.PN XCopyArea 
+and 
+.PN XCopyPlane
+requests (and any similar requests defined by extensions).
+.LP
+.sp
+To create a new GC that is usable on a given screen with a 
+depth of drawable, use
+.PN XCreateGC .
+.IN "Graphics context" "initializing"
+.IN "XCreateGC" "" "@DEF@"
+.FD 0
+.\" $Header: XCreateGC.f,v 1.2 88/05/09 11:06:37 mento Exp $
+GC XCreateGC\^(\^\fIdisplay\fP, \fId\fP\^, \fIvaluemask\fP\^, \fIvalues\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fId\fP\^;
+.br
+      unsigned long \fIvaluemask\fP\^;
+.br
+      XGCValues *\^\fIvalues\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: d.a,v 1.1 88/02/26 10:04:25 mento Exp $
+.IP \fId\fP 1i
+Specifies the drawable. 
+.ds Vm set using the information in the specified values structure
+.\" $Header: valuemask1.a,v 1.6 88/08/04 11:20:52 mento Exp $
+.IP \fIvaluemask\fP 1i
+Specifies which components in the GC are to be \*(Vm. 
+This argument is the bitwise inclusive OR of one or more of the valid
+GC component mask bits.
+.\" $Header: values1.a,v 1.2 88/05/09 10:50:42 mento Exp $
+.IP \fIvalues\fP 1i
+Specifies any values as specified by the valuemask.
+.LP
+.\" $Header: XCreateGC.d,v 1.2 88/06/11 07:49:40 mento Exp $
+The
+.PN XCreateGC
+function creates a graphics context and returns a GC.
+The GC can be used with any destination drawable having the same root
+and depth as the specified drawable.
+Use with other drawables results in a
+.PN BadMatch
+error.
+.LP
+.PN XCreateGC
+can generate
+.PN BadAlloc ,
+.PN BadDrawable ,
+.PN BadFont ,
+.PN BadMatch ,
+.PN BadPixmap ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To copy components from a source GC to a destination GC, use
+.PN XCopyGC .
+.IN "XCopyGC" "" "@DEF@"
+.FD 0
+.\" $Header: XCopyGC.f,v 1.2 88/05/09 11:08:57 mento Exp $
+XCopyGC\^(\^\fIdisplay\fP, \fIsrc\fP\^, \fIvaluemask\fP\^, \fIdest\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIsrc\fP\^, \fIdest\fP\^;
+.br
+      unsigned long \fIvaluemask\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: src.a,v 1.2 88/05/09 11:11:06 mento Exp $
+.IP \fIsrc\fP 1i
+Specifies the components of the source GC.
+.ds Vm copied to the destination GC
+.\" $Header: valuemask1.a,v 1.6 88/08/04 11:20:52 mento Exp $
+.IP \fIvaluemask\fP 1i
+Specifies which components in the GC are to be \*(Vm. 
+This argument is the bitwise inclusive OR of one or more of the valid
+GC component mask bits.
+.\" $Header: dest.a,v 1.2 88/05/09 11:11:56 mento Exp $
+.IP \fIdest\fP 1i
+Specifies the destination GC.
+.LP 
+.\" $Header: XCopyGC.d,v 1.3 88/06/11 07:49:27 mento Exp $
+The
+.PN XCopyGC
+function copies the specified components from the source GC
+to the destination GC.
+The source and destination GCs must have the same root and depth,
+or a
+.PN BadMatch
+error results.
+The valuemask specifies which component to copy, as for
+.PN XCreateGC .
+.LP
+.PN XCopyGC
+can generate
+.PN BadAlloc , 
+.PN BadGC ,
+and
+.PN BadMatch
+errors.
+.LP
+.sp
+To change the components in a given GC, use
+.PN XChangeGC .
+.IN "XChangeGC" "" "@DEF@"
+.FD 0
+.\" $Header: XChGC.f,v 1.2 88/05/09 11:19:10 mento Exp $
+XChangeGC\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIvaluemask\fP\^, \fIvalues\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIvaluemask\fP\^;
+.br
+      XGCValues *\^\fIvalues\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.ds Vm changed using information in the specified values structure
+.\" $Header: valuemask1.a,v 1.6 88/08/04 11:20:52 mento Exp $
+.IP \fIvaluemask\fP 1i
+Specifies which components in the GC are to be \*(Vm. 
+This argument is the bitwise inclusive OR of one or more of the valid
+GC component mask bits.
+.\" $Header: values1.a,v 1.2 88/05/09 10:50:42 mento Exp $
+.IP \fIvalues\fP 1i
+Specifies any values as specified by the valuemask.
+.LP
+.\" $Header: XChGC.d,v 1.3 88/06/11 07:49:02 mento Exp $
+The
+.PN XChangeGC
+function changes the components specified by valuemask for
+the specified GC.
+The values argument contains the values to be set.
+The values and restrictions are the same as for 
+.PN XCreateGC .
+Changing the clip-mask overrides any previous 
+.PN XSetClipRectangles
+request on the context. 
+Changing the dash-offset or dash-list
+overrides any previous 
+.PN XSetDashes
+request on the context.
+The order in which components are verified and altered is server-dependent.
+If an error is generated, a subset of the components may have been altered.
+.LP
+.PN XChangeGC
+can generate
+.PN BadAlloc ,
+.PN BadFont ,
+.PN BadGC ,
+.PN BadMatch ,
+.PN BadPixmap ,
+and
+.PN BadValue
+errors.
+.LP
+.sp
+To obtain components of a given GC, use
+.PN XGetGCValues .
+.IN "XGetGCValues" "" "@DEF@"
+.FD 0
+Status XGetGCValues\^(\^\fIdisplay\fP, \fIgc\fP, \fIvaluemask\fP, \
+\fIvalues_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIvaluemask\fP\^;
+.br
+      XGCValues *\fIvalues_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.ds Vm returned in the values_return argument
+.\" $Header: valuemask1.a,v 1.6 88/08/04 11:20:52 mento Exp $
+.IP \fIvaluemask\fP 1i
+Specifies which components in the GC are to be \*(Vm. 
+This argument is the bitwise inclusive OR of one or more of the valid
+GC component mask bits.
+.\" $Header: values3.a,v 1.2 88/04/06 17:19:04 mento Exp $
+.IP \fIvalues_return\fP 1i
+Returns the GC values in the specified
+.PN XGCValues 
+structure.
+.LP
+The
+.PN XGetGCValues
+function returns the components specified by valuemask for the specified GC.
+Note that the clip mask and dash list (represented by the
+.PN GCClipMask
+and 
+.PN GCDashList
+bits, respectively, in the valuemask)
+cannot be requested.
+If the valuemask contains a valid set of GC mask bits
+.Pn ( GCFunction ,
+.PN GCPlaneMask ,
+.PN GCForeground ,
+.PN GCBackground ,
+.PN GCLineWidth ,
+.PN GCLineStyle ,
+.PN GCCapStyle ,
+.PN GCJoinStyle ,
+.PN GCFillStyle ,
+.PN GCFillRule ,
+.PN GCTile ,
+.PN GCStipple ,
+.PN GCTileStipXOrigin ,
+.PN GCTileStipYOrigin ,
+.PN GCFont ,
+.PN GCSubwindowMode ,
+.PN GCGraphicsExposures ,
+.PN GCClipXOrigin ,
+.PN GCCLipYOrigin ,
+.PN GCDashOffset ,
+or
+.PN GCArcMode )
+and no error occur,
+.PN XGetGCValues
+sets the requested components in values_return and returns a nonzero status.
+Otherwise, it returns a zero status.
+.LP
+.sp
+To free a given GC, use
+.PN XFreeGC .
+.IN "XFreeGC" "" "@DEF@"
+.FD 0
+.\" $Header: XFreeGC.f,v 1.1 88/02/26 10:00:18 mento Exp $
+XFreeGC\^(\^\fIdisplay\fP, \fIgc\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.LP
+.\" $Header: XFreeGC.d,v 1.3 88/06/11 07:50:48 mento Exp $
+The
+.PN XFreeGC
+function destroys the specified GC as well as all the associated storage.
+.LP
+.PN XFreeGC
+can generate a
+.PN BadGC 
+error.
+.LP
+.sp
+To obtain the 
+.PN GContext 
+resource ID for a given GC, use 
+.PN XGContextFromGC .
+.IN "XGContextFromGC" "" "@DEF@"
+.FD 0
+GContext XGContextFromGC\^(\^\fIgc\fP\^)
+.br
+      GC \fIgc\fP\^;
+.FN
+.ds Gc for which you want the resource ID
+.\" $Header: gc_gen.a,v 1.2 88/08/04 11:14:11 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC \*(Gc.
+.NH 2
+Using GC Convenience Routines
+.XS
+\*(SN Using GC Convenience Routines 
+.XE
+.LP
+This section discusses how to set the:
+.IP \(bu 5
+Foreground, background, plane mask, or function components
+.IP \(bu 5
+Line attributes and dashes components
+.IP \(bu 5
+Fill style and fill rule components
+.IP \(bu 5
+Fill tile and stipple components
+.IP \(bu 5
+Font component
+.IP \(bu 5
+Clip region component
+.IP \(bu 5
+Arc mode, subwindow mode, and graphics exposure components
+.LE
+.NH 3
+Setting the Foreground, Background, Function, or Plane Mask
+.XS
+\*(SN Setting the Foreground, Background, Function, or Plane Mask
+.XE
+.LP
+To set the foreground, background, plane mask, and function components
+for a given GC, use
+.PN XSetState .
+.IN "XSetState" "" "@DEF@"
+.FD 0
+.\" $Header: XSetState.f,v 1.1 88/02/26 10:03:39 mento Exp $
+XSetState\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIforeground\fP\^, \fIbackground\fP\^, \fIfunction\fP\^, \fIplane_mask\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIforeground\fP\^, \fIbackground\fP\^;
+.br
+      int \fIfunction\fP\^;
+.br
+      unsigned long \fIplane_mask\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: foreground.a,v 1.2 88/05/09 11:35:55 mento Exp $
+.IP \fIforeground\fP 1i
+Specifies the foreground you want to set for the specified GC.
+.\" $Header: background.a,v 1.2 88/05/09 11:36:36 mento Exp $
+.IP \fIbackground\fP 1i
+Specifies the background you want to set for the specified GC.
+.\" $Header: function.a,v 1.2 88/05/09 11:37:19 mento Exp $
+.IP \fIfunction\fP 1i
+Specifies the function you want to set for the specified GC.
+.\" $Header: plane_mask.a,v 1.1 88/02/26 10:30:28 mento Exp $
+.IP \fIplane_mask\fP 1i
+Specifies the plane mask.
+.\" *** JIM: NEED MORE INFO FOR THIS. ***
+.LP
+.PN XSetState
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the foreground of a given GC, use
+.PN XSetForeground .
+.IN "XSetForeground" "" "@DEF@"
+.FD 0
+.\" $Header: XSetFgrnd.f,v 1.1 88/02/26 10:03:08 mento Exp $
+XSetForeground\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIforeground\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIforeground\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: foreground.a,v 1.2 88/05/09 11:35:55 mento Exp $
+.IP \fIforeground\fP 1i
+Specifies the foreground you want to set for the specified GC.
+.LP
+.PN XSetForeground
+can generate
+.PN BadAlloc
+and
+.PN BadGC 
+errors.
+.LP
+.sp
+To set the background of a given GC, use
+.PN XSetBackground .
+.IN "XSetBackground" "" "@DEF@"
+.FD 0
+.\" $Header: XSetBckgrnd.f,v 1.1 88/02/26 10:02:56 mento Exp $
+XSetBackground\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIbackground\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIbackground\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: background.a,v 1.2 88/05/09 11:36:36 mento Exp $
+.IP \fIbackground\fP 1i
+Specifies the background you want to set for the specified GC.
+.LP
+.PN XSetBackground
+can generate
+.PN BadAlloc
+and
+.PN BadGC 
+errors.
+.LP
+.sp
+To set the display function in a given GC, use
+.PN XSetFunction .
+.IN "XSetFunction" "" "@DEF@"
+.FD 0
+.\" $Header: XSetFunc.f,v 1.1 88/02/26 10:03:14 mento Exp $
+XSetFunction\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIfunction\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIfunction\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: function.a,v 1.2 88/05/09 11:37:19 mento Exp $
+.IP \fIfunction\fP 1i
+Specifies the function you want to set for the specified GC.
+.LP
+.PN XSetFunction
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the plane mask of a given GC, use
+.PN XSetPlaneMask .
+.IN "XSetPlaneMask" "" "@DEF@"
+.FD 0
+.\" $Header: XSetPlnMsk.f,v 1.1 88/02/26 10:03:26 mento Exp $
+XSetPlaneMask\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIplane_mask\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned long \fIplane_mask\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: plane_mask.a,v 1.1 88/02/26 10:30:28 mento Exp $
+.IP \fIplane_mask\fP 1i
+Specifies the plane mask.
+.\" *** JIM: NEED MORE INFO FOR THIS. ***
+.LP
+.PN XSetPlaneMask
+can generate
+.PN BadAlloc
+and
+.PN BadGC 
+errors.
+.NH 3
+Setting the Line Attributes and Dashes
+.XS
+\*(SN Setting the Line Attributes and Dashes 
+.XE
+.LP
+To set the line drawing components of a given GC, use
+.PN XSetLineAttributes .
+.IN "XSetLineAttributes" "" "@DEF@"
+.FD 0
+.\" $Header: XSetLnStle.f,v 1.1 88/02/26 10:03:22 mento Exp $
+XSetLineAttributes\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIline_width\fP\^, \fIline_style\fP\^, \fIcap_style\fP\^, \fIjoin_style\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      unsigned int \fIline_width\fP\^;
+.br
+      int \fIline_style\fP\^;
+.br
+      int \fIcap_style\fP\^;
+.br
+      int \fIjoin_style\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: line_width.a,v 1.2 88/05/09 11:40:12 mento Exp $
+.IP \fIline_width\fP 1i
+Specifies the line-width you want to set for the specified GC.
+.\" $Header: line_style.a,v 1.2 88/05/09 11:43:02 mento Exp $
+.IP \fIline_style\fP 1i
+Specifies the line-style you want to set for the specified GC.
+You can pass
+.PN LineSolid ,
+.PN LineOnOffDash ,
+or
+.PN LineDoubleDash .
+.\" $Header: cap_style.a,v 1.2 88/05/09 11:44:16 mento Exp $
+.IP \fIcap_style\fP 1i
+Specifies the line-style and cap-style you want to set for the specified GC.
+You can pass
+.PN CapNotLast ,
+.PN CapButt ,
+.PN CapRound ,
+or
+.PN CapProjecting .
+.\" $Header: join_style.a,v 1.3 88/05/09 14:18:01 mento Exp $
+.IP \fIjoin_style\fP 1i
+Specifies the line join-style you want to set for the specified GC.
+You can pass
+.PN JoinMiter ,
+.PN JoinRound ,
+or
+.PN JoinBevel .
+.LP
+.PN XSetLineAttributes
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the dash-offset and dash-list for dashed line styles of a given GC, use
+.PN XSetDashes .
+.IN "XSetDashes" "" "@DEF@"
+.FD 0
+.\" $Header: XSetDashes.f,v 1.1 88/02/26 10:03:06 mento Exp $
+XSetDashes\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIdash_offset\fP\^, \fIdash_list\fP\^, \fIn\fP\^)
+.br
+        Display *\fIdisplay\fP\^;
+.br
+        GC \fIgc\fP\^;
+.br
+        int \fIdash_offset\fP\^;
+.br
+        char \fIdash_list\fP[]\^;
+.br
+        int \fIn\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: dashoff.a,v 1.2 88/05/09 11:46:56 mento Exp $
+.IP \fIdash_offset\fP 1i
+Specifies the phase of the pattern for the dashed line-style you want to set
+for the specified GC. 
+.\" $Header: dashlist.a,v 1.2 88/05/09 11:47:52 mento Exp $
+.IP \fIdash_list\fP 1i
+Specifies the dash-list for the dashed line-style
+you want to set for the specified GC. 
+.\" $Header: n3.a,v 1.2 88/05/11 11:38:49 mento Exp $
+.IP \fIn\fP 1i
+Specifies the number of elements in dash_list. 
+.LP 
+.\" $Header: XSetDashes.d,v 1.4 88/08/18 08:11:08 mento Exp $
+The
+.PN XSetDashes
+function sets the dash-offset and dash-list attributes for dashed line styles
+in the specified GC.
+There must be at least one element in the specified dash_list,
+or a
+.PN BadValue
+error results. 
+The initial and alternating elements (second, fourth, and so on) 
+of the dash_list are the even dashes, and
+the others are the odd dashes.
+Each element specifies a dash length in pixels.
+All of the elements must be nonzero,
+or a
+.PN BadValue
+error results.
+Specifying an odd-length list is equivalent to specifying the same list
+concatenated with itself to produce an even-length list.
+.LP
+The dash-offset defines the phase of the pattern,
+specifying how many pixels into the dash-list the pattern
+should actually begin in any single graphics request.
+Dashing is continuous through path elements combined with a join-style
+but is reset to the dash-offset between each sequence of joined lines.
+.LP
+The unit of measure for dashes is the same for the ordinary coordinate system.
+Ideally, a dash length is measured along the slope of the line, but implementations
+are only required to match this ideal for horizontal and vertical lines.
+Failing the ideal semantics, it is suggested that the length be measured along the
+major axis of the line.
+The major axis is defined as the x axis for lines drawn at an angle of between
+\-45 and +45 degrees or between 315 and 225 degrees from the x axis.
+For all other lines, the major axis is the y axis.
+.LP
+.PN XSetDashes
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.NH 3
+Setting the Fill Style and Fill Rule 
+.XS
+\*(SN Setting the Fill Style and Fill Rule 
+.XE
+.LP
+To set the fill-style of a given GC, use
+.PN XSetFillStyle .
+.IN "XSetFillStyle" "" "@DEF@"
+.FD 0
+.\" $Header: XSetFStyle.f,v 1.1 88/02/26 10:03:07 mento Exp $
+XSetFillStyle\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIfill_style\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIfill_style\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: fill_style.a,v 1.3 88/05/09 11:54:36 mento Exp $
+.IP \fIfill_style\fP 1i
+Specifies the fill-style you want to set for the specified GC.
+You can pass
+.PN FillSolid ,
+.PN FillTiled ,
+.PN FillStippled ,
+or
+.PN FillOpaqueStippled .
+.LP
+.PN XSetFillStyle
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the fill-rule of a given GC, use
+.PN XSetFillRule .
+.IN "XSetFillRule" "" "@DEF@"
+.FD 0
+.\" $Header: XSetFRule.f,v 1.1 88/02/26 10:03:07 mento Exp $
+XSetFillRule\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIfill_rule\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIfill_rule\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: fill_rule.a,v 1.3 88/05/09 11:57:36 mento Exp $
+.IP \fIfill_rule\fP 1i
+Specifies the fill-rule you want to set for the specified GC.
+You can pass 
+.PN EvenOddRule
+or
+.PN WindingRule .
+.LP
+.PN XSetFillRule
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.NH 3
+Setting the Fill Tile and Stipple 
+.XS
+\*(SN Setting the Fill Tile and Stipple 
+.XE
+.LP
+Some displays have hardware support for tiling or
+stippling with patterns of specific sizes.
+Tiling and stippling operations that restrict themselves to those specific
+sizes run much faster than such operations with arbitrary size patterns.
+Xlib provides functions that you can use to determine the best size, 
+tile, or stipple for the display
+as well as to set the tile or stipple shape and the tile or stipple origin.
+.LP
+.sp
+To obtain the best size of a tile, stipple, or cursor, use
+.PN XQueryBestSize .
+.IN "XQueryBestSize" "" "@DEF@"
+.FD 0
+Status XQueryBestSize\^(\^\fIdisplay\fP, \fIclass\fP, \fIwhich_screen\fP, \fIwidth\fP, \fIheight\fP, \fIwidth_return\fP, \fIheight_return\fP\^) 
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      int \fIclass\fP\^;
+.br
+      Drawable \fIwhich_screen\fP\^;
+.br
+      unsigned int \fIwidth\fP, \fIheight\fP\^;
+.br
+      unsigned int *\fIwidth_return\fP, *\fIheight_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIclass\fP 1i
+Specifies the class that you are interested in.
+You can pass 
+.PN TileShape , 
+.PN CursorShape , 
+or 
+.PN StippleShape .
+.IP \fIwhich_screen\fP 1i
+Specifies any drawable on the screen.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.\" $Header: rwidtheight.a,v 1.2 88/05/09 11:58:59 mento Exp $
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height of the object best supported 
+by the display hardware.
+.LP
+.\" $Header: XQBestSize.d,v 1.2 88/06/11 07:52:31 mento Exp $
+The
+.PN XQueryBestSize
+function returns the best or closest size to the specified size.
+For 
+.PN CursorShape ,
+this is the largest size that can be fully displayed on the screen specified by
+which_screen.
+For 
+.PN TileShape ,
+this is the size that can be tiled fastest.
+For 
+.PN StippleShape ,
+this is the size that can be stippled fastest.
+For 
+.PN CursorShape ,
+the drawable indicates the desired screen.
+For 
+.PN TileShape 
+and 
+.PN StippleShape ,
+the drawable indicates the screen and possibly the window class and depth.
+An 
+.PN InputOnly 
+window cannot be used as the drawable for 
+.PN TileShape
+or 
+.PN StippleShape ,
+or a
+.PN BadMatch 
+error results.
+.LP
+.PN XQueryBestSize
+can generate
+.PN BadDrawable ,
+.PN BadMatch ,
+and 
+.PN BadValue 
+errors.
+.LP
+.sp
+To obtain the best fill tile shape, use
+.PN XQueryBestTile .
+.IN "XQueryBestTile" "" "@DEF@"
+.FD 0
+Status XQueryBestTile\^(\^\fIdisplay\fP, \fIwhich_screen\fP, \fIwidth\fP, \fIheight\fP, \fIwidth_return\fP, \fIheight_return\fP\^) 
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fIwhich_screen\fP\^;
+.br
+      unsigned int \fIwidth\fP, \fIheight\fP\^;
+.br
+      unsigned int *\fIwidth_return\fP, *\fIheight_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIwhich_screen\fP 1i
+Specifies any drawable on the screen.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.\" $Header: rwidtheight.a,v 1.2 88/05/09 11:58:59 mento Exp $
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height of the object best supported 
+by the display hardware.
+.LP
+.\" $Header: XQTileShp.d,v 1.2 88/06/11 07:52:32 mento Exp $
+The
+.PN XQueryBestTile
+function returns the best or closest size, that is, the size that can be
+tiled fastest on the screen specified by which_screen.
+The drawable indicates the screen and possibly the window class and depth.
+If an 
+.PN InputOnly 
+window is used as the drawable, a 
+.PN BadMatch 
+error results.
+.LP
+.PN XQueryBestTile
+can generate
+.PN BadDrawable
+and
+.PN BadMatch 
+errors.
+.LP
+.sp
+To obtain the best stipple shape, use
+.PN XQueryBestStipple .
+.IN "XQueryBestStipple" "" "@DEF@"
+.FD 0
+Status XQueryBestStipple\^(\^\fIdisplay\fP, \fIwhich_screen\fP, \fIwidth\fP, \fIheight\fP, \fIwidth_return\fP, \fIheight_return\fP\^) 
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Drawable \fIwhich_screen\fP\^;
+.br
+      unsigned int \fIwidth\fP, \fIheight\fP\^;
+.br
+      unsigned int *\fIwidth_return\fP, *\fIheight_return\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIwhich_screen\fP 1i
+Specifies any drawable on the screen.
+.\" $Header: widtheight.a,v 1.1 88/02/26 10:32:27 mento Exp $
+.IP \fIwidth\fP 1i
+.br
+.ns
+.IP \fIheight\fP 1i
+Specify the width and height.
+.\" $Header: rwidtheight.a,v 1.2 88/05/09 11:58:59 mento Exp $
+.IP \fIwidth_return\fP 1i
+.br
+.ns
+.IP \fIheight_return\fP 1i
+Return the width and height of the object best supported 
+by the display hardware.
+.LP
+.\" $Header: XQStipShp.d,v 1.2 88/06/11 07:52:31 mento Exp $
+The
+.PN XQueryBestStipple
+function returns the best or closest size, that is, the size that can be
+stippled fastest on the screen specified by which_screen.
+The drawable indicates the screen and possibly the window class and depth.
+If an
+.PN InputOnly
+window is used as the drawable, a
+.PN BadMatch
+error results.
+.LP
+.PN XQueryBestStipple
+can generate
+.PN BadDrawable
+and
+.PN BadMatch 
+errors.
+.LP
+.sp
+To set the fill tile of a given GC, use
+.PN XSetTile .
+.IN "XSetTile" "" "@DEF@"
+.FD 0
+.\" $Header: XSetTile.f,v 1.1 88/02/26 10:03:42 mento Exp $
+XSetTile\^(\^\fIdisplay\fP, \fIgc\fP\^, \fItile\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Pixmap \fItile\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: tile1.a,v 1.2 88/05/09 12:02:14 mento Exp $
+.IP \fItile\fP 1i
+Specifies the fill tile you want to set for the specified GC. 
+.LP
+The tile and GC must have the same depth,
+or a
+.PN BadMatch
+error results.
+.LP
+.PN XSetTile
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+.PN BadMatch ,
+and
+.PN BadPixmap 
+errors.
+.LP
+.sp
+To set the stipple of a given GC, use
+.PN XSetStipple .
+.IN "XSetStipple" "" "@DEF@"
+.FD 0
+.\" $Header: XSetStipple.f,v 1.1 88/02/26 10:03:40 mento Exp $
+XSetStipple\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIstipple\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Pixmap \fIstipple\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: stipple.a,v 1.2 88/05/09 12:03:58 mento Exp $
+.IP \fIstipple\fP 1i
+Specifies the stipple you want to set for the specified GC.
+.LP
+The stipple and GC must have the same depth,
+or a
+.PN BadMatch
+error results.
+.LP
+.PN XSetStipple
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+.PN BadMatch ,
+and
+.PN BadPixmap 
+errors.
+.LP
+.sp
+To set the tile or stipple origin of a given GC, use
+.PN XSetTSOrigin .
+.IN "XSetTSOrigin" "" "@DEF@"
+.FD 0
+.\" $Header: XSetTSOrig.f,v 1.1 88/02/26 10:03:41 mento Exp $
+XSetTSOrigin\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIts_x_origin\fP\^, \fIts_y_origin\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIts_x_origin\fP\^, \fIts_y_origin\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: tsxy.a,v 1.2 88/04/06 09:57:10 mento Exp $
+.IP \fIts_x_origin\fP 1i
+.br
+.ns
+.IP \fIts_y_origin\fP 1i
+Specify the x and y coordinates of the tile and stipple origin.
+.LP
+When graphics requests call for tiling or stippling,
+the parent's origin will be interpreted relative to whatever destination 
+drawable is specified in the graphics request.
+.LP
+.PN XSetTSOrigin
+can generate
+.PN BadAlloc
+and
+.PN BadGC 
+error.
+.NH 3
+Setting the Current Font 
+.XS
+\*(SN Setting the Current Font 
+.XE
+.LP
+To set the current font of a given GC, use
+.PN XSetFont .
+.IN "XSetFont" "" "@DEF@"
+.FD 0
+.\" $Header: XSetFont.f,v 1.1 88/02/26 10:03:09 mento Exp $
+XSetFont\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIfont\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Font \fIfont\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: font.a,v 1.2 88/05/09 14:28:06 mento Exp $
+.IP \fIfont\fP 1i
+Specifies the font.
+.LP
+.PN XSetFont
+can generate
+.PN BadAlloc ,
+.PN BadFont ,
+and 
+.PN BadGC 
+errors.
+.NH 3
+Setting the Clip Region
+.XS
+\*(SN Setting the Clip Region 
+.XE
+.LP
+Xlib provides functions that you can use to set the clip-origin 
+and the clip-mask or set the clip-mask to a list of rectangles.
+.LP
+.sp
+To set the clip-origin of a given GC, use
+.PN XSetClipOrigin .
+.IN "XSetClipOrigin" "" "@DEF@"
+.FD 0
+.\" $Header: XSetClipOrig.f,v 1.1 88/02/26 10:02:57 mento Exp $
+XSetClipOrigin\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIclip_x_origin\fP\^, \fIclip_y_origin\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIclip_x_origin\fP\^, \fIclip_y_origin\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: clipxy.a,v 1.3 88/05/09 12:10:59 mento Exp $
+.IP \fIclip_x_origin\fP 1i
+.br
+.ns
+.IP \fIclip_y_origin\fP 1i
+Specify the x and y coordinates of the clip-mask origin.
+.LP
+The clip-mask origin is interpreted relative to the origin of whatever 
+destination drawable is specified in the graphics request.
+.LP
+.PN XSetClipOrigin
+can generate
+.PN BadAlloc
+and
+.PN BadGC 
+errors.
+.LP
+.sp
+To set the clip-mask of a given GC to the specified pixmap, use
+.PN XSetClipMask .
+.IN "XSetClipMask" "" "@DEF@"
+.FD 0
+XSetClipMask\^(\^\fIdisplay\fP, \fIgc\fP, \fIpixmap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Pixmap \fIpixmap\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.IP \fIpixmap\fP 1i
+Specifies the pixmap or
+.PN None .
+.LP
+If the clip-mask is set to
+.PN None ,
+the pixels are are always drawn (regardless of the clip-origin).
+.LP
+.PN XSetClipMask
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+.PN BadMatch ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the clip-mask of a given GC to the specified list of rectangles, use
+.PN XSetClipRectangles .
+.IN "XSetClipRectangles" "" "@DEF@"
+.FD 0
+.\" $Header: XSetClpRects.f,v 1.1 88/02/26 10:02:59 mento Exp $
+XSetClipRectangles\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIclip_x_origin\fP\^, \fIclip_y_origin\fP\^, \fIrectangles\fP\^, \fIn\fP\^, \fIordering\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIclip_x_origin\fP\^, \fIclip_y_origin\fP\^;
+.br
+      XRectangle \fIrectangles\fP[]\^;
+.br
+      int \fIn\fP\^;
+.br
+      int \fIordering\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: clipxy.a,v 1.3 88/05/09 12:10:59 mento Exp $
+.IP \fIclip_x_origin\fP 1i
+.br
+.ns
+.IP \fIclip_y_origin\fP 1i
+Specify the x and y coordinates of the clip-mask origin.
+.\" $Header: rectangles1.a,v 1.2 88/05/09 12:16:32 mento Exp $
+.IP \fIrectangles\fP 1i
+Specifies an array of rectangles that define the clip-mask.
+.\" $Header: n2.a,v 1.1 88/02/26 10:29:03 mento Exp $
+.IP \fIn\fP 1i
+Specifies the number of rectangles. 
+.\" $Header: ordering.a,v 1.2 88/05/09 12:17:14 mento Exp $
+.IP \fIordering\fP 1i
+Specifies the ordering relations on the rectangles.
+You can pass
+.PN Unsorted ,
+.PN YSorted ,
+.PN YXSorted ,
+or
+.PN YXBanded .
+.LP
+.\" $Header: XSetClpRects.d,v 1.3 88/06/11 07:53:03 mento Exp $
+The
+.PN XSetClipRectangles
+function changes the clip-mask in the specified GC 
+to the specified list of rectangles and sets the clip origin.
+The output is clipped to remain contained within the
+rectangles.
+The clip-origin is interpreted relative to the origin of
+whatever destination drawable is specified in a graphics request.  
+The rectangle coordinates are interpreted relative to the clip-origin.  
+The rectangles should be nonintersecting, or the graphics results will be
+undefined.
+Note that the list of rectangles can be empty, 
+which effectively disables output.
+This is the opposite of passing
+.PN None
+as the clip-mask in
+.PN XCreateGC ,
+.PN XChangeGC ,
+and
+.PN XSetClipMask .
+.LP
+If known by the client, ordering relations on the rectangles can be
+specified with the ordering argument. 
+This may provide faster operation
+by the server. 
+If an incorrect ordering is specified, the X server may generate a
+.PN BadMatch
+error, but it is not required to do so.
+If no error is generated, the graphics
+results are undefined.
+.PN Unsorted 
+means the rectangles are in arbitrary order.
+.PN YSorted 
+means that the rectangles are nondecreasing in their Y origin.
+.PN YXSorted 
+additionally constrains 
+.PN YSorted 
+order in that all
+rectangles with an equal Y origin are nondecreasing in their X
+origin.  
+.PN YXBanded 
+additionally constrains 
+.PN YXSorted 
+by requiring that,
+for every possible Y scanline, all rectangles that include that
+scanline have an identical Y origins and Y extents.
+.LP
+.PN XSetClipRectangles
+can generate
+.PN BadAlloc , 
+.PN BadGC ,
+.PN BadMatch ,
+and
+.PN BadValue 
+errors.
+.LP
+Xlib provides a set of basic functions for performing
+region arithmetic.
+For information about these functions,
+see chapter 10.
+.NH 3
+Setting the Arc Mode, Subwindow Mode, and Graphics Exposure 
+.XS
+\*(SN Setting the Arc Mode, Subwindow Mode, and Graphics Exposure 
+.XE
+.LP
+To set the arc mode of a given GC, use
+.PN XSetArcMode .
+.IN "XSetArcMode" "" "@DEF@"
+.FD 0
+.\" $Header: XSetArcMode.f,v 1.1 88/02/26 10:02:54 mento Exp $
+XSetArcMode\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIarc_mode\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIarc_mode\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: arc_mode.a,v 1.2 88/05/09 12:21:20 mento Exp $
+.IP \fIarc_mode\fP 1i
+Specifies the arc mode.
+You can pass
+.PN ArcChord
+or
+.PN ArcPieSlice .
+.LP
+.PN XSetArcMode
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the subwindow mode of a given GC, use
+.PN XSetSubwindowMode .
+.IN "XSetSubwindowMode" "" "@DEF@"
+.FD 0
+.\" $Header: XSetSubMode.f,v 1.1 88/02/26 10:03:40 mento Exp $
+XSetSubwindowMode\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIsubwindow_mode\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      int \fIsubwindow_mode\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: sub_mode.a,v 1.2 88/05/09 12:23:45 mento Exp $
+.IP \fIsubwindow_mode\fP 1i
+Specifies the subwindow mode.
+You can pass
+.PN ClipByChildren
+or
+.PN IncludeInferiors .
+.LP
+.PN XSetSubwindowMode
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.LP
+.sp
+To set the graphics-exposures flag of a given GC, use
+.PN XSetGraphicsExposures .
+.IN "XSetGraphicsExposures" "" "@DEF@"
+.FD 0
+.\" $Header: XSetGrExp.f,v 1.2 88/04/04 11:02:37 mento Exp $
+XSetGraphicsExposures\^(\^\fIdisplay\fP, \fIgc\fP\^, \fIgraphics_exposures\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      GC \fIgc\fP\^;
+.br
+      Bool \fIgraphics_exposures\fP\^;
+.FN
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: gc.a,v 1.2 88/05/09 11:20:34 mento Exp $
+.IP \fIgc\fP 1i
+Specifies the GC.
+.\" $Header: graph_exp.a,v 1.4 88/08/18 08:13:37 mento Exp $
+.IP \fIgraphics_exposures\fP 1i
+Specifies a Boolean value that indicates whether you want
+.PN GraphicsExpose
+and
+.PN NoExpose
+events to be reported when calling
+.PN XCopyArea
+and
+.PN XCopyPlane
+with this GC.
+.LP
+.PN XSetGraphicsExposures
+can generate
+.PN BadAlloc ,
+.PN BadGC ,
+and
+.PN BadValue 
+errors.
+.bp

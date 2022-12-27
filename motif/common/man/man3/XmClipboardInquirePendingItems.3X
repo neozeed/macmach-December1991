@@ -1,0 +1,94 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardInquirePendingItems 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardInquirePendingItems \(em A clipboard function that returns a list
+of \fIdata_id/private_id\fP pairs.\fP
+.iX "XmClipboardInquirePendingItems"
+.iX "clipboard functions" "XmClipboardInquirePendingItems"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardInquirePendingItems\fP (\fIdisplay, window, format_name, 
+item_list, count\fP)
+.br
+.ta .5i 2.25i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	char	\fI* format_name\fP;
+.br
+	XmClipboardPendingList	\fI* item_list\fP;
+.br
+	unsigned long	\fI* count\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardInquirePendingItems\fP returns a list of 
+\fIdata_id/private_id\fP pairs
+for the specified format name.  A data item is considered pending if the
+application originally passed it by name, the application has not yet
+copied the data, and the item has not been deleted from the clipboard.
+The application is responsible for freeing the memory provided by this
+function to store the list.
+To free the memory, call \fBXtFree\fP.
+.PP
+This function is used by an application when exiting, to determine if the
+data that is passed by name should be sent to the clipboard.
+.br
+.ne 7
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIformat_name\fP" 1.2i
+Specifies a string that contains the name of the format for which the list
+of data ID/private ID pairs is to be obtained.
+.IP "\fIitem_list\fP" 1.2i
+Specifies the address of the array of data ID/private ID pairs for the 
+specified format name.  This argument is a type 
+\fBXmClipboardPendingList\fP.  The application is 
+responsible for freeing the memory provided by this function
+for storing the list.
+.IP "\fIitem_count\fP" 1.2i
+Specifies the number of items returned in the list.  If there is no data for
+the specified format name, or if there is no item on the clipboard, this
+argument equals zero.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

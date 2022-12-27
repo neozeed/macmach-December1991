@@ -1,0 +1,78 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmDeactivateProtocol 3X "" "" "" ""
+.SH NAME
+\fBXmDeactivateProtocol \(em a VendorShell function that deactivates a
+protocol without removing it.\fP
+.iX "XmDeactivateProtocol"
+.iX "protocols"
+.iX "VendorShell functions" "XmDeactivateProtocol"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmDeactivateProtocol (\fIshell, property, protocol\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIproperty\fP;
+.br
+	Atom	\fIprotocol\fP;
+.sp 1
+void XmDeactivateWMProtocol (\fIshell, protocol\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIprotocol\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmDeactivateProtocol\fP deactivates a protocol without removing it.
+It updates the handlers and the \fIproperty\fP, if
+the \fIshell\fP is realized.  It is sometimes useful to allow
+a protocol's state information (callback lists, etc.) to persist, even though
+the client may choose to temporarily resign from the interaction.  
+The main use of this capability is to gray/ungray \fBf.send_msg\fP
+entries in the Mwm system menu.  This is
+supported by allowing a \fIprotocol\fP to be in one of two states:  active or
+inactive.  If the \fIprotocol\fP is active and the \fIshell\fP is realized, 
+the \fIproperty\fP contains the \fIprotocol\fP \fBAtom\fP.  
+If the \fIprotocol\fP is inactive, the \fBAtom\fP is not present in
+the \fIproperty\fP.
+.br
+.ne 7
+.PP
+\fBXmDeactivateWMProtocol\fP is a convenience interface.  
+It calls \fBXmDeactivateProtocol\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.sp 1
+.IP "\fIshell\fP" .75i
+Specifies the widget with which the protocol property is associated
+.IP "\fIproperty\fP" .75i
+Specifies the protocol property
+.IP "\fIprotocol\fP" .75i
+Specifies the protocol atom (or an int type cast to Atom)
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBmwm(1X)\fP, \fBVendorShell(3X)\fP, \fBXmDeactivateWMProtocol(3X)\fP,
+and \fBXmInternAtom(3X)\fP.
+.sp 1

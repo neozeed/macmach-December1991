@@ -1,0 +1,378 @@
+.ds xT X Toolkit Intrinsics \- C Language Interface
+.ds xW Athena X Widgets \- C Language X Toolkit Interface
+.ds xL Xlib \- C Language X Interface
+.ds xC Inter-Client Communication Conventions Manual
+.na
+.de Ds
+.nf
+.\\$1D \\$2 \\$1
+.ft 1
+.\".ps \\n(PS
+.\".if \\n(VS>=40 .vs \\n(VSu
+.\".if \\n(VS<=39 .vs \\n(VSp
+..
+.de De
+.ce 0
+.if \\n(BD .DF
+.nr BD 0
+.in \\n(OIu
+.if \\n(TM .ls 2
+.sp \\n(DDu
+.fi
+..
+.de FD
+.LP
+.KS
+.TA .5i 3i
+.ta .5i 3i
+.nf
+..
+.de FN
+.fi
+.KE
+.LP
+..
+.de IN		\" send an index entry to the stderr
+.tm \\n%:\\$1:\\$2:\\$3
+..
+.de C{
+.KS
+.nf
+.D
+.\"
+.\"	choose appropriate monospace font
+.\"	the imagen conditional, 480,
+.\"	may be changed to L if LB is too
+.\"	heavy for your eyes...
+.\"
+.ie "\\*(.T"480" .ft L
+.el .ie "\\*(.T"300" .ft L
+.el .ie "\\*(.T"202" .ft PO
+.el .ie "\\*(.T"aps" .ft CW
+.el .ft R
+.ps \\n(PS
+.ie \\n(VS>40 .vs \\n(VSu
+.el .vs \\n(VSp
+..
+.de C}
+.DE
+.R
+..
+.de Pn
+.ie t \\$1\fB\^\\$2\^\fR\\$3
+.el \\$1\fI\^\\$2\^\fP\\$3
+..
+.de PN
+.ie t \fB\^\\$1\^\fR\\$2
+.el \fI\^\\$1\^\fP\\$2
+..
+.de NT
+.ne 7
+.ds NO Note
+.if \\n(.$>$1 .if !'\\$2'C' .ds NO \\$2
+.if \\n(.$ .if !'\\$1'C' .ds NO \\$1
+.ie n .sp
+.el .sp 10p
+.TB
+.ce
+\\*(NO
+.ie n .sp
+.el .sp 5p
+.if '\\$1'C' .ce 99
+.if '\\$2'C' .ce 99
+.in +5n
+.ll -5n
+.R
+..
+.		\" Note End -- doug kraft 3/85
+.de NE
+.ce 0
+.in -5n
+.ll +5n
+.ie n .sp
+.el .sp 10p
+..
+.ny0
+.TH XCreateColormap 3X11 "Release 4" "X Version 11" 
+.SH NAME
+XCreateColormap, XCopyColormapAndFree, XFreeColormap, XSetWindowColormap, 
+XColor \- create, copy, or destroy colormaps and color structure
+.SH SYNTAX
+.\" $Header: XCreateCmap.f,v 1.1 88/02/26 09:59:15 mento Exp $
+Colormap XCreateColormap\^(\^\fIdisplay\fP, \fIw\fP\^, \fIvisual\fP\^, \fIalloc\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP\^;
+.br
+      Visual *\fIvisual\fP\^;
+.br
+      int \fIalloc\fP\^;
+.LP
+.\" $Header: XCopyCmapFr.f,v 1.2 88/05/09 06:38:00 mento Exp $
+Colormap XCopyColormapAndFree\^(\^\fIdisplay\fP, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.LP
+.\" $Header: XFreeCmap.f,v 1.2 88/05/09 07:01:35 mento Exp $
+XFreeColormap\^(\^\fIdisplay\fP, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.LP
+.\" $Header: XChCmap.f,v 1.2 88/05/09 06:54:34 mento Exp $
+XSetWindowColormap\^(\^\fIdisplay\fP, \fIw\fP\^, \fIcolormap\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Window \fIw\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.SH ARGUMENTS
+.\" $Header: alloc.a,v 1.3 88/05/09 13:32:50 mento Exp $
+.IP \fIalloc\fP 1i
+Specifies the colormap entries to be allocated.
+You can pass 
+.PN AllocNone 
+or 
+.PN AllocAll .
+.ds Cm that you want to create, copy, set, or destroy
+.\" $Header: cmap_gen.a,v 1.2 88/08/04 11:07:18 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap \*(Cm.
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: visual1.a,v 1.3 88/05/09 05:55:50 mento Exp $
+.IP \fIvisual\fP 1i
+Specifies a pointer to a visual type supported on the screen.
+If the visual type is not one supported by the screen, 
+a
+.PN BadMatch
+error results.
+.ds Wi for which you want to create or set a colormap 
+.\" $Header: w_gen.a,v 1.4 88/08/04 11:21:56 mento Exp $
+.IP \fIw\fP 1i
+Specifies the window \*(Wi.
+.SH DESCRIPTION
+.\" $Header: XCreateCmap.d,v 1.5 88/08/18 07:31:05 mento Exp $
+The
+.PN XCreateColormap
+function creates a colormap of the specified visual type for the screen 
+on which the specified window resides and returns the colormap ID 
+associated with it.
+Note that the specified window is only used to determine the screen.
+.LP
+The initial values of the colormap entries are undefined for the 
+visual classes
+.PN GrayScale ,
+.PN PseudoColor ,
+and
+.PN DirectColor .
+For
+.PN StaticGray ,
+.PN StaticColor ,
+and
+.PN TrueColor ,
+the entries have defined values,
+but those values are specific to the visual and are not defined by X.
+For
+.PN StaticGray ,
+.PN StaticColor ,
+and
+.PN TrueColor ,
+alloc must be
+.PN AllocNone ,
+or a
+.PN BadMatch
+error results.
+For the other visual classes,
+if alloc is
+.PN AllocNone ,
+the colormap initially has no allocated entries,
+and clients can allocate them.
+For information about the visual types,
+see section 3.1.
+.LP
+If alloc is
+.PN AllocAll ,
+the entire colormap is allocated writable.
+The initial values of all allocated entries are undefined.
+For
+.PN GrayScale
+and
+.PN PseudoColor ,
+the effect is as if an
+.PN XAllocColorCells
+call returned all pixel values from zero to N \- 1,
+where N is the colormap entries value in the specified visual.
+For
+.PN DirectColor ,
+the effect is as if an
+.PN XAllocColorPlanes
+call returned a pixel value of zero and red_mask, green_mask, 
+and blue_mask values containing the same bits as the corresponding
+masks in the specified visual.
+However, in all cases,
+none of these entries can be freed by using
+.PN XFreeColors .
+.LP
+.PN XCreateColormap
+can generate
+.PN BadAlloc ,
+.PN BadMatch ,
+.PN BadValue ,
+and
+.PN BadWindow 
+errors.
+.LP
+.\" $Header: XCopyCmapFr.d,v 1.3 88/06/11 07:49:27 mento Exp $
+The
+.PN XCopyColormapAndFree
+function creates a colormap of the same visual type and for the same screen
+as the specified colormap and returns the new colormap ID.
+It also moves all of the client's existing allocation from the specified
+colormap to the new colormap with their color values intact 
+and their read-only or writable characteristics intact and frees those entries 
+in the specified colormap.
+Color values in other entries in the new colormap are undefined.
+If the specified colormap was created by the client with alloc set to
+.PN AllocAll ,
+the new colormap is also created with 
+.PN AllocAll ,
+all color values for all entries are copied from the specified colormap,
+and then all entries in the specified colormap are freed.
+If the specified colormap was not created by the client with
+.PN AllocAll ,
+the allocations to be moved are all those pixels and planes
+that have been allocated by the client using
+.PN XAllocColor ,
+.PN XAllocNamedColor ,
+.PN XAllocColorCells ,
+or
+.PN XAllocColorPlanes
+and that have not been freed since they were allocated.
+.LP
+.PN XCopyColormapAndFree
+can generate
+.PN BadAlloc
+and
+.PN BadColor 
+errors.
+.LP
+.\" $Header: XFreeCmap.d,v 1.4 88/06/11 07:50:44 mento Exp $
+The
+.PN XFreeColormap
+function deletes the association between the colormap resource ID 
+and the colormap and frees the colormap storage.
+However, this function has no effect on the default colormap for a screen.
+If the specified colormap is an installed map for a screen,
+it is uninstalled (see
+.PN XUninstallColormap ).
+If the specified colormap is defined as the colormap for a window (by
+.PN XCreateWindow ,
+.PN XSetWindowColormap ,
+or
+.PN XChangeWindowAttributes ),
+.PN XFreeColormap
+changes the colormap associated with the window to
+.PN None 
+and generates a
+.PN ColormapNotify
+event.
+X does not define the colors displayed for a window with a colormap of
+.PN None .
+.LP
+.PN XFreeColormap
+can generate a
+.PN BadColor 
+error.
+.LP
+.\" $Header: XChCmap.d,v 1.3 88/05/09 06:57:38 mento Exp $
+The
+.PN XSetWindowColormap
+function sets the specified colormap of the specified window.
+The colormap must have the same visual type as the window,
+or a
+.PN BadMatch
+error results.
+.LP
+.PN XSetWindowColormap
+can generate
+.PN BadColor ,
+.PN BadMatch ,
+and
+.PN BadWindow 
+errors.
+.SH STRUCTURES
+The
+.PN XColor
+structure contains:
+.LP
+.Ds 0
+.TA .5i 2.5i
+.ta .5i 2.5i
+typedef struct {
+	unsigned long pixel;	/* pixel value */
+	unsigned short red, green, blue;	/* rgb values */
+	char flags;	/* DoRed, DoGreen, DoBlue */	
+	char pad;
+} XColor;
+.De
+.LP
+The red, green, and blue values are scaled between 0 and 65535. 
+On full in a color is a value of 65535 independent of the number
+of bits actually used in the display hardware.
+.IN "Color"
+Half brightness in a color is a value of 32767, and off is 0.
+This representation gives uniform results for color values across
+different screens.
+In some functions,
+the flags member controls which of the red, green, and blue members is used 
+and can be one or more of
+.PN DoRed ,
+.PN DoGreen ,
+and 
+.PN DoBlue .
+.SH DIAGNOSTICS
+.\" $Header: badalloc.e,v 1.3 87/09/11 11:17:14 mento Exp $
+.TP 1i
+.PN BadAlloc
+The server failed to allocate the requested resource or server memory.
+.\" $Header: badcolor.e,v 1.1 87/09/04 08:22:57 mento Exp $
+.TP 1i
+.PN BadColor
+A value for a Colormap argument does not name a defined Colormap.
+.\" $Header: badmatch1.e,v 1.3 87/09/09 18:18:54 mento Exp $
+.TP 1i
+.PN BadMatch
+An
+.PN InputOnly
+window is used as a Drawable.
+.\" $Header: badmatch2.e,v 1.3 87/09/11 11:53:42 mento Exp $
+.TP 1i
+.PN BadMatch
+Some argument or pair of arguments has the correct type and range but fails
+to match in some other way required by the request.
+.\" $Header: badvalue.e,v 1.1 87/09/04 08:23:19 mento Exp $
+.TP 1i
+.PN BadValue
+Some numeric value falls outside the range of values accepted by the request.
+Unless a specific range is specified for an argument, the full range defined
+by the argument's type is accepted.  Any argument defined as a set of
+alternatives can generate this error.
+.\" $Header: badwindow.e,v 1.1 87/09/04 08:23:20 mento Exp $
+.TP 1i
+.PN BadWindow
+A value for a Window argument does not name a defined Window.
+.SH "SEE ALSO"
+XAllocColor(3X11),
+XChangeWindowAtrributes(3X11),
+XCreateWindow(3X11),
+XQueryColor(3X11),
+XStoreColors(3X11)
+.br
+\fI\*(xL\fP

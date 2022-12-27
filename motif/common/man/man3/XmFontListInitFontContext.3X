@@ -1,0 +1,52 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFontListInitFontContext 3X "" "" "" ""
+.SH NAME
+\fBXmFontListInitFontContext \(em a compound string function that allows 
+applications to access the fonts and character sets in a font list.\fP
+.iX "XmFontListInitFontContext"
+.iX "compound string functions" "XmFontListInitFontContext"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmFontListInitFontContext (\fIcontext, fontlist\fP)
+.br
+.ta .5i 1.75i
+.br
+	XmFontContext	\fI* context\fP;
+.br
+	XmFontList	\fIfontlist\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmFontListInitFontContext\fP 
+establishes a context to allow applications to access the fonts and
+character sets in a font list.
+This context is used when reading the font and character set in each
+element of the fontlist.
+A Boolean status is returned to indicate whether or not the font list is
+valid.
+.sp 1
+.IP "\fIcontext\fP" .75i 
+Specifies a pointer to the allocated context
+.IP "\fIfontlist\fP" .75i 
+Specifies the font list
+.sp 1
+.SH RETURN VALUE
+Returns True if the context was allocated; otherwise, returns False.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmFontListFreeFontContext(3X)\fP and
+\fBXmFontListGetNextFont(3X)\fP.
+.sp 1

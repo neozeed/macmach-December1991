@@ -1,0 +1,374 @@
+A Guide to Converting X10 Xlib Calls
+by Ron Newman, MIT Project Athena
+Last revised: September 13, 1987
+
+The following is a list of X10 Xlib routines, with their equivalents in X11.
+If the new function is substantially different from the old one, I've
+tried to include a few comments about the differences, but this is
+by no means a comprehensive list of such differences.
+
+Almost all X11 functions take a Display as their first argument.  Since
+this is nearly universal, it is not noted in the comments below.
+
+Graphics contexts are new in V11.  The XSetState call in V11 sets
+the foreground, background, function and plane mask which occured
+in the argument list of many graphics requests in V10.
+Also note that naive graphics programming should run very much
+faster than in V10.  Back to back graphics calls to the same
+window using the same GC (if the GC has not been changed) are automatically
+merged into poly requests.  Changes to a GC are cached and only
+written through to the server if the GC is used or if the change
+affects an resource ID based member.
+
+DisplayWidth,
+DisplayHeight      Now macros in Xlib.h.  They take both a Display and
+                      a screen-number argument.
+XAddHost           same--but "host" argument is now an               
+                      XHostAddress, with family = AF_INET                      
+XAddNode           XAddHost--with an XHostAddress whose family is AF_DNET
+XAppendToBuffer    XChangeWindowProperty, with mode == PropModeAppend
+XAppendVertex      obsolete--see XDrawLine(s), XDrawSegments, etc.       
+XAutoRepeatOn      same                                                  
+XAutoRepeatOff     same                                                  
+XBitmapBitsPut     XPutImage--where image->format == XYBitmap            
+                      and image->depth == 1.  You may find it easier to
+		      call XCreateBitmapFromData followed by XCopyPlane.
+XCharBitmap        XCreatePixmap (depth==1), then draw the single        
+                     character into the pixmap with XDrawString.  But if
+                     you're really trying to create a cursor from a font
+                     character, use XCreateGlyphCursor instead.
+XCharWidths        no direct equivalent, at least for now.
+XCheckMaskEvent    same--but event masks and event names are now    
+                     different from each other, and different from the X10     
+                     event names     
+XCheckWindowEvent  same--but event masks and event names are now 
+                     different from each other, and different from the X10
+                     event names
+XChangeBackground  XSetWindowBackgroundPixmap.  But if the background is a
+                      solid color, don't create a Pixmap; instead, use 
+                      XSetWindowBackground, which takes a pixel value.
+XChangeBorder      XSetWindowBorderPixmap.  But if the border is a 
+                      solid color, don't create a Pixmap; instead, use 
+                      XSetWindowBorder, which takes a pixel value.
+XChangeWindow      XResizeWindow.  This no longer raises the window;
+                      if you want to raise it, see the more general routine
+                      XConfigureWindow.
+XCircWindowDown    XCirculateSubwindowsDown
+XCircWindowUp      XCirculateSubwindowsUp
+XClear             XClearWindow.  You can now also clear just part of a window
+                      with XClearArea.
+XClipClipped,
+XClipDrawThrough   Windows no longer have a "clip-mode" attribute.  Instead,
+                     there is a "subwindow-mode" of a GC.  See XChangeGC.
+XCloseDisplay      same
+XCloseFont         XFreeFont (frees an XFontStruct *)
+XClearIconWindow   obsolete--replaced by WMHints property. 
+                      See XSetStandardProperties, XSetWMHints.
+XCompressEvents    obsolete.  Instead, include PointerMotionHint in your
+		      event mask, and call XQueryPointer to get up-to-date
+		      coordinates after you get a MotionNotify event with
+		      "is_hint" true.
+XCondWarpMouse     XWarpPointer.  Argument order is substantially different.
+XConfigureWindow   XMoveResizeWindow.  This no longer raises the
+                      window; if you want to raise it, see the new, more
+                      general X11 version of XConfigureWindow
+XCopyArea          XCopyArea.  The X11 routine is more general, and can
+                      copy between two windows, between a window and a Pixmap,
+                      or between two Pixmaps.  The argument order is 
+                      substantially different.
+XCreate            obsolete--use XCreate(Simple)Window
+                      and XSetStandardProperties
+XCreateAssoc       same (in oldX library) Use new Context routines instead.
+XCreateCursor      no direct equivalent.  You can make a single-plane bitmap
+                      with XCreateBitmapFromData and then make a cursor
+                      with XCreatePixmapCursor.  If your cursor is a "common"
+                      one, it may be in the cursor font (see "cursorfont.h");
+                      use XCreateGlyphCursor instead.
+XCreateTerm        obsolete--use XCreate(Simple)Window
+                      and XSetStandardProperties
+XCreateTransparency,
+XCreateTransparencies
+                   None--X11 no longer supports transparent windows.
+                      Create an InputOnly window to define an input region.
+                      Use XSetClipRectangles to clip output.
+XCreateWindow      XCreateSimpleWindow takes almost the same parameters as
+                      the X10 XCreateWindow, except that the background and
+                      border are now pixel values rather than Pixmaps.
+                      In X11, XCreateWindow is the most general way to
+                      create a window, allowing you to use non-solid border
+                      and background Pixmaps, specify an initial event-mask and
+                      cursor, and many other things.
+XCreateWindows,
+XCreateWindowBatch   
+                   Obsolete performance hacks.  Since creating a window
+                      no longer requires a server round trip, use XCreateWindow
+                      or XCreateSimpleWindow to create the windows 
+                      one at a time.
+XDefineCursor      same.  You can also specify a cursor in XCreateWindow
+                      and XChangeWindowAttributes.
+XDeleteAssoc       same (in oldX library) Use new Context routines instead.
+XDestAssoc         same (in oldX library) Use new Context routines instead.
+XDestroySubwindows same
+XDestroyWindow     same
+XDisplayName       same
+XDraw              Available in V10 library to aid ports, but you should
+                      use it only if you need to draw a spline.  If you're
+                      drawing points, lines, rectangles, arcs, or circles,
+                      use the X11 routines XDrawPoint(s), XDrawLine(s),
+                      XDrawSegments, XDrawRectangle(s), and XDrawArc(s)
+                      instead. The new XDraw takes a GC instead of
+                      separate arguments for width, function, pixel,
+                      planes, etc.
+XDrawDashed        If you really need it, use XDraw as described above,
+                      after setting the GC's dash list with XChangeGC or
+                      XSetDashes.  But you probably want to use XDrawLine(s)
+                      or XDrawSegments or XDrawRectangle(s) instead.
+XDrawFilled        still supported for X10 compatibility, but you should
+                      use it only if you need to fill areas bounded by
+                      splines.   Otherwise, use the X11 routines XFillArc(s),
+                      XFillPoly, and XFillRectangle(s).
+XDrawPatterned     see XDrawDashed above.
+XDrawTiled         see XDrawFilled above.
+XErrDescrip        XGetErrorText
+XErrorHandler      XSetErrorHandler
+XExpandEvents      obsolete.  By default, you get all motion events.  If you
+		      want to get fewer, see the comment for XCompressEvents
+		      above.
+XFeep              XBell
+XFeepControl       folded into XChangeKeyboardControl
+XFetchBuffer       same.  Now implemented as a window property.
+XFetchBytes        same.  Now implemented as a window property.
+XFetchName         same.  Now implemented as a window property.
+XFlush             same
+XFocusKeyboard     XSetInputFocus.  Note additional arguments "revert-to"
+                      and "time".
+XFontWidths        obsolete--this information is in the XFontStruct returned
+                     by XQueryFont and XLoadQueryFont
+XFreeBitmap        XFreePixmap (bitmaps are now single-plane Pixmaps)
+XFreeColors        same, but takes a Colormap argument now
+XFreeCursor        same
+XFreeFont          XUnloadFont
+XFreePixmap        same
+XGeometry          same; both Display and screen number parameter added
+XGetColorCells     XAllocColorCells. Argument order is substantially changed.
+XGetColor          XAllocNamedColor. Now takes a Colormap argument.
+XGetDefault        same
+XGetFont           XLoadFont
+XGetHardwareColor  XAllocColor.  Now takes a Colormap argument.
+XGetHosts          XListHosts.  Returns a list of XHostAddress structures.
+XGetIconWindow     obsolete--replaced by WMHints property. See XGetWMHints.
+XGetNodes          XListHosts.  Returns a list of XHostAddress structures.
+XGetResizeHint     obsolete--replaced by SizeHints properties.
+                      See XGetSizeHints.
+XGrabButton        same, but argument list is much longer.
+                      (Maybe we need a simpler version of this?)
+XGrabMouse         XGrabPointer.  argument list is much longer
+                      (Maybe we need a simpler version of this?)
+XGrabServer        same
+XIOErrorHandler    XSetIOErrorHandler
+XInterpretLocator  XTranslateCoords has the same purpose, but substantially
+                      different arguments.
+XKeyClickControl   folded into XChangeKeyboardControl
+XLine              XDrawLine. Now has GC argument, replacing width, func, etc.
+XLockToggle,       
+XLockUpDown        No longer supported.  You can use XSetModifierMapping to
+		      disable the lock key.
+XLookupMapping     XLookupString
+XLookUpAssoc       same (in oldX library)  Use new Context routines instead.
+XLowerWindow       same (implemented as a special case of ConfigureWindow)
+XMakeAssoc         same (in oldX library)  Use new Context routines instead.
+XMakePattern       obsolete--see XChangeGC, XSetDashes
+XMakePixmap        no direct equivalent.  If in X10, you are making a
+                      multi-plane Pixmap from a Bitmap just so that you
+                      can call XPixmapPut, there's a simpler way to do
+                      things in X11:  just call XCopyPlane to transfer
+                      your Bitmap (now a single-plane Pixmap)
+                      directly to the destination window.
+                   If you still need to make a multi-plane Pixmap from
+                      a single-plane Bitmap, call XCreatePixmap followed by
+                      XCopyPlane.
+XMakeTile(s)       no direct equivalent.  If you are making a solid border or
+                      background tile, you can now set the border or
+                      background directly to the pixel value, without first
+                      making a tile Pixmap.  If you still need a solid color
+                      Pixmap, use XCreatePixmap followed by XFillRectangle (see
+                      the comments under XPixFill below).
+XMapSubwindows     same
+XMapWindow         same, but no longer raises the window.  XMapRaised both
+                      maps and raises the window.
+XMaskEvent         same--but event masks and event names are now    
+                     different from each other, and different from the X10     
+                     event names     
+XMouseControl      XChangePointerControl, which has substantially different
+                     arguments.
+XMoveArea          was a special case of XCopyArea in X10.  Use XCopyArea.
+XMoveWindow        same, but no longer raises the window.  If you want
+                      to raise the window, use the more general routine
+                      XConfigureWindow.
+XNextEvent         same--but  event masks and event names are now    
+                     different from each other, and different from the X10     
+                     event names     
+XOpenDisplay       same.  String argument can now include a screen number
+                      after a decimal point, e.g. "MyMachine:2.5".
+                      If screen number is omitted, it defaults to 0.
+XOpenFont          XLoadQueryFont. Returns an (XFontStruct *).
+XParseColor        same, but takes a Colormap argument too.
+XParseGeometry     same
+XPeekEvent         same--but  event masks and event names are now    
+                     different from each other, and different from the X10     
+                     event names     
+XPending           same
+XPixmapBitsPutXY   XPutImage--where image->format == XYPixmap
+XPixmapBitsPutZ    XPutImage--where image->format == ZPixmap
+XPixFill,
+XPixSet            XFillRectangle.  You'll first need to set the foreground
+                      pixel and fill-style of the GC using either XChangeGC,
+                      or the two functions XSetForeground and XSetFillStyle.
+                      Set the fill-style to FillSolid.
+XPixmapGetXY       XGetImage--with format == XYPixmap
+XPixmapGetZ        XGetImage--with format == ZPixmap
+XPixmapPut         XCopyArea
+XPixmapSave        obsolete
+XPutBackEvent      same
+XQueryBrushShape   obsolete--brushed lines are no longer supported
+XQueryColor(s)     same.  Now takes Colormap argument.
+XQueryCursorShape  XQueryBestCursor.  It now takes a Drawable
+                      as an additional argument, to identify a screen
+                      for the query.
+XQueryFont         same, sort of.  Now returns an XFontStruct * which
+                      includes the widths array if it's a variable-width font.
+XQueryInput        XGetWindowAttributes returns, among other things, the
+                      event mask that you've put on the window.  (It also
+                      returns the inclusive OR of ALL clients' event masks
+                      on the window.)
+XQueryMouse        XQueryPointer.  Returns several additional arguments.
+XQueryMouseButtons XQueryPointer.  Returns several additional arguments.
+XQueryTileShape    XQueryBestTile.  It now takes a Drawable as
+                      an additional argument, to identify a screen and
+                      depth for the query.
+XQueryTree         same.  Now also returns the root window of the screen
+                      that contains the window.
+XQueryWidth        XQueryTextExtents takes a Font and a string, and asks the
+		      server for a variety of information, including the overall
+		      width.  But if you've already got an XFontStruct for this
+		      font (by having previously called XQueryFont or
+		      XLoadQueryFont), use XTextExtents or XTextWidth instead.
+		      These functions take the (XFontStruct *) as an argument
+		      and do all computation on the client side.
+XQueryWindow       XGetGeometry, XGetWindowAttributes, and/or XGetWMHints,
+                      depending on the information you're actually trying
+                      to get.  XGetGeometry returns a subset
+                      of the information that XGetWindowAttributes returns, so
+                      don't call both.
+XRaiseWindow       same (implemented as a special case of ConfigureWindow)
+XReadBitmapFile    This function still exists, but it now takes a Drawable
+                      as an additional argument, and returns a Pixmap of 
+                      depth 1 on the same screen as that Drawable.  (In X10,
+                      it returned a pointer to the bitmap data.)  The X11
+                      bitmap file format is different from X10's, but this
+                      function will read either format.
+XRebindCode        not implemented yet
+XRemoveHost        same--but  "host" argument is now an               
+                      XHostAddress, with family = AF_INET
+XRemoveNode        XRemoveHost--with an XHostAddress whose family is AF_DNET
+XRotateBuffers     same
+XScreenSaver       XSetScreenSaver.  "video" is now "prefer_blank".
+XSelectInput       same.  You can also specify an event mask
+                      in XCreateWindow and XChangeWindowAttributes.
+XSetDisplay        obsolete--there is no longer a global "current display"
+XSetIconWindow     obsolete--replaced by WMHints property. 
+                      See XSetStandardProperties, XSetWMHints.
+XSetResizeHint     obsolete--replaced by SizeHints properties. 
+                      See XSetStandardProperties, XSetSizeHints.
+XStippleFill       XFillRectangle.  You'll first need to set the foreground
+                      pixel, the stipple pattern, and fill-style in the GC,
+                      using either XChangeGC or the three functions
+                      XSetForeground, XSetStipple, and XSetFillStyle.
+                      Set the fill-style to FillStippled.
+XStoreBitmap       XCreateBitmapFromData.  But note that the argument
+		      order has changed, as has the format of the data
+		      (it's now a char *, with 8-bit rather than
+		      16-bit padding).  It also takes a Drawable as
+		      an additional argument, to identify the screen that
+		      the bitmap belongs to.
+              	   To convert hard-coded bitmap data from X10 (16-bit) to
+                      X11 (8-bit) format, use the "bm-convert" program, which
+		      is in the "util" subdirectory.  It reads an X10-format
+		      bitmap file on standard input and writes out an
+		      X11-format file on standard output.
+		   If you must use X10-format bitmap data, you can call 
+		      XCreatePixmap (with depth == 1) followed by XPutImage
+		      (with image->depth == 1, image->format == XYBitmap,
+		      image->byte_order == image->bitmap_bit_order == LSBFirst,
+		      image->bitmap_unit == image->bitmap_pad == 16) 
+XStoreBuffer       same.  Now implemented as a window property.
+XStoreBytes        same.  Now implemented as a window property.
+XStoreColor(s)     same.  Now takes a Colormap argument.
+XStoreCursor       XCreatePixmapCursor.  Argument order has changed, and
+                      there's no longer a "function" argument.
+XStoreName         same.  Now implemented as a window property.
+XStorePixmapXY     XCreatePixmap followed by XPutImage (with format = XYPixmap)
+XStorePixmapZ      XCreatePixmap followed by XPutImage (with format = ZPixmap)
+XStringWidth       XTextWidth takes an (XFontStruct *) and a string, and
+		      computes the width without querying the server.
+		      Character and space padding are no longer supported.
+		      The string argument is not null-terminated; instead,
+		      you must supply a byte-count.
+XSync              same
+XText(16),
+XTextPad(16)       XDrawImageString(16).  You'll need to set the foreground,
+                      background, and font in the GC first, using either
+                      XChangeGC or the three functions XSetForeground,
+                      XSetBackground, and XSetFont.  Character and space
+                      padding is no longer supported in the protocol.
+		   Important change: the "x" and "y" arguments now refer to the
+		      ORIGIN of the first character, NOT its top left corner.
+		      The y component of the origin is the character's baseline.
+		      The "ascent" field in the XFontStruct gives the distance
+		      from the top of the font to the baseline.
+XTextMask(16),
+XTextMaskPad(16)   XDrawString(16).  You'll need to set the foreground,
+                      function, font, fill-style, and other attributes
+                      of the GC first as appropriate.  Character and
+                      space padding is no longer supported in the protocol.
+                      You can also use XDrawText(16) to draw multiple
+                      strings, possibly in multiple fonts, with arbitrary
+                      spacing between the strings.
+		   See also second paragraph under XText above.
+XTileAbsolute,
+XTileRelative      No longer supported.  A window's background tile origin is
+                      aligned with the window origin, unless the background is
+                      "ParentRelative", in which case the background tile
+                      origin is aligned with the parent's background tile
+                      origin.  A window's border tile origin is the same
+                      as its background tile origin.  When you use XFillArc(s),
+                      XFillPolygon, or XFillRectangle(s) to fill an area,
+                      the tile origin is determined by the GC's
+                      "Tile-Stipple-X-Origin" and "Tile-Stipple-Y-Origin"
+                      attributes.
+XTileFill,
+XTileSet           XFillRectangle.  You'll first need to set the foreground
+                      and background pixels and fill-style of the GC using
+                      either XChangeGC, or the four functions XSetForeground,
+                      XSetBackground, XSetTile, and XSetFillStyle.
+                      Set the fill-style to FillTiled.  If you are using a
+                      clip-mask, you'll also need to change the "clip-mask"
+                      attribute of the GC, using XChangeGC or XSetClipMask.
+XUndefineCursor    same.  You can also set the cursor to None in a call
+                      to XChangeWindowAttributes.
+XUngrabButton      same, but requires a Window argument since it's now legal
+                      to have simultaneous grabs of the same buttons in
+                      in different windows.
+XUngrabMouse       XUngrabPointer
+XUngrabServer      same
+XUnmapSubwindows   same
+XUnmapTransparent  obsolete--no longer supported
+XUnmapWindow       same
+XUpdateMouse       obsolete, replaced by the PointerMotionHint facility.
+		      See comment for XCompressEvents above.
+XUseKeymap         not implemented yet
+XWarpMouse         XWarpPointer. Use a source window of None and 0's for
+                      src_x, src_y, src_width, and src_height.
+XWindowEvent       same--but event masks and event names are now    
+                     different from each other, and different from the X10     
+                     event names     

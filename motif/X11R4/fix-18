@@ -1,0 +1,63 @@
+This patch is a continuation of fix-15.  You must apply it at the same time
+as fix-15, fix-16 and fix-17.
+
+*** /tmp/,RCSt1a22680	Tue Oct  2 08:38:30 1990
+--- mit/clients/xterm/charproc.c	Tue Oct  2 08:38:39 1990
+***************
+*** 1,5 ****
+  /*
+!  * $XConsortium: charproc.c,v 1.123 90/03/12 10:30:21 jim Exp $
+   */
+  
+  
+--- 1,5 ----
+  /*
+!  * $XConsortium: charproc.c,v 1.123.1.1 90/10/02 08:36:46 rws Exp $
+   */
+  
+  
+***************
+*** 149,155 ****
+  #define	doinput()		(bcnt-- > 0 ? *bptr++ : in_put())
+  
+  #ifndef lint
+! static char rcs_id[] = "$XConsortium: charproc.c,v 1.123 90/03/12 10:30:21 jim Exp $";
+  #endif	/* lint */
+  
+  static int nparam;
+--- 149,155 ----
+  #define	doinput()		(bcnt-- > 0 ? *bptr++ : in_put())
+  
+  #ifndef lint
+! static char rcs_id[] = "$XConsortium: charproc.c,v 1.123.1.1 90/10/02 08:36:46 rws Exp $";
+  #endif	/* lint */
+  
+  static int nparam;
+***************
+*** 2614,2625 ****
+      unsigned long *length;
+      int *format;
+  {
+      int len;
+      if (*type != XA_STRING || *format != 8) { Bell(); return; }
+!     len = strlen(value);
+      if (len > 0) {
+! 	if (value[len-1] == '\n') value[len-1] = '\0';
+! 	if (!LoadNewFont (&term->screen, value, NULL, True, 
+  			  fontMenu_fontescape))
+  	  Bell();
+      }
+--- 2614,2626 ----
+      unsigned long *length;
+      int *format;
+  {
++     char *val = (char *)value;
+      int len;
+      if (*type != XA_STRING || *format != 8) { Bell(); return; }
+!     len = strlen(val);
+      if (len > 0) {
+! 	if (val[len-1] == '\n') val[len-1] = '\0';
+! 	if (!LoadNewFont (&term->screen, val, NULL, True, 
+  			  fontMenu_fontescape))
+  	  Bell();
+      }

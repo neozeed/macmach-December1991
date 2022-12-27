@@ -1,0 +1,185 @@
+.TH msg_receive 2 4/13/87
+.CM 4
+.SH NAME
+.nf
+msg_receive  \-  retrieves next message from port queue
+.SH SYNOPSIS
+.nf
+.ft B
+#include <mach/message.h>
+#include <mach/port.h>
+.nf
+.ft B
+msg_return_t msg_receive(header, option, timeout)
+	msg_header_t	*header;	/* in/out */
+	msg_option_t	option;
+	msg_timeout_t	timeout;
+
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+header
+The address of a buffer in which the message is to be received.
+Two fields of the message header must be set before the call is made:
+.B msg_local_port
+is set to the name of the port or port set from which the
+message is to be received and 
+.B msg_size
+must be set to the maximum
+size of the message that may be received. It must be less than or equal
+to the size of the buffer.
+.TP 15
+.B
+timeout
+If 
+.B RCV_TIMEOUT
+is specified this value is the maximum time
+in milliseconds to wait for a message 
+before giving up.
+.TP 15
+.B
+option
+The failure conditions under which  
+.B msg_receive
+should terminate;
+the value of this parameter is a bit or'd combination
+the following two options.
+Unless one of the two following values for the 
+.B option
+parameter
+is explicitly specified, 
+.B msg_receive
+does not return until a
+message has been received.
+.TP 15
+.B
+RCV_TIMEOUT
+Specifies that 
+.B msg_receive
+should return when the 
+specified timeout elapses, if a message has not arrived by that time; if
+not specified, the timeout will be ignored (i.e. infinite).
+.TP 15
+.B
+RCV_NO_SENDERS
+Specifies that 
+.B msg_receive
+should return if the
+receiver and owner tasks have the only access rights to the port specified
+in the message header. (Not implemented yet)
+.TP 15
+.B
+RCV_INTERRUPT
+Specifies that 
+.B msg_receive
+should return when a
+software interrupt has occurred in this thread.
+.TP 15
+.B
+MSG_OPTION_NONE
+Specifies that none of the above options are desired.
+
+.SH DESCRIPTION
+.B msg_receive
+retrieves the next message from a port or port set
+specified in the 
+.B msg_local_port
+field of the specified
+message header.  If a port is specified, the port may not be a
+member of a port set.
+The 
+.B msg_local_port
+field will be set to the specific port
+on which the message was found.
+
+If a port set is specified, the 
+.B msg_receive
+will retrieve messages
+sent to any of the set's member ports.
+It is not an error for the port set to have no members, or for
+members to be added and removed from a port set while a 
+.B msg_receive
+on the port set is in progress.
+
+The message consists of its header, followed by a variable amount
+of data; the message header supplied to 
+.B msg_receive
+must specify
+the maximum size of the message which can be received into the buffer
+provided.  (See the introduction to this section for details on message
+formatting).
+
+If no messages are present on the port(s) in question,
+.B msg_receive
+will wait until a message arrives, or
+until one of the specified termination conditions is met
+(see above for discussion of the 
+.B option
+parameter).
+
+If the received messages contains out-of-line data (i.e. for which the
+.B msg_type_inline
+attribute was specified as 
+.B FALSE
+), the data will 
+be returned in a newly-allocated region of memory; the message body will
+contain a pointer to that new region.  (See 
+.B vm_allocate
+call for a
+description of the state of newly-allocated memory.) The user may wish to
+deallocte this memory when the data is no longer needed.
+
+.SH DIAGNOSTICS
+.TP 25
+RCV_SUCCESS
+The message has been received.
+.TP 25
+RCV_INVALID_MEMORY
+The message specified was not writable by 
+the calling task.
+.TP 25
+RCV_INVALID_PORT
+An attempt was made to receive on a port to which the 
+calling task does not have the proper access, or which was deallocated 
+(see 
+.B port_deallocate
+) while waiting for a message.
+.TP 25
+RCV_TOO_LARGE
+The message header and body combined are larger than 
+the size specified by 
+.B msg_size
+.
+.TP 25
+RCV_NOT_ENOUGH_MEMORY
+The message 
+to be received contains more 
+out-of-line data than can be allocated in the receiving task.
+.TP 25
+RCV_TIMED_OUT
+The message was not received after 
+.B timeout
+milliseconds.
+.TP 25
+RCV_ONLY_SENDER
+An attempt was made to receive on a port to which only 
+the receive and/or owner have access, and the 
+.B RCV_NO_SENDERS
+option
+was specified.
+.TP 25
+RCV_INTERRUPTED
+A software interrupt occurred.
+.TP 25
+RCV_PORT_CHANGE
+The port specified was moved into a port set
+during the duration of the 
+.B msg_receive
+call.
+
+.SH SEE ALSO
+.B msg_rpc, msg_send
+

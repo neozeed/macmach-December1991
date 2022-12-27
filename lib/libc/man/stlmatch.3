@@ -1,0 +1,48 @@
+.\"
+.\" $Id: stlmatch.3,v 1.3 89/12/26 11:22:41 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	stlmatch.3,v $
+.\" Revision 1.3  89/12/26  11:22:41  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH STLMATCH 3 12/5/79
+.CM 1
+.SH "NAME"
+stlmatch \- match initial characters of string
+.SH "SYNOPSIS"
+.B
+int stlmatch (big,small);
+.br
+.B
+char *big,*small;
+.SH "DESCRIPTION"
+.I
+Stlmatch
+returns 1 iff the initial characters of the string
+.I
+big
+are identical with the entire string
+.I
+small.
+Otherwise, 0 is returned.
+.SH "EXAMPLE"
+.B
+stlmatch (a,"my name is")
+.br
+.RS
+will return 1 iff the string a begins with the characters
+"my name is".
+.RE
+.SH "SEE ALSO"
+.IR strcmp (3), 
+.IR sindex (3),
+.IR stablk (3), 
+.IR srchscore (3)

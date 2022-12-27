@@ -1,0 +1,1045 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       20.  UUUUssssiiiinnnngggg tttthhhheeee UUUUIIIILLLL CCCCoooommmmppppiiiilllleeeerrrr
+
+       This chapter discusses the following:
+
+          +o Invoking the compiler
+
+          +o Default character sets for string literals               |
+
+          +o Interpreting diagnostics issued by the compiler
+
+          +o Reading the listing produced by the compiler
+
+       20.1  IIIInnnnvvvvooookkkkiiiinnnngggg tttthhhheeee CCCCoooommmmppppiiiilllleeeerrrr
+
+       This section describes how to invoke the UIL compiler from    |
+       the command line using the uuuuiiiillll command, or from within an     |
+       application using the UUUUiiiillll function.                           |
+
+       20.1.1  IIIInnnnvvvvooookkkkiiiinnnngggg tttthhhheeee CCCCoooommmmppppiiiilllleeeerrrr bbbbyyyy CCCCoooommmmmmmmaaaannnndddd                      |
+
+       You invoke the UIL compiler with the uuuuiiiillll command. The uuuuiiiillll     |
+       command has the following syntax:                             |
+
+       uuuuiiiillll [ _o_p_t_i_o_n... ] _i_n_p_u_t-_f_i_l_e                                  |
+
+       The input file contains the UIL specification to be com-
+       piled.  You can use the options to control the output of the
+       UIL compiler.
+
+       The supported options are listed in the following table.      |
+
+                  TTTTAAAABBBBLLLLEEEE 22220000----1111....  UIL Command Line Options
+
+       ________________________________________________________      *
+       OOOOppppttttiiiioooonnnn        DDDDeeeeffffaaaauuuulllltttt        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                      |
+       ________________________________________________________
+                                    Directs the compiler to          |
+                                    produce a User Interface         |
+                                    Definition (UID) file.  By   |   |
+                                    default, UIL creates a UID   |   |
+                                    file with the name a.uid.        |
+                                    No UID file is produced if       |
+                                    the compiler issues any          |
+                                    diagnostics categorized as       |
+
+
+                                                               20-1
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________      |
+       OOOOppppttttiiiioooonnnn        DDDDeeeeffffaaaauuuulllltttt        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                      ||
+       ________________________________________________________      |
+                                    error or severe.                 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        -ofilename   a.uid                                           |
+
+
+       20-2
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       ________________________________________________________      |
+       OOOOppppttttiiiioooonnnn        DDDDeeeeffffaaaauuuulllltttt        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                      ||
+       ________________________________________________________      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               20-3
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________      |
+       OOOOppppttttiiiioooonnnn        DDDDeeeeffffaaaauuuulllltttt        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                      ||
+       ________________________________________________________      |
+                     No listing                                      |
+                     is generated                                    |
+77                                    Directs the compiler to      |   |
+                                    produce a listing file.  If  |   |
+                                    the -v option is not             |
+                                    present, no listing is gen-      |
+                                    erated by the compiler.          |
+77777        -vfilename                                                   |
+
+
+
+
+                     No machine                                      |
+                     code is                                         |
+                     listed                                          |
+777                                    Directs the compiler to          |
+                                    place in the listing file a      |
+                                    description of the records       |
+                                    that it added to the UID         |
+                                    file.  This helps you iso-       |
+                                    late errors.                     |
+777777        -m                                                           |
+
+
+
+
+
+                     Warning mes-                                    |
+                     sages are                                       |
+                     generated                                       |
+777                                    Directs the compiler to          |
+                                    suppress all warning and         |
+                                    informational messages.          |
+                                    Error messages and severe        |
+                                    messages are generated.          |
+77777        -w                                                           |
+
+
+
+
+                                    If you specify the -I            |
+                                    option followed by a path-       |
+                                    name, with no intervening        |
+                                    spaces, the compiler uses        |
+                                    the specified pathname to        |
+                                    locate include files when    |   |
+                                    the include directive is     |   |
+                                    used.  A trailing / (slash)      |
+                                    on the specified pathname        |
+                                    is optional; if it is omit-      |
+                                    ted, the compiler inserts        |
+                                    it for you.                      |
+                                    For example:                     |
+
+                                    -I/usr/include/myuilpath         |
+
+                                    Causes the compiler to look  |   |
+                                    for include files in the     |   |
+                                    directory                    |   |
+                                    /usr/include/myuilpath if        |
+                                    the include file has not         |
+                                    been found in the paths          |
+                                    that have already been           |
+                                    searched.                    *   |
+777777777777777777777777       -Ipathname    /usr/include                                    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________________________      |
+
+       20.1.2  IIIInnnnvvvvooookkkkiiiinnnngggg tttthhhheeee CCCCoooommmmppppiiiilllleeeerrrr bbbbyyyy FFFFuuuunnnnccccttttiiiioooonnnn                     |
+
+       This section describes the UUUUiiiillll callable interface routine.    |
+       This routine allows you to invoke the UIL compiler from       |
+       within an application, and returns a data structure,          |
+       describing the UIL module that was compiled.  This section    |
+
+
+       20-4
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       also describes the UUUUiiiillllDDDDuuuummmmppppSSSSyyyymmmmbbbboooollllTTTTaaaabbbblllleeee routine, used to per-   |
+       form a symbol table dump.                                     |
+
+       The UUUUiiiillll function invokes the UIL compiler from within an      |
+       application.  It has the following syntax:                    |
+
+       ####iiiinnnncccclllluuuuddddeeee <<<<uuuuiiiillll////UUUUiiiillllDDDDeeeeffff....hhhh>>>>                                       |
+       UUUUiiiillll____ssssttttaaaattttuuuussss____ttttyyyyppppeeee UUUUiiiillll(_c_o_m_m_a_n_d__d_e_s_c, _c_o_m_p_i_l_e__d_e_s_c,               |
+          _m_e_s_s_a_g_e__c_b, _m_e_s_s_a_g_e__d_a_t_a, _s_t_a_t_u_s__c_b, _s_t_a_t_u_s__d_a_t_a)          |
+          UUUUiiiillll____ccccoooommmmmmmmaaaannnndddd____ttttyyyyppppeeee *_c_o_m_m_a_n_d__d_e_s_c;                            |
+          UUUUiiiillll____ccccoooommmmppppiiiilllleeee____ddddeeeesssscccc____ttttyyyyppppeeee *_c_o_m_p_i_l_e__d_e_s_c;                       |
+          UUUUiiiillll____ccccoooonnnnttttiiiinnnnuuuueeee____ttttyyyyppppeeee (*_m_e_s_s_a_g_e__c_b) ();                        |
+          cccchhhhaaaarrrr *_m_e_s_s_a_g_e__d_a_t_a;                                        |
+          UUUUiiiillll____ccccoooonnnnttttiiiinnnnuuuueeee____ttttyyyyppppeeee (*_s_t_a_t_u_s__c_b) ();                         |
+          cccchhhhaaaarrrr *_s_t_a_t_u_s__d_a_t_a;                                         |
+
+       The UUUUiiiillll function provides a callable entry point for the UIL  |
+       compiler. The callable interface can be used to process a     |
+       UIL source file and to generate UID files, as well as return  |
+       a detailed description of the UIL source module in the form   |
+       of a symbol table (parse tree).                               |
+
+       _c_o_m_m_a_n_d__d_e_s_c   Specifies the UIL command line.                |
+
+       _c_o_m_p_i_l_e__d_e_s_c   Returns the results of the compilation.        |
+
+       _m_e_s_s_a_g_e__c_b     Specifies a callback function that is called   |
+                      when the compiler encounters errors in the     |
+                      UIL source.                                    |
+
+       _m_e_s_s_a_g_e__d_a_t_a   Specifies user data that is passed to the      |
+                      message callback function (_m_e_s_s_a_g_e__c_b). Note   |
+                      that this argument is not interpreted by UIL,  |
+                      and is used exclusively by the calling appli-  |
+                      cation.                                        |
+
+       _s_t_a_t_u_s__c_b      Specifies a callback function that is called   |
+                      to allow X applications to service X events    |
+                      such as updating the screen.  This function    |
+                      is called at various check points, which have  |
+                      been hardcoded into the UIL compiler.  The     |
+                      status_update_delay argument in _c_o_m_m_a_n_d__d_e_s_c   |
+                      specifies the number of check points to be     |
+                      passed before the _s_t_a_t_u_s__c_b function is        |
+                      invoked.                                       |
+
+       _s_t_a_t_u_s__d_a_t_a    Specifies user data that is passed to the      |
+                      status callback function (_s_t_a_t_u_s__c_b). Note     |
+                      that this argument is not interpreted by the   |
+                      UIL compiler, and is used exclusively by the   |
+                      calling application.                           |
+
+
+                                                               20-5
+
+
+
+
+
+
+
+
+
+
+
+
+       The data structures UUUUiiiillll____ccccoooommmmmmmmaaaannnndddd____ttttyyyyppppeeee and                      |
+       UUUUiiiillll____ccccoooommmmppppiiiilllleeee____ddddeeeesssscccc____ttttyyyyppppeeee are detailed in the text that follows   |
+       this example.                                                 |
+
+       typedef struct Uil_command_type {                             |
+            char *source_file; /* single source to compile */        |
+            char *resource_file; /* name of output file */           |
+            char *listing_file; /* name of listing file */           |
+            unsigned int *include_dir_count; /* number of directories in|
+                                     /* include_dir array */         |
+            char *((*include_dir) []); /* directory to search for    |
+                                     /* include files */             |
+            unsigned listing_file_flag: 1; /* produce a listing */   |
+            unsigned resource_file_flag: 1; /* generate UID output */|
+            unsigned machine_code_flag: 1; /* generate machine code */|
+            unsigned report_info_msg_flag: 1; /* report info messages */|
+            unsigned report_warn_msg_flag: 1; /* report warnings */  |
+            unsigned parse_tree_flag: 1; /* generate parse tree */   |
+            unsigned int status_update_delay; /* number of times a status */|
+                                     /* point is passed before */    |
+                                     /* calling status_cb function */|
+                                     /* 0 means called every time */ |
+            }                                                        |
+
+       typedef struct Uil_compile_desc_type {                        |
+            unsigned int compiler_version; /* version number of compiler */|
+            unsigned int data_version; /* version number of structures */|
+            char *parse_tree_root; /* parse tree output */           |
+            unsigned int message_count [Uil_k_max_status+1]; /* array of |
+            }                                               severity counts /*|
+
+       Following is a description of the message callback function   |
+       specified by _m_e_s_s_a_g_e__c_b:                                      |
+
+       UUUUiiiillll____ccccoooonnnnttttiiiinnnnuuuueeee____ttttyyyyppppeeee ((((*_m_e_s_s_a_g_e__c_b)))) ((((_m_e_s_s_a_g_e__d_a_t_a,                |
+       _m_e_s_s_a_g_e__n_u_m_b_e_r, _s_e_v_e_r_i_t_y, _m_s_g__b_u_f_f_e_r, _s_r_c__b_u_f_f_e_r,             |
+       _p_t_r__b_u_f_f_e_r, _l_o_c__b_u_f_f_e_r, _m_e_s_s_a_g_e__c_o_u_n_t))))                        |
+            cccchhhhaaaarrrr      *_m_e_s_s_a_g_e__d_a_t_a;;;;                                 |
+            iiiinnnntttt       _m_e_s_s_a_g_e__n_u_m_b_e_r;;;;                                |
+            iiiinnnntttt       _s_e_v_e_r_i_t_y;;;;                                      |
+            cccchhhhaaaarrrr      *_m_s_g__b_u_f_f_e_r,,,, *_s_r_c__b_u_f_f_e_r;;;;                      |
+            cccchhhhaaaarrrr      *_p_t_r__b_u_f_f_e_r,,,, *_l_o_c__b_u_f_f_e_r;;;;                      |
+            iiiinnnntttt       _m_e_s_s_a_g_e__c_o_u_n_t[[[[]]]];;;;                               |
+
+       Specifies a callback function that UIL invokes instead of     |
+       printing an error message when the compiler encounters an     |
+       error in the UIL source.  The callback should return one of   |
+       these values:                                                 |
+
+       UUUUiiiillll____kkkk____tttteeeerrrrmmmmiiiinnnnaaaatttteeee Tells UIL to terminate processing of the      |
+                      source file                                    |
+
+
+       20-6
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       UUUUiiiillll____kkkk____ccccoooonnnnttttiiiinnnnuuuueeee Tells UIL to continue processing the source    |
+                      file                                           |
+
+       Following are the arguments:                                  |
+
+       _m_e_s_s_a_g_e__d_a_t_a   Data supplied by the application as the        |
+                      _m_e_s_s_a_g_e__d_a_t_a argument to the UUUUiiiillll function.     |
+                      UIL does not interpret this data in any way;   |
+                      it just passes it to the callback.             |
+
+       _m_e_s_s_a_g_e__n_u_m_b_e_r An index into a table of error messages and    |
+                      severities, for internal use by UIL.           |
+
+       _s_e_v_e_r_i_t_y       An integer that indicates the severity of the  |
+                      error.  The possible values are the status     |
+                      constants returned by the UUUUiiiillll function.        |
+
+       _m_s_g__b_u_f_f_e_r     A string that describes the error.             |
+
+       _s_r_c__b_u_f_f_e_r     A string consisting of the source line where   |
+                      the error occurred.  This is not always        |
+                      available; the argument is then NULL.          |
+
+       _p_t_r__b_u_f_f_e_r     A string consisting of white space and a       |
+                      printing character in the character position   |
+                      corresponding to the column of the source      |
+                      line where the error occurred.  This string    |
+                      may be printed beneath the source line to      |
+                      provide a visual indication of the column      |
+                      where the error occurred.  This is not always  |
+                      available; the argument is then NULL.          |
+
+       _l_o_c__b_u_f_f_e_r     A string identifying the line number and file  |
+                      of the source line where the error occurred.   |
+                      This is not always available; the argument is  |
+                      then NULL.                                     |
+
+       _m_e_s_s_a_g_e__c_o_u_n_t  An array of integers containing the number of  |
+                      diagnostic messages issued thus far for each   |
+                      severity level.  To find the number of mes-    |
+                      sages issued for the current severity level,   |
+                      use the _s_e_v_e_r_i_t_y argument as the index into    |
+                      this array.                                    |
+
+       Following is a description of the status callback function    |
+       specified by _s_t_a_t_u_s__c_b:                                       |
+
+
+
+
+
+
+
+                                                               20-7
+
+
+
+
+
+
+
+
+
+
+
+
+       UUUUiiiillll____ccccoooonnnnttttiiiinnnnuuuueeee____ttttyyyyppppeeee ((((*_s_t_a_t_u_s__c_b)))) ((((_s_t_a_t_u_s__d_a_t_a,                  |
+       _p_e_r_c_e_n_t__c_o_m_p_l_e_t_e, _l_i_n_e_s__p_r_o_c_e_s_s_e_d, _c_u_r_r_e_n_t__f_i_l_e,              |
+       _m_e_s_s_a_g_e__c_o_u_n_t))))                                                |
+            cccchhhhaaaarrrr      *_s_t_a_t_u_s__d_a_t_a;;;;                                  |
+            iiiinnnntttt       _p_e_r_c_e_n_t__c_o_m_p_l_e_t_e;;;;                              |
+            iiiinnnntttt       _l_i_n_e_s__p_r_o_c_e_s_s_e_d;;;;                               |
+            cccchhhhaaaarrrr      *_c_u_r_r_e_n_t__f_i_l_e;;;;                                 |
+            iiiinnnntttt       _m_e_s_s_a_g_e__c_o_u_n_t[[[[]]]];;;;                               |
+
+       Specifies a callback function that is invoked to allow X      |
+       applications to service X events such as updating the         |
+       screen.  The callback should return one of these values:      |
+
+       UUUUiiiillll____kkkk____tttteeeerrrrmmmmiiiinnnnaaaatttteeee Tells UIL to terminate processing of the      |
+                      source file                                    |
+
+       UUUUiiiillll____kkkk____ccccoooonnnnttttiiiinnnnuuuueeee Tells UIL to continue processing the source    |
+                      file                                           |
+
+       Following are the arguments:                                  |
+
+       _s_t_a_t_u_s__d_a_t_a    Data supplied by the application as the        |
+                      _s_t_a_t_u_s__d_a_t_a argument to the UUUUiiiillll function.      |
+                      UIL does not interpret this data in any way;   |
+                      it just passes it to the callback.             |
+
+       _p_e_r_c_e_n_t__c_o_m_p_l_e_t_e An integer indicating what percentage of     |
+                      the current source file has been processed so  |
+                      far.                                           |
+
+       _l_i_n_e_s__p_r_o_c_e_s_s_e_d An integer indicating how many lines of the   |
+                      current source file have been read so far.     |
+
+       _c_u_r_r_e_n_t__f_i_l_e   A string containing the pathname of the        |
+                      current source file.                           |
+
+       _m_e_s_s_a_g_e__c_o_u_n_t  An array of integers containing the number of  |
+                      diagnostic messages issued thus far for each   |
+                      severity level.  To find the number of mes-    |
+                      sages issued for a given severity level, use   |
+                      the severity level as the index into this      |
+                      array.  The possible severity levels are the   |
+                      status constants returned by the UUUUiiiillll func-     |
+                      tion.                                          |
+
+
+
+
+
+
+
+
+
+       20-8
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       This function returns one of the following status return      |
+       values:                                                       |
+
+       UUUUiiiillll____kkkk____ssssuuuucccccccceeeessssssss____ssssttttaaaattttuuuussss     The operation succeeded.             |
+
+       UUUUiiiillll____kkkk____iiiinnnnffffoooo____ssssttttaaaattttuuuussss        The operation succeeded, and an      |
+                                informational message is returned.   |
+
+       UUUUiiiillll____kkkk____wwwwaaaarrrrnnnniiiinnnngggg____ssssttttaaaattttuuuussss     The operation succeeded, and a       |
+                                warning message is returned.         |
+
+       UUUUiiiillll____kkkk____eeeerrrrrrrroooorrrr____ssssttttaaaattttuuuussss       The operation failed due to an       |
+                                error.                               |
+
+       UUUUiiiillll____kkkk____sssseeeevvvveeeerrrreeee____ssssttttaaaattttuuuussss      The operation failed due to an       |
+                                error.                               |
+
+       The UUUUiiiillllDDDDuuuummmmppppSSSSyyyymmmmbbbboooollllTTTTaaaabbbblllleeee function dumps the contents of a       |
+       named UIL symbol table.  It has the following syntax:         |
+
+       ####iiiinnnncccclllluuuuddddeeee <<<<uuuuiiiillll////UUUUiiiillllDDDDeeeeffff....hhhh>>>>                                       |
+       vvvvooooiiiidddd UUUUiiiillllDDDDuuuummmmppppSSSSyyyymmmmbbbboooollllTTTTaaaabbbblllleeee UUUUIIIILLLL(_r_o_o_t__p_t_r)                         |
+            sym_root_entry_type *_r_o_o_t__p_t_r;                           |
+
+       The UUUUiiiillllDDDDuuuummmmppppSSSSyyyymmmmbbbboooollllTTTTaaaabbbblllleeee function dumps the contents of a UIL   |
+       symbol table pointer that was returned from the UIL callable  |
+       interface.                                                    |
+
+       _r_o_o_t__p_t_r       Returns a pointer to the the symbol table      |
+                      root entry.                                    |
+
+       By following the link from the root entry, you can traverse   |
+       the entire parse tree. Symbol table entries are in the fol-   |
+       lowing format:                                                |
+
+       _h_e_x._a_d_d_r_e_s_s _s_y_m_b_o_l._t_y_p_e _s_y_m_b_o_l._d_a_t_a                           |
+         _p_r_e_v._s_o_u_r_c_e._p_o_s_i_t_i_o_n                                        |
+         _s_o_u_r_c_e._p_o_s_i_t_i_o_n                                             |
+         _m_o_d_i_f_i_c_a_t_i_o_n._r_e_c_o_r_d                                         |
+
+       where:                                                        |
+
+       _h_e_x._a_d_d_r_e_s_s              Specifies the hexadecimal address    |
+                                of this entry in the symbol table.   |
+
+       _s_y_m_b_o_l._t_y_p_e              Specifies the type of this symbol    |
+                                table entry.  Some possible types    |
+                                are rrrrooooooootttt, mmmmoooodddduuuulllleeee, vvvvaaaalllluuuueeee, pppprrrroooocccceeeedddduuuurrrreeee,  |
+                                and wwwwiiiiddddggggeeeetttt.                          |
+
+
+
+
+                                                               20-9
+
+
+
+
+
+
+
+
+
+
+
+
+       _s_y_m_b_o_l._d_a_t_a              Specifies data for the symbol table  |
+                                entry.  The data varies with the     |
+                                type of the entry.  Often it con-    |
+                                tains pointers to other symbol       |
+                                table entries, or the actual data    |
+                                for the data type.                   |
+
+       _p_r_e_v._s_o_u_r_c_e._p_o_s_i_t_i_o_n     Specifies the endpoint in the        |
+                                source code for the previous source  |
+                                item.                                |
+
+       _s_o_u_r_c_e._p_o_s_i_t_i_o_n          Specifies the range of positions in  |
+                                the source code for this symbol.     |
+
+       The exact data structures for each symbol type are defined    |
+       in the include file <uuuuiiiillll////UUUUiiiillllSSSSyyyymmmmDDDDeeeeffff....hhhh>.  Note that this file   |
+       is automatically included when an application includes the    |
+       file <uuuuiiiillll////UUUUiiiillllDDDDeeeeffff....hhhh>.                                          |
+
+       20.2  DDDDeeeeffffaaaauuuulllltttt CCCChhhhaaaarrrraaaacccctttteeeerrrr SSSSeeeetttt ffffoooorrrr SSSSttttrrrriiiinnnngggg LLLLiiiitttteeeerrrraaaallllssss               |
+
+       Every string literal has a character set associated with it.  |
+       The character set is determined when the UIL file is com-     |
+       piled.                                                        |
+
+       For a string declared as '_s_t_r_i_n_g,' the character set is the   |
+       codeset component of the value of the LLLLAAAANNNNGGGG environment vari-  |
+       able at compile time if LLLLAAAANNNNGGGG is set.  If LLLLAAAANNNNGGGG is not set or   |
+       if it has no codeset component, the character set is the      |
+       value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT at compile time.  The default     |
+       value of XXXXmmmmFFFFAAAALLLLLLLLBBBBAAAACCCCKKKK____CCCCHHHHAAAARRRRSSSSEEEETTTT is ISO8859-1 (equivalent to       |
+       ISO-LATIN1), but a vendor may set a different default.        |
+
+       For a string declared as "_s_t_r_i_n_g," the character set is the   |
+       default character set of the module if specified (see Sec-    |
+       tion 19.1.3).  If no character set is specified for the       |
+       module, the character set is determined as for a string       |
+       declared as '_s_t_r_i_n_g.'                                         |
+
+       20.3  IIIInnnntttteeeerrrrpppprrrreeeettttiiiinnnngggg DDDDiiiiaaaaggggnnnnoooossssttttiiiiccccssss IIIIssssssssuuuueeeedddd bbbbyyyy tttthhhheeee CCCCoooommmmppppiiiilllleeeerrrr
+
+       The compiler issues diagnostics to the standard error file.   |
+       The following example shows the form of these messages:       |
+
+               value d: font( 1 );
+                              *
+       Error: found integer value when expecting string value
+                        line: 10  file: value_error.uil
+
+       The first line is the source line that produced the diagnos-  |
+       tic. If the compiler cannot retrieve the source line from     |
+
+
+       20-10
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       the input file, this line is omitted. Any control characters
+       in the text of the line are printed as ? (question marks).    |
+
+       The second line of the diagnostic marks the start of the
+       construct that resulted in the diagnostic.  In this case the
+       literal 1 is marked.  If the error is not associated with a
+       particular construct, the second line is omitted.  If the
+       source line cannot be retrieved, this line is also omitted,   |
+       and the column information is included with the line and      |
+       file information following the diagnostic message.
+
+       The third line is the diagnostic being issued.
+
+       The fourth line specifies the file containing the source
+       line being diagnosed and the line number of the source line
+       within that file.
+
+       The following table lists the four levels of diagnostics      |
+       that are issued by the compiler, in ascending order of
+       severity.                                                     |
+
+                TTTTAAAABBBBLLLLEEEE 22220000----2222....  Levels of Diagnostic Messages
+
+       ___________________________________________________           **
+       SSSSeeeevvvveeeerrrriiiittttyyyy        CCCCoooommmmppppiiiillllaaaattttiiiioooonnnn SSSSttttaaaattttuuuussss
+       ___________________________________________________
+                       Accompanies other diagnostics that
+                       should be investigated.              |
+77       Informational
+
+                       Compilation continues: check that
+                       the compiler did what you expected.  |
+77       Warning
+
+                       Compilation continues: no UID file   |
+                       will be generated.
+77       Error
+
+       Severe          Compilation terminates immediately.           |
+       ___________________________________________________
+
+7
+       20.4  RRRReeeeaaaaddddiiiinnnngggg tttthhhheeee CCCCoooommmmppppiiiilllleeeerrrr LLLLiiiissssttttiiiinnnngggg
+
+       The listing produced by the compiler contains:                |
+
+          +o A title giving miscellaneous information about the com-
+            pilation
+
+          +o Source lines of the input file
+
+          +o Source lines of any include files
+
+          +o Diagnostics issued by the compiler
+
+          +o A summary of the diagnostics issued
+
+
+
+
+                                                              20-11
+
+
+
+
+
+
+
+
+
+
+
+
+          +o A summary of the files read
+
+       The following example shows the contents of a sample listing  |
+       file:
+
+       MOTIF UIL Compiler V1.0-000    Wed Dec 16 11:13:31 1989  Page 1|
+       Module: EXAMPLE          Version: X-1
+         1 (0)      MODULE example VERSION = 'X-1'
+         2 (0)
+         3 (0)          INCLUDE FILE 'colors.uil';
+         1 (1)
+         2 (1)        VALUE red: COLOR( 1 );  VALUE green: COLOR( 2 );
+                                        1                         2
+       Error:  (1) found integer value when expecting string value
+       Error:  (2) found integer value when expecting string value
+         3 (1)        VALUE blue: COLOR( 'XcolorBlue' ;
+         4 (1)
+         4 (0)
+         5 (0)          OBJECT primary_window:
+         6 (0)             XmMainWindow
+         7 (0)                 { ARGUMENTS
+         8 (0)                        { XmNforeground = pink;
+                                                           1
+       Error:  (1) value PINK must be defined before this reference
+       Error:  (1) found error value when expecting color value
+         9 (0)                          XmNbackground = blue; }};
+                                                                  1
+       Error:  (1) unexpected RIGHT_BRACE token seen - parsing resumes
+                   after ";"
+        10 (0)                 };
+        11 (0)      END MODULE;
+       Info:  (0) errors: 5  warnings: 0  informationals: 0
+          File (0)   a.uil
+          File (1)   colors.uil
+
+       20.4.1  TTTTiiiittttlllleeee
+
+       Each new page of the listing starts with a title:             |
+
+       MOTIF UIL Compiler V1.0-000    Wed Dec 16 11:13:31 1989  Page 1|
+       Module: EXAMPLE          Version: X-1
+
+       The first line of the title identifies the compiler by name,  |
+       the version of the compiler used for the compilation, and
+       the time the compilation started. In this case, the version   |
+       of the compiler used was VVVV1111....0000----000000000000.
+
+       The second line of the title lists the module name for the
+       UIL specification and the version of that module if provided
+       in the source.                                                |
+
+
+
+       20-12
+
+
+
+
+
+
+
+
+
+                                            Using the UIL Compiler
+
+
+       20.4.2  SSSSoooouuuurrrrcccceeee LLLLiiiinnnneeee
+
+       The printing of each source line is preceded by two numbers:  |
+
+       1 (0)   MODULE example VERSION = 'X-1'                        |
+
+       The number in parentheses designates which file the source
+       line was read from.  By looking at the file summary at the
+       end of the listing, you will see that file (0) is a.uil.      |
+       The first number on the source line is the line number
+       within the source file.
+
+       If a source line contains any control characters other than
+       tabs, they are replaced in the listing by ? (question         |
+       marks).
+
+       20.4.3  DDDDiiiiaaaaggggnnnnoooossssttttiiiiccccssss
+
+       Diagnostics for a particular source line follow that line in
+       the listing.
+
+       2 (1)   VALUE red: COLOR( 1 );  VALUE green: COLOR( 2 );      |
+                      1                         2                    |
+       Error:  (1) found integer value when expecting string value
+       Error:  (2) found integer value when expecting string value
+           8 (0)                        { XmNforeground = pink;
+                                                          1
+       Error:  (1) value PINK must be defined before this reference
+       Error:  (1) found error value when expecting color value
+
+       The line following the source line points to the position in  |
+       the source line where each of the diagnostics occurred.  You
+       can determine the position of each diagnostic by looking at
+       the number in parentheses that follows the diagnostic sever-
+       ity.  For example, diagnostic 1 for source line 2 is at
+       position (1), and diagnostic 2 for the same source line is
+       at position (2).  Both the diagnostics for source line 8      |
+       occur at position (1).
+
+       If a diagnostic has no associated position on the line, the   |
+       position is given as (0).  If a diagnostic is not associated
+       with a source line, it appears following the last source
+       line.  The summary diagnostic, which tallies the number of
+       diagnostics of each severity level, is an example of a diag-
+       nostic with no source line association.
+
+
+
+
+
+
+
+
+                                                              20-13
+
+
+
+
+
+
+
+
+
+
+
+
+       20.4.4  SSSSuuuummmmmmmmaaaarrrriiiieeeessss
+
+       The following listing contains two summaries:                 |
+
+       Info: (0) errors: 5 warnings: 0 informationals: 0             |
+           file (0)    a.uil
+           file (1)    colors.uil
+
+       The first summary is in the form of a diagnostic that tal-    |
+       lies the number of error, warning, and informational diag-
+       nostics.
+
+       The second summary lists the files that contributed to the
+       UIL specification.  This list is useful in determining from
+       which file a source line in the listing was read.  A source
+       line preceded by the sequence 532 (3) in the listing was
+       read from line 532 of file (3) in the summary list.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       20-14
+
+
+
+
+

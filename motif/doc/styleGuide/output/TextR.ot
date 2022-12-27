@@ -1,0 +1,330 @@
+
+
+
+
+
+
+
+
+       A Text component should be used to display and enter text.
+       A Text component must be composed of an area for displaying
+       and entering text.  The text can be either a single line or
+       multiple lines.  Text must support the range selection model
+       as described in Chapter 3 and can support the discontiguous
+       selection model.
+
+
+
+
+
+
+
+
+
+       The following text describes the navigation actions of this
+       component.
+
+       KKKKUUUUpppp:      In multiline Text components, KKKKUUUUpppp must move the
+                 location cursor up one line.  In single-line Text
+                 components, KKKKUUUUpppp must navigate upwards to the next
+                 component if the Text is designed to act like a
+                 basic control.
+
+       KKKKDDDDoooowwwwnnnn:    In multiline Text components, KKKKDDDDoooowwwwnnnn must move the
+                 location cursor down one line.  In single-line
+                 Text components, KKKKDDDDoooowwwwnnnn must navigate downwards to
+                 the next component if the Text is designed to act
+                 like a basic control.
+
+       KKKKLLLLeeeefffftttt:    Must move the location cursor left one character.
+
+       KKKKRRRRiiiigggghhhhtttt:   Must move the location cursor right one character.
+
+       KKKKNNNNeeeexxxxttttWWWWoooorrrrdddd:
+                 Must move the location cursor to the right by a
+                 word, that is, the first character after a space,
+                 tab, or newline character.  In single-line Text
+                 controls, KKKKNNNNeeeexxxxttttWWWWoooorrrrdddd can navigate rightwards to the
+                 next component if the Text is designed to act like
+                 a basic control.
+
+       KKKKPPPPrrrreeeevvvvWWWWoooorrrrdddd:
+                 Must move the location cursor to the left by a
+                 word, that is, the first nonblank character after
+                 the first previous blank character.  In single-
+                 line Text controls, KKKKPPPPrrrreeeevvvvWWWWoooorrrrdddd can navigate left-
+                 wards to the next component if the Text is
+                 designed to act like a basic control.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       KKKKNNNNeeeexxxxttttPPPPaaaarrrraaaa:
+                 In multiline Text components, KKKKNNNNeeeexxxxttttPPPPaaaarrrraaaa can
+                 optionally move the location cursor to the begin-
+                 ning of the next paragraph.
+
+       KKKKPPPPrrrreeeevvvvPPPPaaaarrrraaaa:
+                 In multiline Text components, KKKKPPPPrrrreeeevvvvPPPPaaaarrrraaaa can
+                 optionally move the location cursor to the begin-
+                 ning of the previous paragraph.
+
+       KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee:
+                 Must move the location cursor to the beginning of
+                 the line.
+
+       KKKKEEEEnnnnddddLLLLiiiinnnneeee: Must move the location cursor to the end of the
+                 line.
+
+       KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa:
+                 In multiline Text components, KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa must move
+                 the location cursor to the beginning of the file.
+
+       KKKKEEEEnnnnddddDDDDaaaattttaaaa:
+                 In multiline Text components, KKKKEEEEnnnnddddDDDDaaaattttaaaa must move
+                 the location cursor to the end of the file.
+       The following text describes the operations of this com-
+       ponent.
+
+       KKKKPPPPaaaaggggeeeeUUUUpppp:  In multiline Text components, KKKKPPPPaaaaggggeeeeUUUUpppp must scroll
+                 the viewing window up one page of text, displaying
+                 the previous page of text.
+
+       KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn:
+                 In multiline Text components, KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn must
+                 scroll the viewing window down one page of text,
+                 displaying the next page of text.
+
+       KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt:
+                 Must scroll the viewing window left one page of
+                 text.
+
+       KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt:
+                 Must scroll the viewing window right one page of
+                 text.
+
+       KKKKSSSSppppaaaacccceeee:   Must insert a space.  Modifying this, or any
+                 KKKKSSSSeeeelllleeeecccctttt binding, with MMMMCCCCttttrrrrllll must evoke its normal
+                 selection function.
+
+       KKKKEEEEnnnntttteeeerrrr:   In multiline Text components, KKKKEEEEnnnntttteeeerrrr must insert a
+                 carriage return.  Modifying this, or any KKKKAAAAccccttttiiiivvvvaaaatttteeee
+                 binding, with MMMMCCCCttttrrrrllll must evoke its normal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 activation function.  When the location cursor is
+                 at the end of the text, KKKKEEEEnnnntttteeeerrrr can optionally
+                 traverse to the next field.
+
+       KKKKTTTTaaaabbbb and KKKKBBBBaaaacccckkkkTTTTaaaabbbb:
+                 In single-line Text components, these must have no
+                 effect except that KKKKTTTTaaaabbbb can optionally traverse to
+                 the next field.  In multiline Text components,
+                 these can optionally move the location cursor to
+                 the next or previous tab stop.  Another option is
+                 for KKKKTTTTaaaabbbb to insert a tab character, and for KKKKBBBBaaaacccckkkk----
+                 TTTTaaaabbbb to have no effect.
+
+                 Modifying TTTTaaaabbbb or BBBBaaaacccckkkkTTTTaaaabbbb with MMMMCCCCttttrrrrllll must evoke
+                 their normal field navigation functions.  When the
+                 location cursor is at the end of the text, KKKKTTTTaaaabbbb
+                 can optionally traverse to the next field.
+
+       KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee:
+                 If any characters are selected and the cursor is
+                 in or at the bounds of the selection, KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee
+                 must delete the selected characters; otherwise, it
+                 must delete the character preceding the location
+                 cursor.
+
+       KKKKDDDDeeeelllleeeetttteeee:  If any characters are selected and the cursor is
+                 in or at the bounds of the selection, KKKKDDDDeeeelllleeeetttteeee must
+                 delete the selected characters; otherwise, it must
+                 delete the character following the location cur-
+                 sor.
+
+       KKKKCCCClllleeeeaaaarrrr:   Can optionally delete the selected text, and
+                 replace it with blank space.
+
+       KKKKEEEErrrraaaasssseeeeEEEEnnnnddddLLLLiiiinnnneeee:
+                 Can optionally delete the characters following the
+                 location cursor to the end of the line.
+
+       KKKKIIIInnnnsssseeeerrrrtttt:  Can optionally toggle between insert mode and
+                 replace mode.  Text components must start in
+                 insert mode, where the location cursor is between
+                 two characters.  In insert mode, typing a charac-
+                 ter must insert the character at the position of
+                 the location cursor.  Text components can also
+                 implement replace mode, where the location cursor
+                 is on a character.  In replace mode, typing a
+                 character must replace the current character with
+                 that newly entered character and move the location
+                 cursor to the next character.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++:
+                 Selects text a block at a time.  Double-click must
+                 select text a word at a time.  Triple-click can
+                 optionally select text a line or sentence at a
+                 time.  Larger numbers of clicks can optionally
+                 select increasingly larger blocks of text.
+
+       BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg 2222++++:
+                 Can drag out a new selection by blocks as
+                 described for BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++.
+
+       BBBBEEEExxxxtttteeeennnndddd CCCClllliiiicccckkkk 2222++++:
+                 Can extend the selection to a block boundary as
+                 described for BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++.
+
+       BBBBEEEExxxxtttteeeennnndddd DDDDrrrraaaagggg 2222++++:
+                 Can extend the selection by blocks as described
+                 for BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk 2222++++.
+
+       BBBBTTTToooogggggggglllleeee CCCClllliiiicccckkkk 2222++++:
+                 If the Text component supports discontiguous
+                 selection, this can extend the discontiguous
+                 selection by blocks as described for BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk
+                 2222++++.
+
+       BBBBTTTToooogggggggglllleeee DDDDrrrraaaagggg 2222++++:
+                 If the Text component supports discontiguous
+                 selection, this can drag out the discontiguous
+                 selection by blocks as described for BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk
+                 2222++++.
+
+       KKKKHHHHeeeellllpppp:    Must provide any available help for the Text con-
+                 trol.
+
+       __________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyyssss    DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+      |__________________________________|
+      || BBBBSSSSeeeelllleeeecccctttt         <<<<BBBBttttnnnn1111>>>>          ||
+      || BBBBEEEExxxxtttteeeennnndddd         MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt  ||
+      || BBBBTTTToooogggggggglllleeee         MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt   ||
+      || KKKKUUUUpppp             <<<<|^^|||^^>>>>             ||
+      || KKKKDDDDoooowwwwnnnn           <<<<|vv|||vv>>>>             ||
+      || KKKKLLLLeeeefffftttt           <<<<<<<<---->>>>            ||
+      || KKKKRRRRiiiigggghhhhtttt          <<<<---->>>>>>>>            ||
+      || KKKKPPPPaaaaggggeeeeUUUUpppp         <<<<PPPPaaaaggggeeeeUUUUpppp>>>>        ||
+      || KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn       <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>>      ||
+      || KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt       MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeUUUUpppp>>>>  ||
+      || KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt      MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>>||
+      || KKKKNNNNeeeexxxxttttWWWWoooorrrrdddd       MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt    ||
+      ||__________________________________||
+      |                                 |
+      |__________________________________|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       __________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyyssss    DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+      |__________________________________|
+      | KKKKPPPPrrrreeeevvvvWWWWoooorrrrdddd       MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt     |
+      | KKKKNNNNeeeexxxxttttPPPPaaaarrrraaaa       MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn     |
+      | KKKKPPPPrrrreeeevvvvPPPPaaaarrrraaaa       MMMMCCCCttttrrrrllll KKKKUUUUpppp       |
+      | KKKKEEEEnnnnddddLLLLiiiinnnneeee        <<<<EEEEnnnndddd>>>>           |
+      | KKKKEEEEnnnnddddDDDDaaaattttaaaa        MMMMCCCCttttrrrrllll <<<<EEEEnnnndddd>>>>     |
+      | KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee      <<<<BBBBeeeeggggiiiinnnn>>>>         |
+      |                 <<<<HHHHoooommmmeeee>>>>          |
+      | KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa      MMMMCCCCttttrrrrllll <<<<BBBBeeeeggggiiiinnnn>>>>   |
+      |                 MMMMCCCCttttrrrrllll <<<<HHHHoooommmmeeee>>>>    |
+      | KKKKSSSSeeeelllleeeecccctttt         <<<<SSSSeeeelllleeeecccctttt>>>>        |
+      |                 KKKKSSSSppppaaaacccceeee          |
+      |                 MMMMCCCCttttrrrrllll KKKKSSSSppppaaaacccceeee    |
+      | KKKKSSSSppppaaaacccceeee          <<<<ssssppppaaaacccceeee>>>>         |
+      | KKKKAAAAccccttttiiiivvvvaaaatttteeee       KKKKEEEEnnnntttteeeerrrr          |
+      |                 MMMMCCCCttttrrrrllll KKKKEEEEnnnntttteeeerrrr    |
+      | KKKKEEEEnnnntttteeeerrrr          <<<<EEEEnnnntttteeeerrrr>>>>         |
+      |                 <<<<RRRReeeettttuuuurrrrnnnn>>>>        |
+      | KKKKTTTTaaaabbbb            <<<<TTTTaaaabbbb>>>>           |
+      | KKKKBBBBaaaacccckkkkTTTTaaaabbbb        <<<<BBBBaaaacccckkkkTTTTaaaabbbb>>>>       |
+      |                 MMMMCCCCttttrrrrllll <<<<TTTTaaaabbbb>>>>     |
+      | KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee      <<<<BBBBaaaacccckkkkSSSSppppaaaacccceeee>>>>     |
+      | KKKKDDDDeeeelllleeeetttteeee         <<<<DDDDeeeelllleeeetttteeee>>>>        |
+      | KKKKCCCClllleeeeaaaarrrr          <<<<CCCClllleeeeaaaarrrr>>>>         |
+      | KKKKEEEErrrraaaasssseeeeEEEEnnnnddddLLLLiiiinnnneeee   MMMMCCCCttttrrrrllll KKKKDDDDeeeelllleeeetttteeee   |
+      | KKKKIIIInnnnsssseeeerrrrtttt         <<<<IIIInnnnsssseeeerrrrtttt>>>>        |
+      | KKKKHHHHeeeellllpppp           <<<<HHHHeeeellllpppp>>>>          |
+      |                 <<<<FFFF1111>>>>            |
+      |__________________________________|
+
+       For more information on Text selection, see the description
+       of the selection models in Chapter 3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

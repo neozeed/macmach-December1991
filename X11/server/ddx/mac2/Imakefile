@@ -1,0 +1,40 @@
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SRCS =	\
+	mac2Init.c \
+	mac2Color.c \
+	mac2Mono.c \
+	mac2Io.c \
+	mac2Kbd.c \
+	mac2Mouse.c \
+	mac2Utils.c \
+	mac2KMap.c \
+	mac2Video.c
+
+OFILES = mac2Init.o 
+
+OBJS = \
+	mac2Color.o \
+	mac2Mono.o \
+	mac2Io.o \
+	mac2Kbd.o \
+	mac2Mouse.o \
+	mac2Utils.o \
+	mac2KMap.o \
+	mac2Video.o
+
+STD_DEFINES = ServerDefines
+CDEBUGFLAGS = ServerCDebugFlags
+   INCLUDES = -I.  -I../../include -I../mfb -I../mi -I../../dix -I$(INCLUDESRC)
+   LINTLIBS = ../../dix/llib-ldix.ln ../../os/4.2bsd/llib-los.ln \
+	      ../mfb/llib-lmfb.ln ../mi/llib-lmi.ln ../cfb/llib-lcfb.ln
+
+NormalLibraryObjectRule()
+
+all:: $(OFILES)
+
+NormalLibraryTarget(mac2,$(OBJS))
+NormalLintTarget($(SRCS))
+DependTarget()
+InstallManPage(Xmac2,$(MANDIR))
+

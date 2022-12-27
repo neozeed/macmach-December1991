@@ -1,0 +1,75 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateSimpleMenuBar 3X "" "" "" ""
+.SH NAME
+\fBXmCreateSimpleMenuBar \(em a RowColumn widget convenience creation
+function.\fP
+.iX "XmCreateSimpleMenuBar"
+.iX "creation functions" "XmCreateSimpleMenuBar"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmCreateSimpleMenuBar (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateSimpleMenuBar\fP creates an instance of a RowColumn widget of
+type \fBXmMENU_BAR\fP and returns the associated widget ID.
+.PP
+This routine creates a MenuBar and its CascadeButtonGadget children.
+The name of each button is button_\fIn\fP, where \fIn\fP is an integer
+from 0 to one minus the number of buttons in the menu.
+Buttons are named and created in the order in which they are specified
+in the RowColumn simple menu creation resources supplied in the argument
+list.
+.sp 1
+.ne 6
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+A number of resources exist specifically for use with this and
+other simple menu creation routines.
+The only button type allowed in the \fBXmNbuttonType\fP resource is
+\fBXmCASCADEBUTTON\fP.
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCreateMenuBar(3X)\fP,
+\fBXmCreateRowColumn(3X)\fP,
+\fBXmRowColumn(3X)\fP, and
+\fBXmVaCreateSimpleMenuBar(3X)\fP.
+.sp 1
+.ad

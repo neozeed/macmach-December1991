@@ -1,0 +1,57 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmOptionLabelGadget 3X "" "" "" ""
+.SH NAME
+\fBXmOptionLabelGadget \(em a RowColumn function that obtains
+the widget ID for the LabelGadget in an OptionMenu.\fP
+.iX "XmOptionLabelGadget"
+.iX "RowColumn functions" "XmOptionLabelGadget"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmOptionLabelGadget (\fIoption_menu\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIoption_menu\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmOptionLabelGadget\fP 
+provides the application with the means for obtaining the 
+widget ID for the internally created LabelGadget.
+Once the application has obtained the widget ID, it can
+adjust the visuals for the LabelGadget, if desired.
+.PP
+When an application creates an instance of the OptionMenu widget, the
+widget creates two internal gadgets.  One is a LabelGadget that is used
+to display RowColumn's \fBXmNlabelString\fP resource.  The other
+is a CascadeButtonGadget that displays the current selection and provides
+the means for posting the OptionMenu's submenu.
+.sp 1
+.IP "\fIoption_menu\fP" 1i
+Specifies the OptionMenu widget ID
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID for the internal label.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCreateOptionMenu(3X)\fP, \fBXmLabelGadget(3X)\fP,
+\fBXmOptionButtonGadget(3X)\fP, and \fBXmRowColumn(3X)\fP.
+.sp 1
+.ad

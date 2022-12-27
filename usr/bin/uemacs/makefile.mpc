@@ -1,0 +1,36 @@
+#
+# Makefile for MicroEMACS 3.9 on the IBM-PC using Mark Williams C
+#
+SRC=src
+CC=cc
+CFLAGS=-I. -A -VLARGE -VOPT
+
+OBJS=	basic.obj bind.obj buffer.obj crypt.obj display.obj eval.obj\
+	exec.obj file.obj fileio.obj ibmpc.obj input.obj isearch.obj\
+	line.obj main.obj mouse.obj msdos.obj random.obj region.obj\
+	search.obj word.obj window.obj
+
+me.prg:		$(OBJS)
+		$(CC) -o me.exe $(OBJS) -lm
+
+basic.obj: $(SRC)\basic.c ebind.h epath.h efunc.h edef.h estruct.h
+bind.obj: $(SRC)\bind.c ebind.h epath.h efunc.h edef.h estruct.h
+buffer.obj: $(SRC)\buffer.c ebind.h epath.h efunc.h edef.h estruct.h
+crypt.obj: $(SRC)\crypt.c ebind.h epath.h efunc.h edef.h estruct.h
+display.obj: $(SRC)\display.c ebind.h epath.h efunc.h edef.h estruct.h
+eval.obj: $(SRC)\eval.c ebind.h epath.h efunc.h edef.h estruct.h evar.h
+exec.obj: $(SRC)\exec.c ebind.h epath.h efunc.h edef.h estruct.h
+file.obj: $(SRC)\file.c ebind.h epath.h efunc.h edef.h estruct.h
+fileio.obj: $(SRC)\fileio.c ebind.h epath.h efunc.h edef.h estruct.h
+input.obj: $(SRC)\input.c ebind.h epath.h efunc.h edef.h estruct.h
+ibmpc.obj: $(SRC)\ibmpc.c ebind.h epath.h efunc.h edef.h estruct.h
+isearch.obj: $(SRC)\isearch.c ebind.h epath.h efunc.h edef.h estruct.h
+line.obj: $(SRC)\line.c ebind.h epath.h efunc.h edef.h estruct.h
+main.obj: $(SRC)\main.c ebind.h efunc.h edef.h estruct.h
+mouse.obj: $(SRC)\mouse.c ebind.h efunc.h edef.h estruct.h
+msdos.obj: $(SRC)\msdos.c ebind.h epath.h efunc.h edef.h estruct.h
+random.obj: $(SRC)\random.c ebind.h epath.h efunc.h edef.h estruct.h
+region.obj: $(SRC)\region.c ebind.h epath.h efunc.h edef.h estruct.h
+search.obj: $(SRC)\search.c ebind.h epath.h efunc.h edef.h estruct.h
+word.obj: $(SRC)\word.c ebind.h epath.h efunc.h edef.h estruct.h
+window.obj: $(SRC)\window.c ebind.h epath.h efunc.h edef.h estruct.h

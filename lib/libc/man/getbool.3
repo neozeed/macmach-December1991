@@ -1,0 +1,66 @@
+.\"
+.\" $Id: getbool.3,v 1.3 89/12/26 11:17:21 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getbool.3,v $
+.\" Revision 1.3  89/12/26  11:17:21  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 23-Oct-82  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Error or EOF on standard input now causes default value to be used.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH GETBOOL 3 10/23/82
+.CM 3
+.SH "NAME"
+getbool \- ask user to type boolean value
+.SH "SYNOPSIS"
+.B
+#include <stdio.h>
+.br
+.B
+#include <c.h>
+.sp
+.B
+int getbool (prompt,defalt);
+.br
+.B
+char *prompt;
+.br
+.B
+int defalt;
+.SH "DESCRIPTION"
+.I
+Getbool
+is used to ask the user to type "yes" or "no".
+.I
+Prompt
+is a string containing a message which will be printed;
+the user types "yes", "y", etc., or "no", "n", etc.
+in response to the question.
+.I
+Getbool
+returns 1 if "yes" (etc.) is typed, 0 for "no".
+If the user types just a carriage return, then
+.I
+defalt
+is
+returned.
+.SH "SEE ALSO"
+.IR getint (3), 
+etc.
+.br
+.IR boolarg (3)
+.SH "DIAGNOSTICS"
+The user is informed if his response is not valid (e.g.
+"maybe"),
+and the prompt-and-response cycle is repeated.
+.SH "BUGS"
+There is no provision for an "escape" answer (e.g.
+"I don't care").

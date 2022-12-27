@@ -1,0 +1,367 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  (c) Copyright 1989 Mitch Trachtenberg
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+!++
+! Motif Demo Resource Editor -- color selection uil file
+!				included by mre.uil
+!
+! Created June 89 Mitch Trachtenberg
+!
+!--
+
+value color_h_offset: 15;
+value color_v_offset: 10;
+value scales_left_offset: 60;
+
+procedure destroy_colorform();
+procedure color_selection_made();
+
+object
+    color_form : XmFormDialog {
+	arguments {
+	    XmNdialogTitle = 'Color Selection';
+	    XmNdialogStyle = XmDIALOG_MODELESS;
+	    XmNx = stagger_x;
+	    XmNy = stagger_y;
+	    XmNwidth = 300;
+	    XmNheight = 550;
+	    XmNautoUnmanage = false;
+	    XmNresizable = true;
+	    XmNrubberPositioning = true;
+	    XmNresizePolicy = XmRESIZE_GROW;
+	    XmNdefaultPosition = false;
+	};
+	controls {
+	    XmLabel	label_icon;
+	    XmPushButton	color_patch;
+	    XmLabel	color_resource_label;
+	    XmLabel	color_patch_label;
+	    XmForm	slider_box;
+	    XmSelectionBox color_sb;
+	};
+	callbacks {
+	    XmNdestroyCallback = procedure destroy_colorform();
+	};
+};
+
+object label_icon: XmLabel {
+	arguments {
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNtopOffset = color_h_offset*2;
+		XmNleftOffset = color_h_offset/2;
+		XmNlabelPixmap = palette;
+		XmNlabelType = XmPIXMAP;
+		XmNalignment = XmALIGNMENT_BEGINNING;
+	};
+};
+
+! the bottom of the color patch button is attached to a position
+! 30% into the form; the top is attached to a fixed offset from
+! the top of the form.
+object color_patch: XmPushButton {
+	arguments {
+		XmNtranslations = translation_table(
+				'<Btn3Down>:popup_popup_menu()');
+		XmNleftAttachment = XmATTACH_FORM;
+		XmNleftOffset = scales_left_offset;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNrightOffset = color_h_offset;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNtopOffset = color_h_offset*2;
+		XmNbottomAttachment = XmATTACH_POSITION;
+		XmNbottomPosition = 30;
+		XmNbottomOffset = color_h_offset;
+		XmNlabelString = compound_string('Press MB3 for popup menu.');
+	};
+};
+
+! this label will indicate the resource being modified;
+! its label string is set by the program
+object color_resource_label: XmLabel {
+	arguments{
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftWidget = XmLabel label_icon;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNleftOffset = color_h_offset;
+		XmNrightOffset = color_h_offset;
+		XmNtopAttachment = XmATTACH_FORM;
+		XmNtopOffset = color_h_offset/2;
+	};
+};
+
+! this label will indicate the current color of the color_patch;
+! its label string is set by the program
+object color_patch_label: XmLabel {
+	arguments{
+		XmNleftAttachment = XmATTACH_WIDGET;
+		XmNleftWidget = XmLabel label_icon;
+		XmNrightAttachment = XmATTACH_FORM;
+		XmNleftOffset = color_h_offset;
+		XmNrightOffset = color_h_offset;
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNtopWidget = XmPushButton color_patch;
+		XmNlabelString = " ";
+	};
+};
+
+! the top of the slider group is attached to the bottom of the color patch;
+! this is equivalent to attaching it to the form's 30% position
+object slider_box : XmForm {
+	arguments {
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNrightAttachment = XmATTACH_FORM;
+	    XmNtopAttachment = XmATTACH_WIDGET;
+	    XmNtopWidget = XmLabel color_patch_label;
+	    XmNtopOffset = color_v_offset;
+	};
+	controls {
+	    XmScale       scale1;
+	    XmScale       scale2;
+	    XmScale       scale3;
+	    XmForm      labelbox;   
+	};
+};
+
+object color_sb : XmSelectionBox {
+	arguments {
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNrightAttachment = XmATTACH_FORM;
+	    XmNtopAttachment = XmATTACH_WIDGET;
+	    XmNtopWidget = XmForm slider_box;
+	    XmNtopOffset = color_v_offset;
+	    XmNbottomAttachment = XmATTACH_FORM;
+	    XmNlistVisibleItemCount = 5;
+	    XmNdialogType = XmDIALOG_SELECTION;
+	};
+	callbacks {
+	    MrmNcreateCallback = procedure load_rgb_text();
+	    XmNokCallback = procedure ok_button_pressed('C');
+	    XmNcancelCallback = procedure cancel_button_pressed('C');
+	    XmNapplyCallback = procedure color_selection_made();
+	    XmNhelpCallback = procedure help_proc('Color');
+	};
+};
+
+! arguments common to all 3 color scales (horizontal)
+list scale_args : arguments {
+	    XmNshowValue = true;
+	    XmNtopAttachment = XmATTACH_POSITION;
+	    XmNbottomAttachment = XmATTACH_POSITION;
+	    XmNleftAttachment = XmATTACH_FORM;
+	    XmNrightAttachment = XmATTACH_FORM;
+	    XmNorientation = XmHORIZONTAL;
+	    XmNprocessingDirection = XmMAX_ON_RIGHT;
+	    XmNleftOffset = scales_left_offset;
+	    XmNrightOffset = color_h_offset;
+};
+
+! arguments common to all 3 color scales (vertical)
+list vscale_args : arguments {
+	    XmNtopAttachment = XmATTACH_FORM;
+	    XmNbottomAttachment = XmATTACH_FORM;
+	    XmNleftOffset = color_h_offset;
+	    XmNleftAttachment = XmATTACH_POSITION;
+	    XmNrightAttachment = XmATTACH_POSITION;
+	    XmNorientation = XmVERTICAL;
+	    XmNprocessingDirection = XmMAX_ON_RIGHT;
+};
+
+object
+    scale1 : XmScale {
+	arguments { 
+	    XmNbackground = color('red');
+	    XmNtopPosition = 0;
+	    XmNbottomPosition = 30;
+	    arguments scale_args;
+!	arguments below are for vertical scale orientation
+!	    left_position = 0;
+!	    right_position = 33;
+!	    arguments vscale_args;
+	};
+	callbacks {
+		XmNvalueChangedCallback = procedure scale_value_changed('r');
+		XmNdragCallback = procedure scale_value_changed('r');
+	};
+    };
+
+object
+    scale2 : XmScale {
+	arguments { 
+	    XmNbackground = color('green');
+	    XmNtopPosition = 35;
+	    XmNbottomPosition = 65;
+	    arguments scale_args;
+!	arguments below are for vertical scale orientation
+!	    left_position = 36;
+!	    right_position = 70;
+!	    arguments vscale_args;
+	};
+	callbacks {
+		XmNvalueChangedCallback = procedure scale_value_changed('g');
+		XmNdragCallback = procedure scale_value_changed('g');
+	};
+    };
+
+object
+    scale3 : XmScale {
+	arguments { 
+	    XmNbackground = color('blue');
+	    XmNtopPosition = 70;
+	    XmNbottomPosition = 100;
+	    arguments scale_args;
+!	arguments below are for vertical scale orientation
+!	    left_position = 73;
+!	    right_position = 100;
+!	    arguments vscale_args;
+	};
+	callbacks {
+		XmNvalueChangedCallback = procedure scale_value_changed('b');
+		XmNdragCallback = procedure scale_value_changed('b');
+	};
+    };
+
+! the labelbox resizes with its parent form, so that its children,
+! which are anchored to positions in the labelbox, track their scales
+! after resize.
+object labelbox: XmForm {
+	arguments { 
+		XmNtopAttachment = XmATTACH_WIDGET;
+		XmNbottomAttachment = XmATTACH_FORM;
+		XmNrightAttachment = XmATTACH_WIDGET;
+		XmNrightOffset = 15;
+		XmNtopWidget = XmScale scale1;
+		XmNrightWidget = XmScale scale1;
+	};
+	controls {
+		XmLabel  label1;
+		XmLabel  label2;
+		XmLabel  label3;
+	};
+};
+
+object label1: XmLabel {
+	arguments {
+		XmNtopAttachment = XmATTACH_NONE;
+		XmNlabelString = compound_string('Red');
+		XmNforeground = white;
+	};
+};
+
+object label2: XmLabel {
+	arguments {
+		XmNtopAttachment = XmATTACH_POSITION;
+		XmNtopPosition = 35;
+		XmNlabelString = compound_string('Green');
+		XmNforeground = white;
+	};
+};
+
+object label3: XmLabel  {
+	arguments {
+		XmNtopAttachment = XmATTACH_POSITION;
+		XmNtopPosition = 70;
+		XmNlabelString = compound_string('Blue');
+		XmNforeground = white;
+	};
+};
+
+! this popup menu is not specified in the color form's controls list,
+! but is tied to the form via a translation table in the form's arguments list
+object popup_menu_widget: XmPopupMenu{
+	arguments { 
+		XmNwidth = 100;
+		XmNheight = 100;
+	};
+	controls {
+		XmPushButton{
+			arguments {
+			    	XmNlabelString = 
+				compound_string('Set Root Window Background');
+			};
+			callbacks {
+				XmNactivateCallback = procedure setbg_button_pressed();
+			};
+		};
+		XmPushButton{
+			arguments {
+			    	XmNlabelString = 
+				compound_string('Set Foreground');
+			};
+			callbacks {
+				XmNactivateCallback = 
+				procedure setcolor_button_pressed('F');
+			};
+		};
+		XmPushButton{
+			arguments {
+			    	XmNlabelString = 
+				compound_string('Set Bottom Shadow');
+			};
+			callbacks {
+				XmNactivateCallback = 
+				procedure setcolor_button_pressed('S');
+			};
+		};
+		XmPushButton{
+			arguments {
+			    	XmNlabelString = 
+				compound_string('Set Top Shadow');
+			};
+			callbacks {
+				XmNactivateCallback = 
+				procedure setcolor_button_pressed('T');
+			};
+		};
+	};
+};
+
+
+
+! this is an example of how to create an option menu in uil
+! it is not used in mre
+!object om1_pull :  pulldown_menu {
+!	arguments { 
+!		width = 100;
+!		height = 100;
+!	};
+!	controls {
+!		push_button {};
+!		push_button {};
+!	};
+!};
+!object om1: option_menu
+! {
+!	arguments {
+!		label_string = compound_string('W:');
+!	};
+!	controls {
+!		pulldown_menu om1_pull;
+!	};
+!};
+
+

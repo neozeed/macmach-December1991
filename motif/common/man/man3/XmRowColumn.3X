@@ -1,0 +1,1048 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmRowColumn 3X "" "" "" ""
+.SH NAME
+\fBXmRowColumn \(em the RowColumn widget class.\fP
+.iX "XmRowColumn"
+.iX "widget class" "RowColumn"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/RowColumn.h>\fP
+.sp 1
+.SH DESCRIPTION
+The RowColumn widget is a general purpose RowColumn manager capable
+of containing any widget type as a child.  
+In general, it requires no special
+knowledge about how its children function and provides nothing 
+beyond support for several different layout styles.  However, it can be
+configured as a menu, in which case, it expects only certain children, and
+it configures to a particular layout.  The menus supported are:  MenuBar,
+Pulldown or Popup MenuPanes, and OptionMenu.
+.PP
+The type of layout performed is controlled by how the application has set 
+the various layout resources.
+It can be configured to lay out its children in either rows or 
+columns.  In addition, the application can specify how the children are 
+laid out, as follows:
+.IP \(bu 3
+the children are packed tightly together into either rows or columns
+.IP \(bu 3
+each child is placed in an identically sized 
+box (producing a symmetrical look) 
+.IP \(bu 3
+a specific layout (the current \fIx\fP and \fIy\fP positions of the children
+control their location)
+.PP
+In addition, the application has control over both the spacing that
+occurs between each row and column and the margin spacing 
+present between the edges of the RowColumn widget and any children
+that are placed against it.
+.PP
+In a MenuBar, Pulldown MenuPane, or Popup MenuPane the default for the
+\fBXmNshadowThickness\fP resource is 2.
+In an OptionMenu or a WorkArea (such as a RadioBox or CheckBox) this
+resource is not applicable and its use is undefined.
+If an application wishes to place a 3-D shadow around an OptionMenu or
+WorkArea, it can create the RowColumn as a child of a Frame widget.
+.PP
+In a MenuBar, Pulldown MenuPane, or Popup MenuPane the
+\fBXmNnavigationType\fP resource is not applicable and its use is
+undefined.
+In a WorkArea the default for \fBXmNnavigationType\fP is
+\fBXmTAB_GROUP\fP.
+In an OptionMenu the default for \fBXmNnavigationType\fP is
+\fBXmNONE\fP.
+.PP
+In a MenuBar, Pulldown MenuPane, or Popup MenuPane the
+\fBXmNtraversalOn\fP resource is not applicable and its use is
+undefined.
+In an OptionMenu or WorkArea the default for \fBXmNtraversalOn\fP is
+True.
+.PP
+If the parent of the RowColumn is a MenuShell, the
+\fBXmNmappedWhenManaged\fP resource is forced to False when the widget
+is realized.
+.sp 1
+.SS "Classes"
+RowColumn inherits behavior and resources from \fBCore\fP, \fBComposite\fP,
+\fBConstraint\fP, and \fBXmManager\fP classes.
+.PP
+The class pointer is \fBxmRowColumnWidgetClass\fP.
+.PP
+The class name is \fBXmRowColumn\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmRowColumn Resource Set
+Name	Class	Type	Default	Access
+_
+XmNadjustLast	XmCAdjustLast	Boolean	True	CSG
+XmNadjustMargin	XmCAdjustMargin	Boolean	True	CSG
+XmNentryAlignment	XmCAlignment	unsigned char	XmALIGNMENT_BEGINNING	CSG
+XmNentryBorder	XmCEntryBorder	Dimension	0	CSG
+XmNentryCallback	XtCCallback	XtCallbackList	NULL	C
+XmNentryClass	XmCEntryClass	WidgetClass	dynamic	CSG
+XmNisAligned	XmCIsAligned	Boolean	True	CSG
+XmNisHomogeneous	XmCIsHomogeneous	Boolean	dynamic	CG
+XmNlabelString	XmCXmString	XmString	NULL	C
+XmNmapCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmarginHeight	XmCMarginHeight	Dimension	dynamic	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	dynamic	CSG
+XmNmenuAccelerator	XmCAccelerators	String	dynamic	CSG
+.tH
+XmNmenuHelpWidget	XmCMenuWidget	Widget	NULL	CSG
+XmNmenuHistory	XmCMenuWidget	Widget	NULL	CSG
+XmNmenuPost	XmCMenuPost	String	NULL	CSG
+XmNmnemonic	XmCMnemonic	KeySym	NULL	CSG
+XmNmnemonicCharSet	XmCMnemonicCharSet	String	dynamic	CSG
+XmNnumColumns	XmCNumColumns	short	1	CSG
+XmNorientation	XmCOrientation	unsigned char	dynamic	CSG
+XmNpacking	XmCPacking	unsigned char	dynamic	CSG
+XmNpopupEnabled	XmCPopupEnabled	Boolean	True	CSG
+.ig ++
+...\"XmNpostFromCount	XmCPostFromCount	int	0	CSG
+...\"XmNpostFromList	XmCPostFromList	WidgetList	NULL	CSG
+.++
+XmNradioAlwaysOne	XmCRadioAlwaysOne	Boolean	True	CSG
+XmNradioBehavior	XmCRadioBehavior	Boolean	False	CSG
+XmNresizeHeight	XmCResizeHeight	Boolean	True	CSG
+XmNresizeWidth	XmCResizeWidth	Boolean	True	CSG
+XmNrowColumnType	XmCRowColumnType	unsigned char	XmWORK_AREA	CG
+.tH
+XmNspacing	XmCSpacing	Dimension	dynamic	CSG
+XmNsubMenuId	XmCMenuWidget	Widget	NULL	CSG
+XmNunmapCallback	XmCCallback	XtCallbackList	NULL	C
+XmNwhichButton	XmCWhichButton	unsigned int	dynamic	CSG
+.TE
+.sp 1
+.IP "\fBXmNadjustLast\fP"
+Extends the last row of children to the bottom edge of RowColumn (when
+\fBXmOrientation\fP is \fBXmHORIZONTAL\fP) or extends the last column to the
+right edge of RowColumn (when \fBXmOrientation\fP is \fBXmVERTICAL\fP).
+This feature is disabled by setting \fBXmNadjustLast\fP to
+False.
+.IP "\fBXmNadjustMargin\fP"
+Specifies whether the inner minor margins of all
+items contained within the RowColumn widget are 
+forced to the same value.  The inner minor margin
+corresponds to the \fBXmNmarginLeft\fP, \fBXmNmarginRight\fP, 
+\fBXmNmarginTop\fP, 
+and \fBXmNmarginBottom\fP resources supported by \fBXmLabel\fP and
+\fBXmLabelGadget\fP.
+.IP
+A horizontal orientation causes \fBXmNmarginTop\fP and 
+\fBXmNmarginBottom\fP for all items in a particular row to be forced to the
+same value; the value is the largest margin specified
+for one of the Label items.
+.IP
+A vertical orientation causes 
+\fBXmNmarginLeft\fP and \fBXmNmarginRight\fP for all items in a particular
+column to be forced to the same value; the value is the largest
+margin specified for one of the Label items.  
+.br
+.ne 6
+.IP
+This keeps all text within each row or column
+lined up with all other text in its row or column.
+If the \fBXmNrowColumnType\fP is either \fBXmMENU_POPUP\fP or
+\fBXmMENU_PULLDOWN\fP and this resource is True, only button children
+have their margins adjusted.
+.br
+.ne 9
+.IP "\fBXmNentryAlignment\fP"
+Specifies the alignment type for children that are subclasses of
+\fBXmLabel\fP or \fBXmLabelGadget\fP when \fBXmNisAligned\fP is enabled.
+The following are textual alignment types:
+.IP
+\fBXmALIGNMENT_BEGINNING\fP \(em the default
+.IP
+\fBXmALIGNMENT_CENTER\fP
+.IP
+\fBXmALIGNMENT_END\fP
+.IP
+See the description of \fBXmNalignment\fP in the \fBXmLabel(3X)\fP man page
+for an explanation of these actions.
+.IP "\fBXmNentryBorder\fP"
+Imposes a uniform border width upon all RowColumn's children.
+The default value is 0, which disables the feature.
+.IP "\fBXmNentryCallback\fP"
+Disables the \fBXmNactivateCallback\fP and \fBXmNvalueChangedCallback\fP
+callbacks for all CascadeButton, DrawnButton, PushButton, and
+ToggleButton widgets and gadgets contained within the RowColumn widget.
+If the application supplies this resource, the \fBXmNactivateCallback\fP
+and \fBXmNvalueChangedCallback\fP callbacks are then revectored to the
+\fBXmNentryCallback\fP callbacks.
+This allows an application to supply a single callback routine for
+handling all items contained in a RowColumn widget.
+The callback reason is \fBXmCR_ACTIVATE\fP.
+If the application does not supply this resource, the
+\fBXmNactivateCallback\fP and \fBXmNvalueChangedCallback\fP
+callbacks for each item in the RowColumn widget work as normal.
+.IP
+The application must supply this resource when this widget is created.
+Changing this resource using the \fBXtSetValues\fP is not
+supported.
+.br
+.ne 8
+.IP "\fBXmNentryClass\fP"
+Specifies the only widget class that can be added 
+to the RowColumn widget; this resource is meaningful only when the 
+\fBXmNisHomogeneous\fP resource is set to True.
+Both widget and gadget variants of the specified class may be added to
+the widget.
+.IP
+When \fBXmNrowColumnType\fP 
+is set to \fBXmWORK_AREA\fP and \fBXmNradioBehavior\fP is True, the
+default value for \fBXmNentryClass\fP is \fBxmToggleButtonGadgetClass\fP.  
+When \fBXmNrowColumnType\fP is set to \fBXmMENU_BAR\fP, the value of 
+\fBXmNentryClass\fP is forced to \fBxmCascadeButtonWidgetClass\fP.
+.IP "\fBXmNisAligned\fP"
+Specifies text alignment for each item within the RowColumn widget; 
+this applies only to items that are subclasses of 
+\fBXmLabel\fP or \fBXmLabelGadget\fP.
+However, if the item is a Label widget or gadget and its parent is either
+a Popup MenuPane or a Pulldown MenuPane, alignment is not 
+performed; the Label is treated as the
+title within the MenuPane, and the alignment
+set by the application is not overridden.
+\fBXmNentryAlignment\fP controls the type of textual alignment.
+.IP "\fBXmNisHomogeneous\fP"
+Indicates if the RowColumn
+widget should enforce exact homogeneity among the items
+it contains; if True, only the widgets that are
+of the class indicated by \fBXmNentryClass\fP 
+are allowed as children of the RowColumn widget.
+This is most often used when creating a MenuBar or a
+RadioBox widget.
+.IP
+Attempting to insert a child that is not a member of the
+specified class generates a warning message.
+The default value is False, except when creating a MenuBar
+or a RadioBox, when the value is forced to True.
+The value is forced to False in an OptionMenu.
+.br
+.ne 7
+.IP "\fBXmNlabelString\fP"
+Points to a text string, which displays the 
+label to one side of the selection area 
+when \fBXmNrowColumnType\fP is set to \fBXmMENU_OPTION\fP.
+This resource is not meaningful for all other RowColumn types.
+If the application wishes to change the label after creation, it must get the
+LabelGadget ID (\fBXmOptionLabelGadget\fP) and call \fBXtSetValues\fP on the
+LabelGadget directly.  The default value is no label.
+.IP "\fBXmNmapCallback\fP"
+Specifies a widget-specific callback function that is
+invoked when the window associated with the RowColumn widget
+is about to be mapped.  The callback reason is \fBXmCR_MAP\fP.
+.IP "\fBXmNmarginHeight\fP"
+Specifies the amount of blank space between the top 
+edge of the RowColumn widget and the first item in each column,
+and the bottom edge of the RowColumn widget and the last item 
+in each column.
+The default value is 0 for Pulldown and Popup MenuPanes, and three
+pixels for other RowColumn types.
+.IP "\fBXmNmarginWidth\fP"
+Specifies the amount of blank space between the left 
+edge of the RowColumn widget and the first item in each row, 
+and the right edge of the RowColumn widget and the last item in
+each row.   
+The default value is 0 for Pulldown and Popup MenuPanes, and three
+pixels for other RowColumn types.
+.IP "\fBXmNmenuAccelerator\fP"
+This resource is useful only when the RowColumn widget has been configured
+to operate as a Popup MenuPane or a MenuBar.
+The format of this resource is similar to the left side specification
+of a translation string, with the limitation that it must specify a key
+event.
+For a Popup MenuPane, when the accelerator is typed by the user, the Popup 
+MenuPane is posted.
+For a MenuBar, when the accelerator is typed by the user, the first item
+in the MenuBar is highlighted, and traversal is enabled in the
+MenuBar.
+The default for a Popup MenuPane is \fBKMenu\fP.
+The default for a MenuBar is \fBKMenuBar\fP.
+The accelerator can be disabled by setting the \fBXmNpopupEnabled\fP resource
+to False.
+.IP "\fBXmNmenuHelpWidget\fP"
+Specifies the widget ID for the CascadeButton, which is treated as
+the Help widget if \fBXmNrowColumnType\fP is set to \fBXmMENU_BAR\fP.
+The MenuBar always places the Help widget at a lower corner of the menu.
+If the RowColumn widget is any type other than \fBXmMENU_BAR\fP,
+this resource is not meaningful.
+.IP "\fBXmNmenuHistory\fP"
+Specifies the widget ID of the last menu entry to be activated.  It is
+also useful for specifying the current selection for an OptionMenu.  If
+\fBXmNrowColumnType\fP is set to \fBXmMENU_OPTION\fP, the specified
+menu item is positioned under the cursor when the menu is displayed.
+.IP
+If the RowColumn widget has the \fBXmNradioBehavior\fP resource set to 
+True,
+the widget field associated with this resource 
+contains the widget ID of the last ToggleButton or ToggleButtonGadget 
+to change from unselected to selected.
+The default value is the widget ID of the first child in
+the widget.
+.IP "\fBXmNmenuPost\fP"
+Specifies an X event description indicating an event that posts a menu
+system.
+The default for \fBXmMENU_POPUP\fP is \fBBMenu Press\fP.
+The default for \fBXmMENU_OPTION\fP, \fBXmMENU_BAR\fP, and
+\fBXmWORK_AREA\fP is \fBBSelect Press\fP.
+This resource is not useful for RowColumn widgets of type
+\fBXmMENU_PULLDOWN\fP.
+.IP "\fBXmNmnemonic\fP"
+This resource is useful only when \fBXmNrowColumnType\fP is
+set to \fBXmMENU_OPTION\fP. 
+Specifies a keysym for a key that, when pressed by the user along with
+the \fBMAlt\fP modifier, posts
+the associated Pulldown MenuPane.
+The first character in the OptionMenu label string that exactly matches
+the mnemonic in the character set specified in \fBXmNmnemonicCharSet\fP
+is underlined.
+The user can post the menu by pressing either the shifted or the
+unshifted mnemonic key.
+The default is no mnemonic.
+.IP "\fBXmNmnemonicCharSet\fP"
+Specifies the character set of the mnemonic for an OptionMenu.
+The default is determined dynamically depending on the current language
+environment.
+.IP "\fBXmNnumColumns\fP"
+Specifies the number of minor dimension extensions
+that are made to accommodate the entries; this
+attribute is meaningful only when \fBXmNpacking\fP is set to
+\fBXmPACK_COLUMN\fP.
+.IP
+For vertically oriented RowColumn widgets, this attribute
+indicates how many columns are built; the number of
+entries per column is adjusted to maintain this
+number of columns, if possible.
+.IP
+For horizontally oriented RowColumn widgets, this attribute 
+indicates how many rows are built.
+.IP
+The default value is 1.
+In an OptionMenu the value is initialized to 1.
+The value must be greater than 0.
+.IP "\fBXmNorientation\fP"
+Determines whether RowColumn layouts are row-major or column-major.  
+In a column-major layout, the children of the RowColumn 
+are laid out in
+columns top to bottom within the widget.  In a row-major layout the children of
+the RowColumn are laid out in rows.  \fBXmVERTICAL\fP resource value
+selects a column-major layout.
+\fBXmHORIZONTAL\fP resource value selects a row-major layout.
+.IP
+When creating a MenuBar or an OptionMenu, the default is
+\fBXmHORIZONTAL\fP.
+Otherwise, the default value is \fBXmVERTICAL\fP.
+The results of specifying a value of \fBXmVERTICAL\fP for a MenuBar are
+undefined.
+.IP "\fBXmNpacking\fP"
+Specifies how to pack the items contained within a
+RowColumn widget.  This can be set to \fBXmPACK_TIGHT,
+XmPACK_COLUMN\fP or \fBXmPACK_NONE\fP.  When a RowColumn widget
+packs the items it contains, it determines its major
+dimension using the value of the \fBXmNorientation\fP resource.
+.IP
+\fBXmPACK_TIGHT\fP indicates that given the current major
+dimension (for example, vertical if \fBXmNorientation\fP is \fBXmVERTICAL\fP), entries
+are placed one after the other until
+the RowColumn widget must wrap.  RowColumn wraps when there is no room left
+for a complete child in that dimension.
+Wrapping occurs
+by beginning a new row or column in the next available
+space.  Wrapping continues, as often as necessary, until
+all of the children are laid out.  
+In the vertical dimension (columns), boxes are set to the same width; in the
+horizontal dimension (rows), boxes are set to the same depth.
+Each
+entry's position in the major dimension is left unaltered (for example,
+\fBXmNy\fP is left unchanged when \fBXmNorientation\fP is \fBXmVERTICAL\fP); its
+position in the minor
+dimension is set to the same value as the greatest entry
+in that particular row or column.  The position in the minor
+dimension of any particular row or column is independent
+of all other rows or columns.
+.IP
+\fBXmPACK_COLUMN\fP indicates that all entries are placed in
+identically sized boxes.  The box is based on the largest height
+and width values of all the children widgets.
+The value of the \fBXmNnumColumns\fP
+resource determines how many boxes are placed in the
+major dimension, before extending in the minor dimension.
+.IP
+\fBXmPACK_NONE\fP indicates that no packing is performed.
+The x and y attributes of each entry are left alone, and
+the RowColumn widget attempts to become large enough to enclose all
+entries.
+.IP
+The default value is \fBXmPACK_TIGHT\fP except when building a
+RadioBox, when the default is \fBXmPACK_COLUMN\fP.
+In an OptionMenu the value is initialized to \fBXmPACK_TIGHT\fP.
+.IP "\fBXmNpopupEnabled\fP" 
+Allows the menu system
+to enable keyboard input (accelerators and mnemonics) defined for the Popup
+MenuPane and any of its submenus.
+The Popup MenuPane needs to be informed whenever its accessibility to the user
+changes because posting of the Popup MenuPane is controlled by the
+application. 
+The default value for this resource is True (keyboard input \(em accelerators 
+and mnemonics \(em defined for the Popup
+MenuPane and any of its submenus is enabled).
+.\".IP "\fBXmNpostFromCount\fP"
+.\"This resource is useful only when \fBXmNrowColumnType\fP is
+.\"set to \fBXmMENU_POPUP\fP or \fBXmMENU_PULLDOWN\fP.
+.\"Specifies the number of widgets in the \fBXmNpostFromList\fP resource.
+.\".IP "\fBXmNpostFromList\fP"
+.\"This resource is useful only when \fBXmNrowColumnType\fP is
+.\"set to \fBXmMENU_POPUP\fP or \fBXmMENU_PULLDOWN\fP.
+.\"Specifies a list of the widgets from which the MenuPane is to be
+.\"accessible.
+.\"If the menu is a Popup MenuPane and this resource is NULL, the menu is
+.\"accessible from its parent.
+.\"If the menu is a Pulldown MenuPane and this resource is NULL, the menu
+.\"is accessible from the appropriate CascadeButton widget or gadget.
+.\"The default is NULL.
+.IP "\fBXmNradioAlwaysOne\fP"
+If True, forces the active ToggleButton or ToggleButtonGadget 
+to be automatically selected after having
+been unselected (if no other toggle was activated).
+If False, the active toggle may be unselected.
+The default value is True.  This resource is important only when
+\fBXmNradioBehavior\fP is True.
+.IP
+The application can always add and subtract toggles from
+RowColumn regardless of the selected/unselected state of the toggle.  The
+application can also manage and unmanage toggle
+children of RowColumn at any time regardless of state.  Therefore,
+the application can sometimes
+create a RowColumn that has \fBXmNradioAlwaysOne\fP set to 
+True and none
+of the toggle children selected.
+The result is undefined if the value of this resource is True and the
+application sets more than one ToggleButton at a time.
+.IP "\fBXmNradioBehavior\fP"
+Specifies a Boolean value that when True, indicates
+that the RowColumn widget should enforce a RadioBox-type behavior
+on all of its children that are ToggleButtons or
+ToggleButtonGadgets.  
+.IP
+When the value of this resource is True, the defaults for two resources
+for ToggleButton and ToggleButtonGadget children change:
+\fBXmNindicatorType\fP defaults to \fBXmONE_OF_MANY\fP
+and \fBXmNvisibleWhenOff\fP defaults to True.
+.IP
+RadioBox
+behavior dictates that when one toggle is selected and the user selects another
+toggle, the first toggle is unselected 
+automatically.
+The RowColumn usually does not enforce this behavior if the application,
+rather than the user, changes the state of a toggle.
+The RowColumn does enforce this behavior if a toggle child is selected
+using \fBXmToggleButtonSetState\fP or \fBXmToggleButtonGadgetSetState\fP
+with a \fInotify\fP argument of True.
+.IP
+The default value is False, except that \fBXmCreateRadioBox\fP sets it
+to true.
+.IP \fBXmNresizeHeight\fP
+Requests a new height if necessary, when set to True.  When set to
+False, the widget does not request a new height regardless of any 
+changes to the widget or its children.
+.br
+.ne 7
+.IP \fBXmNresizeWidth\fP
+Requests a new width if necessary, when set to True.  When set to
+False, the widget does not request a new width regardless of any 
+changes to the widget or its children.
+.IP "\fBXmNrowColumnType\fP"
+Specifies the type of RowColumn widget
+to be created.  
+It is a non-standard resource that cannot be changed after it is set.
+If an application uses any of the
+convenience routines, except \fBXmCreateRowColumn\fP,
+this resource is automatically forced to the appropriate
+value by the convenience routine.  If an application uses
+the Xt Intrinsics API to create its RowColumn widgets,
+it must specify this resource itself.  The set
+of possible settings for this resource are:
+.IP
+\fBXmWORK_AREA\fP \(em the default
+.IP
+\fBXmMENU_BAR\fP
+.IP
+\fBXmMENU_PULLDOWN\fP
+.IP
+\fBXmMENU_POPUP\fP
+.IP
+\fBXmMENU_OPTION\fP
+.IP
+This resource cannot be changed after the RowColumn widget
+is created.  Any changes attempted through \fBXtSetValues\fP 
+are ignored.
+.IP
+The value of this resource is used to determine the value of a number
+of other resources.  The descriptions of RowColumn resources explain
+this when it is the case.  The resource \fBXmNnavigationType\fP,
+inherited from \fBXmManager\fP, is changed to \fBXmNONE\fP if
+\fBXmNrowColumnType\fP is \fBXmMENU_OPTION\fP.
+.br
+.ne 6
+.IP "\fBXmNspacing\fP"
+Specifies the horizontal and vertical spacing between
+items contained within the RowColumn widget.
+The default value is three pixels for \fBXmOPTION_MENU\fP and
+\fBXmWORK_AREA\fP and 0 for other RowColumn types.
+.IP "\fBXmNsubMenuId\fP"
+Specifies the widget ID for the Pulldown MenuPane to be associated with
+an OptionMenu.  This resource is useful only when \fBXmNrowColumnType\fP is
+set to \fBXmMENU_OPTION\fP.
+The default value is NULL.
+.IP "\fBXmNunmapCallback\fP"
+Specifies a list of callbacks that is called
+after the window associated with the RowColumn
+widget has been unmapped.  The callback reason is \fBXmCR_UNMAP\fP.
+The default value is NULL.
+.IP "\fBXmNwhichButton\fP"
+Specifies the mouse button to which a menu system is sensitive.
+The default for \fBXmMENU_POPUP\fP is \fBBMenu\fP.
+The default for \fBXmMENU_OPTION\fP, \fBXmMENU_BAR\fP, and
+\fBXmWORK_AREA\fP is \fBBSelect\fP.
+This resource is not useful for RowColumn widgets of type
+\fBXmMENU_PULLDOWN\fP.
+This resource is obsolete; it has been replaced by \fBXmNmenuPost\fP and
+is present for compatibility with older releases of OSF/Motif.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Simple Menu Creation Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbuttonAccelerators	XmCButtonAccelerators	StringTable	NULL	C
+XmNbuttonAcceleratorText	XmCButtonAcceleratorText	XmStringTable	NULL	C
+XmNbuttonCount	XmCButtonCount	int	0	C
+XmNbuttonMnemonicCharSets	XmCButtonMnemonicCharSets	XmStringCharSetTable	NULL	C
+XmNbuttonMnemonics	XmCButtonMnemonics	XmKeySymTable	NULL	C
+XmNbuttons	XmCButtons	XmStringTable	NULL	C
+XmNbuttonSet	XmCButtonSet	int	\-1	C
+XmNbuttonType	XmCButtonType	XmButtonTypeTable	NULL	C
+XmNoptionLabel	XmCOptionLabel	XmString	NULL	C
+XmNoptionMnemonic	XmCOptionMnemonic	KeySym	NULL	C
+XmNpostFromButton	XmCPostFromButton	int	\-1	C
+XmNsimpleCallback	XmCCallback	XtCallbackProc	NULL	C
+.TE
+.in
+.sp 1
+.IP "\fBXmNbuttonAccelerators\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of accelerators for the buttons created.
+The list contains one element for each button, separator, and title
+created.
+.br
+.ne 6
+.IP "\fBXmNbuttonAcceleratorText\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of compound strings to display for the accelerators for
+the buttons created.
+The list contains one element for each button, separator, and title
+created.
+.IP "\fBXmNbuttonCount\fP"
+This resource is for use with the simple menu creation routines.
+It specifies the total number of menu buttons, separators, and titles to
+create.
+The value must not be negative.
+.IP "\fBXmNbuttonMnemonicCharSets\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of character sets with which button mnemonics are to be
+displayed.
+The list contains one element for each button, separator, and title
+created.
+The default is determined dynamically depending on the locale of the
+widget.
+.IP "\fBXmNbuttonMnemonics\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of mnemonics for the buttons created.
+The list contains one element for each button, separator, and title
+created.
+.IP "\fBXmNbuttons\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of compound strings to use as labels for the buttons
+created.
+The list contains one element for each button, separator, and title
+created.
+.IP "\fBXmNbuttonSet\fP"
+This resource is for use with the simple menu creation routines.
+It specifies which button of a RadioBox or OptionMenu Pulldown submenu
+is initially set.
+The value is an integer \fIn\fP indicating the \fIn\fPth
+ToggleButtonGadget specified for a RadioBox or the \fIn\fPth
+PushButtonGadget specified for an OptionMenu Pulldown submenu.
+The first button specified is number 0.
+The value must not be negative.
+.br
+.ne 4
+.IP "\fBXmNbuttonType\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a list of button types associated with the buttons to be
+created.
+The list contains one element for each button, separator, and title
+created.
+If this resource is not specified, each button in a MenuBar is a
+CascadeButtonGadget; each button in any other type of RowColumn widget
+is a PushButtonGadget.
+Each button type is of type \fBXmButtonType\fP, an enumeration with the
+following possible values:
+.IP
+\fBXmCASCADEBUTTON\fP \(em Specifies a CascadeButtonGadget for a
+MenuBar, Popup MenuPane, or Pulldown MenuPane.
+.IP
+\fBXmCHECKBUTTON\fP \(em Specifies a ToggleButtonGadget for a CheckBox,
+Popup MenuPane, or Pulldown MenuPane.
+.IP
+\fBXmDOUBLE_SEPARATOR\fP \(em Specifies a SeparatorGadget for a Popup
+MenuPane, Pulldown MenuPane, or OptionMenu Pulldown submenu.
+The separator type is \fBXmDOUBLE_LINE\fP.
+.IP
+\fBXmPUSHBUTTON\fP \(em Specifies a PushButtonGadget for a Popup MenuPane,
+Pulldown MenuPane, or OptionMenu Pulldown submenu.
+.IP
+\fBXmRADIOBUTTON\fP \(em Specifies a ToggleButtonGadget for a RadioBox,
+Popup MenuPane, or Pulldown MenuPane.
+.IP
+\fBXmSEPARATOR\fP \(em Specifies a SeparatorGadget for a Popup MenuPane,
+Pulldown MenuPane, or OptionMenu Pulldown submenu.
+.IP
+\fBXmTITLE\fP \(em Specifies a LabelGadget used as a title for a Popup
+MenuPane or Pulldown MenuPane.
+.IP "\fBXmNoptionLabel\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a compound string for the label string to be used on the left
+side of an OptionMenu.
+.br
+.ne 8
+.IP "\fBXmNoptionMnemonic\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a keysym for a key that, when pressed by the user along
+with the \fBMAlt\fP modifier, posts
+the associated Pulldown MenuPane for an OptionMenu.
+.IP "\fBXmNpostFromButton\fP"
+This resource is for use with the simple menu creation routines.
+For a Pulldown MenuPane, it specifies the button in the parent to which
+the submenu is attached.
+The menu is then posted from this button.
+The value is an integer \fIn\fP indicating the \fIn\fPth
+CascadeButton or CascadeButtonGadget specified for the parent of the
+Pulldown MenuPane.
+The first button specified is number 0.
+The value must not be negative.
+.IP "\fBXmNsimpleCallback\fP"
+This resource is for use with the simple menu creation routines.
+It specifies a callback procedure to be called when a button is
+activated or when its value changes.
+This callback function is added to each button after creation.
+For a CascadeButtonGadget or a PushButtonGadget, the callback is added
+as the button's \fBXmNactivateCallback\fP, and it is called when the
+button is activated.
+For a ToggleButtonGadget, the callback is added as the button's
+\fBXmNvalueChangedCallback\fP, and it is called when the button's value
+changes.
+The button number is passed in the \fIclient_data\fP field.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Display Resource 
+Name	Class	Type	Default	Access
+_
+XmNmenuCursor	XmCCursor	String	arrow	C
+.TE
+.sp 1
+.IP "\fBXmNmenuCursor\fP"
+Sets a variable that controls the cursor used whenever this
+application posts a menu.  This resource can be specified 
+only once at application
+.ne 8
+startup time, either by placing it within a defaults file or by using the
+\fB\-xrm\fP command line argument.
+.IP
+\fBExample\fP:  myProg \-xrm "*menuCursor: arrow"
+.br
+.ne 7
+.IP
+The menu cursor can also be selected programmatically by using
+the function \fBXmSetMenuCursor\fP.
+The following is a list of acceptable cursor names.  If the application
+does not specify a cursor or if an invalid name is supplied, the
+default cursor (an arrow pointing up and to the right) is used.
+.sp 1
+.in0
+.TS
+center, tab (@);
+l l l l.
+X_cursor@dotbox@man@sizing
+arrow@double_arrow@middlebutton@spider
+based_arrow_down@draft_large@mouse@spraycan
+based_arrow_up@draft_small@pencil@star
+boat@draped_box@pirate@target
+bogosity@exchange@plus@tcross
+bottom_left_corner@fleur@question_arrow@top_left_arrow
+bottom_right_corner@gobbler@right_ptr@top_left_corner
+bottom_side@gumby@right_side@top_right_corner
+bottom_tee@hand1@right_tee@top_side
+box_spiral@hand2@rightbutton@top_tee
+center_ptr@heart@rtl_logo@trek
+circle@icon@sailboat@ul_angle
+clock@iron_cross@sb_down_arrow@umbrella
+coffee_mug@left_ptr@sb_h_double_arrow@ur_angle
+cross@left_side@sb_left_arrow@watch
+cross_reverse@left_tee@sb_right_arrow@xterm
+crosshair@leftbutton@sb_up_arrow@
+diamond_cross@ll_angle@sb_v_double_arrow@
+dot@lr_angle@shuttle@
+.TE
+.in
+.sp 1
+.SS "Inherited Resources"
+RowColumn inherits behavior and resources from the following named   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	dynamic	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	dynamic	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+	\fBWidget\fP	\fIwidget\fP;
+	\fBchar\fP	\fI* data\fP;
+	\fBchar\fP	\fI* callbackstruct\fP;
+} \fBXmRowColumnCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" 1i
+Indicates why the callback was invoked
+.IP "\fIevent\fP" 1i
+Points to the \fBXEvent\fP that triggered the callback
+.sp 1
+.PP
+The following fields apply only when the callback reason is \fBXmCR_ACTIVATE\fP;
+for all other callback reasons, these fields are set to NULL.
+The \fBXmCR_ACTIVATE\fP callback reason is generated only when the application
+has supplied an entry callback, which overrides any activation callbacks
+registered with the individual RowColumn items.
+.IP "\fIwidget\fP" 1i
+Is set to the widget ID of the RowColumn item that has been activated
+.IP "\fIdata\fP" 1i
+Contains the client-data value supplied by the
+application when the RowColumn item's activation callback was registered
+.IP "\fIcallbackstruct\fP" 1i
+Points to the callback structure
+generated by the RowColumn item's activation callback
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmRowColumn translations depend on the value of
+the \fBXmNrowColumnType\fP resource.
+.P
+If \fBXmNrowColumnType\fP is set to \fBXmWORK_AREA\fP,
+XmRowColumn inherits traversal translations from XmManager.
+.P
+If \fBXmNrowColumnType\fP is set to \fBXmMENU_OPTION\fP,
+XmRowColumn inherits traversal translations from XmManager
+and has the additional translations listed below.
+These translations may not directly correspond to a
+translation table.
+\fB
+.nf
+.ta 1.5i
+.sp .5
+BSelect Press:	MenuBtnDown()
+BSelect Release:	MenuBtnUp()
+KActivate:	ManagerGadgetSelect()
+KSelect:	ManagerGadgetSelect()
+KHelp:	Help()
+.fi
+\fP
+.P
+The translations for XmRowColumn if
+\fBXmNrowColumnType\fP is set to \fBXmMENU_BAR\fP
+\fBXmMENU_PULLDOWN\fP, or \fBXmMENU_POPUP\fP
+are listed below.
+In a Popup menu system, \fBBMenu\fP also performs the \fBBSelect\fP
+actions.
+These translations may not directly correspond to a
+translation table.
+\fB
+.nf
+.ta 1.5i
+.sp .5
+BSelect Press:	MenuBtnDown()
+BSelect Release:	MenuBtnUp()
+KActivate:	ManagerGadgetSelect()
+KSelect:	ManagerGadgetSelect()
+MAny KCancel:	MenuGadgetEscape()
+KHelp:	Help()
+KLeft:	MenuGadgetTraverseLeft()
+KRight:	MenuGadgetTraverseRight()
+KUp:	MenuGadgetTraverseUp()
+KDown:	MenuGadgetTraverseDown()
+.fi
+\fP
+.sp 1 \"Adds space before the SS
+.SS "Action Routines"
+The XmRowColumn action routines are described below:
+.IP "\fBHelp()\fP:"
+Calls the callbacks for \fBXmNhelpCallback\fP if any exist.  If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+.IP "\fBManagerGadgetSelect()\fP:"
+When a gadget child of the menu has the focus, invokes the gadget
+child's behavior associated with \fBKActivate\fP or \fBKSelect\fP.
+This generally has the effect of unposting the menu hierarchy and arming
+and activating the gadget, except that for a CascadeButtonGadget with a
+submenu, it posts the submenu.
+.IP "\fBMenuBtnDown()\fP:"
+When a gadget child of the menu has the focus, invokes the gadget
+child's behavior associated with \fBBSelect Press\fP.
+This generally has the effect of unposting any menus posted by the
+parent menu, enabling mouse traversal in the menu, and arming the
+gadget.
+For a CascadeButtonGadget with a submenu, it also posts the associated
+submenu.
+.IP "\fBMenuBtnUp()\fP:"
+When a gadget child of the menu has the focus, invokes the gadget
+child's behavior associated with \fBBSelect Release\fP.
+This generally has the effect of unposting the menu hierarchy and
+activating the gadget, 
+.ne 4
+except that for a CascadeButtonGadget with a
+submenu, it posts the submenu and enables keyboard traversal in the
+menu.
+.IP "\fBMenuGadgetEscape()\fP:"
+In a toplevel Pulldown MenuPane from a MenuBar, unposts the menu,
+disarms the MenuBar CascadeButton and the MenuBar, and, when the shell's
+keyboard focus policy is \fBXmEXPLICIT\fP, restores keyboard focus to
+the tab group that had the focus before the MenuBar was entered.
+In other Pulldown MenuPanes, unposts the menu.
+.IP
+In a Popup MenuPane, unposts the menu and, when the shell's keyboard
+focus policy is \fBXmEXPLICIT\fP, restores keyboard focus to the widget
+from which the menu was posted.
+.IP "\fBMenuGadgetTraverseDown()\fP:"
+In a vertical menu, disarms the current menu entry and arms the entry
+just below it in the MenuPane.
+This action wraps within the MenuPane.
+.br
+.ne 6
+.IP
+In a horizontal menu, if the menu entry is a CascadeButton with a
+submenu, posts the MenuPane associated with the CascadeButton.
+Otherwise, this action searches for an ancestor menu that is vertical.
+If it finds one, it unposts the cascade from the vertical menu and
+traverses to the next entry toward the bottom in the vertical menu.
+If this entry is a CascadeButton with a submenu, posts the MenuPane
+associated with the Cascadeutton.
+This action wraps within the vertical menu.
+.IP "\fBMenuGadgetTraverseLeft()\fP:"
+In a vertical menu, if the menu's parent is a horizontal menu, this
+action unposts the current MenuPane and traverses to the next entry to
+the left in the parent menu.
+If this entry is a CascadeButton with a submenu, posts the MenuPane
+associated with the CascadeButton.
+This action wraps within the horizontal menu.
+If the menu's parent is a vertical menu, this action unposts the current
+MenuPane.
+.br
+.ne 8
+.IP
+In a horizontal menu, disarms the current menu entry and arms the entry
+just to the left of it in the menu.
+This action wraps within the menu.
+.IP "\fBMenuGadgetTraverseRight()\fP:"
+In a vertical menu, if the menu entry is a CascadeButton with a submenu,
+posts the MenuPane associated with the CascadeButton.
+Otherwise, this action searches for an ancestor menu that is horizontal.
+If it finds one, it unposts the cascade from the horizontal menu and
+traverses to the next entry to the right in the horizontal menu.
+If this entry is a CascadeButton with a submenu, posts the MenuPane
+associated with the CascadeButton.
+This action wraps within the horizontal menu.
+.IP
+In a horizontal menu, disarms the current menu entry and arms the entry
+just to the right of it in the menu.
+This action wraps within the menu.
+.IP "\fBMenuGadgetTraverseUp()\fP:"
+In a vertical menu, disarms the current menu entry and arms the entry
+just above it in the MenuPane.
+This action wraps within the MenuPane.
+.IP
+In a horizontal menu, if the menu's parent is a vertical menu,
+this action unposts the current MenuPane and traverses to the next
+entry toward the top in the parent menu.
+If this entry is a CascadeButton with a submenu, posts the MenuPane
+associated with the CascadeButton.
+This action wraps within the vertical menu.
+If the menu's parent is a horizontal menu, this action unposts the
+current MenuPane.
+.sp 1 \"Adds space before the SS
+.SS "Related Behavior"
+The following menu functions are available.
+.IP "\fBKMenuBar\fP:"
+In any non-popup descendant of a MenuBar's parent, excluding the MenuBar
+itself, this action enables keyboard traversal and moves keyboard focus
+to the first item in the MenuBar.In the MenuBar 
+or any menu cascaded from it, this action unposts the
+menu hierarchy and, when the shell's keyboard focus policy is
+\fBXmEXPLICIT\fP, restores focus to the tab group that had the focus
+when the menu system was entered.
+.IP "\fBKMenu\fP:"
+Pops up the menu associated with the control that has the keyboard focus.
+Enables keyboard traversal in the menu.
+In the Popup menu system or any menu cascaded from it, this action
+unposts the menu hierarchy and, when the shell's keyboard focus policy
+is \fBXmEXPLICIT\fP, restores focus to the tab group that had the focus
+when the menu system was entered.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see \fBVirtualBindings(3X)\fP.
+.SH RELATED INFORMATION
+.na
+\fBComposite(3X)\fP,
+\fBConstraint(3X)\fP,
+\fBCore(3X)\fP,
+\fBXmCreateMenuBar(3X)\fP, 
+\fBXmCreateOptionMenu(3X)\fP, 
+\fBXmCreatePopupMenu(3X)\fP,
+\fBXmCreatePulldownMenu(3X)\fP,
+\fBXmCreateRadioBox(3X)\fP,
+\fBXmCreateRowColumn(3X)\fP,
+\fBXmCreateSimpleCheckBox(3X)\fP,
+\fBXmCreateSimpleMenuBar(3X)\fP,
+\fBXmCreateSimpleOptionMenu(3X)\fP,
+\fBXmCreateSimplePopupMenu(3X)\fP,
+\fBXmCreateSimplePulldownMenu(3X)\fP,
+\fBXmCreateSimpleRadioBox(3X)\fP,
+\fBXmCreateWorkArea(3X)\fP,
+\fBXmGetMenuCursor(3X)\fP,
+\fBXmGetPostedFromWidget(3X)\fP,
+\fBXmLabel(3X)\fP,
+\fBXmManager(3X)\fP, 
+\fBXmMenuPosition(3X)\fP,
+\fBXmOptionButtonGadget(3X)\fP,
+\fBXmOptionLabelGadget(3X)\fP,
+\fBXmSetMenuCursor(3X)\fP,
+\fBXmUpdateDisplay(3X)\fP,
+\fBXmVaCreateSimpleCheckBox(3X)\fP,
+\fBXmVaCreateSimpleMenuBar(3X)\fP,
+.ne 10
+\fBXmVaCreateSimpleOptionMenu(3X)\fP,
+\fBXmVaCreateSimplePopupMenu(3X)\fP,
+\fBXmVaCreateSimplePulldownMenu(3X)\fP, and
+\fBXmVaCreateSimpleRadioBox(3X)\fP.
+.ad

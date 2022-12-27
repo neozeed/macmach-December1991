@@ -1,0 +1,89 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmRegisterClass 3X
+.SH NAME
+\fBMrmRegisterClass\fP \- Saves the information needed for MRM to access the 
+widget creation function for user-defined widgets.
+.iX "MrmRegisterClass"
+.iX "uil functions" "MrmRegisterClass"
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmRegisterClass"
+.NX R "MrmRegisterClass" "definition"
+.BI "Cardinal MrmRegisterClass(" "class_code" ","
+.IB "class_name" ","
+.IB "create_name" ","
+.IB "create_proc" ","
+.IB "class_record" ")"
+.in +5n
+.br
+.BI "MrmType " "class_code" ";"
+.br
+.BI "String " "class_name" ";"
+.br
+.BI "String " "create_name" ";"
+.br
+.BI "Widget (* " "create_proc" ") ();"
+.br
+.BI "WidgetClass " "class_record" ";"
+.in -5n
+.SH DESCRIPTION
+The
+\fBMrmRegisterClass\fP
+function 
+.NX R "MrmRegisterClass" "description"
+allows MRM to access user-defined widget classes.
+This function registers the necessary information for
+MRM to create widgets of this class.
+You must call
+\fBMrmRegisterClass\fP
+prior to fetching any user-defined class widget.
+.PP
+\fBMrmRegisterClass\fP
+saves the information needed to access the widget creation
+function and to do type conversion of argument lists by using the 
+information in MRM databases.
+.IP \fIclass_code\fP 1.0i
+This argument is ignored; it is present for compatibility with previous
+releases.
+.IP \fIclass_name\fP 1.0i
+This argument is ignored; it is present for compatibility with previous
+releases.
+.IP \fIcreate_name\fP 1.0i
+Specifies the case-sensitive name of the low-level widget creation
+function for the class.
+An example from the Motif Toolkit is
+\fBXmCreateLabel\fP.
+Arguments are
+\fIparent_widget\fP,
+\fIname\fP,
+\fIoverride_arglist\fP,
+and
+\fIoverride_argcount\fP.
+.IP
+For user-defined widgets,
+\fIcreate_name\fP
+is the creation procedure in the UIL that defines this widget.
+.IP \fIcreate_proc\fP 1.0i
+Specifies the address of the creation function that you named in
+\fIcreate_name\fP. 
+.IP \fIclass_record\fP 1.0i
+Specifies a pointer to the class record.
+.SH RETURN VALUE
+.NX R "MrmSUCCESS"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 1.5i
+The function executed successfully.
+.IP \fBMrmFAILURE\fP
+The function failed.

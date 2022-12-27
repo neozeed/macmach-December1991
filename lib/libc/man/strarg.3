@@ -1,0 +1,129 @@
+.\"
+.\" $Id: strarg.3,v 1.3 89/12/26 11:22:51 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	strarg.3,v $
+.\" Revision 1.3  89/12/26  11:22:51  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 23-Jan-80  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Searcharg added.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH STRARG 3 1/23/80
+.CM 1
+.SH "NAME"
+strarg, stabarg, searcharg \- parse string argument or ask user
+.SH "SYNOPSIS"
+.B
+char *strarg (ptr,brk,prompt,defalt,buffer);
+.br
+.B
+char **ptr,*brk,*prompt,*defalt,*buffer;
+.sp
+.B
+int stabarg (ptr,brk,prompt,table,defalt);
+.br
+.B
+char **ptr,*brk,*prompt,**table,*defalt;
+.sp
+.B
+int searcharg (ptr,brk,prompt,table,defalt);
+.br
+.B
+char **ptr,*brk,*prompt,**table,*defalt;
+.SH "DESCRIPTION"
+.I
+Strarg
+will attempt to parse an argument from a string, passing the
+string pointer
+.I
+ptr
+and the break character set
+.I
+brk
+to the
+.IR nxtarg (3)
+routine.  If there is an argument parsed, then
+it is copied into
+.I
+buffer
+and
+.I
+strarg
+returns
+.I
+buffer
+as its value.
+If there is no argument, then
+.I
+prompt, defalt,
+and
+.I
+buffer
+are passed to
+.IR getstr (3),
+whose value is returned by
+.IR strarg .
+.sp
+.I
+Stabarg
+will attempt to parse an argument in the same way.
+If there is
+an argument, and it matches exactly one string in the string
+array
+.IR table ,
+then the index of the matching string is returned by
+.IR stabarg .
+If there is no argument, or if it matches nothing in the 
+.IR table
+or many entries of the 
+.IR table , 
+then an error message is printed
+and the remaining arguments
+.RI ( prompt ,
+.IR table ,
+and
+.IR defalt )
+are passed into
+.IR getstab (3).
+The value returned by
+.I
+getstab
+is then returned by
+.IR stabarg .
+.sp
+.I
+Searcharg
+is just like
+.IR stabarg ,
+but performs a heuristic test for the best string match within the
+.IR table , 
+and allows the user to approve or disapprove this choice
+if it is not a perfect match.  If the user does not approve the choice,
+several other good matches are listed.
+.sp
+.IR Strarg , 
+.IR stabarg ,
+and
+.I
+searcharg
+are especially useful for parsing strings from argument lists
+in programs using the command interpreter,
+.IR ci (3).
+.SH "SEE ALSO"
+.IR nxtarg (3), 
+.IR getstr (3), 
+.IR getstab (3), 
+.IR stlmatch (3), 
+.IR ci (3)
+.br
+.IR getsearch (3), 
+.IR stabsearch (3), 
+.IR srchscore (3)

@@ -1,0 +1,264 @@
+
+
+
+     XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll ---- tttthhhheeee MMMMeeeennnnuuuuSSSShhhheeeellllllll wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////MMMMeeeennnnuuuuSSSShhhheeeellllllll....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The MenuShell widget is a custom OverrideShell widget.  An
+          OverrideShell widget bypasses mmmmwwwwmmmm when displaying itself.
+          It is designed specifically to contain Popup or Pulldown
+          MenuPanes.
+
+          Most application writers never encounter this widget if they
+          use the menu-system convenience functions, XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu
+          or XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuu, to create a Popup or Pulldown
+          MenuPane.  The convenience functions automatically create a
+          MenuShell widget as the parent of the MenuPane.  However, if
+          the convenience functions are not used, the application
+          programmer must create the required MenuShell.  In this
+          case, it is important to note that the parent of the
+          MenuShell depends on the type of menu system being built.
+
+          +o  If the MenuShell is for the top-level Popup MenuPane, the
+             MenuShell's parent must be the widget from which the
+             Popup MenuPane is popped up.
+
+          +o  If the MenuShell is for a MenuPane that is pulled down
+             from a Popup or another Pulldown MenuPane, the
+             MenuShell's parent must be the Popup or Pulldown
+             MenuPane.
+
+          +o  If the MenuShell is for a MenuPane that is pulled down
+             from a MenuBar, the MenuShell's parent must be the
+             MenuBar.
+
+          +o  If the MenuShell is for a Pulldown MenuPane in an
+             OptionMenu, the MenuShell's parent must be the
+             OptionMenu.
+
+          Setting XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt, XXXXmmmmNNNNwwwwiiiiddddtttthhhh, or XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh for either a
+          MenuShell or its child sets that resource to the same value
+          in both the parent and the child.  An application should
+          always specify these resources for the child, not the
+          parent.
+
+          For a child of a MenuShell, setting XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy sets the
+          corresponding resource of the parent but does not change the
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+          child's position relative to the parent.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for
+          the child's XXXXmmmmNNNNxxxx or XXXXmmmmNNNNyyyy yields the value of the
+          corresponding resource in the parent.  The _x and _y
+          coordinates of the child's upper left outside corner
+          relative to the parent's upper left inside corner are both
+          zero minus the value of XXXXmmmmNNNNbbbboooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh.
+
+
+        CCCCllllaaaasssssssseeeessss
+          MenuShell inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, SSSShhhheeeellllllll, and OOOOvvvveeeerrrrrrrriiiiddddeeeeSSSShhhheeeellllllll classes.
+
+          The class pointer is xxxxmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllllWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          MenuShell overrides the XXXXmmmmNNNNaaaalllllllloooowwwwSSSShhhheeeellllllllRRRReeeessssiiiizzzzeeee resource in
+          Shell.  The following table defines a set of widget
+          resources used by the programmer to specify data.  The
+          programmer can also set the resource values for the
+          inherited classes to set attributes for this widget.  To
+          reference a resource by name or by class in a .Xdefaults
+          file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC prefix and use the remaining
+          letters.  To specify one of the defined values for a
+          resource in a .Xdefaults file, remove the XXXXmmmm prefix and use
+          the remaining letters (in either lowercase or uppercase, but
+          include any underscores between words).  The codes in the
+          access column indicate if the given resource can be set at
+          creation time (CCCC), set by using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved
+          by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is not applicable (NNNN////AAAA).
+
+                            XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                 CCCCllllaaaassssssss                TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _______________________________________________________________________
+     XmNdefaultFontList   XmCDefaultFontList   XmFontList   dynamic   C
+
+
+          XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttFFFFoooonnnnttttLLLLiiiisssstttt
+               Specifies a default font list for its children.  This
+               font list is used whenever a font list is not
+               specifically set for a Text, Label or Button child of
+               the MenuShell.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          MenuShell inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.  The following
+          tables define a set of widget resources used by the
+          programmer to specify data.  The programmer can set the
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+          resource values for these inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                          SSSShhhheeeellllllll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt          AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________________
+     XmNallowShellResize       XmCAllowShellResize       Boolean          True             G
+     XmNcreatePopupChildProc   XmCCreatePopupChildProc   (*)()            NULL             CSG
+     XmNgeometry               XmCGeometry               String           NULL             CSG
+     XmNoverrideRedirect       XmCOverrideRedirect       Boolean          True             CSG
+     XmNpopdownCallback        XmCCallback               XtCallbackList   NULL             C
+     XmNpopupCallback          XmCCallback               XtCallbackList   NULL             C
+     XmNsaveUnder              XmCSaveUnder              Boolean          True             CSG
+     XmNvisual                 XmCVisual                 Visual *         CopyFromParent   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        1                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX))))
+
+
+
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          The XmMenuShell translations are listed below.  These
+          translations may not directly correspond to a translation
+          table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: CCCClllleeeeaaaarrrrTTTTrrrraaaavvvveeeerrrrssssaaaallll(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::MMMMeeeennnnuuuuSSSShhhheeeellllllllPPPPooooppppddddoooowwwwnnnnDDDDoooonnnneeee(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmMenuShell action routines are described below:
+
+          CCCClllleeeeaaaarrrrTTTTrrrraaaavvvveeeerrrrssssaaaallll(((()))):
+               Disables keyboard traversal for the menu, enables mouse
+               traversal, and unposts any menus posted by this menu.
+
+          MMMMeeeennnnuuuuSSSShhhheeeellllllllPPPPooooppppddddoooowwwwnnnnDDDDoooonnnneeee(((()))):
+               Unposts the menu hierarchy and restores focus to the
+               tab group that had the focus before the menu system was
+               entered.
+
+          MMMMeeeennnnuuuuSSSShhhheeeellllllllPPPPooooppppddddoooowwwwnnnnOOOOnnnneeee(((()))):
+               In a toplevel Pulldown MenuPane from a MenuBar, unposts
+               the menu, disarms the MenuBar CascadeButton and the
+               MenuBar, and restores keyboard focus to the tab group
+               that had the focus before the MenuBar was entered.  In
+               other Pulldown MenuPanes, unposts the menu.
+
+               In a Popup MenuPane, unposts the menu and restores
+               keyboard focus to the widget from which the menu was
+               posted.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))), OOOOvvvveeeerrrrrrrriiiiddddeeeeSSSShhhheeeellllllll((((3333XXXX)))), SSSShhhheeeellllllll((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuSSSShhhheeeellllllll((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnn((((3333XXXX)))), and XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX)))).
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+

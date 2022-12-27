@@ -1,0 +1,54 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringConcat 3X "" "" "" ""
+.SH NAME
+\fBXmStringConcat \(em a compound string function that appends one string
+to another.\fP
+.iX "XmStringConcat"
+.iX "compound string functions" "XmStringConcat"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmStringConcat (\fIs1, s2\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmString	\fIs1\fP;
+.br
+	XmString	\fIs2\fP;
+.fi
+\fP
+.sp
+.ne 4i
+.SH DESCRIPTION
+\fBXmStringConcat\fP copies \fIs2\fP to the end of \fIs1\fP and returns
+a copy of the
+resulting compound string.  The original strings are preserved.  The space
+for the resulting compound string is allocated within the function.  After
+using this function, free this space by calling \fBXmStringFree\fP.
+.sp 1
+.IP "\fIs1\fP" .75i
+Specifies the compound string to which a copy of \fIs2\fP is appended
+.IP "\fIs2\fP" .75i
+Specifies the compound string that is appended to the end of \fIs1\fP
+.sp 1
+.SH RETURN VALUE
+Returns a new compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and \fBXmStringFree(3X)\fP.
+.sp 1

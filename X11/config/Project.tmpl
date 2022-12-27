@@ -1,0 +1,523 @@
+/**/###########################################################################
+/**/# X Window System Build Parameters
+/**/# $XConsortium: Project.tmpl,v 1.63 89/12/18 16:46:44 jim Exp $
+
+/*****************************************************************************
+ *                                                                           *
+ *                            DEFAULT DEFINITONS                             *
+ *                                                                           *
+ * The following section contains defaults for things that can be overridden *
+ * in the various *.cf and site.def files.  DO NOT EDIT!                     *
+ *                                                                           *
+ ****************************************************************************/
+
+#define ProjectX		4	/* do *not* change this line */
+
+/*
+ * X-specific things
+ */
+#ifndef BuildServer
+#define BuildServer		YES	/* go ahead and build server */
+#endif
+#ifndef BuildExamples
+#define BuildExamples		YES	/* but they do take a lot of space */
+#endif
+#ifndef BuildXawBC
+#define BuildXawBC		NO	/* be pure */
+#endif
+#ifndef InstallXinitConfig
+#define InstallXinitConfig	NO	/* install sample xinit config */
+#endif
+#ifndef InstallXdmConfig
+#define InstallXdmConfig	NO	/* install sample xdm config */
+#endif
+#ifndef InstallAppDefFiles
+#define InstallAppDefFiles	YES	/* install application defaults */
+#endif
+#ifndef InstallOldHeaderFiles
+#define InstallOldHeaderFiles	NO	/* be compat with R3 interfaces */
+#endif
+#ifndef DebugLibX
+#define DebugLibX		NO	/* debugged X library */
+#endif
+#ifndef DebugLibXArchive
+#define DebugLibXArchive	NO	/* archive file of above */
+#endif
+#ifndef ProfileLibX
+#define ProfileLibX		NO	/* profiled X library */
+#endif
+#ifndef ProfileLibXArchive
+#define ProfileLibXArchive	NO	/* archive file of above */
+#endif
+#ifndef DebugOldLibX
+#define DebugOldLibX		NO	/* debugged old X library */
+#endif
+#ifndef ProfileOldLibX
+#define ProfileOldLibX		NO	/* profiled old X library */
+#endif
+#ifndef DebugLibXt
+#define DebugLibXt		NO	/* debugged toolkit library */
+#endif
+#ifndef ProfileLibXt
+#define ProfileLibXt		NO	/* profiled toolkit library */
+#endif
+#ifndef DebugLibXaw
+#define DebugLibXaw		NO	/* debugged widget library */
+#endif
+#ifndef ProfileLibXaw
+#define ProfileLibXaw		NO	/* profiled widget library */
+#endif
+#ifndef DebugLibXext
+#define DebugLibXext		NO	/* debugged Xext library */
+#endif
+#ifndef ProfileLibXext
+#define ProfileLibXext		NO	/* profiled Xext library */
+#endif
+#ifndef DebugLibXmu
+#define DebugLibXmu		NO	/* debugged Xmu library */
+#endif
+#ifndef ProfileLibXmu
+#define ProfileLibXmu		NO	/* profiled Xmu library */
+#endif
+#ifndef NeedBerklibInXlib
+#define NeedBerklibInXlib       NO
+#endif
+#ifndef ManDirectoryRoot
+#define ManDirectoryRoot /usr/man		/* if not set in .macros */
+#endif
+#ifndef ManSuffix
+#define ManSuffix	n		/* use just one tab or cpp will die */
+#endif
+#ifndef LibManSuffix
+#define LibManSuffix	3		/* use just one tab or cpp will die */
+#endif
+#ifndef UNCOMPRESSFILT
+#define UNCOMPRESSFILT -DUNCOMPRESSFILT=\"UNCOMPRESSPATH\"
+#endif
+#ifndef BDFTOSNFFILT
+#define BDFTOSNFFILT -DBDFTOSNFFILT=\"$(BINDIR)/bdftosnf\"
+#endif
+#ifndef SHELLPATH
+#define SHELLPATH -DSHELLPATH=\"/bin/sh\"
+#endif
+#ifndef ZBDFTOSNFFILT
+#define ZBDFTOSNFFILT -DZBDFTOSNFFILT=\"UNCOMPRESSPATH" | $(BINDIR)/bdftosnf $(FONTCFLAGS)\""
+#endif
+#ifndef FontFilters
+#define FontFilters UNCOMPRESSFILT BDFTOSNFFILT SHELLPATH ZBDFTOSNFFILT
+#endif
+#ifndef PrimaryScreenResolution
+#define PrimaryScreenResolution 72		/* a common resolution */
+#endif
+#ifndef DefaultFontPath
+#if PrimaryScreenResolution < 88		/* (75 + 100) / 2 */
+#define DefaultFontPath $(FONTDIR)/misc/,$(FONTDIR)/75dpi/,$(FONTDIR)/100dpi/
+#else
+#define DefaultFontPath $(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/
+#endif
+#endif
+#ifndef DefaultRGBDatabase
+#define DefaultRGBDatabase $(LIBDIR)/rgb
+#endif
+#ifndef FontCompilerFlags
+#define FontCompilerFlags -t
+#endif
+#ifndef ConnectionFlags
+#define ConnectionFlags -DTCPCONN -DUNIXCONN
+#endif
+#ifndef FontDefines
+#define FontDefines -DFONT_SNF -DFONT_BDF -DCOMPRESSED_FONTS
+#endif
+#ifndef ExtensionDefines
+#define ExtensionDefines /* check site.def for defaults */
+#endif
+#ifndef ServerCDebugFlags
+#define ServerCDebugFlags OptimizedCDebugFlags
+#endif
+#ifndef LibraryDefines
+#define LibraryDefines StandardDefines
+#endif
+#ifndef ServerDefines
+#define ServerDefines StandardDefines ExtensionDefines
+#endif
+#ifndef CppSourcesPresent
+#define CppSourcesPresent	NO	/* only works with BSD sources */
+#endif
+#ifndef CppSources
+#define CppSources /usr/src/lib/cpp
+#endif
+
+#ifndef BinDir
+#define BinDir $(DESTDIR)/usr/bin/X11
+#endif
+#ifndef IncRoot
+#define IncRoot $(DESTDIR)/usr/include
+#endif
+#ifndef BuildIncRoot
+#define BuildIncRoot $(TOP)
+#endif
+#ifndef BuildIncTop
+#define BuildIncTop ..		/* relative to $(TOP)/X11 */
+#endif
+#ifndef LibDir
+#define LibDir $(USRLIBDIR)/X11
+#endif
+#ifndef ConfigDir
+#define ConfigDir $(LIBDIR)/config
+#endif
+#ifndef LintlibDir
+#define LintlibDir $(USRLIBDIR)/lint
+#endif
+#ifndef FontDir
+#define FontDir $(LIBDIR)/fonts
+#endif
+#ifndef AdmDir
+#define AdmDir $(DESTDIR)/usr/adm
+#endif
+#ifndef XinitDir
+#define XinitDir $(LIBDIR)/xinit
+#endif
+#ifndef XdmDir
+#define XdmDir $(LIBDIR)/xdm
+#endif
+#ifndef XdmConfigurationSubdirectory		/* under xdm sources */
+#define XdmConfigurationSubdirectory config/default
+#endif
+#ifndef AwmDir
+#define AwmDir $(LIBDIR)/awm
+#endif
+#ifndef TwmDir
+#define TwmDir $(LIBDIR)/twm
+#endif
+#ifndef GwmDir
+#define GwmDir $(LIBDIR)/gwm
+#endif
+#ifndef ManPath
+#define ManPath $(DESTDIR)/**/ManDirectoryRoot
+#endif
+#ifndef ManSourcePath
+#define ManSourcePath $(MANPATH)/man
+#endif
+#ifndef ManDir
+#define ManDir $(MANSOURCEPATH)/**/ManSuffix
+#endif
+#ifndef LibmanDir
+#define LibmanDir $(MANSOURCEPATH)/**/LibManSuffix
+#endif
+#ifndef DocDir
+#define DocDir $(MANPATH)/doc
+#endif
+#ifndef XAppLoadDir
+#define XAppLoadDir $(LIBDIR)/app-defaults
+#endif
+#ifndef OsNameDefines
+#define OsNameDefines /* as nothing */
+#endif
+#ifndef DefaultUserPath			/* for xdm */
+#define DefaultUserPath :/bin:/usr/bin:$(BINDIR):/usr/ucb
+#endif
+#ifndef DefaultSystemPath		/* for xdm */
+#define DefaultSystemPath /etc:/bin:/usr/bin:$(BINDIR):/usr/ucb
+#endif
+#ifndef DefaultSystemShell		/* for xdm to set in SHELL */
+#define DefaultSystemShell BourneShell
+#endif
+#ifndef UseCCMakeDepend			/* use slow cc -E script */
+#define UseCCMakeDepend NO
+#endif
+#ifndef DependDir
+#if UseCCMakeDepend
+#define DependDir $(SCRIPTSRC)
+#else
+#define DependDir $(UTILSRC)/makedepend
+#endif
+#endif
+#ifndef ContribDir
+#define ContribDir $(TOP)/../contrib	/* R4 contrib is outside core tree */
+#endif
+#ifndef DependCmd
+#define DependCmd $(DEPENDSRC)/makedepend
+#endif
+#ifndef RemoveTargetProgramByMoving
+#define RemoveTargetProgramByMoving NO
+#endif
+#ifndef AllocateLocalDefines
+#define AllocateLocalDefines /**/
+#endif
+
+#ifndef SharedLibX
+#if HasSunOSSharedLibraries
+#define SharedLibX YES
+#else
+#define SharedLibX NO
+#endif
+#endif
+#ifndef SharedOldLibX
+#if HasSunOSSharedLibraries
+#define SharedOldLibX YES
+#else
+#define SharedOldLibX NO
+#endif
+#endif
+#ifndef SharedLibXt
+#if HasSunOSSharedLibraries
+#define SharedLibXt YES
+#else
+#define SharedLibXt NO
+#endif
+#endif
+#ifndef SharedLibXaw
+#if HasSunOSSharedLibraries
+#define SharedLibXaw YES
+#else
+#define SharedLibXaw NO
+#endif
+#endif
+#ifndef SharedLibXmu
+#if HasSunOSSharedLibraries
+#define SharedLibXmu YES
+#else
+#define SharedLibXmu NO
+#endif
+#endif
+#ifndef SharedLibXext
+#if HasSunOSSharedLibraries
+#define SharedLibXext YES
+#else
+#define SharedLibXext NO
+#endif
+#endif
+
+
+#ifndef SharedXlibRev
+#define SharedXlibRev 4.2
+#endif
+#ifndef SharedOldXRev
+#define SharedOldXRev 4.0
+#endif
+#ifndef SharedXtRev
+#define SharedXtRev 4.0
+#endif
+#ifndef SharedXawRev
+#define SharedXawRev 4.0
+#endif
+#ifndef SharedXmuRev
+#define SharedXmuRev 4.0
+#endif
+#ifndef SharedXextRev
+#define SharedXextRev 4.0
+#endif
+
+#ifndef HasInputExtension
+#define HasInputExtension YES
+#endif
+#ifndef DoInstallExtensionsIntoXlib
+#define DoInstallExtensionsIntoXlib NO	/* merge libXext.a into libX11.a */
+#endif
+
+#if NeedBerklibInXlib		/* what about regular Berklib */
+#define BandAidLibraryNeeded		YES
+#define BandAidLibrarySources		Berklib.c
+#define BandAidLibraryObjects		Berklib.o
+#define BandAidLibraryMake()					@@\
+Berklib.c: sysV/Berklib.c					@@\
+	-$(RM) Berklib.c					@@\
+	-$(LN) sysV/Berklib.c .
+#endif /* NeedBerklibInXlib */
+
+
+#ifndef BandAidLibraryNeeded
+#define BandAidLibraryNeeded NO		/* for getting right stuff into Xlib */
+#endif
+
+#ifndef XawClientDepLibs
+#define XawClientDepLibs $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#endif
+#ifndef XawClientLibs
+#define XawClientLibs $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+#endif
+
+/**/###########################################################################
+/**/# X Window System make variables; this need to be coordinated with rules
+/**/# $XConsortium: Project.tmpl,v 1.63 89/12/18 16:46:44 jim Exp $
+
+/*
+ * This list must be reflected in the DIRS_TO_BUILD list in the top-level
+ * Makefile.
+ */
+          PATHSEP = /			/* for building filenames */
+        USRLIBDIR = UsrLibDir		/* libraries */
+           BINDIR = BinDir		/* programs */
+          INCROOT = IncRoot		/* base of where to put header files */
+     BUILDINCROOT = BuildIncRoot	/* base of build loc */
+      BUILDINCDIR = $(BUILDINCROOT)/X11
+      BUILDINCTOP = BuildIncTop		/* top relative to BUILDINCDIR */
+           INCDIR = $(INCROOT)/X11	/* header files, must end in X11 */
+           ADMDIR = AdmDir		/* server log files */
+           LIBDIR = LibDir		/* rgb, XErrorDB, etc. */
+        CONFIGDIR = ConfigDir		/* build configuration information */
+       LINTLIBDIR = LintlibDir		/* lint libraries */
+
+          FONTDIR = FontDir		/* font directories */
+         XINITDIR = XinitDir		/* xinit config files */
+           XDMDIR = XdmDir		/* xdm config files */
+           AWMDIR = AwmDir		/* awm config files */
+           TWMDIR = TwmDir		/* twm config files */
+           GWMDIR = GwmDir		/* gwm config and data files */
+          MANPATH = ManPath		/* top of manual page tree */
+    MANSOURCEPATH = ManSourcePath	/* prefix for man page sources */
+           MANDIR = ManDir		/* man pages for commands */
+        LIBMANDIR = LibmanDir		/* man pages for library routines */
+           DOCDIR = DocDir              /* documentation directory */
+      XAPPLOADDIR = XAppLoadDir		/* application default resources */
+#if HasSunOSSharedLibraries
+        SOXLIBREV = SharedXlibRev
+          SOXTREV = SharedXtRev
+         SOXAWREV = SharedXawRev
+        SOOLDXREV = SharedOldXRev
+         SOXMUREV = SharedXmuRev
+        SOXEXTREV = SharedXextRev
+#endif
+       FONTCFLAGS = FontCompilerFlags
+
+     INSTAPPFLAGS = $(INSTDATFLAGS)	/* XXX - this should go away - XXX */
+
+#ifdef UseInstalled
+            IMAKE = imake		/* assume BINDIR in path */
+           DEPEND = makedepend		/* assume BINDIR in path */
+              RGB = rgb			/* assume BINDIR in path */
+            FONTC = bdftosnf		/* assume BINDIR in path */
+        MKFONTDIR = mkfontdir		/* assume BINDIR in path */
+        MKDIRHIER = BourneShell $(BINDIR)/mkdirhier.sh
+#else
+            IMAKE = $(IMAKESRC)/imake
+           DEPEND = DependCmd
+              RGB = $(RGBSRC)/rgb
+            FONTC = $(BDFTOSNFSRC)/bdftosnf
+        MKFONTDIR = $(MKFONTDIRSRC)/mkfontdir
+        MKDIRHIER = BourneShell $(SCRIPTSRC)/mkdirhier.sh
+#endif
+
+        CONFIGSRC = $(TOP)/config
+        CLIENTSRC = $(TOP)/clients
+          DEMOSRC = $(TOP)/demos
+           LIBSRC = $(TOP)/lib
+          FONTSRC = $(TOP)/fonts
+       INCLUDESRC = $(TOP)/X11
+        SERVERSRC = $(TOP)/server
+          UTILSRC = $(TOP)/util
+        SCRIPTSRC = $(UTILSRC)/scripts
+       EXAMPLESRC = $(TOP)/examples
+       CONTRIBSRC = ContribDir
+           DOCSRC = $(TOP)/doc
+           RGBSRC = $(TOP)/rgb
+        DEPENDSRC = DependDir
+         IMAKESRC = $(CONFIGSRC)
+         XAUTHSRC = $(LIBSRC)/Xau
+          XLIBSRC = $(LIBSRC)/X
+           XMUSRC = $(LIBSRC)/Xmu
+       TOOLKITSRC = $(LIBSRC)/Xt
+       AWIDGETSRC = $(LIBSRC)/Xaw
+       OLDXLIBSRC = $(LIBSRC)/oldX
+      XDMCPLIBSRC = $(LIBSRC)/Xdmcp
+      BDFTOSNFSRC = $(FONTSRC)/bdftosnf
+     MKFONTDIRSRC = $(FONTSRC)/mkfontdir
+     EXTENSIONSRC = $(TOP)/extensions
+
+/*
+ * and now a little bit of magic for using imake without source tree; if we
+ * are using shared libraries, we really don't need to depend on anything
+ */
+#ifdef UseInstalled
+#define _Use(a,b) a
+#else
+#define _Use(a,b) b
+#endif
+#if SharedLibXext
+  DEPEXTENSIONLIB = /* _Use($(USRLIBDIR),$(EXTENSIONSRC)/lib)/libXext.so.$(SOXEXTREV) */
+     EXTENSIONLIB = _Use(-lXext,-L$(EXTENSIONSRC) -lXext)
+#else
+  DEPEXTENSIONLIB = _Use($(USRLIBDIR),$(EXTENSIONSRC)/lib)/libXext.a
+     EXTENSIONLIB = LoaderLibPrefix _Use(-lXext, $(DEPEXTENSIONLIB))
+#endif
+#if SharedLibX
+          DEPXLIB = $(DEPEXTENSIONLIB) /* _Use($(USRLIBDIR),$(XLIBSRC))/libX11.so.$(SOXLIBREV) */
+             XLIB = $(EXTENSIONLIB) _Use(-lX11,-L$(XLIBSRC) -lX11)
+#else
+          DEPXLIB = $(DEPEXTENSIONLIB) _Use($(USRLIBDIR),$(XLIBSRC))/libX11.a 
+             XLIB = $(EXTENSIONLIB) LoaderLibPrefix _Use(-lX11,$(XLIBSRC)/libX11.a)
+#endif
+      DEPXAUTHLIB = _Use($(USRLIBDIR),$(XAUTHSRC))/libXau.a
+         XAUTHLIB = LoaderLibPrefix _Use(-lXau,$(DEPXAUTHLIB))
+#if SharedLibXmu
+        DEPXMULIB = /* _Use($(USRLIBDIR),$(XMUSRC))/libXmu.so.$(SOXMUREV) */
+           XMULIB = _Use(-lXmu,-L$(XMUSRC) -lXmu)
+#else
+        DEPXMULIB = _Use($(USRLIBDIR),$(XMUSRC))/libXmu.a
+           XMULIB = LoaderLibPrefix _Use(-lXmu,$(DEPXMULIB))
+#endif
+#if SharedOldLibX
+       DEPOLDXLIB = /* _Use($(USRLIBDIR),$(OLDXLIBSRC))/liboldX.so.$(SOOLDXREV) */
+          OLDXLIB = _Use(-loldX,-L$(OLDXLIBSRC) -loldX)
+#else
+       DEPOLDXLIB = _Use($(USRLIBDIR),$(OLDXLIBSRC))/liboldX.a
+          OLDXLIB = LoaderLibPrefix _Use(-loldX,$(DEPOLDXLIB))
+#endif
+#if SharedLibXt
+      DEPXTOOLLIB = /* _Use($(USRLIBDIR),$(TOOLKITSRC))/libXt.so.$(SOXTREV) */
+         XTOOLLIB = _Use(-lXt,-L$(TOOLKITSRC) -lXt)
+#else
+      DEPXTOOLLIB = _Use($(USRLIBDIR),$(TOOLKITSRC))/libXt.a
+         XTOOLLIB = LoaderLibPrefix _Use(-lXt,$(DEPXTOOLLIB))
+#endif
+#if SharedLibXaw
+        DEPXAWLIB = /* _Use($(USRLIBDIR),$(AWIDGETSRC))/libXaw.so.$(SOXAWREV) */
+           XAWLIB = _Use(-lXaw,-L$(AWIDGETSRC) -lXaw)
+#else
+        DEPXAWLIB = _Use($(USRLIBDIR),$(AWIDGETSRC))/libXaw.a
+           XAWLIB = LoaderLibPrefix _Use(-lXaw,$(DEPXAWLIB)) 
+#endif
+
+ LINTEXTENSIONLIB = _Use($(USRLIBDIR),$(EXTENSIONSRC)/lib)/llib-lXext.ln
+         LINTXLIB = _Use($(USRLIBDIR),$(XLIBSRC))/llib-lX11.ln
+          LINTXMU = _Use($(USRLIBDIR),$(XMUSRC))/llib-lXmu.ln
+        LINTXTOOL = _Use($(USRLIBDIR),$(TOOLKITSRC))/llib-lXt.ln
+          LINTXAW = _Use($(USRLIBDIR),$(AWIDGETSRC))/llib-lXaw.ln
+
+
+/*
+ * Contrib support - you shouldn't need to change these.
+ */
+#if HasXwWidgets
+        XWLIBSRC = $(CONTRIBSRC)/toolkits/Xw
+        DEPXWLIB = _Use($(USRLIBDIR),$(XWLIBSRC))/libXw.a
+        XWLIB = LoaderLibPrefix _Use(-lXw,$(DEPXWLIB))
+#endif
+#if HasXcuWidget
+        XCULIBSRC = $(CONTRIBSRC)/toolkits/Xcu
+        DEPXCULIB = _Use($(USELIBDIR),$(XWLIBSRC))/libXcu.a
+        XCULIB = LoaderLibPrefix _Use(-lXcu,$(DEPXCULIB))
+#endif
+
+#undef _Use
+
+/*
+ * the following may be removed in R4{alpha,beta,?}
+ */
+#ifndef NeedDefaultDepLibs
+#define NeedDefaultDepLibs YES
+#endif
+
+#if NeedDefaultDepLibs
+/*
+ * Individual libraries should override this
+ */
+#if HasSunOSSharedLibraries
+          DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#else
+          DEPLIBS = $(LOCAL_LIBRARIES)
+#endif
+         DEPLIBS1 = $(DEPLIBS)
+         DEPLIBS2 = $(DEPLIBS)
+         DEPLIBS3 = $(DEPLIBS)
+#endif /* NeedDefaultDepLibs */

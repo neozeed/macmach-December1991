@@ -1,0 +1,70 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	massign.man,v $
+.\" Revision 2.3  91/03/19  12:31:17  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:32:21  rpd
+.\" 	Created.
+.\" 	[90/09/07            rpd]
+.\" 
+.TH MASSIGN 1 6/18/90
+.CM 4
+.SH NAME
+massign \- assign tasks, threads, and processors to a processor set
+.SH SYNOPSIS
+\fBmassign\fP [\fB-host\fP machine] [\fB-wait\fP|\fB-threads\fP] [\fB-pset\fP id] ids...
+.SH DESCRIPTION
+\fImassign(1)\fR assigns tasks, threads, and processors to a processor
+set.  A list of MachIDs specifies the objects to assign, which may be
+of different types.  The \fB-pset\fR argument specifies the processor
+set.  It may be omitted when assigning tasks and threads, and the
+objects are assigned to the default processor set.
+.PP
+\fImassign\fR must run as root or a member of group kmem
+to gain access to the target objects.
+.PP
+\fImassign\fR interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-pset \fIid\fR
+Specifies the processor set (privileged port) to which
+the tasks, threads, and processors are assigned.
+.TP 8
+.B \-wait
+When assigning processors, specifies that the call
+should wait for the assignment to finish.
+.TP 8
+.B \-threads
+When assigning tasks, specifies that the task's threads
+should also be assigned to the processor set.
+.SH "SEE ALSO"
+ms(1), mcreate(1), machid(1), thread_assign_default(2), thread_assign(2),
+task_assign_default(2), task_assign(2), processor_assign(2).

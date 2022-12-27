@@ -1,0 +1,97 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringDrawImage 3X "" "" "" ""
+.SH NAME
+\fBXmStringDrawImage \(em a compound string function that draws a compound
+string in an X Window and creates an image.\fP
+.iX "XmStringDrawImage"
+.iX "compound string functions" "XmStringDrawImage"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+void XmStringDrawImage (\fId, w, fontlist, string, gc, x, y, width, alignment,
+layout_direction, clip\fP)
+.br
+.ta .5i 1.5i
+.br
+	Display	\fI* d\fP;
+.br
+	Window	\fIw\fP;
+.br
+	XmFontList	\fIfontlist\fP;
+.br
+	XmString	\fIstring\fP;
+.br
+	GC	\fIgc\fP;
+.br
+	Position	\fIx\fP;
+.br
+	Position	\fIy\fP;
+.br
+	Dimension	\fIwidth\fP;
+.br
+	unsigned char	\fIalignment\fP;
+.br
+	unsigned char	\fIlayout_direction\fP;
+.br
+	XRectangle	\fI* clip\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringDrawImage\fP 
+draws a compound string in an X Window and paints both the
+foreground and background bits of each character.  
+.PP
+When \fIstring\fP has been created with \fBXmStringCreateSimple\fP, the
+font associated with the character set derived from the
+current language environment must
+appear at the front of \fIfontlist\fP.
+Otherwise, the result of the function is undefined.
+.sp 1
+.IP "\fId\fP" 1.25i
+Specifies the display.
+.IP "\fIw\fP" 1.25i
+Specifies the window.
+.IP "\fIfontlist\fP" 1.25i
+Specifies the font list.
+.IP "\fIstring\fP" 1.25i
+Specifies the string.
+.IP "\fIgc\fP" 1.25i
+Specifies the graphics context to use.
+.IP "\fIx\fP" 1.25i
+Specifies a coordinate of the rectangle that will contain the displayed
+compound string.
+.IP "\fIy\fP" 1.25i
+Specifies a coordinate of the rectangle that will contain the displayed
+compound string.
+.IP "\fIwidth\fP" 1.25i
+Specifies the width of the rectangle that will contain the 
+displayed compound string.
+.IP "\fIalignment\fP" 1.25i
+Specifies how the string will be aligned within the specified rectangle.
+It is either \fBXmALIGNMENT_BEGINNING\fP, \fBXmALIGNMENT_CENTER\fP, or
+\fBXmALIGNMENT_END\fP.
+.IP "\fIlayout_direction\fP" 1.25i
+Controls the direction in which the segments of the compound string will
+be laid out.  It also determines the meaning of the \fIalignment\fP parameter.
+.IP "\fIclip\fP" 1.25i
+Allows the application to restrict the area into which the compound string
+will be drawn.  If NULL, no clipping will be done.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

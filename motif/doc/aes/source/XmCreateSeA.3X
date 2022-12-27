@@ -1,0 +1,78 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateSelectionBox 3X "" "" "" ""
+.SH NAME
+\fBXmCreateSelectionBox \(em the SelectionBox widget creation function.\fP
+.iX "XmCreateSelectionBox"
+.iX "creation functions" "XmCreateSelectionBox"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/SelectioB.h>
+.sp 1
+Widget XmCreateSelectionBox (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.sp
+.ne 3i
+.SH DESCRIPTION
+\fBXmCreateSelectionBox\fP creates an unmanaged SelectionBox. 
+A SelectionBox is used to get a selection
+from a list of alternatives from the user and
+includes the following:
+.IP \(bu 3
+A scrolling list of alternatives
+.IP \(bu 3
+An editable text field for the selected alternative
+.IP \(bu 3
+Labels for the list and text field
+.IP \(bu 3
+Three or four buttons
+.PP
+The default button labels are \fBOK\fP, \fBCancel\fP, and \fBHelp\fP.
+By default an \fBApply\fP button is also created; if the parent of the
+SelectionBox is a DialogShell it is managed, and otherwise it is unmanaged.
+One additional \fBWorkArea\fP child may be added to the
+SelectionBox after creation.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of SelectionBox
+and its associated resources, see \fBXmSelectionBox(3X)\fP.
+.sp 1
+.ne 4i
+.SH RETURN VALUE
+Returns the SelectionBox widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmSelectionBox(3X)\fP 
+.sp 1

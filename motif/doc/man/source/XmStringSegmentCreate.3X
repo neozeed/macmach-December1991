@@ -1,0 +1,64 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringSegmentCreate 3X "" "" "" ""
+.SH NAME
+\fBXmStringSegmentCreate \(em a compound string function that creates a
+compound string.\fP
+.iX "XmStringSegmentCreate"
+.iX "compound string functions" "XmStringSegmentCreate"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmStringSegmentCreate (\fItext, charset, direction, separator\fP)
+.br
+.ta .5i 1.75i
+.br
+	char	\fI* text\fP;
+.br
+	XmStringCharSet	\fIcharset\fP;
+.br
+	XmStringDirection	\fIdirection\fP;
+.br
+	Boolean	\fIseparator\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringSegmentCreate\fP is a high-level function that assembles a compound
+string consisting of a character set identifier, a direction component,
+a text component, and an optional separator component.
+.br
+.ne 10
+.sp 1
+.IP "\fItext\fP" .75i
+Specifies a null-terminated string to be used as the text component of
+the compound string.
+.IP "\fIcharset\fP" .75i
+Specifies the character set identifier to be associated with the text.
+This can be \fBXmSTRING_DEFAULT_CHARSET\fP, but this value does not
+comply with the AES, and it may be removed in future versions of Motif.
+If the value is \fBXmSTRING_DEFAULT_CHARSET\fP, the routine derives the
+character set from the current language environment.
+.IP "\fIdirection\fP" .75i
+Specifies the direction of the text.
+.IP "\fIseparator\fP" .75i
+Specifies separator addition.  If False, the compound string does not
+have a separator at the end.  If True, a separator immediately
+follows the text component.
+.sp 1
+.SH RETURN VALUE
+Returns a new compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP.
+.sp 1

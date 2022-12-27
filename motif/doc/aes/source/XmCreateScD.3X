@@ -1,0 +1,96 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateScrolledText 3X "" "" "" ""
+.SH NAME
+\fBXmCreateScrolledText \(em the Text 
+ScrolledText convenience creation function.\fP
+.iX "XmCreateScrolledText"
+.iX "creation functions" "XmCreateScrolledText"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+Widget XmCreateScrolledText (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateScrolledText\fP creates an instance of a Text widget
+that is contained within a ScrolledWindow.  All ScrolledWindow subarea
+widgets are automatically created by this function. The ID returned
+by this function is that of the Text widget.
+Use this ID for all normal Text operations, as well as those that
+are relevant for the ScrolledText widget.  
+.PP
+The Text widget defaults to single-line text edit; therefore, no ScrollBars
+are displayed.  The Text resource \fBXmNeditMode\fP must be set to
+\fBXmMULTI_LINE_EDIT\fP to display the ScrollBars.
+The results of placing a Text widget inside a ScrolledWindow when the
+Text's \fBXmNeditMode\fP is \fBXmSINGLE_LINE_EDIT\fP are undefined.
+.PP
+All arguments to either the Text or the ScrolledWindow widget can be
+specified at creation time using this function.
+Changes to initial position and size are sent only to the ScrolledWindow
+widget.
+Other resources are sent to the Text or the ScrolledWindow widget as
+appropriate.
+.PP
+This function forces the following initial values for ScrolledWindow
+resources:
+.IP \(bu 3
+\fBXmNscrollingPolicy\fP is set to \fBXmAPPLICATION_DEFINED\fP.
+.IP \(bu 3
+\fBXmNvisualPolicy\fP is set to \fBXmVARIABLE\fP.
+.IP \(bu 3
+\fBXmNscrollBarDisplayPolicy\fP is set to \fBXmSTATIC\fP.
+.IP \(bu 3
+\fBXmNshadowThickness\fP is set to 0.
+.PP
+To obtain the ID of the
+ScrolledWindow widget associated with the ScrolledText, use
+the Xt Intrinsics \fBXtParent\fP function.  
+The name of the ScrolledWindow
+created by this function is formed by concatenating the letters \fBSW\fP
+onto the end of the \fIname\fP specified in the parameter list.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.ne 30
+.SH RETURN VALUE
+Returns the Text widget ID.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmScrolledWindow(3X)\fP and \fBXmText(3X)\fP.
+.sp 1

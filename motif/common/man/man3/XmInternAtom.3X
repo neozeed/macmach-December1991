@@ -1,0 +1,49 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmInternAtom 3X "" "" "" ""
+.SH NAME
+\fBXmInternAtom \(em a function that returns an atom for a given name.\fP
+.iX "XmInternAtom"
+.iX "atoms"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/AtomMgr.h>
+.sp 1
+Atom XmInternAtom (\fIdisplay, name, only_if_exists\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	String	\fIname\fP;
+.br
+	Boolean	\fIonly_if_exists\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmInternAtom\fP returns an atom for a given name.  
+It mirrors the \fBXlib\fP interfaces for atom management, but provides
+client-side caching.  When and where caching is provided in \fBXlib\fP, the
+routines will become pseudonyms for the \fBXlib\fP routines.  
+.br
+.ne 15
+.IP "\fIdisplay\fP" 1i
+Specifies the connection to the X server
+.IP "\fIname\fP" 1i
+Specifies the name associated with the atom you want returned
+.IP "\fIonly_if_exists\fP" 1i
+Specifies a Boolean value that indicates whether \fBXInternAtom\fP creates
+the atom
+.SH RETURN VALUE
+Returns an atom.

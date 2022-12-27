@@ -1,0 +1,88 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateRowColumn 3X "" "" "" ""
+.SH NAME
+\fBXmCreateRowColumn \(em the RowColumn widget creation function.\fP
+.iX "XmCreateRowColumn"
+.iX "creation functions" "XmCreateRowColumn"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmCreateRowColumn (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateRowColumn\fP creates an instance of a 
+RowColumn widget and returns the associated widget ID.  If 
+\fBXmNrowColumnType\fP is not specified, then it is created with 
+\fBXmWORK_AREA\fP, which is the default.
+.PP
+If this function is used to create a Popup Menu of type
+\fBXmMENU_POPUP\fP or a Pulldown Menu of type \fBXmMENU_PULLDOWN\fP,
+a MenuShell widget is not automatically created as the parent of the
+MenuPane.  The application must first create the MenuShell by using either
+\fBXmCreateMenuShell\fP or the standard toolkit create function.
+.br
+.ne 7
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCreateMenuBar(3X)\fP,
+\fBXmCreateMenuShell(3X)\fP,
+\fBXmCreateOptionMenu(3X)\fP,
+\fBXmCreatePopupMenu(3X)\fP,
+\fBXmCreatePulldownMenu(3X)\fP,
+\fBXmCreateRadioBox(3X)\fP,
+\fBXmCreateSimpleCheckBox(3X)\fP,
+\fBXmCreateSimpleMenuBar(3X)\fP,
+\fBXmCreateSimpleOptionMenu(3X)\fP,
+\fBXmCreateSimplePopupMenu(3X)\fP,
+\fBXmCreateSimplePulldownMenu(3X)\fP,
+\fBXmCreateSimpleRadioBox(3X)\fP,
+\fBXmCreateWorkArea(3X)\fP,
+\fBXmRowColumn(3X)\fP,
+\fBXmVaCreateSimpleCheckBox(3X)\fP,
+\fBXmVaCreateSimpleMenuBar(3X)\fP,
+\fBXmVaCreateSimpleOptionMenu(3X)\fP,
+\fBXmVaCreateSimplePopupMenu(3X)\fP,
+\fBXmVaCreateSimplePulldownMenu(3X)\fP, and
+\fBXmVaCreateSimpleRadioBox(3X)\fP.
+.sp 1
+.ad

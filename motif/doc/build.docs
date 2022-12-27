@@ -1,0 +1,810 @@
+#!/bin/sh
+#
+#
+#  Motif documentation build script
+#
+#  synopsis:  
+#  build.docs [longnames] [install] [postscript] [output]
+#                  [toc] [index] [parts]
+#
+#          longnames   converts manpages to longname versions
+#          install     installs built man pages
+#          output      builds ascii output pages
+#          postscript  builds postscript output pages
+#          toc         builds doument table of contents and index
+#          index       builds doument table of contents and index
+#          parts       can be any of the following manuals
+#                             aes            man
+#                             style          guide
+#                             release        test
+#                             users          porting
+#                             all            patch
+#                             sso
+#                      only longnames and install will work
+#                      without one or more of these argument
+#
+
+doAes=false
+doMan=false
+doStyle=false
+doUsers=false
+doGuide=false
+doRelease=false
+doPorting=false
+doPatch=false
+doTest=false
+doSso=false
+
+doLongnames=false
+doInstall=false
+doOutput=false
+doPostscript=false
+doTocIndex=false
+doNone=true
+
+# parse command line
+
+while [ $# -gt 0 ]
+do
+    if [ "$1" = "aes" ]
+        then doAes=true
+
+    elif [ "$1" = "man" ]
+        then doMan=true
+
+    elif [ "$1" = "users" ]
+        then doUsers=true
+
+    elif [ "$1" = "style" ]
+        then doStyle=true
+
+    elif [ "$1" = "guide" ]
+        then doGuide=true
+
+    elif [ "$1" = "release" ]
+        then doRelease=true
+
+    elif [ "$1" = "porting" ]
+        then doPorting=true
+
+    elif [ "$1" = "patch" ]
+        then doPatch=true
+
+    elif [ "$1" = "test" ]
+        then doTest=true
+
+    elif [ "$1" = "sso" ]
+        then doSso=true
+
+    elif [ "$1" = "all" ]
+        then doAes=true
+             doMan=true
+             doStyle=true
+             doUsers=true
+             doGuide=true
+             doRelease=true
+             doPorting=true
+             doPatch=true
+             doTest=true
+             doSso=true
+
+    elif [ "$1" = "longnames" ]
+        then doLongnames=true
+             doNone=false
+
+    elif [ "$1" = "install" ]
+        then doInstall=true
+             doLongnames=true
+             doNone=false
+
+    elif [ "$1" = "output" ]
+        then doOutput=true
+             doNone=false
+
+    elif [ "$1" = "postscript" ]
+        then doPostscript=true
+             doNone=false
+
+    elif [ "$1" = "toc" ]
+        then doTocIndex=true
+             doNone=false
+
+    elif [ "$1" = "index" ]
+        then doTocIndex=true
+             doNone=false
+
+    else
+        true
+    fi
+
+    shift
+done
+if `$doNone`
+    then
+
+        echo ''
+        echo 'synopsis:  '
+        echo ''
+        echo 'build.docs [install] [longnames] [postscript] [output]'
+        echo '                 [toc] [index] [parts]'
+        echo ''
+        echo '        install     installs built man pages'
+        echo '        longnames   converts manpages to longname versions'
+        echo '        postscript  builds postscript output pages'
+        echo '        output      builds ascii output pages'
+        echo '        toc         builds doument table of contents and index'
+        echo '        index       builds doument table of contents and index'
+        echo '        parts       can be any of the following manuals'
+        echo '                           aes            man'
+        echo '                           style          guide'
+        echo '                           release        test'
+        echo '                           users          porting'
+        echo '                           all            patch'
+        echo '                           sso'
+        echo '                    only longnames and install will work'
+        echo '                    without one or more of these argument'
+        echo ''
+        exit 1
+fi
+
+# working locations and format control places
+
+builddir=/project/motif/docsrc/doc
+rootdir=`pwd`
+man1dir=/usr/man/man1
+man3dir=/usr/man/man3
+
+# nroff and troff standard options.
+
+TBIN=/usr/local/bin
+TLIB=/eroff/lib/font
+
+eqn=$TBIN/eqn
+neqn=$TBIN/neqn
+pic=$TBIN/pic
+tbl=$TBIN/tbl
+troff=$TBIN/troff
+eps=$TBIN/eps
+nroff=$TBIN/nroff
+col=col
+soelim=soelim
+
+nroffOptions=""
+troffOptions=""
+
+# check for longname support  
+
+if $doLongnames
+then
+    touch vERYVERYLONGNAME 
+    listed=`ls vERYVERY*`
+    if [ "$listed" = "vERYVERYLONGNAME" ] 
+    then
+	    doLongnames=true
+	    doInstallptr=false
+	    rm vERYVERYLONGNAME
+    else
+	    doLongnames=false
+            doInstallptr=true
+	    rm vERYVERYLONGNAME
+    fi
+    
+    #   rename 1X manpages
+
+    if $doLongnames
+    then
+            for file in $rootdir/man/source/*.1X
+        do
+            suffix=".1X"
+        #	get the name from first argument of the TH line
+        #	(assume that the name has no spaces)
+        #	(method is to put quotes in and then delete all from first
+        #	to last quote)
+
+	newname=`sed -n -e '/^\.TH/ {
+		s/  */" "/g
+		s/^\.TH"*  *"*//
+		s/".*$//p
+		} 
+	' $file`
+    
+        # test that you haven't got the null string
+    
+    	    if [ ! -n $newname ]
+    	    then
+    		    echo "error processing $file:  no name extracted"
+    		    echo "aborting $0"
+    		    exit
+	    fi
+    
+    #	test that you aren't overwriting a file, otherwise rename it	
+    
+	    if [ -s $rootdir/man/source/$newname$suffix ]
+	    then
+		    echo "$newname$suffix: already exists.  $file not copied"
+	    else
+		    mv $file $rootdir/man/source/$newname$suffix
+	    fi
+    done
+
+
+
+    for file in $rootdir/man/source/*.3X
+    do
+        suffix=".3X"
+    #	get the name from first argument of the TH line
+    #	(assume that the name has no spaces)
+    #	(method is to put quotes in and then delete all from first
+    #	to last quote)
+    
+	newname=`sed -n -e '/^\.TH/ {
+		s/  */" "/g
+		s/^\.TH"*  *"*//
+		s/".*$//p
+		} 
+	' $file`
+    
+    # test that you haven't got the null string
+    
+	    if [ ! -n $newname ]
+	    then
+		    echo "error processing $file:  no name extracted"
+		    echo "aborting $0"
+		    exit
+	    fi
+    
+    #	test that you aren't overwriting a file, otherwise rename it	
+    
+	    if [ -s $rootdir/man/source/$newname$suffix ]
+	    then
+		    echo "$newname$suffix: already exists.  $file not copied"
+	    else
+	            mv $file $rootdir/man/source/$newname$suffix
+	    fi
+        done
+    fi
+fi
+
+# install man pages
+
+if $doInstall
+then
+    if [ ! -r $man1dir ]
+    then
+	mkdir $man1dir
+    fi
+
+    if [ ! -r $man3dir ]
+    then
+	mkdir $man3dir
+    fi
+
+    for manpage in $rootdir/man/source/*.1X
+    do
+        ./tools/rmboxes $manpage | $tbl > $man1dir/`basename $manpage`
+    done
+
+    for manpage in $rootdir/man/source/*.3X
+    do
+        ./tools/rmboxes $manpage | $tbl > $man3dir/`basename $manpage`
+    done
+
+    if doInstallptr
+    then
+    for pointer in $rootdir/man/pointer/*.3X
+    do
+	./tools/rmboxes $pointer | $tbl > $man3dir/`basename $pointer`
+    done
+    fi
+fi
+
+# make output files
+
+if $doOutput
+then
+    if $doAes
+    then
+        manual=./aes
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+	   for manfile in $manual/source/*X
+        do
+            ./tools/rmboxes ./tools/header.man $manfile | $pic |\
+             $tbl | $nroff -man -Tlp > $manual/output/`basename $manfile`
+        done
+    fi
+
+    if $doMan
+    then
+        manual=./man
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+	   for manfile in $manual/source/*X
+        do
+            ./tools/rmboxes ./tools/header.man $manfile | $pic |\
+             $tbl | $nroff -man -Tlp > $manual/output/`basename $manfile`
+        done
+    fi
+
+    if $doUsers
+    then
+        manual=./usersGuide
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doStyle
+    then
+        manual=./styleGuide
+	   for mmfile in $manual/source/*.mm
+        do
+            $soelim ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp | $col -x > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doGuide
+    then
+        manual=./programGuide
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doPatch
+    then
+        manual=./patchKitNotes
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm $mmfile | $pic | $tbl |\
+            $nroff -mm -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doRelease
+    then
+        manual=./releaseNotes
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm $mmfile | $pic | $tbl |\
+            $nroff -mm -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doPorting
+    then
+        manual=./portingGuide
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm $mmfile | $pic | $tbl |\
+            $nroff -mm -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doSso
+    then
+        manual=./aes/service_otl
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes $mmfile | $pic | $tbl |\
+            $nroff -mm -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+
+    if $doTest
+    then
+        manual=./testGuide
+	   for mmfile in $manual/source/*.mm
+        do
+            ./tools/rmboxes ./tools/header.mm.alt $mmfile | $pic | $tbl |\
+            $nroff -mm -rN5 -Tlp  > $manual/output/`basename $mmfile .mm`.ot
+        done
+    fi
+fi
+
+# make toc & index
+
+if $doTocIndex
+then
+
+    # make aes index and toc temp file
+
+    if $doAes
+    then
+        workDir=./aes/source
+        (
+        cd $workDir
+        cat > $$.index.temp << %%
+.nr Hu 1
+.HU "Index"
+%%
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            title.mm preface.mm ch0*.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        $pic $builddir/tools/extmac.man.alt $builddir/tools/header.man\
+            header.man *.1X *.3X | $tbl |\
+            $troff -man -Tps > /dev/null 2>> $$.temp
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            $$.index.temp | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2>> $$.temp
+        )
+    fi
+
+    # make ref index and toc temp file
+
+    if $doMan
+    then
+        workDir=./man/source
+        (
+        cd $workDir
+        cat > $$.index.temp << %%
+.nr Hu 1
+.HU "Index"
+%%
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            title.mm  preface.mm ch0*.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        $pic $builddir/tools/extmac.man.alt $builddir/tools/header.man\
+            header.man *.1X *.3X | $tbl |\
+            $troff -man -Tps > /dev/null 2>> $$.temp
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            $$.index.temp | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2>> $$.temp
+        )
+    fi
+
+    # make programGuide index and toc temp file
+
+    if $doGuide
+    then
+        workDir=./programGuide/source
+        (
+        cd $workDir
+        cat > $$.index.temp << %%
+.nr Hu 1
+.HU "Index"
+%%
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt title.mm\
+            preface.mm ch*.mm app*.mm glossary.mm $$.index.temp\
+            | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make patchKitNotes toc temp file
+
+    if $doPatch
+    then
+        workDir=./patchKitNotes/source
+        (
+        cd $workDir
+        $pic $builddir/tools/extmac.mm $builddir/tools/header.mm title.mm\
+            ch0*.mm app*.mm | $tbl |\
+            $troff -meroff -mm -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make releaseNotes toc temp file
+
+    if $doRelease
+    then
+        workDir=./releaseNotes/source
+        (
+        cd $workDir
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            title.mm  ch0*.mm app*.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make portingGuide toc temp file
+
+    if $doPorting
+    then
+        workDir=./portingGuide/source
+        (
+        cd $workDir
+        $pic $builddir/tools/extmac.mm $builddir/tools/header.mm title.mm\
+            ch0*.mm app*.mm | $tbl |\
+            $troff -meroff -mm -Tps > /dev/null 2> $$.temp
+        )
+    fi
+    # make usersGuide index and toc temp file
+
+    if $doUsers
+    then
+        workDir=./usersGuide/source
+        (
+        cd $workDir
+        cat > $$.index.temp << %%
+.nr Hu 1
+.HU "Index"
+%%
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt\
+            title.mm\
+            preface.mm\
+            ch0*.mm app*.mm\
+            $$.index.temp | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make styleGuide index and toc temp file
+
+    if $doStyle
+    then
+        workDir=./styleGuide/source
+        (
+        cd $workDir
+        cat > $$.index.temp << %%
+.nr Hu 1
+.HU "Index"
+%%
+        $soelim $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt title.mm\
+            preface.mm\
+            ch0*.mm app*.mm glossary.mm $$.index.temp | $pic | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make testGuide toc temp file
+
+    if $doTest
+    then
+        workDir=./testGuide/source
+        (
+        cd $workDir
+        $pic $builddir/tools/extmac.mm.alt $builddir/tools/header.mm.alt title.mm\
+            ch0*.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # make aesSso toc temp file
+
+    if $doSso
+    then
+        workDir=./aes/service_otl/source
+        (
+        cd $workDir
+        $pic $builddir/tools/extmac.mm header.mm title.mm\
+            ch0*.mm app*.mm | $tbl |\
+            $troff -meroff -mm -Tps > /dev/null 2> $$.temp
+        )
+    fi
+
+    # process temp files
+
+    #   make the toc
+
+    for tocDir in ./aes/source\
+                  ./man/source\
+                  ./programGuide/source\
+                  ./releaseNotes/source\
+                  ./portingGuide/source\
+                  ./patchKitNotes/source\
+                  ./styleGuide/source\
+                  ./usersGuide/source\
+                  ./aes/service_otl/source\
+                  ./testGuide/source
+    do
+        if [ -f $tocDir/$$.temp ]
+        then
+            cat $tocDir/$$.temp | sed -n 's/\!TOC: //p' |
+                grep -v '^\.)T "1" "1" "TABLE' > $tocDir/$$toc
+            cat ./tools/tocmac1.mm $tocDir/$$toc ./tools/tocmac2.mm |
+                sed 's//\\ /g' >  $tocDir/toc.mm
+            rm $tocDir/$$toc
+        fi
+    done
+
+    #   make the index
+
+    for tocDir in ./programGuide/source\
+                  ./aes/source\
+                  ./man/source\
+                  ./usersGuide/source\
+                  ./styleGuide/source
+    do
+        if [ -f $tocDir/$$.temp ]
+        then
+            cat $tocDir/$$.temp | sed -n 's/\!INDEX: //p' |
+                 sed "s/-/~/g" | sort -fu |
+                 sed 's/~00*/~/g' | mmindex > $tocDir/$$index
+            cat ./tools/indexmac1.mm $tocDir/$$index\
+                 ./tools/indexmac2.mm > $tocDir/index.mm
+            rm $tocDir/$$index
+        fi
+    done
+
+    #   clean up .temp files
+
+    for tocDir in ./aes/source\
+                  ./man/source\
+                  ./programGuide/source\
+                  ./releaseNotes/source\
+                  ./portingGuide/source\
+                  ./patchKitNotes/source\
+                  ./usersGuide/source\
+                  ./styleGuide/source\
+                  ./aes/service_otl/source\
+                  ./testGuide/source
+    do
+        if [ -f $tocDir/$$.temp ]
+        then
+            rm $tocDir/$$.temp
+        fi
+        if [ -f $tocDir/$$.index.temp ]
+        then
+            rm $tocDir/$$.index.temp
+        fi
+    done
+
+fi
+
+#  make postscript files
+
+if $doPostscript
+then
+
+    ## make aes postscripts
+
+    if $doAes
+    then
+        workDir=./aes/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm\
+            preface.mm\
+            ch0*.mm index.mm\
+            toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/front.ps
+        $pic $builddir/tools/header.man header.man\
+            *.1X *.3X | $tbl |\
+            $troff -man -Tps | $eps > $finalDir/back.ps
+        )
+    fi
+
+    # make ref postscripts
+
+    if $doMan
+    then
+        workDir=./man/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm preface.mm\
+            ch0*.mm index.mm toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/front.ps
+        $pic $builddir/tools/header.man header.man\
+            *.1X *.3X | $tbl |\
+            $troff -man -Tps | $eps > $finalDir/back.ps
+        )
+    fi
+
+    # make programGuide postscripts
+
+    if $doGuide
+    then
+        workDir=./programGuide/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm preface.mm\
+            ch*.mm app*.mm glossary.mm index.mm toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make patchKitNotes postscripts
+
+    if $doPatch
+    then
+        workDir=./patchKitNotes/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm title.mm ch0*.mm\
+            app*.mm toc.mm | $tbl |\
+            $troff -meroff -mm -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make releaseNotes postscripts
+
+    if $doRelease
+    then
+        workDir=./releaseNotes/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm ch0*.mm\
+            app*.mm toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make portingGuide postscripts
+
+    if $doPorting
+    then
+        workDir=./portingGuide/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm title.mm ch0*.mm\
+            app*.mm toc.mm | $tbl |\
+            $troff -meroff -mm -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make usersGuide postscripts
+
+    if $doUsers
+    then
+        workDir=./usersGuide/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm preface.mm\
+            ch0*.mm app*.mm\
+            index.mm toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make styleGuide postscripts
+
+    if $doStyle
+    then
+        workDir=./styleGuide/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $soelim $builddir/tools/header.mm.alt title.mm preface.mm\
+            ch0*.mm app*.mm glossary.mm\
+            index.mm toc.mm | $pic | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make Sso postscripts
+
+    if $doSso
+    then
+        workDir=./aes/service_otl/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic header.mm title.mm ch0*.mm app*.mm toc.mm | $tbl |\
+            $troff -meroff -mm -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+    # make testGuide postscripts
+
+    if $doTest
+    then
+        workDir=./testGuide/source
+        finalDir=../postscript
+        (
+        cd $workDir
+        $pic $builddir/tools/header.mm.alt title.mm ch0*.mm\
+            toc.mm | $tbl |\
+            $troff -meroff -mm -rN5 -Tps | $eps > $finalDir/all.ps
+        )
+    fi
+
+fi

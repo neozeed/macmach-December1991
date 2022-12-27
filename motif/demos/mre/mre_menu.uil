@@ -1,0 +1,548 @@
+!******************************************************************************
+!******************************************************************************
+!*
+!*  (c) Copyright 1989, 1990 OPEN SOFTWARE FOUNDATION, INC.
+!*  (c) Copyright 1989 Mitch Trachtenberg
+!*  ALL RIGHTS RESERVED
+!*  
+!*  	THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT
+!*  NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY OPEN SOFTWARE
+!*  FOUNDATION, INC. OR ITS THIRD PARTY SUPPLIERS  
+!*  
+!*  	OPEN SOFTWARE FOUNDATION, INC. AND ITS THIRD PARTY SUPPLIERS,
+!*  ASSUME NO RESPONSIBILITY FOR THE USE OR INABILITY TO USE ANY OF ITS
+!*  SOFTWARE .   OSF SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+!*  KIND, AND OSF EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING
+!*  BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+!*  FITNESS FOR A PARTICULAR PURPOSE.
+!*  
+!* Open Software Foundation is a trademark of The Open Software Foundation, Inc.
+!* OSF is a trademark of Open Software Foundation, Inc.
+!* OSF/Motif is a trademark of Open Software Foundation, Inc.
+!* Motif is a trademark of Open Software Foundation, Inc.
+!* X Window System is a trademark of the Massachusetts Institute of Technology
+!*
+!******************************************************************************
+!******************************************************************************
+
+!++
+! Motif Demo Resource Editor -- menu uil file
+!
+!  Some menus below (File, Edit, Help, Options) are created with their
+!  pushbuttons defined within their parent pulldown menus; others (View...)
+!  are created with named pushbuttons defined outside the pulldown menus.
+!
+!  The only object exported from this module is main_menu_bar.
+!
+!  Created June 89 Mitch Trachtenberg
+!
+!--
+
+module mre_menu
+    version = 'v1.0'
+    names = case_sensitive
+
+objects = {XmPushButton = gadget;}
+
+procedure
+    file_new_proc();
+    file_open_proc();
+    file_save_proc();
+    file_save_as_proc();
+    edit_paste_proc();
+    edit_copy_proc(integer);
+    view_sort(string);
+    customize_proc();
+    help_proc(string);
+    dump_db();
+    dump_hierarchy();
+    confirm_exit();
+    command_toggle_proc();
+
+!FILE MENU
+
+object entry_to_file : XmCascadeButton {
+ arguments {
+  XmNlabelString = 'File';
+!  XmNmnemonic = 70;
+  XmNmnemonic = keysym("F");
+ };
+ controls {
+ XmPulldownMenu file;
+ };
+};
+object file : XmPulldownMenu {
+ controls {
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('New');
+!    XmNmnemonic = 78; /* N */
+    XmNmnemonic = keysym("N"); /* N */
+    XmNaccelerator = "Ctrl<Key>n";
+    XmNacceleratorText = compound_string('Ctrl+N');
+   };
+   callbacks {
+    XmNactivateCallback = procedure file_new_proc();
+   };
+  };
+  XmPushButton {
+   arguments {
+!    XmNmnemonic = 79; /* O */
+    XmNmnemonic = keysym("O"); /* O */
+    XmNaccelerator = "Ctrl<Key>o";
+    XmNacceleratorText = compound_string('Ctrl+O');
+    XmNlabelString = compound_string('Open...');
+   };
+   callbacks {
+    XmNactivateCallback = procedure file_open_proc();
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Save');
+!    XmNmnemonic = 83; /* S */
+    XmNmnemonic = keysym("S"); /* S */
+    XmNaccelerator = "Ctrl<Key>s";
+    XmNacceleratorText = compound_string('Ctrl+S');
+   };
+   callbacks {
+    XmNactivateCallback = procedure file_save_proc();
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Save As...');
+!    XmNmnemonic = 65; /* A */
+    XmNmnemonic = keysym("A"); /* A */
+    XmNaccelerator = "Ctrl<Key>a";
+    XmNacceleratorText = compound_string('Ctrl+A');
+   };
+   callbacks {
+    XmNactivateCallback = procedure file_save_as_proc();
+   };
+  };
+  XmSeparator{};
+  XmPushButton {
+   arguments {
+    XmNlabelString = 'Exit';
+!    XmNmnemonic = 69; /* E */
+    XmNmnemonic = keysym("E"); /* E */
+    XmNaccelerator = "Ctrl<Key>e";
+    XmNacceleratorText = compound_string('Ctrl+E');
+   };
+   callbacks {
+    XmNactivateCallback = procedure confirm_exit();
+   };
+  };
+ };
+};
+
+!EDIT MENU
+
+object entry_to_edit : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string(' Edit');
+!  XmNmnemonic = 69;
+  XmNmnemonic = keysym("E");
+ };
+ controls {
+ XmPulldownMenu edit;
+ };
+};
+object edit : XmPulldownMenu {
+ controls {
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Cut');
+!    XmNmnemonic = 116; /* t */
+    XmNmnemonic = keysym("t"); /* t */
+    XmNaccelerator = "Shift<Key>del";
+    XmNacceleratorText = compound_string('Shift+Del');
+   };
+   callbacks {
+    XmNactivateCallback = procedure edit_copy_proc(1); /* 1 means cut */
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Copy');
+!    XmNmnemonic = 67; /* C */
+    XmNmnemonic = keysym("C"); /* C */
+    XmNaccelerator = "Ctrl<Key>del";
+    XmNacceleratorText = compound_string('Ctrl+Ins');
+   };
+   callbacks {
+    XmNactivateCallback = procedure edit_copy_proc(0); /* 0 means don't cut */ 
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Paste');
+!    XmNmnemonic = 80; /* P */
+    XmNmnemonic = keysym("P"); /* P */
+    XmNaccelerator = "Ctrl<Key>ins";
+    XmNacceleratorText = compound_string('Shift+Ins');
+   };
+   callbacks {
+    XmNactivateCallback = procedure edit_paste_proc();
+   };
+  };
+ };
+};
+
+! VIEW MENU(s)
+
+object entry_to_view_sort_by_value : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string('By Value');
+!  XmNmnemonic = 86;
+  XmNmnemonic = keysym("V");
+ };
+ controls {
+  XmPulldownMenu view_sort_by_value;
+ };
+};
+object view_sort_by_value : XmPulldownMenu {
+ controls {
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('ascending');
+!      XmNmnemonic = 97;
+      XmNmnemonic = keysym("a");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('V1');
+    };
+  };
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('descending');
+!      XmNmnemonic = 100;
+      XmNmnemonic = keysym("d");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('V0');
+    };
+  };
+ };
+};
+
+object entry_to_view_sort_by_res : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string('By Resource');
+!  XmNmnemonic = 82;
+  XmNmnemonic = keysym("R");
+ };
+ controls {
+ XmPulldownMenu view_sort_by_res;
+ };
+};
+object view_sort_by_res : XmPulldownMenu {
+ controls {
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('ascending');
+!      XmNmnemonic = 97;
+      XmNmnemonic = keysym("a");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('R1');
+    };
+  };
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('descending');
+!      XmNmnemonic = 100;
+      XmNmnemonic = keysym("d");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('R0');
+    };
+  };
+ };
+};
+
+object entry_to_view_sort_by_spec : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string('By Specification');
+!  XmNmnemonic = 83;
+  XmNmnemonic = keysym("S");
+ };
+ controls {
+ XmPulldownMenu view_sort_by_spec;
+ };
+};
+object view_sort_by_spec : XmPulldownMenu {
+ controls {
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('ascending');
+!      XmNmnemonic = 97;
+      XmNmnemonic = keysym("a");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('S1');
+    };
+  };
+  XmPushButton {
+    arguments {
+      XmNlabelString = compound_string('descending');
+!      XmNmnemonic = 100;
+      XmNmnemonic = keysym("d");
+    };
+    callbacks {
+      XmNactivateCallback = procedure view_sort('S0');
+    };
+  };
+ };
+};
+
+procedure main_restriction(string);
+object view_fonts : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show font resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tF');
+ };
+};
+object view_colors : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show color resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tC');
+ };
+};
+object view_booleans : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show true/false resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tB');
+ };
+};
+object view_files : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show file resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tI');
+ };
+};
+object view_translations : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show translation resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tT');
+ };
+};
+object view_misc : XmToggleButton {
+ arguments {
+  XmNlabelString = compound_string('Show "other" resources');
+  XmNset = true;
+ };
+ callbacks {
+  XmNvalueChangedCallback = procedure main_restriction('tO');
+ };
+};
+
+object entry_to_view : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string(' View');
+!  XmNmnemonic = 86;
+  XmNmnemonic = keysym("V");
+ };
+ controls {
+ XmPulldownMenu view;
+ };
+};
+object view : XmPulldownMenu {
+ controls {
+  XmCascadeButton entry_to_view_sort_by_value;
+  XmCascadeButton entry_to_view_sort_by_spec;
+  XmCascadeButton entry_to_view_sort_by_res;
+  XmSeparator {};
+  XmToggleButton view_fonts;
+  XmToggleButton view_colors;
+  XmToggleButton view_booleans;
+  XmToggleButton view_files;
+  XmToggleButton view_translations;
+  XmToggleButton view_misc;
+ };
+};
+
+! OPTIONS MENU
+procedure write_listbox_to_process(string);
+procedure write_selection_to_process(string);
+
+object entry_to_options : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string('Options');
+!  XmNmnemonic = 79;
+  XmNmnemonic = keysym("O");
+ };
+ controls {
+  XmPulldownMenu options;
+ };
+};
+
+object options : XmPulldownMenu {
+ controls {
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Merge current listbox into server');
+   };
+   callbacks {
+    XmNactivateCallback = procedure write_listbox_to_process('xrdb -merge');
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Load current listbox into server');
+   };
+   callbacks {
+    XmNactivateCallback = procedure write_listbox_to_process('xrdb -load');
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Merge current selection into server');
+   };
+   callbacks {
+    XmNactivateCallback = procedure write_selection_to_process('xrdb -merge');
+   };
+  };
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Load current selection into server');
+   };
+   callbacks {
+    XmNactivateCallback = procedure write_selection_to_process('xrdb -load');
+   };
+  };
+  XmCascadeButton {
+	arguments {
+		XmNlabelString = compound_string('Debug');
+	};
+	controls {
+		XmPulldownMenu options_debug_pulldown;
+	};
+  };
+  XmSeparator{};
+  XmToggleButton {
+   arguments {
+    XmNlabelString = compound_string('Command entry');
+   };
+   callbacks {
+    XmNvalueChangedCallback = procedure command_toggle_proc();
+   };
+  };
+ };
+};
+
+procedure system_cb(string);
+object options_debug_pulldown : XmPulldownMenu {
+ controls {
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Dump database to stdout');
+   };
+   callbacks {
+    XmNactivateCallback = procedure dump_db();
+   };
+  };
+! remove or comment out the next 8 lines to eliminate access to this feature
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Show widget hierarchy and values');
+   };
+   callbacks {
+    XmNactivateCallback = procedure dump_hierarchy();
+   };
+  };
+! remove or comment out the next 8 lines to eliminate access to this feature
+  XmPushButton {
+   arguments {
+    XmNlabelString = compound_string('Start new mre');
+   };
+   callbacks {
+    XmNactivateCallback = procedure system_cb('mre&');
+   };
+  };
+ };
+};
+
+! HELP MENU
+
+object entry_to_help : XmCascadeButton {
+ arguments {
+  XmNlabelString = compound_string('Help (F1)');
+!  XmNacceleratorText = compound_string('F1');
+!  XmNaccelerator = "<Key>KP_F1";
+!  XmNmnemonic = 72;
+  XmNmnemonic = keysym("H");
+ };
+! controls {
+!  XmPulldownMenu XmNhelpCallback;
+! };
+};
+!object XmNhelpCallback : XmPulldownMenu {
+! controls {
+!  XmPushButton {
+!   arguments {
+!    XmNlabelString = compound_string('On Version');
+!!    XmNmnemonic = 86;
+!    XmNmnemonic = keysym("V");
+!   };
+!   callbacks {
+!    XmNactivateCallback = procedure help_proc('Version');
+!   };
+!  };
+!  XmPushButton {
+!   arguments {
+!    XmNlabelString = compound_string('On Colors');
+!!    XmNmnemonic = 67;
+!    XmNmnemonic = keysym("C");
+!   };
+!   callbacks {
+!    XmNactivateCallback = procedure help_proc('Colors');
+!   };
+!  };
+!  XmPushButton {
+!   arguments {
+!    XmNlabelString = compound_string('On Fonts');
+!!    XmNmnemonic = 70;
+!    XmNmnemonic = keysym("F");
+!   };
+!   callbacks {
+!    XmNactivateCallback = procedure help_proc('Fonts');
+!   };
+!  };
+! };
+!};
+
+! MAIN MENU -- this object is exported by this module and imported by mre.uil
+
+object main_menu_bar : exported XmMenuBar {
+ controls {
+  XmCascadeButton entry_to_file;
+  XmCascadeButton entry_to_edit;
+  XmCascadeButton entry_to_view;
+  XmCascadeButton entry_to_options;
+  XmCascadeButton entry_to_help;
+ };
+ arguments {
+  XmNmenuHelpWidget = XmCascadeButton entry_to_help;
+ };
+};
+
+
+end module;
+

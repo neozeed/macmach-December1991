@@ -1,0 +1,93 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardInquireLength 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardInquireLength \(em a clipboard 
+function that returns the length of the
+stored data.\fP
+.iX "XmClipboardInquireLength"
+.iX "clipboard functions" "XmClipboardInquireLength"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardInquireLength\fP (\fIdisplay, window, format_name, length\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.br
+	char	\fI* format_name\fP;
+.br
+	unsigned long	\fI* length\fP;
+.fi
+\fP
+.sp
+.ne 2i
+.SH DESCRIPTION
+\fBXmClipboardInquireLength\fP returns the length of the data stored under a 
+specified format name for the clipboard data item.  If no
+data is found for the specified format, or if there is no item on the
+clipboard, this function returns a value of zero.
+.PP
+Any format passed by name is assumed to have the \fIlength\fP passed in
+a call to \fBXmClipboardCopy\fP, even though the data has not yet been
+transferred to the clipboard in that format.
+.sp 1
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.IP "\fIformat_name\fP" 1.2i
+Specifies the name of the format for the data item.
+.IP "\fIlength\fP" 1.2i
+Specifies the length of the next data item in the specified format.  This
+argument equals zero if no data is found for the specified format, or if there
+is no item on the clipboard.
+.sp 1
+.ne 3i
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.br
+.ne 7
+.IP "\fBClipboardNoData\fP" 1.2i
+The function could not find data on the clipboard corresponding to the
+format requested.
+This could occur because the clipboard is empty; there is data
+on the clipboard but not in the requested format; or the data in
+the requested format was passed by name and is no longer available. 
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardCopy(3X)\fP and \fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

@@ -1,0 +1,198 @@
+
+
+
+     XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))        OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn         XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmGGGGaaaaddddggggeeeetttt ---- tttthhhheeee GGGGaaaaddddggggeeeetttt wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Gadget is a widget class used as a supporting superclass for
+          other gadget classes.  It handles shadow-border drawing and
+          highlighting, traversal activation and deactivation, and
+          various callback lists needed by gadgets.
+
+          The color and pixmap resources defined by XmManager are
+          directly used by gadgets.  If XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss is used to change
+          one of the resources for a manager widget, all of the gadget
+          children within the manager also change.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Gadget inherits behavior and resources from OOOObbbbjjjjeeeecccctttt and
+          RRRReeeeccccttttOOOObbbbjjjj classes.
+
+               The class pointer is xxxxmmmmGGGGaaaaddddggggeeeettttCCCCllllaaaassssssss.
+
+               The class name is XXXXmmmmGGGGaaaaddddggggeeeetttt.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                    XXXXmmmmGGGGaaaaddddggggeeeetttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))        OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn         XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))
+
+
+
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     ___________________________________________________________________________________
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL      C
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False     CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2         CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmNONE    G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2         CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            True      CSG
+     XmNuserData             XmCUserData             Pointer            NULL      CSG
+
+
+          XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               help key sequence is pressed.  The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____HHHHEEEELLLLPPPP.
+
+          XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttOOOOnnnnEEEEnnnntttteeeerrrr
+               Specifies if the highlighting rectangle is drawn when
+               the cursor moves into the widget.  If the shell's focus
+               policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, this resource is ignored, and the
+               widget is highlighted when it has the focus.  If the
+               shell's focus policy is XXXXmmmmPPPPOOOOIIIINNNNTTTTEEEERRRR and if this resource
+               is True, the highlighting rectangle is drawn when the
+               the cursor moves into the widget.  If the shell's focus
+               policy is XXXXmmmmPPPPOOOOIIIINNNNTTTTEEEERRRR and if this resource is False, the
+               highlighting rectangle is not drawn when the the cursor
+               moves into the widget.  The default is False.
+
+          XXXXmmmmNNNNhhhhiiiigggghhhhlllliiiigggghhhhttttTTTThhhhiiiicccckkkknnnneeeessssssss
+               Specifies the thickness of the highlighting rectangle.
+
+          XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee
+               Controls whether the Widget is a navigation group.
+
+               +o  XXXXmmmmNNNNOOOONNNNEEEE indicates that the Widget is not a navigation
+                  group.
+
+               +o  XXXXmmmmTTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is included
+                  automatically in keyboard navigation, unless
+                  XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp has been called.
+
+               +o  XXXXmmmmSSSSTTTTIIIICCCCKKKKYYYY____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is
+                  included automatically in keyboard navigation, even
+                  if XXXXmmmmAAAAddddddddTTTTaaaabbbbGGGGrrrroooouuuupppp has been called.
+
+               +o  XXXXmmmmEEEEXXXXCCCCLLLLUUUUSSSSIIIIVVVVEEEE____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP indicates that the Widget is
+                  included explicitly in keyboard navigation by the
+                  application.  With XXXXmmmmEEEEXXXXCCCCLLLLUUUUSSSSIIIIVVVVEEEE____TTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP, traversal
+                  of widgets within the group is based on the order of
+                  children.
+
+               If the gadget's parent is a shell, the default is
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))        OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn         XXXXmmmmGGGGaaaaddddggggeeeetttt((((3333XXXX))))
+
+
+
+               XXXXmmmmTTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP; otherwise, the default is XXXXmmmmNNNNOOOONNNNEEEE.
+
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss
+               Specifies the size of the drawn border shadow.
+
+          XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn
+               Specifies traversal activation for this gadget.
+
+          XXXXmmmmNNNNuuuusssseeeerrrrDDDDaaaattttaaaa
+               Allows the application to attach any necessary specific
+               data to the gadget. This is an internally unused
+               resource.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Gadget inherits the following resources from the named
+          superclass.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                             RRRReeeeccccttttOOOObbbbjjjj RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+      NNNNaaaammmmeeee                   CCCCllllaaaassssssss            TTTTyyyyppppeeee        DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+      ____________________________________________________________________
+      XmNancestorSensitive   XmCSensitive     Boolean     dynamic   G
+      XmNborderWidth         XmCBorderWidth   Dimension   0         CSG
+      XmNheight              XmCHeight        Dimension   dynamic   CSG
+      XmNsensitive           XmCSensitive     Boolean     True      CSG
+      XmNwidth               XmCWidth         Dimension   dynamic   CSG
+      XmNx                   XmCPosition      Position    0         CSG
+      XmNy                   XmCPosition      Position    0         CSG
+
+                              OOOObbbbjjjjeeeecccctttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+      NNNNaaaammmmeeee                 CCCCllllaaaassssssss         TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+      ____________________________________________________________________
+      XmNdestroyCallback   XmCCallback   XtCallbackList   NULL      C
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          OOOObbbbjjjjeeeecccctttt((((3333XXXX)))), RRRReeeeccccttttOOOObbbbjjjj((((3333XXXX)))), and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+

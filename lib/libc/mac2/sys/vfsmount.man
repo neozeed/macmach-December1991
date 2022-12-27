@@ -1,0 +1,185 @@
+.\"
+.\" $Id: vfsmount.2,v 2.3 89/12/29 20:49:21 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	vfsmount.2,v $
+.\" Revision 2.3  89/12/29  20:49:21  bww
+.\" 	Minor edits.
+.\" 	[89/12/29            bww]
+.\" 
+.\" Revision 2.2  89/12/27  13:40:23  bww
+.\" 	Sun Microsystems Rel 3.0
+.\" 	[89/12/27  13:40:35  bww]
+.\" 
+.\"
+.\" @(#)mount.2 1.1 85/12/28 SMI; from UCB 4.2
+.\"
+.TH VFSMOUNT 2 "24 November 1987"
+.SU
+.SH NAME
+vfsmount \- mount file system
+.SH SYNOPSIS
+.nf
+#include <sys/syscall.h>
+#include <sys/mount.h>
+.ft B
+syscall(SYS_vfsmount, type, dir, flags, data)
+char *type;
+char *dir;
+int flags;
+caddr_t data;
+.fi
+.SH DESCRIPTION
+.I vfsmount
+attaches a file system to a directory.
+After a successful return, references to directory
+.I dir
+will refer to the root directory on the newly mounted file system.
+.I Dir
+is a pointer to a null-terminated string
+containing a path name.
+.I Dir
+must exist already, and must be a directory.  Its old contents
+are inaccessible while the file system is mounted.
+.LP
+The
+.I flags
+argument determines whether the file system can be written on,
+and if set-uid execution is allowed.
+Physically write-protected and magnetic tape file systems must be mounted
+read-only or errors will occur when access times are updated, whether
+or not any explicit write is attempted.
+.LP
+.I Type
+indicates the type of the filesystem.
+It must be one of the types defined in
+.I mount.h.
+.I Data
+is a pointer to a structure which contains the type specific
+arguments to mount.  Below is a list of the filesystem types supported
+and the type specific arguments to each:
+.nf
+.ta \w'#include'u +\w'fhandle_t\0\0'u +\w'\(**hostname;\0\0'u
+.TP 4
+\fB"4.2"\fR
+.ft B
+struct ufs_args {
+	char	\(**fspec;	/* Block special file to mount */
+};
+.ft R
+.TP 4
+\fB"nfs"\fR
+.ft B
+#include	<nfs/nfs.h>
+#include	<netinet/in.h>
+struct nfs_args {
+	struct sockaddr_in  \(**addr; /* file server address */
+	fhandle_t	\(**fh;	/* File handle to be mounted */
+	int	flags;	/* flags */
+	int	wsize;	/* write size in bytes */
+	int	rsize;	/* read size in bytes */
+	int	timeo;	/* initial timeout in .1 secs */
+	int	retrans;	/* times to retry send */
+};
+.ft R
+.fi
+.SH "RETURN VALUE
+.I Mount
+returns 0 if the action occurred, and \-1 if
+the file system
+is inaccessible or not an appropriate file, if
+.I dir
+does not exist, if
+the file system
+is already mounted, if
+.I dir
+is in use, or if there are already too many file systems mounted.
+.SH ERRORS
+.I Mount
+will fail when one of the following occurs:
+.TP 15
+[EPERM]
+The caller is not the super-user.
+.TP 15
+[ENOTBLK]
+The file system
+is not a block device.
+.TP 15
+[ENXIO]
+The major device number of 
+the file system
+is out of range (this indicates no device driver exists
+for the associated hardware).
+.TP 15
+.TP 15
+[EBUSY]
+.I Dir
+is not a directory, or another process currently
+holds a reference to it.
+.TP 15
+[EBUSY]
+No space remains in the mount table.
+.TP 15
+[EBUSY]
+The super block for the file system had a bad magic
+number or an out of range block size.
+.TP 15
+[EBUSY]
+Not enough memory was available to read the cylinder
+group information for the file system.
+.TP 15
+[ENOTDIR]
+A component of the path prefix in
+the file system specification
+or
+.I dir
+is not a directory.
+.TP 15
+[EPERM]
+The pathname of
+the file system
+or
+.I dir
+contains a
+character with the high-order bit set.
+.TP 15
+[ENAMETOOLONG]
+The pathname of
+the file system
+or
+.I dir
+was too long.
+.TP 15
+[ENOENT]
+The file system
+or
+.I dir
+does not exist.
+.TP 15
+[EACCES]
+Search permission is denied for a component of
+the path prefix of
+the file system specification
+or
+.IR dir .
+.TP 15
+[EFAULT]
+The file system specification
+or
+.I dir
+points outside the process's
+allocated address space.
+.TP 15
+[ELOOP]
+Too many symbolic links were encountered in
+translating the pathname of
+the file system
+or
+.IR dir .
+.TP 15
+[EIO]
+An I/O error occurred while reading from or writing to the file system.
+.SH "SEE ALSO"
+unmount(2), mount(8)
+.SH BUGS
+Too many errors appear to the caller as one value.

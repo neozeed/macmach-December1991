@@ -1,0 +1,330 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       PPPPrrrreeeeffffaaaacccceeee
+
+       The _O_S_F/_M_o_t_i_f _S_t_y_l_e _G_u_i_d_e provides a framework of behavior
+       specifications to guide application developers, widget
+       developers, user interface system developers, and window
+       manager developers in the design and implementation of new
+       products consistent with the OSF/MotifTM user interface.
+       This _S_t_y_l_e _G_u_i_d_e is also closely consistent with Microsoft
+       Windows, Presentation Manager, and Common User Access (CUA).
+
+       The _S_t_y_l_e _G_u_i_d_e establishes a consistent behavior among new
+       products by drawing out the common elements from a variety
+       of current behavioral models.  The _S_t_y_l_e _G_u_i_d_e anticipates
+       the evolution of graphical user interfaces as new technology
+       becomes available and as the use of the MotifTM user inter-
+       face spreads.  Behavioral guidelines will be added over time
+       as they become stable.
+
+       For specific details of coding the implementation into an
+       application program, widget, or window manager see the other
+       volumes of the OSF/Motif documentation set.
+
+       AAAAuuuuddddiiiieeeennnncccceeee
+
+       This document is written for four audiences.  The following
+       text suggests the sections in this guide that are relevant
+       to each audience.  We recommend that you read through the
+       entire _S_t_y_l_e _G_u_i_d_e once to familiarize yourself with all
+       user interface design concepts and to ensure that you do not
+       miss anything.
+
+          +o Application Designers
+
+            Should be familiar with the contents of Chapters 1, 4
+            and 6.
+
+          +o Widget Designers
+
+            Should be familiar with the contents of Chapters 1, 2,
+            3, 4, 6, and 7.
+
+          +o User Interface System Designers
+
+
+
+
+                                 - vii -
+
+
+
+
+
+
+
+
+
+       OSF/Motif Style Guide
+
+
+            Should be familiar with the entire contents of this
+            guide.
+
+          +o Window Manager Designers
+
+            Should be familiar with the contents of Chapters 1, 4,
+            5, and 6.
+
+       CCCCoooonnnntttteeeennnnttttssss
+
+       This document is organized into seven chapters and two
+       appendixes.
+
+          +o _C_h_a_p_t_e_r _1 provides general user interface design prin-
+            ciples.  Everyone should read this chapter.
+
+          +o _C_h_a_p_t_e_r _2 describes the input and navigation models.
+            New widget designers and user interface system
+            designers should read this chapter.
+
+          +o _C_h_a_p_t_e_r _3 describes the selection and activation
+            models.  New widget designers and user interface system
+            designers should read this chapter.
+
+          +o _C_h_a_p_t_e_r _4 describes user interface component choices,
+            layout and interaction.  Everyone should read this
+            chapter.
+
+          +o _C_h_a_p_t_e_r _5 describes window manager design.  Window
+            manager designers and user interface system designers
+            should read this chapter.
+
+          +o _C_h_a_p_t_e_r _6 introduces and briefly describes internation-
+            alization and localization concepts and issues as they
+            relate to user interface design.  Everyone should read
+            this chapter.
+
+          +o _C_h_a_p_t_e_r _7 provides reference information for concepts
+            described in earlier chapters, and provides detailed
+            information about components.  This chapter should be
+            read by new widget designers and can by used as a
+            reference by everyone.
+
+          +o _A_p_p_e_n_d_i_x _A provides default keyboard and mouse bind-
+            ings.
+
+          +o _A_p_p_e_n_d_i_x _B shows the correspondence between OSF/Motif
+            widgets and components described in this _S_t_y_l_e _G_u_i_d_e.
+
+
+
+
+
+                                 - viii -
+
+
+
+
+
+
+
+
+
+                                                            Preface
+
+
+       TTTTyyyyppppooooggggrrrraaaapppphhhhiiiicccc CCCCoooonnnnvvvveeeennnnttttiiiioooonnnnssss
+
+       The Motif document set uses the following typographic con-
+       ventions:
+
+          +o BBBBoooollllddddffffaaaacccceeeedddd strings represent key and button bindings,
+            and literal values.  BBBBoooollllddddffffaaaacccceeeedddd strings also represent
+            the first use of words described in the glossary .
+
+          +o <<<<KKKKeeeeyyyy>>>> represents a key on the keyboard.  The word in
+            italics corresponds to the engraving on the actual key.
+
+          +o Components of the user interface are represented by
+            capital letters on each major word in the name of the
+            component, such as PushButton.
+
+       See "Compliance Conventions" below for an explanation of the
+       asterisks (*) that appear in the margins.
+
+       Since not all keyboards are the same, it is difficult to
+       give style guidelines that are correct for every
+       manufacturer's keyboard.  To solve this problem, this guide
+       describes keys and buttons using a vvvviiiirrrrttttuuuuaaaallll bbbbiiiinnnnddddiiiinnnngggg mechan-
+       ism, by the action they perform.  Everywhere that keyboard
+       input is specified, the keys are indicated by their virtual
+       key name.  This guide separately explains which actual keys
+       are commonly used for each virtual key.  For instance, the
+       virtual key KKKKAAAAccccttttiiiivvvvaaaatttteeee is used for keyboard activation of
+       components and is commonly bound to <<<<RRRReeeettttuuuurrrrnnnn>>>> and MMMMCCCCttttrrrrllll
+       <<<<RRRReeeettttuuuurrrrnnnn>>>>, or <<<<EEEEnnnntttteeeerrrr>>>> and/or MMMMCCCCttttrrrrllll <<<<EEEEnnnntttteeeerrrr>>>> depending on the
+       keyboard.  This mechanism also simplifies the descriptions
+       of behavior where multiple keys can be bound simultaneously
+       to one virtual key.
+
+       The virtual key mechanism includes keys, modifiers, and
+       mouse buttons.  Virtual mouse buttons start with the letter
+       BBBB.  For a three button mouse, the leftmost mouse button is
+       usually defined as BBBBSSSSeeeelllleeeecccctttt, the middle mouse button is usu-
+       ally defined as BBBBDDDDrrrraaaagggg, and the rightmost mouse button is
+       usually defined as BBBBCCCCuuuussssttttoooommmm.  Details about how virtual mouse
+       buttons are usually defined are described in Section 2.2,
+       and where a new virtual button is described for the first
+       time.
+
+       All normal virtual keys start with the letter KKKK.  All modif-
+       ier virtual keys start with the letter MMMM.
+
+       This guide assumes that a keyboard has all the standard
+       alphabetic, numeric, and symbol keys, as well as the special
+       keys corresponding to the actions Enter, usually <<<<RRRReeeettttuuuurrrrnnnn>>>> or
+       <<<<EEEEnnnntttteeeerrrr>>>> Tab, Spacebar, Backspace, Delete, Escape, Insert, |^,
+
+
+                                  - ix -
+
+
+
+
+
+
+
+
+
+       OSF/Motif Style Guide
+
+
+       |v, <-, ->, Begin Line, usually <<<<BBBBeeeeggggiiiinnnn>>>> or <<<<HHHHoooommmmeeee>>>>, End Line,
+       usually <<<<EEEEnnnndddd>>>>, Page Up, and Page Down.  Each of this keys     *
+       must be available either as specified or using other keys or  *
+       key combinations if the specified key is unavailable.
+
+       This guide also requires the nominal keys corresponding to
+       the actions Move to the MenuBar (<<<<FFFF11110000>>>>), pop up a menu
+       (<<<<MMMMeeeennnnuuuu>>>> or <<<<FFFF4444>>>>), provide help (<<<<HHHHeeeellllpppp>>>> or <<<<FFFF1111>>>>), toggle add
+       mode (<<<<SSSShhhhiiiifffftttt>>>> <<<<FFFF8888>>>>), and move to the next pane (<<<<FFFF6666>>>>).  Each  *
+       of this keys must be available either as specified or using   *
+       other keys or key combinations if the specified key is una-   *
+       vailable.  If the chosen binding involves a function key,     *
+       the one listed above must be used, unless it is not avail-    *
+       able on the keyboard.  Additional keys, including navigation
+       keys and special keys like <<<<MMMMeeeennnnuuuu>>>> and <<<<HHHHeeeellllpppp>>>>, are suggested,
+       but not necessary for full keyboard equivalence.
+
+       This guide also assumes that all keyboards have the three
+       modifier keys MMMMSSSShhhhiiiifffftttt, MMMMCCCCttttrrrrllll, and MMMMAAAAlllltttt, which are usually
+       bound to <<<<SSSShhhhiiiifffftttt>>>>, <<<<CCCCttttrrrrllll>>>>, and <<<<AAAAlllltttt>>>>.  Your keyboard may have
+       the virtual buttons, keys, or modifiers bound as appropri-
+       ate. Appendix A lists all of the virtual bindings used in
+       this guide, as well as suggested and alternative bindings.
+       To avoid confusion, this guide also mentions the suggested
+       bindings of virtual keys throughout.
+
+       CCCCoooommmmpppplllliiiiaaaannnncccceeee CCCCoooonnnnvvvveeeennnnttttiiiioooonnnnssss
+
+       Throughout the _S_t_y_l_e _G_u_i_d_e "must," "should," and "can" have
+       special meanings.  Guidelines with "must" in them are
+       requirements for _S_t_y_l_e _G_u_i_d_e compliance.  Any guideline with
+       "must" will be included in the _O_S_F/_M_o_t_i_f _L_e_v_e_l _1 _C_e_r_t_i_f_i_c_a_-
+       _t_i_o_n _C_h_e_c_k_l_i_s_t for _S_t_y_l_e _G_u_i_d_e compliance.  Any guideline
+       with "must" will be marked in the margin with an asterisk.
+       Guidelines with "should" in them are recommendations.  We
+       consider them important for interapplication consistency,
+       but we do not want to require them for compliance.  You
+       should follow them as closely as you are able.  Guidelines
+       with "can" in them indicate optional elements of user inter-
+       face style.
+
+       The process for how _S_t_y_l_e _G_u_i_d_e elements migrate from
+       options, to recommendations, to requirements is described in
+       the _O_S_F/_M_o_t_i_f _L_e_v_e_l _1 _C_e_r_t_i_f_i_c_a_t_i_o_n _C_h_e_c_k_l_i_s_t.
+
+       Note that by default this guide assumes your application is
+       being designed for a left-to-right language direction
+       environment, and that the application is written in English.
+       Many of these guidelines can, and in fact should, be modi-
+       fied based on both language and scanning direction.
+
+
+
+                                  - x -
+
+
+
+
+

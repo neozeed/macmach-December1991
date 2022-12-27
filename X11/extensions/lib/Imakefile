@@ -1,0 +1,72 @@
+#if HasInputExtension
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+      SUBDIRS = xinput
+#endif
+
+IMAKE_DEFINES = ExtensionDefines
+
+#ifdef MITSHM
+      SHMSRCS = XShm.c
+      SHMOBJS = XShm.o
+#else
+      SHMSRCS = /* nothing */
+      SHMOBJS = /* nothing */
+#endif
+  STD_DEFINES = LibraryDefines ExtensionDefines
+  CDEBUGFLAGS = LibraryCDebugFlags
+     INCLUDES = -I$(TOP) -I$(INCLUDESRC) -I$(XLIBSRC) -I../include
+         SRCS = globals.c extutil.c XMultibuf.c XShape.c $(SHMSRCS)  \
+		MITMisc.c XTestExt1.c
+         OBJS = globals.o extutil.o XMultibuf.o XShape.o $(SHMOBJS) \
+		MITMisc.o XTestExt1.o 
+     LINTLIBS = $(LINTXLIB)
+
+#if DebugLibXext && ProfileLibXext
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXext
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXext
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+NormalLibraryTarget(Xext,$(OBJS))
+LintLibraryTarget(Xext,$(SRCS))
+InstallLibrary(Xext,$(USRLIBDIR))
+
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11.a,libXext.a)
+#endif
+
+InstallLintLibrary(Xext,$(LINTLIBDIR))
+
+#if ProfileLibXext
+ProfiledLibraryTarget(Xext,$(OBJS))
+InstallLibrary(Xext_p,$(USRLIBDIR))
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11_p.a,libXext_p.a)
+#endif
+#endif
+
+#if DebugLibXext
+DebuggedLibraryTarget(Xext,$(OBJS))
+InstallLibrary(Xext_d,$(USRLIBDIR))
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11_d.a,libXext_d.a)
+#endif
+#endif
+
+#ifdef IHaveSubdirs
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

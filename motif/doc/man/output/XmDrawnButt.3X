@@ -1,0 +1,462 @@
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn ---- tttthhhheeee DDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////DDDDrrrraaaawwwwnnnnBBBB....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The DrawnButton widget consists of an empty widget window
+          surrounded by a shadow border.  It provides the application
+          developer with a graphics area that can have PushButton
+          input semantics.
+
+          Callback types are defined for widget exposure and widget
+          resize to allow the application to redraw or reposition its
+          graphics.  If the DrawnButton widget has a highlight and
+          shadow thickness, the application should not draw in that
+          area. To avoid drawing in the highlight and shadow area,
+          create the graphics context with a clipping rectangle for
+          drawing in the widget.  The clipping rectangle should take
+          into account the size of the widget's highlight thickness
+          and shadow.
+
+
+        CCCCllllaaaasssssssseeeessss
+          DrawnButton inherits behavior and resources from CCCCoooorrrreeee,
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee, and XXXXmmmmLLLLaaaabbbbeeeellll Classes.
+
+          The class pointer is xxxxmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+
+
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+                                     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                   CCCCllllaaaassssssss                  TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt              AAAAcccccccceeeessssssss
+     __________________________________________________________________________________________
+     XmNactivateCallback    XmCCallback            XtCallbackList   NULL                 C
+     XmNarmCallback         XmCCallback            XtCallbackList   NULL                 C
+     XmNdisarmCallback      XmCCallback            XtCallbackList   NULL                 C
+     XmNexposeCallback      XmCCallback            XtCallbackList   NULL                 C
+     XmNmultiClick          XmCMultiClick          unsigned char    dynamic              CSG
+     XmNpushButtonEnabled   XmCPushButtonEnabled   Boolean          False                CSG
+     XmNresizeCallback      XmCCallback            XtCallbackList   NULL                 C
+     XmNshadowType          XmCShadowType          unsigned char    XmSHADOW_ETCHED_IN   CSG
+
+
+          XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               widget becomes selected. The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE.
+
+          XXXXmmmmNNNNaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               widget becomes armed. The reason sent by the callback
+               is XXXXmmmmCCCCRRRR____AAAARRRRMMMM.
+
+          XXXXmmmmNNNNddddiiiissssaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               widget becomes disarmed. The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____DDDDIIIISSSSAAAARRRRMMMM.
+
+          XXXXmmmmNNNNeeeexxxxppppoooosssseeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               widget receives an exposure event.  The reason sent by
+               the callback is XXXXmmmmCCCCRRRR____EEEEXXXXPPPPOOOOSSSSEEEE.
+
+          XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk
+               If a button click is followed by another button click
+               within the time span specified by the display's multi-
+               click time, and this resource is set to
+               XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____DDDDIIIISSSSCCCCAAAARRRRDDDD, do not process the second click.
+               If this resource is set to XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP, process
+               the event and increment _c_l_i_c_k__c_o_u_n_t in the callback
+               structure.  When the button is not in a menu, the
+               default value is XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP.
+
+          XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd
+               Enables or disables the three-dimensional shadow
+               drawing as in PushButton.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               widget receives a resize event.  The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____RRRREEEESSSSIIIIZZZZEEEE.  The event returned for this
+               callback is NULL.
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee
+               Describes the drawing style for the DrawnButton.  This
+               resource can have the following values:
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____IIIINNNN - draws the DrawnButton so that the
+                  shadow appears inset.  This means that the bottom
+                  shadow visuals and top shadow visuals are reversed.
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____OOOOUUUUTTTT - draws the DrawnButton so that the
+                  shadow appears outset.
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____IIIINNNN - draws the DrawnButton using a
+                  double line.  This gives the effect of a line etched
+                  into the window.  The thickness of the double line
+                  is equal to the value of XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.
+
+               +o  XXXXmmmmSSSSHHHHAAAADDDDOOOOWWWW____EEEETTTTCCCCHHHHEEEEDDDD____OOOOUUUUTTTT - draws the DrawnButton using a
+                  double line.  This gives the effect of a line coming
+                  out of the window.  The thickness of the double line
+                  is equal to the value of XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          DrawnButton inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                               XXXXmmmmLLLLaaaabbbbeeeellll RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                        CCCCllllaaaassssssss                       TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _________________________________________________________________________________________________________
+     XmNaccelerator              XmCAccelerator              String              NULL                   N/A
+     XmNacceleratorText          XmCAcceleratorText          XmString            NULL                   N/A
+     XmNalignment                XmCAlignment                unsigned char       dynamic                CSG
+     XmNfontList                 XmCFontList                 XmFontList          dynamic                CSG
+     XmNlabelInsensitivePixmap   XmCLabelInsensitivePixmap   Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelPixmap              XmCLabelPixmap              Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNlabelString              XmCXmString                 XmString            "\0"                   CSG
+     XmNlabelType                XmCLabelType                unsigned char       XmSTRING               CSG
+     XmNmarginBottom             XmCMarginBottom             Dimension           0                      CSG
+     XmNmarginHeight             XmCMarginHeight             Dimension           2                      CSG
+     XmNmarginLeft               XmCMarginLeft               Dimension           0                      CSG
+     XmNmarginRight              XmCMarginRight              Dimension           0                      CSG
+     XmNmarginTop                XmCMarginTop                Dimension           0                      CSG
+     XmNmarginWidth              XmCMarginWidth              Dimension           2                      CSG
+     XmNmnemonic                 XmCMnemonic                 KeySym              NULL                   N/A
+     XmNmnemonicCharSet          XmCMnemonicCharSet          String              dynamic                N/A
+     XmNrecomputeSize            XmCRecomputeSize            Boolean             True                   CSG
+     XmNstringDirection          XmCStringDirection          XmStringDirection   dynamic                CSG
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmNONE                 G
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            True                   CSG
+     XmNunitType             XmCUnitType             unsigned char      dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;
+            WWWWiiiinnnnddddoooowwww   _w_i_n_d_o_w;
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+            iiiinnnntttt      _c_l_i_c_k__c_o_u_n_t;
+          } XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnnCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked.
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback.
+                 This is  NULL for XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          _w_i_n_d_o_w Is set to the window ID in which the event occurred.
+
+          _c_l_i_c_k__c_o_u_n_t
+                 Contains the number of clicks in the last multiclick
+                 sequence if the XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk resource is set to
+                 XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP, otherwise it contains 1111.  The
+                 activate callback is invoked for each click if
+                 XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk is set to XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP.
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmDrawnButton includes translations from Primitive.  The
+          XmDrawnButton translations are listed below.  These
+          translations may not directly correspond to a translation
+          table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: AAAArrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt CCCClllliiiicccckkkk:::: AAAAccccttttiiiivvvvaaaatttteeee(((())))
+                         DDDDiiiissssaaaarrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::AAAAccccttttiiiivvvvaaaatttteeee(((())))
+                         DDDDiiiissssaaaarrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss 2222++++::::MMMMuuuullllttttiiiiAAAArrrrmmmm(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee 2222++++::::MMMMuuuullllttttiiiiAAAAccccttttiiiivvvvaaaatttteeee(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     AAAArrrrmmmmAAAAnnnnddddAAAAccccttttiiiivvvvaaaatttteeee(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       AAAArrrrmmmmAAAAnnnnddddAAAAccccttttiiiivvvvaaaatttteeee(((())))
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmDrawnButton action routines are described below:
+
+          AAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               If XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True, redraws the shadow in
+               the unselected state; otherwise, redraws the shadow
+               according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  If the pointer is within
+               the DrawnButton, calls the XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.
+
+          AAAArrrrmmmm(((()))):
+               If XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True, redraws the shadow in
+               the selected state; otherwise, redraws the shadow
+               according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  Calls the callbacks for
+               XXXXmmmmNNNNaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          AAAArrrrmmmmAAAAnnnnddddAAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               If XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True, redraws the shadow in
+               the selected state; otherwise, redraws the shadow
+               according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  Calls the callbacks for
+               XXXXmmmmNNNNaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+               Arranges for the following to happen, either
+               immediately or at a later time:  If
+               XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True, the shadow is redrawn in
+               the unselected state; otherwise, the shadow is redrawn
+               according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  The callbacks for
+               XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk and XXXXmmmmNNNNddddiiiissssaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk are called.
+
+          DDDDiiiissssaaaarrrrmmmm(((()))):
+               Marks the DrawnButton as unselected and calls the
+               callbacks for XXXXmmmmNNNNddddiiiissssaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          HHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          MMMMuuuullllttttiiiiAAAAccccttttiiiivvvvaaaatttteeee(((()))):
+               If XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk is XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____DDDDIIIISSSSCCCCAAAARRRRDDDD, this action
+               does nothing.
+
+               If XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk is XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP, this action does
+               the following:  Increments _c_l_i_c_k__c_o_u_n_t in the callback
+               structure.  If XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True, redraws
+               the shadow in the unselected state; otherwise, redraws
+               the shadow according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  If the pointer
+               is within the DrawnButton,  calls the
+               XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  Calls the callbacks for
+               XXXXmmmmNNNNddddiiiissssaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn((((3333XXXX))))
+
+
+
+          MMMMuuuullllttttiiiiAAAArrrrmmmm(((()))):
+               If XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk is XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____DDDDIIIISSSSCCCCAAAARRRRDDDD, this action
+               does nothing.
+
+               If XXXXmmmmNNNNmmmmuuuullllttttiiiiCCCClllliiiicccckkkk is XXXXmmmmMMMMUUUULLLLTTTTIIIICCCCLLLLIIIICCCCKKKK____KKKKEEEEEEEEPPPP, this action does
+               the following:  If XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True,
+               redraws the shadow in the selected state; otherwise,
+               redraws the shadow according to XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTTyyyyppppeeee.  Calls
+               the callbacks for XXXXmmmmNNNNaaaarrrrmmmmCCCCaaaallllllllbbbbaaaacccckkkk.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          This widget has the additional behavior described below:
+
+          <<<<EEEEnnnntttteeeerrrrWWWWiiiinnnnddddoooowwww>>>>:
+               Draws the shadow in its selected state if
+               XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True and if the cursor leaves
+               and re-enters the window while BBBBSSSSeeeelllleeeecccctttt is pressed.
+
+          <<<<LLLLeeeeaaaavvvveeeeWWWWiiiinnnnddddoooowwww>>>>:
+               Draws the shadow in its unselected state if
+               XXXXmmmmNNNNppppuuuusssshhhhBBBBuuuuttttttttoooonnnnEEEEnnnnaaaabbbblllleeeedddd is True and if the cursor leaves
+               the window while BBBBSSSSeeeelllleeeecccctttt is pressed.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeDDDDrrrraaaawwwwnnnnBBBBuuuuttttttttoooonnnn, XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX)))), XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))),
+          XXXXmmmmPPPPuuuusssshhhhBBBBuuuuttttttttoooonnnn, and XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+

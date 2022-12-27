@@ -1,0 +1,78 @@
+.\"
+.\" $Id: getname.3,v 1.4 90/01/09 16:50:16 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getname.3,v $
+.\" Revision 1.4  90/01/09  16:50:16  bww
+.\" 	Removed .I from NAME section.
+.\" 	[90/01/09  16:49:35  bww]
+.\" 
+.\" Revision 1.3  89/12/26  11:18:01  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 27-Oct-84  Rudy Nedved (ern) at Carnegie-Mellon University
+.\"	Add SEE ALSO section and made a few modifications.
+.\"
+.\" 12-Feb-84  Lori Garrett at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH GETNAME 3 10/27/84
+.CM 4
+.SH "NAME"
+getname \- returns the string login id of the entry in the password file whose numerical user id matches userid
+.SH "SYNOPSIS"
+.B
+char *getname(userid)
+.br
+.B
+int userid;
+.SH "DESCRIPTION"
+.I
+getname
+searches through the password file for an entry whose numerical user id
+matches the parameter 
+.I
+userid.
+.sp
+.I
+getname 
+continues searching until a match or the end of the password file
+has been reached, building its own structure, 
+.I
+names, 
+for storing the entries
+of the password file that were examined.
+.sp
+If 
+.I
+getname
+is called repeatedly, 
+.I
+names
+is checked first for an entry matching
+.I
+userid. 
+If none is found, entries from the password file are entered 
+.I
+names
+as before. 
+.sp
+When the entire password file has been stored, only 
+.I
+names
+will be checked
+for an entry matching 
+.I
+userid.
+.SH "FILES"
+.nf
+/etc/passwd             The password file.
+.SH "SEE ALSO"
+passwd(5), getpwent(3), login(1), crypt(3), group(5)
+.SH "DIAGNOSTICS"
+getname returns the pointer NULL when there is no entry in the password
+file corresponding to userid.

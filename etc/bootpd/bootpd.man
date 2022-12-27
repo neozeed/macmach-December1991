@@ -1,0 +1,105 @@
+.TH BOOTPD 8
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" HISTORY
+.\" $Log:	bootpd.8,v $
+.\" Revision 2.4  89/08/25  11:54:22  moore
+.\" 	Fixed problems caused by workoff not having proper src dir.
+.\" 	[89/08/25  11:54:08  moore]
+.\" 
+.\" Revision 2.3  89/08/25  11:49:17  moore
+.\" 	Created.
+.\" 	[89/08/25  11:41:49  moore]
+.\" 
+.\" Revision 2.2  89/08/25  11:42:05  moore
+.\" 	Created.
+.\" 	[89/08/25  11:41:49  moore]
+.\" 
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.SH NAME
+bootpd \- Server to help boot diskless clients. bootptab
+.SH SYNOPSIS
+.B /etc/bootpd [-d] [-i]
+.SH DESCRIPTION
+.I Bootpd
+is a server for the Internet BOOTP protocol (a UDP-based protocol).
+This allows a diskless machine to find out its Internet address,
+the address of a bootserver,
+and the name of a file to boot.  
+.PP
+.I Bootpd
+is started from nanny if the host is configured with the bootpd attribute.
+.I Bootpd
+reads its configuration file,
+.IR /etc/bootptab ,
+when it starts up; whenever a new request arrives,
+.I bootpd
+checks to see if the file has been modified, and if so, reads it again.
+Below is an example of the format of the configuration file.
+.nf
+	#
+	# /etc/bootptab:  database for bootp server (/etc/bootpd)
+	#
+	# Blank lines and lines beginning with '#' are ignored.
+	#
+	# home directory
+	
+	/usr/local/bootfiles
+	
+	# default bootfile 
+	
+	defaultboot
+	
+	# end of first section
+	
+	%%
+	
+	#
+	# The remainder of this file contains one line per client interface
+	# with the information shown by the table headings below.
+	# The 'host' name is also tried as a suffix for the 'bootfile'
+	# when searching the home directory.  (e.g., bootfile.host)
+	#
+	# host		htype haddr		iaddr		bootfile
+	#
+	
+	hostx		1 02:60:8c:06:35:05	99.44.0.65	ultrix
+	hosty		1 02:07:01:00:30:02	99.44.0.65	vms
+	hostz		1 02:60:8c:00:77:78	99.44.0.03	lps40
+	node1		1 02:60:8c:00:99:47	99.44.0.01	tops20
+.fi
+The first two lines specify the ``home'' (default) directory and the
+default bootfile, respectively.  A line starting with `%%' separates
+these first lines from the host information table, which contains
+an entry for each bootable host.
+.PP
+You should start with a file similar to this and edit the host entries
+to correspond to your local systems.  The host field does not have to
+be a formal host name, it is used for identification in the log file
+and also as a possible extension to the bootfile name.
+.PP
+The 'htype' is always '1' and corresponds to the hardware type assigned
+Ethernet by the Assigned Numbers RFC.  The 'haddr' field can use periods,
+hyphens,
+or colons as separators.  The 'bootfile' entry is the file used if the
+client does not know the name of the file it wants to boot.  This is
+frequently the case when a diskless workstation is booted.
+.PP
+.I Bootpd
+logs interesting events using
+.IR syslog (8).
+If invoked with the \-d option, it also logs all requests and
+the indicates what responses it makes.
+.PP
+If started by
+.IR inetd (8),
+.I bootpd
+hangs around until no new requests arrive for one minute.  This
+limits the overhead of restarting the daemon without tying up
+a process slot when nothing is happening.
+.SH FILES
+/etc/bootptab		configuration file
+.SH SEE ALSO
+tftpd(8), inetd(8)
+.sp
+Bill Croft, John Gilmore. ``Bootstrap Protocol (BOOTP).''  RFC951,
+Network Information Center, SRI International. September 1985.

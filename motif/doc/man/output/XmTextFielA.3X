@@ -1,0 +1,610 @@
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd ---- tttthhhheeee TTTTeeeexxxxttttFFFFiiiieeeelllldddd ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////TTTTeeeexxxxttttFFFF....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          TextField widget provides a single line text editor for
+          customizing both user and programmatic interfaces.  It is
+          used for single-line string entry, and forms entry with
+          verification procedures.  It provides an application with a
+          consistent editing system for textual data.
+
+          TextField widget provides separate callback lists to verify
+          movement of the insert cursor, modification of the text, and
+          changes in input focus.  Each of these callbacks provides
+          the verification function with the widget instance, the
+          event that caused the callback, and a data structure
+          specific to the verification type.  From this information
+          the function can verify if the application considers this to
+          be a legitimate state change and can signal the widget
+          whether to continue with the action.
+
+          The user interface tailors a new set of actions.  The key
+          bindings have been added for insert cursor movement,
+          deletion, insertion, and selection of text.
+
+          TextField allows the user to select regions of text.
+          Selection is based on the model specified in the _I_n_t_e_r-
+          _C_l_i_e_n_t _C_o_m_m_u_n_i_c_a_t_i_o_n _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l (ICCCM).  TextField
+          supports primary and secondary selection.
+
+
+          CCCCllllaaaasssssssseeeessss
+               TextField widget inherits behavior and resources from
+               CCCCoooorrrreeee and PPPPrrrriiiimmmmiiiittttiiiivvvveeee classes.
+
+               The class pointer is xxxxmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+               The class name is XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd.
+
+
+          NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+               The following table defines a set of widget resources
+               used by the programmer to specify data.  The programmer
+               can also set the resource values for the inherited
+               classes to set attributes for this widget.  To
+               reference a resource by name or by class in a
+               .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC prefix and use
+               the remaining letters.  To specify one of the defined
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+               values for a resource in a .Xdefaults file, remove the
+               XXXXmmmm prefix and use the remaining letters (in either
+               lower case or upper case, but include any underscores
+               between words).  The codes in the access column
+               indicate if the given resource can be set at creation
+               time (CCCC), set by using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by
+               using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is not applicable (NNNN////AAAA).
+
+                                         XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddRRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                       CCCCllllaaaassssssss                      TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt           AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________
+     XmNactivateCallback        XmCCallback                XtCallbackList   NULL              C
+     XmNblinkRate               XmCBlinkRate               int              500               CSG
+     XmNcolumns                 XmCColumns                 short            dynamic           CSG
+     XmNcursorPosition          XmCCursorPosition          XmTextPosition   0                 CSG
+     XmNcursorPositionVisible   XmCCursorPositionVisible   Boolean          True              CSG
+     XmNeditable                XmCEditable                Boolean          True              CSG
+     XmNfontList                XmCFontList                XmFontList       dynamic           CSG
+     XmNgainPrimaryCallback     XmCCallback                XtCallbackList   NULL              C
+     XmNlosePrimaryCallback     XmCCallback                XtCallbackList   NULL              C
+     XmNlosingFocusCallback     XmCCallback                XtCallbackList   NULL              C
+     XmNmarginHeight            XmCMarginHeight            Dimension        5                 CSG
+     XmNmarginWidth             XmCMarginWidth             Dimension        5                 CSG
+     XmNmaxLength               XmCMaxLength               int              largest integer   CSG
+     XmNmodifyVerifyCallback    XmCCallback                XtCallbackList   NULL              C
+     XmNmotionVerifyCallback    XmCCallback                XtCallbackList   NULL              C
+     XmNpendingDelete           XmCPendingDelete           Boolean          True              CSG
+     XmNresizeWidth             XmCResizeWidth             Boolean          False             CSG
+     XmNselectionArray          XmCSelectionArray          Pointer          default array     CSG
+     XmNselectionArrayCount     XmCSelectionArrayCount     int              3                 CSG
+     XmNselectThreshold         XmCSelectThreshold         int              5                 CSG
+     XmNvalue                   XmCValue                   String           ""                CSG
+     XmNvalueChangedCallback    XmCCallback                XtCallbackList   NULL              C
+     XmNverifyBell              XmCVerifyBell              Boolean          True              CSG
+
+
+          XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user invokes an event that calls the AAAAccccttttiiiivvvvaaaatttteeee(((())))
+               function.  The type of the structure whose address is
+               passed to this callback is XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The
+               reason sent by the callback is XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE.
+
+          XXXXmmmmNNNNbbbblllliiiinnnnkkkkRRRRaaaatttteeee
+               Specifies the blink rate of the text cursor in
+               milliseconds.  The time indicated in the blink rate
+               relates to the length of time the cursor is visible and
+               the time the cursor is invisible (i.e., the time it
+               will take to blink the insertion cursor on and off will
+               be 2 times the blink rate).  The cursor will not blink
+               when the blink rate is set to zero.  The value must not
+               be negative.
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNccccoooolllluuuummmmnnnnssss
+               Specifies the initial width of the text window measured
+               in character spaces.  The value must be greater than 0.
+               The default value depends on the value of the XXXXmmmmNNNNwwwwiiiiddddtttthhhh
+               resource.  If no width is specified the default is 20.
+
+          XXXXmmmmNNNNccccuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnn
+               Indicates the position in the text where the current
+               insert cursor is to be located.  Position is determined
+               by the number of characters from the beginning of the
+               text.
+
+          XXXXmmmmNNNNccccuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnnVVVViiiissssiiiibbbblllleeee
+               Indicates that the insert cursor position is marked by
+               a blinking text cursor when the Boolean is True.
+
+          XXXXmmmmNNNNeeeeddddiiiittttaaaabbbblllleeee
+               Indicates that the user can edit the text string when
+               set to True. A false value will prohibit the user from
+               editing the text.
+
+          XXXXmmmmNNNNffffoooonnnnttttLLLLiiiisssstttt
+               Specifies the font list to be used for TextField.  If
+               this value is NULL at initialization, it is initialized
+               by looking up the parent hierarchy of the widget for an
+               ancestor that is a subclass of the XmBulletinBoard,
+               VendorShell, or XmMenuShell widget class.  If such an
+               ancestor is found, the font list is initialized to the
+               appropriate default font list of the ancestor widget
+               (XmNdefaultFontList for VendorShell and XmMenuShell,
+               XmNtextFontList for XmBulletinBoard).  See
+               XXXXmmmmFFFFoooonnnnttttLLLLiiiissssttttCCCCrrrreeeeaaaatttteeee((((3333XXXX)))) to create a font list.
+
+          XXXXmmmmNNNNggggaaaaiiiinnnnPPPPrrrriiiimmmmaaaarrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that are called when
+               the user invokes an event that cause the text widget to
+               gain ownership of the primary selection. The callback
+               reason for this callback is XmCR_GAIN_PRIMARY.
+
+          XXXXmmmmNNNNlllloooosssseeeePPPPrrrriiiimmmmaaaarrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that are called when
+               the user invokes an event that cause the text widget to
+               lose ownership of the primary selection. The callback
+               reason for this callback is XmCR_LOSE_PRIMARY.
+
+
+
+
+
+
+
+
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNlllloooossssiiiinnnnggggFFFFooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called before
+               TextField widget loses input focus.  The type of the
+               structure whose address is passed to this callback is
+               XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____LLLLOOOOSSSSIIIINNNNGGGG____FFFFOOOOCCCCUUUUSSSS.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the distance between the top edge of the
+               widget window and the text, and the bottom edge of the
+               widget window and the text.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the distance between the left edge of the
+               widget window and the text, and the right edge of the
+               widget window and the text.
+
+          XXXXmmmmNNNNmmmmaaaaxxxxLLLLeeeennnnggggtttthhhh
+               Specifies the maximum length of the text string that
+               can be entered into text from the keyboard.  Strings
+               that are entered using the XXXXmmmmNNNNvvvvaaaalllluuuueeee resource or the
+               XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttSSSSttttrrrriiiinnnngggg function are truncated by this
+               resource.
+
+          XXXXmmmmNNNNmmmmooooddddiiiiffffyyyyVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called before
+               text is deleted from or inserted into TextField. The
+               type of the structure whose address is passed to this
+               callback is XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason
+               sent by the callback is XXXXmmmmCCCCRRRR____MMMMOOOODDDDIIIIFFFFYYYYIIIINNNNGGGG____TTTTEEEEXXXXTTTT____VVVVAAAALLLLUUUUEEEE.
+
+          XXXXmmmmNNNNmmmmoooottttiiiioooonnnnVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called before
+               the insert cursor is moved to a new position. The type
+               of the structure whose address is passed to this
+               callback is XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason
+               sent  by the callback is XXXXmmmmCCCCRRRR____MMMMOOOOVVVVIIIINNNNGGGG____IIIINNNNSSSSEEEERRRRTTTT____CCCCUUUURRRRSSSSOOOORRRR.
+
+          XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee
+               Indicates that pending delete mode is on when the
+               Boolean is True.  Pending deletion is defined as
+               deletion of the selected text when an insertion is
+               made.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeWWWWiiiiddddtttthhhh
+               Indicates that TextField widget will attempt to resize
+               its width to accommodate all the text contained in the
+               widget when Boolean is True.
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy
+               Defines the actions for multiple-mouse clicks.  Each
+               mouse click performed within a half of a second of the
+               previous mouse click will increment the index into this
+               array and perform the defined action for that index.
+               The possible actions are:
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNNSSSS - resets the insert cursor
+                  position.
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____WWWWOOOORRRRDDDD - selects a word.
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____LLLLIIIINNNNEEEE - selects a line of text.
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyyCCCCoooouuuunnnntttt
+               Specifies the number of actions that are defined in the
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy resource.  The value must not be
+               negative.
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttTTTThhhhrrrreeeesssshhhhoooolllldddd
+               Specifies the number of pixels of motion that is
+               required to select the next character when selection is
+               performed using the click-drag mode of selection.  The
+               value must not be negative.
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeee
+               Displays the string value.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss returns the
+               value of the internal buffer and XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss copies the
+               string values into the internal buffer.
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called after
+               text is deleted from or inserted into TextField. The
+               type of the structure whose address is passed to this
+               callback is XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by
+               the callback is XXXXmmmmCCCCRRRR____VVVVAAAALLLLUUUUEEEE____CCCCHHHHAAAANNNNGGGGEEEEDDDD.
+
+          XXXXmmmmNNNNvvvveeeerrrriiiiffffyyyyBBBBeeeellllllll
+               Specifies whether a bell will sound when an action is
+               reversed during a verification callback.
+
+
+          IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+               TextField widget inherits behavior and resources from
+               the following superclasses.  For a complete description
+               of these resources, refer to the man page for that
+               superclass.
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   XmTAB_GROUP            CSG
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            True                   CSG
+     XmNunitType             XmCUnitType             unsigned char      dynamic                CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+          CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+               A pointer to the following structure is passed to each
+               callback:
+
+               ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+               {
+                 iiiinnnntttt          _r_e_a_s_o_n;
+                 XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;
+               } XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+               _r_e_a_s_o_n Indicates why the callback was invoked.
+
+               _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the
+                      callback.
+
+
+               The TextField widget defines a new callback structure
+               for use with verification callbacks.  Note that not all
+               of the fields are relevant for every callback reason.
+               The application must first look at the reason field and
+               use only the structure members that are valid for the
+               particular reason.  A pointer to the following
+               structure is passed to the callbacks for
+               XXXXmmmmNNNNlllloooossssiiiinnnnggggFFFFooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk, XXXXmmmmNNNNmmmmooooddddiiiiffffyyyyVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk, and
+               XXXXmmmmNNNNmmmmoooottttiiiioooonnnnVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk.
+
+               ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+               {
+                 iiiinnnntttt          _r_e_a_s_o_n;
+                 XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;
+                 BBBBoooooooolllleeeeaaaannnn      _d_o_i_t;
+                 PPPPoooossssiiiittttiiiioooonnnn     _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t;
+                 PPPPoooossssiiiittttiiiioooonnnn     _s_t_a_r_t_P_o_s, _e_n_d_P_o_s;
+                 XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkk  _t_e_x_t;
+               } XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt,,,, ****XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyPPPPttttrrrr;
+
+
+               _r_e_a_s_o_n Indicates why the callback was invoked.
+
+               _e_v_e_n_t  Points  to  the  XXXXEEEEvvvveeeennnntttt   that   triggered   the
+                      callback.
+
+               _d_o_i_t   Indicates whether that action that  invoked  the
+                      callback  will  be  performed.   Setting _d_o_i_t to
+                      False negates the action.
+
+               _c_u_r_r_I_n_s_e_r_t
+                      Indicates the current  position  of  the  insert
+                      cursor.
+
+               _n_e_w_I_n_s_e_r_t
+                      Indicates  the  position  at  which   the   user
+                      attempts to position the insert cursor.
+
+               _s_t_a_r_t_P_o_s
+                      Indicates the starting position of the  text  to
+                      modify.    If  the  callback  is  not  a  modify
+                      verification callback, this value is the same as
+                      _c_u_r_r_I_n_s_e_r_t.
+
+               _e_n_d_P_o_s Indicates the ending position  of  the  text  to
+                      modify.  If no text is replaced or deleted, then
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+                      the value is  the  same  as  _s_t_a_r_t_P_o_s.   If  the
+                      callback  is not a modify verification callback,
+                      this value is the same as _c_u_r_r_I_n_s_e_r_t.
+
+               _t_e_x_t   Points to a structure  of  type  XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkkRRRReeeecccc.
+                      This  structure holds the textual information to
+                      be inserted.
+
+
+               ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+               {
+                 cccchhhhaaaarrrr         * _p_t_r;
+                 iiiinnnntttt          _l_e_n_g_t_h;
+                 XXXXmmmmTTTTeeeexxxxttttFFFFoooorrrrmmmmaaaatttt _f_o_r_m_a_t
+               } XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkkRRRReeeecccc,,,, ****XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkk;
+
+
+               _p_t_r    Is the text to be inserted.   _p_t_r  points  to  a
+                      temporary storage space that is reused after the
+                      callback   is   finished.   Therefore,   is   an
+                      application   needs  to  save  the  text  to  be
+                      inserted, it should copy the text into  its  own
+                      data space.
+
+               _l_e_n_g_t_h Specifies the length of the text to be inserted.
+
+               _f_o_r_m_a_t Specifies  the  format  of   the   text   (e.g.,
+                      FFFFMMMMTTTT8888BBBBIIIITTTT).
+
+
+               The following table describes the reasons for which the
+               individual  verification  callback structure fields are
+               valid:
+
+                          RRRReeeeaaaassssoooonnnn                  VVVVaaaalllliiiidddd FFFFiiiieeeellllddddssss
+                 __________________________________________________
+                                             _r_e_a_s_o_n, _e_v_e_n_t, _d_o_i_t
+7                 XXXXmmmmCCCCRRRR____LLLLOOOOSSSSIIIINNNNGGGG____FFFFOOOOCCCCUUUUSSSS
+
+                                             _r_e_a_s_o_n,  _e_v_e_n_t,  _d_o_i_t,
+                                             _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t,
+                                             _s_t_a_r_t_P_o_s, _e_n_d_P_o_s, _t_e_x_t
+777                 XXXXmmmmCCCCRRRR____MMMMOOOODDDDIIIIFFFFYYYYIIIINNNNGGGG____TTTTEEEEXXXXTTTT____VVVVAAAALLLLUUUUEEEE
+
+
+
+                                             _r_e_a_s_o_n,  _e_v_e_n_t,  _d_o_i_t,
+                                             _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t
+77                 XXXXmmmmCCCCRRRR____MMMMOOOOVVVVIIIINNNNGGGG____TTTTEEEEXXXXTTTT____CCCCUUUURRRRSSSSOOOORRRR
+
+7                                          ||||7||||7||||7||||7||||7||||7||||7||||7||||7||||
+
+
+
+
+
+
+
+
+
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          The XmTextField translations are the same as those of XmText
+          when XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX))))
+
+
+
+          The XmTextField action routines are the  same  as  those  of
+          XmText when XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is set to XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual  keys  are  vendor  specific.   For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX)))), XXXXmmmmFFFFoooonnnnttttLLLLiiiissssttttCCCCrrrreeeeaaaatttteeee((((3333XXXX)))),
+          XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddCCCClllleeeeaaaarrrrSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddCCCCooooppppyyyy((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddCCCCuuuutttt((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttBBBBaaaasssseeeelllliiiinnnneeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttEEEEddddiiiittttaaaabbbblllleeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttLLLLaaaassssttttPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddGGGGeeeettttSSSSttttrrrriiiinnnngggg((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddIIIInnnnsssseeeerrrrtttt((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddPPPPaaaasssstttteeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddPPPPoooossssTTTTooooXXXXYYYY((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddRRRReeeemmmmoooovvvveeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddRRRReeeeppppllllaaaacccceeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttAAAAddddddddMMMMooooddddeeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttEEEEddddiiiittttaaaabbbblllleeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttHHHHiiiigggghhhhlllliiiigggghhhhtttt((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSSeeeettttSSSSttttrrrriiiinnnngggg((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddSSSShhhhoooowwwwPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))), and
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeellllddddXXXXYYYYTTTTooooPPPPoooossss((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+

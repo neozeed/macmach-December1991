@@ -1,0 +1,221 @@
+.ds xT X Toolkit Intrinsics \- C Language Interface
+.ds xW Athena X Widgets \- C Language X Toolkit Interface
+.ds xL Xlib \- C Language X Interface
+.ds xC Inter-Client Communication Conventions Manual
+.na
+.de Ds
+.nf
+.\\$1D \\$2 \\$1
+.ft 1
+.\".ps \\n(PS
+.\".if \\n(VS>=40 .vs \\n(VSu
+.\".if \\n(VS<=39 .vs \\n(VSp
+..
+.de De
+.ce 0
+.if \\n(BD .DF
+.nr BD 0
+.in \\n(OIu
+.if \\n(TM .ls 2
+.sp \\n(DDu
+.fi
+..
+.de FD
+.LP
+.KS
+.TA .5i 3i
+.ta .5i 3i
+.nf
+..
+.de FN
+.fi
+.KE
+.LP
+..
+.de IN		\" send an index entry to the stderr
+.tm \\n%:\\$1:\\$2:\\$3
+..
+.de C{
+.KS
+.nf
+.D
+.\"
+.\"	choose appropriate monospace font
+.\"	the imagen conditional, 480,
+.\"	may be changed to L if LB is too
+.\"	heavy for your eyes...
+.\"
+.ie "\\*(.T"480" .ft L
+.el .ie "\\*(.T"300" .ft L
+.el .ie "\\*(.T"202" .ft PO
+.el .ie "\\*(.T"aps" .ft CW
+.el .ft R
+.ps \\n(PS
+.ie \\n(VS>40 .vs \\n(VSu
+.el .vs \\n(VSp
+..
+.de C}
+.DE
+.R
+..
+.de Pn
+.ie t \\$1\fB\^\\$2\^\fR\\$3
+.el \\$1\fI\^\\$2\^\fP\\$3
+..
+.de PN
+.ie t \fB\^\\$1\^\fR\\$2
+.el \fI\^\\$1\^\fP\\$2
+..
+.de NT
+.ne 7
+.ds NO Note
+.if \\n(.$>$1 .if !'\\$2'C' .ds NO \\$2
+.if \\n(.$ .if !'\\$1'C' .ds NO \\$1
+.ie n .sp
+.el .sp 10p
+.TB
+.ce
+\\*(NO
+.ie n .sp
+.el .sp 5p
+.if '\\$1'C' .ce 99
+.if '\\$2'C' .ce 99
+.in +5n
+.ll -5n
+.R
+..
+.		\" Note End -- doug kraft 3/85
+.de NE
+.ce 0
+.in -5n
+.ll +5n
+.ie n .sp
+.el .sp 10p
+..
+.ny0
+.TH XQueryColor 3X11 "Release 4" "X Version 11" 
+.SH NAME
+XQueryColor, XQueryColors, XLookupColor \- obtain color values
+.SH SYNTAX
+.\" $Header: XQueryColor.f,v 1.3 88/05/09 09:40:30 mento Exp $
+XQueryColor\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIdef_in_out\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor *\fIdef_in_out\fP\^;
+.LP
+.\" $Header: XQueryColors.f,v 1.3 88/05/09 09:42:25 mento Exp $
+XQueryColors\^(\^\fIdisplay\fP, \fIcolormap\fP\^, \fIdefs_in_out\fP\^, \fIncolors\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      XColor \fIdefs_in_out\fP[\^]\^;
+.br
+      int \fIncolors\fP\^;
+.LP
+Status XLookupColor\^(\^\fIdisplay\fP, \fIcolormap\fP, \fIcolor_name\fP, \
+\fIexact_def_return\fP\^, \fIscreen_def_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Colormap \fIcolormap\fP\^;
+.br
+      char *\fIcolor_name\fP\^;
+.br
+      XColor *\fIexact_def_return\fP\^, *\fIscreen_def_return\fP\^;
+.SH ARGUMENTS
+.\" $Header: cmap.a,v 1.2 88/05/09 06:39:13 mento Exp $
+.IP \fIcolormap\fP 1i
+Specifies the colormap.
+.\" $Header: colorname.a,v 1.2 88/05/09 07:14:45 mento Exp $
+.IP \fIcolor_name\fP 1i
+Specifies the color name string (for example, red) whose color 
+definition structure you want returned.
+.IP \fIdef_in_out\fP 1i
+Specifies and returns the RGB values for the pixel specified in the structure.
+.\" $Header: defs_ret.a,v 1.4 88/05/09 09:43:05 mento Exp $
+.IP \fIdefs_in_out\fP 1i
+Specifies and returns an array of color definition structures for the pixel
+specified in the structure.
+.\" $Header: display.a,v 1.1 88/02/26 10:26:29 mento Exp $
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.\" $Header: exact_def.a,v 1.1 88/02/26 10:26:55 mento Exp $
+.IP \fIexact_def_return\fP 1i
+Returns the exact RGB values.
+.\" $Header: ncolors.a,v 1.1 88/02/26 10:29:17 mento Exp $
+.IP \fIncolors\fP 1i
+.\"Specifies the number of color definition structures. 
+Specifies the number of 
+.PN XColor
+structures in the color definition array.
+.\" $Header: hard_def.a,v 1.2 88/04/23 08:59:18 mento Exp $
+.IP \fIscreen_def_return\fP 1i
+Returns the closest RGB values provided by the hardware.
+.SH DESCRIPTION
+.\" $Header: XQueryColor.d,v 1.4 88/06/11 07:52:34 mento Exp $
+The
+.PN XQueryColor
+function returns the hardware-specific RGB values for each pixel in the
+.PN XColor
+structures and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+The
+.PN XQueryColors
+function returns the RGB values for each pixel in the
+.PN XColor
+structures and sets the
+.PN DoRed ,
+.PN DoGreen ,
+and
+.PN DoBlue
+flags.
+.LP
+.PN XQueryColor
+and
+.PN XQueryColors
+can generate
+.PN BadColor
+and
+.PN BadValue 
+errors.
+.LP
+.\" $Header: XLkUpColor.d,v 1.3 88/06/11 07:51:53 mento Exp $
+The
+.PN XLookupColor
+function looks up the string name of a color with respect to the screen
+associated with the specified colormap.
+It returns both the exact color values and
+the closest values provided by the screen 
+with respect to the visual type of the specified colormap.
+You should use the ISO Latin-1 encoding;
+uppercase and lowercase do not matter.
+.PN XLookupColor
+returns nonzero if the name existed in the color database
+or zero if it did not exist.
+.SH DIAGNOSTICS
+.\" $Header: badcolor.e,v 1.1 87/09/04 08:22:57 mento Exp $
+.TP 1i
+.PN BadColor
+A value for a Colormap argument does not name a defined Colormap.
+.\" $Header: badvalue.e,v 1.1 87/09/04 08:23:19 mento Exp $
+.TP 1i
+.PN BadValue
+Some numeric value falls outside the range of values accepted by the request.
+Unless a specific range is specified for an argument, the full range defined
+by the argument's type is accepted.  Any argument defined as a set of
+alternatives can generate this error.
+.SH "SEE ALSO"
+XAllocColor(3X11),
+XCreateColormap(3X11),
+XStoreColors(3X11)
+.br
+\fI\*(xL\fP

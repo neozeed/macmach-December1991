@@ -1,0 +1,78 @@
+#	Turbo C 1.5 makefile for
+#		MicroEMACS 3.10
+#		(C)opyright 1988 by Daniel Lawrence
+#		all rights reserved
+
+CFLAGS=-ml -d -K -N- -y -O -r -Z -c -n$(OBJ) -Ic:\sys\turbo\include
+OBJ = tco
+SRC = src
+CC = tcc
+HFILES = estruct.h edef.h efunc.h epath.h ebind.h etype.h
+
+F1 = $(OBJ)\basic.obj $(OBJ)\bind.obj $(OBJ)\buffer.obj
+F2 = $(OBJ)\char.obj $(OBJ)\crypt.obj $(OBJ)\display.obj
+F3 = $(OBJ)\eval.obj $(OBJ)\exec.obj $(OBJ)\file.obj
+F4 = $(OBJ)\fileio.obj $(OBJ)\ibmpc.obj $(OBJ)\input.obj
+F5 = $(OBJ)\isearch.obj $(OBJ)\line.obj $(OBJ)\lock.obj
+F6 = $(OBJ)\main.obj $(OBJ)\mouse.obj $(OBJ)\msdos.obj
+F7 = $(OBJ)\random.obj $(OBJ)\region.obj $(OBJ)\search.obj
+F8 = $(OBJ)\window.obj $(OBJ)\word.obj  $(OBJ)\execpr.obj
+
+all:	emacs.exe cmdfix.exe
+
+emacs.exe: $(F1) $(F2) $(F3) $(F4) $(F5) $(F6) $(F7) $(F8)
+	link @emacs.lnk
+
+cmdfix.exe: $(OBJ)\cmdfix.obj
+	link @cmdfix.lnk
+
+$(OBJ)\basic.obj: $(SRC)\basic.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\bind.obj: $(SRC)\bind.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\buffer.obj: $(SRC)\buffer.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\char.obj: $(SRC)\char.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\crypt.obj: $(SRC)\crypt.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\cmdfix.obj: $(SRC)\cmdfix.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\display.obj: $(SRC)\display.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\eval.obj: $(SRC)\eval.c $(HFILES) evar.h
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\exec.obj: $(SRC)\exec.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\file.obj: $(SRC)\file.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\fileio.obj: $(SRC)\fileio.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\ibmpc.obj: $(SRC)\ibmpc.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\input.obj: $(SRC)\input.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\isearch.obj: $(SRC)\isearch.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\line.obj: $(SRC)\line.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\lock.obj: $(SRC)\lock.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\main.obj: $(SRC)\main.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\mouse.obj: $(SRC)\mouse.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\msdos.obj: $(SRC)\msdos.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\random.obj: $(SRC)\random.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\region.obj: $(SRC)\region.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\search.obj: $(SRC)\search.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\window.obj: $(SRC)\window.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\word.obj: $(SRC)\word.c $(HFILES)
+	$(CC) $(CFLAGS) -o$(OBJ)\$&.obj $(SRC)\$&.c
+$(OBJ)\execpr.obj: $(SRC)\execpr.asm
+	masm $(SRC)\execpr.asm, $(OBJ)\execpr.obj, , ,

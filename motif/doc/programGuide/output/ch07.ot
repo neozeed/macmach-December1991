@@ -1,0 +1,2029 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7.  SSSSppppeeeecccciiiiaaaalllliiiizzzzeeeedddd WWWWiiiiddddggggeeeettttssss
+
+       This chapter explains the use of the following three spe-     |
+       cialized widgets:
+
+          +o                                                          *
+
+          +o List
+
+          +o RowColumn
+
+          +o Text
+
+       The Form widget is explained in Chapter 5, ``Dialog Widg-     |
+       ets.''  The others are explained in this chapter.             |
+
+       7.1  LLLLiiiisssstttt WWWWiiiiddddggggeeeetttt
+
+       The List widget allows you to make a selection from a list
+       of items.  The application defines an array of compound
+       strings, each of which becomes an item in the list.  You can
+       set the number of items in the list that are to be visible.
+       You can also choose to have the List appear with a ScrollBar
+       so that you can scroll through the list of items.  Items are
+       selected by moving the pointer to the desired item and
+       pressing the mouse button or key defined as select.  The      |
+       selected item is displayed in inverse color.
+
+       7.1.1  LLLLiiiisssstttt FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       The List widget has a number of functions that can perform a  |
+       variety of tasks.  These functions are listed in the follow-  |
+       ing table and each has its own manpage in the _O_S_F/_M_o_t_i_f       |
+       _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.                                       |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                7-1
+
+
+
+
+
+
+
+
+
+
+
+
+                    TTTTAAAABBBBLLLLEEEE 7777----1111....  List Widget Functions                *
+
+       FFFFuuuunnnnccccttttiiiioooonnnn                  DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       ____________________________________________________________________________________
+       XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt            Basic widget creation function.                           |
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLiiiisssstttt              Specific creation function for XmList.                    |
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddLLLLiiiisssstttt      Creation function for ScrolledList.                       |
+       XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmm             Adds an item (possibly selected) to the list.             |
+       XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmmssss            Adds items (possibly selected) to the list.               |
+       XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmmUUUUnnnnsssseeeelllleeeecccctttteeeedddd   Adds an item (unselected) to the list.                    |
+       XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeeAAAAllllllllIIIItttteeeemmmmssss      Deletes all items from the list.                          |
+       XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeeIIIItttteeeemmmm          Deletes an item from the list.                            |
+       XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeeIIIItttteeeemmmmssss         Deletes items from the list.                              |
+                                 Deletes items from the list starting at the specified|
+                                 position.                           |
+77       XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeeIIIItttteeeemmmmssssPPPPoooossss                                                                |
+
+       XXXXmmmmLLLLiiiissssttttDDDDeeeelllleeeetttteeeePPPPoooossss           Deletes an item at the specified position.                |
+                                 Unhighlights all items in the list and removes them from|
+                                 the selected list.                  |
+77       XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttAAAAllllllllIIIItttteeeemmmmssss                                                              |
+
+                                 Unhighlights the specified item and removes it from the     |
+                                 selected list.
+77       XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttIIIItttteeeemmmm
+
+                                 Unhighlights the item at the specified position and         ||
+                                 removes it from the selected list.  |
+77       XXXXmmmmLLLLiiiissssttttDDDDeeeesssseeeelllleeeeccccttttPPPPoooossss                                                                   |
+
+                                 Returns a list of all positions where the specified item    ||
+                                 is found in the list.               |
+77       XXXXmmmmLLLLiiiissssttttGGGGeeeettttMMMMaaaattttcccchhhhPPPPoooossss                                                                   |
+
+                                 Returns a list of positions of all currently selected       ||
+                                 items in the list.                  |
+77       XXXXmmmmLLLLiiiissssttttGGGGeeeettttSSSSeeeelllleeeecccctttteeeeddddPPPPoooossss                                                                |
+
+       XXXXmmmmLLLLiiiissssttttIIIItttteeeemmmmEEEExxxxiiiissssttttssss          Returns True if the specified item is present in the list.|
+       XXXXmmmmLLLLiiiissssttttIIIItttteeeemmmmPPPPoooossss             Returns the position of the specified item in the list.   |
+       XXXXmmmmLLLLiiiissssttttRRRReeeeppppllllaaaacccceeeeIIIItttteeeemmmmssss        Replaces some existing list items with new items.         |
+                                 Replaces the specified number of existing items with new    ||
+                                 items, starting at the specified position.|
+77       XXXXmmmmLLLLiiiissssttttRRRReeeeppppllllaaaacccceeeeIIIItttteeeemmmmssssPPPPoooossss                                                               |
+
+                                 Highlights the specified item and add it to the selected|
+                                 list.                               |
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeelllleeeeccccttttIIIItttteeeemmmm                                                                    |
+
+                                 Highlights the item at the specified position and adds it|
+                                 to the selected list.               |
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeelllleeeeccccttttPPPPoooossss                                                                     |
+
+       XXXXmmmmLLLLiiiissssttttSSSSeeeettttAAAAddddddddMMMMooooddddeeee          Turns Add Mode on or off in the list.                     |
+                                 Makes the specified item the last visible item in the       |
+                                 list.
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeettttBBBBoooottttttttoooommmmIIIItttteeeemmmm
+
+                                 Makes the item at the specified position the last visible   |
+                                 item in the list.
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeettttBBBBoooottttttttoooommmmPPPPoooossss
+
+                                 If the horizontal ScrollBar is visible, sets the XmNvalue   ||
+                                 resource of the ScrollBar to the specified position and     ||
+                                 updates the visible portion of the list.|
+777       XXXXmmmmLLLLiiiissssttttSSSSeeeettttHHHHoooorrrriiiizzzzPPPPoooossss                                                                   |
+
+
+                                 Makes the specified item the first visible item in the      ||
+                                 list.                               |
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeettttIIIItttteeeemmmm                                                                       |
+
+                                 Makes the item at the specified position the first visible|
+                                 item in the list.                   |
+77       XXXXmmmmLLLLiiiissssttttSSSSeeeettttPPPPoooossss                                                                        |
+
+7                              |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7-2
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+       The use of many of these functions will be described in the   |
+       sections that follow.  Actual code segments accompanied by
+       illustrations show the results of certain programming
+       actions.
+
+       7.1.2  UUUUssssiiiinnnngggg tttthhhheeee LLLLiiiisssstttt WWWWiiiiddddggggeeeetttt
+
+       The figure that follows shows an example of a List widget.    |
+       You have seen other examples in earlier chapters of this      |
+       guide.  For example, the lists displayed in the FileSelec-    |
+       tionBox and SelectionBox widgets are List widgets.
+                                                                     *
+                  FFFFiiiigggguuuurrrreeee 7777----1111....  Example of a List Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The program that produces the List widget just shown can be   |
+       found in the ....////ddddeeeemmmmoooossss////xxxxmmmmssssaaaammmmpppplllleeeerrrrssss////xxxxmmmmlllliiiisssstttt....cccc file.  You can com-  |
+       pile and link this program using the procedure described in   |
+       Chapter 1.  Segments of this program are used in this sec-
+       tion to describe how to accomplish certain functions associ-  |
+       ated with the List widget.                                    |
+
+       In the figure, the two lines that appear in inverse video     |
+       indicate items that have been selected by the application.
+       Any number of items can be selected.  This is accomplished
+       as shown in the following code segment.                       |
+
+
+
+
+
+
+                                                                7-3
+
+
+
+
+
+
+
+
+
+
+
+
+          Arg Args[20];                                              |
+
+          static char *CharSelectedItems[2] = {
+          "New Item List",
+          "New Policy"};
+
+          #define NUM_SELECTED_ITEMS 2
+          int i;
+          XmStringCharSet  cs = "ISOLatin1";
+          XmString SelectedItems[NUM_SELECTED_ITEMS];
+
+       /* Create compound strings for selected items */
+          for (i = 0; i < NUM_SELECTED_ITEMS; i++)
+          SelectedItems[i] =                                         |
+                      (XmString) XmStringCreateLtoR(CharSelectedItems[i],cs);|
+
+       /* Set the resource values */
+          i = 0;
+          XtSetArg(args[n], XmNselectedItems, (XtArgVal) SelectedItems);|
+          i++;                                                       |
+          XtSetArg(args[n], XmNselectedCount, (XtArgVal) NUM_SELECTED_ITEMS);|
+          i++;                                                       |
+
+       AAAAssss yyyyoooouuuu ccccaaaannnn sssseeeeeeee,,,, yyyyoooouuuu ccccaaaannnn iiiinnnncccclllluuuuddddeeee aaaassss mmmmaaaannnnyyyy iiiitttteeeemmmmssss aaaassss yyyyoooouuuu wwwwaaaannnntttt iiiinnnn  |
+       tttthhhheeee sssseeeelllleeeecccctttteeeedddd lllliiiisssstttt....
+
+       IIIInnnn tttthhhheeee nnnneeeexxxxtttt ffffiiiigggguuuurrrreeee,,,, yyyyoooouuuu ccccaaaannnn sssseeeeeeee tttthhhhaaaatttt oooonnnneeee ooooffff tttthhhheeee iiiitttteeeemmmmssss iiiinnnn tttthhhheeee  ||||
+       lllliiiisssstttt iiiissss FFFFiiiivvvveeee VVVViiiissssiiiibbbblllleeee....  TTTToooo sssseeeelllleeeecccctttt tttthhhhiiiissss iiiitttteeeemmmm,,,, mmmmoooovvvveeee tttthhhheeee ppppooooiiiinnnntttteeeerrrr
+       iiiinnnnttttoooo tttthhhheeee wwwwiiiinnnnddddoooowwww aaaannnndddd ppppoooossssiiiittttiiiioooonnnn iiiitttt aaaannnnyyyywwwwhhhheeeerrrreeee oooonnnn tttthhhheeee FFFFiiiivvvveeee VVVViiiissssiiiibbbblllleeee  ||||
+       lllliiiinnnneeee....  CCCClllliiiicccckkkkiiiinnnngggg BBBBSSSSeeeelllleeeecccctttt sssseeeelllleeeeccccttttssss tttthhhheeee iiiitttteeeemmmm aaaannnndddd iiiitttt iiiissss
+       hhhhiiiigggghhhhlllliiiigggghhhhtttteeeedddd,,,, aaaassss sssshhhhoooowwwwnnnn iiiinnnn FFFFiiiigggguuuurrrreeee 7777----2222....                          ||||
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7-4
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+                                                                     ****
+             FFFFiiiigggguuuurrrreeee 7777----2222....  LLLLiiiisssstttt WWWWiiiiddddggggeeeetttt BBBBeeeeffffoooorrrreeee SSSSeeeelllleeeeccccttttiiiioooonnnn AAAAccccttttiiiioooonnnn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       WWWWhhhheeeennnn yyyyoooouuuu ddddoooouuuubbbblllleeee----cccclllliiiicccckkkk BBBBSSSSeeeelllleeeecccctttt,,,, tttthhhheeee aaaaccccttttiiiioooonnnn iiiissss ppppeeeerrrrffffoooorrrrmmmmeeeedddd....  IIIInnnn   ||||
+       tttthhhhiiiissss ccccaaaasssseeee,,,, nnnnoooowwww oooonnnnllllyyyy ffffiiiivvvveeee iiiitttteeeemmmmssss aaaarrrreeee ddddiiiissssppppllllaaaayyyyeeeedddd iiiinnnn tttthhhheeee lllliiiisssstttt,,,, aaaassss
+       sssshhhhoooowwwwnnnn iiiinnnn tttthhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ffffiiiigggguuuurrrreeee::::                                ||||
+                                                                     ****
+          FFFFiiiigggguuuurrrreeee 7777----3333....  LLLLiiiisssstttt WWWWiiiiddddggggeeeetttt AAAAfffftttteeeerrrr SSSSeeeelllleeeeccccttttiiiinnnngggg FFFFiiiivvvveeee VVVViiiissssiiiibbbblllleeee
+
+
+
+
+
+
+
+       NNNNooootttteeee tttthhhheeee SSSSccccrrrroooollllllllBBBBaaaarrrr iiiinnnn tttthhhheeee pppprrrreeeecccceeeeddddiiiinnnngggg ffffiiiigggguuuurrrreeee....  TTTThhhheeeerrrreeee aaaarrrreeee tttthhhheeee    ||||
+       ssssaaaammmmeeee nnnnuuuummmmbbbbeeeerrrr ooooffff iiiitttteeeemmmmssss iiiinnnn tttthhhheeee lllliiiisssstttt aaaassss bbbbeeeeffffoooorrrreeee,,,, bbbbuuuutttt nnnnoooowwww oooonnnnllllyyyy
+       ffffiiiivvvveeee ooooffff tttthhhheeeemmmm aaaarrrreeee vvvviiiissssiiiibbbblllleeee aaaatttt aaaannnnyyyy ggggiiiivvvveeeennnn ttttiiiimmmmeeee....
+
+       7777....1111....2222....1111  CCCCaaaallllllllbbbbaaaacccckkkk
+
+       The callback procedure that is executed when a double-click   |
+       occurs performs the necessary steps to accomplish the task
+       given by the selected item in the list.  In the preceding     |
+       situation, the task was to make only five items visible at a  |
+       time.  The code segments to accomplish this are as follows:   |
+
+
+
+
+
+                                                                7-5
+
+
+
+
+
+
+
+
+
+
+
+
+       /* Add the callback */                                        |
+       XtAddCallback(outer_box, XmNdefaultActionCallback,            |
+                                                   DoubleClickProc, NULL);|
+
+       /**********************************************************************|
+        *               *
+        * DoubleClickProc is the XmDEFAULT_ACTION callback.  It functions as a|
+        * big case statement, comparing the item that was double-clicked to  *|
+        * the items in the list.  When it finds a match, it takes the    *
+        * appropriate action.           *
+        *               *
+        *********************************************************************/|
+       void  DoubleClickProc(w,closure,call_data)
+         Widget w;
+         caddr_t  closure, call_data;
+       {
+         int j;
+         XmListCallbackStruct *cb =  (XmListCallbackStruct *)call_data;
+         int   i = 0;
+         unsigned char k;
+
+         DumpListCBStruct(call_data);
+
+         if (XmStringCompare(cb->item,ListItems[0])) /* Set a new item list */|
+         {
+            XtSetArg(Args[i], XmNitems, (XtArgVal) NewListItems); i++;
+            XtSetArg(Args[i], XmNitemCount, (XtArgVal) NUM_NEW_LIST_ITEMS);|
+            i++;                                                     |
+         }
+
+         if (XmStringCompare(cb->item,NewListItems[0]))              |
+         {                                    /* Set the original Item List */|
+            XtSetArg(Args[i], XmNitems, (XtArgVal) ListItems); i++;
+            XtSetArg(Args[i], XmNitemCount, (XtArgVal) NUM_LIST_ITEMS); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[1]))                 |
+         {                                  /* Set a new Selected Item List */|
+          XtSetArg(Args[i], XmNselectedItems, (XtArgVal) SelectedItems); i++;
+          XtSetArg(Args[i], XmNselectedItemCount,                    |
+                                         (XtArgVal) NUM_SELECTED_ITEMS); i++;|
+         }
+
+         if (XmStringCompare(cb->item,ListItems[2]))                 |
+         {                             /* Make all items visible by */|
+                                       /* getting the current item  */|
+          XtSetArg(Args[0], XmNitemCount, &j); /* count and making that the */|
+          XtGetValues(w, Args, 1);             /* visible item count. */|
+          XtSetArg(Args[i], XmNvisibleItemCount, (XtArgVal) j); i++;
+         }
+
+
+
+       7-6
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+         if (XmStringCompare(cb->item,ListItems[3]))                 |
+         {                                       /* Make five items visible */|
+          XtSetArg(Args[i], XmNvisibleItemCount, (XtArgVal) 5); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[4]))                 |
+         {                                    /* Set a new selection policy */|
+          XtSetArg(Args[0], XmNselectionPolicy, &k);
+          XtGetValues(w, Args, 1);
+          if (k == XmSINGLE_SELECT)
+           k = XmMULTIPLE_SELECT;
+           else
+           if (k == XmMULTIPLE_SELECT)
+              k = XmBROWSE_SELECT;
+           else
+             if (k == XmBROWSE_SELECT)
+              k = XmEXTENDED_SELECT;
+             else
+             if (k == XmEXTENDED_SELECT)
+                k = XmSINGLE_SELECT;
+          XtSetArg(Args[i], XmNselectionPolicy, (XtArgVal)k ); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[5]))                 |
+         {                           /* Increase the spacing between items */|
+          Spacing += 2;
+          XtSetArg(Args[i], XmNlistSpacing, (XtArgVal)Spacing ); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[6]))                 |
+         {                   /* Change the font the items are displayed in */|
+          if (curfont == font1)
+             curfont = font2;
+          else
+             if (curfont == font2)
+               curfont = font3;
+            else
+               curfont = font1;
+          XtSetArg(Args[i], XmNfontList, (XtArgVal) curfont ); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[21]))                |
+         {                                   /* Set automatic selection ON */|
+          XtSetArg(Args[i], XmNautomaticSelection, (XtArgVal) TRUE); i++;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[22]))                |
+         {                                  /* Set automatic selection OFF */|
+          XtSetArg(Args[i], XmNautomaticSelection, (XtArgVal) FALSE); i++;
+         }
+       /****************
+
+
+                                                                7-7
+
+
+
+
+
+
+
+
+
+
+
+
+        *
+        * If we have set any arguments, do the SetValues and return.
+        *
+        ****************/
+         if (i > 0)
+         {
+           XtSetValues(w,Args,i);
+           return;
+         }
+
+         if (XmStringCompare(cb->item,ListItems[7]))                 |
+         {                                /* Add an item at the first */|
+          XmListAddItem(w,FirstItem,1);   /* position in the list   */|
+         }
+
+         if (XmStringCompare(cb->item,ListItems[8]))                 |
+         {                                /* Add an item at the last  */|
+          XmListAddItem(w,LastItem,0);    /* position in the list   */|
+         }
+
+         if (XmStringCompare(cb->item,ListItems[9]))                 |
+         {                                /* Add an item at the fifth */|
+          XmListAddItem(w,MiddleItem,5);  /* position in the list   */|
+         }
+
+         if (XmStringCompare(cb->item,ListItems[10]))                |
+         {                                 /* Delete the 'Middle Item' */|
+          XmListDeleteItem(w, MiddleItem); /* list element       */  |
+         }
+
+         if (XmStringCompare(cb->item,ListItems[11]))                |
+         {                                 /* Delete the last item   */|
+          XmListDeletePos(w,0);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[12]))                |
+         {                                 /* Select the first item */|
+           XmListSelectPos(w,1,TRUE);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[13]))                |
+         {                                 /* Select the last item */|
+           XmListSelectPos(w,0,TRUE);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[14]))                |
+         {                                 /* Deselect the first item */|
+           XmListDeselectPos(w,1);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[15]))                |
+
+
+       7-8
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+         {                                 /* Deselect the last item */|
+           XmListDeselectPos(w,0);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[16]))                |
+         {                                 /* Deselect all selected items */|
+           XmListDeselectAllItems(w);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[17]))                |
+         {                                 /* Make the fifth item the top */|
+           XmListSetPos(w,5);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[18]))                |
+         {                                 /* Make the first item the top */|
+           XmListSetPos(w,1);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[19]))                |
+         {                                 /* Make the fifth item bottom */|
+           XmListSetBottomPos(w,5);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[20]))                |
+         {                                 /* Make the last item the bottom */|
+           XmListSetBottomPos(w,0);
+         }
+
+         if (XmStringCompare(cb->item,ListItems[23]))                |
+         {                                 /* End the program. */    |
+           exit(0);
+         }
+
+       }
+
+
+       TTTThhhhiiiissss ccccaaaallllllllbbbbaaaacccckkkk iiiissss tttthhhheeee hhhheeeeaaaarrrrtttt ooooffff tttthhhheeee pppprrrrooooggggrrrraaaammmm....  BBBBaaaassssiiiiccccaaaallllllllyyyy,,,, iiiitttt     |
+       ccccoooommmmppppaaaarrrreeeessss tttthhhheeee ccccuuuurrrrrrrreeeennnntttt sssseeeelllleeeecccctttteeeedddd iiiitttteeeemmmm iiiinnnn tttthhhheeee ccccaaaallllllllbbbbaaaacccckkkk ssssttttrrrruuuuccccttttuuuurrrreeee  ||||
+       ((((sssseeeeeeee tttthhhheeee LLLLiiiisssstttt mmmmaaaannnnppppaaaaggggeeee ffffoooorrrr aaaa ddddeeeessssccccrrrriiiippppttttiiiioooonnnn ooooffff tttthhhhiiiissss ssssttttrrrruuuuccccttttuuuurrrreeee))))
+       ttttoooo tttthhhheeee tttthhhheeee oooorrrriiiiggggiiiinnnnaaaallll lllliiiisssstttt ooooffff iiiitttteeeemmmmssss....  WWWWhhhheeeennnn aaaa mmmmaaaattttcccchhhh iiiissss ffffoooouuuunnnndddd,,,,    ||||
+       tttthhhheeee nnnneeeecccceeeessssssssaaaarrrryyyy aaaaccccttttiiiioooonnnn iiiissss ttttaaaakkkkeeeennnn....                                ||||
+
+       FFFFoooorrrr eeeexxxxaaaammmmpppplllleeee,,,, iiiiffff FFFFiiiivvvveeee VVVViiiissssiiiibbbblllleeee iiiissss tttthhhheeee iiiitttteeeemmmm sssseeeelllleeeecccctttteeeedddd ffffrrrroooommmm tttthhhheeee    ||||
+       LLLLiiiisssstttt,,,, tttthhhheeee rrrreeeessssoooouuuurrrrcccceeee XXXXmmmmNNNNvvvviiiissssiiiibbbblllleeeeIIIItttteeeemmmmCCCCoooouuuunnnntttt iiiissss rrrreeeesssseeeetttt ttttoooo 5555 aaaannnndddd
+       XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss iiiissss ccccaaaalllllllleeeedddd....  NNNNooootttteeee tttthhhheeee uuuusssseeee ooooffff tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnnssss
+       pppprrrreeeesssseeeennnntttteeeedddd iiiinnnn tttthhhheeee ttttaaaabbbblllleeee aaaatttt tttthhhheeee bbbbeeeeggggiiiinnnnnnnniiiinnnngggg ooooffff tttthhhhiiiissss cccchhhhaaaapppptttteeeerrrr....      ||||
+       CCCCoooonnnnttttiiiinnnnuuuuiiiinnnngggg tttthhhheeee eeeexxxxaaaammmmpppplllleeee,,,, iiiiffff AAAAdddddddd IIIItttteeeemmmm aaaatttt TTTToooopppp iiiissss tttthhhheeee iiiitttteeeemmmm        ||||
+       sssseeeelllleeeecccctttteeeedddd ffffrrrroooommmm tttthhhheeee LLLLiiiisssstttt,,,, tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnn XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmm iiiissss ccccaaaalllllllleeeedddd  ||||
+       wwwwiiiitttthhhh tttthhhheeee ppppoooossssiiiittttiiiioooonnnn vvvvaaaalllluuuueeee sssseeeetttt ttttoooo 1111....  IIIIffff AAAAdddddddd IIIItttteeeemmmm aaaatttt EEEEnnnndddd iiiissss      ||||
+       sssseeeelllleeeecccctttteeeedddd,,,, XXXXmmmmLLLLiiiissssttttAAAAddddddddIIIItttteeeemmmm iiiissss ccccaaaalllllllleeeedddd wwwwiiiitttthhhh tttthhhheeee ppppoooossssiiiittttiiiioooonnnn vvvvaaaalllluuuueeee
+
+
+                                                                7-9
+
+
+
+
+
+
+
+
+
+
+
+
+       sssseeeetttt ttttoooo 0000....  YYYYoooouuuu ccccaaaannnn ggggeeeetttt aaaannnn iiiiddddeeeeaaaa ooooffff hhhhoooowwww ooootttthhhheeeerrrr lllliiiisssstttt ffffuuuunnnnccccttttiiiioooonnnnssss
+       aaaarrrreeee uuuusssseeeedddd bbbbyyyy eeeexxxxaaaammmmiiiinnnniiiinnnngggg tttthhhheeee rrrreeeesssstttt ooooffff tttthhhheeee ccccaaaallllllllbbbbaaaacccckkkk ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt....
+
+       7777....1111....2222....2222  SSSSeeeelllleeeeccccttttiiiioooonnnn PPPPoooolllliiiicccciiiieeeessss
+
+       The List widget has four selection policies that can be set   |
+       programmatically.  The policies are defined as follows:
+
+          +o Single Selection.  This policy allows you to move the    |
+            pointer to the List item you want and when you click     |
+            BBBBSSSSeeeelllleeeecccctttt, that item is highlighted.  No highlighting or
+            selection occurs while you are moving the pointer, and
+            only one item can be selected at a time.                 |
+
+            With the keyboard, you can use the navigation keys to    |
+            move the location cursor to a List item and then press   |
+            KKKKSSSSeeeelllleeeecccctttt to select that item.  This deselects any previ-  |
+            ous selection.
+
+          +o Multiple Selection.  This policy allows you to select
+            more than one item on the List.  Selection and           |
+            highlighting occur only after you click mouse button 1,  |
+            but you can select as many items as you want.  You can   |
+            deselect any selected item by clicking BBBBSSSSeeeelllleeeecccctttt when the  |
+            pointer is on that item.                                 |
+
+            With the keyboard, you can use the navigation keys to    |
+            move the location cursor to a List item.  If that item   |
+            is not selected, pressing KKKKSSSSeeeelllleeeecccctttt adds that item to the  |
+            current selection.  If the item is already selected,     |
+            pressing KKKKSSSSeeeelllleeeecccctttt deselects it.
+
+          +o Extended Selection.  This policy allows you to select    |
+            more than one item on the List without clicking BBBBSSSSeeeelllleeeecccctttt  |
+            for each item.  When you press and hold BBBBSSSSeeeelllleeeecccctttt on an    |
+            item and then drag the pointer up or down from that
+            point, all items between the initial item and the
+            pointer are highlighted.  Releasing BBBBSSSSeeeelllleeeecccctttt stops the    |
+            selection process and those items selected remain
+            highlighted.                                             |
+
+            With the keyboard, the extended selection mechanism      |
+            depends on whether the List is in normal mode or add     |
+            mode.  Normal mode allows selection of a single range    |
+            of items.  In this mode, pressing a navigation key       |
+            moves the location cursor and an _a_n_c_h_o_r to a List item.  |
+            It also selects that item and deselects any previous     |
+            selection.  Pressing a navigation key with the MMMMSSSShhhhiiiifffftttt    |
+            modifier moves the location cursor to a List item and    |
+            extends the current selection to include all items       |
+            between the anchor and the location cursor.              |
+
+
+       7-10
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+            Add mode allows selection of discontinuous ranges of     |
+            items.  In this mode, pressing a navigation key moves    |
+            the location cursor, but not the anchor or the selec-    |
+            tion, to a new List item.  Pressing KKKKSSSSeeeelllleeeecccctttt moves the    |
+            anchor to the item at the location cursor.  If this      |
+            item was previously selected, it is unselected; if this  |
+            item was previously unselected, it is selected.  Press-  |
+            ing KKKKEEEExxxxtttteeeennnndddd adds all items between the anchor and the    |
+            location cursor to the current selection.
+
+          +o Browse selection.  When you press and hold BBBBSSSSeeeelllleeeecccctttt on    |
+            an item, that item is selected and highlighted.  Drag-
+            ging the pointer up or down from that point causes each
+            succeeding item to be selected and highlighted while
+            the preceding item is unselected and unhighlighted.
+            When you release the mouse button, the item on which
+            the pointer rests is selected and highlighted.           |
+
+            With the keyboard, pressing a navigation key moves the   |
+            location cursor to a List item, selects that item, and   |
+            deselects any previous selection.
+
+       The policy selections can be changed in the sample program    |
+       by double-clicking on the New Policy item.                    |
+
+       Figures 7-2 and 7-3 show single selection, Figure 7-4 shows   |
+       multiple selection, and Figure 7-5 shows extended selection.  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               7-11
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+               FFFFiiiigggguuuurrrreeee 7777----4444....  List Widget Multiple Selection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+               FFFFiiiigggguuuurrrreeee 7777----5555....  List Widget Extended Selection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7-12
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+       The code segments shown in the Callback section provide an    |
+       example of how selection policy can be changed programmati-
+       cally.  The appropriate segment from that section is as fol-  |
+       lows:
+
+         if (XmStringCompare(cb->item,ListItems[4])) /*New Selection policy*/|
+         {
+         XtSetArg(myArgs[0], XmNselectionPolicy, &k);
+         XtGetValues(w, Args, 1);
+         if (k == XmSINGLE_SELECT)
+          k = XmMULTIPLE_SELECT;
+          else
+           if (k == XmMULTIPLE_SELECT)
+            k = XmBROWSE_SELECT;
+           else
+            if (k == XmBROWSE_SELECT)
+             k = XmEXTENDED_SELECT;
+            else
+           if (k == XmEXTENDED_SELECT)
+              k = XmSINGLE_SELECT;
+        /* Set the new values into the widget */
+         XtSetArg(Args[i], XmNselectionPolicy, (XtArgVal)k);
+
+       TTTThhhheeee vvvvaaaarrrriiiiaaaabbbblllleeee _k iiiissss ddddeeeeffffiiiinnnneeeedddd aaaassss aaaannnn uuuunnnnssssiiiiggggnnnneeeedddd cccchhhhaaaarrrr ttttoooo mmmmaaaattttcccchhhh tttthhhheeee    ||||
+       ttttyyyyppppeeee ooooffff tttthhhheeee rrrreeeessssoooouuuurrrrcccceeee XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnPPPPoooolllliiiiccccyyyy....  TTTThhhheeee aaaarrrrgggguuuummmmeeeennnntttt aaaarrrrrrrraaaayyyy  ||||
+       iiiissss sssseeeetttt uuuupppp wwwwiiiitttthhhh aaaa ccccaaaallllllll ttttoooo XXXXttttSSSSeeeettttAAAArrrrgggg,,,, aaaannnndddd tttthhhheeee ccccuuuurrrrrrrreeeennnntttt sssseeeelllleeeeccccttttiiiioooonnnn
+       ppppoooolllliiiiccccyyyy iiiissss oooobbbbttttaaaaiiiinnnneeeedddd bbbbyyyy tttthhhheeee ccccaaaallllllll ttttoooo XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss....  TTTThhhheeee sssseeeelllleeeecccc----
+       ttttiiiioooonnnn ppppoooolllliiiiccccyyyy iiiissss tttthhhheeeennnn cccchhhhaaaannnnggggeeeedddd aaaannnndddd tttthhhheeee nnnneeeewwww sssseeeelllleeeeccccttttiiiioooonnnn ppppoooolllliiiiccccyyyy iiiissss
+       rrrreeeesssseeeetttt iiiinnnnttttoooo tttthhhheeee wwwwiiiiddddggggeeeetttt wwwwiiiitttthhhh aaaa ccccaaaallllllll ttttoooo XXXXttttSSSSeeeettttAAAArrrrgggg....
+
+       7777....2222  RRRRoooowwwwCCCCoooolllluuuummmmnnnn WWWWiiiiddddggggeeeetttt
+
+       The RowColumn widget is a general-purpose RowColumn manager   |
+       capable of containing any widget type as a child.  It
+       requires no special knowledge about how its children func-
+       tion, and provides nothing above and beyond support for
+       several different layout styles.
+
+       The RowColumn widget has no 3-dimensional visuals associated  |
+       with it. If an application wishes to have a 3-dimensional     |
+       shadow placed around the RowColumn widget, it should create
+       the RowColumn as a child of a Frame widget.
+
+       7.2.1  RRRRoooowwwwCCCCoooolllluuuummmmnnnn TTTTyyyyppppeeeessss
+
+       Motif provides several types of RowColumn widgets. The        |
+       widget type is specified using the XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee           |
+       resource. The possible settings for this resource are as
+       follows:
+
+
+
+
+                                                               7-13
+
+
+
+
+
+
+
+
+
+
+
+
+          +o XmWORK_AREA. The XmWORK_AREA type provides the general-
+            ized RowColumn manager. It is the default type when the
+            widget is created using the XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRoooowwwwCCCCoooolllluuuummmmnnnn function   |
+            or the XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt X Toolkit function.
+
+          +o Any of the following four settings, used to create       |
+            Motif menus:                                             |
+
+               - XmMENU_POPUP
+
+               - XmMENU_BAR
+
+               - XmMENU_PULLDOWN
+
+               - XmMENU_OPTION
+
+            The specific create functions for Popup MenuPanes,       |
+            MenuBars, Pulldown MenuPanes, and Option menus create
+            RowColumn widgets set to these types.
+
+       The various types of menus are covered in Chapter 6.  The     |
+       rest of this section deals only with the XmWORK_AREA type.
+
+       7.2.2  RRRRoooowwwwCCCCoooolllluuuummmmnnnn FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       The following functions create RowColumn widgets of default
+       type XmWORK_AREA:
+
+       Widget XtCreateWidget (name,                                  |
+            xmRowColumnWidgetClass, parent,                          |
+            arglist, argcount)                                       |
+
+       Widget XmCreateRowColumn (parent,                             |
+            name, arglist, argcount)                                 |
+
+       Both create functions create an instance of a RowColumn
+       widget and return the associated widget ID.  XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt   |
+       is the standard X Toolkit Create function.                    |
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRoooowwwwCCCCoooolllluuuummmmnnnn is the RowColumn specific Create function.
+
+       7.2.3  LLLLaaaayyyyoooouuuutttt
+
+       RowColumn provides a variety of resources that determine the
+       type of layout performed. For example, resources control
+       these attributes:
+
+          +o Sizing. The size of the widget can be set explicitly
+            (by resource settings), or automatically according to    |
+            requirements of the children and their specified lay-
+            out.
+
+
+
+       7-14
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+          +o Orientation. RowColumn can be configured to lay out its  |
+            children in columns (vertical) or rows (horizontal).     |
+
+          +o Packing. The children can be packed together tightly
+            (not in an organized grid of rows and columns); or all   |
+            children can be placed in identically sized boxes, thus
+            producing a symmetrical-looking arrangement of the
+            children.  Another alternative allows the application    |
+            to specify the exact X and Y positions of the children.
+
+          +o Spacing Between Children. The application can control    |
+            the spacing between the rows and columns.
+
+          +o Margin Spacing. Resources set the spacing between the    |
+            edges of the RowColumn widget and the children placed
+            along the edge.
+
+       7.2.3.1  SSSSiiiizzzziiiinnnngggg
+
+       When XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeHHHHeeeeiiiigggghhhhtttt and/or XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeWWWWiiiiddddtttthhhh are set to True,   |
+       RowColumn will request new dimensions from its parent, if
+       necessary. The resources should be set to False if the
+       application wants to control the dimensions.
+
+       When the XXXXmmmmNNNNppppaaaacccckkkkiiiinnnngggg resource is set to XmPACK_NONE, the       |
+       RowColumn widget expands, if necessary, to enclose its chil-
+       dren.
+
+       7.2.3.2  OOOOrrrriiiieeeennnnttttaaaattttiiiioooonnnn
+
+       The orientation is set using the XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn resource.     |
+       There are two possible settings:
+
+          +o XmVERTICAL (default). This specifies a column-major      |
+            orientation. In a column-major orientation, children     |
+            are laid out in columns from top to bottom.
+
+          +o XmHORIZONTAL. This specifies a row-major orientation.    |
+            In a row-major orientation, children are laid out in
+            rows, from left to right.
+
+       The two figures that follow show column-major and row-major   |
+       orientations.                                                 |
+
+
+
+
+
+
+
+
+
+
+                                                               7-15
+
+
+
+
+
+
+
+
+
+
+
+
+            FFFFiiiigggguuuurrrreeee 7777----6666....  Column-Major Orientation (XmVERTICAL)       |
+
+
+            FFFFiiiigggguuuurrrreeee 7777----7777....  Row-Major Orientation (XmHORIZONTAL)        |
+
+       7.2.3.3  PPPPaaaacccckkkkiiiinnnngggg
+
+       The XXXXmmmmNNNNppppaaaacccckkkkiiiinnnngggg resource determines how the items in a         |
+       RowColumn widget are packed together. There are three possi-
+       ble settings:
+
+          +o XmPACK_TIGHT (default). The layout depends on the
+            orientation:                                             |
+
+               - For Xm_VERTICAL orientation, items are placed one
+                 after another in a given column until there is no
+                 room left for another item.  Wrapping then occurs
+                 to the next column and continues until all the
+                 children have been placed.  The boxes in a given
+                 column are set to the same width, based on the
+                 widest box in that column.  Thus, the items are
+                 stacked vertically but may be staggered horizon-    |
+                 tally.  The following figure shows an XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn   |
+                 widget.                                             |
+                                                                     *
+                     FFFFiiiigggguuuurrrreeee 7777----8888....  XmRowColumn Widget
+
+
+
+
+
+
+
+
+               - For Xm_HORIZONTAL orientation, items are placed     |
+                 one after another in a given row until there in no
+                 room left for another item. Wrapping then occurs
+                 to the next row and continues until all the chil-
+                 dren have been placed.  Boxes in a given row are
+                 set to the same height, based on the highest box
+                 in that row.  Thus, the items are layered horizon-
+                 tally but may be staggered vertically. The follow-  |
+                 ing figure shows a RowColumn widget with the        |
+                 XmPACK_TIGHT resource and XmHORIZONTAL orienta-     |
+                 tion.
+
+
+
+
+
+
+
+
+       7-16
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+                                                                     |
+         FFFFiiiigggguuuurrrreeee 7777----9999....  XmPACK_TIGHT with XmHORIZONTAL Orientation     |
+
+
+
+
+
+
+
+
+          +o XmPACK_COLUMN. In PACK_COLUMN packing, children are      |
+            placed in identically sized boxes so that the layout
+            becomes a grid. The height of the boxes is the height
+            of the highest child; similarly, the width of the boxes
+            is the width of the widest child.
+
+            The XXXXmmmmNNNNnnnnuuuummmmCCCCoooolllluuuummmmnnnnssss resource specifies how many columns    |
+            (for XmVERTICAL orientation) or rows (for XmHORIZONTAL
+            orientation) are built. There is no automatic wrapping
+            when a column or row is too long to fit.                 |
+
+            The following figures show packed, 3-column RowColumn    |
+            widgets with vertical and horizontal orientations.
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 7777----11110000....  XmPACK_COLUMN With XmVERTICAL Orientation and
+                     XmNnumColumns = 3
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 7777----11111111....  XmPACK_COLUMN With XmHORIZONTAL Orientation
+                     and XmNnumColumns = 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               7-17
+
+
+
+
+
+
+
+
+
+
+
+
+          +o XmPACK_NONE. When there is no packing, children are      |
+            positioned according to the X and Y positions specified  |
+            by their resources. If necessary, the RowColumn widget
+            will attempt to become large enough to enclose all its
+            children.
+
+       7.2.3.4  SSSSppppaaaacccciiiinnnngggg BBBBeeeettttwwwweeeeeeeennnn CCCChhhhiiiillllddddrrrreeeennnn
+
+       The XXXXmmmmNNNNssssppppaaaacccciiiinnnngggg resource specifies the horizontal and verti-   |
+       cal spacing, in pixels, between items within the RowColumn
+       widget. The default is one pixel.
+
+       7.2.3.5  MMMMaaaarrrrggggiiiinnnn SSSSppppaaaacccciiiinnnnggggssss
+
+       The XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt and XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh resources specify the  |
+       size of the margins between the edge of the RowColumn widget
+       and the children along the edge.  The following figure shows  |
+       a RowColumn widget using margins.
+                                                                     |
+             FFFFiiiigggguuuurrrreeee 7777----11112222....  XmNmarginHeight and XmNmarginWidth        |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7.3  TTTTeeeexxxxtttt WWWWiiiiddddggggeeeetttt
+
+       The Text widget  can be used as a single-line or a  multi-    |
+       line text editor.  You can interact with the Text widget
+       programmatically or by user action.  You can use the Text
+       widget for single-line entry, form entry, or full-window
+       editing.
+
+       7.3.1  TTTTeeeexxxxtttt FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       The following table lists the functions associated with the   |
+       Text widget.  Each function has its own manpage in the        |
+       _O_S_F/_M_o_t_i_f _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.                             |
+
+
+
+       7-18
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+                    TTTTAAAABBBBLLLLEEEE 7777----2222....  Text Widget Functions                |
+
+       FFFFuuuunnnnccccttttiiiioooonnnn                     DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       __________________________________________________________________________________
+       XXXXttttCCCCrrrreeeeaaaatttteeeeWWWWiiiiddddggggeeeetttt               Basic widget creation function                       |
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeTTTTeeeexxxxtttt                 Specific creation function for XmText                |
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddTTTTeeeexxxxtttt         Creation function for ScrolledText                   |
+       XXXXmmmmTTTTeeeexxxxttttCCCClllleeeeaaaarrrrSSSSeeeelllleeeeccccttttiiiioooonnnn         Clears the primary selection                         |
+       XXXXmmmmTTTTeeeexxxxttttCCCCooooppppyyyy                   Copies primary selection to the clipboard            |
+                                    Copies primary selection to the clipboard and deletes|
+                                    selected text                    |
+77       XXXXmmmmTTTTeeeexxxxttttCCCCuuuutttt                                                                         |
+
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttBBBBaaaasssseeeelllliiiinnnneeee            Finds the X position of the first baseline           |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttEEEEddddiiiittttaaaabbbblllleeee            Finds the value of the edit permission state         |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn   Finds the insert cursor position                     |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttLLLLaaaassssttttPPPPoooossssiiiittttiiiioooonnnn        Finds the position of the last character             |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh           Finds the maximum allowable length of the text string|
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn           Retrieves the value of the primary selection         |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn   Finds the position of the primary selection          |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSoooouuuurrrrcccceeee              Accesses the source of the Text widget               |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSttttrrrriiiinnnngggg              Accesses the string value of the Text widget         |
+       XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttTTTTooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr        Finds the position of the first character            |
+       XXXXmmmmTTTTeeeexxxxttttIIIInnnnsssseeeerrrrtttt                 Inserts a character string into a text string        |
+       XXXXmmmmTTTTeeeexxxxttttPPPPaaaasssstttteeee                  Inserts the clipboard selection                      |
+       XXXXmmmmTTTTeeeexxxxttttPPPPoooossssTTTTooooXXXXYYYY                Finds the X and Y position of a character position   |
+       XXXXmmmmTTTTeeeexxxxttttRRRReeeemmmmoooovvvveeee                 Deletes the primary selection                        |
+       XXXXmmmmTTTTeeeexxxxttttRRRReeeeppppllllaaaacccceeee                Replaces part of a string                            |
+       XXXXmmmmTTTTeeeexxxxttttSSSSccccrrrroooollllllll                 Scrolls text in the Text widget                      |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttAAAAddddddddMMMMooooddddeeee             Turns Add Mode on or off in the widget               |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttEEEEddddiiiittttaaaabbbblllleeee            Sets the value of the edit permission state          |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttHHHHiiiigggghhhhlllliiiigggghhhhtttt           Highlights text in the Text widget                   |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn   Sets the insert cursor position                      |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh           Sets the maximum allowable length of the text string |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn           Sets the primary selection of text in the widget     |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSoooouuuurrrrcccceeee              Sets the source of the Text widget                   |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSttttrrrriiiinnnngggg              Sets the string value of the Text widget             |
+       XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttTTTTooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr        Sets the position of the first character             |
+       XXXXmmmmTTTTeeeexxxxttttSSSShhhhoooowwwwPPPPoooossssiiiittttiiiioooonnnn           Forces text at a given position to be displayed      |
+                                    Finds the character position nearest an X and Y posi-|
+                                    tion                             |
+77       XXXXmmmmTTTTeeeexxxxttttXXXXYYYYTTTTooooPPPPoooossss                                                                     |
+
+7                                 |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The use of some of these functions will be described in the   |
+       sections that follow.  Actual code segments accompanied by
+       illustrations show the results of programming actions.        |
+
+       7.3.2  UUUUssssiiiinnnngggg tttthhhheeee TTTTeeeexxxxtttt WWWWiiiiddddggggeeeetttt iiiinnnn aaaa PPPPrrrrooooggggrrrraaaammmm                     |
+
+       The figure that follows shows an example of a Text widget.    |
+       You have seen other examples in earlier chapters of this
+       manual.  The FileSelectionBox Selection window is a Text      |
+       widget, as is the same window in the SelectionBox widget.
+
+
+
+                                                               7-19
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+                        FFFFiiiigggguuuurrrreeee 7777----11113333....  Text Widget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The program that generated the window shown in the preceding  |
+       Figure is called xxxxmmmmeeeeddddiiiittttoooorrrr.  The source code is located on     |
+       your system as TTTThhhhiiiissss pppprrrrooooggggrrrraaaammmm ddddeeeemmmmoooonnnnssssttttrrrraaaatttteeeessss hhhhoooowwww yyyyoooouuuu ccccaaaannnn uuuusssseeee tttthhhheeee
+       TTTTeeeexxxxtttt wwwwiiiiddddggggeeeetttt iiiinnnn ccccoooonnnncccceeeerrrrtttt wwwwiiiitttthhhh ooootttthhhheeeerrrr wwwwiiiiddddggggeeeettttssss....  YYYYoooouuuu ccccaaaannnn ccccrrrreeeeaaaatttteeee aaaa
+       nnnneeeewwww ffffiiiilllleeee,,,, eeeeddddiiiitttt aaaannnn oooolllldddd ffffiiiilllleeee,,,, ccccuuuutttt aaaannnndddd ppppaaaasssstttteeee tttteeeexxxxtttt,,,, aaaannnndddd ssssoooo oooonnnn....
+
+       7777....3333....2222....1111  TTTThhhheeee FFFFiiiilllleeee MMMMeeeennnnuuuu
+
+       If you move the pointer so that it covers the File button in  |
+       the MenuBar and then click mouse button 1, a menu appears     |
+       like the following:
+                                                                     *
+                FFFFiiiigggguuuurrrreeee 7777----11114444....  Text Demonstration File Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       If you select Open, a FileSelectionBox will appear.  You can  |
+       select a file from this as described in ***Chapter 5***.      |
+       The other menu choices are self-explanatory.
+
+
+
+
+
+
+
+       7-20
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+       7.3.2.2  TTTThhhheeee EEEEddddiiiitttt MMMMeeeennnnuuuu
+
+       The Edit menu allows you to use some of the cut and paste     |
+       features of Motif within the Text widget.  Move the pointer
+       to Edit and click mouse button 1 to see the Edit menu.  The   |
+       figure that follows shows the Edit menu.
+                                                                     *
+                FFFFiiiigggguuuurrrreeee 7777----11115555....  Text Demonstration Edit Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7.3.2.3  AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss aaaannnndddd MMMMnnnneeeemmmmoooonnnniiiiccccssss
+
+       Both the Edit and File menus contain _m_n_e_m_o_n_i_c_s, indicated by  |
+       underlined characters in the menus.  You can use them
+       instead of the mouse button to make the selection you want.
+       For example, to choose File using its mnemonic, move the      |
+       pointer into the xxxxmmmmeeeeddddiiiittttoooorrrr window and press <MMMMeeeettttaaaa> <ffff>.  This  |
+       will cause the Pulldown menu to appear.  You can traverse
+       the Pulldown menu by using the <<<<||||^^^^>>>> and <<<<||||vvvv>>>> keys, or use the   |
+       mouse to move the pointer.  You can select from the Pulldown  |
+       menu by using its mnemonics as well. Just press the key that  |
+       corresponds to the underlined letter in the menu.  Don't      |
+       worry about uppercase or lowercase as these are not case-     |
+       sensitive.  For example, if you want to open a file, press    |
+       <oooo>.  You need to use the <MMMMeeeettttaaaa> key only when accessing a    |
+       Pulldown menu from the MenuBar.
+
+       The Edit menu also has accelerators in addition to the        |
+       mnemonics.  Accelerators are keys or combinations of keys
+       that perform a specific function within an application.  For  |
+       example,  Cut has a mnemonic of ``t'' and an accelerator of   |
+       <SSSShhhhiiiifffftttt><DDDDeeeellll>.  Pressing either the <tttt> key or the             |
+       <SSSShhhhiiiifffftttt><DDDDeeeellll> keys will execute the Cut function of the menu.  |
+       Note that accelerators are not part of the menu and will
+       execute regardless of whether or not the menu is visible.
+
+
+
+
+
+
+                                                               7-21
+
+
+
+
+
+
+
+
+
+
+
+
+       7.3.2.4  PPPPrrrriiiimmmmaaaarrrryyyy SSSSeeeelllleeeeccccttttiiiioooonnnn
+
+       The Text widget has primary selection.  Primary selection is
+       identified by highlighting the text in inverse video.  You
+       can cut out text that is the primary selection and paste it
+       in at some other point in the Text window.  Selection is
+       described in more detail in later sections of this chapter.
+
+       7.3.2.5  CCCCuuuuttttttttiiiinnnngggg TTTTeeeexxxxtttt
+
+       To remove (or cut) text, move the insert cursor to the        |
+       starting point of the text you wish to remove.  You can then
+       perform any of the following actions to select the text
+       (primary selection) to be removed:
+
+       NNNNOOOOTTTTEEEE::::  To position the insert cursor, move the pointer into   |
+       the text window and to the desired point on a text line,      |
+       then click BBBBSSSSeeeelllleeeecccctttt.
+
+          +o If you want just a single word removed, position the
+            insert cursor before the first letter of the word and    |
+            then double-click BBBBSSSSeeeelllleeeecccctttt.  The word is highlighted.
+
+          +o If you want the entire line of text to be removed,       |
+            triple-click mouse button 1.  The entire line of text
+            is highlighted.  Note that the entire line is
+            highlighted regardless of the initial position of the
+            insert cursor on the line.                               |
+
+          +o If you want all of the text to be removed, quadruple-    |
+            click mouse button 1.  All of the text is highlighted.
+            Note that the all of the text is highlighted regardless
+            of the initial position of the insert cursor on the
+            line.
+
+          +o If you want more than one line (or more than one word)
+            of text to be removed, you can drag the insert cursor
+            to select the desired text.  Begin by moving the
+            pointer to the starting point in the text window and
+            pressing and holding down BBBBSSSSeeeelllleeeecccctttt.  This positions the   |
+            insert cursor at that point.  Now drag the insert cur-
+            sor along the line (or lines) of text that you want to
+            remove.  When you reach the end of the text that you
+            want removed, release BBBBSSSSeeeelllleeeecccctttt and that text is           |
+            highlighted.  (See Figure 7-16.)                         |
+
+          +o If you want to add text to the current primary selec-
+            tion, move the pointer to the position in the text that
+            corresponds to the last character you want to add, and   |
+            press BBBBEEEExxxxtttteeeennnndddd.  You can add text in front of or after
+            the current primary selection.
+
+
+       7-22
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+       You can also use the keyboard to select text.  The selection  |
+       mechanism depends on whether the text widget is in normal     |
+       mode or add mode.                                             |
+
+       In normal mode, pressing a navigation key moves the location  |
+       cursor to a new text element.  This also sets an _a_n_c_h_o_r at    |
+       the new element and deselects any previous selection.         |
+       Pressing a navigation key along with the MMMMSSSShhhhiiiifffftttt modifier      |
+       moves the location cursor to a new text element and extends   |
+       the current selection to include all items between the        |
+       anchor and the location cursor.  Pressing KKKKSSSSeeeelllleeeecccctttt moves the   |
+       anchor to the location cursor and deselects any previous      |
+       selection.  Pressing KKKKEEEExxxxtttteeeennnndddd extends the current selection    |
+       to include all items between the anchor and the location      |
+       cursor.                                                       |
+
+       In add mode selection works the same way as in normal mode,   |
+       except that pressing a navigation key does not change the     |
+       anchor or the current selection.
+                                                                     *
+                 FFFFiiiigggguuuurrrreeee 7777----11116666....  Selecting Text for Removal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Now that you have selected the text to be removed, move the   |
+       pointer to the Edit button in the MenuBar and press mouse     |
+       button 1.  The menu shown in Figure 7-15 appears.  Move the   |
+       pointer to Cut and release mouse button 1.  The text you
+       selected disappears.
+
+       The source code to accomplish this is taken from xxxxmmmmeeeeddddiiiittttoooorrrr....cccc.
+       First, in the MMMMeeeennnnuuuuCCCCBBBB procedure, which is the callback from    |
+       PushButtons in the Pulldown menu, the case called MENU_CUT    |
+       is executed.                                                  |
+
+       case MENU_CUT:                                                |
+          {
+         /* needed to get the event time */
+         XmAnyCallbackStruct * cb =  (XmAnyCallbackStruct *) call_data;
+
+
+
+                                                               7-23
+
+
+
+
+
+
+
+
+
+
+
+
+         /* call routine to copy selection to clipboard */
+         CopyFileToClipboard(cb->event->xbutton.time);
+
+         /* call routine to delete primary selection */
+         DeletePrimarySelection();
+         }
+         break;
+
+            TTTThhhheeee CCCCooooppppyyyyFFFFiiiilllleeeeTTTTooooCCCClllliiiippppbbbbooooaaaarrrrdddd pppprrrroooocccceeeedddduuuurrrreeee ccccooooppppiiiieeeessss tttthhhheeee tttteeeexxxxtttt yyyyoooouuuu    ||||
+            sssseeeelllleeeecccctttteeeedddd ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ffffoooorrrr ssssaaaaffffeeeekkkkeeeeeeeeppppiiiinnnngggg,,,, tttthhhheeeennnn tttthhhhaaaatttt
+            tttteeeexxxxtttt iiiissss ddddeeeelllleeeetttteeeedddd bbbbyyyy tttthhhheeee DDDDeeeelllleeeetttteeeePPPPrrrriiiimmmmaaaarrrryyyySSSSeeeelllleeeeccccttttiiiioooonnnn pppprrrroooo----       ||||
+            cccceeeedddduuuurrrreeee....  YYYYoooouuuu ccccaaaannnn ppppaaaasssstttteeee tttthhhheeee tttteeeexxxxtttt tttthhhhaaaatttt wwwwaaaassss ccccuuuutttt bbbbyyyy uuuussssiiiinnnngggg    ||||
+            tttthhhheeee mmmmeeeetttthhhhoooodddd iiiinnnn tttthhhheeee PPPPaaaasssstttteeeeFFFFrrrroooommmmCCCClllliiiippppbbbbooooaaaarrrrdddd pppprrrroooocccceeeedddduuuurrrreeee,,,, wwwwhhhhiiiicccchhhh
+            iiiissss ddddiiiissssccccuuuusssssssseeeedddd llllaaaatttteeeerrrr iiiinnnn tttthhhhiiiissss cccchhhhaaaapppptttteeeerrrr....  NNNNooootttteeee tttthhhhaaaatttt iiiiffff yyyyoooouuuu
+            sssseeeelllleeeecccctttt CCCClllleeeeaaaarrrr ffffrrrroooommmm tttthhhheeee mmmmeeeennnnuuuu iiiinnnnsssstttteeeeaaaadddd ooooffff CCCCuuuutttt,,,, tttthhhheeee tttteeeexxxxtttt iiiissss   ||||
+            nnnnooootttt ccccooooppppiiiieeeedddd ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd bbbbeeeeffffoooorrrreeee bbbbeeeeiiiinnnngggg ddddeeeelllleeeetttteeeedddd....  TTTThhhhiiiissss
+            mmmmeeeeaaaannnnssss tttthhhhaaaatttt uuuussssiiiinnnngggg CCCClllleeeeaaaarrrr ddddooooeeeessss nnnnooootttt aaaalllllllloooowwww aaaa ssssuuuubbbbsssseeeeqqqquuuueeeennnntttt       ||||
+            ppppaaaasssstttteeee ooooffff tttthhhheeee ddddeeeelllleeeetttteeeedddd tttteeeexxxxtttt....
+
+            TTTThhhheeee pppprrrroooocccceeeedddduuuurrrreeee CCCCooooppppyyyyFFFFiiiilllleeeeTTTTooooCCCClllliiiippppbbbbooooaaaarrrrdddd uuuusssseeeessss sssseeeevvvveeeerrrraaaallll ooooffff tttthhhheeee
+            CCCCuuuutttt aaaannnndddd PPPPaaaasssstttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ddddeeeessssccccrrrriiiibbbbeeeedddd iiiinnnn CCCChhhhaaaapppptttteeeerrrr 8888....  KKKKeeeeeeeepppp    ||||
+            iiiinnnn mmmmiiiinnnndddd tttthhhhaaaatttt ccccooooppppyyyyiiiinnnngggg ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd iiiissss jjjjuuuusssstttt aaaa tttteeeemmmm----
+            ppppoooorrrraaaarrrryyyy mmmmeeeeaaaassssuuuurrrreeee....  YYYYoooouuuu ccccaaaannnn tttthhhheeeennnn ssssuuuubbbbsssseeeeqqqquuuueeeennnnttttllllyyyy uuuusssseeee ooootttthhhheeeerrrr
+            CCCCuuuutttt aaaannnndddd PPPPaaaasssstttteeee ffffuuuunnnnccccttttiiiioooonnnnssss ttttoooo rrrreeeettttrrrriiiieeeevvvveeee tttthhhheeee ddddaaaattttaaaa....
+
+       ////****----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------||||
+       ********  CCCCooooppppyyyyFFFFiiiilllleeeeTTTTooooCCCClllliiiippppbbbbooooaaaarrrrdddd
+       ********  CCCCooooppppyyyy tttthhhheeee pppprrrreeeesssseeeennnntttt ffffiiiilllleeee ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd....
+       ****////
+       vvvvooooiiiidddd CCCCooooppppyyyyFFFFiiiilllleeeeTTTTooooCCCClllliiiippppbbbbooooaaaarrrrdddd((((ttttiiiimmmmeeee))))
+       TTTTiiiimmmmeeee ttttiiiimmmmeeee;;;;
+       {{{{
+          cccchhhhaaaarrrr ****sssseeeelllleeeecccctttteeeedddd____ssssttttrrrriiiinnnngggg ====                                    ||||
+                          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn ((((tttteeeexxxxtttt))));;;; ////**** tttteeeexxxxtttt sssseeeelllleeeeccccttttiiiioooonnnn  ****////||||
+          uuuunnnnssssiiiiggggnnnneeeedddd lllloooonnnngggg iiiitttteeeemmmm____iiiidddd ==== 0000;;;;      ////**** cccclllliiiippppbbbbooooaaaarrrrdddd iiiitttteeeemmmm iiiidddd ****////
+          iiiinnnntttt ddddaaaattttaaaa____iiiidddd ==== 0000;;;;        ////**** cccclllliiiippppbbbbooooaaaarrrrdddd ddddaaaattttaaaa iiiidddd ****////
+          iiiinnnntttt ssssttttaaaattttuuuussss ==== 0000;;;;        ////**** cccclllliiiippppbbbbooooaaaarrrrdddd ssssttttaaaattttuuuussss  ****////
+          XXXXmmmmSSSSttttrrrriiiinnnngggg cccclllliiiipppp____llllaaaabbbbeeeellll;;;;
+
+          ////**** uuuussssiiiinnnngggg tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ffffaaaacccciiiilllliiiittttiiiieeeessss,,,, ccccooooppppyyyy                    ||||
+           **** tttthhhheeee sssseeeelllleeeecccctttteeeedddd tttteeeexxxxtttt ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ****////                   ||||
+          iiiiffff ((((sssseeeelllleeeecccctttteeeedddd____ssssttttrrrriiiinnnngggg !!!!==== NNNNUUUULLLLLLLL)))) {{{{
+         cccclllliiiipppp____llllaaaabbbbeeeellll ==== XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeeeLLLLttttooooRRRR ((((""""XXXXMMMM____EEEEDDDDIIIITTTTOOOORRRR"""",,,, cccchhhhaaaarrrrsssseeeetttt))));;;;
+         ////**** ssssttttaaaarrrrtttt ccccooooppppyyyy ttttoooo cccclllliiiippppbbbbooooaaaarrrrdddd,,,, aaaannnndddd ccccoooonnnnttttiiiinnnnuuuueeee ttttiiiillllllll
+          **** aaaa ssssuuuucccccccceeeessssssssffffuuuullll ssssttttaaaarrrrtttt ccccooooppppyyyy iiiissss mmmmaaaaddddeeee ****////                       ||||
+         ssssttttaaaattttuuuussss ==== 0000;;;;
+         wwwwhhhhiiiilllleeee ((((ssssttttaaaattttuuuussss !!!!==== CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss))))
+           ssssttttaaaattttuuuussss ==== XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy ((((XXXXttttDDDDiiiissssppppllllaaaayyyy((((tttteeeexxxxtttt)))),,,, XXXXttttWWWWiiiinnnnddddoooowwww((((tttteeeexxxxtttt)))),,,,
+                cccclllliiiipppp____llllaaaabbbbeeeellll,,,, ttttiiiimmmmeeee,,,,
+                tttteeeexxxxtttt,,,, NNNNUUUULLLLLLLL,,,, &&&&iiiitttteeeemmmm____iiiidddd))));;;;
+
+
+
+       7-24
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+          ////**** mmmmoooovvvveeee tttthhhheeee ddddaaaattttaaaa ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd,,,, aaaannnndddd
+           **** ccccoooonnnnttttiiiinnnnuuuueeee ttttiiiillllllll aaaa ssssuuuucccccccceeeessssssssffffuuuullll ccccooooppppyyyy iiiissss mmmmaaaaddddeeee ****////              ||||
+         ssssttttaaaattttuuuussss ==== 0000;;;;
+         wwwwhhhhiiiilllleeee ((((ssssttttaaaattttuuuussss !!!!==== CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss))))
+           ssssttttaaaattttuuuussss ==== XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCooooppppyyyy ((((XXXXttttDDDDiiiissssppppllllaaaayyyy((((tttteeeexxxxtttt)))),,,, XXXXttttWWWWiiiinnnnddddoooowwww((((tttteeeexxxxtttt)))),,,, iiiitttteeeemmmm____iiiidddd,,,,
+            """"SSSSTTTTRRRRIIIINNNNGGGG"""",,,, sssseeeelllleeeecccctttteeeedddd____ssssttttrrrriiiinnnngggg,,,, ((((lllloooonnnngggg))))ssssttttrrrrlllleeeennnn((((sssseeeelllleeeecccctttteeeedddd____ssssttttrrrriiiinnnngggg))))++++1111,,,, 0000,,,,
+             &&&&ddddaaaattttaaaa____iiiidddd))));;;;
+
+         ////**** eeeennnndddd tttthhhheeee ccccooooppppyyyy ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd aaaannnndddd ccccoooonnnnttttiiiinnnnuuuueeee ttttiiiillllllll
+          **** aaaa ssssuuuucccccccceeeessssssssffffuuuullll eeeennnndddd ccccooooppppyyyy iiiissss mmmmaaaaddddeeee ****////                         ||||
+         ssssttttaaaattttuuuussss ==== 0000;;;;
+         wwwwhhhhiiiilllleeee ((((ssssttttaaaattttuuuussss !!!!==== CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss))))
+           ssssttttaaaattttuuuussss ==== XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy ((((XXXXttttDDDDiiiissssppppllllaaaayyyy((((tttteeeexxxxtttt)))),,,, XXXXttttWWWWiiiinnnnddddoooowwww((((tttteeeexxxxtttt)))),,,,
+              iiiitttteeeemmmm____iiiidddd))));;;;
+
+         ////**** aaaalllllllloooowwww ppppaaaassssttttiiiinnnngggg wwwwhhhheeeennnn aaaannnn iiiitttteeeemmmm iiiissss ssssuuuucccccccceeeessssssssffffuuuullllllllyyyy ccccooooppppiiiieeeedddd        ||||
+          **** ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ****////                                      ||||
+         XXXXttttSSSSeeeettttSSSSeeeennnnssssiiiittttiiiivvvveeee((((ppppaaaasssstttteeee____bbbbuuuuttttttttoooonnnn,,,, TTTTrrrruuuueeee))));;;;
+
+          }}}}
+       }}}}
+
+
+            TTTThhhheeee XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn ffffuuuunnnnccccttttiiiioooonnnn iiiissss uuuusssseeeedddd ttttoooo sssseeeetttt tttthhhheeee       ||||
+            _s_e_l_e_c_t_e_d__s_t_r_i_n_g vvvvaaaarrrriiiiaaaabbbblllleeee ttttoooo ppppooooiiiinnnntttt ttttoooo tttthhhheeee pppprrrriiiimmmmaaaarrrryyyy sssseeeelllleeeecccc----  ||||
+            ttttiiiioooonnnn iiiinnnn tttthhhheeee TTTTeeeexxxxtttt wwwwiiiiddddggggeeeetttt....  TTTThhhheeee pppprrrriiiimmmmaaaarrrryyyy sssseeeelllleeeeccccttttiiiioooonnnn iiiinnnn tttthhhhiiiissss
+            ccccaaaasssseeee iiiissss tttthhhheeee tttthhhhrrrreeeeeeee wwwwoooorrrrddddssss tttthhhhaaaatttt aaaarrrreeee hhhhiiiigggghhhhlllliiiigggghhhhtttteeeedddd iiiinnnn iiiinnnnvvvveeeerrrrsssseeee  ||||
+            vvvviiiiddddeeeeoooo sssshhhhoooowwwwnnnn iiiinnnn FFFFiiiigggguuuurrrreeee 7777----11116666....  NNNNooootttteeee tttthhhhaaaatttt tttthhhheeee pppprrrriiiimmmmaaaarrrryyyy
+            sssseeeelllleeeeccccttttiiiioooonnnn aaaallllwwwwaaaayyyyssss aaaappppppppeeeeaaaarrrrssss iiiinnnn iiiinnnnvvvveeeerrrrsssseeee vvvviiiiddddeeeeoooo....
+
+            IIIInnnn tttthhhheeee pppprrrreeeecccceeeeddddiiiinnnngggg ccccooooddddeeee sssseeeeggggmmmmeeeennnntttt tttthhhheeee aaaaccccttttuuuuaaaallll ccccooooppppyyyy----ttttoooo----        ||||
+            cccclllliiiippppbbbbooooaaaarrrrdddd pppprrrroooocccceeeessssssss iiiinnnnvvvvoooollllvvvveeeessss tttthhhhrrrreeeeeeee sssstttteeeeppppssss::::
+
+              1111....  PPPPrrrreeeeppppaaaarrrreeee tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ffffoooorrrr ccccooooppppyyyyiiiinnnngggg bbbbyyyy eeeexxxxeeeeccccuuuuttttiiiinnnngggg
+                  XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy....  TTTThhhhiiiissss pppprrrroooocccceeeedddduuuurrrreeee mmmmuuuusssstttt rrrreeeettttuuuurrrrnnnn  ||||
+                  aaaa ssssuuuucccccccceeeessssssss bbbbeeeeffffoooorrrreeee ccccooooppppyyyyiiiinnnngggg ccccaaaannnn ooooccccccccuuuurrrr....  TTTThhhheeee           ||||
+                  _c_l_i_p__l_a_b_e_l vvvvaaaarrrriiiiaaaabbbblllleeee iiiissss sssseeeetttt ttttoooo tttthhhheeee ssssttttrrrriiiinnnngggg           ||||
+                  XXXXMMMM____EEEEDDDDIIIITTTTOOOORRRR ttttoooo iiiiddddeeeennnnttttiiiiffffyyyy tttthhhheeee ddddaaaattttaaaa iiiitttteeeemmmm ffffoooorrrr ppppoooossssssssiiiibbbblllleeee
+                  uuuusssseeee iiiinnnn aaaa cccclllliiiippppbbbbooooaaaarrrrdddd vvvviiiieeeewwwweeeerrrr....  TTTThhhheeee vvvvaaaarrrriiiiaaaabbbblllleeee _i_t_e_m__i_d   ||||
+                  ssssppppeeeecccciiiiffffiiiieeeessss iiiissss sssseeeetttt ttttoooo aaaannnn aaaarrrrbbbbiiiittttrrrraaaarrrryyyy iiiiddddeeeennnnttttiiiiffffiiiiccccaaaattttiiiioooonnnn
+                  nnnnuuuummmmbbbbeeeerrrr aaaassssssssiiiiggggnnnneeeedddd ttttoooo tttthhhhiiiissss ddddaaaattttaaaa iiiitttteeeemmmm....  TTTThhhhiiiissss wwwwiiiillllllll bbbbeeee
+                  uuuusssseeeedddd iiiinnnn tttthhhheeee ccccaaaallllllllssss ttttoooo XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCooooppppyyyy aaaannnndddd XXXXmmmmCCCClllliiiipppp----
+                  bbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy....                                      ||||
+
+              2222....  CCCCooooppppyyyy tttthhhheeee ddddaaaattttaaaa bbbbyyyy uuuussssiiiinnnngggg XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCooooppppyyyy....  TTTThhhheeee
+                  ccccooooppppyyyyiiiinnnngggg ddddoooonnnneeee bbbbyyyy tttthhhhiiiissss ffffuuuunnnnccccttttiiiioooonnnn iiiissss nnnnooootttt aaaaccccttttuuuuaaaallllllllyyyy ttttoooo   ||||
+                  tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd bbbbuuuutttt ttttoooo aaaa bbbbuuuuffffffffeeeerrrr....  CCCCooooppppyyyyiiiinnnngggg ttttoooo tttthhhheeee
+                  cccclllliiiippppbbbbooooaaaarrrrdddd ooooccccccccuuuurrrrssss wwwwhhhheeeennnn tttthhhheeee XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy
+                  ffffuuuunnnnccccttttiiiioooonnnn iiiissss eeeexxxxeeeeccccuuuutttteeeedddd....
+
+
+
+
+                                                               7-25
+
+
+
+
+
+
+
+
+
+
+
+
+              3333....  TTTThhhheeee XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy ffffuuuunnnnccccttttiiiioooonnnn lllloooocccckkkkssss tttthhhheeee cccclllliiiipppp----
+                  bbbbooooaaaarrrrdddd ttttoooo pppprrrreeeevvvveeeennnntttt aaaacccccccceeeessssssss bbbbyyyy ooootttthhhheeeerrrr aaaapppppppplllliiiiccccaaaattttiiiioooonnnnssss
+                  wwwwhhhhiiiilllleeee ppppeeeerrrrffffoooorrrrmmmmiiiinnnngggg tttthhhheeee ccccooooppppyyyy,,,, ccccooooppppiiiieeeessss tttthhhheeee ddddaaaattttaaaa ttttoooo tttthhhheeee
+                  cccclllliiiippppbbbbooooaaaarrrrdddd,,,, aaaannnndddd tttthhhheeeennnn uuuunnnnlllloooocccckkkkssss tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd....
+
+       7777....3333....2222....6666  PPPPaaaassssttttiiiinnnngggg TTTTeeeexxxxtttt
+
+       To paste the text you just removed, move the insert cursor
+       to the position where you want the text to be inserted.       |
+       Move the pointer to the EEEEddddiiiitttt button in the MenuBar and press  |
+       and hold down mouse button 1.  Move the pointer to PPPPaaaasssstttteeee and  |
+       release mouse button 1.  The text you deleted is restored     |
+       (pasted) into the new position, as shown in the following     |
+       figure:
+                                                                     *
+                        FFFFiiiigggguuuurrrreeee 7777----11117777....  Pasting Text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The code to accomplish this begins with that part of the      |
+       MMMMeeeennnnuuuuCCCCBBBB procedure dealing with a paste operation.
+
+          case MENU_PASTE:
+          /* call the routine that pastes the
+          text at the cursor position */
+          PasteItemFromClipboard();
+          break;
+
+       WWWWhhhheeeennnn yyyyoooouuuu sssseeeelllleeeecccctttt PPPPaaaasssstttteeee ffffrrrroooommmm tttthhhheeee mmmmeeeennnnuuuu,,,, PPPPaaaasssstttteeeeIIIItttteeeemmmmFFFFrrrroooommmmCCCClllliiiippppbbbbooooaaaarrrrdddd   ||||
+       iiiissss ccccaaaalllllllleeeedddd....                                                    ||||
+
+       ////****----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------||||
+       ********   PPPPaaaasssstttteeeeIIIItttteeeemmmmFFFFrrrroooommmmCCCClllliiiippppbbbbooooaaaarrrrdddd
+       ********    ppppaaaasssstttteeee iiiitttteeeemmmm ffffrrrroooommmm tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd ttttoooo tttthhhheeee ccccuuuurrrrrrrreeeennnntttt ccccuuuurrrrssssoooorrrr llllooooccccaaaattttiiiioooonnnn
+       ****////
+       vvvvooooiiiidddd PPPPaaaasssstttteeeeIIIItttteeeemmmmFFFFrrrroooommmmCCCClllliiiippppbbbbooooaaaarrrrdddd(((())))
+       {{{{
+          ////**** rrrreeeettttrrrriiiieeeevvvveeee tttthhhheeee ccccuuuurrrrrrrreeeennnntttt ddddaaaattttaaaa ffffrrrroooommmm tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd
+          aaaannnndddd ppppaaaasssstttteeee iiiitttt aaaatttt tttthhhheeee ccccuuuurrrrrrrreeeennnntttt ccccuuuurrrrssssoooorrrr ppppoooossssiiiittttiiiioooonnnn ****////
+
+
+
+       7-26
+
+
+
+
+
+
+
+
+
+                                                Specialized Widgets
+
+
+          iiiinnnntttt ssssttttaaaattttuuuussss ==== 0000;;;;       ////**** cccclllliiiippppbbbbooooaaaarrrrdddd ssssttttaaaattttuuuussss  ****////              ||||
+          cccchhhhaaaarrrr ****bbbbuuuuffffffffeeeerrrr;;;;         ////**** tttteeeemmmmppppoooorrrraaaarrrryyyy tttteeeexxxxtttt bbbbuuuuffffffffeeeerrrr   ****////
+          iiiinnnntttt lllleeeennnnggggtttthhhh;;;;         ////**** lllleeeennnnggggtttthhhh ooooffff bbbbuuuuffffffffeeeerrrr     ****////
+          iiiinnnntttt oooouuuuttttlllleeeennnnggggtttthhhh ==== 0000;;;;      ////**** lllleeeennnnggggtttthhhh ooooffff bbbbyyyytttteeeessss ccccooooppppiiiieeeedddd  ****////
+          iiiinnnntttt pppprrrriiiivvvvaaaatttteeee____iiiidddd ==== 0000;;;;     ////**** iiiidddd ooooffff iiiitttteeeemmmm oooonnnn cccclllliiiippppbbbbooooaaaarrrrdddd ****////
+          XXXXmmmmTTTTeeeexxxxttttPPPPoooossssiiiittttiiiioooonnnn ccccuuuurrrrssssoooorrrrPPPPoooossss;;;;   ////**** tttteeeexxxxtttt ccccuuuurrrrssssoooorrrr ppppoooossssiiiittttiiiioooonnnn   ****////
+          rrrreeeeggggiiiisssstttteeeerrrr iiiinnnntttt aaaacccc;;;;      ////**** aaaarrrrgggg ccccoooouuuunnnntttt         ****////
+          AAAArrrrgggg aaaallll[[[[11110000]]]];;;;         ////**** aaaarrrrgggg lllliiiisssstttt       ****////
+
+
+          ////**** ffffiiiinnnndddd tttthhhheeee lllleeeennnnggggtttthhhh ooooffff tttthhhheeee ppppaaaasssstttteeee iiiitttteeeemmmm,,,,                      ||||
+           **** ccccoooonnnnttttiiiinnnnuuuueeee ttttiiiillllllll tttthhhheeee lllleeeennnnggggtttthhhh iiiissss ffffoooouuuunnnndddd ****////                    ||||
+          wwwwhhhhiiiilllleeee ((((ssssttttaaaattttuuuussss !!!!==== CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss)))) {{{{
+          ssssttttaaaattttuuuussss ==== XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeeLLLLeeeennnnggggtttthhhh((((XXXXttttDDDDiiiissssppppllllaaaayyyy((((tttteeeexxxxtttt)))),,,, XXXXttttWWWWiiiinnnnddddoooowwww((((tttteeeexxxxtttt)))),,,,
+                 """"SSSSTTTTRRRRIIIINNNNGGGG"""",,,, &&&&lllleeeennnnggggtttthhhh))));;;;
+          iiiiffff ((((ssssttttaaaattttuuuussss ======== CCCClllliiiippppbbbbooooaaaarrrrddddNNNNooooDDDDaaaattttaaaa)))) {{{{
+          lllleeeennnnggggtttthhhh ==== 0000;;;;
+          bbbbrrrreeeeaaaakkkk;;;;
+          }}}}
+          }}}}
+
+
+          iiiiffff ((((lllleeeennnnggggtttthhhh ======== 0000)))) {{{{                                         ||||
+          ffffpppprrrriiiinnnnttttffff((((ssssttttddddeeeerrrrrrrr,,,, """"WWWWaaaarrrrnnnniiiinnnngggg:::: ppppaaaasssstttteeee ffffaaaaiiiilllleeeedddd,,,, nnnnoooo iiiitttteeeemmmmssss ttttoooo ppppaaaasssstttteeee....\\\\nnnn""""))));;;;
+          rrrreeeettttuuuurrrrnnnn;;;;
+          }}}}
+
+
+          ////**** mmmmaaaalllllllloooocccc ttttoooo nnnneeeecccceeeessssssssaaaarrrryyyy ssssppppaaaacccceeee ****////                            ||||
+          bbbbuuuuffffffffeeeerrrr ==== XXXXttttMMMMaaaalllllllloooocccc((((lllleeeennnnggggtttthhhh))));;;;
+
+          ssssttttaaaattttuuuussss ==== XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee ((((XXXXttttDDDDiiiissssppppllllaaaayyyy((((tttteeeexxxxtttt)))),,,, XXXXttttWWWWiiiinnnnddddoooowwww((((tttteeeexxxxtttt)))),,,,||||
+              """"SSSSTTTTRRRRIIIINNNNGGGG"""",,,, bbbbuuuuffffffffeeeerrrr,,,, lllleeeennnnggggtttthhhh,,,, &&&&oooouuuuttttlllleeeennnnggggtttthhhh,,,, &&&&pppprrrriiiivvvvaaaatttteeee____iiiidddd))));;;;    ||||
+
+
+          ////**** DDDDiiiiaaaallllooooggggssss nnnneeeeeeeedddd ttttoooo bbbbeeee aaaaddddddddeeeedddd ttttoooo iiiinnnnddddiiiiccccaaaatttteeee eeeerrrrrrrroooorrrrssss iiiinnnn ppppaaaassssttttiiiinnnngggg ****////||||
+          iiiiffff ((((ssssttttaaaattttuuuussss !!!!==== CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss)))) {{{{
+          ffffpppprrrriiiinnnnttttffff((((ssssttttddddeeeerrrrrrrr,,,, """"WWWWaaaarrrrnnnniiiinnnngggg:::: ppppaaaasssstttteeee ffffaaaaiiiilllleeeedddd,,,, ssssttttaaaattttuuuussss ==== %%%%dddd\\\\nnnn"""",,,, ssssttttaaaattttuuuussss))));;;;
+          rrrreeeettttuuuurrrrnnnn;;;;
+          }}}}
+
+
+          ////**** ggggeeeetttt ccccuuuurrrrssssoooorrrr ppppoooossssiiiittttiiiioooonnnn ffffoooorrrr ppppaaaassssttttiiiinnnngggg ****////                      ||||
+          XXXXttttSSSSeeeettttAAAArrrrgggg((((aaaallll[[[[0000]]]],,,, XXXXmmmmNNNNccccuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnn,,,, &&&&ccccuuuurrrrssssoooorrrrPPPPoooossss))));;;;
+          XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss((((tttteeeexxxxtttt,,,, aaaallll,,,, 1111))));;;;
+
+          ////**** aaaadddddddd nnnneeeewwww tttteeeexxxxtttt ****////
+          XXXXmmmmTTTTeeeexxxxttttRRRReeeeppppllllaaaacccceeee((((tttteeeexxxxtttt,,,, ccccuuuurrrrssssoooorrrrPPPPoooossss,,,, ccccuuuurrrrssssoooorrrrPPPPoooossss,,,, bbbbuuuuffffffffeeeerrrr))));;;;
+       }}}}
+
+
+
+
+                                                               7-27
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTThhhheeee lllleeeennnnggggtttthhhh ooooffff tttthhhheeee ddddaaaattttaaaa ssssttttoooorrrreeeedddd uuuunnnnddddeeeerrrr tttthhhheeee ffffoooorrrrmmmmaaaatttt nnnnaaaammmmeeee SSSSTTTTRRRRIIIINNNNGGGG    ||||
+       iiiissss ffffoooouuuunnnndddd bbbbyyyy uuuussssiiiinnnngggg tttthhhheeee XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddIIIInnnnqqqquuuuiiiirrrreeeeLLLLeeeennnnggggtttthhhh pppprrrroooocccceeeedddduuuurrrreeee....     ||||
+       IIIIffff tttthhhhiiiissss pppprrrroooocccceeeedddduuuurrrreeee iiiissss ssssuuuucccccccceeeessssssssffffuuuullll,,,, tttthhhheeeennnn ssssppppaaaacccceeee iiiissss aaaallllllllooooccccaaaatttteeeedddd ffffoooorrrr
+       tttthhhhaaaatttt lllleeeennnnggggtttthhhh bbbbyyyy XXXXttttMMMMaaaalllllllloooocccc,,,, aaaannnndddd XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddRRRReeeettttrrrriiiieeeevvvveeee iiiissss ccccaaaalllllllleeeedddd    ||||
+       ttttoooo rrrreeeettttrrrriiiieeeevvvveeee tttthhhheeee tttteeeexxxxtttt ffffrrrroooommmm tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd....  TTTThhhheeeennnn tttthhhheeee ccccuuuurrrrrrrreeeennnntttt
+       ccccuuuurrrrssssoooorrrr ppppoooossssiiiittttiiiioooonnnn iiiinnnn tttthhhheeee TTTTeeeexxxxtttt wwwwiiiiddddggggeeeetttt iiiissss ffffoooouuuunnnndddd tttthhhhrrrroooouuuugggghhhh XXXXttttGGGGeeeetttt----
+       VVVVaaaalllluuuueeeessss aaaannnndddd tttthhhheeee tttteeeexxxxtttt iiiissss aaaaccccttttuuuuaaaallllllllyyyy ppppaaaasssstttteeeedddd bbbbyyyy tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnn
+       XXXXmmmmTTTTeeeexxxxttttRRRReeeeppppllllaaaacccceeee....
+
+       7777....3333....2222....7777  CCCCooooppppyyyyiiiinnnngggg TTTTeeeexxxxtttt
+
+       To copy text, you move the insert cursor to the starting
+       point of the text you want to copy and select the text in
+       the same manner as for cutting text.  When you have the text  |
+       selected, move the pointer to the Edit button in the MenuBar  |
+       and press and hold down mouse button 1.  When the menu        |
+       appears, drag the pointer to Copy and release mouse button    |
+       1.  You won't see any change in the xxxxmmmmeeeeddddiiiittttoooorrrr window, but the
+       text has been copied to the clipboard.  In this case, the
+       case called MMMMEEEENNNNUUUU____CCCCOOOOPPPPYYYY is executed.
+
+       case MENU_COPY:                                               |
+          {
+          /* needed to get the event time */
+          XmAnyCallbackStruct * cb = (XmAnyCallbackStruct *) call_data;
+
+          /* call routine to copy selection to clipboard */
+          CopyFileToClipboard(cb->event->xbutton.time);
+
+          }
+          break;
+
+       TTTThhhheeee oooonnnnllllyyyy ddddiiiiffffffffeeeerrrreeeennnncccceeee bbbbeeeettttwwwweeeeeeeennnn tttthhhhiiiissss ccccaaaasssseeee aaaannnndddd MMMMEEEENNNNUUUU____CCCCUUUUTTTT iiiissss tttthhhhaaaatttt    ||||
+       tttthhhheeee ddddeeeelllleeeetttteeee pppprrrroooocccceeeedddduuuurrrreeee DDDDeeeelllleeeetttteeeePPPPrrrriiiimmmmaaaarrrryyyySSSSeeeelllleeeeccccttttiiiioooonnnn iiiissss nnnnooootttt ccccaaaalllllllleeeedddd....
+       TTTThhhheeee ddddaaaattttaaaa iiiissss ccccooooppppiiiieeeedddd ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd aaaassss bbbbeeeeffffoooorrrreeee aaaannnndddd ccccaaaannnn bbbbeeee
+       ppppaaaasssstttteeeedddd aaaannnnyyyywwwwhhhheeeerrrreeee iiiinnnn tttthhhheeee tttteeeexxxxtttt....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       7-28
+
+
+
+
+

@@ -1,0 +1,54 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextCut 3X "" "" "" ""
+.SH NAME
+\fBXmTextCut \(em a Text function that copies the primary selection to the clipboard and deletes the selected text\fP
+.iX "XmTextCut"
+.iX "Text functions" "XmTextCut"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+Boolean XmTextCut (\fIwidget, time\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	Time	\fItime\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextCut\fP copies the primary selected text to the clipboard and
+then deletes the primary selected text.
+This routine also calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID.
+.IP "\fItime\fP" .75i
+Specifies the time at which the selection value is to be modified.  This
+should be the time of the event which triggered this request. 
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+This function returns False if the primary selection is NULL, if the
+\fIwidget\fP doesn't own the primary selection, or if the function is
+unable to gain ownership of the clipboard selection.  Otherwise, it
+returns True.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

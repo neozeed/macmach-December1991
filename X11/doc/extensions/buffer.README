@@ -1,0 +1,16 @@
+The Multi-Buffering/Stereo Extension is still a draft standard.  Although
+X11R4 has a pixmap-based sample implementation of multi-buffering, we are
+still awaiting further proof of concept based on hardware implementations
+of multi-buffering and stereo.  In addition, the following questions have
+arisen, and are still being worked on:
+
+1) Should a ClearImageBufferArea be added to clear an area of an image buffer
+   to the window background?
+2) How does the concept of backing store apply to multi-buffered windows?
+3) What initialization semantics should CreateImageBuffers have
+    with regards to buffer contents?
+4) What happens when the multi-buffered window is unmapped, there is no
+   backing store, and a DisplayImageBuffers request is made?
+5) DestroyImageBuffers states that: "Any image buffers not being
+   displayed are de-allocated."  What about when the window is
+   unmapped?

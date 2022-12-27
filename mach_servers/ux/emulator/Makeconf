@@ -1,0 +1,64 @@
+#
+# Mach Operating System
+# Copyright (c) 1989 Carnegie-Mellon University
+# All rights reserved.  The CMU software License Agreement specifies
+# the terms and conditions for use and redistribution.
+#
+#
+# HISTORY
+# $Log:	Makeconf,v $
+# Revision 2.9  91/09/03  11:11:16  jsb
+# 	From Intel SSD: use $(atsys) technology for i860 cross-compilation.
+# 	[91/09/02  15:13:45  jsb]
+# 
+# Revision 2.8  90/08/06  15:29:50  rwd
+# 		Clean up MK* references.
+# 	[90/07/18            rwd]
+# 
+# Revision 2.7  90/06/02  15:20:03  rpd
+# 	Export PATH too, to get mig from mk release area.
+# 	[90/03/26  19:22:49  rpd]
+# 
+# Revision 2.6  89/12/08  20:13:48  rwd
+# 	Another CPATH fix
+# 	[89/12/05            rwd]
+# 	Fix CPATH
+# 	[89/11/24  23:55:27  rwd]
+# 
+# Revision 2.5  89/11/29  15:24:36  af
+# 	Some cpp do not understand VPATH.
+# 	[89/11/16  15:19:38  af]
+# 
+# Revision 2.4  89/10/17  11:23:45  rwd
+# 	Change include and lib areas
+# 	[89/10/05            rwd]
+# 
+# Revision 2.3  89/08/09  14:34:49  rwd
+# 	Make paths relative
+# 	[89/08/06  18:13:47  rwd]
+# 
+# Revision 2.2  89/08/05  13:40:10  rwd
+# 	Make paths relative
+# 
+# 
+# Revision 2.1  89/08/04  15:21:59  rwd
+# Created.
+# 
+#
+atsys=${ATSYS?$(ATSYS):@sys}
+#OBJECTDIR=../../../obj/$(atsys)/${BCSBBASE?$(BCSBBASE:t):latest}/emulator
+OBJECTDIR=./
+
+#MKREL= $(MAKECONF:h)/../../../../mk/release/$(atsys)/${BCSBBASE?$(BCSBBASE:t):latest}
+#MKINC= ${MKREL}/include
+#MKLIB= ${MKREL}/lib
+#MKBIN= ${MKREL}/bin
+UXSRC= $(MAKECONF:h)/../server
+EMSRC= $(MAKECONF:h)/../emulator
+
+VPATH= .:machine:${UXSRC}:${MKINC}
+CPATH= .:${UXSRC}/sys:${MKINC}:${UXSRC}:${EMSRC}
+LPATH= ${MKLIB}:${LPATH}
+#PATH = ${MKBIN}:${PATH}
+
+.EXPORT: VPATH CPATH LPATH PATH

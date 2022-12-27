@@ -1,0 +1,1541 @@
+
+
+Purpose of this Release
+
+        The contents of this package comprise the first patch
+	release to OSF/Motif 1.1.  This patch release  
+	is available only to licensees with software support
+	contracts.  It has been designated version 1.1.1.
+	
+	OSF/Motif 1.1.1 contains source code that address 200 bugs
+	reported against version 1.1. and prior releases. 
+
+What to Expect From Motif 1.1.1 Patch Release
+
+        The primary intent of this patch release is to insure that Motif 
+        1.1.1 will pass the associated OSF/Motif VTS Test Suite (VTS) 1.0, 
+        being released simultaneously.  This is a substantial effort that has 
+        affected many areas of the Motif code as well as the AES document.
+
+        Beyond all the VTS work done on Motif, there has been some effort put 
+        into fixing very high priority bugs.  This effort includes fixes in 
+        just about every area of Motif including the test suite, demos, libXm, 
+        the AES, Uil/Mrm, and general compilation clean-ups.
+
+        In total, there are about 200 bug fixes included in this patch 
+        (approximately half of which were made purposely for the VTS).
+
+
+
+Installing This Patch Release
+
+
+       Installing the Tape
+
+       OSF/Motif 1.1.1 is provided on magnetic tape, in tar format.  
+       This tape is one of two types, depending on your order:
+
+          * 6250 bpi 9-track tape 
+
+          * QIC-24 cartridge tape
+
+
+       This release contains only files that have changed since the
+       OSF/Motif 1.1 release.  You should install the contents of 
+       this tape in a new directory and follow the instructions in
+       this README-1.1.1 file for patching your release with the
+       source files contained on this tape.
+
+       The following files and directories are contained on the tape:
+
+	./README-1.1.1 ./BUGREPORT ./OPENBUGS ./X11R4 ./clients ./demos 
+	./doc ./lib ./tests ./tools
+
+       To install the entire contents of the tape, create the
+       directory that you want to be the root for the sources, make
+       that the current directory, load the tape into the tape
+       drive, and issue this command (for both of the cartridge
+       tapes):
+
+            tar xvf device_name
+
+
+       If you have any problems when installing the tape, call the
+       OSF/Motif support desk at (617) 621-8990.
+
+
+
+
+Changes in this Patch Release
+
+
+        The following are changes we have provided for this release:
+
+
+        *  Corrected code to allow specification of a bitmap file name for
+           the XtNiconPixmap resource of the WmShellWidgetClass. Pir 28.
+
+        *  Split iconPlacementMargin resource into two separate (horizontal &
+           vertical margins) resources. Pir 443.
+
+        *  Implemented window resizing relative to the current mouse position.
+           Pir 446. 
+
+        *  Implemented tiling operations in MWM. Pir 453.
+
+        *  Removed varius compiler warnings & errors. Pirs 462, 463, 466, 487,
+           495, & 497. 
+
+        *  Added ability to lock focus on a window in pointer mode. Pir 503.
+
+        *  Reimplemented selection box to use xform instead of 
+           XmBulletinBoard. Pir 566.
+
+        *  Implemented horizontal capability to Paned windows. Pir 625.
+
+        *  MWM allows window resizes without pointer touching window border. 
+           Pir 717. 
+
+        *  Added function to return owner of the last item placed on a
+           clipboard. Pir 758.
+
+        *  Widgets check validity of resources passed to them. Pir 763. 
+ 
+        *  Revised code to display  margins properly when 
+           XmNscrolledWindowMarginWidth and XmNscrolledWindowMarginHeight are 
+           set after widget creation. Pir 836.
+
+        *  Resolved discrepancies in documentation about freeing XmString 
+           resources. Pir 855. 
+
+        *  Corrected memory leak created when dialog shells are destroyed.
+           Pir 886.
+
+        *  Re-formatted UIL error & warning messages. Pir 916.
+
+        *  Implemented ability to place a  non-integar value above slider on 
+           a scale. Pir 917.
+
+        *  Documented complete set of widget actions. Pir 954. 
+
+        *  Modified code to allow easier integration of foreign widgets. 
+           Pir 955.
+
+        *  Corrected default button graphics in dialogs when focus is not
+           in widget. Pir 1037.
+
+        *  Modified expose() and resize() routines in GadgetUtil.c to 
+           be called with all proper arguments. Pir 1056.
+
+        *  Changed Lower functionality to change stacking order of  secondary 
+           windows.  Pir 1080.
+
+        *  Revised code so double clicking correctly  sets the  
+           selectedItemCount resource in a list. Pir 1094.
+
+        *  Updated documentation to describe the effect of setting 
+           borderWidth. Pir 1099.
+
+        *  Modified shadowing of rectangular border of XmArrowButton. Added
+           appropriate resource. Pir 1301.
+           
+        *  Corrected code so a dialog box with a shell as its immediate 
+           parent will not remove the "default button" graphic on focus out 
+           events. Pir 1326. 
+
+        *  Fixed various problems with compiling UIL demos. Pir 1446. 
+
+        *  Revised redisplay routines to check if widgets are being destroyed
+           before redrawing. Pir 1547.
+
+        *  Modified XmSelectionBoxGetChild man page to accurately reflect
+           code. Pir 1596. 
+
+        *  Eliminated warning when setting ResInd via resource file. Pir 1643. 
+
+        *  Revised code to allow XmUnhighlightBorder and XmHighlightBorder
+           to properly set/reset highlight flag. Pir 1655.
+
+        *  Corrected Drawing Area to properly draw shadowThickness. Pir 1658.
+
+        *  Modified code to correctly handle memory when a selected gadget is
+           destroyed while the mouse button is pressed. Pir 1664.
+
+        *  Revised code so menus are always able to be traversed from a 
+           menuBar.  Pir 1683.
+
+        *  Revised RowColumn widget to work properly with ArrowButtons. 
+           Pir 1697.  
+
+        *  Corrected RowColumn to modify its children's border instead of
+           adding entryBorder to its children widget's window. Pir 1721.
+
+        *  Modified code so toggle button widgets will call proper callback 
+           when a click is executed in its border. Pir 1741.
+
+        *  Corrected RowColumn geometry management to allow for a margin
+           width setting of 1. Pir 1746.
+
+        *  Revised XmNentryCallback to revector activate callback for
+           Arrow, Drawn, Toggle and Push buttons. Pir 1672.
+
+        *  Highlighting of Paned windows improved to operate properly 
+           after resize. Pir 1674.
+
+        *  Revised AES to correctly reflect correct default value and behavior 
+           of XmNalignment in rowcolumns and labels. Pir 1702.
+ 
+        *  Test added for multiple cascade button gadgets in a MENU_OPTION 
+           Row Column. Pir 1731.
+
+        *  Revised Arrow to return event in callback structure when 
+           activated by keyboard. Pir 1733.
+ 
+        *  Modified Widgets to pass a widget pointer as first parameter of
+           XtCallCallbackList. Pir 1782.
+
+        *  Help callbacks improved in Message, Selection, File, Frame, 
+           ScrollBar, and Toggle management. Pir 1787.
+
+        *  Code revised to allow translation for Btn 3 to execute popup.  
+           Pirs 1786 & 1791.
+
+        *  Modified default builds so hourglass and no-entry sings are 
+           displayed on all reference platforms. Pir 1788.
+
+        *  Drawing area code to improved to handle keyboard events for gadget 
+           children. Pirs 1792 & 1920. 
+
+        *  Revised OptionMenu2 test so toggles are not used in menu. Pir 1809.
+
+        *  Revised procedure to place ATTACH_FORM widgets on Form parent. 
+           Pirs 1824 & 1830.
+
+        *  XtGetValues revised to give correct XmNscaleMultiple values.
+           Pir 1828.
+
+        *  Revised highlighting on monochrome systems for a list in ADD mode.
+           Pir 1837.
+
+        *  Corrected focus problems when a non-TabGroup control is activated.
+           Pirs 1854 & 2063.
+
+        *  Eliminated segment faults and X errors while in multi-edit mode in 
+           text widgets. Pir 1865. 
+
+        *  Improved management for children of a RadioBox. Pir 1867.
+
+        *  Revised code to properly handle geometry requests in
+           single_line_edit scrolled texts.  Pir 1869.
+
+        *  Corrected top & bottom shadowing for MenuBar resizes. Pir 1875.
+
+        *  Eliminated segment faults when setting sethighlight and setstring 
+           to NULL in text widgets.  Pir 1877. 
+
+        *  Documented which XmString resources need to be freed after a call 
+           to XtGetValues. Pir 1879.
+
+        *  Modified Rowcolumn Widget so RadioBoxes with XmNpacking tight and
+           XmNnumColumns work correctly. Pir 1880.
+
+        *  Changed manpage for XmList to state that XmNvisibleItemCount is
+           an integer instead of a short. Pirs 1881 and 1922.
+
+        *  Widgets improved to copy Mnemonic CharSet(and others) for user when 
+           GetValue is called. Pir 1890. 
+
+        *  Text widget improved to keep value of the vertical scroll bar
+           when changed from single_line_edit to multi_line. Pir 1892.
+
+        *  Arm and disarm callbacks on Pushbuttons and PushbuttonGadgets in
+           menus now execute properly. Pir 1902. 
+
+        *  A description for XmNdirectoryValid had been added to the File 
+           Selection Box description in motif.wml, while other resources and 
+           comments have been removed to accurately reflect the current spec 
+           for the FSB. Pir 1908.
+
+        *  BorderWidth may now be correctly set using XtSetValues. Pir 1913.
+
+        *  An infinite loop was removed in the behavior section of 
+           vtests/ScrolledT. Pir 1915. 
+
+        *  The AES documentation has been revised to accurately reflect the 
+           default value for translations and accelerators. Pir 1919.
+
+        *  Demos have been improved to run on more platforms. Pir 1924.
+
+        *  Corrected various problems in UilSemVal.c so UIL can compile
+           properly on all platforms. Pir 1926.
+
+        *  XmListDeselectPos in Command.c was revised to pass an integer 
+           instead of a pointer. Pir 1928.
+
+        *  Text widget corrected to give proper callbacks when executing 
+           a secondary select. Pir 1930.
+
+        *  Text widget revised to display text with single_line_edit and 
+           set size. Pir 1934. 
+
+        *  Revised manpage for XmCommand.3X to show that XmNhistoryVisible-
+           ItemCount is renaming of XmNlistVisibleItemCount in Selection Box.
+           Pir 1935. 
+
+        *  XmNlistVisibleItemCount now works correctly in a command widget. 
+           Pirs 1936 & 1937.
+
+        *  Modified  MenuBar to provide correct number of callbacks upon
+           mouse activation. Pir 1940. 
+
+        *  Revised Redisplay() in LabelG.c to work with prototypes. Pir 1942.
+
+        *  Changed XmCvtXmStringToCT declaration to return correct type.    
+           Pir 1946.
+
+        *  Corrected prototyping for several XmCreate functions. Pir 1955.
+
+        *  Corrected Bulletinboard code so "default button" indicator does
+           not move dynamically. Pir 1956.
+
+        *  Modified code so ToggleButton Gadget from a pulldown from a cascade
+           in a menubar produces proper callbacks. Pir 1964.
+
+        *  Corrected default value of XmNmessageString in a MessageBox.
+           Pir 1966.
+
+        *  Revised MenuBar to properly handle arming of cascades. Pir 1968.
+
+        *  Corrected default value of highlightThickness for Drawn Button.
+           Pir 1977.
+
+        *  Revised test code to prevent summary printing from freeing 
+           non-allocated memory. Pir 1985.
+
+        *  Documented procedure for specifying X,Y positioning for dialogs. 
+           Pir 1993.
+  
+        *  Corrected XmProcessTraversal() to work when setting a MenuBar. 
+           Pir 1994.
+
+        *  Modified PushButton to retain correct highlightThickness value.
+           Pir 1997.
+
+        *  Prevented access to TraversalOn resource in a separator or gadget.
+           Pir 1998.
+
+        *  Text widget revised to use XmInternAtom instead of XInternAtom.
+           Pir 1999.
+
+        *  Revised code to allow all charachter sets to be compiled into
+           UIL files without problems. Pir 2001.
+
+        *  Resources which cannot have a value of 0 changed to unsigned ints.
+           Pir 2010.
+
+        *  Changed ScrolledWindow documentation to correct defaullt values for
+           XmNclipWindow, XmNvertricalS.B, and XmNhorizontalS.B. Pir 2013.  
+
+        *  Correct Text widget so tabs work properly. Pir 2014.
+
+        *  Revised List code to prevent core dumps when deleting items. 
+           Pirs 2016 & 2225.
+
+        *  Improved RowColumn so Option Menu execution results in correct
+           arming/disarming callbacks. Pirs 2017 & 2296.
+
+        *  Revised RowColumn Option Menu code to use shadowThickness
+           when deciding size of option button. Pir 2019. 
+
+        *  Documented XrmCreateCallback name change to MrmCreateCallback.
+           Pir 2023.
+
+        *  Eliminated several prototyping problems. Pir 2039.
+
+        *  Revised documentation to clarify that mnemonics are not appropriate
+           for DrawnButtons because there are no accelerators. Pir 2040. 
+
+        *  Added the DialogType resource in XmCreatePromptDialog manpage.
+           Pir 2041.
+
+        *  Modified code to prevent possible crash in ConstraintSetValues 
+           in Form.c.  Pir 2049. 
+
+        *  Modified Manager.c, Vendor.c and VirtKeys.c in Xm to prevent
+           internal errors. Pir 2050.
+
+        *  Revised Mrm to register XmTextField and XmCreateWorkArea classes.
+           Pir 2052.
+
+        *  Revised code so activating a button via Kselect Click will now
+           result in arm, activate, and disarm callbacks. Pirs 2053 and 2104.
+
+        *  Clarified documentation to explain how to use shadowThickness
+           in a RowColumn Widget. Pir 2054.
+
+        *  Modified XmProcessTraversal to work correctly when a widget with
+           focus is destroyed. Pir 2055.
+
+        *  Corrected DialogShell X & Y values after ErrorDialog creation. 
+           Pir 2057.
+
+        *  Clarified PushButton documentation to explain that when armPixmap
+           is set (with labelType PIXMAP) and no labelPixmap is set, armPixmap
+           is used for labelPixmap. Pir 2058.
+
+        *  Modified SetValues to work with shadowThickness resources for
+           Buttons. Pir 2066. 
+
+        *  Revised Scale and Scroll documentation to show correct default
+           for XmNvalue - it is equal to XmNminimum when XmNminimum is set 
+           above 0. Pir 2069.
+
+        *  Corrected Documentation to reflect correct XmNpageIncrement value
+           in ScrollBar. Pir 2070. 
+
+        *  Revised code so ScrolledW, Frame, and RowColumn managers work 
+           correctly with Dialog Shell children. Pir 2073.
+
+        *  AES changed to clarify ScrolledWindowMargin[Height,Width] resource.
+           Pir 2078.
+
+        *  Changed representation type of XmRDimension to XmRHorizontal-
+           Dimension for DrawnB, Sash, and ScrolledW. Pir 2081.
+
+        *  Modified code to enable KActivate translation in all lists to work
+           consistently. Pir 2083.
+
+        *  Corrected AES to show correct default for XmNlistLabelString of 
+           SelectionBox. Pir 2085.
+
+        *  Revised SetValues to handle XmNorientation in a Scale Widget.
+           Pir 2088.
+
+        *  Revised tests to compile correctly with ANSI/C with prototypes.
+           Pir 2090. 
+
+        *  Modified AES RowColumn page to correct description of 
+           XmNorientation. Pir 2094.
+
+        *  Corrected RowColumn widget's  numColumns resource from an 
+           OptionMenu to show correct value. Pir 2095.
+
+        *  Changed AES RowColumn resource mappedWhenManaged to dynamic. 
+           Pir 2096.
+
+        *  Corrected AES RowColumn XmNpacking resource default to XmTight.
+           Pir 2100.
+
+        *  Corrected Scale's ability to be insensitive to input using 
+           XtSetValue after creation. Pir 2101.
+
+        *  Changed behavior of KActivate  to result in arm, activate, and 
+           disarm callbacks. Pir 2104.
+
+        *  Modified AES RowColumn XmNavigationType default values. Pir 2106. 
+
+        *  Adjusted RowColumn code to adjust radioBehavior and packing
+           properly. Pir 2107.
+
+        *  Improved Toggle button gadget with mnemonic display. Pir 2108. 
+
+        *  Revised Mwm to work when HOME environment variable is NULL. 
+           Pir 2109.
+
+        *  Modified Cascadebutton widget in menubar to arm proper callbacks
+           with submenus.  Pir 2112. 
+
+        *  Improved Mwm to work with bogus aspect values from XSetNormalHints.
+           Pir 2113. 
+
+        *  Revised tests/mrm to eliminate an error generated due to an
+           empty array in main.c. Pir 2119.
+
+        *  Corrected RowColumn OptionMenu shadowThickness resource to be 0
+           at Initialize. Pir 2121. 
+
+        *  Changed documentation to show N/A for shadowThickness for 
+           WORK_AREA and OPTION_MENU. Pir 2122.
+
+        *  Revised CascadeButton in Option Menu to use its own shadowThickness
+           instead of shadowThickness of RowColumn. Pir 2123.
+
+        *  Removed memory leak in GetValuesHook of Text Widget. Pir 2124.
+
+        *  Corrected Scale Widget so XmnShadowThickness may be initialized to
+           zero. Pir 2126.
+
+        *  Revised  PopupMenu to use correct X and Y borderWidth values. 
+           Pir 2131.
+
+        *  Revised RowColumn man page to change shadowThickness to dynamic.  
+           Pir 2132. 
+
+        *  Modified UIL to initialize the Xt toolkit. Pir 2136.
+
+        *  Resolved conflict with both Form and config/att.cf defining "att". 
+           Pir 2137. 
+
+        *  Corrected List Box Widget to allow applictions to use 2 or 4 items. 
+           Pir 2142. 
+ 
+        *  Allowed OptionMenu's CascadeButtonGadget to use own shadowThickness
+           resource to draw its shadow. Previously, shadowThickness of parent
+           was used. Pir 2143.
+
+        *  Clarified XmNtopCharacter description in XmText manpage. Pir 2147.
+
+        *  Corrected OptionMenu to work properly when XmNinitialResources-
+           Persistent is set to T. Pir 2152. 
+
+        *  Eliminated XmWarnings when creating CascadeBG with/without submenu
+           under pulldown in Option Menu. Pir 2155.
+
+        *  Enabled all FileSB resources to be valid when after XtGetValues is
+           called after calling XtSetValues. Pir 2156.
+
+        *  Revised code to ensure proper setting of scaleMultiple value in
+           Scale widget.  Pir 2180. 
+
+        *  Clarified XmText XmNmarginHeight/Width resources in AES. Pir 2182.
+
+        *  Enabled Text Widget to refresh when backspacing in 
+           SINGLE_LINE_EDIT mode. Pir 2186. 
+
+        *  Modified code (and documented in AES) so XmNdialogSytle is forced 
+           to XmWORK_AREA when parent is not a dialogShell. Pirs 2195 & 2196. 
+
+        *  Eliminated unpredictable behavior when adding scrollbars to a 
+           scrolled window. Pir 2197. 
+
+        *  Disallowed having Toggle Buttons as children of a Pulldown in an 
+           Option Menu. Pir 2199.
+
+        *  Eliminated possibility of a core dump by initializng all necessary
+           fields in ScrollBar. Pir 2203.
+
+        *  Improved DrawingArea to issue proper inputCallbacks on keyboard
+           and mouse input.  Pir 2208.
+
+        *  Corrected ScrolledText to work properly when ScrollVertical is 
+           set to false and resizeHeight is set to True. Pir 2212.
+
+        *  Modified Manager widget to handle MotionHandlers properly. Pir 2237.
+
+        *  Revised Scale to accept changes to XmNscaleMultiple after change
+           to XmNminimum by SetValues. Pir 2238.
+
+        *  Revised UIL to refrain from improper memory freeing. Pir 2240.
+
+        *  Modified PushBG to eliminate memory leak. Pir 2250.
+
+        *  Form revised to correctly handle topOffsets on a Form child whose
+           topOffset has not be explicitly set. Pir 2251.
+
+        *  Revised Separator Gadget to use proper highlightThickness.    
+           Pir 2257.
+
+        *  Modified all Option Menu tests to remove Toggle Buttons. Pir 2274.
+
+        *  Modified tests so FlushEvents handles events properly. Pir 2275. 
+
+        *  Removed tests of unsupported resources in Menubar and changed 
+           appropriate documentation. Pirs 2279 & 2280.
+
+        *  Changed definition of arrow keys for vertical MenuBars. Pir 2281.
+
+        *  Enabled XtSetValues to work properly with a non-realized
+           ToggleButton. Pir 2286.
+
+        *  Revised RowColumn to call proper callbacks when posting an 
+           OptionMenu and traversing to a Pushbutton followed by activating 
+           the keyboard. Pir 2314.
+
+        *  Corrected alignment errors occurring after double-clicking on a 
+           string which was placed in the command box via XmCommandError.
+           Pir 2334.
+
+        *  Modified MWM to include strtok() in <string.h>. Pir 2383.
+        
+        *  Eliminated core dumps caused by setting ScaleHeight or 
+           shadowThickness to 48-51. Pir 2387.
+
+        *  Revised default button decorations when focus changes. Pir 2395.
+ 
+        *  Modified XmList to properly handle callbacks from its scrollbars 
+           after a destroy. Pir 2408.  
+
+        *  Corrected File Selection Dialogs to work correctly when 
+           XmNnavigationType is changed to EXCLUSIVE_TAB_GROUP 
+           via SetValues(). Pir 2409.
+
+        *  Eliminated 'sliderSize < 1' warnings and protocol errors when 
+           ScrolledList & ScrolledText are resized such that the Scrollbar 
+           width equals zero. Pirs 2418 & 2420. 
+
+        *  Revised XmIsScrollBar() macro to compile correctly. Pir 2424.
+
+        *  Modified code to allow the XmNisHomogeneous resource to be 
+           accurately used when creating an OptionMenu.  Pir 2429. 
+
+        *  Defined XmNsource resource for XmText in UIL motif.wml file.
+           Pir 2443.
+
+        *  Corrected PushButtons to convert to unit Type when doing 
+           GetValues on highlingtThickness. Pir 2452. 
+
+        *  Corrected OptionButton size in option menu which reside in a shell 
+           which uses a defaultFontList. Pir 2463.
+
+        *  Modified OptionMenu to relieve clipped OptionButtons.  
+           Pirs 2465 & 2466. 
+
+        *  Corrected redisplay of MessageBox when it unmanages parts of its 
+           widget. Pir 2472. 
+
+        *  Wordwrap in XmCreateScrolledText corrected.  Pir 2479.
+
+        *  Eliminated loss of client after call to XSetIconName for a top 
+           level window which is not minimized when useIconBox is not true. 
+           Pir 2489. 
+
+        *  Modified code to allow creation of a button with 
+           XmStringCreateSimple after creation of an optionmenu whose 
+           labelString calls XmStringCreate using XmSTRING_DEFAULT_CHARSET. 
+           Pir 2495.
+
+        *  Revised code to allow application using XmAddTabGroup() to set
+           their tab groups correctly. Pir 2498.
+
+        *  Modified MWM to handle StaticGray screens. Pir 2501.
+
+        *  Installed warnings if Toggle Buttons are attempted to be placed 
+           in OptionMenus. Pir 2514.
+
+        *  Modified code so XtDestroy() inside Activate callback of buttons 
+           successfully works with keyboard activation. Pir 2517. 
+
+        *  Revised code to correctly use DefaultWindowMenu, 
+           DefaultButtonBindings, and DefaultKeyBindings resources when 
+           defined in .mwmrc. Pir 2523.
+
+        *  Modified XChangeProp to allocate sufficient memory for 
+           clipboard cuts. Pir 2525. 
+
+        *  Corrected sizes shown in feedback window during resizing. Pir 2537.
+
+        *  Modified code to correctly handle Btn3 activation when traversing 
+           in a popped-up menu. Pir 2539.
+
+        *  Corrected behavior when calling XmRemoveTabGroup on current tab 
+           group. Pir 2541.
+
+        *  Corrected highlighting of Popup menus. Pir 2550. 
+
+
+
+Documentation Included in Release 1.1.1
+
+       Release 1.1.1 contains the following new documentation:
+
+          * Revision B of the OSF Application Environment
+            Specification (AES) User Environment Volume.  The
+            source for this document is in the directory
+            ./doc/aes/source.  A version suitable for reading
+            online is in the directory ./doc/aes/output.  A
+            PostScript version is in the directory
+            ./doc/aes/postscript.
+
+          * An updated version of the OSF/Motif Programmer's
+            Reference.  This source for this document is in the
+            directory ./doc/man/source.  A version suitable for
+            reading online is in the directory ./doc/man/output.  A
+            PostScript version is in the directory
+            ./doc/man/postscript.
+
+          * A reformatted version of the OSF/Motif User's Guide.
+            The content of this document is unchanged, but it has
+            been reformatted in a style more consistent with that
+            of other Motif 1.1 documents.  The source for this
+            document is in the directory ./doc/usersGuide/source.
+            A version suitable for reading online is in the
+            directory ./doc/usersGuide/output.  A PostScript
+            version is in the directory
+            ./doc/usersGuide/postscript.
+
+            Note:  The directory ./doc/usersGuide/source/graphics
+            is unchanged in Motif 1.1.1 and is not distributed with
+            this release.  The Motif 1.1 version of this directory
+            is necessary for building the OSF/Motif User's Guide.
+
+          * The source for an updated version of Chapter 14 of the
+            OSF/Motif Programmer's Guide.  The Motif 1.1 version of
+            this chapter was garbled.  The source is in the
+            directory ./doc/programGuide/source.  Other source
+            files and new online and PostScript versions of the
+            OSF/Motif Programmer's Guide are not included in Motif
+            1.1.1.
+
+          * A new version of the file ./doc/build.docs.  This file
+            is used at OSF to build the Motif 1.1.1 documentation.
+            It has been changed in Motif 1.1.1 to build the
+            OSF/Motif User's Guide in a format consistent with that
+            of other Motif 1.1 documents.  This file is provided
+            only for reference in building Motif documentation.  It
+            is not expected to work without modifications on any
+            platform, and it is not supported.
+
+       For information on building, installing, and printing
+       documentation, see the file ./doc/README distributed with
+       Motif 1.1.
+
+       Documents Available from Prentice Hall
+
+       The Motif 1.1 versions of the OSF/Motif Programmer's Guide,
+       OSF/Motif Programmer's Reference, and OSF/Motif Style Guide
+       and Revision B of the OSF Application Environment
+       Specification (AES) User Environment Volume have been
+       published by Prentice Hall.  The OSF/Motif User's Guide was
+       not revised for Motif 1.1; the Motif 1.0 version was
+       published by Prentice Hall.  All five books are available
+       from the publisher and in bookstores.
+
+       A number of changes, described below, were made to the Motif
+       1.1 reference pages in Motif 1.1.1.  These changes appear in
+       the version of the Revision B AES published by Prentice Hall
+       but not in the Motif 1.1 version of the OSF/Motif
+       Programmer's Reference published by Prentice Hall.  The
+       changes do appear in the OSF/Motif Programmer's Reference
+       distributed with Motif 1.1.1.
+
+       Changes to Reference Pages in Release 1.1.1
+
+       Changes have been made to the Motif 1.1 reference pages in
+       Motif 1.1.1.  Following is a list of the substantive
+       changes, organized by reference page.  Unless noted, each
+       change applies to the reference page in both the OSF/Motif
+       Programmer's Reference and Revision B of the OSF Application
+       Environment Specification (AES) User Environment Volume
+       distributed with Motif 1.1.1.
+
+       mwm    The functions f.quit_mwm and f.restart can apply only
+              to root menus, not icon or window menus.  The
+              functions f.lower and f.raise do not apply to the
+              root context.
+
+       Core   The default values for XmNaccelerators and
+              XmNtranslations are dynamic, not NULL.
+
+              The access for XmNinitialResourcesPersistent is C,
+              not CG.
+
+              XmNx and XmNy refer to the top left outside corner
+              and are relative to the parent's top left inside
+              corner.  XmNheight and XmNwidth exclude border width.
+
+       RectObj
+	      XmNx and XmNy refer to the top left outside corner
+              and are relative to the parent's top left inside
+              corner.  XmNheight and XmNwidth exclude border width.
+
+       VendorShell
+              Setting Core resource XmNheight, XmNwidth, or
+              XmNborderWidth for either a VendorShell or its child
+              sets that resource to the same value in both the
+              parent and the child.  An application should always
+              specify these resources for the child, not the
+              parent.  For a child of a VendorShell, setting XmNx
+              or XmNy sets the corresponding resource of the parent
+              but does not change the child's position relative to
+              the parent.  XtGetValues for the child's XmNx or XmNy
+              yields the value of the corresponding resource in the
+              parent.  The x and y coordinates of the child's upper
+              left outside corner relative to the parent's upper
+              left inside corner are both zero minus the value of
+              XmNborderWidth.
+
+              The Inter-Client Communication Conventions Manual
+              allows a window manager to change or control the
+              border width of a reparented top-level window.
+
+       VirtualBindings
+              A binding for KExtend is Ctrl Shift<Key>Space, not
+              Shift<Key>Space.  Ctrl Shift<Key>Space is not a
+              binding for KReselect.  This change is not in the
+              AES.
+
+       WMShell
+	      The value of XmNwmTimeout must not be negative.
+
+       XmArrowButton
+              The event in the callback struct is not NULL for
+              XmNactivateCallback callbacks.
+
+              For the ArmAndActivate() action, the button is armed
+              and the XmNarmCallback callbacks are called
+              immediately; the button is activated and disarmed and
+              the XmNactivateCallback and XmNdisarmCallback
+              callbacks are called, either immediately or at a
+              later time.
+
+       XmArrowButtonGadget
+              The event in the callback struct is not NULL for
+              XmNactivateCallback callbacks.
+
+              For the KActivate action, the button is armed and the
+              XmNarmCallback callbacks are called immediately; the
+              button is activated and disarmed and the
+              XmNactivateCallback and XmNdisarmCallback callbacks
+              are called, either immediately or at a later time.
+
+       XmBulletinBoard
+              The type of XmNcancelButton and XmNdefaultButton is
+              Widget, not Window.
+
+              XmNdialogStyle can be initialized or set only if the
+              parent of the XmBulletinBoard is of class
+              XmDialogShell.  Otherwise, the value is forced to
+              XmDIALOG_WORK_AREA.  Setting the resource works only
+              when the XmBulletinBoard is unmanaged.
+
+              The access for Core resource XmNaccelerators is N/A,
+              not CSG.
+
+       XmCascadeButton
+              The value of XmNmappingDelay must not be negative.
+
+              XmPrimitive resource XmNtraversalOn is initialized to
+              True; inside MenuBars, Popup MenuPanes, and Pulldown
+              MenuPanes, it is forced to True.
+
+       XmCascadeButtonGadget
+              The value of XmNmappingDelay must not be negative.
+
+              XmGadget resource XmNtraversalOn is initialized to
+              True; inside MenuBars, Popup MenuPanes, and Pulldown
+              MenuPanes, it is forced to True.
+
+       XmCommand
+              The value of XmNhistoryItemCount must not be
+              negative.
+
+              XtGetValues for XmNhistoryItems returns the list
+              items themselves, not a copy of the list items.  This
+              change is not in the AES.
+
+              The value of XmNhistoryMaxItems must be positive.
+
+              XmNhistoryVisibleItemCount overrides XmSelectionBox
+              resource XmNlistVisibleItemCount, not
+              XmNvisibleItemCount.  The default value for
+              XmNhistoryVisibleItemCount is dynamic based on the
+              height of the list.  The value must be positive.
+
+       XmCreateOptionMenu
+              ToggleButtons and ToggleButtonGadgets are not allowed
+              in an OptionMenu's Pulldown MenuPane.  The results of
+              including CascadeButtons and CascadeButtonGadgets are
+              undefined.
+
+       XmCreatePromptDialog
+              The XmSelectionBox resource XmNdialogType is forced
+              to XmDIALOG_PROMPT.
+
+       XmCreateScrolledText
+              The results of placing an XmText widget with
+              XmNeditMode set to XmSINGLE_LINE_EDIT inside a
+              scrolled window are undefined.
+
+       XmCreateSelectionDialog
+              The XmSelectionBox resource XmNdialogType is forced
+              to XmDIALOG_SELECTION.
+
+       XmDialogShell
+              Setting Core resource XmNheight, XmNwidth, or
+              XmNborderWidth for either an XmDialogShell or its
+              child sets that resource to the same value in both
+              the parent and the child.  An application should
+              always specify these resources for the child, not the
+              parent.  For a child of an XmDialogShell, setting
+              XmNx or XmNy sets the corresponding resource of the
+              parent but does not change the child's position
+              relative to the parent.  XtGetValues for the child's
+              XmNx or XmNy yields the value of the corresponding
+              resource in the parent.  The x and y coordinates of
+              the child's upper left outside corner relative to the
+              parent's upper left inside corner are both zero minus
+              the value of XmNborderWidth.
+
+              The Inter-Client Communication Conventions Manual
+              allows a window manager to change or control the
+              border width of a reparented top-level window.
+
+       XmDrawingArea
+              An application must not draw in the shadow and must
+              clear the old shadow when the widget is resized.
+
+              For the DrawingAreaInput() action, the
+              XmNinputCallback callbacks are not called when the
+              input occurs in a gadget.
+
+       XmDrawnButton
+              The access for XmLabel resources XmNmnemonic and
+              XmNmnemonicCharSet is N/A, not CSG.
+
+              The default value for XmPrimitive resource
+              XmNhighlightThickness is 2, not 0.
+
+              The event in the callback struct is not NULL for
+              XmNactivateCallback callbacks.
+
+              For the ArmAndActivate() action, the button is armed
+              and the XmNarmCallback callbacks are called
+              immediately; the button is activated and disarmed and
+              the XmNactivateCallback and XmNdisarmCallback
+              callbacks are called, either immediately or at a
+              later time.
+
+       XmFileSelectionBox
+              The directory mask can contain zero or more
+              wildcards.
+
+              Data returned by the XmNqualifySearchDataProc may be
+              modified by the XmNdirSearchProc.
+
+              The value of XmNdirListItemCount and
+              XmNfileListItemCount must not be negative.
+
+              XtGetValues for XmNdirListItems and XmNfileListItems
+              returns the list items themselves, not a copy of the
+              list items.  This change is not in the AES.
+
+              The access for XmNdirectoryValid, XmNdirListItems,
+              XmNdirListItemCount, XmNfileListItems,
+              XmNfileListItemCount, and XmNlistUpdated is SG, not
+              CSG.
+
+              The default value for XmNnoMatchString is " [    ] "
+              (with 4 spaces between the brackets).
+
+              XmNdirSpec is the same as the XmSelectionBox resource
+              XmNtextString; XmNfileListItems is the same as
+              XmNlistItems; XmNfileListItemCount is the same as
+              XmNlistItemCount; and XmNfileListLabelString is the
+              same as XmNlistLabelString.
+
+              The default values for XmSelectionBox resources
+              XmNlistItems, XmNlistItemCount, and XmNtextString are
+              dynamic.
+
+       XmForm For XmNbottomAttachment and XmNbottomPosition: when
+              XmNbottomAttachment is XmATTACH_POSITION, the
+              position of the bottom side of the child is relative
+              to the top side of the XmForm, not the bottom side of
+              the XmForm.  For XmNrightAttachment and
+              XmNrightPosition: when XmNrightAttachment is
+              XmATTACH_POSITION, the position of the right side of
+              the child is relative to the left side of the XmForm,
+              not the right side of the XmForm.
+
+              The type of XmNbottomWidget, XmNleftWidget,
+              XmNrightWidget, and XmNtopWidget is Widget, not
+              Window.
+
+              The value of XmNfractionBase must not be zero.
+
+              The access for Core resource XmNaccelerators is N/A,
+              not CSG.
+
+       XmFrame
+	      The XmFrame's width and height are the child's outer
+              width and height plus the XmFrame's margins and
+              shadow thickness.
+
+              When the parent of the XmFrame is a shell, the
+              default value for the XmManager resource
+              XmNshadowThickness is 1.  When the parent is not a
+              shell, the default is 2.
+
+       XmGadget
+              The access for Core resource XmNborderWidth is N/A,
+              not CSG, for XmGadget and its subclasses.
+
+       XmGetPixmap
+              If the image_name argument begins with a /, it is
+              taken to be a full pathname specification and is the
+              only pathname searched.
+
+       XmLabel
+	      If the parent is an XmRowColumn whose XmNisAligned is
+              True, XmNalignment is forced to the value of the
+              XmRowColumn's XmNentryAlignment if the XmRowColumn's
+              XmNrowColumnType is XmWORK_AREA or if the widget is a
+              subclass of XmLabel.
+
+              Documentation for XmNrecomputeSize no longer lists
+              the specific resources whose changes cause resizing
+              when the value of XmNrecomputeSize is True.
+
+              XmPrimitive resource XmNtraversalOn is forced to
+              False inside menus and defaults to False otherwise.
+
+       XmLabelGadget
+              If the parent is an XmRowColumn whose XmNisAligned is
+              True, XmNalignment is forced to the value of the
+              XmRowColumn's XmNentryAlignment if the XmRowColumn's
+              XmNrowColumnType is XmWORK_AREA or if the widget is a
+              subclass of XmLabelGadget.
+
+              Documentation for XmNrecomputeSize no longer lists
+              the specific resources whose changes cause resizing
+              when the value of XmNrecomputeSize is True.
+
+              XmGadget resource XmNtraversalOn is forced to False
+              inside menus and defaults to False otherwise.
+
+       XmList The value of XmNdoubleClickInterval, XmNitemCount,
+              and XmNselectedItemCount must not be negative.  The
+              value of XmNtopPosition and XmNvisibleItemCount must
+              be positive.
+
+              XtGetValues for XmNitems and XmNselectedItems returns
+              the list items themselves, not a copy of the list
+              items.  This change is not in the AES.
+
+              The type for XmNvisibleItemCount is int, not short.
+
+       XmMainWindow
+              The type of XmNcommandWindow, XmNmenuBar, and
+              XmNmessageWindow is Widget, not Window.
+
+              The access for XmScrolledWindow resources
+              XmNscrolledWindowMarginHeight and
+              XmNscrolledWindowMarginWidth is N/A, not CSG.
+
+       XmMenuShell
+              Setting Core resource XmNheight, XmNwidth, or
+              XmNborderWidth for either an XmMenuShell or its child
+              sets that resource to the same value in both the
+              parent and the child.  An application should always
+              specify these resources for the child, not the
+              parent.  For a child of an XmMenuShell, setting XmNx
+              or XmNy sets the corresponding resource of the parent
+              but does not change the child's position relative to
+              the parent.  XtGetValues for the child's XmNx or XmNy
+              yields the value of the corresponding resource in the
+              parent.  The x and y coordinates of the child's upper
+              left outside corner relative to the parent's upper
+              left inside corner are both zero minus the value of
+              XmNborderWidth.
+
+       XmMessageBox
+              The access for Core resource XmNaccelerators is N/A,
+              not CSG.
+
+       XmProcessTraversal
+              It is not possible to use XmProcessTraversal to
+              traverse to MenuBars and Pulldown or Popup MenuPanes.
+
+       XmPushButton
+              The default value for XmNdefaultButtonShadowThickness
+              is dynamic.  If XmNshowAsDefault is 0, the default is
+              0; if XmNshowAsDefault is greater than 0, that value
+              is the default for XmNdefaultButtonShadowThickness.
+
+              The default value for XmLabel resource XmNlabelPixmap
+              is dynamic, not XmUNSPECIFIED_PIXMAP.  If
+              XmNlabelType is XmPIXMAP and an initial value is
+              specified for XmNarmPixmap but not XmNlabelPixmap,
+              the XmNarmPixmap value is used for XmNlabelPixmap.
+
+              For the ArmAndActivate() action, the button is armed
+              and the XmNarmCallback callbacks are called
+              immediately.  The button is activated and disarmed
+              and the XmNactivateCallback and XmNdisarmCallback
+              callbacks are called; inside a menu this happens
+              immediately, and outside a menu it happens either
+              immediately or at a later time.
+
+       XmPushButtonGadget
+              The default value for XmNdefaultButtonShadowThickness
+              is dynamic.  If XmNshowAsDefault is 0, the default is
+              0; if XmNshowAsDefault is greater than 0, that value
+              is the default for XmNdefaultButtonShadowThickness.
+
+              The default value for XmLabelGadget resource
+              XmNlabelPixmap is dynamic, not XmUNSPECIFIED_PIXMAP.
+              If XmNlabelType is XmPIXMAP and an initial value is
+              specified for XmNarmPixmap but not XmNlabelPixmap,
+              the XmNarmPixmap value is used for XmNlabelPixmap.
+
+              For the KActivate() action, the button is armed and
+              the XmNarmCallback callbacks are called immediately.
+              The button is activated and disarmed and the
+              XmNactivateCallback and XmNdisarmCallback callbacks
+              are called; inside a menu this happens immediately,
+              and outside a menu it happens either immediately or
+              at a later time.
+
+       XmRowColumn
+              The access for XmNisHomogeneous is CG, not CSG.  The
+              value is forced to True when XmNrowColumnType is
+              XmMENU_BAR, or when XmNrowColumnType is XmWORK_AREA
+              and XmNradioBehavior is True.  It is forced to False
+              when XmNrowColumnType is XmMENU_OPTION.
+
+              The value of XmNnumColumns must be positive.  When
+              XmNrowColumnType is XmMENU_OPTION, XmNnumColumns is
+              forced to 1.
+
+              When XmNrowColumnType is XmMENU_OPTION,
+              XmNorientation defaults to XmHORIZONTAL.  When
+              XmNrowColumnType is XmMENU_BAR, the results of
+              specifying a value of XmVERTICAL for XmNorientation
+              are undefined.
+
+              When XmNrowColumnType is XmMENU_OPTION, XmNpacking is
+              initialized to XmPACK_TIGHT.
+
+              Button type XmCASCADEBUTTON is not allowed when
+              creating simple option menus.  This change is not in
+              the AES.
+
+              The value of the simple menu creation resources
+              XmNbuttonCount, XmNbuttonSet, and XmNpostFromButton
+              must not be negative.  This change is not in the AES.
+
+              When XmNrowColumnType is XmWORK_AREA, XmManager
+              resource XmNnavigationType defaults to XmTAB_GROUP.
+              When XmNrowColumnType is XmMENU_OPTION,
+              XmNnavigationType defaults to XmNONE.  Otherwise,
+              XmNnavigationType is not applicable and its use is
+              undefined.
+
+              When XmNrowColumnType is XmMENU_BAR, XmMENU_PULLDOWN,
+              or XmMENU_POPUP, XmManager resource XmNtraversalOn is
+              initialized to False and cannot be changed by
+              XtSetValues.
+
+              The XmManager resource XmNshadowThickness defaults to
+              2 when XmNrowColumnType is XmMENU_POPUP,
+              XmMENU_PULLDOWN, and XmMENU_BAR; it is N/A and its
+              use is undefined when XmNrowColumnType is XmWORK_AREA
+              or XmMENU_OPTION.
+
+              If the parent is an XmMenuShell, the Core resource
+              XmNmappedWhenManaged is forced to False on
+              realization.
+
+       XmScale
+	      The value of XmNdecimalPoints must not be negative.
+
+              XmNvalue is constrained to be between XmNminimum and
+              XmNmaximum, inclusive.
+
+              The default value for XmManager resource
+              XmNshadowThickness is 2, not 0.
+
+       XmScrollBar
+              The value of XmNincrement, XmNinitialDelay,
+              XmNpageIncrement, and XmNrepeatDelay must be
+              positive.
+
+              The access for XmNpageIncrement is CSG, not C.  The
+              access for XmNpageDecrementCallback is C, not CSG.
+
+              The default value for XmNsliderSize is (XmNmaximum -
+              XmNminimum) / 10, with a minimum of 1.
+
+              XmNvalue is constrained to be between XmNminimum and
+              (XmNmaximum - XmNsliderSize), inclusive.
+
+              For the the IncrementDownOrRight(),
+              IncrementUpOrLeft(), PageDownOrRight(), and
+              PageUpOrLeft() actions, an argument of 0 moves the
+              slider only up or down; an argument of 1 moves the
+              slider only left or right.
+
+       XmScrolledWindow
+              The default values for XmNclipWindow,
+              XmNhorizontalScrollBar, and XmNverticalScrollBar are
+              dynamic, not NULL.  Horizontal and vertical scroll
+              bars are created if XmNscrollingPolicy is
+              XmAUTOMATIC.  A clip window is created if
+              XmNvisualPolicy is XmCONSTANT.
+
+              The type of XmNclipWindow, XmNhorizontalScrollBar,
+              XmNverticalScrollBar, and XmNworkWindow is Widget,
+              not Window.
+
+       XmSelectionBox
+              The value of XmNlistItemCount must not be negative.
+
+              XtGetValues for XmNlistItems returns the list items
+              themselves, not a copy of the list items.  This
+              change is not in the AES.
+
+              The default value for XmNlistLabelString is dynamic.
+              The default is "Items" unless XmNdialogType is
+              XmDIALOG_PROMPT; in this case the default is NULL.
+
+              The default value for XmNlistVisibleItemCount is
+              dynamic based on the height of the list.  The value
+              must be positive unless XmNdialogType is
+              XmDIALOG_PROMPT; in this case the value is always 0.
+
+              The default value for XmNtextColumns is dynamic, not
+              20.  The value must be positive.
+
+              The default value for the XmBulletinBoard resource
+              XmNcancelButton is the Cancel button unless
+              XmNdialogType is XmDIALOG_COMMAND, when the default
+              is NULL.  The default value for the XmBulletinBoard
+              resource XmNdefaultButton is the OK button unless
+              XmNdialogType is XmDIALOG_COMMAND, when the default
+              is NULL.
+
+       XmSeparator
+              The access for XmPrimitive resource XmNtraversalOn is
+              G, not CSG.
+
+       XmSeparatorGadget
+              The access for XmGadget resource XmNtraversalOn is G,
+              not CSG.
+
+       XmString 
+              XtGetValues on a resource whose type is XmString
+              yields a copy of the resource value, which the
+              application must free.
+
+       XmText The results of placing an XmText widget with
+              XmNeditMode set to XmSINGLE_LINE_EDIT inside a
+              scrolled window are undefined.
+
+              The value of XmNblinkRate, XmNselectionArrayCount,
+              and XmNselectThreshold must not be negative.
+
+              If no width is specified, XmNcolumns defaults to 20.
+              The value must be positive.
+
+              The values of XmNmarginHeight and XmNmarginWidth are
+              not forced when the widget is inside an
+              XmScrolledWindow.
+
+              If no height is specified, XmNrows defaults to 1.
+              The value must be positive.
+
+              If the XmNeditMode is XmMULTI_LINE_EDIT, the line of
+              text that contains XmNtopCharacter is displayed at
+              the top of the widget without shifting the text left
+              or right.  XtGetValues for XmNtopCharacter returns
+              the position of the first character in the line that
+              is displayed at the top of the widget.
+
+       XmTextField
+              The value of XmNblinkRate, XmNselectionArrayCount,
+              and XmNselectThreshold must not be negative.
+
+              If no width is specified, XmNcolumns defaults to 20.
+              The value must be positive.
+
+              The values of XmNmarginHeight and XmNmarginWidth are
+              not forced when the widget is inside an
+              XmScrolledWindow.
+
+       XmTextSetTopCharacter
+              If the XmNeditMode is XmMULTI_LINE_EDIT, the line of
+              text that contains top_character is displayed at the
+              top of the widget without shifting the text left or
+              right.
+
+       XmToggleButton
+              The default value for XmNindicatorSize is dynamic.
+              If no value is specified, the size of the indicator
+              is based on the size of the label string or pixmap.
+              If the label string or pixmap changes, the size of
+              the indicator is recomputed based on the size of the
+              label string or pixmap.  Once a value has been
+              specified for XmNindicatorSize, the indicator has
+              that size, regardless of the size of the label string
+              or pixmap, until a new value is specified.
+
+              Initializing or setting XmNselectInsensitivePixmap
+              also sets the XmLabel resource
+              XmNlabelInsensitivePixmap.  Initializing or setting
+              XmNselectPixmap also sets the XmLabel resource
+              XmNlabelPixmap.
+
+              The translations for KActivate and KSelect in a menu
+              invoke the ArmAndActivate() action, not the
+              KeySelect() action.
+
+              For the ArmAndActivate() action, the XmNarmCallback,
+              XmNvalueChangedCallback, and XmNdisarmCallback
+              callbacks are called.
+
+       XmToggleButtonGadget
+              The default value for XmNindicatorSize is dynamic.
+              If no value is specified, the size of the indicator
+              is based on the size of the label string or pixmap.
+              If the label string or pixmap changes, the size of
+              the indicator is recomputed based on the size of the
+              label string or pixmap.  Once a value has been
+              specified for XmNindicatorSize, the indicator has
+              that size, regardless of the size of the label string
+              or pixmap, until a new value is specified.
+
+              Initializing or setting XmNselectInsensitivePixmap
+              also sets the XmLabelGadget resource
+              XmNlabelInsensitivePixmap.  Initializing or setting
+              XmNselectPixmap also sets the XmLabelGadget resource
+              XmNlabelPixmap.
+
+              For the KActivate action, the XmNarmCallback,
+              XmNvalueChangedCallback, and XmNdisarmCallback
+              callbacks are called.
+
+       XmVaCreateSimpleOptionMenu
+              Button type XmVaCASCADEBUTTON is not allowed when
+              creating simple option menus.  This change is not in
+              the AES.
+
+
+
+	
+Overview of the Motif Directory Structure
+
+       The Motif directory structure is outlined below.
+
+       The file ./README-1.1.1 summarizes the contents of the top level
+       directories in the directory structure, briefly describes
+       the build process, and describes bug reporting procedures.
+
+       The file ./BUGREPORT is a bug report template.  This tem-
+       plate has changed since the last release to clarify severity
+       levels.
+
+       The file ./OPENBUGS contains a list of the important bugs
+       currently open against OSF/Motif.
+
+       The directory ./X11R4 contains official MIT patches for Ver-
+       sion 11, Release 4 of the X Window System, as well as one
+       OSF patch.  The patches to Xlib and the X Toolkit Intrinsics 
+       are required for building and running Motif 1.1.1.  The file 
+       ./X11R4/README-1.1.1 describes the MIT patches and the OSF patch
+        and how to apply them to your X sources.  For more information on 
+       these patches, see the section ``Building Motif for Your System'' below.
+
+       NOTE: MIT, not OSF, is responsible for support of patches
+       15-18 in the ./X11R4 directory.  We provide them unsupported,
+       only for the convenience of users who might not yet have
+       received the latest sources.
+
+       The directory ./doc contains all relevant documentation.
+       This directory also contains a script called build.docs
+       which can be used to create ASCII and PostScript output for
+       all relevant documents. 
+
+       The directory ./lib contains patched files for the toolkit 
+       library and resource manager library:
+
+          * ./lib/Xm contains patched files for the Motif widget library.
+
+          * ./lib/Mrm contains patched files for the Motif resource manager 
+	    library used with the uil compiler.
+
+       The directory ./clients contains the Motif window manager,
+       the User Interface Language (uil) compiler:
+
+          * ./clients/uil contains patched files for the uil compiler and the 
+	    callable uil interface library (libUil.a).
+
+          * ./clients/mwm contains patched files for the Motif window manager.  
+
+       The directory ./demos is an unsupported directory. This
+       directory contains several demo subdirectories with patched files.
+
+       The directory ./tests contains patched files for the test suites.  
+
+       The directory ./tools contains a single tools subdirectory,
+       wml, with patched files for the Widget Meta-Language (WML) facility.  
+
+
+Where to Get Help
+
+       Report problems with this release to the mail alias:
+
+            motif-defect@osf.org
+
+       motif-defect is an alias to a person at OSF who is in charge
+       of receiving and dispatching bugs reported against the
+       latest released version of OSF/Motif.
+
+       Discussions concerning the technology in this release can be
+       directed to the mailing list:
+
+            motif-talk@osf.org
+
+       Note that to report problems with OSF/Motif snapshots, you
+       use the following alias:
+
+            uec-defect@osf.org
+
+       Please do not report snapshot bugs to the motif-defect
+       alias.
+
+       Discussions concerning the technology in snapshots can be
+       directed to the mailing list:
+
+            uec-comment@osf.org
+
+       Licensees with full support contracts can also call OSF for
+       help.  The service number is 1-617-621-8990, and support is
+       available between 8:30 AM and 5:00 PM United States Eastern
+       time, Monday through Friday.  You can obtain an OSF/Motif
+       software support contract for support of released versions
+       of OSF/Motif by contacting OSF Direct Channels at 1-617-
+       621-7300.
+
+Building Motif for Your System
+
+       Motif 1.1.1 uses X11R4 Xlib and X Toolkit Intrinsics
+       libraries.  The versions of these libraries used to build
+       Motif must have all the official MIT patches and the OSF
+       patch applied to them in order for Motif to build and run 
+       properly.  The patches that are distributed with this
+       version of OSF/Motif are MIT fixes 15 through 18 and an
+       OSF patch called fix-osf-1.1.1.
+
+       In order to build Motif 1.1.1 you should use the same 
+       configuration (location of header files, libraries, etc.)
+       as you did when you built Motif 1.1.  Any tailoring that
+       was done to your build configuration will remain the same.
+       For more information on customizing your OSF/Motif build
+       environment consult the Release Notes or ./README that you
+       received with OSF/Motif 1.1.
+ 
+
+       The procedure for building Motif 1.1.1 has two steps:
+
+          * Patching the X11R4 libraries (which includes backing out
+	    fix-osf from the OSF/Motif 1.1 release).  This is explained 
+	    in the next section.
+
+          * Building Motif 1.1.1.  The build procedure is explained in detail 
+	    in the Motif 1.1 release notes, and briefly described below. 
+
+       Patching the X11R4 Libraries
+
+       You must apply the patches supplied in the ./X11R4 directory
+       to the X11R4 sources.  If you do not have the X11R4 sources,
+       you can arrange to obtain them by writing to this address:
+
+            MIT X Consortium
+            Laboratory for Computer Science
+            545 Technology Square
+            Cambridge, MA  02139
+
+       To apply the patches, you may want to use the patch program
+       that appears in the ./util/patch directory from the OSF/Motif 1.1
+       release.  This directory was copied unmodified from the MIT X11R4 
+       distribution and is provided only as a convenience to Motif users.
+
+       To use the patch program you must first build it by moving
+       to the directory ./util/patch and following the instructions
+       in the README file there.  
+
+       Once you have built the patch program for your system, you are ready 
+       back out the fix-osf distributed with the OSF/Motif 1.1 release and 
+       apply the new patches to your MIT X11R4 sources.  These patches are 
+       contained in the files ./X11R4/fix*.  
+       Change directory to the top of your X11R4 sources:
+
+            cd X11R4-source-top-level
+
+       You should copy the fix-osf from the OSF/Motif 1.1 release into
+       that directory and then use the patch program with the -R option
+       to back out the patch:
+
+	    cp Motif-1.1-source-top-level/X11R4/fix-osf .
+	
+	    patch -R -p1 < fix-osf
+
+       Then copy the new patches to that directory:
+
+            cp Motif-1.1.1-source-top-level/X11R4/fix* .
+
+       Run the patch program, applying the MIT patches in ascending
+       numerical order.  Use the appropriate pathname strip count
+       to remove the correct number of leading directory names from
+       the pathname in the patch.  For example, assume that the
+       patch file pathname contains mit/lib/Xt, and your sources to
+       be patched are in ./lib/Xt.  To apply all patches 15 through 18, 
+       stripping the first directory name from the pathname in the
+       patch, you might use the following from a C shell:
+
+            @ i=15
+            while ($i <= 18)
+              patch -p1 < fix-$i
+              @ i++
+            end
+
+       After applying the 18 MIT patches, you must apply the OSF
+       patch:
+
+            patch -p1 < fix-osf-1.1.1
+
+       After applying all patches to the X11 and Xt library
+       sources, you should rebuild and re-install those libraries
+       if necessary.
+
+       Note that the patches contain fixes for multiple source
+       files, including those in such libraries as Xaw and Xmu.  If
+       you do not have sources for a file affected by the patch,
+       the patch program issues a query for a file to patch.
+       Pressing <Return> at the query and then y<Return> at the
+       ``Skip this patch?'' query bypasses the file in question.
+
+
+       Building Motif 1.1.1
+       
+       Once the X11R4 libraries have been patched (and installed
+       if necessary), you are ready to re-build Motif with the
+       1.1.1 updates.  To do this you should copy the new files
+       over the files in your existing Motif 1.1 source tree. 
+       To do this you will need write permission on the files 
+       which are being overwritten:
+
+	    cd Motif-1.1-source-top-level
+
+	    cp -r Motif-1.1.1-source-top-level/* .
+
+       If this command won't work on your system because it complains
+       about overwriting existing directories, then you may need to
+       copy a directory at a time or use a 'find' script.
+
+
+       Once the new files have been placed in your Motif source
+       tree you can begin to recompile.  There is no need to 
+       rebuild the Makefiles, the include links, or the dependency
+       lists (make Makefiles, includes, depend).  To begin the
+       compilation from the root of the source tree use the command:
+
+            make
+
+       This will compile the entire tree, except for the test suites.  
+
+
+       The command
+
+            make install
+
+       compiles and installs the entire tree, except for the test
+       suites.  The installer must be the superuser.  Make sure the
+       files and directories the superuser creates can be read by
+       all.  Installing Motif overwrites the previous Motif instal-
+       lation.
+
+       If you want to compile and install the test suites, you must 
+       add the word tests to the end of the SUBDIRS list in the top-level 
+       Makefile before running make install.
+

@@ -1,0 +1,2637 @@
+
+LOCKERR(s)                                                   dolock.c            81                         
+"LOCK ERROR  " 
+
+a1getc(fp)                                                   fileio.c           215                         
+a1getc:Get an ascii char from the file input streambut DO NOT strip the high bit
+
+addline(text)                                                buffer.c           437                         
+The argument "text" points to  a string. Append this line to the  buffer list
+buffer. Handcraft the EOL  on the end. Return TRUE if it worked and  FALSE if
+you ran out of room. 
+
+adoshello()                                                  amigados.c         856                         
+
+amatch(mcptr, direct, pcwline, pcwoff)                       search.c           360                         
+amatch  Search for a metapattern in either direction. Based on the recursive
+routine amatch(\) \(for "anchored match"\) in Kernighan & Plauger's "Software
+Tools". 
+
+ansibeep()                                                   ansi.c             192                         
+
+ansiclose()                                                  ansi.c             237                         
+
+ansidim(status)                                              aosvs.c           1058 :                       
+ansidim  set the dimbright video status for ANSI crt 
+
+ansieeol()                                                   ansi.c             137                         
+
+ansieeop()                                                   ansi.c             144                         
+
+ansihello()                                                  ansi.c             267                         
+
+ansimove(row, col)                                           ansi.c             127                         
+
+ansimove(row, col)                                           aosvs.c            986 :                       
+ansimove  Move the cursor for ANSI crt 
+
+ansiopen()                                                   ansi.c             214                         
+
+ansiparm(n)                                                  ansi.c             198                         
+
+ansirev(status)                                              aosvs.c           1019 :                       
+ansirev set the reverse video status for ANSI crt 
+
+anycb()                                                      buffer.c           468                         
+Look through the list of  buffers. Return TRUE if there  are any changed
+buffers. Buffers  that hold magic internal stuff are  not considered; who cares
+if the  list of buffer names is hacked.  Return FALSE if no buffers  have been
+changed. 
+
+asc_int(st)                                                  eval.c             696                         
+asc_int:ascii string to integer......This is tooinconsistant to use the system's
+
+atarihello()                                                 atari.c            544                         
+
+backchar(f, n)                                               basic.c             30                         
+Move the cursor backwards by "n" characters. If "n" is less than zero call 
+"forwchar" to actually do the move. Otherwise compute the new cursor  location.
+Error if you try and move out of the buffer. Set the flag if the  line pointer
+for dot changes. 
+
+backdel(f, n)                                                random.c           763                         
+Delete backwards. This is quite easy too, because it's all done with other 
+functions. Just move the cursor back, and delete forwards. Like delete  forward,
+this actually does a kill if presented with an argument. Bound to  both "RUBOUT"
+and "CH". 
+
+backhunt(f, n)                                               search.c           232                         
+backhunt  Reverse search for a previously acquired search string, starting at
+"." and proceeding toward the front of the buffer. If found "." is left pointing
+at the first character of the pattern 	\(the last character that was matched\). 
+
+backline(f, n)                                               basic.c            180                         
+This function is like "forwline", but goes backwards. The scheme is exactly  the
+same. Check for arguments that are less than zero and call your  alternate.
+Figure out the new line and call "movedot" to perform the  motion. No errors are
+possible. Bound to "CP". 
+
+backpage(f, n)                                               basic.c            366                         
+This command is like "forwpage", but it goes backwards. The "2", like  above, is
+the overlap between the two windows. The value is from the ITS  EMACS manual.
+Bound to "MV". We do a hard update for exactly the same  reason. 
+
+backsearch(f, n)                                             search.c           188                         
+backsearch  Reverse search. Get a search string from the user, and search,
+starting at "." and proceeding toward the front of the buffer. If found "." is
+left pointing at the first character of the pattern 	\(the last character that
+was matched\). 
+
+backword(f, n)                                               word.c              76                         
+Move the cursor backward by "n" words. All of the details of motion are 
+performed by the "backchar" and "forwchar" routines. Error if you try to  move
+beyond the buffers. 
+
+bclear(bp)                                                   buffer.c           567                         
+This routine blows away all of the text  in a buffer. If the buffer is marked as
+changed  then we ask if it is ok to blow it away; this is  to save the user the
+grief of losing text. The  window chain is nearly always wrong if this gets 
+called; the caller must arrange for the updates  that are required. Return TRUE
+if everything  looks good. 
+
+bfind(bname, cflag, bflag)                                   buffer.c           489                         
+Find a buffer, by name. Return a pointer  to the BUFFER structure associated
+with it.  If the buffer is not found  and the "cflag" is TRUE, create it. The
+"bflag" is  the settings for the flags in in buffer. 
+
+binary(key, tval, tlength)                                   eval.c             196                         
+
+bindtokey(f, n)                                              bind.c              85                         
+bindtokey:add a new key to the key binding table
+
+biteq(bc, cclmap)                                            search.c          1724                         
+biteq  is the character in the bitmap? 
+
+boundry(curline, curoff, dir)                                search.c          1235                         
+boundry  Return information depending on whether we may search no further.
+Beginning of file and end of file are the obvious cases, but we may want to add
+further optional boundry restrictions in future, a' la VMS EDT. At the moment,
+just return TRUE or FALSE depending on if a boundry is hit \(ouch\). 
+
+buildlist(type, mstring)                                     bind.c             356                         
+
+bytecopy(dst, src, maxlen)                                   main.c             835                         
+bytecopy:copy a string...with length restrictionsALWAYS null terminate
+
+capword(f, n)                                                word.c             213                         
+Move the cursor forward by the specified number of words. As you move  convert
+the first character of the word to upper case, and subsequent  characters to
+lower case. Error if you try and move past the end of the  buffer. Bound to
+"MC". 
+
+cbuf(f, n, bufnum)                                           exec.c            1074                         
+cbuf:Execute the contents of a numbered buffer
+
+cbuf1(f, n)                                                  exec.c            1102                         
+
+cbuf10(f, n)                                                 exec.c            1156                         
+
+cbuf11(f, n)                                                 exec.c            1162                         
+
+cbuf12(f, n)                                                 exec.c            1168                         
+
+cbuf13(f, n)                                                 exec.c            1174                         
+
+cbuf14(f, n)                                                 exec.c            1180                         
+
+cbuf15(f, n)                                                 exec.c            1186                         
+
+cbuf16(f, n)                                                 exec.c            1192                         
+
+cbuf17(f, n)                                                 exec.c            1198                         
+
+cbuf18(f, n)                                                 exec.c            1204                         
+
+cbuf19(f, n)                                                 exec.c            1210                         
+
+cbuf2(f, n)                                                  exec.c            1108                         
+
+cbuf20(f, n)                                                 exec.c            1216                         
+
+cbuf21(f, n)                                                 exec.c            1222                         
+
+cbuf22(f, n)                                                 exec.c            1228                         
+
+cbuf23(f, n)                                                 exec.c            1234                         
+
+cbuf24(f, n)                                                 exec.c            1240                         
+
+cbuf25(f, n)                                                 exec.c            1246                         
+
+cbuf26(f, n)                                                 exec.c            1252                         
+
+cbuf27(f, n)                                                 exec.c            1258                         
+
+cbuf28(f, n)                                                 exec.c            1264                         
+
+cbuf29(f, n)                                                 exec.c            1270                         
+
+cbuf3(f, n)                                                  exec.c            1114                         
+
+cbuf30(f, n)                                                 exec.c            1276                         
+
+cbuf31(f, n)                                                 exec.c            1282                         
+
+cbuf32(f, n)                                                 exec.c            1288                         
+
+cbuf33(f, n)                                                 exec.c            1294                         
+
+cbuf34(f, n)                                                 exec.c            1300                         
+
+cbuf35(f, n)                                                 exec.c            1306                         
+
+cbuf36(f, n)                                                 exec.c            1312                         
+
+cbuf37(f, n)                                                 exec.c            1318                         
+
+cbuf38(f, n)                                                 exec.c            1324                         
+
+cbuf39(f, n)                                                 exec.c            1330                         
+
+cbuf4(f, n)                                                  exec.c            1120                         
+
+cbuf40(f, n)                                                 exec.c            1336                         
+
+cbuf5(f, n)                                                  exec.c            1126                         
+
+cbuf6(f, n)                                                  exec.c            1132                         
+
+cbuf7(f, n)                                                  exec.c            1138                         
+
+cbuf8(f, n)                                                  exec.c            1144                         
+
+cbuf9(f, n)                                                  exec.c            1150                         
+
+cclmake(ppatptr, mcptr)                                      search.c          1630                         
+cclmake  create the bitmap for the character class. ppatptr is left pointing to
+the endofcharacterclass character, so that a loop may automatically increment
+with safety. 
+
+chcase(ch)                                                   char.c              58                         
+chcase(\)Change the case of the current character.First check lower and then
+upper. If it is not a letter,it gets returned unchanged.
+
+chdirectory()                                                aosvs.c           1347 :                       
+Change the current working directory
+
+checkmouse()                                                 aosvs.c            492 :                       
+
+checkmouse()                                                 msdos.c            271                         
+
+checknext(chr, patrn, dir)                                   isearch.c          269                         
+Trivial routine to insure that the next character in the search string is  still
+true to whatever we're pointing to in the buffer. This routine will  not attempt
+to move the "point" if the match fails, although it will   implicitly move the
+"point" if we're forward searching, and find a match,  since that's the way
+forward isearch works.   If the compare fails, we return FALSE and assume the
+caller will call  scanmore or something. 
+
+clean()                                                      main.c             123                         
+On some primitive operation systems, and when emacs is used asa subprogram to a
+larger project, emacs needs to dealloc itsown used memory, otherwise we just
+exit.
+
+clearbits()                                                  search.c          1737                         
+clearbits  Allocate and zero out a CCL bitmap. 
+
+closedir(dir_stream)                                         aosvs.c           1501 :                       
+aosvs$bsd_closedir
+
+clrmes(f, n)                                                 random.c           954                         
+This function simply clears the message line,mainly for macro usage
+
+cmdstr(c, seq)                                               bind.c             737                         
+
+comp_buffer(name, cpos)                                      input.c            398                         
+comp_buffer:Attempt a completion on a buffer name
+
+comp_command(name, cpos)                                     input.c            322                         
+comp_command:Attempt a completion on a command name
+
+comp_file(name, cpos)                                        input.c            471                         
+comp_file:Attempt a completion on a file name
+
+complete(prompt, defval, type, maxlen)                       input.c            201                         
+
+copyregion(f, n)                                             region.c            77                         
+Copy all of the characters in the  region to the kill buffer. Don't move dot  at
+all. This is a bit like a kill region followed  by a yank. Bound to "MW". 
+
+crypt(bptr, len)                                             crypt.c            137 of this routine,        
+crypt  in place encryptiondecryption of a buffer  	\(C\) Copyright 1986, Dana L.
+Hoggatt 1216, Beck Lane, Lafayette, IN  When consulting directly with the author
+of this routine,  please refer to this routine as the "DLHPOLY86B CIPHER".  
+This routine was written for Dan Lawrence, for use in V3.8 of MicroEMACS, a
+public domain textprogram editor.   I kept the following goals in mind when
+preparing this function:   1.All printable characters were to be encrypted back
+into the printable range, control characters and highbit characters were to
+remain unaffected. this way, encrypted would still be just as cheap to  transmit
+down a 7bit data path as they were before.   2.The encryption had to be
+portable. The encrypted  file from one computer should be able to be decrypted 
+on another computer.   3.The encryption had to be inexpensive, both in terms of
+speed and space.   4.The system needed to be secure against all but the most
+determined of attackers.  For encryption of a block of data, one calls crypt
+passing  a pointer to the data block and its length. The data block is 
+encrypted in place, that is, the encrypted output overwrites  the input.
+Decryption is totally isomorphic, and is performed  in the same manner by the
+same routine.   Before using this routine for encrypting data, you are expected 
+to specify an encryption key. This key is an arbitrary string, to be supplied by
+the user. To set the key takes two calls to  crypt(\). First, you call  
+crypt\(NULL, vector\)  This resets all internal control information. Typically
+\(and  specifically in the case on MICROemacs\) you would use a "vector"  of 0.
+Other values can be used to customize your editor to be  "incompatable" with the
+normally distributed version. For  this purpose, the best results will be
+obtained by avoiding multiples of 95.  Then, you "encrypt" your password by
+calling   crypt\(pass, strlen\(pass)\)  where "pass" is your password string.
+Crypt(\) will destroy  the original copy of the password \(it becomes
+encrypted\),  which is good. You do not want someone on a multiuser system  to
+peruse your memory space and bump into your password.  Still, it is a better
+idea to erase the password buffer to  defeat memory perusal by a more technical
+snooper.   For the interest of cryptologists, at the heart of this  function is
+a Beaufort Cipher. The cipher alphabet is the  range of printable characters \('
+' to '~'\), all "control"  and "highbit" characters are left unaltered.  The key
+is a variant autokey, derived from a wieghted sum  of all the previous clear
+text and cipher text. A counter  is used as salt to obiterate any simple cyclic
+behavior  from the clear text, and key feedback is used to assure  that the
+entire message is based on the original key,  preventing attacks on the last
+part of the message as if  it were a pure autokey system.  Overall security of
+encrypted data depends upon three  factors: the fundamental cryptographic system
+must be  difficult to compromise; exhaustive searching of the key  space must be
+computationally expensive; keys and plaintext  must remain out of sight. This
+system satisfies this set of conditions to within the degree desired for
+MicroEMACS.  Though direct methods of attack \(against systems such as  this\)
+do exist, they are not well known and will consume  considerable amounts of
+computing time. An exhaustive search requires over a billion investigations, on
+average.  The choice, entry, storage, manipulation, alteration,  protection and
+security of the keys themselves are the  responsiblity of the user.   
+
+ctlxe(f, n)                                                  main.c             749                         
+Execute a macro.  The command argument is the number of times to loop. Quit as
+soon as a  command gets an error. Return TRUE if all ok, else FALSE. 
+
+ctlxlp(f, n)                                                 main.c             706                         
+Begin a keyboard macro.  Error if not at the top level in keyboard processing.
+Set up variables and  return. 
+
+ctlxrp(f, n)                                                 main.c             727                         
+End keyboard macro. Check for the same limit conditions as the above  routine.
+Set up the variables and return to the caller. 
+
+ctoec(c)                                                     input.c            136                         
+ctoec:character to extended characterpull out the CTRL and SPEC prefixes \(if
+possible\)
+
+ctrlg(f, n)                                                  main.c             771                         
+Abort.  Beep the beeper. Kill off any keyboard macro, etc., that is in progress.
+Sometimes called as a routine, to do general aborting of stuff. 
+
+dasherdim(status)                                            aosvs.c           1045 :                       
+dasherdim  set the dimbright video status for DG Dasher 
+
+dashermove(row, col)                                         aosvs.c            975 :                       
+dashermove  Move the cursor for DG Dasher 
+
+dasherrev(status)                                            aosvs.c           1006 :                       
+dasherrev  set the reverse video status for DG Dasher 
+
+dcline(argc, argv)                                           main.c             171                         
+Process a command line. May be called any time.
+
+deblank(f, n)                                                random.c           679                         
+Delete blank lines around dot. What this command does depends if dot is  sitting
+on a blank line. If dot is sitting on a blank line, this command  deletes all
+the blank lines above and below the current line. If it is  sitting on a non
+blank line then it deletes all of the blank lines after  the line. Normally this
+command is bound to "CX CO". Any argument is  ignored. 
+
+debug(bp, eline)                                             exec.c             837                         
+Interactive debuggerif $debug == TRUE, The interactive debugger is
+invokedcommands are listed out with the ? key
+
+delbword(f, n)                                               word.c             345                         
+Kill backwards by "n" words. Move backwards by the desired number of words, 
+counting the characters. When dot is finally moved to its resting place,  fire
+off the kill command. Bound to "MRubout" and to "MBackspace". 
+
+delfword(f, n)                                               word.c             256                         
+Kill forward by "n" words. Remember the location of dot. Move forward by  the
+right number of words. Put dot back where it was and issue the kill  command for
+the right number of characters. With a zero argument, just  kill one word and no
+whitespace. Bound to "MD". 
+
+delins(dlength, instr, use_meta)                             search.c          1138                         
+delins  Delete a specified length from the current point then either insert the
+string directly, or make use of replacement metaarray. 
+
+delwind(f,n)                                                 window.c           248                         
+Delete the current window, placing its space in the window above,  or, if it is
+the top window, the window below. Bound to CX 0. 
+
+desfunc(f, n)                                                eval.c            1173                         
+describefunctionsBring up a fake buffer and list thenames of all the functions
+
+desvars(f, n)                                                eval.c            1070                         
+describevariablesBring up a fake buffer and list the contentsof all the
+environment variables
+
+dg10beep()                                                   dg10.c             159                         
+
+dg10close()                                                  dg10.c             173                         
+
+dg10eeol()                                                   dg10.c             115                         
+
+dg10eeop()                                                   dg10.c             120                         
+
+dg10hello()                                                  dg10.c             203                         
+
+dg10kclose()                                                 dg10.c             188                         
+
+dg10kopen()                                                  dg10.c             183                         
+
+dg10move(row, col)                                           dg10.c             108                         
+
+dg10open()                                                   dg10.c             165                         
+
+do_system()                                                  aosvs.c            875 :                       
+
+do_system_end()                                              aosvs.c            885 :                       
+
+dobuf(bp)                                                    exec.c             455                         
+dobuf:execute the contents of the buffer pointed toby the passed BPDirectives
+start with a "!" and include:!endmEnd a macro!if \(cond\)conditional
+execution!else!endif!returnReturn \(terminating current macro\)!goto <label>Jump
+to a label in the current macro!forceForce macro to continue...even if command
+fails!while \(cond\)Execute a loop if the condition is true!endwhileLine Labels
+begin with a "" as the first nonblank char, like:LBL01
+
+docmd(cline)                                                 exec.c              90                         
+
+doevent()                                                    amigados.c         376                         
+
+dofile(fname)                                                exec.c            1037                         
+dofile:yank a file into a buffer and execute itif there are no errors, delete
+the buffer on exit 
+
+dokey(code)                                                  amigados.c         473                         
+process an incomming keyboard code 
+
+dolhello()                                                   dolock.c           286                         
+end dolock module 
+
+dolock()                                                     dolock.c            67                         
+included by port.h: mdbs.h, mdbsio.h, systypes.h, sysstat.h 
+
+dolock(fname)                                                dolock.c            19                         
+"another user" 
+
+domousekey(newbut, sk)                                       st520.c            658                         
+
+doschar()                                                    aosvs.c            543 :                       
+
+echochar(c,col)                                              isearch.c          403                         
+routine to echo isearch characters 
+
+ectoc(c)                                                     input.c            121                         
+ectoc:expanded character to charactercollapse the CTRL and SPEC flags back into
+an ascii code 
+
+edinit(bname)                                                main.c             489                         
+Initialize all of the buffers and windows. The buffer name is passed down  as an
+argument, because the main routine may have been told to read in a  file by
+default, and we want the buffer name to be right. 
+
+editloop()                                                   main.c             351                         
+This is called to let the user edit something.Note that if youarrange to be able
+to call this from a macro, you will haveinvented the "recursiveedit" function.
+
+egaclose()                                                   ibmpc.c            458                         
+
+endif
+                                                      vms.c             1213   Curtis Smith          
+
+endif
+
+                                                    display.c         1294                         
+
+endword(f, n)                                                word.c             123                         
+Move forward to the end of the nth next word. Error if you move past  the end of
+the buffer. 
+
+enlargewind(f, n)                                            window.c           426                         
+Enlarge the current window. Find the window that loses space. Make sure it  is
+big enough. If so, hack the window descriptions, and ask redisplay to do  all
+the hard work. You don't just set "force reframe" because dot would  move. Bound
+to "CX Z". 
+
+envval(i)                                                    eval.c             188                         
+
+eq(bc, pc)                                                   search.c           750                         
+eq  Compare two characters. The "bc" comes from the buffer, "pc" from the
+pattern. If we are not in EXACT mode, fold out the case. 
+
+execbuf(f, n)                                                exec.c             407                         
+execbuf:Execute the contents of a buffer of commands
+
+execcmd(f, n)                                                exec.c              63                         
+execcmd:Execute a command line command to be typed inby the user
+
+execprg(f, n)                                                atari.c            172                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                wmcs.c             186                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                os2.c               81                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                msdos.c            410                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                aosvs.c            684 :                       
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                unix.c             319                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(f, n)                                                amigados.c         621                         
+Run an external program with arguments. When it returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX $". 
+
+execprg(flag, num)                                           vms.c             1141   Curtis Smith          
+execprg  Execute a program without using command interpretter   execprg is the
+same as spawn because there is no reasonable way  of avoiding the command
+interpretter. This routine is mostly for  smaller systems.   Returns: status 
+
+execproc(f, n)                                               exec.c             372                         
+execproc:Execute a procedure
+
+execprog( char *cmd)                                         os2.c              309                         
+
+execprog(cmd)                                                msdos.c            654                         
+EXECPROG:A function to execute a named programwith arguments
+
+execute(c, f, n)                                             main.c             549                         
+This is the general command execution routine. It handles the fake binding  of
+all the keys to "selfinsert". It also clears out the "thisflag" word,  and
+arranges to move it to the "lastflag", so that the next command can  look at it.
+Return the status of command. 
+
+expand_pathname(c_path, x_path)                              aosvs.c           1791 :                       
+aosvs$expand_pathname.cusage: err = aosvs$expand_pathname\(c_path,
+x_path\);where:data item name data type description  err int Error return, if
+any.c_path char  Current pathname.x_path char  Expanded pathname returned here.
+This must be at least $MXPL bytes.edit historywho mmddyy rev #
+what.....................................................   dcr 030289 01.00
+birth, new life, creation...
+
+expandp(srcstr, deststr, maxlength)                          search.c          1179                         
+expandp  Expand control key sequences for output. 
+
+extcode(c)                                                   tcap.c             351                         
+
+extcode(c)                                                   msdos.c            790                         
+extcode:resolve MSDOS extended character codesencoding the proper sequences into
+emacsprintable character specifications
+
+extcode(c)                                                   atari.c            381                         
+extcode:resolve MSDOS extended character codesencoding the proper sequences into
+emacsprintable character specificationsWell, yes... The ATARI ST was supposed to
+bea PC clone originally... These codes are thesame for the ST.
+
+extcode(c)                                                   aosvs.c            438 :                       
+
+extcode(c)                                                   os2.c              381                         
+extcode:resolve MSDOS extended character codesencoding the proper sequences into
+emacsprintable character specifications
+
+fbound(jump, pcurline, pcuroff, dir)                         search.c           595                         
+fbound  Return information depending on whether we have hit a boundry 	\(and may
+therefore search no further\) or if a trailing character of the search string
+has been found. See boundry(\) for search restrictions. 
+
+ffclose()                                                    fileio.c            52                         
+Close a file. Should look at the status in all systems. 
+
+ffgetline()                                                  fileio.c           124                         
+Read a line from a file, and store the bytes in the supplied buffer. The  "nbuf"
+is the length of the buffer. Complain about long lines and lines  at the end of
+the file that don't have a newline present. Check for IO  errors too. Return
+status. 
+
+ffputline(buf, nbuf)                                         fileio.c            82                         
+Write a line to the already opened file. The "buf" points to the buffer,  and
+the "nbuf" is its length, less the free newline. Return the status.  Check only
+at the newline. 
+
+ffropen(fn)                                                  fileio.c            23                         
+Open a file for reading. 
+
+ffwopen(bfilnam, sfilnam)                                    aosvs.c            232 :                       
+ffwopen(\)  AOSVS specific version of the ffwopen(\) routine found in the 
+fileio.c source. This version will attempt to recreate the edit file   \(if it
+exists\) with the existing edit file ACL, elementsize, filetype and  recordsize
+parameters as determined via a ?FSTAT filestatus system call.   Returns FIOSUC
+if file is opened or FIOERR if not opened. 
+
+ffwopen(fn)                                                  fileio.c            37                         
+Open a file for writing. Return TRUE if all is well, and FALSE on error 
+\(cannot create\). 
+
+filefind(f, n)                                               file.c              70                         
+Select a file for editing.  Look around to see if you can find the  fine in
+another buffer; if you can find it  just switch to the buffer. If you cannot
+find  the file, create a new buffer, read in the  text, and switch to the new
+buffer.  Bound to CX CF. 
+
+filename(f, n)                                               file.c             616                         
+The command allows the user  to modify the file name associated with  the
+current buffer. It is like the "f" command  in UNIX "ed". The operation is
+simple; just zap  the name in the BUFFER structure, and mark the windows  as
+needing an update. You can type a blank line at the  prompt if you wish. 
+
+fileread(f, n)                                               file.c              22                         
+Read a file into the current  buffer. This is really easy; all you do is  find
+the name of the file, and call the standard  "read a file into the current
+buffer" code.  Bound to "CX CR". 
+
+filesave(f, n)                                               file.c             443                         
+Save the contents of the current  buffer in its associatd file. Do nothing  if
+nothing has changed \(this may be a bug, not a  feature\). Error if there is no
+remembered file  name for the buffer. Bound to "CX CS". May  get called by "CZ".
+
+
+filewrite(f, n)                                              file.c             416                         
+Ask for a file name, and write the  contents of the current buffer to that file.
+Update the remembered file name and clear the  buffer changed flag. This
+handling of file names  is different from the earlier versions, and  is more
+compatable with Gosling EMACS than  with ITS EMACS. Bound to "CX CW". 
+
+filter(f, n)                                                 wmcs.c             289                         
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(f, n)                                                 amigados.c         718                         
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(f, n)                                                 os2.c              203                         
+filter a buffer through an external DOS program  Bound to ^X #  We use unique
+temporary file names so that multiple instances of  MicroEMACS don't try to use
+the same file. 
+
+filter(f, n)                                                 unix.c             432                         
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(f, n)                                                 atari.c            283                         
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(f, n)                                                 aosvs.c            831 :                       
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(f, n)                                                 msdos.c            526                         
+filter a buffer through an external DOS program  Bound to ^X # 
+
+filter(flag, num)                                            vms.c             1185   Curtis Smith          
+filter  Filter buffer through an external command   filter take a buffer and
+pipes into a program. This is accomplished  under nonUNIX systems by writing the
+buffer to a temporary file  and running the command with the temporary file as
+input and another  temporary file as output. Once the command completes, the
+buffer  is replaced by the contents of the second temporary file and  all
+temporary files are removed.   This command is currently not implemented, but
+can be implemented  and will be once I get the manuals.   Returns: status. 
+
+fisearch(f, n)                                               isearch.c           76                         
+Again, but for the forward direction 
+
+fix(fname)                                                   cmdfix.c           144                         
+
+flook(fname, hflag)                                          bind.c             623                         
+Look up the existance of a file along the normal or PATHenvironment variable.
+Look first in the HOME directory ifasked and possible
+
+fmatch(ch)                                                   random.c          1069                         
+Close fences are matched against their partners, and ifon screen the cursor
+briefly lights there
+
+fnclabel(f, n)                                               aosvs.c           1334 :                       
+
+fnclabel(flag, n)                                            vms.c              962   Curtis Smith          
+fnclabel  Label function keys   Currently, VMS does not have function key
+labeling.   Returns:status. 
+
+funval(i)                                                    eval.c             180                         
+
+get1key()                                                    tcap.c             410                         
+GET1KEY:Get one keystroke. The only prefixs legal hereare the SPEC and CTRL
+prefixes.Note:Escape sequences that are generated by terminal functionand cursor
+keys could be confused with the user typingthe default META prefix followed by
+other chars... ieUPARROW = <ESC>A on some terminals...apropos = MAThe difference
+is determined by measuring the time betweenthe input of the first and second
+character... if an <ESC>is types, and is not followed by another char in 130 ofa
+second \(think 300 baud\) then it is a user input, otherwiseit was generated by
+an escape sequence and should be SPECed.
+
+get_char ()                                                  isearch.c          454                         
+Routine to get the next character from the input stream. If we're reading  from
+the real terminal, force a screen update before we get the char.   Otherwise, we
+must be reexecuting the command string, so just return the  next character. 
+
+getbind(c)                                                   bind.c             798                         
+This function looks a key binding up in the binding table
+
+getboard()                                                   ibmpc.c            400                         
+getboard:Determine which type of display board is attached.Current known types
+include:CDMONOMonochrome graphics adapterCDCGAColor Graphics
+AdapterCDEGAExtended graphics AdapterCDVGAVidio Graphics Arrayif MONOset to MONO
+CGAset to CGAEGAexist = FALSE VGAexist = FALSE EGAset to CGAEGAexist = TRUE
+VGAexist = FALSE VGAset to CGAEGAexist = TRUE VGAexist = TRUE
+
+getcbuf(prompt, defval, createflag)                          input.c            171                         
+getcbuf:get a completion from the user for a buffer name.I was goaded into this
+by lots of other people'scompletion code.
+
+getccol(bflg)                                                random.c           116                         
+Return current column. Stop at first nonblank given TRUE argument. 
+
+getckey(mflag)                                               bind.c             566                         
+get a command key sequence from the keyboard
+
+getcmd()                                                     input.c            646                         
+GETCMD:Get a command from the keyboard. Process all applicableprefix keys
+
+getctext()                                                   line.c             433                         
+getctext:grab and return a string with the text ofthe current line
+
+getfence(f, n)                                               random.c           989                         
+the cursor is moved to a matching fence
+
+getffile(fspec)                                              msdos.c            956                         
+
+getffile(fspec)                                              amigados.c         842                         
+
+getffile(fspec)                                              unix.c             590                         
+
+getffile(fspec)                                              aosvs.c           1909 :                       
+
+getffile(fspec)                                              atari.c            481                         
+do a wild card directory search \(for file name completion\) 
+
+getffile(fspec)                                              unix.c             524                         
+do a wild card directory search \(for file name completion\) 
+
+getffile(fspec)                                              aosvs.c           1842 :                       
+do a template directory search \(for file name completion\) 
+
+getffile(fspec)                                              msdos.c            890                         
+do a wild card directory search \(for file name completion\) 
+
+getffile(fspec)                                              amigados.c         799                         
+do a wild card directory search \(for file name completion\) 
+
+getfile(fname, lockfl)                                       file.c             138                         
+
+getfname(key)                                                bind.c             821                         
+getfname:This function takes a ptr to KEYTAB entry and gets the nameassociated
+with it
+
+getgoal(dlp)                                                 basic.c            302                         
+This routine, given a pointer to a LINE, and the current cursor goal  column,
+return the best choice for the offset. The offset is returned.  Used by "CN" and
+"CP". 
+
+getkey()                                                     input.c            600                         
+getkey:Get one keystroke. The only prefixs legal hereare the SPEC and CTRL
+prefixes.
+
+getnfile()                                                   aosvs.c           1885 :                       
+
+getnfile()                                                   unix.c             598                         
+
+getnfile()                                                   amigados.c         850                         
+
+getnfile()                                                   aosvs.c           1917 :                       
+
+getnfile()                                                   msdos.c            964                         
+
+getnfile()                                                   amigados.c         827                         
+
+getnfile()                                                   msdos.c            937                         
+
+getnfile()                                                   unix.c             568                         
+
+getnfile()                                                   atari.c            530                         
+
+getpath(filespec)                                            dolock.c           111                         
+
+getregion(rp)                                                region.c           328                         
+This routine figures out the bounds of the region in the current  window, and
+fills in the fields of the "REGION" structure pointed to by  "rp". Because the
+dot and mark are usually very close together, we scan  outward from dot looking
+for mark. This should save time. Return a  standard code. Callers of this
+routine should be prepared to get an  "ABORT" status; we might make this have
+the confirm thing later. 
+
+getstring(prompt, buf, nbuf, eolchar)                        input.c            677                         
+A more generalized promptreply function allowing the callerto specify the proper
+terminator. If the terminator is nota return\('\r'\), return will echo as "<NL>"
+
+gotobob(f, n)                                                basic.c            116                         
+Goto the beginning of the buffer. Massive adjustment of dot. This is  considered
+to be hard motion; it really isn't if the original value of dot  is the same as
+the new value of dot. Normally bound to "M<". 
+
+gotobol(f, n)                                                basic.c             18                         
+Move the cursor to the  beginning of the current line.  Trivial. 
+
+gotobop(f, n)                                                basic.c            216                         
+
+gotoeob(f, n)                                                basic.c            129                         
+Move to the end of the buffer. Dot is always put at the end of the file  \(ZJ\).
+The standard screen code does most of the hard parts of update.  Bound to "M>". 
+
+gotoeol(f, n)                                                basic.c             53                         
+Move the cursor to the end of the current line. Trivial. No errors. 
+
+gotoeop(f, n)                                                basic.c            255                         
+
+gotomark(f, n)                                               basic.c            466                         
+Goto a mark in the current window. This is pretty easy, bacause all of  the hard
+work gets done by the standard routine that moves the mark  about. The only
+possible error is "no mark". Bound to "M^G". 
+
+gtenv(vname)                                                 eval.c             228                         
+
+gtfilename(prompt)                                           input.c            187                         
+
+h110beep()                                                   hp110.c            175                         
+
+h110close()                                                  hp110.c            205                         
+
+h110eeol()                                                   hp110.c            118                         
+
+h110eeop()                                                   hp110.c            126                         
+
+h110hello()                                                  hp110.c            235                         
+
+h110kclose()                                                 hp110.c            220                         
+
+h110kopen()                                                  hp110.c            215                         
+
+h110move(row, col)                                           hp110.c            108                         
+
+h110open()                                                   hp110.c            197                         
+
+h110parm(n)                                                  hp110.c            181                         
+
+h15hello()                                                   hp150.c            474                         
+
+hello()                                                      tcap.c             554                         
+
+history()                                                    history.c         1270                         
+15sep87  added support for Mark Williams C on the Atari ST  made the MALLOC
+debugging package only conditional on RAMSIZE  added code for flagging truncated
+buffers 23sep87  fixed &RIGHT to return the <arg2> rightmost characters  fixed a
+buffer in getval(\) to be static....things are stabler  now.  moved all the
+stack size declarations to after include "estruct.h"  they work a lot better
+now....... \(rather than not at all\)  made Atari ST spawns all work with
+MWshell  fixed spawning on the 1040ST under MWC 27sep87  added &exist function
+to check to see if a named file exist  added &find function to find a file along
+the PATH  added A switch to run "error.cmd" from command line  added $gflags to
+control startup behavior.... 03oct87  changed ":c\" to "c:" in epath.h for the
+AMIGA as suggested  by Tom Edds  added binary and, or, and xor functions as
+submited by John Maline   \(&band &bor and&bxor\)  added binary not \(&bnot\)
+function  added fixes for gotoline(\) and nextarg(\) as submited by David 
+Dermott  fixed return value of $curwidth as submitted by David Dermott  fixed
+several calls to ldelete(\) to have a long first argument   \(pointed out by
+David Dermott\)  Fixed a bug in stock(\) which prevented uppercase FN bindings
+as  pointed out by many people  changed dofile(\) to make sure all executed
+files don't conflict  with existing buffer names. Took out cludged code in
+main.c to  handle this problem... this solution is better \(suggested by  Don
+Nash\) 05oct87  added in John Gamble's code to allow for a replacement regular 
+expresion character in MAGIC mode [note: under MSDOS we are still TOO BIG!!!!] 
+added overwritestring as a new user callable function, and  lowrite\(c\) as an
+internal function for overwriting characters  added &xlate function to translate
+strings according to a  translation table 10oct87  added code to allow emacs to
+clean its own buffers on exit.  useful if emacs is used as a subprogram.
+Conditional on  the CLEAN definition in estruct.h 14oct87  swallowed very hard
+and switched to LARGE codeLARGE data model  packaged and released version 3.9c
+internally   \(MSDOS executables compiled with TURBO C Large model\) 16oct87 
+temporary fix for FUNCTION keys now includes the MetaO sequence  if VT100 is
+definined \(submited by Jeff Lomicka\)  an VT100 also triggers input.c to force
+ESC to always  be interpeted as META as well as the currently bound key  fixed a
+bug in the VMSVT driver as pointed out by Dave Dermott  added a size parameter
+to token(\) to eliminate problems with  long variable names. \(as sugested by
+Ray Wallace\) 18oct87  fixed a bug in the free ram code that did not clear the
+buffer  flag causing emacs to ask for more confirnmations on the way out.
+19oct87  added ^X$ executeprogram call to directly execute a program  without
+going through a shell... not all environments have this  code completed yet
+\(uses shellcommand where not\) [Froze for 3.9d release internally] 28oct87 
+added code for Atari ST DENSE mode and new bell as submited  by J. C. Benoist 
+made extra CR for ST files conditional on ADDCR. This is only  needed to make
+the desktop happy...and is painful for porting  files \(with 2 CR's\) elsewhere
+\(Also from J. C. Benoist\)  added optional more intellegent \(and larger\)
+close brace  insertion code \(also from J. C. Benoist\) 4nov87  fixed AZTEC
+spawning... all MSDOS spawns should work now  a META key while debugging will
+turn $debug to false  and continue execution. [Froze for version 3.9e USENET
+release] 13dec87  added a change to the system V termio.c code to solve a
+keyboard  polling problem, as submited by Karl Lehenbauer  removed a "static"
+from the mod95(\) function declaration  in crypt.c to make MSC happy \(by
+Malcolm MacNiven\)  added code so the new exec routines in spawn.c are working 
+under MSC \(By Malcolm MacNiven\)  fixed the mixed spacetab entabbing bug as
+suggested  by Michal Jaegermann  added the missing brace in the VT100 code in
+getcmd(\)   \(This one was submited by many different people\)  added more
+intelligent spawning for TURBO C as submitted  by Bob Montante  added support
+for the WICAT computers running under the WMCS  operating system as submitted by
+Bruce Hunsaker 16dec87  rewrote fillpara(\). Its 4 times Faster!!!  moved MFNR
+binding to $readfile ie to make emacs execute  a macro when reading files: set
+$readhook "nop";or whetever 19dec87  new search algorithm from Geoff Gibbs,
+cleaned up by John Gamble.  its over 30 TIMES FASTER!!!! using a simplified
+Boyer and Moore  pattern search. This effects all the but MAGIC search commands.
+22dec87  narrowtoregion \(^X<\) and widenfromregion \(^X>\) allow you  to make
+all but a region invisable, thus all global commands  can act on a single
+region.  a numeric argument on the selectbuffer \(^Xb\) command makes  that
+buffer become "invisable"  MFNC becomes $cmdhook  MFNW becomes $wraphook 23dec87
+made unmarkbuffer \(M~\) update the mode lines of all windows  pointing into the
+unmarked buffer 28dec87  added new prefix MOUS \(coded as MS-\) for dealing with
+mice 29dec87  vastly reorginized machine dependant code. Put termio.c and 
+spawn.c together and then pulled out msdos.c, unix.c, wmcs.c,  atari.c,
+amigados.c, and vms.c. These are the operating specific  source files now.
+30dec87  cleaned up msdos.c. Got rid of two unused spawn functions for  LATTICE.
+Also removed attempt to lookup SHELL variable to  find the command processer.
+This is definatly not applicable  here as COMSPEC should always be the name of
+the reloaded  command processor. 20jan87  added Jeff Lomicka's ST mouse support
+and added some  appropriate code to input.c to support this.  added buffer name
+completion to the selectbuffer \(^XB\)  command as submitted by Martin Neitzel. 
+changed some function names: abs=>absv atoi=>asc_int ltoi=>long_int setmode
+=>setmod strncpy =>bytecopy 25jan88By Jeff Lomicka  Added parsing of keypad
+keys, LK201 function key sequences, mouse  sequences \(VaxStation form and BBN
+BitGraph form\), and the cursor  position report to VMSVT.C. This will require a
+change in the way  that VMS users bind functions to their function keys or
+keypad  keys. This also defines a defactostandard for the names of the  numeric
+keypad keys, based on the VT100 and compatible terminals.  Added MOUSE.C to
+DESCRIP.MMS, and changed it to reference ME.OPT,  and to generate ME.EXE. 
+Renamed MICROEMACS.OPT to ME.OPT so that the filename would fit  on smaller
+systems.  Added capability for copy and paste from the terminalwide  copypaste
+buffer. This allows copy and paste of the select region  from and to
+noncooperating sessions in other windows.  \(The  addition of the MOUSE handling
+routines disables the transparent  use of the VWS copypaste mechanism.\) There
+may be a bug in the  PASTE section of this code. On some VWS systems, you may
+get a  bunch of Hex characters instead of text. I'm looking in to finding  out
+what is really supported in the released versions of VWS. This  code is
+conditional based on MOUSE & VMSVT. Code was added to  VMSVT.C. Added bindings
+for to ebind.h. Yank is on ^X^Y. Copy is  on ^XC. If MOUSE & VMSVT is true, this
+binding overides the use of  ^XC for spanwcli. [This won't stay.. alternative
+binding?]  Also added definitions for this to efunc.h.  Added #define of CPM to
+estruct.h. It is used in FILE.C. You  might want to delete it again. [It was
+deleted..no CPM support]  Added noshare attributes to all data in many modules. 
+Reintroudced XONDATA condition that was in 3.9eJ's TERMIO.C into  VMS.C.  \(This
+was overlooked by Dan in making 3.9g.\)  Appended a ":" to the "MICROEMACS$LIB:"
+path element in the VMS  portion of EPATH.H.  Fixed mouse reports from VMSVT.C
+to correspond to the code in 3.9g.  In INPUT.C, added VMS to list of systems
+that generate FN key and  mouse reports with leading 0 bytes.  In order to
+accomodate callable editor support, I had to arrange  so that some of the CALLED
+features are active all of the time,  particularly EXIT HANDLING. I changed all
+calls to exit(\) into  calls to meexit(\). There is a great need to divide up
+exits  between error exits that aren't expected to return, and exits that  just
+set the exit flag. Places that didn't expect exit to return  should be changed
+to return immediately after calling exit, so that  the command loop can catch it
+and return. This error handling  business is a real mess right now.  Rearranged
+main(\) so that most of the guts are in called  routines, so that there can be
+more than one entry point into the  program. Note, now, the possiblity of adding
+recursiveedit as a  function that you can call from a macro.  Added the
+universal symbol ME$EDIT to the VMS version as a second  entry point, for use
+when called by MAIL and NOTES, which use  LIB$FIND_IMAGE_SYMBOL and perform
+runtime linking with their text  editor. This stuff works great!  Changed
+AtariST makefile to link without VGEM, so that you will  get argc and argv. 
+Fixed ST520.C so that screen would be redrawn when we notice that  desk
+accessories exit, and so that the mouse will be turned off  when exiting into a
+shell \(If text cursor was on, mouse is left  off\).  Changed ST520.C to have
+bindings for keypad keys, with PF1 "\("  key as metac, so that it can be used as
+GOLD prefix.Uses GOLDKEY  option in ESTRUCT.H. 26jan88Daniel Lawrence... 
+cleaned up coding in main.c  changed more function names itoa=>int_asc
+ltoa=>long_asc 27jan88  added terminal initilizer string output to tcap.c as
+submitted  by Ge' Wiejers  switched the A command line switch to be E the way
+MWC demands  that it be. Also had to move E to C \(for Change...\) 02feb88 
+changed META and ^X prefixes to use a new mechinism. Hitting  a prefix stores it
+as a pending prefix. 05feb88  changed emacs to use ^M for line terminators
+instead of  ^J. This required LOTS of changes. Now, however, we can  search for
+and manipulate ^M.  fixed getcmd(\) to work again so that describekey and 
+interactive binding functions work again.  added $sterm environmental variable.
+This hold the current  value of the keystroke needed to terminate search string 
+requests. The value in here is also automatically reset  any time the metaprefix
+is rebound, the the metaprefix's value 06feb88  fixed bug in stock(\).. real
+control characters in command lines  now bind properly [BBS release of version
+3.9i] 23feb88  added buffer name completion to deletebuffer \(^XK\) and
+reorginized  code their to gain back 1 K  added $modeflag to allow us to hide
+the modelines.  added $sscroll to allow smooth scrolling... \(I don't like this 
+but there were too many requests for it\).  added $lastmesg to hold last message
+EMACS wrote out 04mar88  added Alan Phillip's mods to support the VGA adapter on
+the  IBM PS2 machines. Modified it a little. 15mar88  Forever twiddling with the
+startup code, I moved the initialization  of exitflag to main(\) to allow a
+startup file to exit EMACS  properly. Also had to make meexit always
+return\(TRUE\) regardless  of the exitstatus. \(Ie it always works and doesn't
+abort the macro\) 17mar88  added code to change hard tab size with $tabsize
+variable  added binary search to fncmatch(\) 28mar88  optimized the IBMPC
+version in TURBO C by supplying mixed memory  mode information \(NEAR and
+PASCAL\). The executable is down to  89K..but remember to name the code segment
+\(from the options menu\) 1apr88  added removemark \(^X<space>\) to allow you to
+unset the mark  in the current window. 8apr88  Lots of twiddling with the mixed
+memory model TURBOC IBMPC  version... its 87K long now and fairly stable 
+changed behavior of CMODE when inserting blank lines  tightened stack usage from
+32K to 20K 9apr88  added new cinsert(\). blank lines no longer confuse the CMODE
+indentation. Trailing white space is deleted when newline is  hit in CMODE.
+12apr88  fixed long standing bug in queryreplacestring. When the line the  point
+originally starts on is extended \(thus remalloced\) a '.',  aborting the
+replace and returning to the original replace had  locked things up. no more.
+07may88  fixed bug in narrow(\) ... it works everywhere now. [BBS release of
+3.9n] 3june88  removed restriction against deleting invisable buffers  a lot of
+little fixes suggested by Dave Tweten 10jun88  added "safe save"ing as coded by
+Suresh Konda.   \(when writing a file to disk, it writes it to a temporary file,
+deletes the original and renames the temp file\)  added $ssave flag to enable or
+disable safe file saving 12jun88  added automatic horizontal window
+scrolling.$hscroll \(default  is TRUE\) controls if it is enabled. $fcol is the
+current first  column of window in screen column one. $hjump determines the 
+number of columns scrolled at a time.  changed version number to 3.9o 22jun88 
+made binary searches start from 0 instead of one... EMACS can  find the first of
+many lists again.  more debugging things. Added the dumpvariable command which 
+creates a buffer \(like listbuffers does\) with all the environment  and user
+variables and their values.Also the display \(^XG\)  command prompts and lists
+the value of a variable. These are  both conditional on the DEBUGM symbol in
+estruct.h 1jul88  fixed a bug in showcpos(\) which did not report the proper
+value  for the current character when issued at the end of the file [Released
+internally as 3.9p] 3aug88  changed keyname in stock(\) in bind.c to unsigned
+char for  compilers that don't default. This allows more arbitrary  rebinding.
+\(submitor: David Sears\) 12aug88  changed wrapword to force $fcol to 0  changed
+fillparagraph \(MQ\) to force $fcol to 0  added i command line switch to
+initialize a variable's value  for example:emacs i$sres VGA 26aug88  changed
+code in updateline(\) in display.c to remove reliance  on well behaved pointer
+subtraction \(submitted by Kenneth Sloan\)  fixed potential bug in fileio.c in
+ffgetline(\)   \(submitted by John Owens\) 6sep88  &right and &mid now check
+their arguments so the bytecopy can not  start past the end of the string. 
+added $writehook to execute macroes when writing files  added $exbhook to
+execute macro when exiting an old buffer  added $bufhook to execute macro when
+entering a new buffer 14sep88  asc_int(\) now ignores trailing nondigits 15sep88
+added &trim function to trim whitespace off a variable  changed message "Out of
+memory while inserting string" to  "Can not insert string" as this error can
+result when the  current buffer is in VIEW mode as well.  made trimline,
+entabline, and detabline work on the  current region if they have no arguments.
+Also added alias  trimregion, entabregion and detabregion. The old names  will
+hang about for a version, then dissapear. I like the  new functionality much
+better. 25sep88  Inserted the macros isletter(\), isuppper(\), islower(\), and 
+CHCASE(\) whereever appropriate, replacing explicit character  comparisons.When
+DIACRIT is set to one, they become functions  and know about the extended ascii
+character set. Functions right  now are in for MSDOS.C  other machines to
+follow. From J. Gamble. 26sep88  moved all text constants out to a language
+specific header file  and left an english version of the constant in a remark at
+its  occurence.  added $language to return the language of the current version 
+added elang.h to call the proper language specific module 2oct88  removed
+DIACRIT conditional. Its there all the time now. Ripped  the old code, and
+replaced it with a upcase[] and lowcase[]  table. Functions to manipulate it are
+now in new source file  char.c and can be made conditional on system and
+language.  Added table for extended MSDOS modeled after John Gamble's  code.
+5oct88  got rid of CHCASE(\)..[except in the MAGIC mode search code]  I ALWAYS
+force to upper or lower, and never simply swap. They  are now uppercase(\) and
+lowercase(\) in the new char.c source file. 7oct88  added all the needed code to
+use TERMCAP on UNIX to interpret  function and cursor keys. A rather slimy trick
+involving  the key timing is used, and this makes keyboard macroes  a little
+dicy....  added the DIACRIT compilation flag back for people who  want more
+speed in MAGIC mode. 10oct88  as suggested by Michael Andrews, when the current
+buffer is  in view mode, don't preallocate expansion room in new lines.   \(ie
+we aren't editing them anyway!\)  added Microsoft Mouse drive... went very well.
+It all appears  to work, just like the Atari ST mouse driver. 11oct88  recieved
+and tested german.h header file from Martin Neitzel  
+\(unido!sigserv!neitzel@uunet.uu.net\) 15oct88  recieved and tested dutch.h
+header file from Paul De Bra   \(debra@research.att.com\)  fixed a lot of mouse
+movement problems. Dragging a mode line  sideways horizontally scrolls a it's
+window. Fixed positioning  problems with scrolled and extended lines.  added
+$msflag to turn the mouse off  added $diagflag. When set to FALSE, no diagonal
+movement is  possible. Vertical movement has precidence, but an explicit 
+horizontal drag still works.  grabbing and dragging the last char of the command
+line allows  you to resize the editing screen. This should be tied into  various
+windowing systems later.  write mouseregion-\(downup\). See the emacs reference
+docs on the  exact behavior of these.  deleted the old
+mouse-\(killyank\)-\(updown\). They are  redundant now, and don't work as well
+as mouseregion. 2nov88[changes submitted by Allen Pratt from ATARI]  created
+DIRSEPSTR and DIRSEPCHAR definitions for directory seperators  added TTflush in
+bindtokey(\) to force space out to terminal after  binding name.  fixed a
+pointer casting problem in display.c involving pointer subtraction  removed the
+cursormove(\) from the beginning of mlwrite(\) so  the cursor need not jump to
+the command line if the fisplay  is disabled by setting $discmd to FALSE.  added
+&gtc to get a emacs command sequence and return it as  a bindable string 
+changed scrnextup > nextup, scrnextdn > nextdown, and  mlreplyt > mltreply to
+make short symbol compilers happy.  added "print" as a synonim to
+"writemessage".  added "source" as a synonim to "executefile".  added a M^X
+binding to the executecommandline command 4nov88  changed $tabsize to $hardtab.
+Added $softab as the current  softtab size \(previously only changable by the ^I
+\(handletab\)  command.  fixed various problems in reglines(\) and made ^X^D
+\(detabregion\)  and ^X^E \(entabregion\) use the current hard tab setting. 
+executecommandline \(M^X\) when executed within a macro line   \(which sounds
+redundent\) will force all of the arguments of  the executed command to be taken
+interactivly. I needed this  for the new macro to allow mouse functionality on
+the  function key window.  taking Michael Andrew's suggestion to its conclusion,
+we no longer  allocate any extra space except when inserting. This has 
+substantially decreased the memory usage. Note that when  we must explicitly set
+l_used to the proper amount since lalloc(\)  is not responcible for the rounding
+up.  arranged to allow getstring(\) to return a NULL result. Aborting  out of an
+interactive prompt now will properly terminate a macro. [Released the 3.10 BETA
+test version...yes the ATARI version is broke] 24nov88  fixed system V input
+char HOG problems as submitted by  Kjartan R. Gudmundsson. Also eliminated some
+other 7 bit filters  in unix.c at the same time.  reading function keys into
+table has been fixed in TCAP.C. It will  no longer attempt to strcpy NULL
+pointers. 1dec88  multiple marks are now implemented. \(What a task...\).
+Setmark   \(M<space>\), removemark \(^X<space>\) and exchangepointandmark  
+\(^X^X\) all take a numeric argument from 0 to NMARKS1 \(9 now\). 2dec88  added
+gotomark \(M^G\) which moves the point to the requested mark.  fixed some VMS
+things that Curtis pointed out...  fixed bug in crypt(\) algorith!!!! This works
+properly now. I had  to add a $oldcrypt environment variable to trigger the
+broken  behavior so people could decrypt their old files. I will probably  have
+to live with this..... 15dec88  added endofword command to advance just past the
+end of a word. 20dec88  added definitions for SUN's OS and SCO XENIX to allow us
+to use  specific calls in those OSs for waiting and timing.  merged in XTCAP.C
+as submitted by Guy Turcotte into tcap.c. This  mirrors the BSD 4.3 changes for
+function keys for the SCO XENIX  and SUN OS versions 14jan89  added $region as a
+read only variable \(max 128 chars\) of the  current region \(as suggested by
+Allan Pratt\)  changed KEYTAB structure to allow us to bind user macroes  
+\(buffers\) to keys as well as C functions. Lots of changes  for this. 18jan89 
+finished changes for the new KEYTAB structure.  modified describebindings to
+display the bound macroes.  added arguments to nullproc(\) in main.c \(BUG
+FIX!\)  tried \(and succeeded\) in defining the pascal keyword  for MSDOS &
+TURBO. A 2k reduction in the executable was nice.  added macrotokey \(^X^K\)
+function to bind a macro to a key. 19jan89  made numeric arguments to keys bound
+to macroes repeat those  macroes n times.  modified docmd(\) to look for a macro
+name if it could not find  a function name. Again a numeric leadin implies
+repitition.  added machine code execpr(\) function to the IBMPC version  because
+under NOVELL Netware, the DOS 4B exec call does not  preserve the stack on
+exit... thus execprog(\) would die. This  requires that you add execpr.obj to
+the make and link files!  There is a symbol \(NOVELL\) in estruct.h to control
+this code  being included. 24jan89  various bug fixes and type fixes as
+suggested by the high C  compiler on the IBMRT 1feb89  changed the fgetc(\) in
+unix.c to a read(\) under V7 and BSD so  the time dependant function key
+checking works.  added a support for Hewlet Packard's UNIX system which  is a
+System V with BSD 4.3 enhancements. This is controled  by the HPUX symbol in
+estruct.h. 5feb89  modified mouseregionup so right clicking down on a modeline
+and  then releasing closes that window 12feb89  Goaded onward by file completion
+code submitted by Fuyau Lin, all  the completion code has been rewritten and
+layered properly.  Any OS specific driver need to now supply getffile(\) and 
+getnfile(\) to supply a completion file list, or these can  return NULL on
+systems where this is not possible. All this code  is conditional on the COMPLET
+symbol in estruct.h. 17mar89  system V code from April 1989 "C Users Journal"
+installed in  UNIX.C. Hope this puts that problem to rest.  Jeff Lomicka fixed a
+lot of mousing bugs in ST520.c  Rewrote AMIGADOS.C. This should work properly
+with INTUITION  and lots of windowing \(resizing, mousing, etc.\)  more
+additions for the DATA GENERAL from Doug Rady. \(read  the history in aosvs.c
+for details\).  orginized the NOSHARE, VIOD and CONST keywords better.  A lot of
+general cleanup. [Released as version 3.10 to the world] 
+
+hp15beep()                                                   hp150.c            172                         
+
+hp15eeol()                                                   hp150.c            137                         
+
+hp15eeop()                                                   hp150.c            143                         
+
+hp15move(row, col)                                           hp150.c            120                         
+
+hp15parm(n)                                                  hp150.c            179                         
+
+hpflush()                                                    hp150.c            132                         
+
+ibmbeep()                                                    ibmpc.c            270                         
+
+ibmclose()                                                   ibmpc.c            287                         
+
+ibmcres(res)                                                 ibmpc.c            250                         
+
+ibmeeop()                                                    ibmpc.c            220                         
+
+ibmhello()                                                   ibmpc.c            518                         
+
+ibmkclose()                                                  ibmpc.c            309                         
+
+ibmmove(row, col)                                            ibmpc.c            129                         
+
+ibmopen()                                                    ibmpc.c            279                         
+
+ibmputc(ch)                                                  ibmpc.c            184                         
+
+in_init()                                                    aosvs.c            458 :                       
+pos to place most recent input character 
+
+in_put(event)                                                aosvs.c            473 :                       
+
+in_put(event)                                                amigados.c         184                         
+
+in_put(event)                                                tcap.c             213                         
+
+in_put(event)                                                msdos.c             68                         
+
+in_put(event)                                                st520.c            244                         
+
+indent(f, n)                                                 random.c           709                         
+Insert a newline, then enough tabs and spaces to duplicate the indentation  of
+the previous line. Tabs are every tabsize characters. Quite simple.  Figure out
+the indentation of the current line. Insert a newline by calling  the standard
+routine. Insert the indentation by inserting the right number  of tabs and
+spaces. Return TRUE if all ok. Return FALSE if one of the  subcomands failed.
+Normally bound to "CJ". 
+
+init()                                                       st520.c            284                         
+
+init_aline()                                                 st520.c            263                         
+
+init_tline()                                                 aosvs.c            864 :                       
+
+insbrace(n, c)                                               random.c           614                         
+
+insfile(f, n)                                                file.c              45                         
+Insert a file into the current  buffer. This is really easy; all you do it  find
+the name of the file, and call the standard  "insert a file into the current
+buffer" code.  Bound to "CX CI". 
+
+int_asc(i)                                                   eval.c             733                         
+int_asc:integer to ascii string.......... This is tooinconsistant to use the
+system's
+
+inword()                                                     word.c             386                         
+Return TRUE if the character at dot is a character that is considered to be 
+part of a word. The word character list is hard coded. Should be setable. 
+
+isadirectory(fstream)                                        aosvs.c           1428 :                       
+
+isearch()                                                    isearch.c          507                         
+
+isearch(f, n)                                                isearch.c          125                         
+Subroutine to do an incremental search. In general, this works similarly  to the
+older microemacs search function, except that the search happens  as each
+character is typed, with the screen and cursor updated with each  new search
+character.   While searching forward, each successive character will leave the
+cursor  at the end of the entire matched string. Typing a ControlS or ControlX 
+will cause the next occurrence of the string to be searched for \(where the 
+next occurrence does NOT overlap the current occurrence\). A ControlR will 
+change to a backwards search, META will terminate the search and ControlG  will
+abort the search. Rubout will back up to the previous match of the  string, or
+if the starting point is reached first, it will delete the  last character from
+the search string.   While searching backward, each successive character will
+leave the cursor  at the beginning of the matched string. Typing a ControlR will
+search  backward for the next occurrence of the string. ControlS or ControlX 
+will revert the search to the forward direction. In general, the reverse 
+incremental search is just like the forward incremental search inverted.   In
+all cases, if the search fails, the user will be feeped, and the search  will
+stall until the pattern string is edited back into something that  exists \(or
+until the search is aborted\). 
+
+isletter(ch)                                                 char.c              22                         
+isletter(\)Is the character a letter? We presume a letter mustbe either in the
+upper or lower case tables \(even if it getstranslated to itself\).
+
+islower(ch)                                                  char.c              34                         
+islower(\)Is the character a lower case letter? This looksin the lower to
+uppercase translation table.
+
+ismodeline(wp, row)                                          mouse.c            396                         
+
+isupper(ch)                                                  char.c              45                         
+isupper(\)Is the character a upper case letter? This looksin the upper to
+lowercase translation table.
+
+kdelete()                                                    line.c             576                         
+Delete all of the text saved in the kill buffer. Called by commands when a  new
+kill context is being created. The kill buffer array is released, just  in case
+the buffer has grown to immense size. No errors. 
+
+killbuffer(f, n)                                             buffer.c           136                         
+Dispose of a buffer, by name.  Ask for the name. Look it up \(don't get too 
+upset if it isn't there at all!\). Get quite upset  if the buffer is being
+displayed. Clear the buffer \(ask  if the buffer has been changed\). Then free
+the header  line and the buffer header. Bound to "CX K". 
+
+killregion(f, n)                                             region.c            54                         
+Kill the region. Ask "getregion"  to figure out the bounds of the region.  Move
+"." to the start, and kill the characters.  Bound to "CW". 
+
+killtext(f, n)                                               random.c           789                         
+Kill text. If called without an argument, it kills from dot to the end of  the
+line, unless it is at the end of the line, when it kills the newline.  If called
+with an argument of 0, it kills from the start of the line to dot.  If called
+with a positive argument, it kills from dot forward over that  number of
+newlines. If called with a negative argument it kills backwards  that number of
+newlines. Normally bound to "CK". 
+
+kinsert(c)                                                   line.c             602                         
+Insert a character to the kill buffer, allocating new chunks as needed.  Return
+TRUE if all is well, and FALSE on errors. 
+
+lalloc(used)                                                 line.c              29                         
+This routine allocates a block of memory large enough to hold a LINE  containing
+"used" characters. Return a pointer to the new block, or  NULL if there isn't
+any memory left. Print a message in the message  line if no space. 
+
+lchange(flag)                                                line.c             102                         
+This routine gets called when a character is changed in place in the current 
+buffer. It updates all of the required flags in the buffer and window  system.
+The flag used is passed as an argument; if the buffer is being  displayed in
+more than 1 window we change EDIT t HARD. Set MODE if the  mode line needs to be
+updated \(the "" has to be set\). 
+
+ldelete(n, kflag)                                            line.c             362                         
+This function deletes "n" bytes, starting at dot. It understands how to deal 
+with end of lines, etc. It returns TRUE if all of the characters were  deleted,
+and FALSE if they were not \(because dot ran into the end of the  buffer. The
+"kflag" is TRUE if the text should be put in the kill buffer. 
+
+ldelnewline()                                                line.c             487                         
+Delete a newline. Join the current line with the next line. If the next line  is
+the magic header line always return TRUE; merging the last line with the  header
+line can be thought of as always being a successful operation, even  if nothing
+is done, and this makes the kill buffer work "right". Easy cases  can be done by
+shuffling data around. Hard cases require that lines be moved  about in memory.
+Return FALSE on error and TRUE if all looks ok. Called by  "ldelete" only. 
+
+lfree(lp)                                                    line.c              51                         
+Delete line "lp". Fix all of the links that might point at it \(they are  moved
+to offset 0 of the next line. Unlink the line from whatever buffer it  might be
+in. Release the memory. The buffers are updated too; the magic  conditions
+described in the above comments don't hold here. 
+
+linsert(n, c)                                                line.c             166                         
+Insert "n" copies of the character "c" at the current location of dot. In  the
+easy case all that happens is the text is stored in the line. In the  hard case,
+the line has to be reallocated. When the window list is updated,  take special
+care; I screwed it up once. You always update dot in the  current window. You
+update mark, and a dot in another window, if it is  greater than the place where
+you did the insert. Return TRUE if all is  well, and FALSE on errors. 
+
+linstr(instr)                                                line.c             136                         
+linstr  Insert a string at the current point 
+
+listbuffers(f, n)                                            buffer.c           246                         
+List all of the active buffers. First update the specialbuffer that holds the
+list. Next make sure at least 1window is displaying the buffer list, splitting
+the screenif this is what it takes. Lastly, repaint all of thewindows that are
+displaying the list. Bound to "CX CB". A numeric argument forces it to list
+invisable buffers aswell.
+
+lnewline()                                                   line.c             303                         
+Insert a newline into the buffer at the current location of dot in the  current
+window. The funny assbackwards way it does things is not a botch;  it just makes
+the last line in the file not a special case. Return TRUE if  everything works
+out and FALSE on error \(memory allocation failure\). The  update of dot and
+mark is a bit easier then in the above case, because the  split forces more
+updating. 
+
+lock(fname)                                                  lock.c              94                         
+lock:Check and lock a file from access by othersreturnsTRUE = files was not
+locked and now isFALSE = file was locked and overriddenABORT = file was locked,
+abort command
+
+lockchk(fname)                                               lock.c              24                         
+lockchk:check a file for locking and add it to the list 
+
+lockrel()                                                    lock.c              70                         
+lockrel:release all the file locks so others may edit 
+
+long_asc(buf, width, num)                                    buffer.c           414                         
+Translate a long to ascii form. Don't trust various systems ltoa(\) routines..
+they aren't consistand
+
+lover(ostr)                                                  line.c             274                         
+lover  Overwrite a string at the current point 
+
+lowercase(cp)                                                char.c             215                         
+change cp to an lower case character 
+
+lowercase(cp)                                                char.c              88                         
+change cp to an lower case character 
+
+lowerregion(f, n)                                            region.c           116                         
+Lower case region. Zap all of the upper  case characters in the region to lower
+case. Use  the region code to set the limits. Scan the buffer,  doing the
+changes. Call "lchange" to ensure that  redisplay is done in all buffers. Bound
+to  "CX CL". 
+
+lowerword(f, n)                                              word.c             180                         
+Move the cursor forward by the specified number of words. As you move  convert
+characters to lower case. Error if you try and move over the end of  the buffer.
+Bound to "ML". 
+
+lowrite(c)                                                   line.c             258                         
+Overwrite a character into the current line at the current position  
+
+macrotokey(f, n)                                             bind.c             177                         
+macrotokey:Bind a key to a macro in the key binding table 
+
+main(argc, argv)                                             cmdfix.c           116                         
+current output file handle 
+
+makelist(iflag)                                              buffer.c           298                         
+This routine rebuilds the  text in the special secret buffer  that holds the
+buffer list. It is called  by the list buffers command. Return TRUE  if
+everything works. Return FALSE if there  is an error \(if there is no memory\).
+Iflag  indecates weather to list hidden buffers. 
+
+makename(bname, fname)                                       file.c             326                         
+Take a file name, and from it  fabricate a buffer name. This routine knows 
+about the syntax of file names on the target system.  I suppose that this
+information could be put in  a better place than a line of code.  Returns a
+pointer into fname indicating the end of the file path; i.e.,  1 character
+BEYOND the path name. 
+
+match_pat (patrn)                                            isearch.c          349                         
+The following is a worker subroutine used by the reverse search. It  compares
+the pattern string with the characters at "." for equality. If  any characters
+mismatch, it will return FALSE.   This isn't used for forward searches, because
+forward searches leave "."  at the end of the search string \(instead of in
+front\), so all that needs to  be done is match the last char input. 
+
+mcclear()                                                    search.c          1536                         
+mcclear  Free up any CCL bitmaps, and MCNIL the MC search arrays. 
+
+mceq(bc, mt)                                                 search.c          1577                         
+mceq  metacharacter equality with a character. In Kernighan & Plauger's Software
+Tools, this is the function omatch(\), but i felt there were too many functions
+with the 'match' name already. 
+
+mcscanner(mcpatrn, direct, beg_or_end)                       search.c           288                         
+mcscanner  Search for a metapattern in either direction. If found, reset the "."
+to be at the start or just after the match string, and \(perhaps\) repaint the
+display. 
+
+mcstr()                                                      search.c          1317                         
+mcstr  Set up the 'magic' array. The closure symbol is taken as a literal
+character when \(1\) it is the first character in the pattern, and \(2\) when
+preceded by a symbol that does not allow closure, such as a newline, beginning
+of line symbol, or another closure symbol.  Coding comment \(jmg\): yes, i know
+i have gotos that are, strictly speaking, unnecessary. But right now we are so
+cramped for code space that i will grab what i can in order to remain within the
+64K limit. C compilers actually do very little in the way of optimizing  they
+expect you to do that. 
+
+me_mh(a)                                                     st520.c            448                         
+me_mh  MicroEmacs Mouse interrupt Handler. This handler is called,in addition to
+the regular mouse handler, in order for microemacsto have access to some more
+information about the mouse events.What it does is: Queue a copy of the mouse
+button state at the actual moment ofthe event, rather than after GEM is finished
+playing with timers. Convert all rightmousebutton events into
+leftmousebuttonevents BEFORE GEM's mouse interrupt handler, so that GEM will
+generatea leftmousebutton event.
+
+meexit(status)                                               main.c             689                         
+
+mlerase()                                                    display.c         1045                         
+Erase the message line. This is a special routine because the message line  is
+not considered to be part of the virtual screen. It always works  immediately;
+the terminal buffer is flushed via a call to the flusher. 
+
+mlforce(s)                                                   display.c         1179                         
+Force a string out to the message line regardless of thecurrent $discmd setting.
+This is needed when $debug is TRUEand for the writemessage and clearmessageline
+commands
+
+mlout(c)                                                     display.c         1078                         
+Write a message into the message line. Keep track of the physical cursor 
+position. A small class of printf like format items is handled. Assumes the 
+stack grows down; this assumption is made by the "+=" in the argument scan 
+loop. If STACK_GROWS_UP is set in estruct.h, then we'll assume that the  stack
+grows up and use "=" instead of "+=". Set the "message line"  flag TRUE. Don't
+write beyond the end of the current terminal width. 
+
+mlputf(s)                                                    display.c         1260                         
+write out a scaled integer with two decimal places 
+
+mlputi(i, r)                                                 display.c         1213                         
+Write out an integer, in the specified radix. Update the physical cursor 
+position. 
+
+mlputli(l, r)                                                display.c         1236                         
+do the same except as a long integer. 
+
+mlputs(s)                                                    display.c         1197                         
+Write out a string. Update the physical cursor position. This assumes that  the
+characters in the string all have width "1"; if this is not the case  things
+will get screwed up a little. 
+
+mlreply(prompt, buf, nbuf)                                   input.c            101                         
+Write a prompt into the message line, then read back a response. Keep  track of
+the physical position of the cursor. If we are in a keyboard  macro throw the
+prompt away, and return the remembered response. This  lets macros run at full
+speed. The reply is always terminated by a carriage  return. Handle erase, kill,
+and abort keys. 
+
+mltreply(prompt, buf, nbuf, eolchar)                         input.c            108                         
+
+mlwrite(fmt, arg)                                            display.c         1094                         
+
+mlyesno(prompt)                                              input.c             55                         
+Ask a yes or no question in the message line. Return either TRUE, FALSE, or 
+ABORT. The ABORT status is returned if the user bumps out of the question  with
+a ^G. Used any time a confirmation is required. 
+
+mod95(val)                                                   crypt.c            209 of this routine,        
+
+modeline(wp)                                                 display.c          857                         
+Redisplay the mode line for the window pointed to by the "wp". This is the  only
+routine that has any idea of how the modeline is formatted. You can  change the
+modeline format by hacking at this routine. Called by "update"  any time there
+is a dirty window. 
+
+mousehello()                                                 mouse.c            420                         
+
+mouseline(wp, row)                                           mouse.c            341                         
+The row "row" is a row within the window  whose WINDOW structure is pointed to
+by the "wp"  argument. Find the associated line, and return a pointer  to it.
+Return NULL if the mouse is on the mode line,  or if the mouse is pointed off
+the end of the  text in the buffer. 
+
+mouseoffset(wp, lp, col)                                     mouse.c            367                         
+Return the best character offset to use  to describe column "col", as viewed
+from the line whose  LINE structure is pointed to by "lp". 
+
+mousewindow(row)                                             mouse.c            315                         
+Return a pointer to the WINDOW structure  for the window in which "row" is
+located, or NULL  if "row" isn't in any window. The mode line is  considered to
+be part of the window. 
+
+movecursor(row, col)                                         display.c         1030                         
+Send a command to the terminal to move the hardware cursor to row "row"  and
+column "col". The row and column arguments are origin 0. Optimize out  random
+calls. Update "ttrow" and "ttcol". 
+
+movemd(f, n)                                                 mouse.c             28                         
+Move mouse button, down. The window that the  mouse is in is always selected
+\(this lets you select a  window by clicking anyplace in it, even off the end 
+of the text\). If the mouse points at text then dot is  moved to that location. 
+
+movemu(f, n)                                                 mouse.c            212                         
+Move mouse button, up. The up click must be  in the text region of a window. If
+the old click was in a  mode line then the mode line moves to the row of the  up
+click. If the old click is not in a mode line then the  window scrolls. The code
+in this function is just  too complex! 
+
+mregdown(f, n)                                               mouse.c             80                         
+mouseregiondown:mouse region operationsnclicks = 0:move cursor to mousesetmark
+1:move cursor to mousekillregion
+
+mregup(f, n)                                                 mouse.c            144                         
+mouseregionup:mouse region operationsIf the corrosponding downclick was on a
+modeline, then wewish to delete the indicated window. Otherwise we are usingthis
+button to copypaste.nclicks = 0:move cursor to mousecopyregion 1:move cursor to
+mouseyank 3:reset nclicks to 0
+
+mttgetc()                                                    unix.c             177                         
+get a character with timeout 
+
+mttgetc()                                                    wmcs.c              89                         
+get a character with timeout 
+
+mvdnwind(f, n)                                               window.c           130                         
+This command moves the current window down by "arg" lines. Recompute the  top
+line in the window. The move up and move down code is almost completely  the
+same; most of the work has to do with reframing the window, and picking  a new
+dot. We share the code by having "move down" just be an interface to  "move up".
+Magic. Bound to "CX CN". 
+
+mvupwind(f, n)                                               window.c           145                         
+Move the current window up by "arg" lines. Recompute the new top line of  the
+window. Look to see if "." is still on the screen. If it is, you win.  If it
+isn't, then move "." to center it in the new framing of the window  \(this
+command does not really move "."; it moves the frame\). Bound to  "CX CP". 
+
+namedcmd(f, n)                                               exec.c              14                         
+namedcmd:execute a named command even if it is not bound 
+
+namval(index)                                                bind.c             889                         
+
+narrow(f, n)                                                 region.c           187                         
+Narrowtoregion \(^X<\) makes all but the current region inthe current buffer
+invisable and unchangable
+
+newline(f, n)                                                random.c           439                         
+Insert a newline. Bound to "CM". If we are in CMODE, do automatic  indentation
+as specified. 
+
+nextarg(prompt, buffer, size, terminator)                    exec.c             256                         
+nextarg:get the next argument
+
+nextch(pcurline, pcuroff, dir)                               search.c          1262                         
+nextch  retrieve the nextprevious character in the buffer, and advanceretreat
+the point. The order in which this is done is significant, and depends upon the
+direction of the search. Forward searches look at the current character and
+move, reverse searches move and look at the character. 
+
+nextwind(f, n)                                               window.c            52                         
+The command make the next window \(next => down the screen\) the current 
+window. There are no real errors, although the command does nothing if  there is
+only 1 window on the screen. Bound to "CX CN".   with an argument this command
+finds the <n>th window from the top  
+
+nocrypt()                                                    crypt.c            229 of this routine,        
+
+nothing()                                                    vms.c               58   Curtis Smith          
+nothing  The nothing function.   This function is used as a placeholder for
+unimplemented functions,  or to compile an empty module \(which VMS doesn't
+like\).   Nothing returned. 
+
+onlywind(f, n)                                               window.c           194                         
+This command makes the current window the only window on the screen. Bound  to
+"CX 1". Try to set the framing so that "." does not have to move on the 
+display. Some care has to be taken to keep the values of dot and mark in  the
+buffer structures right if the distruction of a window makes a buffer  become
+undisplayed. 
+
+opendir(dir_name)                                            aosvs.c           1517 :                       
+aosvs$bsd_opendir
+
+openline(f, n)                                               random.c           415                         
+Open up some blank space. The basic plan is to insert a bunch of newlines,  and
+then back up over them. Everything is done by the subcommand  procerssors. They
+even handle the looping. Normally this is bound to "CO". 
+
+os2beep()                                                    os2npm.c           402                         
+
+os2close()                                                   os2npm.c           451                         
+
+os2eeol()                                                    os2npm.c           286                         
+
+os2eeop()                                                    os2npm.c           308                         
+
+os2flush(void)                                               os2npm.c           187                         
+
+os2getc()                                                    os2npm.c           207                         
+
+os2kclose()                                                  os2npm.c           485                         
+
+os2kopen()                                                   os2npm.c           464                         
+
+os2move(
+	int row,
+	int col)                               os2npm.c           174                         
+
+os2open()                                                    os2npm.c           415                         
+
+os2putc(int c)                                               os2npm.c           255                         
+
+os2rev(int state)                                            os2npm.c           336                         
+
+outstring(s)                                                 input.c            782                         
+
+ovstring(f, n)                                               random.c          1161                         
+
+pipecmd(f, n)                                                aosvs.c            718 :                       
+Pipe a one line command into a window  Bound to ^X @   This command REQUIRES a
+directory named :TMP or a link by that name to   another directory such as
+:SL_TEMPS. This diectory should have an  ACL of +,RWE which will allow all users
+to access it. This diectory is  where the output file for this command is
+placed. This was done because  the sons of MircoEMACS do not always have the
+same privileges. The file  is of the pathname :TMP:pid.MICRO_EMACS_COMMAND where
+"pid" is the PID  of the MicroEMACS process. Also note that this sort of follows
+the UNIX\(tm\)  convention for a common temporary file directory.  The temp.
+file is created with an ACL of username,OWAR   See the THINGS_TO_DO.TXT for
+planned enhancements in this area.  
+
+pipecmd(f, n)                                                unix.c             348                         
+Pipe a one line command into a window  Bound to ^X @ 
+
+pipecmd(f, n)                                                msdos.c            439                         
+Pipe a one line command into a window  Bound to ^X @ 
+
+pipecmd(f, n)                                                amigados.c         646                         
+Pipe a one line command into a window  Bound to ^X @ 
+
+pipecmd(f, n)                                                atari.c            203                         
+Pipe a one line command into a window  Bound to ^X @ 
+
+pipecmd(f, n)                                                wmcs.c             215                         
+Pipe a one line command into a window  Bound to ^X @ 
+
+pipecmd(f, n)                                                os2.c              112                         
+Pipe a one line command into a window  Bound to ^X @  We use a unique temporary
+file name so that multiple instances of  MicroEMACS don't try to use the same
+file. 
+
+pipecmd(flag, num)                                           vms.c             1161   Curtis Smith          
+pipecmd  Pipe a one line command into a window   pipecmd take a single command
+and places output into a buffer.  This is accomplished on nonUNIX machines by
+sending the result  of the command interpretter into a temporary file, then
+reading  the file into the buffer.   This command is not implemented current,
+but could be implemented  and will be once I get some manuals.   Returns: status
+
+
+prevwind(f, n)                                               window.c            98                         
+This command makes the previous window \(previous => up the screen\) the 
+current window. There arn't any errors, although the command does not do a  lot
+if there is 1 window. 
+
+promptpattern(prompt)                                        isearch.c          383                         
+Routine to prompt for ISearch string. 
+
+putctext(iline)                                              line.c             459                         
+putctext:replace the current line with the passed in text
+
+putline(row, col, buf)                                       display.c         1282                         
+
+putnpad(str, n)                                              tcap.c             535                         
+
+putpad(str)                                                  tcap.c             529                         
+
+qreplace(f, n)                                               search.c           885                         
+qreplace  search and replace with query. 
+
+quickexit(f, n)                                              main.c             630                         
+Fancy quit command, as implemented by Norm. If the any bufferhas changed do a
+write on that buffer and exit emacs, otherwise simplyexit.
+
+quit(f, n)                                                   main.c             663                         
+Quit command. If an argument, always quit. Otherwise confirm if a buffer  has
+been changed and not written out. Normally bound to "CX CC". 
+
+quote(f, n)                                                  random.c           210                         
+Quote the next character, and insert it into the buffer. All the characters  are
+taken literally, including the newline, which does not then have  its line
+splitting meaning. The character is always read, even if it is  inserted 0
+times, for regularity. Bound to "CQ" 
+
+rdonly()                                                     main.c             784                         
+tell the user that this command is illegal while we are in VIEW \(readonly\)
+mode
+
+readdir(dir_stream)                                          aosvs.c           1565 :                       
+aosvs$bsd_readdir
+
+readin(fname, lockfl)                                        file.c             209                         
+Read file "fname" into the current buffer, blowing away any textfound there.
+Called by both the read and find commands. Returnthe final status of the read.
+Also called by the mainline, toread in a file specified on the command line as
+an argument. The command in $readhook is called after the buffer is set upand
+before it is read. 
+
+readpattern(prompt, apat, srch)                              search.c           778                         
+readpattern  Read a pattern. Stash it in apat. If it is the search string,
+create the reverse pattern and the magic pattern, assuming we are in MAGIC mode
+\(and defined that way\). Apat is not updated if the user types in an empty
+line. If the user typed an empty line, and there is no old pattern, it is an
+error. Display the old pattern, in the style of Jeff Lomicka. There is some
+doityourself control expansion. Change to using <META> to delimit the
+endofpattern to allow <NL>s in the search string.  
+
+reeat(c)                                                     isearch.c          497                         
+
+reframe(wp)                                                  display.c          260                         
+reframe:check to see if the cursor is on in the windowand reframe it if needed
+or wanted
+
+refresh(f, n)                                                window.c            31                         
+Refresh the screen. With no argument, it just does the refresh. With an 
+argument it recenters "." in the current window. Bound to "CL". 
+
+reglines()                                                   region.c            18                         
+reglines:how many lines in the current regionused by the trimentabdetabregion
+commands
+
+remmark(f, n)                                                basic.c            415                         
+Remove the mark in the current window.  Bound to ^X <space>  
+
+rename(from_nam, to_nam)                                     aosvs.c            375 :                       
+rename(\)  rename a file  called from writeout(\) in file.c 
+
+replaces(kind, f, n)                                         search.c           896                         
+replaces  Search for a string and replace it with another string. Query might be
+enabled \(according to kind\). 
+
+reposition(f, n)                                             window.c            18                         
+Reposition dot in the current window to line "n". If the argument is  positive,
+it is that line. If it is negative it is that line from the  bottom. If it is 0
+the window is centered \(this is what the standard  redisplay code does\). With
+no argument it defaults to 0. Bound to M!. 
+
+resize(f, n)                                                 window.c           520                         
+Resize the current window to the requested size
+
+resizm(f, n)                                                 mouse.c            409                         
+The mouse has been used to resize the physical window. Now we need to let emacs
+know about the newsize, and have him force a redraw
+
+resolve_full_pathname(from_path, to_path)                    aosvs.c            214 :                       
+resolve_full_pathname\(char, char*\)  resolves a filename or pathname to  full
+AOSVS pathname via the ?GRNAME system call. If the file does not  exsist then
+the current working directory is assumed by AOSVS.   Returns FIOSUC if from_path
+is found or FIOFNF if it isn't found. 
+
+resterr()                                                    main.c             793                         
+
+return (int)                                                 vms.c              951   Curtis Smith          
+Return next character 
+
+risearch(f, n)                                               isearch.c           48                         
+Subroutine to do incremental reverse search. It actually uses the  same code as
+the normal incremental search, as both can go both ways. 
+
+rmcclear()                                                   search.c          1556                         
+rmcclear  Free up any strings, and MCNIL the RMC array. 
+
+rmcstr()                                                     search.c          1438                         
+rmcstr  Set up the replacement 'magic' array. Note that if there are no
+metacharacters encountered in the replacement string, the array is never
+actually created  we will just use the character array rpat[] as the replacement
+string. 
+
+rtfrmshell()                                                 unix.c             272                         
+
+rvstrcpy(rvstr, str)                                         search.c           859                         
+rvstrcpy  Reverse string copy. 
+
+savematch()                                                  search.c           829                         
+savematch  We found the pattern? Let's save it away. 
+
+scanner(patrn, direct, beg_or_end)                           search.c           510                         
+scanner  Search for a pattern in either direction. If found, reset the "." to be
+at the start or just after the match string, and \(perhaps\) repaint the
+display. Fast version using simplified version of Boyer and Moore
+SoftwarePractice and Experience, vol 10, 501506 \(1980\) 
+
+scinit(type)                                                 ibmpc.c            314                         
+
+seekdir(dir_stream, pos)                                     aosvs.c           1612 :                       
+aosvs$bsd_seekdir
+
+setatt(attr)                                                 tipc.c              99                         
+
+setbit(bc, cclmap)                                           search.c          1752                         
+setbit  Set a bit \(ON only\) in the bitmap. 
+
+setccol(pos)                                                 random.c           138                         
+Set current column. 
+
+setfillcol(f, n)                                             random.c            14                         
+Set fill column to n. 
+
+setjtable(apat)                                              search.c           684                         
+setjtable  Settting up search delta forward and delta backward tables. The
+reverse search string and string lengths are set here, for table initialization
+and for substitution purposes. The default for any character to jump is the
+pattern length. 
+
+setkey(key, type, name)                                      bind.c            1023                         
+set a KEYTAB to the given name of the given type 
+
+setlower(ch, val)                                            char.c             255                         
+Set a character in the lowercase map 
+
+setlower(ch, val)                                            char.c             181                         
+Set a character in the lowercase map 
+
+setmark(f, n)                                                basic.c            397                         
+Set the mark in the current window to the value of "." in the window. No  errors
+are possible. Bound to "M.". 
+
+setupper(ch, val)                                            char.c             192                         
+Set a character in the uppercase map 
+
+setupper(ch, val)                                            char.c             266                         
+Set a character in the uppercase map 
+
+shell(void)                                                  os2.c              290                         
+SHELL: Bring up a shell. 
+
+shellprog(cmd)                                               msdos.c            604                         
+SHELLPROG: Execute a command in a subshell
+
+showcpos(f, n)                                               random.c            29                         
+Display the current position of the cursor, in origin 1 XY coordinates,  the
+character that is under the cursor \(in hex\), and the fraction of the  text
+that is before the cursor. The displayed column is not the current  column, but
+the column that would be used on an infinite width display.  Normally this is
+bound to "CX =". 
+
+shrinkwind(f, n)                                             window.c           474                         
+Shrink the current window. Find the window that gains space. Hack at the  window
+descriptions. Ask the redisplay to do all the hard work. Bound to  "CX CZ". 
+
+sizeof(TBIND)                                                tcap.c             136                         
+
+spal()                                                       aosvs.c           1091 :                       
+
+spal()                                                       vms.c              981   Curtis Smith          
+spal  Set palette type   spal sets the palette colors for the 8 colors
+available. Currently,  there is nothing here, but some DEC terminals, \(VT240
+and VT340\) have  a color palette which is available under the graphics modes. 
+Further, a foreign terminal could also change color registers.   Nothing
+returned 
+
+spal(dummy)                                                  os2npm.c           393                         
+
+spal(pstr)                                                   st520.c            633                         
+spal\(pstr\):reset the current palette according to a"palette string" of the
+form000111222333444555666777which contains the octal values for the palette
+registers
+
+spawn(f, n)                                                  amigados.c         593                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  unix.c             285                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  wmcs.c             155                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  os2.c               49                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  atari.c            138                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  aosvs.c            659 :                       
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(f, n)                                                  msdos.c            378                         
+Run a oneliner in a subjob. When the command returns, wait for a single 
+character to be typed, then mark the screen as garbage so a full repaint is 
+done. Bound to "CX !". 
+
+spawn(flag, num)                                             vms.c             1096   Curtis Smith          
+spawn  Spawn a command   spawncli reliquishes control of the terminal and passes
+it on to  a newly created DCL process. When the DCL process finishes, the 
+screen is redrawen and emacs regains control.   Returns: status 
+
+spawncli(f, n)                                               aosvs.c            627 :                       
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". 
+
+spawncli(f, n)                                               atari.c            116                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". The message at the start in VMS puts out a newline.  Under some
+\(unknown\) condition, you don't get one free when DCL starts up. 
+
+spawncli(f, n)                                               msdos.c            358                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". 
+
+spawncli(f, n)                                               unix.c             235                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". The message at the start in VMS puts out a newline.  Under some
+\(unknown\) condition, you don't get one free when DCL starts up. 
+
+spawncli(f, n)                                               os2.c               28                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". The message at the start in VMS puts out a newline.  Under some
+\(unknown\) condition, you don't get one free when DCL starts up. 
+
+spawncli(f, n)                                               wmcs.c             127                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". The message at the start in VMS puts out a newline.  Under some
+\(unknown\) condition, you don't get one free when DCL starts up. 
+
+spawncli(f, n)                                               amigados.c         573                         
+Create a subjob with a copy of the command intrepreter in it. When the  command
+interpreter exits, mark the screen as garbage so that you do a full  repaint.
+Bound to "^X C". The message at the start in VMS puts out a newline.  Under some
+\(unknown\) condition, you don't get one free when DCL starts up. 
+
+spawncli(flag, num)                                          vms.c             1066   Curtis Smith          
+spawncli  Spawn a new DCL   spawncli reliquishes control of the terminal and
+passes it on to  a newly created DCL process. When the DCL process finishes, the
+screen is redrawen and emacs regains control.   Returns: status 
+
+splitwind(f, n)                                              window.c           335                         
+Split the current window. A window smaller than 3 lines cannot besplit.  \(Two
+line windows can be split when mode lines are disabled\) Anargument of 1 forces
+the cursor into the upper window, an argument oftwo forces the cursor to the
+lower window. The only other error thatis possible is a "malloc" failure
+allocating the structure for the newwindow. Bound to "CX 2". 
+
+sreplace(f, n)                                               search.c           875                         
+sreplace  Search and replace. 
+
+startup(sfname)                                              bind.c             590                         
+execute the startup file 
+
+stbeep()                                                     st520.c            408                         
+
+stclose()                                                    st520.c            588                         
+
+steeol()                                                     st520.c            320                         
+
+steeop()                                                     st520.c            327                         
+
+sthello()                                                    st520.c            928                         
+
+stmove(row, col)                                             st520.c            311                         
+
+stock(keyname)                                               bind.c             916                         
+stock(\)String key name TO Command KeyA key binding consists of one or more
+prefix functions followed bya keystroke. Allowable prefixes must be in the
+following order:^Xpreceeding controlXAsimeltaneous ALT key \(on PCs
+mainly\)Sshifted function keyMSmouse generated keystrokeMPreceding META
+keyFNfunction key^control keyMeta and ^X prefix of lower case letters are
+converted to uppercase. Real control characters are automatically converted
+tothe ^A form.
+
+storemac(f, n)                                               exec.c             283                         
+storemac:Set up a macro buffer and flag to store allexecuted command lines there
+
+storeproc(f, n)                                              exec.c             331                         
+storeproc:Set up a procedure buffer and flag to store allexecuted command lines
+there
+
+superuser_off()                                              aosvs.c           1407 :                       
+
+superuser_on()                                               aosvs.c           1384 :                       
+superuser onoff toggle routines to override those annoying ACLs usage:
+superuser_on(\); or superuser_off(\);
+
+swapmark(f, n)                                               basic.c            435                         
+Swap the values of "." and "mark" in the current window. This is pretty  easy,
+bacause all of the hard work gets done by the standard routine  that moves the
+mark about. The only possible error is "no mark". Bound to  "CX CX". 
+
+tab(f, n)                                                    random.c           231                         
+Set tab size if given nondefault argument \(n <> 1\). Otherwise, insert a  tab
+into file. If given argument, n, of zero, change to hard tabs.  If n > 1,
+simulate tab stop every ncharacters using spaces. This has to be  done in this
+slightly funny way because the tab \(in ASCII\) has been turned  into "CI" \(in
+10 bit code\) already. Bound to "CI". 
+
+tcapbeep()                                                   tcap.c             524                         
+
+tcapclose()                                                  tcap.c             331                         
+
+tcapeeol()                                                   tcap.c             477                         
+
+tcapeeop()                                                   tcap.c             482                         
+
+tcapgetc()                                                   tcap.c             364                         
+TCAPGETC:Get on character. Resolve and setup all theappropriate keystroke
+escapes as defined inthe comments at the beginning of input.c
+
+tcapkclose()                                                 tcap.c             346                         
+
+tcapkopen()                                                  tcap.c             340                         
+
+tcapmove(row, col)                                           tcap.c             471                         
+
+tcapopen()                                                   tcap.c             238                         
+Open the terminalput it in RA modelearn about the screen sizeread TERMCAP
+strings for function keys
+
+telldir(dir_stream)                                          aosvs.c           1626 :                       
+aosvs$bsd_telldir
+
+tgetc()                                                      input.c            547                         
+tgetc:Get a key from the terminal driver, resolve any keyboardmacro action
+
+tibcol(color)                                                tipc.c             117                         
+
+tibeep()                                                     tipc.c             191                         
+
+ticlose()                                                    tipc.c             209                         
+
+tieeol()                                                     tipc.c             134                         
+
+tieeop()                                                     tipc.c             164                         
+
+tifcol(color)                                                tipc.c             108                         
+
+tihello()                                                    tipc.c             223                         
+
+tikclose()                                                   tipc.c             219                         
+
+tikopen()                                                    tipc.c             204                         
+
+timeset()                                                    atari.c            360                         
+return a system dependant string with the current time 
+
+timeset()                                                    vms.c             1197   Curtis Smith          
+return a system dependant string with the current time 
+
+timeset()                                                    msdos.c            768                         
+return a system dependant string with the current time 
+
+timeset()                                                    aosvs.c            846 :                       
+return a system dependant string with the current time original version didn't
+work. modified idea of bill benedetto by doug rady. note the use of sys\($ITIME,
+...\) instead of sys_itime(\) 
+
+timeset()                                                    unix.c             500                         
+return a system dependant string with the current time 
+
+timeset()                                                    amigados.c         784                         
+return a system dependant string with the current time 
+
+timeset()                                                    os2.c              361                         
+return a system dependant string with the current time 
+
+timeset()                                                    wmcs.c             357                         
+return a system dependant string with the current time 
+
+timove(row, col)                                             tipc.c             125                         
+
+tiopen()                                                     tipc.c             196                         
+
+tiputc(ch)                                                   tipc.c             155                         
+
+tirev(state)                                                 tipc.c             172                         
+
+token(src, tok, size)                                        exec.c             178                         
+token:chop a token off a stringreturn a pointer past the token
+
+trim(f, n)                                                   random.c           369                         
+trim:trim trailing whitespace from the point to eolwith no arguments, it trims
+the current region
+
+ttbcol()                                                     aosvs.c           1108 :                       
+ttbcol  Set the background color \(not implimented\) 
+
+ttbeep()                                                     aosvs.c           1134 :                       
+ttbeep  Ring the bell 
+
+ttclose()                                                    msdos.c            172                         
+This function gets called just before we go back home to the command 
+interpreter. On VMS it puts the terminal back in a reasonable state.  Another
+nooperation on CPM. 
+
+ttclose()                                                    wmcs.c              47                         
+This function gets called just before we go back home to the command 
+interpreter. On VMS it puts the terminal back in a reasonable state.  Another
+nooperation on CPM. 
+
+ttclose()                                                    unix.c             105                         
+This function gets called just before we go back home to the command 
+interpreter. 
+
+ttclose()                                                    atari.c             59                         
+This function gets called just before we go back home to the command 
+interpreter. On VMS it puts the terminal back in a reasonable state.  Another
+nooperation on CPM. 
+
+ttclose()                                                    amigados.c         288                         
+This function gets called just before we go back home to the command 
+interpreter. On VMS it puts the terminal back in a reasonable state.  Another
+nooperation on CPM. 
+
+ttclose()                                                    aosvs.c            408 :                       
+This function gets called just before we go back home to the command 
+interpreter. 
+
+ttcres()                                                     aosvs.c           1085 :                       
+ttcres  Change screen resolution \(what resolution?\)
+
+tteeol()                                                     aosvs.c           1116 :                       
+tteeol  Erase to end of line 
+
+tteeop()                                                     aosvs.c           1125 :                       
+tteeop  Erase to end of page \(clear screen\) 
+
+ttfcol()                                                     aosvs.c           1100 :                       
+ttfcol  Set the forground color \(not implimented\) 
+
+ttflush()                                                    atari.c             80                         
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttflush()                                                    wmcs.c              69                         
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttflush()                                                    msdos.c            205                         
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttflush()                                                    aosvs.c            431 :                       
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttflush()                                                    amigados.c         325                         
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttflush()                                                    unix.c             135                         
+Flush terminal buffer. Does real work where the terminal output is buffered  up.
+A nooperation on systems where byte at a time terminal IO is done. 
+
+ttgetc()                                                     amigados.c         340                         
+Read a character from the terminal. 
+
+ttgetc()                                                     aosvs.c            565 :                       
+Read a character from the terminal, performing no editing and doing no echo  at
+all. 
+
+ttgetc()                                                     msdos.c            232                         
+Read a character from the terminal, performing no editing and doing no echo  at
+all. Also mouse events are forced into the input stream here. 
+
+ttgetc()                                                     unix.c             150                         
+TTGETC:Read a character from the terminal, performing noediting and doing no
+echo at all. More complex in VMSthat almost anyplace else, which figures. Very
+simpleon CPM, because the system can do exactly what youwant.
+
+ttgetc()                                                     atari.c             89                         
+Read a character from the terminal, performing no editing and doing no echo  at
+all. More complex in VMS that almost anyplace else, which figures. Very  simple
+on CPM, because the system can do exactly what you want. 
+
+ttgetc()                                                     wmcs.c              79                         
+Read a character from the terminal, performing no editing and doing no echo  at
+all. More complex in VMS that almost anyplace else, which figures. Very  simple
+on CPM, because the system can do exactly what you want. 
+
+ttkclose()                                                   aosvs.c           1328 :                       
+
+ttkopen()                                                    aosvs.c           1315 :                       
+open the keyboard
+
+ttopen()                                                     aosvs.c           1152 :                       
+ttopen(\)  open the terminal and change characteristics for our use 
+
+ttopen()                                                     msdos.c             91                         
+This function is called once to set up the terminal device streams. 
+
+ttopen()                                                     unix.c              61                         
+This function is called once to set up the terminal device streams.  On VMS, it
+translates TT until it finds the terminal, then assigns  a channel to it and
+sets it raw. On CPM it is a noop. 
+
+ttopen()                                                     amigados.c         207                         
+This function is called once to set up the terminal device streams.  On VMS, it
+translates TT until it finds the terminal, then assigns  a channel to it and
+sets it raw. On CPM it is a noop. 
+
+ttopen()                                                     wmcs.c              27                         
+This function is called once to set up the terminal device streams.  On VMS, it
+translates TT until it finds the terminal, then assigns  a channel to it and
+sets it raw. On CPM it is a noop. 
+
+ttopen()                                                     atari.c             46                         
+This function is called once to set up the terminal device streams.  On VMS, it
+translates TT until it finds the terminal, then assigns  a channel to it and
+sets it raw. On CPM it is a noop. 
+
+ttputc(c)                                                    amigados.c         307                         
+Write a character to the display. On VMS, terminal output is buffered, and  we
+just put the characters in the big array, after checking for overflow.  On CPM
+terminal IO unbuffered, so we just write the byte out. Ditto on  MSDOS \(use the
+very very raw console output routine\). 
+
+ttputc(c)                                                    atari.c             70                         
+Write a character to the display. On VMS, terminal output is buffered, and  we
+just put the characters in the big array, after checking for overflow.  On CPM
+terminal IO unbuffered, so we just write the byte out. Ditto on  MSDOS \(use the
+very very raw console output routine\). 
+
+ttputc(c)                                                    aosvs.c            420 :                       
+Write a character to the display. 
+
+ttputc(c)                                                    unix.c             124                         
+Write a character to the display. On VMS, terminal output is buffered, and  we
+just put the characters in the big array, after checking for overflow.  On CPM
+terminal IO unbuffered, so we just write the byte out. Ditto on  MSDOS \(use the
+very very raw console output routine\). 
+
+ttputc(c)                                                    msdos.c            190                         
+Write a character to the display. On VMS, terminal output is buffered, and  we
+just put the characters in the big array, after checking for overflow.  On CPM
+terminal IO unbuffered, so we just write the byte out. Ditto on  MSDOS \(use the
+very very raw console output routine\). 
+
+ttputc(c)                                                    wmcs.c              60                         
+Write a character to the display. On VMS, terminal output is buffered, and  we
+just put the characters in the big array, after checking for overflow.  On CPM
+terminal IO unbuffered, so we just write the byte out. Ditto on  MSDOS \(use the
+very very raw console output routine\). 
+
+ttputs(str)                                                  aosvs.c           1139 :                       
+
+twiddle(f, n)                                                random.c           179                         
+Twiddle the two characters on either side of dot. If dot is at the end of  the
+line twiddle the two characters before it. Return with an error if dot  is at
+the beginning of line; it seems to be a bit pointless to make this  work. This
+fixes up a very common typo with a single stroke. Normally bound  to "CT". This
+always works within a line, so "WFEDIT" is good enough. 
+
+typahead()                                                   vms.c              999   Curtis Smith          
+typahead  Check for pending input   typahead check the input buffer for pending
+input. If input exists  TRUE is returned. This routine is used mostly by the
+display  update routine to avoid redrawing the entire display when it  doesn't
+need to do so.   Returns: boolean. 
+
+typahead()                                                   msdos.c            327                         
+typahead:Check to see if any characters are already in thekeyboard buffer
+
+typahead()                                                   wmcs.c             106                         
+typahead:Check to see if any characters are already in thekeyboard buffer
+
+typahead()                                                   amigados.c         360                         
+typahead:Check to see if any characters are already in thekeyboard buffer
+
+typahead()                                                   os2npm.c           236                         
+
+typahead()                                                   unix.c             205                         
+typahead:Check to see if any characters are already in thekeyboard buffer
+
+typahead()                                                   atari.c             95                         
+
+typahead()                                                   aosvs.c            603 :                       
+typahead: Check to see if any characters are already in the keyboard buffer.
+Hurray for kludges!!!
+
+unbindchar(c)                                                bind.c             287                         
+
+unbindkey(f, n)                                              bind.c             257                         
+unbindkey:delete a key from the key binding table
+
+undolock()                                                   dolock.c            68                         
+
+undolock(fname)                                              dolock.c            28                         
+
+uneat()                                                      isearch.c          487                         
+Come here on the next term.t_getchar call: 
+
+unix_to_aosvs_path(u_path, a_path)                           aosvs.c           1665 :                       
+aosvs$unix_to_aosvs_path.c  convert a Unix\(tm\) pathname to a AosVs pathname We
+also accept the MsDos '\' seperator and convert it to the Unix\(tm\) ''
+seperator. We do not deal with MsDos device specifiers. The '\' is handled since
+most current MsDos C compilers can deal with either '\' or ''.usage:
+aosvs$unix_to_aosvs\(u_path, a_path\);where:data item name data type description
+u_path char  char  of Unix\(tm\) pathname, end with null.a_path char  char  for
+AosVs pathname, MUST be $MXPL in length.edit historywho mmddyy rev #
+what.....................................................   dcr 012789 01.00
+birth, new life, creation...dcr 030289 01.01 cleaned up, added internal temp.
+storage for path.dcr 030289 01.02 added code to deal with MsDog '\'
+seperator.dcr 030289 01.03 added code to skip out if first char is legal AosVs
+char. This makes us "just like" _toaos_fid(\).
+
+unixhello()                                                  unix.c             604                         
+
+unlink(del_fnam)                                             aosvs.c            356 :                       
+unlink(\)  delete a file  called from writeout(\) in file.c   This routine
+replaces the DG supplied unlink(\) since we don't use the  link(\) unlink(\)
+combination to rename files. Saves some memory.  
+
+unlock(fname)                                                lock.c             133                         
+unlock:Unlock a filethis only warns the user if it fails
+
+updall(wp)                                                   display.c          395                         
+updall: update all the lines in a window on the virtual screen 
+
+update(force)                                                display.c          197                         
+Make sure that the display is right. This is a three part process. First,  scan
+through all of the windows looking for dirty ones. Check the framing,  and
+refresh the screen. Second, make sure that "currow" and "curcol" are  correct
+for the current window. Third, make the virtual and physical  screens the same. 
+
+updateline(row, vp1)                                         display.c          662                         
+UPDATELINE specific code for the IBMPC and other compatables 
+
+updateline(row, vp1, vp2)                                    display.c          684                         
+
+upddex()                                                     display.c          513                         
+upddex: deextend any line that derserves it
+
+updext()                                                     display.c          625                         
+updext: update the extended line which the cursor is currentlyon at a column
+greater than the terminal width. The linewill be scrolled right or left to let
+the user see wherethe cursor is
+
+updgar()                                                     display.c          557                         
+updgar: if the screen is garbage, clear the physical screen andthe virtual
+screen and force a full update
+
+updone(wp)                                                   display.c          361                         
+updone: update the current line to the virtual screen
+
+updpos()                                                     display.c          443                         
+updpos: update the position of the hardware cursor and handle extendedlines.
+This is the only update for simple moves.
+
+updupd(force)                                                display.c          593                         
+updupd: update the physical screen from the virtual screen
+
+uppercase(cp)                                                char.c             203                         
+change cp to an upper case character 
+
+uppercase(cp)                                                char.c              76                         
+change cp to an upper case character 
+
+upperregion(f, n)                                            region.c           153                         
+Upper case region. Zap all of the lower  case characters in the region to upper
+case. Use  the region code to set the limits. Scan the buffer,  doing the
+changes. Call "lchange" to ensure that  redisplay is done in all buffers. Bound
+to  "CX CL". 
+
+upperword(f, n)                                              word.c             148                         
+Move the cursor forward by the specified number of words. As you move,  convert
+any characters to upper case. Error if you try and move beyond the  end of the
+buffer. Bound to "MU". 
+
+upscreen(f, n)                                               display.c          183                         
+upscreen:user routine to force a screen updatealways finishes complete update 
+
+usebuffer(f, n)                                              buffer.c            21                         
+Attach a buffer to a window. The  values of dot and mark come from the buffer 
+if the use count is 0. Otherwise, they come  from some other window. 
+
+vmsaddkey(code, fn)                                          vms.c              433   Curtis Smith          
+vmsaddkey  Add key to key map   vmsaddkey adds a new escape sequence to the
+sequence table.  I am not going to try to explain this table to you in detail. 
+However, in short, it creates a tree which can easily be transversed  to see if
+input is in a sequence which can be translated to a  function key \(arrows and
+findselectdo etc. are treated like  function keys\). If the sequence is
+ambiguous or duplicated,  it is silently ignored.   Nothing returned 
+
+vmsbeep()                                                    vms.c              350   Curtis Smith          
+vmsbeep  Ring the bell   vmsbeep send a bell character to the output. It might
+be possible  in the future to include the NOISY definition and attempt to flash 
+the screen, perhaps using LIGHT_SCREEN and DARK_SCREEN.   Nothing returned. 
+
+vmscap()                                                     vms.c              517   Curtis Smith          
+vmscap  Get capabilities from VMS's SMG library   vmscap retrives all the
+necessary capabilities from the SMG  library to operate microEmacs. If an
+insufficent number of  capabilities are found for the particular terminal, an
+error  status is returned.   Returns:0 if okay, <>0 if error 
+
+vmsclose()                                                   vms.c              677   Curtis Smith          
+vmsclose  Close the connection to the terminal   vmsclose resets the terminal to
+the original state and cuts the  connection. No further operations should be
+done after closing.   Nothing returned. 
+
+vmscres(value)                                               vms.c              270   Curtis Smith          
+vmscres  Change screen resolution   vmscres changes the screen resolution of the
+current window.  Allowable sizes are NORMAL and WIDE.   Nothing returned 
+
+vmsdcl(command)                                              vms.c             1028   Curtis Smith          
+vmsdcl  Execute or invoke a DCL   vmsdcl without an argument will invoke a new
+DCL as a new process  and attach to it. When the DCL returns, emacs will regain
+control.  With an argument, the DCL starts and begins executing the command 
+line.   Returns: status. 
+
+vmseeol()                                                    vms.c              322   Curtis Smith          
+vmseeol  Erase to end of line   When this function is called, the lines worth of
+text after the  cursor is erased. This function is only called if the eolexist 
+boolean variable is set to TRUE. Otherwise the display manager  will produce
+enough spaces to erase the line.   Nothing returned. 
+
+vmseeop()                                                    vms.c              336   Curtis Smith          
+vmseeop  Erase to end of page \(clear screen\)   vmseeop really should be called
+vmsclear because it really should  be an erase screen function. When called,
+this routine will send  the erase entire screen sequence to the output.  
+Nothing returned. 
+
+vmsflush()                                                   vms.c              754   Curtis Smith          
+vmsflush  Flush output buffer   vmsflush causes all queued output characters to
+be written to the  terminal's screen. We will use SYS$QIO because we don't need
+to  wait and because it dramaticly increases performance.   Nothing returned. 
+
+vmsgchar(timed)                                              vms.c              818   Curtis Smith          
+vmsgchar  Get character directly from VMS   vmsgchar is the lowest level of
+retrieving character from VMS.  The argument timed specifies where to wait for a
+character for  a short period \(1 > wait >= 2 seconds\) or indefinately. The
+short  period version is used when obtaining a escape sequence.   Returns:
+character or 0 if no character is available. 
+
+vmsgcook()                                                   vms.c              881   Curtis Smith          
+vmsgcook  Get characters from input device   vmsgcook "cooks" input from the
+input device and places them into  the input queue.   Nothing returned. 
+
+vmsgetc()                                                    vms.c              931   Curtis Smith          
+vmsgetc  Get a character   vmsgetc obtains input from the character input queue.
+If the queue  is empty, a call to vmsgcook(\) is called to fill the input queue.
+Returns:character 
+
+vmsgetnum(code)                                              vms.c              410   Curtis Smith          
+vmsgetnum  Get numerical constant from SMG   vmsgetnum attempts to get a
+numerical constant from the SMG package.  If the constant cannot be found, 1 is
+returned. 
+
+vmsgetstr(code)                                              vms.c              371   Curtis Smith          
+vmsgetstr  Get an SMG string capability by name   vmsgetstr attempts to obtain
+the escape sequence for a particular  job from the SMG library. Most sequences
+do not require a parameter  with the sequence, others do. In order to obtain the
+definition  without knowing ahead of time whether ornot the definition has a 
+parameter, we call SMG once with a parameter and if that fails, we  try again
+without one. If both attempts fail, we will return the  NULL string.   Storage
+for the sequence comes from a local pool.   Returns:Escape sequence NULLNo
+escape sequence available 
+
+vmsgtty(tc)                                                  vms.c              633   Curtis Smith          
+vmsgtty  Get terminal type from system control block   vmsgtty obtains the
+terminal's information such as flags modes,  baud rate, size etc. and stores it
+in the structure block.  If the block cannot be obtainedm, an error condition is
+returned.   Returns:Status 
+
+vmshello()                                                   vms.c             1209   Curtis Smith          
+
+vmsmove(row, column)                                         vms.c              238   Curtis Smith          
+vmsmove  Move the cursor \(0 origin\)   vmsmove calls to the SMG runtime library
+to produce a character  sequence to position the cursor. If the sequence cannot
+be made,  a string "OOPS" is produced instead, much like the termcap library 
+under UNIX. In the case of "OOPS", the user will soon know that  his terminal
+entry is incorrect.   Nothing returned. 
+
+vmsopen()                                                    vms.c              698   Curtis Smith          
+vmsopen  Get terminal type and open terminal   Nothing returned 
+
+vmsputc(ch)                                                  vms.c              780   Curtis Smith          
+vmsputc  Send a character to the screen   vmsputc queues character into a buffer
+for screen output. When the  buffer is full the flush routine is called. This is
+help speed  things up by avoiding millions of system calls.   Nothing returned. 
+
+vmsputs(string)                                              vms.c              800   Curtis Smith          
+vmsputs  Send a string to vmsputc   vmsputs is a shortcut routine to handle
+sending a string of characters  to the character output routine. A check is made
+for a NULL string,  while is considered valid. A NULL string will produce no
+output.   Nothing returned. 
+
+vmsqin(ch)                                                   vms.c              858   Curtis Smith          
+vmsqin  Queue character for input   vmsqin queues the character into the input
+buffer for later  reading. This routine will mostly be used by mouse support 
+and other escape sequence processing.   Nothing returned. 
+
+vmsrev(status)                                               vms.c              306   Curtis Smith          
+vmsrev  Set the reverse video status   vmsrev either sets or resets the reverse
+video state, based on the  boolean argument. This function is only called if the
+revexist  boolean variable is set to TRUE. Otherwise there is no reverse  video
+available.   Nothing returned. 
+
+vmsstty(tc)                                                  vms.c              655   Curtis Smith          
+vmsstty  Set terminal control block   vmsstty takes a previous vmsgtty with
+modifications, and stores  this as the current terminal control block.  
+Returns:Status 
+
+vt52beep()                                                   vt52.c             130                         
+
+vt52eeol()                                                   vt52.c              88                         
+
+vt52eeop()                                                   vt52.c              94                         
+
+vt52hello()                                                  vt52.c             182                         
+
+vt52kclose()                                                 vt52.c             164                         
+
+vt52kopen()                                                  vt52.c             159                         
+
+vt52move(row, col)                                           vt52.c              80                         
+
+vt52open()                                                   vt52.c             138                         
+
+vteeol()                                                     display.c          170                         
+Erase from the end of the software cursor to the end of the line on which  the
+software cursor is located. 
+
+vtfree()                                                     display.c           91                         
+free up all the dynamically allocated video structures 
+
+vtinit()                                                     display.c           43                         
+Initialize the data structures used by the display code. The edge vectors  used
+to access the screens are set up. The operating system's terminal IO  channel is
+set up. All the other things get initialized at compile time.  The original
+window has "WFCHG" set, so that it will get completely  redrawn on the first
+call to "update". 
+
+vtmove(row, col)                                             display.c          127                         
+Set the virtual cursor to the specified row and column on the virtual  screen.
+There is no checking for nonsense values; this might be a good  idea during the
+early stages. 
+
+vtputc(c)                                                    display.c          141                         
+Write a character to the virtual screen. The virtual row and column are updated.
+If we are not yet on left edge, don't print it yet. If the line is too long put
+a "$" in the last column. This routine only puts printing characters into the
+virtual terminal buffers. Only column overflow is checked.
+
+vttidy()                                                     display.c          113                         
+Clean up the virtual terminal system, in anticipation for a return to the 
+operating system. Move down to the last line and clear it out \(the next  system
+prompt will be written in the line\). Shut down the channel to the  terminal. 
+
+widen(f, n)                                                  region.c           266                         
+widenfromregion \(^X>\) restores a narrowed region
+
+wmcshello()                                                  wmcs.c             369                         
+
+wordcount(f, n)                                              word.c             580                         
+wordcount:count the # of words in the marked region,along with average word
+sizes, # of chars, etc,and report on them.
+
+wpopup()                                                     window.c           547                         
+Pick a window for a popup. Split the screen if there is only one window.  Pick
+the uppermost window that isn't the current window. An LRU algorithm  might be
+better. Return a pointer, or NULL on error. 
+
+wrapword(f, n)                                               word.c              21                         
+Word wrap on nspaces. Backover whatever precedes the point on the current  line
+and stop on the first wordbreak or the beginning of the line. If we  reach the
+beginning of the line, jump back to the end of the word and start  a new
+line.Otherwise, break the line at the wordbreak, eat it, and jump  back to the
+end of the word. Make sure we force the display back to the  left edge of the
+current window  Returns TRUE on success, FALSE on errors. 
+
+writemsg(f, n)                                               random.c           966                         
+This function writes a string on the message linemainly for macro usage
+
+writeout(fn)                                                 file.c             497                         
+This function performs the details of file writing. It uses  the file management
+routines in the "fileio.c" package. The  number of lines written is displayed.
+Several errors are  posible, and cause writeout to return a FALSE result. When 
+$ssave is TRUE, the buffer is written out to a temporary  file, and then the old
+file is unlinked and the temporary  renamed to the original name. Before the
+file is written,  a user specifyable routine \(in $writehook\) can be run. 
+
+xlat(source, lookup, trans)                                  eval.c             979                         
+Filter a string through a translation table
+
+xxfopen(fn, mode)                                            aosvs.c           1923 :                       
+
+yank(f, n)                                                   line.c             631                         
+Yank text back from the kill buffer. This is really easy. All of the work  is
+done by the standard insert routines. All you do is run the loop, and  check for
+errors. Bound to "CY". 
+
+z309beep()                                                   z309.c             237                         
+
+z309close()                                                  z309.c             254                         
+
+z309eeop()                                                   z309.c             194                         
+
+z309hello()                                                  z309.c             369                         
+
+z309move(row, col)                                           z309.c             120                         
+
+z309open()                                                   z309.c             246                         
+
+t

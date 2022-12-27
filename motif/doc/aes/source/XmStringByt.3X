@@ -1,0 +1,72 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringByteCompare 3X "" "" "" ""
+.SH NAME
+\fBXmStringByteCompare \(em a compound string function that indicates the
+results of a byte-by-byte comparison.\fP
+.iX "XmStringByteCompare"
+.iX "compound string functions" "XmStringByteCompare"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmStringByteCompare (\fIs1, s2\fP)
+.br
+.ta .5i 1.5i
+.br
+	XmString	\fIs1\fP;
+.br
+	XmString	\fIs2\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringByteCompare\fP 
+returns a Boolean indicating the results of a byte-by-byte
+comparison of two compound strings.
+.PP
+In general, if two compound strings are created with the same (char *)
+string using \fBXmStringCreateSimple\fP in the same language
+environment, the compound strings compare as equal.
+If two compound strings are created with the same (char *) string and
+the same character set
+using \fBXmStringCreate\fP, the strings compare as equal.
+The result of comparing a compound string created with
+\fBXmStringCreate\fP
+against a compound string created with
+\fBXmStringCreateSimple\fP
+is undefined.
+.PP
+In some cases, once a compound string
+is put into a widget, that string is converted into an internal form to
+allow faster processing.  Part of the conversion process strips out
+unnecessary or redundant information.  If an application then does an
+\fBXtGetValues\fP to retrieve a compound string from a widget (specifically,
+Label and all of its subclasses), it is not guaranteed that the compound
+string returned is byte-for-byte the same as the string given to
+the widget originally.
+.sp 1
+.IP "\fIs1\fP" .75i
+Specifies a compound string to be compared with \fIs2\fP
+.IP "\fIs2\fP" .75i
+Specifies a compound string to be compared with \fIs1\fP
+.sp 1
+.SH RETURN VALUE
+Returns True if two compound strings are identical byte-by-byte.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP and
+\fBXmStringCreateSimple(3X)\fP.
+.sp 1

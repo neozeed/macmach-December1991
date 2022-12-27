@@ -1,0 +1,58 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFontList "3X" "" "" ""
+.SH NAME
+\fBXmFontList \(em Data type for a font list.\fP
+.iX "XmFontList"
+.iX "data types" "XmFontList"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.nf
+.B "\&#include <Xm/Xm.h>"
+.fi
+.SH DESCRIPTION
+.B XmFontList
+is the data type for a font list.
+Font lists contain information corresponding to one or more fonts.
+Each element of the font list includes a font and a corresponding
+character set.
+When a compound string is displayed, the character sets in the compound
+string are matched with the character sets in the font list, and the
+corresponding fonts in the font list are used to display the string.
+If the character set in a compound string segment does not match any
+character set in the font list, the first font in the font list is used
+to display that segment.
+The font list interface consists of the routines listed under "Related
+Information."
+.PP
+.sp
+.ne 3i
+Font lists are specified in resource files using the following syntax:
+.PP
+\fIresource_spec\fP \fB:\fP \fIfont_name\fP [ \fB=\fP \fIcharset\fP ] [ \fB,\fP
+\fIfont_name\fP [ \fB=\fP \fIcharset\fP ] ]+
+.PP
+The resource value string consists of one or more font list elements
+separated by commas.
+Each font list element is a font name and an optional character set.
+If a character set is specified for a font list element, it follows the
+font name and is separated from the font name by \fB=\fP.
+If no character set is specified, the character set is derived from the
+current language environment.
+.sp 1
+.SH RELATED INFORMATION
+.BR XmFontListAdd(3X) ,
+.BR XmFontListCreate(3X) ", and "
+.BR XmFontListFree(3X) .
+.sp 1

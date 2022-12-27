@@ -1,0 +1,61 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringCreateLtoR 3X "" "" "" ""
+.SH NAME
+\fBXmStringCreateLtoR \(em a compound string function that creates
+a compound string.\fP
+.iX "XmStringCreateLtoR"
+.iX "compound string functions" "XmStringCreateLtoR"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmString XmStringCreateLtoR (\fItext, charset\fP)
+.br
+.ta .5i 1.75i
+.br
+	char	\fI* text\fP;
+.br
+	XmStringCharSet	\fIcharset\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringCreateLtoR\fP creates a compound
+string with two components: text and a character set.
+This function imposes the semantic of scanning for \fB\en\fP
+characters in the text.  When one is found, the text up to that point
+is put into a segment followed by a separator component.  No final
+separator component is appended to the end of the compound string.
+The direction defaults to left-to-right.
+This function assumes that the encoding is single octet
+rather than double octet per character of text.  
+.sp 1
+.IP "\fItext\fP" .75i
+Specifies a null-terminated string to be used as the text component of
+the compound string.
+.br
+.ne 6
+.IP "\fIcharset\fP" .75i
+Specifies the character set identifier to be associated with the given
+text.
+This can be \fBXmSTRING_DEFAULT_CHARSET\fP, but this value does not
+comply with the AES, and it may be removed in future versions of Motif.
+If the value is \fBXmSTRING_DEFAULT_CHARSET\fP, the routine derives the
+character set from the current language environment.
+.sp 1
+.SH RETURN VALUE
+Returns a new compound string.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP.
+.sp 1

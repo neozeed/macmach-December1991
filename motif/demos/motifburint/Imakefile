@@ -1,0 +1,16 @@
+
+INCLUDES = -I. -I$(UILSRC) -I$(MTOOLKITSRC) -I$(LIBSRC)
+LOCAL_LIBRARIES = $(MRESOURCELIB) $(XMLIB) 
+
+SRCS=	motifbur.c
+
+OBJS=	motifbur.o
+
+NormalLibraryObjectRule()
+MSimpleUilTarget(motifbur)
+MSimpleUidTarget(french/motifblang)
+MSimpleUidTarget(english/motifblang)
+MSimpleUidTarget(hebrew/motifblang)
+MSimpleUidTarget(japan/motifblang)
+
+DependTarget()

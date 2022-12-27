@@ -1,0 +1,70 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmClipboardUndoCopy 3X "" "" "" ""
+.SH NAME
+\fBXmClipboardUndoCopy \(em A clipboard
+function that deletes the last item placed on
+the clipboard.\fP
+.iX "XmClipboardUndoCopy"
+.iX "clipboard functions" "XmClipboardUndoCopy"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <Xm/CutPaste.h>
+.sp 1
+int \fBXmClipboardUndoCopy\fP (\fIdisplay, window\fP)
+.br
+.ta .5i 1.5i
+	Display	\fI* display\fP;
+.br
+	Window	\fIwindow\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmClipboardUndoCopy\fP 
+deletes the last item placed on the clipboard if the item
+was placed there by an application with the passed \fIdisplay\fP and
+\fIwindow\fP arguments.  Any data item deleted from the clipboard by the
+original call to \fBXmClipboardCopy\fP is restored.  If the \fIdisplay\fP
+or \fIwindow\fP IDs do not match the last copied item, no action is taken,
+and this function has no effect.
+.sp 1
+.ne 12
+.IP "\fIdisplay\fP" 1.2i
+Specifies a pointer to the \fBDisplay\fP structure that was returned in a
+previous call to \fBXOpenDisplay\fP or \fBXtDisplay\fP.
+.IP "\fIwindow\fP" 1.2i
+Specifies a widget's window ID that relates the application window to the
+clipboard.  The widget's window ID can be obtained by using
+\fBXtWindow\fP.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+.sp 1
+.SH RETURN VALUE
+.IP "\fBClipboardSuccess\fP" 1.2i
+The function is successful.
+.IP "\fBClipboardLocked\fP" 1.2i
+The function failed because the clipboard was locked by another
+application.  The application can continue to call the function again with
+the same parameters until the lock goes away.  This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmClipboardLock(3X)\fP and \fBXmClipboardStartCopy(3X)\fP.
+.sp 1
+.ad

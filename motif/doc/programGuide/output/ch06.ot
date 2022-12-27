@@ -1,0 +1,2574 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6.  MMMMeeeennnnuuuussss
+
+       The Motif menu system provides three types of menus-Popup,
+       Pulldown, and Option menus.  This chapter describes how to
+       implement and use these menus.  The chapter includes the      |
+       following:
+
+          +o An overview of the Motif menu system                     |
+
+          +o Guidelines for creating and interacting with each menu   |
+            type
+
+          +o A description of the mouse and keyboard interfaces for   |
+            each menu type
+
+       6.1  OOOOvvvveeeerrrrvvvviiiieeeewwww ooooffff tttthhhheeee MMMMoooottttiiiiffff MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmm
+
+       Motif provides the ability to create three types of menu      *
+       systems:
+
+          +o Popup menu systems                                       |
+
+          +o Pulldown menu systems                                    |
+
+          +o Option menu systems                                      |
+
+       The term "menu system" refers to a combination of various
+       widgets that create the visual and interactive behavior of a
+       menu. For example, a Pulldown menu system characteristically
+       consists of a MenuBar containing a number of CascadeButtons;
+       the CascadeButtons are used to post various Pulldown Menu-
+       Panes which, in turn, contain various buttons.
+
+       The major widget components of menu systems are RowColumn
+       widgets that are configured to behave as:
+
+          +o PopupMenuPanes                                           |
+
+          +o PulldownMenuPanes                                        |
+
+          +o MenuBars                                                 |
+
+          +o Option menus                                             |
+
+
+
+                                                                6-1
+
+
+
+
+
+
+
+
+
+
+
+
+       For example, a Popup MenuPane is a RowColumn widget created
+       to behave as a Popup MenuPane; likewise, a MenuBar is a type
+       of RowColumn widget.
+
+       The Motif menu system provides the ability to manually
+       create the major menu widgets by creating RowColumn widgets
+       of the appropriate types.  For example, a Popup MenuPane can
+       be created by creating a MenuShell widget and a child
+       RowColumn widget of type XmMENU_POPUP. However, Motif pro-
+       vides a set of convenience functions that automatically
+       create  RowColumn widgets of the appropriate type and, when
+       necessary, a parent MenuShell.  (Popup and Pulldown Menu-
+       Panes require MenuShell parents; MenuBars and Option menus
+       do not have MenuShell parents.)  For example, the
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu convenience function creates a RowColumn
+       widget configured to act as a Popup MenuPane and automati-
+       cally creates its parent MenuShell.                           |
+
+       Most of the instructions and examples in this chapter use
+       the convenience functions.  Creating menus by separately
+       creating MenuShells and RowColumn widgets is discussed at
+       the end of the chapter.
+
+       6.1.1  CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss aaaannnndddd WWWWiiiiddddggggeeeettttssss UUUUsssseeeedddd ttttoooo CCCCrrrreeeeaaaatttteeee
+              MMMMeeeennnnuuuussss
+
+       A menu is constructed from combinations of widgets created
+       explicitly or by using convenience functions.
+
+       The following convenience functions create RowColumn widgets
+       that act as MenuPanes. MenuPanes are transient features in    |
+       an application-they are not displayed until they are posted
+       by a particular event, and they are unposted at the conclu-
+       sion of some other event.
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu convenience function.  This function
+            automatically creates a Popup MenuPane and its required
+            parent MenuShell.
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu    |
+            convenience functions.  These functions automatically    |
+            create a Popup MenuPane and its required parent Menu-    |
+            Shell.  They also create the button children of the      |
+            menu.                                                    |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu convenience function.  This func-
+            tion automatically creates a Pulldown MenuPane and its
+            required parent MenuShell.                               |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmm----            |
+            pppplllleeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu convenience functions.  These functions  |
+
+
+       6-2
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+            automatically create a Pulldown MenuPane and its         |
+            required parent MenuShell.  They also create the button  |
+            children of the menu.
+
+       The following convenience functions create RowColumn widgets
+       configured to act as other components of menu systems. These
+       are nontransient features of an application.
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr convenience function.  This function
+            automatically creates a MenuBar.  Menubars are typi-
+            cally used as the basis for building Pulldown menu sys-
+            tems.  A MenuBar is the top-level component of a Pull-
+            down menu system.
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuuBBBBaaaarrrr and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuuBBBBaaaarrrr con-   |
+            venience functions.  These functions automatically       |
+            create a MenuBar and its button children.                |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu convenience function.  This function
+            automatically creates an Option menu.                    |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu  |
+            convenience functions.  These functions automatically    |
+            create an Option Menu, its Pulldown submenu, and the     |
+            button children of the submenu.                          |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRaaaaddddiiiiooooBBBBooooxxxx convenience function.  This function    |
+            automatically creates a RowColumn widget of type         |
+            XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA that behaves as a RadioBox.  In a RadioBox,  |
+            the ToggleButton or ToggleButtonGadget children behave   |
+            like buttons on an automobile radio.  Only one button    |
+            at a time can be set, and setting one button turns off   |
+            all other buttons.                                       |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeRRRRaaaaddddiiiiooooBBBBooooxxxx and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeRRRRaaaaddddiiiiooooBBBBooooxxxx      |
+            convenience functions.  These functions automatically    |
+            create a RowColumn widget of type XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA that       |
+            behaves as a RadioBox.  The functions also create the    |
+            ToggleButtonGadget children of the RadioBox.             |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeCCCChhhheeeecccckkkkBBBBooooxxxx and XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeCCCChhhheeeecccckkkkBBBBooooxxxx      |
+            convenience functions.  These functions automatically    |
+            create a RowColumn widget of type XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA that       |
+            behaves as a CheckBox.  The functions also create the    |
+            ToggleButtonGadget children of the CheckBox.  A Check-   |
+            Box is like a RadioBox, except that more than one but-   |
+            ton can be set at any time.                              |
+
+          +o XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWoooorrrrkkkkAAAArrrreeeeaaaa convenience function.  This function    |
+            automatically creates a RowColumn widget of type         |
+            XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA.
+
+
+                                                                6-3
+
+
+
+
+
+
+
+
+
+
+
+
+       In addition to the RowColumn widgets created by convenience
+       functions, the following widgets and gadgets are used in
+       menu systems:
+
+          +o XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn and XXXXmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt.  CascadeBut-
+            tons are used as the visual means to display Pulldown
+            menus, Option menus, and submenus.
+
+          +o XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrr and XXXXmmmmSSSSeeeeppppaaaarrrraaaattttoooorrrrGGGGaaaaddddggggeeeetttt.  The Separator
+            widget is used to separate unrelated buttons or groups
+            of buttons within a MenuPane.
+
+          +o XXXXmmmmLLLLaaaabbbbeeeellll and XXXXmmmmLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt.  The Label widget is used to
+            provide a title for a MenuPane.
+
+          +o XXXXmmmmPPPPuuuusssshhhhBBBBuuuuttttttttoooonnnn and XXXXmmmmPPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt.  PushButtons pro-
+            vide the means for selecting an item from a menu.
+
+          +o XXXXmmmmTTTToooogggggggglllleeeeBBBBuuuuttttttttoooonnnn and XXXXmmmmTTTToooogggggggglllleeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt.  ToggleButtons
+            provide a way to set nontransitory states using menus.
+
+          +o XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn.  The RowColumn widget is a general-purpose
+            RowColumn manager.  Popup MenuPanes, Pulldown Menu-
+            Panes, MenuBars, and Option menus are types of           |
+            RowColumn widgets.  When menu RowColumn widgets are
+            created without using convenience functions, the
+            resource XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee specifies the type of Menu-
+            Pane created.
+
+          +o XXXXmmmmMMMMeeeennnnuuuuSSSShhhheeeellllllll.  The MenuShell widget is a shell widget
+            designed to contain a Popup or Pulldown MenuPane as its
+            child.  The convenience functions that create Popup and
+            Pulldown menus automatically create their parent Menu-
+            Shell.
+
+       Note that the Motif menu system does not implement Popup
+       MenuPanes, Pulldown MenuPanes, Option menus, and MenuBars as  |
+       separate widget classes.  For example, no Popup Menu widget   |
+       class exists; rather, a convenience function exists for
+       creating the appropriately configured RowColumn widget.
+
+       6.1.2  IIIInnnnttttrrrroooodddduuuucccciiiinnnngggg tttthhhheeee TTTThhhhrrrreeeeeeee MMMMeeeennnnuuuu TTTTyyyyppppeeeessss
+
+       This section describes Popup, Pulldown,and Option menus.      |
+
+       6.1.2.1  PPPPooooppppuuuupppp MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmm
+
+       A Popup menu system consists of a single Popup MenuPane con-
+       taining a combination of Label, PushButton, ToggleButton,
+       and Separator widgets or gadgets.  In addition, the MenuPane
+       can contain CascadeButtons or CascadeButtonGadgets that are
+
+
+       6-4
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       used to access Pulldown MenuPanes that function as submenus
+       of the Popup MenuPane.  The following figure shows the top    |
+       level of a Popup menu system.
+                                                                     *
+              FFFFiiiigggguuuurrrreeee 6666----1111....  Top Level of a Popup Menu System
+
+
+
+
+
+
+
+
+
+
+
+       The CascadeButtons have arrows that indicate the presence of  |
+       submenus.  Moving the pointer to the First Submenu button     |
+       displays its submenu.  The following figure shows a window    |
+       with a submenu for a Popup menu system.                       |
+
+                                                                     *
+               FFFFiiiigggguuuurrrreeee 6666----2222....  Submenu of a Popup Menu System
+
+
+
+
+
+
+
+
+
+
+
+       The submenu contains two PushButtons and one CascadeButton.   |
+       Moving the pointer to the Third Submenu button displays its   |
+       submenu.  The following figure shows a window with a Popup    |
+       menu system and two cascading submenus.
+                                                                     |
+        FFFFiiiigggguuuurrrreeee 6666----3333....  Popup Menu System with Two Cascading Submenus   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                6-5
+
+
+
+
+
+
+
+
+
+
+
+
+       6.1.2.2  PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmm
+
+       A Pulldown menu system typically consists of a MenuBar, a
+       set of CascadeButtons parented from the MenuBar, and a Pull-
+       down MenuPane attached to each CascadeButton.  The Cascade-
+       Buttons are displayed within the MenuBar and provide the
+       means for displaying the MenuPanes.  In addition, the menu
+       system may include Label, PushButton, ToggleButton, and
+       Separator widgets or gadgets.
+
+       The following figure shows a MenuBar, which is the top level  |
+       of a Pulldown menu system.
+                                                                     |
+              FFFFiiiigggguuuurrrreeee 6666----4444....  MenuBar of a Pulldown Menu System         |
+
+
+
+
+
+
+
+
+
+
+
+       Moving the pointer to Right Menu and pressing mouse button 1  |
+       displays its Pulldown MenuPane.  The following figure shows   |
+       a window with a Pulldown Menupane displayed.
+                                                                     *
+               FFFFiiiigggguuuurrrreeee 6666----5555....  Displaying a Pulldown MenuPane
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6.1.2.3  OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmm
+
+       Visually, an Option menu is composed of three areas:
+
+          +o A descriptive LabelGadget. Typically, the label
+            describes the types of options available.
+
+
+
+
+       6-6
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+          +o A Pulldown MenuPane containing PushButtons or PushBut-
+            tonGadgets.  The buttons represent the available
+            options.
+
+          +o A selection area consisting of a CascadeButtonGadget
+            that contains a label string. The label string reflects
+            the most recent option chosen from the Pulldown Menu-
+            Pane.
+
+       The top level of an Option menu system shows the descriptive
+       label and selection area.  The following figure shows a win-  |
+       dow with the top level of an Option menu system.
+                                                                     *
+             FFFFiiiigggguuuurrrreeee 6666----6666....  Top Level of an Option Menu System
+
+
+
+
+
+
+
+
+       Pressing mouse button 1 while the pointer is in the selec-    |
+       tion area displays the Pulldown MenuPane containing the       |
+       options.  The following figure shows a Pulldown Menupane in   |
+       an Option Menu system.
+                                                                     *
+       FFFFiiiigggguuuurrrreeee 6666----7777....  The Pulldown MenuPane in an Option Menu System
+
+
+
+
+
+
+
+
+       6.2  CCCCrrrreeeeaaaattttiiiinnnngggg PPPPooooppppuuuupppp MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmmssss
+
+       The top level of a Popup menu system is a Popup MenuPane.
+       Popup MenuPanes are implemented as XmRowColumn widgets con-
+       figured to operate as a Popup MenuPanes.  The Popup MenuPane
+       may contain CascadeButtons or CascadeButtonGadgets, which
+       are used to access Pulldown MenuPanes that act as submenus
+       of the Popup MenuPane. (Submenus are discussed later in this
+       chapter.)
+
+       A Popup MenuPane displays a 3-dimensional shadow around the   |
+       edge of the MenuPane unless the feature has been disabled by
+       the application.
+
+
+
+
+                                                                6-7
+
+
+
+
+
+
+
+
+
+
+
+
+       The Popup MenuPane must be the child of a MenuShell widget.
+       If the Popup MenuPane is created using the convenience func-
+       tion, a MenuShell is automatically created as the real
+       parent of the MenuPane.  If the Popup MenuPane is created
+       without using the convenience function, the MenuShell widget
+       must be created first.                                        |
+
+       6.2.1  PPPPooooppppuuuupppp MMMMeeeennnnuuuuPPPPaaaannnneeee CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnn
+
+       A Popup MenuPane is created using the convenience function:
+
+       WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu(_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t, _a_r_g_c_o_u_n_t)     *
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu creates a Popup MenuPane and a parent
+       MenuShell, and returns the widget ID for the MenuPane.  The
+       Popup MenuPane is created as a RowColumn widget with the
+       XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource set to XmMENU_POPUP.  This
+       resource cannot be changed by the application.
+
+       6.2.2  EEEEvvvveeeennnntttt HHHHaaaannnnddddlllleeeerrrrssss ffffoooorrrr PPPPooooppppuuuupppp MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmmssss
+
+       Popup menu systems require an event-handler procedure that    |
+       is called when a specified event (usually, a ButtonPress)
+       occurs in the widget(s) to which the Popup menu system is     |
+       attached. Usually, this is the _p_a_r_e_n_t specified by the
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu function and the parent's descendents.      |
+       The event-handler procedure should test that the proper       |
+       mouse button has been pressed and then display the Popup      |
+       MenuPane.
+
+       The XXXXttttAAAAddddddddEEEEvvvveeeennnnttttHHHHaaaannnnddddlllleeeerrrr function registers the event-handler    |
+       procedure with the dispatch mechanism.  It has the following  |
+       syntax:
+
+       vvvvooooiiiidddd XXXXttttAAAAddddddddEEEEvvvveeeennnnttttHHHHaaaannnnddddlllleeeerrrr(_w, _e_v_e_n_t__m_a_s_k, _n_o_n_m_a_s_k_a_b_l_e, _p_r_o_c,      |
+       _c_l_i_e_n_t__d_a_t_a)
+             WWWWiiiiddddggggeeeetttt _w;                                               |
+             EEEEvvvveeeennnnttttMMMMaaaasssskkkk _e_v_e_n_t__m_a_s_k;                                   |
+             BBBBoooooooolllleeeeaaaannnn _n_o_n_m_a_s_k_a_b_l_e;                                    |
+             XXXXttttEEEEvvvveeeennnnttttHHHHaaaannnnddddlllleeeerrrr _p_r_o_c;                                    |
+             ccccaaaaddddddddrrrr____tttt _c_l_i_e_n_t__d_a_t_a;                                    |
+
+       _w         Specifies the widget to add the callback to         |
+
+       _e_v_e_n_t__m_a_s_k Specifies the event mask for which to call this    |
+                 procedure
+
+       _n_o_n_m_a_s_k_a_b_l_e Specifies whether this procedure should be        |
+                 called on the nonmaskable events
+
+
+
+
+       6-8
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       _p_r_o_c      Specifies the client event-handler procedure        |
+
+       _c_l_i_e_n_t__d_a_t_a Specifies additional data to be passed to the     |
+                 client's event handler
+
+
+       For example, the line                                         |
+
+       XtAddEventHandler(rc, ButtonPressMask, False,                 |
+            PostIt, popup);                                          |
+
+       _r_e_g_i_s_t_e_r_s _t_h_e _p_r_o_c_e_d_u_r_e _P_o_s_t_I_t _f_o_r _t_h_e _e_v_e_n_t _B_u_t_t_o_n_P_r_e_s_s      _|
+       _w_i_t_h_i_n _t_h_e _w_i_d_g_e_t _r_c _a_n_d _a_l_l _o_f _r_c'_s _d_e_s_c_e_n_d_e_n_t_s.             _|
+
+       _6._2._3  PPPPrrrroooocccceeeedddduuuurrrreeee ffffoooorrrr CCCCrrrreeeeaaaattttiiiinnnngggg aaaa PPPPooooppppuuuupppp MMMMeeeennnnuuuu                    _|
+
+       The following steps create a Popup menu.  Following each
+       step is a code segment that accomplishes the task.
+
+         1.  Use the XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu convenience function to
+             automatically create the Popup MenuPane and its
+             required parent MenuShell.  Register the event
+             handler.  The following lines create a Popup MenuPane   |
+             as a child of widget ffffoooorrrrmmmm1111.                             |
+
+             popup = XmCreatePopupMenu(form1, "popup",               |
+                  NULL, 0);                                          |
+             XtAddEventHandler(form1, ButtonPressMask,               |
+                  False, PostIt, popup);                             |
+
+         2222....  CCCCrrrreeeeaaaatttteeee tttthhhheeee ccccoooonnnntttteeeennnnttttssss ooooffff tttthhhheeee MMMMeeeennnnuuuuPPPPaaaannnneeee....  TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg
+             sssseeeeggggmmmmeeeennnntttt ccccrrrreeeeaaaatttteeeessss aaaa ttttiiiittttlllleeee ((((LLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt)))),,,, SSSSeeeeppppaaaarrrraaaattttoooorrrr----
+             GGGGaaaaddddggggeeeetttt,,,, aaaannnndddd tttthhhhrrrreeeeeeee PPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeettttssss....                    ||||
+
+             XXXXttttSSSSeeeettttAAAArrrrgggg((((aaaarrrrggggssss[[[[0000]]]],,,, XXXXmmmmNNNNllllaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg,,,,                       ||||
+                  XXXXmmmmSSSSttttrrrriiiinnnnggggCCCCrrrreeeeaaaatttteeee ((((""""MMMMeeeennnnuuuu TTTTiiiittttlllleeee"""",,,,                      ||||
+                  XXXXmmmmSSSSTTTTRRRRIIIINNNNGGGG____DDDDEEEEFFFFAAAAUUUULLLLTTTT____CCCCHHHHAAAARRRRSSSSEEEETTTT))))))));;;;                        ||||
+             iiiitttteeeemmmm[[[[0000]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,, """"ttttiiiittttlllleeee"""",,,,           ||||
+                  aaaarrrrggggssss,,,, 1111))));;;;                                          ||||
+             iiiitttteeeemmmm[[[[1111]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSeeeeppppaaaarrrraaaattttoooorrrrGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,,                ||||
+                  """"sssseeeeppppaaaarrrraaaattttoooorrrr"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                             ||||
+             iiiitttteeeemmmm[[[[2222]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,,               ||||
+                  """"bbbbuuuuttttttttoooonnnn1111"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                               ||||
+             iiiitttteeeemmmm[[[[3333]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,,               ||||
+                  """"bbbbuuuuttttttttoooonnnn2222"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                               ||||
+             iiiitttteeeemmmm[[[[4444]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,,               ||||
+                  """"bbbbuuuuttttttttoooonnnn3333"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                               ||||
+             XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiillllddddrrrreeeennnn((((iiiitttteeeemmmm,,,, 5555))));;;;
+
+       The following figure shows the parenting relationships to     |
+       use when creating a Popup menu system using convenience
+
+
+                                                                6-9
+
+
+
+
+
+
+
+
+
+
+
+
+       functions.                                                    |
+
+       FFFFiiiigggguuuurrrreeee 6666----8888....  Creating a Popup Menu System with Convenience    |
+                    Functions                                        |
+
+       6.2.4  IIIInnnntttteeeerrrraaaaccccttttiiiinnnngggg wwwwiiiitttthhhh PPPPooooppppuuuupppp MMMMeeeennnnuuuussss                           |
+
+       This section describes mouse and keyboard interactions with   |
+       popup menus.
+
+       6.2.4.1  MMMMoooouuuusssseeee IIIInnnnppppuuuutttt
+
+       Mouse button 3 is the default primary means of interacting
+       with a Popup menu.
+
+       A Popup MenuPane is not visible until it is displayed by the
+       user.  The Popup menu system is normally associated with a
+       particular widget and all of that widget's descendents.  The
+       Popup MenuPane is posted (displayed) by moving the pointer
+       into the associated widget or one of its descendents and
+       then pressing mouse button 3.  If the Popup menu system
+       includes any Pulldown MenuPane submenus, they are not
+       displayed until the pointer is moved into the associated
+       CascadeButton widget or gadget.
+
+       The application is responsible for posting the Popup Menu-
+       Pane by using XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd to display the MenuPane.  This
+       is usually done in the event handler added to the Popup
+       MenuPane's parent.  All visible MenuPanes (the Popup Menu-
+       Pane and any displayed submenus) are automatically unposted
+       when the user has completed interacting with the menu.
+
+       Once a MenuPane has been posted, menu items are armed when
+       the pointer enters them and disarmed when it leaves.  If the
+       pointer is moved into a CascadeButton or CascadeBut-
+       tonGadget, the associated submenu is posted.  Releasing
+       mouse button 3 while a menu item is armed activates the menu
+       item.  If the pointer is not within a menu item when mouse
+       button 3 is released, then all visible MenuPanes are
+       unposted.
+
+       Ordinarily, a Popup menu is positioned to the right and
+       beneath the pointer.  However, if this placement causes a
+       portion of the MenuPane to be inaccessible, the menu may be
+       automatically repositioned to force the Popup MenuPane on
+       the screen.
+
+       The mouse button used to interact with Popup menus can be
+       changed using the RowColumn resource XXXXmmmmNNNNmmmmeeeennnnuuuuPPPPoooosssstttt.             |
+
+
+
+
+       6-10
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       6.2.4.2  TTTThhhheeee KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnntttteeeerrrrffffaaaacccceeee
+
+       Keyboard traversal is activated and deactivated by the user.
+       When a user is interacting with the menu using the mouse,
+       traversal is enabled by releasing the mouse button while the  |
+       pointer is within any CascadeButton or CascadeButtonGadget;
+       releasing the mouse button posts the associated submenu and
+       enables traversal for all the MenuPanes in the Popup menu     |
+       system.  When traversal is enabled
+
+          +o The directional keys traverse the menu hierarchy.
+
+          +o KKKKAAAAccccttttiiiivvvvaaaatttteeee selects the currently armed menu item.         |
+
+          +o KKKKCCCCaaaannnncccceeeellll unposts the currently posted Pulldown MenuPane.  |
+            In the Popup menu, KKKKCCCCaaaannnncccceeeellll unposts the menu, returning   |
+            focus to the tab group from which the menu was popped    |
+            up.
+
+          +o KKKKMMMMeeeennnnuuuu unposts all the MenuPanes in the Popup menu sys-   |
+            tem, returning focus to the tab group from which the     |
+            menu was popped up.                                      |
+
+          +o Pressing a mnemonic for a menu item in the most
+            recently posted MenuPane selects that item.
+
+          +o Pressing an accelerator for a menu item selects that
+            item.
+
+          +o Pressing mouse button 3 disables traversal and reen-
+            ables interactive operation.
+
+       An accelerator, KKKKMMMMeeeennnnuuuu by default, can be associated with a    |
+       Popup menu.  When KKKKMMMMeeeennnnuuuu is pressed while the pointer is       |
+       located within the associated widget or one of its children,
+       the first MenuPane in the Popup menu hierarchy is posted and
+       traversal is enabled.   The user interacts with the menu as
+       described previously for keyboard traversal.
+
+       Use the resource XXXXmmmmNNNNmmmmeeeennnnuuuuAAAAcccccccceeeelllleeeerrrraaaattttoooorrrr to change the accelera-
+       tor.
+
+       6.2.5  SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       This sample program creates a Popup menu system. The menu
+       can be posted using the mouse or by using the accelerator     |
+       <CCCCttttrrrrllll----PPPP>.  Items can be selected using the mouse or by using
+       the underlined mnemonics.                                     |
+
+
+
+
+
+                                                               6-11
+
+
+
+
+
+
+
+
+
+
+
+
+       /* Popup Menu Example */
+
+       #include <Xm/Xm.h>
+       #include <Xm/LabelG.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/CascadeBG.h>
+       #include <Xm/SeparatoG.h>
+       #include <Xm/RowColumn.h>
+
+
+       /*********** Callback for the Pushbuttons ***********************/
+
+       void ButtonCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+       caddr_t   call_data;/*  data from widget class  */
+       {
+          /*  print message and terminate program  */
+          printf ("Button %s selected.\n", client_data);
+
+       }
+
+       /************** Event Handler for Popup Menu ************************/
+
+       PostIt (w, popup, event)
+       Widget w;
+       Widget popup;
+       XButtonEvent * event;
+       {
+          if (event->button != Button3)
+            return;
+          XmMenuPosition(popup, event);
+          XtManageChild(popup);
+       }
+
+       /***********************Main Logic for Program ********************/
+
+
+       void main (argc, argv)
+       int argc;
+       char **argv;
+       {
+          XtAppContext app_context;                                  |
+          Widget toplevel, popup, rc;
+          Widget buttons[2], popupBtn[5];
+          Arg args[5];
+
+       /* Initialize toolkit */
+
+          toplevel = XtAppInitialize (&app_context, "PopupMenu", NULL, 0,|
+                                        &argc, argv, NULL, NULL, 0); |
+
+
+       6-12
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       /* Create RowColumn in toplevel with two PushButtonGadgets */
+
+          XtSetArg(args[0], XmNwidth, 150);
+          XtSetArg(args[1], XmNheight, 125);
+          XtSetArg(args[2], XmNresizeWidth, False);
+          XtSetArg(args[3], XmNresizeHeight, False);
+          XtSetArg(args[4], XmNadjustLast, False);
+          rc = XmCreateRowColumn(toplevel, "rc", args, 5);
+          XtManageChild(rc);
+
+          buttons[0] = XmCreatePushButtonGadget (rc, "buttonA", NULL, 0);
+          XtAddCallback(buttons[0], XmNactivateCallback, ButtonCB, "A");
+
+          buttons[1] = XmCreatePushButtonGadget (rc, "buttonB", NULL, 0);
+          XtAddCallback(buttons[1], XmNactivateCallback, ButtonCB, "B");
+          XtManageChildren (buttons, 2);
+
+       /* Create popup menu with accelerator CTRL P */
+
+          XtSetArg(args[0], XmNmenuAccelerator, "Ctrl <Key> p");
+          popup = XmCreatePopupMenu(rc, "popup", args, 1);
+          XtAddEventHandler(rc, ButtonPressMask, False, PostIt, popup);
+
+
+       /* Create title for the popup menu and a separator */
+
+          XtSetArg(args[0], XmNlabelString,
+             XmStringCreate("Menu Title", XmSTRING_DEFAULT_CHARSET));
+          popupBtn[0] = XmCreateLabelGadget(popup, "Title", args, 1);
+
+          popupBtn[1] = XmCreateSeparatorGadget(popup, "separator", NULL, 0);
+
+       /* Create three PushButtonGadgets in the popup menu */
+
+          XtSetArg(args[0], XmNmnemonic, '1');
+          popupBtn[2] = XmCreatePushButtonGadget(popup, "button1", args, 1);
+          XtAddCallback(popupBtn[2], XmNactivateCallback, ButtonCB, "1");
+
+          XtSetArg(args[0], XmNmnemonic, '2');
+          popupBtn[3] = XmCreatePushButtonGadget(popup, "button2", args, 1);
+          XtAddCallback(popupBtn[3], XmNactivateCallback, ButtonCB, "2");
+
+          XtSetArg(args[0], XmNmnemonic, '3');
+          popupBtn[4] = XmCreatePushButtonGadget (popup, "button3", args, 1);
+          XtAddCallback (popupBtn[4], XmNactivateCallback, ButtonCB, "3");
+          XtManageChildren (popupBtn, 5);
+
+       /* Get and dispatch events */
+
+          XtRealizeWidget(toplevel);
+
+
+
+                                                               6-13
+
+
+
+
+
+
+
+
+
+
+
+
+          XtAppMainLoop(app_context);                                |
+       }
+
+
+       6666....3333  CCCCrrrreeeeaaaattttiiiinnnngggg aaaa PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmm
+
+       The basis of a Pulldown menu system is a MenuBar containing
+       a set of CascadeButtons. (CascadeButtonGadgets are not
+       allowed as the children of a MenuBar.)  The CascadeButtons
+       are used to display Pulldown MenuPanes.  One of the Cascade-
+       Buttons (typically, the one that is used to display help
+       information) may be treated specially.  This button is
+       always positioned at the lower right corner of the MenuBar.
+
+       Two convenience functions, XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr and
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu, create the appropriate RowColumn widg-
+       ets.
+
+       In addition to their use in Pulldown menu systems, Pulldown
+       MenuPanes are used to create submenus in both Popup and
+       Pulldown menu systems.  Submenus are discussed in the next
+       section.
+
+       6.3.1  MMMMeeeennnnuuuuBBBBaaaarrrr CCCCrrrreeeeaaaatttteeee FFFFuuuunnnnccccttttiiiioooonnnn
+
+       A MenuBar is created using the convenience function:          *
+
+       WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr(_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t, _a_r_g_c_o_u_n_t)       *
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr creates a MenuBar as a RowColumn widget with
+       the XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource set to XmMENU_BAR.  This
+       resource cannot be changed by the application.  No MenuShell
+       is created for MenuBar.
+
+       The MenuBar displays a 3-dimensional shadow around its edge   |
+       unless this feature has been disabled by the application.     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6-14
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       6.3.2  PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeee CCCCrrrreeeeaaaatttteeee FFFFuuuunnnnccccttttiiiioooonnnn
+
+       A Pulldown MenuPane is created using the convenience func-
+       tion:
+
+       WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu(_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t, _a_r_g_c_o_u_n_t)  *
+
+       To create a Pulldown MenuPane that is displayed using a Cas-
+       cadeButton in a MenuBar, specify the MenuBar as the parent    |
+       in the XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu function.
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu creates a Pulldown MenuPane and a
+       parent MenuShell, and returns the widget ID for the Menu-
+       Pane.  The Pulldown MenuPane is created as a RowColumn
+       widget with the XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource set to
+       XmMENU_PULLDOWN.  This resource cannot be changed by the
+       application.
+
+       6.3.3  CCCCrrrreeeeaaaattttiiiinnnngggg aaaa HHHHeeeellllpppp BBBBuuuuttttttttoooonnnn
+
+       The MenuBar resource XXXXmmmmNNNNmmmmeeeennnnuuuuHHHHeeeellllppppWWWWiiiiddddggggeeeetttt specifies a Cascade-
+       Button that will be positioned at the lower right corner of
+       the MenuBar.  Typically, this CascadeButton is used to
+       display help information.  The Pulldown menu sample program   |
+       creates a Help button.
+
+       6.3.4  PPPPrrrroooocccceeeedddduuuurrrreeee ffffoooorrrr CCCCrrrreeeeaaaattttiiiinnnngggg aaaa PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuu
+
+       The following steps create a Pulldown menu.  Following each
+       step is a code segment that accomplishes the task.
+
+         1.  Use the XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr convenience function to create
+             the MenuBar.  The following lines create the MenuBar    |
+             as the child of widget ffffoooorrrrmmmm1111.                           |
+
+             menubar = XmCreateMenuBar(form1, "menubar", NULL, 0);
+             XtManageChild(menubar);
+
+         2222....  CCCCrrrreeeeaaaatttteeee oooonnnneeee oooorrrr mmmmoooorrrreeee PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeeessss aaaassss ssssuuuubbbbmmmmeeeennnnuuuussss
+             ((((cccchhhhiiiillllddddrrrreeeennnn)))) ooooffff tttthhhheeee MMMMeeeennnnuuuuBBBBaaaarrrr....                              ||||
+
+             ppppuuuullllllllddddoooowwwwnnnn1111 ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((mmmmeeeennnnuuuubbbbaaaarrrr,,,,               ||||
+                  """"ppppuuuullllllllddddoooowwwwnnnn1111"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                             ||||
+             ppppuuuullllllllddddoooowwwwnnnn2222 ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((mmmmeeeennnnuuuubbbbaaaarrrr,,,,               ||||
+                  """"ppppuuuullllllllddddoooowwwwnnnn2222"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                             ||||
+
+         3.  Create a CascadeButton widget for each Pulldown Menu-
+             Pane.  The CascadeButtons and MenuPanes must have the
+             same parent (in this case, menubar).  Use the resource
+             XXXXmmmmNNNNssssuuuubbbbMMMMeeeennnnuuuuIIIIdddd to attach each CascadeButton to its Menu-
+             Pane.                                                   |
+
+
+                                                               6-15
+
+
+
+
+
+
+
+
+
+
+
+
+             XtSetArg(args[0], XmNsubMenuId, pulldown1);
+             cascade[0] = XmCreateCascadeButton(menubar,             |
+                  "cascade1", args, 1);                              |
+
+             XtSetArg(args[0], XmNsubMenuId, pulldown2);
+             cascade[1] = XmCreateCascadeButton(menubar,             |
+                  "cascade2", args, 1);                              |
+             XtManageChildren(cascade, 2);
+
+         4444....  CCCCrrrreeeeaaaatttteeee oooonnnneeee oooorrrr mmmmoooorrrreeee bbbbuuuuttttttttoooonnnnssss iiiinnnn eeeeaaaacccchhhh PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeee....
+             TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg lllliiiinnnneeeessss ccccrrrreeeeaaaatttteeee ttttwwwwoooo PPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeettttssss iiiinnnn
+             eeeeaaaacccchhhh MMMMeeeennnnuuuuPPPPaaaannnneeee....                                          ||||
+
+             ppppbbbbuuuuttttttttoooonnnn1111[[[[0000]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt                  ||||
+                  ((((ppppuuuullllllllddddoooowwwwnnnn1111,,,, """"bbbbuuuuttttttttoooonnnn1111aaaa"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                  ||||
+             ppppbbbbuuuuttttttttoooonnnn1111[[[[1111]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt                  ||||
+                  ((((ppppuuuullllllllddddoooowwwwnnnn1111,,,, """"bbbbuuuuttttttttoooonnnn1111bbbb"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                  ||||
+             XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiillllddddrrrreeeennnn((((ppppbbbbuuuuttttttttoooonnnn1111,,,, 2222))));;;;
+
+             ppppbbbbuuuuttttttttoooonnnn2222[[[[0000]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt                  ||||
+                  ((((ppppuuuullllllllddddoooowwwwnnnn2222,,,, """"bbbbuuuuttttttttoooonnnn2222aaaa"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                  ||||
+             ppppbbbbuuuuttttttttoooonnnn2222[[[[1111]]]] ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt                  ||||
+                  ((((ppppuuuullllllllddddoooowwwwnnnn2222,,,, """"bbbbuuuuttttttttoooonnnn2222bbbb"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                  ||||
+             XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiillllddddrrrreeeennnn((((ppppbbbbuuuuttttttttoooonnnn2222,,,, 2222))));;;;
+
+       The following figure shows the parenting relationships and    |
+       attachments (dashed lines) to use when creating a Pulldown
+       menu system using convenience functions. The system includes  |
+       a CascadeButton MenuPane designated as a Help menu.           |
+
+       FFFFiiiigggguuuurrrreeee 6666----9999....  Creating a Pulldown Menu System With Conveni-    |
+                    ence Functions                                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6-16
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       6.3.5  IIIInnnntttteeeerrrraaaaccccttttiiiinnnngggg wwwwiiiitttthhhh PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuussss                        |
+
+       This section describes mouse and keyboard interaction with    |
+       Pulldown menus.
+
+       6.3.5.1  MMMMoooouuuusssseeee IIIInnnnppppuuuutttt
+
+       Mouse button 1 is the default primary means of interacting
+       with a Pulldown menu.  Pressing mouse button 1 while the      |
+       pointer is positioned in a CascadeButton in the MenuBar arms  |
+       and highlights the CascadeButton. If the CascadeButton has
+       an associated Pulldown MenuPane, the MenuPane is posted.  At  |
+       this point, the pointer can be
+
+          +o Moved down into the Pulldown MenuPane.  Menu items are   |
+            armed when the pointer enters them and disarmed when it  |
+            leaves.  If the pointer is moved into a CascadeButton
+            widget or gadget, the associated submenu is posted.      |
+            Releasing mouse button 1 while an item is armed          |
+            activates the menu item.
+
+          +o Moved to a different CascadeButton within the MenuBar.
+            This unposts the current Pulldown MenuPane and posts
+            the MenuPane attached to the other CascadeButton.
+
+       Releasing mouse button 1 while the pointer is outside the
+       menu hierarchy unposts all visible submenus and disarms the
+       MenuBar.
+
+       The mouse button used to interact with Pulldown menus can be
+       changed using the RowColumn resource XXXXmmmmNNNNmmmmeeeennnnuuuuPPPPoooosssstttt for the      |
+       MenuBar.
+
+       6.3.5.2  TTTThhhheeee KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnntttteeeerrrrffffaaaacccceeee
+
+       Keyboard traversal is activated and deactivated by the user.
+       When a user is interacting with the menu using the mouse,
+       traversal is enabled by either of the following:
+
+          +o Releasing the mouse button while the pointer is within
+            any CascadeButton widget or gadget.  Releasing the
+            mouse button posts the associated submenu and enables
+            traversal for all the MenuPanes in the Pulldown menu
+            system.
+
+          +o Pressing KKKKMMMMeeeennnnuuuuBBBBaaaarrrr.  This highlights the first Cascade-   |
+            Button in the MenuBar and enables traversal.  KKKKLLLLeeeefffftttt and  |
+            KKKKRRRRiiiigggghhhhtttt traverse to other CascadeButtons in the MenuBar.  |
+            KKKKDDDDoooowwwwnnnn or KKKKAAAAccccttttiiiivvvvaaaatttteeee posts the Pulldown MenuPane associ-
+            ated with the highlighted CascadeButton.
+
+
+
+                                                               6-17
+
+
+
+
+
+
+
+
+
+
+
+
+       When traversal is enabled,
+
+          +o The directional keys traverse the menu hierarchy.
+
+          +o KKKKAAAAccccttttiiiivvvvaaaatttteeee selects the currently armed menu item.         |
+
+          +o KKKKCCCCaaaannnncccceeeellll unposts the currently posted Pulldown MenuPane.  |
+            In the MenuBar, KKKKCCCCaaaannnncccceeeellll disarms the CascadeButton,       |
+            returning the focus to the tab group that had focus      |
+            when the MenuBar was entered.
+
+          +o KKKKMMMMeeeennnnuuuuBBBBaaaarrrr unposts all the submenus and disarms the Cas-   |
+            cadeButton in the MenuBar, returning the focus to the    |
+            tab group that had focus when the MenuBar was entered.   |
+
+          +o Pressing a mnemonic for a menu item in the most
+            recently posted MenuPane selects that item.              |
+
+          +o Pressing an accelerator for a menu item selects that
+            item.
+
+          +o Pressing mouse button 1 disables traversal and reen-
+            ables interactive operation.
+
+       Mnemonics can be used to post the Pulldown MenuPanes.  The
+       mnemonics are resources of the CascadeButtons in the Menu-
+       Bar.  To use a mnemonic associated with a MenuBar Cascade-
+       Button, preface it with the MMMMeeeettttaaaa modifier key.                |
+
+       Traversal is enabled when a menu is posted using a mnemonic.
+       The user interacts with the menu as described previously for
+       keyboard traversal.
+
+       6.3.6  SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       The following sample program creates a Pulldown menu system
+       consisting of a MenuBar containing three CascadeButtons.
+       One CascadeButton is designated as a Help  button; the other  |
+       two are attached to Pulldown MenuPanes.
+
+       All the CascadeButtons and PushButtons have mnemonics.        |
+
+
+       /* Pulldown Menu Example */                                   |
+
+       #include <Xm/Xm.h>
+       #include <Xm/RowColumn.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/Form.h>
+       #include <Xm/CascadeB.h>
+
+
+
+       6-18
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       /********* Callback for the pushbuttons in the pulldown menu. *****/|
+
+       void ButtonCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+       caddr_t   call_data;/*  data from widget class  */
+       {
+          /*  print message and terminate program  */
+          printf ("Button %s selected.\n", client_data);
+
+       }
+
+       /*********************Main Logic***********************************/|
+
+       void main (argc, argv)
+       unsigned int argc;
+       char **argv;
+
+       {
+          XtAppContext app_context;                                  |
+          Widget toplevel, form, menubar;
+          Widget menubarBtn[3], pulldowns[2];
+          Widget buttons1[3], buttons2[3];
+          Arg args [4];
+
+       /* Initialize toolkit and create form and menubar */
+
+          toplevel =                                                 |
+               XtAppInitialize (&app_context, "PulldownMenu", NULL, 0,|
+                                  &argc, argv, NULL, NULL, 0);       |
+
+          XtSetArg(args[0], XmNwidth, 250);
+          XtSetArg(args[1], XmNheight, 125);
+          form = XmCreateForm(toplevel, "form", (ArgList) args, 2);
+          XtManageChild(form);
+
+          XtSetArg(args[0], XmNtopAttachment, XmATTACH_FORM);
+          XtSetArg(args[1], XmNrightAttachment, XmATTACH_FORM);
+          XtSetArg(args[2], XmNleftAttachment, XmATTACH_FORM);
+          menubar = XmCreateMenuBar(form, "menubar", args, 4);
+          XtManageChild(menubar);
+
+       /* Create help button in menubar */
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("Help",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'H');
+          menubarBtn[0] = XmCreateCascadeButton(menubar, "help", args, 2);
+          XtAddCallback(menubarBtn[0], XmNactivateCallback, ButtonCB, "Help");
+
+          XtSetArg(args[0], XmNmenuHelpWidget, (XtArgVal)menubarBtn[0]);
+
+
+                                                               6-19
+
+
+
+
+
+
+
+
+
+
+
+
+          XtSetValues(menubar, args, 1);
+
+
+       /* Create 2 Pulldown MenuPanes and 2 cascade buttons in menubar */
+
+          pulldowns[0] = XmCreatePulldownMenu(menubar, "pulldown1", NULL, 0);
+
+          XtSetArg(args[0], XmNsubMenuId, pulldowns[0]);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("Left Menu",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[2], XmNmnemonic, 'L');
+          menubarBtn[1] = XmCreateCascadeButton(menubar, "button1", args, 3);
+
+          pulldowns[1] = XmCreatePulldownMenu(menubar, "pulldown2", NULL, 0);
+
+          XtSetArg(args[0], XmNsubMenuId, pulldowns[1]);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("Right Menu",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[2], XmNmnemonic, 'R');
+          menubarBtn[2] = XmCreateCascadeButton(menubar, "button2", args, 3);
+          XtManageChildren(menubarBtn, 3);
+
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("First",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'F');
+          buttons1[0] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[0], "button1a", args, 2);|
+          XtAddCallback(buttons1[0], XmNactivateCallback,            |
+                                                     ButtonCB, "Left-First");|
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("Second",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'S');
+          buttons1[1] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[0], "button1b", args, 2);|
+          XtAddCallback(buttons1[1], XmNactivateCallback,            |
+                                                    ButtonCB, "Left-Second");|
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("Third",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'T');
+          buttons1[2] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[0], "button1c", args, 2);|
+          XtAddCallback(buttons1[2], XmNactivateCallback,            |
+                                                     ButtonCB, "Left-Third");|
+          XtManageChildren(buttons1, 3);
+
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("First",
+                   XmSTRING_DEFAULT_CHARSET));
+
+
+       6-20
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+          XtSetArg(args[1], XmNmnemonic, 'F');
+          buttons2[0] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[1], "button2a", args, 2);|
+          XtAddCallback(buttons2[0], XmNactivateCallback,            |
+                                                    ButtonCB, "Right-First");|
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("Second",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'S');
+          buttons2[1] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[1], "button2b", args, 2);|
+          XtAddCallback(buttons2[1], XmNactivateCallback,            |
+                                                   ButtonCB, "Right-Second");|
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("Third",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'T');
+          buttons2[2] =                                              |
+                 XmCreatePushButtonGadget(pulldowns[1], "button2c", args, 2);|
+          XtAddCallback(buttons2[2], XmNactivateCallback,            |
+                                                    ButtonCB, "Right-Third");|
+          XtManageChildren(buttons2, 3);
+
+       /* Get and dispatch events */
+
+          XtRealizeWidget(toplevel);
+
+          XtAppMainLoop(app_context);                                |
+       }
+
+
+
+       6.4  CCCCrrrreeeeaaaattttiiiinnnngggg SSSSuuuubbbbmmmmeeeennnnuuuussss
+
+       Submenus are implemented using Pulldown MenuPanes attached
+       to CascadeButton widgets or gadgets.  The submenu and the
+       CascadeButton to which it is attached are children of the
+       MenuPane (Popup or Pulldown) from which the submenu cas-
+       cades.
+
+       The MenuShell of the submenu is created automatically if the
+       submenu is created using XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu convenience
+       function:
+
+       WWWWiiiiddddggggeeeetttt CCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu(_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t, _a_r_g_c_o_u_n_t);   *
+
+       The submenu's MenuShell is created as the child of the        |
+       _p_a_r_e_n_t's MenuShell.
+
+
+
+
+
+                                                               6-21
+
+
+
+
+
+
+
+
+
+
+
+
+       6.4.1  PPPPrrrroooocccceeeedddduuuurrrreeee ffffoooorrrr CCCCrrrreeeeaaaattttiiiinnnngggg SSSSuuuubbbbmmmmeeeennnnuuuussss
+
+       The following steps create a submenu of a Popup menu, and
+       then create a submenu of that submenu.  Following each step
+       is a code segment that accomplishes the task.
+
+         1.  Create the Popup MenuPane.  The following line creates
+             the Popup MenuPane as a child of widget ffffoooorrrrmmmm1111.          |
+
+             popup = XmCreatePopupMenu(form1, "popup",               |
+                  NULL, 0);                                          |
+
+         2222....  TTTToooo ccccrrrreeeeaaaatttteeee aaaa ssssuuuubbbbmmmmeeeennnnuuuu,,,, ccccrrrreeeeaaaatttteeee aaaa PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeee aaaannnndddd
+             CCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt aaaassss tttthhhheeee cccchhhhiiiillllddddrrrreeeennnn ooooffff tttthhhheeee PPPPooooppppuuuupppp MMMMeeeennnnuuuu----
+             PPPPaaaannnneeee....  UUUUsssseeee tttthhhheeee rrrreeeessssoooouuuurrrrcccceeee XXXXmmmmNNNNssssuuuubbbbMMMMeeeennnnuuuuIIIIdddd ttttoooo aaaattttttttaaaacccchhhh tttthhhheeee
+             CCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt ttttoooo tttthhhheeee MMMMeeeennnnuuuuPPPPaaaannnneeee....                    ||||
+
+             ssssuuuubbbbmmmmeeeennnnuuuu1111 ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((ppppooooppppuuuupppp,,,,                  ||||
+                  """"ssssuuuubbbbmmmmeeeennnnuuuu1111"""",,,, NNNNUUUULLLLLLLL,,,, 0000))));;;;                              ||||
+
+             XXXXttttSSSSeeeettttAAAArrrrgggg((((aaaarrrrggggssss[[[[0000]]]],,,, XXXXmmmmNNNNssssuuuubbbbMMMMeeeennnnuuuuIIIIdddd,,,, ssssuuuubbbbmmmmeeeennnnuuuu1111))));;;;              ||||
+             ccccaaaassssccccaaaaddddeeee1111 ==== XXXXmmmmCCCCrrrreeeeaaaatttteeeeCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt((((ppppooooppppuuuupppp,,,,           ||||
+                  """"ccccaaaassssccccaaaaddddeeee1111"""",,,, aaaarrrrggggssss,,,, 1111))));;;;                              ||||
+             XXXXttttMMMMaaaannnnaaaaggggeeeeCCCChhhhiiiilllldddd((((ccccaaaassssccccaaaaddddeeee1111))));;;;
+
+         3.  To create a submenu of submenu1, create a Pulldown
+             MenuPane and CascadeButtonGadget as children of sub-
+             menu1.
+
+             submenu3 = XmCreatePulldownMenu(submenu1,               |
+                  "submenu3", NULL, 0);
+
+             XtSetArg(args[0], XmNsubMenuId, submenu3);              |
+             cascade3 = XmCreateCascadeButtonGadget                  |
+                  (submenu1, "cascade3", args, 1);                   |
+             XtManageChild(cascade3);
+
+       FFFFiiiigggguuuurrrreeee 6666----11110000 sssshhhhoooowwwwssss tttthhhheeee ppppaaaarrrreeeennnnttttiiiinnnngggg rrrreeeellllaaaattttiiiioooonnnnsssshhhhiiiippppssss aaaannnndddd aaaattttttttaaaacccchhhh----     ||||
+       mmmmeeeennnnttttssss ((((ddddaaaasssshhhheeeedddd lllliiiinnnneeeessss)))) ttttoooo uuuusssseeee wwwwhhhheeeennnn ccccrrrreeeeaaaattttiiiinnnngggg ssssuuuubbbbmmmmeeeennnnuuuussss iiiinnnn aaaa
+       PPPPooooppppuuuupppp mmmmeeeennnnuuuu ssssyyyysssstttteeeemmmm uuuussssiiiinnnngggg ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee ffffuuuunnnnccccttttiiiioooonnnnssss.... TTTThhhhiiiissss ssssyyyysssstttteeeemmmm
+       ccccoooonnnnttttaaaaiiiinnnnssss ttttwwwwoooo ssssuuuubbbbmmmmeeeennnnuuuussss bbbbeeeennnneeeeaaaatttthhhh tttthhhheeee ttttoooopppp lllleeeevvvveeeellll PPPPooooppppuuuupppp MMMMeeeennnnuuuuPPPPaaaannnneeee....
+       TTTThhhheeee ffffiiiirrrrsssstttt ssssuuuubbbbmmmmeeeennnnuuuu ccccoooonnnnttttaaaaiiiinnnnssss ttttwwwwoooo PPPPuuuusssshhhhBBBBuuuuttttttttoooonnnnssss aaaannnndddd oooonnnneeee CCCCaaaassssccccaaaaddddeeee----
+       BBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt ((((CCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnn3333)))).... TTTThhhheeee CCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt iiiissss
+       uuuusssseeeedddd ttttoooo aaaacccccccceeeessssssss tttthhhheeee ssssuuuubbbbmmmmeeeennnnuuuu ((((PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeee3333)))) tttthhhhaaaatttt ccccaaaassss----
+       ccccaaaaddddeeeessss ffffrrrroooommmm tttthhhheeee ffffiiiirrrrsssstttt ssssuuuubbbbmmmmeeeennnnuuuu....                                 ||||
+
+
+
+
+
+
+
+
+       6-22
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+        FFFFiiiigggguuuurrrreeee 6666----11110000....  CCCCrrrreeeeaaaattttiiiinnnngggg SSSSuuuubbbbmmmmeeeennnnuuuussss WWWWiiiitttthhhh CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss   ||||
+
+       6666....4444....2222  IIIInnnntttteeeerrrraaaaccccttttiiiinnnngggg wwwwiiiitttthhhh SSSSuuuubbbbmmmmeeeennnnuuuussss                              ||||
+
+       Interacting with submenus is explained earlier in of this     ||||
+       chapter in the sections "Interacting with Popup Menus" and    ||||
+       "Interacting with Pulldown Menus."
+
+       6.4.3  SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       The following program creates the Popup menu system (with     |
+       submenus) that is illustrated in Figure 6-10.
+
+
+       /* Popup Menu with Submenus Example */                        |
+
+       #include <Xm/Xm.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/CascadeBG.h>
+       #include <Xm/RowColumn.h>
+
+
+       /*********** Callback for the Pushbuttons ***********************/
+
+       void ButtonCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+       caddr_t   call_data;/*  data from widget class  */
+       {
+          /*  print message and terminate program  */
+          printf ("Button %s selected.\n", client_data);
+
+       }
+
+       /************** Event Handler for Popup Menu ************************/
+
+       PostIt (w, popup, event)
+       Widget w;
+       Widget popup;
+       XButtonEvent * event;
+       {
+          if (event->button != Button3)
+            return;
+          XmMenuPosition(popup, event);
+          XtManageChild(popup);
+       }
+
+
+       /***********************Main Logic for Program ********************/
+
+
+
+
+                                                               6-23
+
+
+
+
+
+
+
+
+
+
+
+
+       void main (argc, argv)
+       int argc;
+       char **argv;
+       {
+          XtAppContext app_context;                                  |
+          Widget toplevel, popup, rc;
+          Widget submenu1, submenu2, submenu3, buttons[2];
+          Widget popupBtn[2], sub1Btn[3], sub2Btn[2], sub3Btn[2];
+          Arg args[5];
+
+       /* Initialize toolkit */
+          toplevel = XtAppInitialize (&app_context, "PopupMenu", NULL, 0,|
+                                        &argc, argv, NULL, NULL, 0); |
+
+       /* Create RowColumn in toplevel with two pushbuttons */
+
+          XtSetArg(args[0], XmNwidth, 400);
+          XtSetArg(args[1], XmNheight, 125);
+          XtSetArg(args[2], XmNresizeWidth, False);
+          XtSetArg(args[3], XmNresizeHeight, False);
+          XtSetArg(args[4], XmNadjustLast, False);
+          rc = XmCreateRowColumn(toplevel, "rc", args, 5);
+          XtManageChild(rc);
+
+          buttons[0] = XmCreatePushButtonGadget(rc, "button1", NULL, 0);
+          XtAddCallback(buttons[0], XmNactivateCallback, ButtonCB, "1");
+
+          buttons[1] = XmCreatePushButtonGadget(rc, "button2", NULL, 0);
+          XtAddCallback(buttons[1], XmNactivateCallback, ButtonCB, "2");
+          XtManageChildren(buttons, 2);
+
+       /* Create popup menu */
+
+          popup = XmCreatePopupMenu(rc, "popup", NULL, 0);
+          XtAddEventHandler(rc, ButtonPressMask, False, PostIt, popup);
+
+       /* Create two submenus and CascadeButtons in the popup menu */
+
+          submenu1 =                                                 |
+                   (Widget)XmCreatePulldownMenu(popup, "submenu1", NULL, 0);|
+
+          XtSetArg(args[0], XmNsubMenuId, submenu1);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("First Submenu",
+                   XmSTRING_DEFAULT_CHARSET));
+          popupBtn[0] =                                              |
+                   XmCreateCascadeButtonGadget(popup, "cbutton1", args, 2);|
+
+
+          submenu2 =                                                 |
+                   (Widget)XmCreatePulldownMenu(popup, "submenu2", NULL, 0);|
+
+
+
+       6-24
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+          XtSetArg(args[0], XmNsubMenuId, submenu2);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("Second Submenu",
+                   XmSTRING_DEFAULT_CHARSET));
+          popupBtn[1] =                                              |
+                   XmCreateCascadeButtonGadget(popup, "cbutton2", args, 2);|
+          XtManageChildren(popupBtn, 2);
+
+       /* Create pushbuttons in submenu1 and submenu2. */
+
+          sub1Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu1, "button1a", NULL, 0);|
+          XtAddCallback(sub1Btn[0], XmNactivateCallback, ButtonCB, "1a");
+
+          sub1Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu1, "button1b", NULL, 0);|
+          XtAddCallback(sub1Btn[1], XmNactivateCallback, ButtonCB, "1b");
+
+          sub2Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu2, "button2a", NULL, 0);|
+          XtAddCallback(sub2Btn[0], XmNactivateCallback, ButtonCB, "2a");
+
+          sub2Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu2, "button2b", NULL, 0);|
+          XtAddCallback(sub2Btn[1], XmNactivateCallback, ButtonCB, "2b");
+          XtManageChildren(sub2Btn, 2);
+
+       /* Create a submenu of submenu 1 */
+
+          submenu3 =                                                 |
+                 (Widget)XmCreatePulldownMenu(submenu1, "submenu3", NULL, 0);|
+
+          XtSetArg(args[0], XmNsubMenuId, submenu3);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("To Third Submenu",
+                   XmSTRING_DEFAULT_CHARSET));
+          sub1Btn[2] =                                               |
+                  XmCreateCascadeButtonGadget(submenu1, "cbutton3", args, 2);|
+          XtManageChildren(sub1Btn, 3);
+
+       /* Create pushbuttons in submenu 3 */
+
+          sub3Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu3, "button3a", NULL, 0);|
+          XtAddCallback(sub3Btn[0], XmNactivateCallback, ButtonCB, "3a");
+
+          sub3Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu3, "button3b", NULL, 0);|
+          XtAddCallback(sub3Btn[1], XmNactivateCallback, ButtonCB, "3b");
+          XtManageChildren(sub3Btn, 2);
+
+       /* Get and dispatch events */
+
+
+
+                                                               6-25
+
+
+
+
+
+
+
+
+
+
+
+
+          XtRealizeWidget(toplevel);
+
+          XtAppMainLoop(app_context);                                |
+       }
+
+
+
+
+       6.5  CCCCrrrreeeeaaaattttiiiinnnngggg OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmmssss
+
+       The basis of an Option menu system is the following:
+
+          +o An Option menu.  An Option menu is created by the con-
+            venience function XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu.  It is a special-
+            ized RowColumn manager composed of two internal gadg-    |
+            ets:                                                     |
+
+               - A selection area.  The selection area is a spe-
+                 cialized CascadeButtonGadget.  It provides the
+                 means for displaying an associated Pulldown Menu-
+                 Pane, and it displays the label string of the last  |
+                 item selected from the Pulldown MenuPane.  The
+                 XXXXmmmmNNNNmmmmeeeennnnuuuuHHHHiiiissssttttoooorrrryyyy resource defines the initial item
+                 displayed.  (The default is the first item in the
+                 Pulldown MenuPane.)
+
+               - A label.  The label is a specialized LabelGadget,
+                 and is displayed to the left of the selection
+                 area.
+
+          +o A Pulldown MenuPane attached to the Option menu. The
+            Pulldown MenuPane contains a PushButton or PushBut-
+            tonGadget for each available option.
+
+       The Option menu typically does not display any 3-dimensional  |
+       visuals around itself or its internal label.  The internal
+       CascadeButtonGadget has a 3-dimensional shadow.  This can be  |
+       changed by the application using the standard visual-related
+       resources.
+
+       6.5.1  OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuuPPPPaaaannnneeee CCCCrrrreeeeaaaatttteeee FFFFuuuunnnnccccttttiiiioooonnnn
+
+       An Option menu can be created using this convenience func-
+       tion:
+
+       WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu(_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t, _a_r_g_c_o_u_n_t)    *
+
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu automatically creates an Option menu and   |
+       two internal gadgets-a CascadeButtonGadget (selection area)
+       and LabelGadget (label area).  The function returns the
+       widget ID of the Option menu.  The Option menu is created as
+
+
+       6-26
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       a RowColumn widget with the XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource set to
+       XmMENU_OPTION.
+
+       The two internal gadgets can be accessed separately using
+       the following functions:
+
+          +o WWWWiiiiddddggggeeeetttt XXXXmmmmOOOOppppttttiiiioooonnnnLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt(_o_p_t_i_o_n__m_e_n_u) returns the ID   |
+            of the LabelGadget.
+
+          +o WWWWiiiiddddggggeeeetttt XXXXmmmmOOOOppppttttiiiioooonnnnBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt(_o_p_t_i_o_n__m_e_n_u) returns the ID  |
+            of the CascadeButtonGadget.
+
+       These functions allow the application to have more control
+       over the visuals associated with the label and selection
+       areas.                                                        |
+
+       6.5.2  PPPPrrrroooocccceeeedddduuuurrrreeee ffffoooorrrr CCCCrrrreeeeaaaattttiiiinnnngggg aaaannnn OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuu                  |
+
+       The following steps create an Option menu.  Following each
+       step is a code segment that accomplishes the task.
+
+         1.  Create the Pulldown MenuPane that will contain the
+             selection items.
+
+             optionsubmenu = XmCreatePulldownMenu(form1,             |
+                  "optionsubmenu", NULL, 0);
+
+         2.  Create the selection items for the Pulldown MenuPane.   |
+
+             option[0] = XmCreatePushButtonGadget                    |
+                  (optionsubmenu, "option1", NULL, 0);               |
+             option[1] = XmCreatePushButtonGadget                    |
+                  (optionsubmenu, "option2", NULL, 0);               |
+             XtManageChildren(option, 2);
+
+         3.  Use the XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu convenience function to
+             create the Option menu and attach it to the Pulldown
+             MenuPane.  Also specify a string for the Label area.    |
+
+             string = XmStringCreate("Options:",
+                  XmSTRING_DEFAULT_CHARSET);
+             XtSetArg(args[0], XmNlabelString, string);
+             XtSetArg(args[1], XmNsubMenuId, optionsubmenu);
+             option_menu = XmCreateOptionMenu(form1,                 |
+                  "option_menu", args, 2);                           |
+             XmStringFree(string);
+             XtManageChild(option_menu);
+
+
+
+
+
+
+                                                               6-27
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTThhhheeee ccccoooommmmppppoooonnnneeeennnnttttssss ooooffff tttthhhheeee OOOOppppttttiiiioooonnnn mmmmeeeennnnuuuu ssssyyyysssstttteeeemmmm mmmmuuuusssstttt bbbbeeee ccccrrrreeeeaaaatttteeeedddd iiiinnnn   ||||
+       tttthhhheeee oooorrrrddddeeeerrrr sssshhhhoooowwwwnnnn.... ((((YYYYoooouuuu ccccaaaannnnnnnnooootttt uuuusssseeee XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss ttttoooo ssssppppeeeecccciiiiffffyyyy tttthhhheeee   ||||
+       OOOOppppttttiiiioooonnnn mmmmeeeennnnuuuu''''ssss ssssuuuubbbbmmmmeeeennnnuuuu....))))
+
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ffffiiiigggguuuurrrreeee sssshhhhoooowwwwssss tttthhhheeee ppppaaaarrrreeeennnnttttiiiinnnngggg rrrreeeellllaaaattttiiiioooonnnnsssshhhhiiiippppssss aaaannnndddd    ||||
+       aaaattttttttaaaacccchhhhmmmmeeeennnnttttssss ((((ddddaaaasssshhhheeeedddd lllliiiinnnneeeessss)))) uuuusssseeeedddd ttttoooo ccccrrrreeeeaaaatttteeee OOOOppppttttiiiioooonnnn mmmmeeeennnnuuuu ssssyyyyssss----
+       tttteeeemmmmssss uuuussssiiiinnnngggg ccccoooonnnnvvvveeeennnniiiieeeennnncccceeee ffffuuuunnnnccccttttiiiioooonnnnssss.... EEEEaaaacccchhhh PPPPuuuullllllllddddoooowwwwnnnn MMMMeeeennnnuuuuPPPPaaaannnneeee      ||||
+       ccccoooonnnnttttaaaaiiiinnnnssss tttthhhhrrrreeeeeeee ooooppppttttiiiioooonnnnssss....                                       ||||
+
+       FFFFiiiigggguuuurrrreeee 6666----11111111....  CCCCrrrreeeeaaaattttiiiinnnngggg OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuu SSSSyyyysssstttteeeemmmmssss CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnncccc----  ||||
+                     ttttiiiioooonnnnssss                                           ||||
+
+       6666....5555....3333  IIIInnnntttteeeerrrraaaaccccttttiiiinnnngggg wwwwiiiitttthhhh OOOOppppttttiiiioooonnnn MMMMeeeennnnuuuussss                          ||||
+
+       The following sections describe mouse and keyboard interac-   |
+       tions with option menus.
+
+       6.5.3.1  MMMMoooouuuusssseeee IIIInnnnppppuuuutttt
+
+       The Pulldown MenuPane is posted by moving the mouse pointer
+       over the selection area and pressing mouse button 1.  The
+       Pulldown MenuPane is positioned so that the last selected
+       item is directly over the selection area; the MenuPane is     |
+       not repositioned if a portion is inaccessible.
+
+       Menu items are armed when the pointer enters them and
+       disarmed when it leaves.  Releasing mouse button 1 while a
+       menu item is armed selects the menu item and changes the
+       label in the selection area.
+
+       The mouse button used to interact with Option menus can be
+       changed using the RowColumn resource XXXXmmmmNNNNmmmmeeeennnnuuuuPPPPoooosssstttt.             |
+
+       6.5.3.2  TTTThhhheeee KKKKeeeeyyyybbbbooooaaaarrrrdddd IIIInnnntttteeeerrrrffffaaaacccceeee
+
+       A mnemonic can be associated with the Option menu.  Typing
+       the mnemonic posts the Pulldown MenuPane and enables traver-
+       sal.
+
+       When traversal is enabled,
+
+          +o The directional keys traverse the menu hierarchy.
+
+          +o KKKKAAAAccccttttiiiivvvvaaaatttteeee selects the currently armed menu item.         |
+
+          +o KKKKCCCCaaaannnncccceeeellll unposts the Pulldown MenuPane.                   |
+
+          +o Pressing the mouse button disables traversal and reen-
+            ables interactive operation.
+
+
+
+
+       6-28
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+          +o Pressing a mnemonic or accelerator for a menu item
+            selects that item.
+
+       6.5.4  SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       The following sample program contains two option menus with
+       three options each. The Pulldown MenuPanes can be posted
+       using the mouse or by using the mnemonics FFFF and SSSS. When a     |
+       MenuPane has been posted using a mnemonic, a mnemonic can
+       then be used to select an option.
+
+       The source code for this program is located on your system    |
+       in ....////ddddeeeemmmmoooossss////xxxxmmmmssssaaaammmmpppplllleeeerrrrssss////xxxxmmmmooooppppttttiiiioooonnnn....cccc.
+
+
+       /* Option Menu Example */                                     |
+
+       #include <Xm/Xm.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/CascadeBG.h>
+       #include <Xm/RowColumn.h>
+
+
+       /*********** Callback for the Pushbuttons ***********************/
+
+       void ButtonCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+       caddr_t   call_data;/*  data from widget class  */
+       {
+          /*  print message and terminate program  */
+          printf ("Option %s selected.\n", client_data);
+
+       }
+
+       /***********************Main Logic for Program ********************/
+
+
+       void main (argc, argv)
+       int argc;
+       char **argv;
+       {
+          XtAppContext app_context;                                  |
+          Widget toplevel, pulldown1, pulldown2, rc;
+          Widget option_menus[2], options1[3], options2[3];
+          Arg args[6];
+
+       /* Initialize toolkit */
+          toplevel = XtAppInitialize (&app_context, "OptionMenu", NULL, 0,|
+                                        &argc, argv, NULL, NULL, 0); |
+
+
+
+                                                               6-29
+
+
+
+
+
+
+
+
+
+
+
+
+       /* Create RowColumn in toplevel */
+
+          XtSetArg(args[0], XmNwidth, 375);
+          XtSetArg(args[1], XmNheight, 75);
+          XtSetArg(args[2], XmNresizeWidth, False);
+          XtSetArg(args[3], XmNresizeHeight, False);
+          XtSetArg(args[4], XmNnumColumns, 2);
+          XtSetArg(args[5], XmNpacking, XmPACK_COLUMN);
+          rc = XmCreateRowColumn(toplevel, "rc", args, 6);
+          XtManageChild(rc);
+
+       /* Create two pulldown menus in rc */
+
+          pulldown1 = (Widget)XmCreatePulldownMenu(rc, "pulldown1", NULL, 0);
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("A-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'A');
+          options1[0] =                                              |
+                    XmCreatePushButtonGadget(pulldown1, "option1a", args, 2);|
+          XtAddCallback(options1[0], XmNactivateCallback, ButtonCB, "1A");
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("B-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'B');
+          options1[1] =                                              |
+                    XmCreatePushButtonGadget(pulldown1, "option1b", args, 2);|
+          XtAddCallback(options1[1], XmNactivateCallback, ButtonCB, "1B");
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("C-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'C');
+          options1[2] =                                              |
+                    XmCreatePushButtonGadget(pulldown1, "option1c", args, 2);|
+          XtAddCallback(options1[2], XmNactivateCallback, ButtonCB, "1C");
+          XtManageChildren(options1, 3);
+
+
+          pulldown2 = (Widget)XmCreatePulldownMenu(rc, "pulldown2", NULL, 0);
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("A-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'A');
+          options2[0] =                                              |
+                    XmCreatePushButtonGadget(pulldown2, "option2a", args, 2);|
+          XtAddCallback(options2[0], XmNactivateCallback, ButtonCB, "2A");
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("B-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'B');
+          options2[1] =                                              |
+
+
+       6-30
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+                    XmCreatePushButtonGadget(pulldown2, "option2b", args, 2);|
+          XtAddCallback(options2[1], XmNactivateCallback, ButtonCB, "2B");
+
+          XtSetArg(args[0], XmNlabelString, XmStringCreate("C-option",
+                   XmSTRING_DEFAULT_CHARSET));
+          XtSetArg(args[1], XmNmnemonic, 'C');
+          options2[2] =                                              |
+                    XmCreatePushButtonGadget(pulldown2, "option2c", args, 2);|
+          XtAddCallback(options2[2], XmNactivateCallback, ButtonCB, "2C");
+          XtManageChildren(options2, 3);
+
+       /* Create option menus and attach the two pulldown menus */
+
+          XtSetArg(args[0], XmNlabelString,                          |
+              XmStringCreate("First Option Set:", XmSTRING_DEFAULT_CHARSET));|
+          XtSetArg(args[1], XmNmnemonic, 'F');
+          XtSetArg(args[2], XmNsubMenuId, pulldown1);
+          XtSetArg(args[3], XmNmenuHistory, options1[2]);
+          option_menus[0] = XmCreateOptionMenu(rc, "option_menu1", args, 4);
+
+          XtSetArg(args[0], XmNlabelString,                          |
+             XmStringCreate("Second Option Set:", XmSTRING_DEFAULT_CHARSET));|
+          XtSetArg(args[1], XmNmnemonic, 'S');
+          XtSetArg(args[2], XmNsubMenuId, pulldown2);
+          XtSetArg(args[3], XmNmenuHistory, options2[0]);
+          option_menus[1] = XmCreateOptionMenu(rc, "option_menu2", args, 4);
+          XtManageChildren(option_menus, 2);
+
+       /* Get and dispatch events */
+
+          XtRealizeWidget(toplevel);
+
+          XtAppMainLoop(app_context);                                |
+       }
+
+
+       6666....6666  SSSSeeeelllleeeeccccttttiiiinnnngggg aaaa MMMMeeeennnnuuuu CCCCuuuurrrrssssoooorrrr                                  ||||
+
+       OSF/Motif provides a number of menu cursors (listed at the    |
+       end of this section.) An application can select a specific
+       menu cursor that is used whenever a menu is displayed.  This
+       feature provides consistent appearance within menus that      |
+       belong to the same application. The default menu cursor is    |
+       aaaarrrrrrrroooowwww.
+
+       The menu cursor can be specified at application startup by    |
+       the resource XXXXmmmmNNNNmmmmeeeennnnuuuuCCCCuuuurrrrssssoooorrrr.  This resource is not associated  |
+       with a particular widget, and can only be set at application  |
+       startup.  The resource can be set two ways:
+
+
+
+
+                                                               6-31
+
+
+
+
+
+
+
+
+
+
+
+
+          +o By setting a resource in a defaults file. For example:   |
+
+            *menuCursor: star                                        ||||
+
+            sssseeeettttssss ssssttttaaaarrrr aaaassss tttthhhheeee mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrr....
+
+          ++++oooo BBBByyyy uuuussssiiiinnnngggg tttthhhheeee ----xxxxrrrrmmmm ccccoooommmmmmmmaaaannnndddd lllliiiinnnneeee aaaarrrrgggguuuummmmeeeennnntttt....  FFFFoooorrrr eeeexxxxaaaammmmpppplllleeee,,,,   ||||
+            tttthhhheeee ffffoooolllllllloooowwwwiiiinnnngggg ccccoooommmmmmmmaaaannnndddd lllliiiinnnneeee ssssppppeeeecccciiiiffffiiiieeeessss aaaa cccclllloooocccckkkk aaaassss tttthhhheeee
+            mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrr ffffoooorrrr tttthhhheeee aaaapppppppplllliiiiccccaaaattttiiiioooonnnn nnnnaaaammmmeeeedddd mmmmyyyypppprrrroooogggg::::            ||||
+
+            mmmmyyyypppprrrroooogggg ----xxxxrrrrmmmm """"****mmmmeeeennnnuuuuCCCCuuuurrrrssssoooorrrr::::  cccclllloooocccckkkk""""
+
+       TTTThhhheeee ccccuuuurrrrssssoooorrrr ccccaaaannnn bbbbeeee ssssppppeeeecccciiiiffffiiiieeeedddd pppprrrrooooggggrrrraaaammmmmmmmaaaattttiiiiccccaaaallllllllyyyy uuuussssiiiinnnngggg tttthhhheeee        ||||
+       XXXXmmmmSSSSeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr ffffuuuunnnnccccttttiiiioooonnnn::::
+
+       vvvvooooiiiidddd XXXXmmmmSSSSeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr((((_d_i_s_p_l_a_y,,,, _c_u_r_s_o_r_I_d))))                       ||||
+             DDDDiiiissssppppllllaaaayyyy *_d_i_s_p_l_a_y;;;;                                       ||||
+             _C_u_r_s_o_r _c_u_r_s_o_r_I_d;;;;                                        ||||
+
+       _d_i_s_p_l_a_y   SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee ddddiiiissssppppllllaaaayyyy ffffoooorrrr wwwwhhhhiiiicccchhhh tttthhhheeee ccccuuuurrrrssssoooorrrr iiiissss uuuusssseeeedddd  ||||
+
+       _c_u_r_s_o_r_I_d  SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrr                           ||||
+
+       AAAAfffftttteeeerrrr tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnn iiiissss eeeexxxxeeeeccccuuuutttteeeedddd,,,, aaaannnnyyyy mmmmeeeennnnuuuu ddddiiiissssppppllllaaaayyyyeeeedddd bbbbyyyy tttthhhheeee
+       aaaapppppppplllliiiiccccaaaattttiiiioooonnnn oooonnnn tttthhhheeee ssssppppeeeecccciiiiffffiiiieeeedddd ddddiiiissssppppllllaaaayyyy uuuusssseeeessss tttthhhheeee mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrr
+       iiiiddddeeeennnnttttiiiiffffiiiieeeedddd iiiinnnn tttthhhheeee _c_u_r_s_o_r_I_d vvvvaaaarrrriiiiaaaabbbblllleeee....  TTTThhhhiiiissss aaaalllllllloooowwwwssss tttthhhheeee aaaapppppppplllliiii----  ||||
+       ccccaaaattttiiiioooonnnn ttttoooo uuuusssseeee ddddiiiiffffffffeeeerrrreeeennnntttt mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrrssss oooonnnn ddddiiiiffffffffeeeerrrreeeennnntttt ddddiiiissssppppllllaaaayyyyssss....   ||||
+
+       TTTThhhheeee XXXXmmmmGGGGeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr ffffuuuunnnnccccttttiiiioooonnnn rrrreeeettttuuuurrrrnnnnssss tttthhhheeee ccccuuuurrrrssssoooorrrr IIIIDDDD ooooffff tttthhhheeee     ||||
+       ccccuuuurrrrrrrreeeennnntttt mmmmeeeennnnuuuu ccccuuuurrrrssssoooorrrr ffffoooorrrr aaaa ssssppppeeeecccciiiiffffiiiieeeedddd ddddiiiissssppppllllaaaayyyy::::
+
+       CCCCuuuurrrrssssoooorrrr XXXXmmmmGGGGeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr((((_d_i_s_p_l_a_y))))                               ||||
+             DDDDiiiissssppppllllaaaayyyy *_d_i_s_p_l_a_y;;;;                                       ||||
+
+       _d_i_s_p_l_a_y   SSSSppppeeeecccciiiiffffiiiieeeessss tttthhhheeee ddddiiiissssppppllllaaaayyyy....
+
+
+       IIIIffff tttthhhheeee aaaapppppppplllliiiiccccaaaattttiiiioooonnnn hhhhaaaassss nnnnooootttt ccccrrrreeeeaaaatttteeeedddd aaaannnnyyyy mmmmeeeennnnuuuussss,,,, nnnnoooo ccccuuuurrrrssssoooorrrr iiiissss
+       ddddeeeeffffiiiinnnneeeedddd aaaannnndddd tttthhhheeee ffffuuuunnnnccccttttiiiioooonnnn rrrreeeettttuuuurrrrnnnnssss tttthhhheeee vvvvaaaalllluuuueeee NNNNoooonnnneeee....              ||||
+
+       TTTThhhheeee ffffoooolllllllloooowwwwiiiinnnngggg lllliiiisssstttt sssshhhhoooowwwwssss tttthhhheeee vvvvaaaalllliiiidddd ccccuuuurrrrssssoooorrrr nnnnaaaammmmeeeessss....
+
+       aaaarrrrrrrroooowwww               bbbbaaaasssseeeedddd____aaaarrrrrrrroooowwww____ddddoooowwwwnnnn     bbbbaaaasssseeeedddd____aaaarrrrrrrroooowwww____uuuupppp        bbbbooooaaaatttt
+       bbbbooooggggoooossssiiiittttyyyy            bbbboooottttttttoooommmm____lllleeeefffftttt____ccccoooorrrrnnnneeeerrrr   bbbboooottttttttoooommmm____rrrriiiigggghhhhtttt____ccccoooorrrrnnnneeeerrrr   bbbboooottttttttoooommmm____ssssiiiiddddeeee
+       bbbboooottttttttoooommmm____tttteeeeeeee          bbbbooooxxxx____ssssppppiiiirrrraaaallll           cccceeeennnnttttrrrr____ppppttttrrrr             cccciiiirrrrcccclllleeee
+       cccclllloooocccckkkk               ccccooooffffffffeeeeeeee____mmmmuuuugggg           ccccrrrroooossssssss                 ccccrrrroooossssssss____rrrreeeevvvveeeerrrrsssseeee
+       ccccrrrroooosssssssshhhhaaaaiiiirrrr           ddddiiiiaaaammmmoooonnnndddd____ccccrrrroooossssssss        ddddooootttt                   ddddoooottttbbbbooooxxxx
+
+
+
+
+
+
+       6-32
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       ddddoooouuuubbbblllleeee____aaaarrrrrrrroooowwww        ddddrrrraaaafffftttt____llllaaaarrrrggggeeee          ddddrrrraaaafffftttt____ssssmmmmaaaallllllll           eeeexxxxcccchhhhaaaannnnggggeeee
+       fffflllleeeeuuuurrrr               ggggoooobbbbbbbblllleeeerrrr              gggguuuummmmbbbbyyyy                 hhhhaaaannnndddd1111
+       hhhhaaaannnndddd2222               hhhheeeeaaaarrrrtttt                iiiiccccoooonnnn                  iiiirrrroooonnnn____ccccrrrroooossssssss
+       lllleeeefffftttt____ppppttttrrrr            lllleeeefffftttt____ssssiiiiddddeeee            lllleeeefffftttt____tttteeeeeeee              lllleeeeffffttttbbbbuuuuttttttttoooonnnn
+       llllllll____aaaannnngggglllleeee            llllrrrr____aaaannnngggglllleeee             mmmmaaaannnn                   mmmmiiiiddddddddlllleeeebbbbuuuuttttttttoooonnnn
+       mmmmoooouuuusssseeee               ppppeeeennnncccciiiillll               ppppiiiirrrraaaatttteeee                pppplllluuuussss
+       qqqquuuueeeessssttttiiiioooonnnn____aaaarrrrrrrroooowwww      rrrriiiigggghhhhtttt____ppppttttrrrr            rrrriiiigggghhhhtttt____ssssiiiiddddeeee            rrrriiiigggghhhhtttt____tttteeeeeeee
+       rrrriiiigggghhhhttttbbbbuuuuttttttttoooonnnn         rrrrttttllll____llllooooggggoooo             ssssaaaaiiiillllbbbbooooaaaatttt              ssssbbbb____ddddoooowwwwnnnn____aaaarrrrrrrroooowwww
+       ssssbbbb____hhhh____ddddoooouuuubbbblllleeee____aaaarrrrrrrroooowwww   ssssbbbb____lllleeeefffftttt____aaaarrrrrrrroooowwww        ssssbbbb____rrrriiiigggghhhhtttt____aaaarrrrrrrroooowwww        ssssbbbb____uuuupppp____aaaarrrrrrrroooowwww
+       ssssbbbb____vvvv____ddddoooouuuubbbblllleeee____aaaarrrrrrrroooowwww   sssshhhhuuuuttttttttlllleeee              ssssiiiizzzziiiinnnngggg                ssssppppiiiiddddeeeerrrr
+       sssspppprrrraaaayyyyccccaaaannnn            ssssttttaaaarrrr                 ttttaaaarrrrggggeeeetttt                ttttccccrrrroooossssssss
+       ttttoooopppp____lllleeeefffftttt____aaaarrrrrrrroooowwww      ttttoooopppp____lllleeeefffftttt____ccccoooorrrrnnnneeeerrrr      ttttoooopppp____rrrriiiigggghhhhtttt____ccccoooorrrrnnnneeeerrrr      ttttoooopppp____ssssiiiiddddeeee
+       ttttoooopppp____tttteeeeeeee             ttttrrrreeeekkkk                 uuuullll____aaaannnngggglllleeee              uuuummmmbbbbrrrreeeellllllllaaaa
+       wwwwaaaattttcccchhhh               xxxxtttteeeerrrrmmmm
+
+       6666....7777  CCCCrrrreeeeaaaattttiiiinnnngggg MMMMeeeennnnuuuussss WWWWiiiitttthhhhoooouuuutttt CCCCoooonnnnvvvveeeennnniiiieeeennnncccceeee FFFFuuuunnnnccccttttiiiioooonnnnssss             ||||
+
+       Applications that use the menu system convenience functions
+       do not need to explicitly create MenuShell widgets; the
+       XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu and XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu functions create
+       a Popup or Pulldown MenuPane and the parent MenuShell.
+
+       If an application requires access to individual MenuShells
+       in an application, the MenuShells and MenuPanes can be
+       created by using the standard X Toolkit create routines or
+       by using the create functions for MenuShells and RowColumn
+       Widgets.
+
+       6.7.1  FFFFuuuunnnnccccttttiiiioooonnnnssss ffffoooorrrr CCCCrrrreeeeaaaattttiiiinnnngggg MMMMeeeennnnuuuussss
+
+       Three functions are used in creating menu systems.
+
+          +o The MenuShell specific create function:                  |
+
+            WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuSSSShhhheeeellllllll (_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t,
+            _a_r_g_c_o_u_n_t)                                                |
+
+            creates an instance of a MenuShell widget and returns
+            the associated widget ID.
+
+          +o The X Toolkit function:                                  |
+
+            WWWWiiiiddddggggeeeetttt XXXXttttCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppSSSShhhheeeellllllll(_n_a_m_e, _w_i_d_g_e_t__c_l_a_s_s, _p_a_r_e_n_t,
+            _a_r_g_s, _n_u_m__a_r_g_s)                                          |
+
+            can be used to create a MenuShell for a Popup or Pull-
+            down MenuPane.                                           |
+
+
+
+
+
+
+                                                               6-33
+
+
+
+
+
+
+
+
+
+
+
+
+          +o The RowColumn specific create function:                  |
+
+            WWWWiiiiddddggggeeeetttt XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRoooowwwwCCCCoooolllluuuummmmnnnn (_p_a_r_e_n_t, _n_a_m_e, _a_r_g_l_i_s_t,         |
+            _a_r_g_c_o_u_n_t)                                                |
+
+            creates an instance of a RowColumn widget and returns
+            the associated widget ID.                                |
+
+       6.7.2  PPPPaaaarrrreeeennnnttttiiiinnnngggg RRRReeeellllaaaattttiiiioooonnnnsssshhhhiiiippppssss
+
+       The parenting relationships required to create a menu system
+       without using convenience functions depend on the type of
+       menu system being built:
+
+          +o If the MenuShell is for a Popup MenuPane, the MenuShell
+            must be the parent of the Popup MenuPane (see Figure     |
+            6-12).
+
+          +o If the MenuShell is for a MenuPane that is pulled down
+            from a MenuBar, the MenuShell must be created as a
+            child of the MenuBar (see Figure 6-13).                  |
+
+          +o If the MenuShell is for a submenu MenuPane that is
+            pulled down from a Popup or another Pulldown MenuPane,
+            the MenuShell must be created as a child of the Popup    |
+            or Pulldown MenuPane's parent MenuShell (see Figure 6-   |
+            14).
+
+          +o If the MenuShell is for a Pulldown MenuPane in an
+            Option menu, the MenuShell must have the same parent as  |
+            the Option menu (see Figure 6-15).
+
+       FFFFiiiigggguuuurrrreeee 6666----11112222....  Creating a Popup Menu System Without Conveni-   |
+                     ence Functions                                  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6-34
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+       FFFFiiiigggguuuurrrreeee 6666----11113333....  Creating a Pulldown Menu System Without Con-    |
+                     venience Functions                              |
+       FFFFiiiigggguuuurrrreeee 6666----11114444....  Creating Submenus Without Convenience Func-     |
+                     tions                                           |
+       FFFFiiiigggguuuurrrreeee 6666----11115555....  Creating an Option Menu System Without Con-     |
+                     venience Functions                              |
+
+       6.7.3  SSSSaaaammmmpppplllleeee PPPPrrrrooooggggrrrraaaammmm
+
+       The following program creates a Popup menu system without
+       using the convenience functions. Figure 6-14 illustrates the  |
+       menu system created by this program.
+
+       The source code for this program is located on your system    |
+       in ....////ddddeeeemmmmoooossss////xxxxmmmmssssaaaammmmpppplllleeeerrrrssss////xxxxmmmmmmmmeeeennnnuuuusssshhhheeeellll....cccc.
+
+
+       /* Popup Menu and Submenus created with MenuShells */         |
+
+       #include <Xm/Xm.h>
+       #include <Xm/MenuShell.h>
+       #include <Xm/PushBG.h>
+       #include <Xm/CascadeBG.h>
+       #include <Xm/RowColumn.h>
+
+
+       /*********** Callback for the Pushbuttons ***********************/
+
+       void ButtonCB (w, client_data, call_data)
+       Widget    w;   /*  widget id*/
+       caddr_t   client_data;/*  data from application   */
+       caddr_t   call_data;/*  data from widget class  */
+       {
+          /*  print message and terminate program  */
+          printf ("Button %s selected.\n", client_data);
+
+       }
+
+       /************** Event Handler for Popup Menu ************************/
+
+       PostIt (w, popup, event)
+       Widget w;
+       Widget popup;
+       XButtonEvent * event;
+       {
+          if (event->button != Button3)
+            return;
+          XmMenuPosition(popup, event);
+          XtManageChild(popup);
+       }
+
+
+
+                                                               6-35
+
+
+
+
+
+
+
+
+
+
+
+
+       /***********************Main Logic for Program ********************/
+
+
+       void main (argc, argv)
+       int argc;
+       char **argv;
+       {
+          XtAppContext app_context;                                  |
+          Widget toplevel, rc, buttons[2];
+          Widget popupshell, mshell1, mshell2, mshell3;
+          Widget popup, submenu1, submenu2, submenu3;
+          Widget popupBtn[2], sub1Btn[3], sub2Btn[2], sub3Btn[2];
+          Arg args[5];
+
+       /* Initialize toolkit */
+
+          toplevel = XtAppInitialize (&app_context, "PopupMenu", NULL, 0,|
+                                        &argc, argv, NULL, NULL, 0); |
+
+       /* Create RowColumn in toplevel with two pushbuttons */
+
+          XtSetArg(args[0], XmNwidth, 150);
+          XtSetArg(args[1], XmNheight, 50);
+          XtSetArg(args[2], XmNresizeWidth, False);
+          XtSetArg(args[3], XmNresizeHeight, False);
+          XtSetArg(args[4], XmNadjustLast, False);
+          rc = XmCreateRowColumn(toplevel, "rc", args, 5);
+          XtManageChild(rc);
+
+          buttons[0] = XmCreatePushButtonGadget(rc, "button1", NULL, 0);
+          XtAddCallback(buttons[0], XmNactivateCallback, ButtonCB, "1");
+
+          buttons[1] = XmCreatePushButtonGadget(rc, "button2", NULL, 0);
+          XtAddCallback(buttons[1], XmNactivateCallback, ButtonCB, "2");
+          XtManageChildren(buttons, 2);
+
+       /* Create MenuShell for a Popup MenuPane */
+
+          XtSetArg(args[0], XmNheight, 100);
+          XtSetArg(args[1], XmNwidth, 100);
+          popupshell = XmCreateMenuShell(rc, "popupshell", args, 2);
+
+       /* Create RowColumn Widget configured as Popup MenuPane */
+
+          XtSetArg(args[0], XmNrowColumnType, XmMENU_POPUP);
+          popup = XmCreateRowColumn (popupshell, "popup", args, 1);
+          XtAddEventHandler(rc, ButtonPressMask, False, PostIt, popup);
+
+       /* Create MenuShells and Pulldown MenuPanes for two submenus */
+
+          XtSetArg(args[0], XmNheight, 100);
+
+
+       6-36
+
+
+
+
+
+
+
+
+
+                                                              Menus
+
+
+          XtSetArg(args[1], XmNwidth, 100);
+          mshell1 = XmCreateMenuShell (popupshell, "mshell1", args, 2);
+
+          XtSetArg(args[0], XmNrowColumnType, XmMENU_PULLDOWN);
+          submenu1 = XmCreateRowColumn (mshell1, "submenu1", args, 1);
+
+          XtSetArg(args[0], XmNheight, 100);
+          XtSetArg(args[1], XmNwidth, 100);
+          mshell2 = XmCreateMenuShell (popupshell, "mshell2", args, 2);
+
+          XtSetArg(args[0], XmNrowColumnType, XmMENU_PULLDOWN);
+          submenu2 = XmCreateRowColumn (mshell2, "submenu2", args, 1);
+
+       /* Create two Cascade Buttons in the Popup MenuPane */
+
+          XtSetArg(args[0], XmNsubMenuId, submenu1);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("First Submenu",
+                   XmSTRING_DEFAULT_CHARSET));
+          popupBtn[0] =                                              |
+                    XmCreateCascadeButtonGadget(popup, "cbutton1", args, 2);|
+
+          XtSetArg(args[0], XmNsubMenuId, submenu2);
+          XtSetArg(args[1], XmNlabelString, XmStringCreate("Second Submenu",
+                   XmSTRING_DEFAULT_CHARSET));
+          popupBtn[1] =                                              |
+                    XmCreateCascadeButtonGadget(popup, "cbutton2", args, 2);|
+          XtManageChildren (popupBtn, 2);
+
+       /* Create pushbuttons in MenuPanes submenu1 and submenu2 */
+
+          sub1Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu1, "button1a", NULL, 0);|
+          XtAddCallback(sub1Btn[0], XmNactivateCallback, ButtonCB, "1a");
+
+          sub1Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu1, "button1b", NULL, 0);|
+          XtAddCallback(sub1Btn[1], XmNactivateCallback, ButtonCB, "1b");
+
+          sub2Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu2, "button2a", NULL, 0);|
+          XtAddCallback(sub2Btn[0], XmNactivateCallback, ButtonCB, "2a");
+
+          sub2Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu2, "button2b", NULL, 0);|
+          XtAddCallback(sub2Btn[1], XmNactivateCallback, ButtonCB, "2b");
+          XtManageChildren (sub2Btn, 2);
+
+
+       /* Create a MenuShell for the submenu of submenu1 */
+
+          XtSetArg(args[0], XmNheight, 100);
+
+
+                                                               6-37
+
+
+
+
+
+
+
+
+
+
+
+
+          XtSetArg(args[1], XmNwidth, 100);
+          mshell3 = XmCreateMenuShell (mshell1, "mshell3", args, 2);
+
+       /* Create the MenuPane for the submenu of submenu1 */
+
+          XtSetArg(args[0], XmNrowColumnType, XmMENU_PULLDOWN);
+          submenu3 = XmCreateRowColumn (mshell3, "submenu3", args, 1);
+
+       /* Create the Cascade Button in submenu1 for accessing submenu3 */
+
+          XtSetArg(args[0], XmNsubMenuId, submenu3);
+          XtSetArg(args[1], XmNlabelString,                          |
+             XmStringCreate("To Third Submenu", XmSTRING_DEFAULT_CHARSET));|
+          sub1Btn[2] =                                               |
+                XmCreateCascadeButtonGadget(submenu1, "cbutton3", args, 2);|
+          XtManageChildren(sub1Btn, 3);
+
+       /* Create pushbuttons in submenu */
+
+          sub3Btn[0] =                                               |
+                   XmCreatePushButtonGadget(submenu3, "button3a", NULL, 0);|
+          XtAddCallback(sub3Btn[0], XmNactivateCallback, ButtonCB, "3a");
+
+          sub3Btn[1] =                                               |
+                   XmCreatePushButtonGadget(submenu3, "button3b", NULL, 0);|
+          XtAddCallback(sub3Btn[1], XmNactivateCallback, ButtonCB, "3b");
+          XtManageChildren (sub3Btn, 2);
+
+       /* Get and dispatch events */
+
+          XtRealizeWidget(toplevel);
+
+          XtAppMainLoop(app_context);                                |
+       }
+
+
+                                                                     ||||
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       6-38
+
+
+
+
+

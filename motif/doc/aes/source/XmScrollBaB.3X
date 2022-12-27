@@ -1,0 +1,76 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmScrollBarGetValues 3X "" "" "" ""
+.SH NAME
+\fB
+XmScrollBarGetValues \(em a ScrollBar function that returns the ScrollBar's
+increment values.\fP
+.iX "XmScrollBarGetValues"
+.iX "ScrollBar functions" "XmScrollBarGetValues"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/ScrollBar.h>
+.sp 1
+void \fBXmScrollBarGetValues\fP (\fIwidget, value_return, 
+slider_size_return, increment_return,
+.br
+.ti 2.25i
+page_increment_return\fP)
+.br
+.ta .5i 1.75i
+	Widget	\fIwidget\fP;
+.br
+	int	\fI* value_return\fP;
+.br
+	int	\fI* slider_size_return\fP;
+.br
+	int	\fI* increment_return\fP;
+.br
+	int	\fI* page_increment_return\fP;
+.fi
+\fP
+.br
+.ne 5i
+.SH DESCRIPTION
+\fBXmScrollBarGetValues\fP returns the 
+the ScrollBar's increment values.
+The scroll region is overlaid with a
+slider bar that is adjusted in size and position using the main ScrollBar or
+set slider function attributes.
+.sp 1
+.IP "\fIwidget\fP" 1.75i
+Specifies the ScrollBar widget ID.
+.IP "\fIvalue_return\fP"1.75i	
+Returns the ScrollBar's slider position between the
+\fBXmNminimum\fP and \fBXmNmaximum\fP resources.
+.IP "\fIslider_size_return\fP" 1.75i
+Returns the size of the slider as a value between zero and the absolute
+value of \fBXmNmaximum\fP minus \fBXmNminimum\fP.  The size of the slider
+varies, depending on how much of the slider scroll area it represents.
+.IP "\fIincrement_return\fP" 1.75i
+Returns the amount of increment and decrement.
+.IP "\fIpage_increment_return\fP" 1.75i
+Returns the amount of page increment and decrement.
+.sp 1
+.PP
+For a complete definition of ScrollBar and its associated resources, see
+\fBXmScrollBar(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the ScrollBar's increment values.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmScrollBar(3X)\fP.
+.sp 1

@@ -1,0 +1,1991 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       13.  MMMMaaaannnnaaaaggggiiiinnnngggg WWWWiiiinnnnddddoooowwwwssss WWWWiiiitttthhhh MMMMWWWWMMMM
+
+       This chapter presents information users need if they want to
+       customize the appearance and behavior of MWM windows.
+       Although you, as a programmer, will not usually be setting
+       values for MWM resources, knowing about the resources can
+       help you avoid user-caused problems in your application.
+
+       MWM is an X11 client that manages the appearance and
+       behavior of objects on the workspace (screen).  MWM and its
+       management operations are controlled by using a mouse, a
+       keyboard, and a functional window frame as they are used by   |
+       the MicrosoftrO Presentation Manager.                          |
+
+       Chapter 13 discusses the following topics:                    |
+
+          +o Starting up MWM                                          |
+
+          +o Using resources to configure MWM                         |
+
+          +o Setting focus policies for active windows                |
+
+          +o Managing clients                                         |
+
+          +o Managing the general appearance of window frames and     |
+            mattes
+
+          +o Specifying a different font for the window manager       |
+
+          +o Coloring window frames                                   |
+
+          +o Making window frame pixmaps                              |
+
+          +o Specifying a matte for client windows                    |
+
+          +o Using frameless or reduced-element windows               |
+
+          +o Controlling window size and position                     |
+
+
+
+
+
+
+
+
+                                                               13-1
+
+
+
+
+
+
+
+
+
+
+
+
+       13.1  SSSSttttaaaarrrrttttiiiinnnngggg UUUUpppp MMMMWWWWMMMM
+
+       MWM clients receive configuration information from the con-   |
+       figuration resource files described in preceding chapters.    |
+       Users can copy to their home directory as ....mmmmwwwwmmmmrrrrcccc the file     |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc.  By editing ....mmmmwwwwmmmmrrrrcccc and their       |
+       ....XXXXddddeeeeffffaaaauuuullllttttssss file, they can customize the window manager to     |
+       fit their needs.                                              |
+
+       MWM is often started by a display or session manager.  The    |
+       following syntax is used to specify display information and   |
+       start-up resources:
+
+       mmmmwwwwmmmm  -ddddiiiissssppppllllaaaayyyy _h_o_s_t:_d_i_s_p_l_a_y._s_c_r_e_e_n -xxxxrrrrmmmm _r_e_s_o_u_r_c_e_s_t_r_i_n_g -mmmmuuuullll----   |
+       ttttiiiissssccccrrrreeeeeeeennnn -nnnnaaaammmmeeee _n_a_m_e -ssssccccrrrreeeeeeeennnnssss _n_a_m_e [_n_a_m_e [...]]
+
+       -ddddiiiissssppppllllaaaayyyy  Specifies the display to use                        |
+
+       -xxxxrrrrmmmm      Enables the named resources when starting MWM       |
+
+       -mmmmuuuullllttttiiiissssccccrrrreeeeeeeennnn Causes MWM to manage all screens on the          |
+                 display; the default is to manage one screen        |
+
+       -nnnnaaaammmmeeee     Causes MWM to retrieve its resources using the      |
+                 specified name, as in _n_a_m_e*_r_e_s_o_u_r_c_e                 |
+
+       -ssssccccrrrreeeeeeeennnnssss  Specifies the resource names to use for the         |
+                 screens managed by MWM
+
+       The ----ddddiiiissssppppllllaaaayyyy option has the following syntax:                 |
+
+       _h_o_s_t      Specifies the hostname of a valid system on the
+                 network.  Depending on the situation, this could    |
+                 be the hostname of the user's, or the hostname of   |
+                 a remote system.
+
+       _d_i_s_p_l_a_y   Specifies the number (usually 0) of the display on  |
+                 the system on which the output is to appear.
+
+       _s_c_r_e_e_n    Specifies the number of the screen where the out-   |
+                 put is to appear.  This number is 0 for single-     |
+                 screen systems.
+
+       13.2  UUUUssssiiiinnnngggg RRRReeeessssoooouuuurrrrcccceeeessss ttttoooo CCCCoooonnnnffffiiiigggguuuurrrreeee MMMMWWWWMMMM
+
+       The appearance and behavior of windows, window frames,        |
+       menus, and icons are controlled with rrrreeeessssoooouuuurrrrcccceeeessss.  Resources
+       are always named for the elements they affect, such as
+       fontList for setting the font.  Users do not need to specify
+       values for any resources; MWM can run with its default
+       appearance and behavior.  However, to customize the           |
+
+
+       13-2
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       appearance and/or behavior of MWM, users need to specify      |
+       values for some resources.                                    |
+
+       13.2.1  TTTThhhheeee HHHHiiiieeeerrrraaaarrrrcccchhhhyyyy ooooffff RRRReeeessssoooouuuurrrrcccceeee CCCCoooonnnnffffiiiigggguuuurrrraaaattttiiiioooonnnn FFFFiiiilllleeeessss
+
+       The following diagram illustrates the path MWM travels when   |
+       looking for resource values:
+
+        mmmmwwwwmmmm Command Line Option                                                   |
+                   |v                                                              *
+             XENVIRONMENT          if set, else ->       $$$$HHHHOOOOMMMMEEEE////....XXXXddddeeeeffffaaaauuuullllttttssss----_h_o_s_t    |
+                   |v
+       RESOURCE_MANAGER property   if set, else ->         $$$$HHHHOOOOMMMMEEEE////....XXXXddddeeeeffffaaaauuuullllttttssss       |
+                                                            if exists, else       |
+                                                                   |v
+                                                               $$$$HHHHOOOOMMMMEEEE////MMMMwwwwmmmm          |
+                                                                   |v              |
+                                                            if exists, else       |
+                                                                   |v              |
+                                                     ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////MMMMwwwwmmmm|
+                                                                   |v              |
+                                                     Internal Application Defaults|
+
+       The filenames $$$$HHHHOOOOMMMMEEEE////MMMMwwwwmmmm and ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////MMMMwwwwmmmm     |
+       represent the customary locations for these files.  The       |
+       actual locations may depend on several environment variables  |
+       and the current language environment.  For more information   |
+       see the ``Localization'' section in Chapter 8.
+
+       Entries in the resource database may refer to other resource  |
+       files, such as ....mmmmwwwwmmmmrrrrcccc, that contain specific types of
+       resources.  This includes files that contain bitmaps, fonts,  |
+       and MWM-specific resources such as menus and behavior         |
+       specifications (for example, button and key bindings).
+
+       13.2.2  CCCCllllaaaassssssssiiiiffffiiiiccccaaaattttiiiioooonnnn ooooffff RRRReeeessssoooouuuurrrrcccceeeessss
+
+       MWM uses the three types of resources described in the fol-   |
+       lowing sections.
+
+       13.2.2.1  CCCCoooommmmppppoooonnnneeeennnntttt AAAAppppppppeeeeaaaarrrraaaannnncccceeee RRRReeeessssoooouuuurrrrcccceeeessss
+
+       These resources are used to specify appearance attributes of
+       window manager user interface components.  They can be
+       applied to the appearance of window manager menus, feedback
+       windows, client window frames, and icons.  Among the
+       resources of this type are those that set frame colors (for   |
+       example, background, foreground, shadows).
+
+
+
+
+
+                                                               13-3
+
+
+
+
+
+
+
+
+
+
+
+
+       13.2.2.2  SSSSppppeeeecccciiiiffffiiiicccc AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr RRRReeeessssoooouuuurrrrcccceeeessss
+
+       These resources are used to specify MWM appearance and
+       behavior (for example, colormap and keyboard input focus      |
+       policies).  They are not set separately for different MWM     |
+       user-interface components.
+
+       13.2.2.3  CCCClllliiiieeeennnntttt SSSSppppeeeecccciiiiffffiiiicccc RRRReeeessssoooouuuurrrrcccceeeessss
+
+       These MWM resources can be set for a particular client win-
+       dow or class of client windows.  They specify client-
+       specific icon and client window frame appearance and          |
+       behavior (for example, client decoration and client func-
+       tions).
+
+       Resource identifiers can be either a resource name beginning  |
+       with a lowercase letter, foreground, or a resource class      |
+       beginning with an uppercase letter, Foreground.  The
+       resource class for MWM is MMMMwwwwmmmm and the resource name is mmmmwwwwmmmm.
+
+       If the value of a resource is a filename and if the filename
+       is prefixed by  ~/ , then it is relative to the path con-     |
+       tained in the HOME environment variable (generally the        |
+       user's home directory).
+
+       13.2.3  OOOOrrrrddddeeeerrrr ooooffff PPPPrrrreeeecccceeeeddddeeeennnncccceeee
+
+       In general, a more detailed specification takes precedence
+       over a less detailed specification.  For example, suppose     |
+       the ....XXXXddddeeeeffffaaaauuuullllttttssss file includes the following lines:
+
+          *Foreground:            red
+          XClock*Foreground:      DarkSlateGray
+          XClock*foreground:      coral
+          XClock*hands:           green
+
+       The first line makes all resources of the class Foreground    |
+       red.  The second line overrules the first line, but only in
+       the case of clients of class Xclock (of which there is only   |
+       one - the xclock itself).  Line two specifies that when the   |
+       client is XClock, all resources of the class Foreground are   |
+       DarkSlateGray.  Lines three and four give Xclock clients a    |
+       coral foreground and green hands, while the other XClock      |
+       resources (if there were any) of class Foreground (pointer-   |
+       Color, cursorColor, foreground and bottomShadowColor of the
+       softkeys, and foreground and bottomShadowColor of the scroll  |
+       bars) would remain DarkSlateGray.
+
+
+
+
+
+
+       13-4
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       13.2.4  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr DDDDeeeeccccllllaaaarrrriiiinnnngggg RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The syntax used to declare a resource depends on the type of
+       the resource.  The following shows one example for each type  |
+       of resource:
+
+       Component appearance resource:
+
+       Mwm*menu*foreground:   white                                  |
+
+       Specific appearance and behavior resource:
+
+       Mwm*useIconBox:   True                                        |
+
+       Client specific resource:
+
+       Mwm*XClock*clientDecoration:   None                           |
+
+       More examples for each type of resource are presented at the  |
+       end of the section in which the resources are discussed.      |
+       See Chapter 16 for quick reference tables of resources.       |
+
+       13.3  MMMMaaaannnnaaaaggggiiiinnnngggg SSSSccccrrrreeeeeeeennnnssss                                        |
+
+       The following resources control management of single or mul-  |
+       tiple screens on the display:                                 |
+
+       mmmmuuuullllttttiiiiSSSSccccrrrreeeeeeeennnn.  This resource, if True, causes MWM to manage    |
+       all the screens on the display.  If False, MWM manages only   |
+       a single screen.  The default value is False.                 |
+
+       ssssccccrrrreeeeeeeennnnssss.  This resource specifies the resource names to use   |
+       for the screens mananged by MWM.  If MWM is managing a sin-   |
+       gle screen, only the first name in the list is used.  If MWM  |
+       is managing multiple screens, the names are assigned to the   |
+       screens in order, starting with screen 0.  Screen 0 gets the  |
+       first name, screen 1 the second name, and so on.  The         |
+       default screen names are 0, 1, and so on.                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               13-5
+
+
+
+
+
+
+
+
+
+
+
+
+       13.4  SSSSeeeettttttttiiiinnnngggg FFFFooooccccuuuussss PPPPoooolllliiiicccciiiieeeessss ffffoooorrrr AAAAccccttttiiiivvvveeee WWWWiiiinnnnddddoooowwwwssss
+
+       Two focus policy resources allow the user to choose the       |
+       colormap and keyboard input focus policies colormapFocusPol-  |
+       icy and keyboardFocusPolicy:
+
+       13.4.1  CCCCoooolllloooorrrrmmmmaaaapppp FFFFooooccccuuuussss PPPPoooolllliiiiccccyyyy
+
+       ccccoooolllloooorrrrmmmmaaaappppFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy....  The colormap focus policy can be set
+       using the colormapFocusPolicy resource and one of the fol-
+       lowing three values:
+
+       keyboard       (Default value) The window manager tracks      |
+                      keyboard input and installs a client's color-
+                      map when the client window gets the keyboard
+                      input focus.
+
+       explicit       The window manager tracks a specific focus-
+                      selection action and installs a client's
+                      colormap when the focus-selection action is
+                      done in the client window.  The focus-
+                      selection action can be a key press, a mouse
+                      button action, or a menu selection.  Key and
+                      mouse button actions must be created with
+                      bindings.  (See "Mouse Button Bindings" and    |
+                      "Keyboard Bindings" in Chapter 14.)
+
+       pointer        The window manager tracks the pointer and
+                      installs a client's colormap when the pointer
+                      moves into the client window or the window
+                      frame around the client.
+
+       13.4.1.1  UUUUssssiiiinnnngggg MMMMuuuullllttttiiiipppplllleeee CCCCoooolllloooorrrrmmmmaaaappppssss
+
+       MWM does all colormap installation based on the colormap
+       focus policy and any hints from the client about which        |
+       colormap the client wants installed.  Clients that require    |
+       only one colormap at a time can indicate the colormap they    |
+       want installed by setting the colormap attribute of the       |
+       clients top-level window to that colormap.                    |
+
+       Clients that have subwindows with colormaps that differ from
+       that of the top-level window or that would like to have more
+       than one colormap installed must use the WM_COLORMAP_WINDOWS
+       property on the top-level window.  Subwindow colormaps for
+       the window with the colormap focus can be installed interac-
+       tively by binding the f.next_cmap function to a button, key,
+       or menu selection.  The user can then cycle through (shuf-
+       fle) the subwindow colormaps.
+
+
+
+
+       13-6
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       13.4.2  KKKKeeeeyyyybbbbooooaaaarrrrdddd FFFFooooccccuuuussss PPPPoooolllliiiiccccyyyy
+
+       kkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy.  Use the keyboardFocusPolicy resource
+       to specify the conditions under which you want a window to
+       become active and the focus of keyboard input:
+
+       explicit       (Default value)  The window manager tracks a   |
+                      specific focus-selection action and sets the
+                      keyboard focus to a client window when the
+                      focus-selection action is done in that client
+                      window.  Keyboard input goes to the selected
+                      window regardless of the location of the
+                      pointer until the user explicitly selects
+                      another window for keyboard-input focus.  The  |
+                      default focus-selection action is a mouse
+                      Button 1 press.  The focus-selection action
+                      can be a key press or a different mouse but-
+                      ton action, but these must be configured
+                      using bindings.  (See "Mouse Button Bindings"  |
+                      and "Keyboard Bindings" in Chapter 14.)        |
+                      Explicit selection is also known by the terms
+                      "click-to-type" and "explicit-listener."
+
+       pointer        The window manager tracks the pointer and
+                      sets the keyboard focus to a client window
+                      when the pointer moves into that window or
+                      the window frame around the client.  The
+                      pointer policy is also known by the terms
+                      "track pointer," "real-estate driven," and
+                      "tracked-listener."
+
+       aaaauuuuttttooooKKKKeeeeyyyyFFFFooooccccuuuussss....  This resource is available only when the key-  |
+       board input focus policy is explicit.  If the autoKeyFocus    |
+       resource is given a value of True, then when a window with    |
+       the keyboard input focus is withdrawn from window management
+       or is iconified, the focus is set to the window that previ-
+       ously had the focus.  If there was no previous window, or if  |
+       the value given is False, then the user must select a window  |
+       or icon to receive the focus.  The default value is True.
+
+       aaaauuuuttttooooRRRRaaaaiiiisssseeeeDDDDeeeellllaaaayyyy....  This resource is available only when the     |
+       value for the focusAutoRaise resource is True and the key-    |
+       board focus policy is pointer.  The autoRaiseDelay resource
+       specifies the amount of time (in milliseconds) that MWM       |
+       waits before raising a window after it gets the keyboard      |
+       focus.  The default value is 500 msec.
+
+       ddddeeeeiiiiccccoooonnnniiiiffffyyyyKKKKeeeeyyyyFFFFooooccccuuuussss....  This resource is available only when the  |
+       keyboard input focus policy is explicit.  If the deicon-      |
+       ifyKeyFocus resource is given a value of True, a window       |
+       receives the keyboard input focus when it is normalized
+
+
+                                                               13-7
+
+
+
+
+
+
+
+
+
+
+
+
+       (changed from an icon to a normal window).  The default
+       value is True.                                                |
+
+       eeeennnnffffoooorrrrcccceeeeKKKKeeeeyyyyFFFFooooccccuuuussss....  If the enforceKeyFocus resource value is    |
+       True, then the keyboard input focus is always explicitly set
+       to selected windows even if there is an indication that they
+       are "globally active" input windows.  If the resource value   |
+       is False, the keyboard input focus is not explicitly set to   |
+       globally active windows.  The default value is True.  (An
+       example of a globally active client window would be a window
+       with scroll bars that allows users to scroll the window
+       without disturbing the input focus.)
+
+       ffffooooccccuuuussssAAAAuuuuttttooooRRRRaaaaiiiisssseeee....  When the value of the focusAutoRaise         |
+       resource is True, clients are raised when they get the        |
+       keyboard-input focus.  If the value is False,  the stacking   |
+       of windows on the display is not changed when a window gets   |
+       the keyboard input focus.  If keyboardFocusPolicy is expli-   |
+       cit, the default value is True.  If keyboardFocusPolicy is    |
+       pointer, the default value is False.
+
+       ppppaaaassssssssBBBBuuuuttttttttoooonnnnssss....  The passButtons resource indicates whether      |
+       button press events are passed to clients after they are
+       used to do a window manager function in the "client" con-
+       text.  If the resource value is False, the button press is    |
+       not passed to the client.  If the value is True, the button   |
+       press is passed to the client window.  The window manager     |
+       function is done in either case.  The default value is        |
+       False.
+
+       ppppaaaassssssssSSSSeeeelllleeeeccccttttBBBBuuuuttttttttoooonnnn.  This resource indicates whether or not to  |
+       pass the select button press events to clients after they     |
+       are used to do a window manager function in the client con-   |
+       text.  If the resource value is False, then the button press  |
+       will not be passed to the client.  If the value is True, the  |
+       button press is passed to the client window.  The window      |
+       manager function is done in either case.  The default value   |
+       for this resource is True.
+
+       ssssttttaaaarrrrttttuuuuppppKKKKeeeeyyyyFFFFooooccccuuuussss....  This resource is available only when the    |
+       keyboard input focus policy is "explicit."  If the star-
+       tupKeyFocus resource is given the value of True, a window     |
+       gets the keyboard input focus when the window is mapped       |
+       (that is, initially managed by the window manager).  The      |
+       default value is True.
+
+
+
+
+
+
+
+
+       13-8
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       13.4.3  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ooooffff FFFFooooccccuuuussss PPPPoooolllliiiiccccyyyy RRRReeeessssoooouuuurrrrcccceeeessss
+
+       Focus policy resources have the following syntax:
+
+       Mwm*_f_o_c_u_s_P_o_l_i_c_y_R_e_s_o_u_r_c_e:   _p_o_l_i_c_y                             |
+
+       For example, by adding the following line to your ....XXXXddddeeeeffffaaaauuuullllttttssss  |
+       file, you could change the keyboardFocusPolicy so that mov-
+       ing the pointer into a window moves the keyboard input focus
+       there (no other action is needed):
+
+       Mwm*keyboardFocusPolicy:   pointer                            |
+
+       13.5  MMMMaaaannnnaaaaggggiiiinnnngggg CCCClllliiiieeeennnnttttssss
+
+       Two unique resources allow the user to refine management of   |
+       clients:  qqqquuuuiiiittttTTTTiiiimmmmeeeeoooouuuutttt sets the amount of time MWM waits for   |
+       a client to save information and close; ssssaaaavvvveeeeUUUUnnnnddddeeeerrrr controls    |
+       the repainting of windows that are uncovered after being
+       obscured.
+
+       qqqquuuuiiiittttTTTTiiiimmmmeeeeoooouuuutttt....  The quitTimeout resource specifies the amount   |
+       of time (in milliseconds) that MWM waits for a client to
+       update the WM_COMMAND property after it has sent the          |
+       WM_SAVE_YOURSELF message.  This protocol is used only for
+       those clients that have a WM_SAVE_YOURSELF atom in the
+       WM_PROTOCOLS client window property.  (Refer to the sections
+       on each property in Chapter 12.)  The default time is 1000    |
+       msec.
+
+       ssssaaaavvvveeeeUUUUnnnnddddeeeerrrr....  The saveUnder resource is used to indicate
+       whether "save unders" are used for MWM components.  For this
+       to have any effect, save unders must be implemented by the X
+       server.  If save unders are implemented, the X server saves   |
+       the contents of windows obscured by windows that have the
+       save under attribute set.  If the saveUnder resource has a    |
+       value of True, MWM sets the save under attribute on the win-
+       dow manager frame for any client that has it set.  If the
+       value is False, save unders are not used on any window        |
+       manager frames.  The default value is False.                  *
+
+       13.6  MMMMaaaannnnaaaaggggiiiinnnngggg tttthhhheeee AAAAppppppppeeeeaaaarrrraaaannnncccceeee aaaannnndddd BBBBeeeehhhhaaaavvvviiiioooorrrr ooooffff WWWWiiiinnnnddddoooowwww FFFFrrrraaaammmmeeeessss
+             aaaannnndddd MMMMaaaatttttttteeeessss
+
+       The appearance and behavior of window frames and mattes in
+       the user's environment are controlled by editing the user's   |
+       ....XXXXddddeeeeffffaaaauuuullllttttssss file.
+
+       The following aspects of the appearance and behavior of win-  |
+       dow frames and mattes are under the user's control:
+
+
+
+                                                               13-9
+
+
+
+
+
+
+
+
+
+
+
+
+       Font        The style (including size) of the text charac-
+                   ters in the title area, menus, and icon labels.
+
+       Color       The color of foreground, background, top shadow,
+                   bottom shadow, and side shadows.
+
+       Pixmap      The mixture of foreground and background color
+                   that composes the pattern of the window frame or
+                   matte surface.  (This is particularly useful for
+                   monochrome displays.)
+
+       Elements    The number of frame pieces used to decorate a
+                   client window.
+
+       Size        The maximum size a window can be in certain
+                   situations.
+
+       Position    The initial position of a window on the screen
+                   and whether it can be moved interactively.
+
+       The rest of this chapter describes the resources, their
+       values, and any special syntax that applies.                  |
+
+       13.7  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg aaaa DDDDiiiiffffffffeeeerrrreeeennnntttt FFFFoooonnnntttt ffffoooorrrr tttthhhheeee WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr
+
+       ffffoooonnnnttttLLLLiiiisssstttt....  The default font for the text of MWM is the fixed  |
+       font.  However, you can use the fontList resource to specify
+       a different font if you desire.  The fontList resource can    |
+       use any valid X11 R4 font description as its value.  Keep in
+       mind that the font size affects the size of window frames,    |
+       icons and menus.
+
+       13.8  CCCCoooolllloooorrrriiiinnnngggg WWWWiiiinnnnddddoooowwww FFFFrrrraaaammmmeeeessss
+
+       Any of the standard X11 colors listed in                      |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////rrrrggggbbbb....ttttxxxxtttt can be used to color frame elements.
+       Additionally, custom colors can be created using hexadecimal
+       values.  Frame elements and resources exist for inactive
+       windows (any window not having the current keyboard focus)
+       and for the active window (the window having the current
+       keyboard focus).  This enables the user to distinguish the
+       active window by giving it special "active window" colors.
+
+
+
+
+
+
+
+
+
+
+
+       13-10
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+                                                                     |
+         FFFFiiiigggguuuurrrreeee 11113333----1111....  MWM Frame Showing Frame Elements and Matte    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The default values for color resources are based on the       *
+       visual type of the screen (for example, monochrome, 8-bit     |
+       pseudocolor, and so on) and the values given to related       |
+       resources.  The following table indicates default values for  |
+       a color display.  On a monochrome display the default value   |
+       for these resources is White.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              13-11
+
+
+
+
+
+
+
+
+
+
+
+
+       TTTTAAAABBBBLLLLEEEE 11113333----1111....  Default Values for Appearance on a Color         |
+                    Display
+
+              RRRReeeessssoooouuuurrrrcccceeee NNNNaaaammmmeeee                  RRRReeeessssoooouuuurrrrcccceeee VVVVaaaalllluuuueeee
+              _____________________________________________
+              Mwm*activeBackground           CadetBlue
+              Mwm*activeBackgroundPixmap     NULL
+              Mwm*activeBottomShadowPixmap   NULL
+              Mwm*activeTopShadowPixmap      NULL
+              Mwm*background                 LightGrey               |
+              Mwm*backgroundPixmap           NULL
+              Mwm*bottomShadowPixmap         NULL
+              Mwm*topShadowPixmap            NULL
+
+       The default menu colors (for various types of displays) are
+       set by the OSF/Motif menu widgets.  The value of the back-
+       ground resource is used to generate default values for the    |
+       other color resources so that there is a pleasing 3-          |
+       dimensional effect.  The following rules are used by MWM in
+       generating default values for color resources:
+
+          +o A top shadow color is generated by proportionally
+            lightening the associated background color.
+
+          +o A bottom shadow color is generated by proportionally
+            darkening the associated background color.
+
+          +o The foreground color is black or white depending on the  |
+            background color.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       13-12
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       The following table indicates default values for appearance   *
+       resources on a monochrome display.                            |
+
+       TTTTAAAABBBBLLLLEEEE 11113333----2222....  Default Values for Appearance on a Monochrome
+                    Display
+
+              RRRReeeessssoooouuuurrrrcccceeee NNNNaaaammmmeeee                  RRRReeeessssoooouuuurrrrcccceeee VVVVaaaalllluuuueeee
+              _____________________________________________
+              Mwm*activeBackground           White
+              Mwm*activeBackgroundPixamp     NULL
+              Mwm*activeBottomShadowPixmap   NULL
+              Mwm*activeTopShadowPixmap      50_foreground
+              Mwm*background                 White
+              Mwm*backgroundPixmap           75_foreground
+              Mwm*bottomShadowColor          Black
+              Mwm*bottomShadowPixmap         NULL
+              Mwm*topShadowColor             White
+              Mwm*topShadowPixmap            50_foreground
+
+       The standard pixmap names in the OSF/Motif widget library
+       (Xm) can be used in specifying pixmap resources such as
+       topShadowPixmap (refer to XXXXmmmmIIIInnnnssssttttaaaallllllllIIIImmmmaaaaggggeeee).                    |
+
+       13.8.1  CCCCoooolllloooorrrriiiinnnngggg IIIInnnnddddiiiivvvviiiidddduuuuaaaallll FFFFrrrraaaammmmeeee EEEElllleeeemmmmeeeennnnttttssss
+
+       The following table lists the individual elements of inac-
+       tive and active window frames, and the resources that con-
+       trol their color:
+
+           TTTTAAAABBBBLLLLEEEE 11113333----3333....  MWM Color Resources and What They Color      *
+
+       IIIInnnnaaaaccccttttiiiivvvveeee WWWWiiiinnnnddddoooowwww aaaannnndddd   AAAAccccttttiiiivvvveeee WWWWiiiinnnnddddoooowwww aaaannnndddd
+       IIIIccccoooonnnn RRRReeeessssoooouuuurrrrcccceeeessss        IIIIccccoooonnnn RRRReeeessssoooouuuurrrrcccceeeessss            AAAArrrreeeeaaaa CCCCoooolllloooorrrreeeedddd
+       ________________________________________________________________________|
+       foreground            activeForeground          Foreground areas. (text)
+       ________________________________________________________________________
+       background            activeBackground          Background areas.
+       ________________________________________________________________________
+       topShadowColor        activeTopShadowColor      Top and left 3-D bevels.
+       ________________________________________________________________________
+                                                       Bottom and right 3-D      |
+                                                       bevels.
+77       bottomShadowColor     activeBottomShadowColor
+
+7                          |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+                                                    |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+       Although the active and inactive color schemes can be made    |
+       the same, it is usually more effective to pick contrasting
+       color schemes that make the active window readily distin-
+       guishable from its inactive counterparts.                     |
+
+
+
+
+
+
+                                                              13-13
+
+
+
+
+
+
+
+
+
+
+
+
+       13.8.2  SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr RRRReeeessssoooouuuurrrrcccceeeessss CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg FFFFrrrraaaammmmeeee AAAAppppppppeeeeaaaarrrraaaannnncccceeee     |
+               EEEElllleeeemmmmeeeennnntttt                                               |
+
+       The following syntax in ....XXXXddddeeeeffffaaaauuuullllttttssss is used to specify the
+       general appearance of frame elements:
+
+          MMMMwwwwmmmm****_r_e_s_o_u_r_c_e:     _v_a_l_u_e                                    |
+
+       For example, suppose the user wants the foreground and back-  |
+       ground of inactive window frames to be the reverse of the
+       foreground and background of the active window frame, and
+       chooses the colors SteelBlue for background and VioletRed
+       for foreground.  Also, the user wants to specify a different  |
+       font.  To produce this appearance, the user puts the follow-  |
+       ing lines in the ....XXXXddddeeeeffffaaaauuuullllttttssss file.
+
+          Mwm*background:             SteelBlue
+          Mwm*foreground:             VioletRed
+          Mwm*activeBackground:       VioletRed
+          Mwm*activeForeground:       SteelBlue
+          Mwm*fontList:               6x10
+
+       The user can specify the appearance of window-frame elements  |
+       for four particular objects.
+
+          +o Menus                                                    |
+
+          +o Icons (includes the frame elements of all icons)         |
+
+          +o Clients (includes the frame elements of all clients)     |
+
+          +o Feedback windows                                         |
+
+       This allows the user to select a different color or font for  |
+       a particular object, perhaps menus, while the other objects
+       (icons and clients) remain the same.  To do this, the fol-
+       lowing syntax is used:
+
+       MMMMwwwwmmmm****{mmmmeeeennnnuuuu ||||iiiiccccoooonnnn ||||cccclllliiiieeeennnntttt ||||ffffeeeeeeeeddddbbbbaaaacccckkkk}*_r_e_s_o_u_r_c_e:  _v_a_l_u_e           |
+
+       In addition, the user can specify resource values for the     |
+       title area of a client window and for menus with specific
+       names:
+
+       MMMMwwwwmmmm****cccclllliiiieeeennnntttt****ttttiiiittttlllleeee****_r_e_s_o_u_r_c_e:   _v_a_l_u_e                            |
+
+       MMMMwwwwmmmm****mmmmeeeennnnuuuu****_m_e_n_u_n_a_m_e*_r_e_s_o_u_r_c_e:   _v_a_l_u_e                           |
+
+
+
+
+
+
+       13-14
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       For example, users who want the general appearance of the     |
+       clients in the environment to be as above, SteelBlue and      |
+       VioletRed, but want the menus to be different, can add the    |
+       following lines to the ....XXXXddddeeeeffffaaaauuuullllttttssss file:                       |
+
+          Mwm*background:             SteelBlue
+          Mwm*foreground:             VioletRed
+          Mwm*activeBackground:       VioletRed
+          Mwm*activeForeground:       SteelBlue
+          Mwm*fontList:               6x10
+          Mwm*menu*background:        SkyBlue
+          Mwm*menu*foreground:        White
+
+       Information on menus and icons appears in later chapters.
+
+       13.9  MMMMaaaakkkkiiiinnnngggg WWWWiiiinnnnddddoooowwww FFFFrrrraaaammmmeeee PPPPiiiixxxxmmmmaaaappppssss
+
+       Making a pixmap is a way of creating shades of colors.  The   |
+       pixmap is composed of tiles that provide a surface pattern
+       or a visual texture. The concept is analogous to using
+       ceramic tiles to make a pattern or texture on a floor or
+       countertop.
+
+       Generally, the fewer colors a display produces, the more      |
+       important the pixmap resource becomes.  This is because a
+       pixmap provides a way to mix foreground and background        |
+       colors into a third color pattern.
+
+       For example, with a monochrome display (two colors-black and  |
+       white), one could use the pixmap resource to color window     |
+       frame elements with shades of gray to achieve a 3-            |
+       dimensional look.                                             |
+
+       The following table shows the MWM pixmap resources that let   |
+       the user create a pattern for the frame background and bev-
+       els of both inactive and active windows:                      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              13-15
+
+
+
+
+
+
+
+
+
+
+
+
+             TTTTAAAABBBBLLLLEEEE 11113333----4444....  Creating a Pixmap for Window Frames        *
+
+       UUUUsssseeee tttthhhhiiiissss rrrreeeessssoooouuuurrrrcccceeee............        TTTToooo ppppaaaatttttttteeeerrrrnnnn tttthhhheeeesssseeee eeeelllleeeemmmmeeeennnnttttssss............
+       ________________________________________________________      |
+                                  Background and bevel for
+                                  inactive frames.
+77       backgroundPixmap
+
+       ________________________________________________________
+                                  Right and bottom bevels of
+                                  inactive frames.
+77       bottomShadowPixmap
+
+       ________________________________________________________
+                                  Left and upper bevels of
+                                  inactive frames.
+77       topShadowPixmap
+
+       ________________________________________________________
+                                  Background of the active
+                                  frame.
+77       activeBackgroundPixmap
+
+       ________________________________________________________
+                                  Right and lower bevels of the
+                                  active frame.
+77       activeBottomShadowPixmap
+
+       ________________________________________________________
+                                  Left and upper bevels of the
+                                  active frame.
+77       activeTopShadowPixmap
+
+7                               |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following figure illustrates various pixmap values:
+                                                                     *
+            FFFFiiiigggguuuurrrreeee 11113333----2222....  Illustrations of Valid Pixmap Values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following table lists the acceptable values for obtain-   |
+       ing the pixmap styles illustrated above:
+
+
+
+
+
+
+       13-16
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+                     TTTTAAAABBBBLLLLEEEE 11113333----5555....  Valid Pixmap Values
+
+       TTTToooo ppppaaaatttttttteeeerrrrnnnn aaaannnn eeeelllleeeemmmmeeeennnntttt iiiinnnn tttthhhhiiiissss mmmmaaaannnnnnnneeeerrrr............   Use this value...   |
+       ______________________________________________________________
+       The foreground color                      foreground          |
+       ______________________________________________________________
+       The background color                      background          |
+       ______________________________________________________________|
+       A mix of 25% foreground to 75% back-     |
+       ground
+77                                                 25_foreground
+
+       ______________________________________________________________
+       A mix of 50% foreground to 50% back-     |
+       ground
+77                                                 50_foreground
+
+       ______________________________________________________________
+       A mix of 75% foreground to 25% back-     |
+       ground
+77                                                 75_foreground
+
+       ______________________________________________________________
+       In horizontal lines alternating between
+       the foreground and background color      |
+77                                                 horizontal_tile
+
+       ______________________________________________________________
+       In vertical lines alternating between
+       the foreground and background color      |
+77                                                 vertical_tile
+
+       ______________________________________________________________
+       In diagonal lines slanting to the
+       right, alternating between the fore-
+       ground and background color              |
+777                                                 slant_right
+
+
+       ______________________________________________________________
+       In diagonal lines slanting to the left,
+       alternating between the foreground and   |
+       background color
+777                                                 slant_left
+
+
+7                                              |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       cccclllleeeeaaaannnnTTTTeeeexxxxtttt....  The cleanText resource can be used to make text
+       easier to read on monochrome systems where a backgroundPix-
+       map is specified.  This resource controls the display of
+       window manager text in the title area and in feedback win-
+       dows.  If the default value of True is used, the text is      |
+       drawn with a clear background.  Only the background in the
+       area immediately around the text is cleared.  If the value    |
+       is False, the text is drawn directly on top of the existing
+       background.
+
+       13.10  SSSSppppeeeecccciiiiffffyyyyiiiinnnngggg aaaa MMMMaaaatttttttteeee ffffoooorrrr CCCClllliiiieeeennnntttt WWWWiiiinnnnddddoooowwwwssss
+
+       OSF/Motif has "matte" resources that allow further decora-
+       tion of windows. A mmmmaaaatttttttteeee is a 3-dimensional border between    |
+       the client's window area and the window frame. A matte can
+       give an individual client, or class of clients, a distinct
+       appearance.  To configure a matte, the matteWidth resource
+       must first be given a positive value.
+
+
+
+
+                                                              13-17
+
+
+
+
+
+
+
+
+
+
+
+
+       mmmmaaaatttttttteeeeWWWWiiiiddddtttthhhh.  The matteWidth resource defines the width of     |
+       the matte between the client and the window frame.  The
+       width is given in pixels.  For example, to specify a matte
+       of 10 pixels around all xload windows, the following line     |
+       must be in the ....XXXXddddeeeeffffaaaauuuullllttttssss file:
+
+          Mwm*XLoad.matteWidth:   10
+
+       The default value of 0 disables the matte.                    |
+
+       13.10.1  CCCCoooolllloooorrrriiiinnnngggg IIIInnnnddddiiiivvvviiiidddduuuuaaaallll MMMMaaaatttttttteeee EEEElllleeeemmmmeeeennnnttttssss
+
+       Matte resources use the same wording as window frame
+       resources, but begin with the term "matte."  The following    |
+       table lists the matte resources that control color.
+
+           TTTTAAAABBBBLLLLEEEE 11113333----6666....  MWM Matte Resources and What They Color
+
+       MMMMaaaatttttttteeee RRRReeeessssoooouuuurrrrcccceeee           AAAArrrreeeeaaaa CCCCoooolllloooorrrreeeedddd
+       ______________________________________________________________
+       matteBackground          Background areas                     |
+       matteTopShadowColor      Top and left 3-dimensional bevels    |
+       matteBottomShadowColor   Bottom and right 3-dimensional bevels|
+       matteForeground          Foreground areas                     |
+
+       13.10.2  CCCChhhhaaaannnnggggiiiinnnngggg tttthhhheeee PPPPiiiixxxxmmmmaaaapppp ooooffff MMMMaaaatttttttteeeessss
+
+       As with frame colors, the fewer colors a display can pro-     |
+       duce, the more value there is in creating a pixmap for
+       mattes.  Again, a pixmap provides a way to "mix" foreground
+       and background colors into a third color.  For a 2-color
+       (monochrome) display, one can create a pixmap for a window
+       matte in shades of gray to achieve a pleasing 3-dimensional   |
+       look.
+
+       The following table lists the resources that are used to      |
+       create a pixmap for mattes.
+
+             TTTTAAAABBBBLLLLEEEE 11113333----7777....  MWM Resources for Creating a Pixmap
+
+         UUUUsssseeee tttthhhhiiiissss rrrreeeessssoooouuuurrrrcccceeee............       TTTToooo ppppaaaatttttttteeeerrrrnnnn tttthhhheeeesssseeee eeeelllleeeemmmmeeeennnnttttssss............
+         _______________________________________________________     |
+                                   Right and lower bevels of         |
+                                   matte                             |
+77         matteBottomShadowPixmap                                     |
+
+         _______________________________________________________     |
+                                   Left and upper bevels of          |
+                                   matte                             |
+77         matteTopShadowPixmap                                        |
+
+7                                |7|7|7|7|7|7|
+
+
+
+
+
+                                                                     |
+
+       See Section 13.9 for a chart and an illustration of the       |
+       values for pixmap resources.
+
+
+
+       13-18
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       13.10.3  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr MMMMaaaatttttttteeee RRRReeeessssoooouuuurrrrcccceeeessss
+
+       Matte resources can have any of three syntaxes, depending on
+       the situation.
+
+         1.  To matte all clients regardless of class, the syntax    |
+             is
+
+                   MMMMwwwwmmmm****_m_a_t_t_e_R_e_s_o_u_r_c_e:   _v_a_l_u_e                        |
+
+             For example, to create a 10-pixel-wide yellow matte     *
+             for every client window, the user adds the following    |
+             lines to the ....XXXXddddeeeeffffaaaauuuullllttttssss file:
+
+                   Mwm*matteWidth:   10                              |
+                   Mwm*matteBackground:   Yellow                     |
+
+         2.  To matte specific classes of clients, the syntax is     |
+
+                   MMMMwwwwmmmm****_c_l_i_e_n_t_c_l_a_s_s._m_a_t_t_e_R_e_s_o_u_r_c_e:   _v_a_l_u_e            |
+
+         3.  To matte any client of an unknown class, the syntax is  |
+
+                   MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****_m_a_t_t_e_R_e_s_o_u_r_c_e:   _v_a_l_u_e               |
+
+         4.  To matte a specific client, the syntax is               |
+
+                   MMMMwwwwmmmm****_c_l_i_e_n_t_n_a_m_e*_m_a_t_t_e_R_e_s_o_u_r_c_e:   _v_a_l_u_e             |
+
+       13.11  UUUUssssiiiinnnngggg FFFFrrrraaaammmmeeeelllleeeessssssss oooorrrr RRRReeeedddduuuucccceeeedddd----EEEElllleeeemmmmeeeennnntttt WWWWiiiinnnnddddoooowwwwssss
+
+       For some applications the full complement of window decora-   |
+       tions may not be desirable.  For example, a clock may not
+       need resize frame handles.  MWM has two resources for such    |
+       situations:  cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn and ttttrrrraaaannnnssssiiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn.
+
+       The clientDecoration resource allows the user to choose how   |
+       much decoration to put around each client.  The default
+       value is "all."
+
+       The transientDecoration resource allows the user to choose    |
+       how much or how little decoration to put around each tran-
+       sient window.  (A ttttrrrraaaannnnssssiiiieeeennnntttt wwwwiiiinnnnddddoooowwww is a relatively short-
+       lived window, for example, a dialog box.)  The default value
+       for this resource is "menu title resizeh" (that is, tran-     |
+       sient windows have a title bar with a window menu button and
+       resize borders).  Even if a decoration is specified by the    |
+       transientDecoration resource, MWM does not put it around a    |
+       transient window unless that decoration is also specified by  |
+       the clientDecoration resource.
+
+
+
+                                                              13-19
+
+
+
+
+
+
+
+
+
+
+
+
+       The user can still use any function associated with the win-
+       dow decoration removed either by binding the function to a
+       button or to a key press, or by adding it to the window menu  |
+       (as explained in Chapter 14).
+
+       There are two sets of constraints when configuring window
+       decoration:
+
+         1.  You, the applications programmer, can use the func-     |
+             tions field of the _MOTIF_WM_HINTS property to limit
+             which MWM functions are to be used by the client win-   |
+             dow.  If a function is not to be applied to a window,   |
+             the decoration that does that function is not shown,    |
+             even if it is specified by the clientDecoration         |
+             resource.                                               |
+
+             The user can further limit the functions to be used by  |
+             configuring the clientFunctions resource (or tran-      |
+             sientFunctions resource if the window is a transient    |
+             window).                                                |
+
+             If the functions field of the _MOTIF_WM_HINTS client    |
+             window property is set, it is combined with the         |
+             clientFunctions resource value.  Functions can be       |
+             removed but not added in doing this combination.        |
+
+             The default value for allowed functions (to be used if
+             no specification is done by the client or user) is
+             that all functions are allowable.
+
+         2.  The decoration specification for a window is adjusted
+             based on the limits set by the _MOTIF_WM_HINTS pro-
+             perty and the clientDecoration resource (as previously  |
+             explained). Decorations that are associated with func-
+             tions that are not allowed are not shown.  The
+             clientDecoration resource (or transientDecoration
+             resource if the window is a transient window) is used
+             to indicate the decoration specification for a window.  |
+
+             If the decorations field of the _MOTIF_WM_HINTS client
+             window property is set, it is combined with the
+             clientDecorations resource value.  Decorations can be   |
+             removed but not added in doing this combination.        |
+
+             The default decoration for the client window frame is
+             all title bar decorations and the resize frame han-
+             dles.
+
+       For more discussion of how the clientFunctions resource is
+       used, see Section 14.3.4.  The _MOTIF_WM_HINTS property is    |
+       discussed in Section 12.3.                                    |
+
+
+       13-20
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       13.11.1  AAAAddddddddiiiinnnngggg oooorrrr RRRReeeemmmmoooovvvviiiinnnngggg EEEElllleeeemmmmeeeennnnttttssss
+
+       The clientDecoration and transientDecoration resources are
+       configured as a list of frame elements:
+
+          +o If the first element in the list is preceded by nothing  |
+            or by a + (plus sign), the window manager starts with
+            no frame and assumes that the list contains those ele-
+            ments to be added.
+
+          +o If the list begins with a - (minus sign), the window     |
+            manager starts with a complete frame and assumes that
+            the list contains elements to be removed from the
+            frame.
+
+       The following table lists the valid window frame elements.    |
+
+                  TTTTAAAABBBBLLLLEEEE 11113333----8888....  Valid MWM Frame Elements
+
+       FFFFrrrraaaammmmeeee EEEElllleeeemmmmeeeennnntttt   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       _________________________________________________________________*
+       all             Includes all decoration elements (default value).|
+       _________________________________________________________________|
+       maximize        Maximize button (includes title bar).
+       _________________________________________________________________
+       minimize        Minimize button (includes title bar).
+       _________________________________________________________________
+       none            No decorations.
+       _________________________________________________________________
+       resizeh         Resize frame handles (includes border).
+       _________________________________________________________________
+       border          Window border.
+       _________________________________________________________________
+       menu            Window menu (includes title bar).
+       _________________________________________________________________
+       title           Title bar (includes border).
+7                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              13-21
+
+
+
+
+
+
+
+
+
+
+
+
+       13.11.2  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn aaaannnndddd ttttrrrraaaannnn----
+                ssssiiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The clientDecoration resource has three syntaxes:             |
+
+          +o To add or remove elements from all classes of clients,   |
+            the syntax is                                            |
+
+
+                MMMMwwwwmmmm****cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn::::   _v_a_l_u_e                        |
+
+
+            For example, remove the maximize button from all win-    |
+            dows by adding the following line to the ....XXXXddddeeeeffffaaaauuuullllttttssss      |
+            file:                                                    |
+
+
+                Mwm*clientDecoration:   -maximize                    |
+
+
+
+          +o To add or remove elements from specific classes of       |
+            clients, the syntax is                                   |
+
+
+                MMMMwwwwmmmm****_c_l_i_e_n_t_c_l_a_s_s....cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn::::   _v_a_l_u_e            |
+
+
+            For example, to remove just the resize handles and the   |
+            maximize button from all clocks displayed on the         |
+            screen, add the following>:                              |
+
+
+                 Mwm*XClock.clientDecoration:   -resizeh -maximize   |
+
+
+
+          +o To add or remove elements from any client with an        |
+            unknown class, the syntax is                             |
+
+
+                MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****cccclllliiiieeeennnnttttDDDDeeeeccccoooorrrraaaattttiiiioooonnnn::::   _v_a_l_u_e               |
+
+
+            The transientDecoration resource has the following syn-  |
+            tax:                                                     |
+
+
+
+
+
+
+
+       13-22
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+                Mwm*transientDecoration:   _v_a_l_u_e                     |
+
+
+            For example, remove the menu button from all transient   |
+            windows by adding the following line to the ....XXXXddddeeeeffffaaaauuuullllttttssss   |
+            file:                                                    |
+
+
+                 Mwm*transientDecoration:   title resizeh            |
+
+       13.12  CCCCoooonnnnttttrrrroooolllllllliiiinnnngggg WWWWiiiinnnnddddoooowwww SSSSiiiizzzzeeee aaaannnndddd PPPPoooossssiiiittttiiiioooonnnn
+
+       MWM has a number of resources that allow the user to refine
+       control of the size and position of windows.
+
+       13.12.1  WWWWiiiinnnnddddoooowwww SSSSiiiizzzzeeee RRRReeeessssoooouuuurrrrcccceeeessss                                |
+
+       The following resources configure the size of windows:
+
+       ffffrrrraaaammmmeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh....  The frameBorderWidth resource specifies
+       the width (in pixels) of a client window frame border with
+       shadow elements, but without resize handles.  The default     |
+       value is 5 pixels.                                            |
+
+       lllliiiimmmmiiiittttRRRReeeessssiiiizzzzeeee.  The limitResize resource controls the ability
+       to enlarge a window beyond the client's maximized size.  The  |
+       default value of True limits a window's size to no greater
+       than the maximum size specified by the maximumClientSize
+       resource, or the WM_NORMAL_HINTS window property, or the
+       default maximum size assigned by MWM.  The value of "False"   |
+       allows a window to be resized to any size.
+
+       mmmmaaaaxxxxiiiimmmmuuuummmmCCCClllliiiieeeennnnttttSSSSiiiizzzzeeee.  The maximumClientSize resource controls
+       the maximum size of a maximized client.  Its value is a
+       width x height, interpreted in terms of the units that the
+       client uses.  If this resource is not specified, the maximum  |
+       size is taken from the WM_NORMAL_HINTS window property, or
+       the default size (the size of the screen) is used.            |
+
+       mmmmaaaaxxxxiiiimmmmuuuummmmMMMMaaaaxxxxiiiimmmmuuuummmmSSSSiiiizzzzeeee.  The maximumMaximumSize resource con-
+       trols the maximum size of a client window as set by the
+       client.  The dimensions are given in pixels.  The default
+       value of this resource is twice the screen width and height.
+
+       rrrreeeessssiiiizzzzeeeeBBBBoooorrrrddddeeeerrrrWWWWiiiiddddtttthhhh.  The resizeBorderWidth resource specifies  |
+       the width of a client window frame border with resize han-
+       dles and shadow elements.  The default value is 10 pixels.
+
+       rrrreeeessssiiiizzzzeeeeCCCCuuuurrrrssssoooorrrrssss.  The resizeCursors resource indicates whether
+       the resize cursors are displayed when the pointer is in the
+       window resize border. The default value True causes the       |
+
+
+                                                              13-23
+
+
+
+
+
+
+
+
+
+
+
+
+       appropriate resize cursor to appear when the pointer enters
+       a resize handle in the window frame.  The value of False      |
+       prevents resize cursors from being displayed.
+
+       13.12.2  WWWWiiiinnnnddddoooowwww PPPPoooossssiiiittttiiiioooonnnn RRRReeeessssoooouuuurrrrcccceeeessss                            |
+
+       The following resources configure the position of windows:
+
+       cccclllliiiieeeennnnttttAAAAuuuuttttooooPPPPllllaaaacccceeee....  The clientAutoPlace resource determines
+       the position of a window when the window has not been given
+       a user specified position.  The default value of True posi-   |
+       tions a window with the top left corner of the frame offset
+       horizontally and vertically.  The value of False causes the   |
+       currently configured position of the window to be used.  In   |
+       either case, MWM attempts to place the window totally on the  |
+       screen.
+
+       iiiinnnntttteeeerrrraaaaccccttttiiiivvvveeeePPPPllllaaaacccceeeemmmmeeeennnntttt.  The interactivePlacement resource
+       controls the initial placement of new windows on the screen.  |
+       The value of True changes the shape of the pointer (to an
+       upper-left-corner bracket) before a new window displays, so
+       a position can be chosen for the window.  When the default    |
+       value of False is used, the window is placed according to
+       its initial configuration attributes and/or the values of     |
+       other MWM resources (for example, clientAutoPlace).
+
+       mmmmoooovvvveeeeTTTThhhhrrrreeeesssshhhhoooolllldddd.  The moveThreshold resource controls the sen-
+       sitivity of dragging operations.  The value of the
+       moveThreshold resource is the number of pixels that the
+       pointer must be moved with a button pressed before a drag
+       operation is initiated.  This resource is used to prevent
+       window or icon movement when the user unintentionally moves
+       the pointer during a click or double-click action.  The
+       default value is 4 pixels.                                    |
+
+       ppppoooossssiiiittttiiiioooonnnnIIIIssssFFFFrrrraaaammmmeeee.  The positionIsFrame resource determines     |
+       how client window-position information is reported.  When     |
+       the default value True is used, the position information      |
+       (from WM_NORMAL_HINTS and configuration files) refers to the  |
+       position of the window frame.  When the value is False, the
+       position information refers to the position of the client
+       window itself.                                                |
+
+       ppppoooossssiiiittttiiiioooonnnnOOOOnnnnSSSSccccrrrreeeeeeeennnn.  The positionOnScreen resource controls
+       clipping of new windows by screen edges.  The default value   |
+       True causes a window to be placed, if possible, so that it
+       is not clipped.  If clipping cannot be avoided, a window is
+       placed so that at least the upper left corner of the window
+       is on the screen.  The value of False causes a window to be   |
+       placed at the requested position even if it is totally off
+       the screen.                                                   |
+
+
+       13-24
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+       sssshhhhoooowwwwFFFFeeeeeeeeddddbbbbaaaacccckkkk....  The showFeedback resource controls when feed-
+       back information is displayed.  It controls both window
+       position and size feedback during move or resize operations
+       and initial client placement.  It also controls window        |
+       manager message and dialog boxes.                             |
+
+       The value for this resource is a list of names of the feed-
+       back options to be enabled or disabled; the names must be     |
+       separated by a space.  If an option is preceded by a minus    |
+       sign, that option is excluded from the list.  The _s_i_g_n of     |
+       the first item in the list determines the initial set of      |
+       options.  If the sign of the first option is minus, mmmmwwwwmmmm       |
+       assumes all options are present and starts subtracting from   |
+       that set.  If the sign of the first decoration is plus (or    |
+       not specified), mmmmwwwwmmmm starts with no options and builds up a    |
+       list from the resource.
+
+       The following table lists the names of the feedback options.  |
+
+                      TTTTAAAABBBBLLLLEEEE 11113333----9999....  Feedback Options
+
+       NNNNaaaammmmeeee        DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+       ___________________________________________________________   *
+       all         Show all feedback (Default value)                 |
+       ___________________________________________________________
+       behavior    Confirm behavior switch                           |
+       ___________________________________________________________
+       kill        Confirm on receipt of KILL signal                 |
+       ___________________________________________________________
+       move        Show position during move                         |
+       ___________________________________________________________
+       none        Show no feedback                                  |
+       ___________________________________________________________
+       placement   Show position and size during initial placement   |
+       ___________________________________________________________   |
+       quit        Confirm quitting MWM                              |
+       ___________________________________________________________   |
+       resize      Show size during resize                           |
+       ___________________________________________________________   |
+       restart     Confirm MWM restart                               |
+7                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The following resource specification illustrates the syntax   |
+       for showFeedback:                                             |
+
+
+       Mwm*showFeedback: placement resize behavior restart           |
+
+       This command line provides feedback for initial client        |
+       placement and resize, and enables the dialog boxes to con-    |
+       firm the restart and set behavior functions.  It disables
+       feedback for the move function.                               |
+
+
+                                                              13-25
+
+
+
+
+
+
+
+
+
+
+
+
+       13.12.3  OOOOtttthhhheeeerrrr RRRReeeessssoooouuuurrrrcccceeeessss                                      |
+
+       The following resource applies to sizing and positioning of   |
+       windows:                                                      |
+
+       eeeennnnaaaabbbblllleeeeWWWWaaaarrrrpppp.  The default value of this resource, True,        |
+       causes MWM to "warp" the pointer to the center of the         |
+       selected window during keyboard-controlled resize and move    |
+       operations.  Setting the value to False causes MWM to leave   |
+       the pointer at its original place on the screen, unless the   |
+       user explicitly moves it with the cursor keys or pointing     |
+       device.                                                       |
+
+       13.12.4  TTTThhhheeee SSSSyyyynnnnttttaaaaxxxx ffffoooorrrr SSSSiiiizzzzeeee aaaannnndddd PPPPoooossssiiiittttiiiioooonnnn RRRReeeeffffiiiinnnneeeemmmmeeeennnntttt
+                RRRReeeessssoooouuuurrrrcccceeeessss
+
+       The resources that refine control over the size and position
+       of windows have the following syntax:                         |
+
+
+       MMMMwwwwmmmm****_r_e_s_o_u_r_c_e:   _v_a_l_u_e                                         |
+
+       For example, to place each new window on the screen interac-
+       tively, add the following line to the ....XXXXddddeeeeffffaaaauuuullllttttssss file:        |
+
+
+       Mwm*interactivePlacement:   True                              |
+
+       IIIInnnn aaaaddddddddiiiittttiiiioooonnnn ttttoooo tttthhhhiiiissss ssssyyyynnnnttttaaaaxxxx,,,, tttthhhheeee mmmmaaaaxxxxiiiimmmmuuuummmmCCCClllliiiieeeennnnttttSSSSiiiizzzzeeee resource
+       has two more syntaxes:
+
+         1.  To specify the maximum client size for specific
+             classes of clients the syntax is                        |
+
+             MMMMwwwwmmmm****_c_l_i_e_n_t_c_l_a_s_s.maximumClientSize:   _w_i_d_t_hx_h_e_i_g_h_t       |
+
+
+             For example, to specify that xload clients should be    |
+             maximized to no more than one sixty-fourth of the size
+             of a 1024x768 display, add the line:                    |
+
+             Mwm*XLoad.maximumClientSize:   128x96                   |
+
+         2.  To specify the maximum client size for any client with
+             an unknown class, the syntax is:                        |
+
+
+
+
+
+
+
+
+       13-26
+
+
+
+
+
+
+
+
+
+                                          Managing Windows With MWM
+
+
+             MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****mmmmaaaaxxxxiiiimmmmuuuummmmCCCClllliiiieeeennnnttttSSSSiiiizzzzeeee::::   _w_i_d_t_hx_h_e_i_g_h_t          |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              13-27
+
+
+
+
+

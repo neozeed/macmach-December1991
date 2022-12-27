@@ -1,0 +1,47 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmDestroyPixmap 3X "" "" "" ""
+.SH NAME
+\fBXmDestroyPixmap \(em a pixmap caching function that removes a pixmap from
+the pixmap cache.\fP
+.iX "XmDestroyPixmap"
+.iX "pixmaps"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmDestroyPixmap (\fIscreen, pixmap\fP)
+.br
+.ta .5i 1.5i
+	Screen	\fI* screen\fP;
+.br
+	Pixmap	\fIpixmap\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmDestroyPixmap\fP removes pixmaps that are no longer used.  
+Pixmaps are completely freed only when there is no further reference to them.
+.sp 1
+.IP "\fIscreen\fP" .75i
+Specifies the display screen for which the pixmap was requested
+.IP "\fIpixmap\fP" .75i
+Specifies the pixmap to be destroyed
+.sp 1
+.SH RETURN VALUE
+Returns True when successful; returns False if there is no matching screen 
+and pixmap in the pixmap cache.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmInstallImage(3X)\fP, \fBXmUninstallImage(3X)\fP, and 
+\fBXmGetPixmap(3X)\fP.
+.sp 1

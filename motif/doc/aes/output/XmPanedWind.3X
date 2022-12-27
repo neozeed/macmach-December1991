@@ -1,0 +1,396 @@
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww ---- tttthhhheeee PPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////PPPPaaaannnneeeeddddWWWW....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          PanedWindow is a composite widget that lays out children in
+          a vertically tiled format.  Children appear in top-to-bottom
+          fashion, with the first child inserted appearing at the top
+          of the PanedWindow and the last child inserted appearing at
+          the bottom.  The PanedWindow grows to match the width of its
+          widest child and all other children are forced to this
+          width. The height of the PanedWindow is equal to the sum of
+          the heights of all its children, the spacing between them,
+          and the size of the top and bottom margins.
+
+          The user can also adjust the size of the panes.  To
+          facilitate this adjustment, a pane control sash is created
+          for most children.  The sash appears as a square box
+          positioned on the bottom of the pane that it controls.  The
+          user can adjust the size of a pane by using the mouse or
+          keyboard.
+
+          The PanedWindow is also a constraint widget, which means
+          that it creates and manages a set of constraints for each
+          child.  You can specify a minimum and maximum size for each
+          pane.  The PanedWindow does not allow a pane to be resized
+          below its minimum size or beyond its maximum size.  Also,
+          when the minimum size of a pane is equal to its maximum
+          size, no control sash is presented for that pane or for the
+          lowest pane.
+
+          The default XXXXmmmmNNNNiiiinnnnsssseeeerrrrttttPPPPoooossssiiiittttiiiioooonnnn procedure for PanedWindow
+          causes sashes to be inserted at the end of the list of
+          children and causes non-sash widgets to be inserted after
+          other non-sash children but before any sashes.
+
+
+        CCCCllllaaaasssssssseeeessss
+          PanedWindow inherits behavior and resources from the CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr classes.
+
+          The class pointer is xxxxmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwwwWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww.
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                             XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                     CCCCllllaaaassssssss                TTTTyyyyppppeeee        DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     __________________________________________________________________________
+     XmNmarginHeight          XmCMarginHeight      Dimension   3         CSG
+     XmNmarginWidth           XmCMarginWidth       Dimension   3         CSG
+     XmNrefigureMode          XmCBoolean           Boolean     True      CSG
+     XmNsashHeight             XmCSashHeight       Dimension   10        CSG
+     XmNsashIndent            XmCSashIndent        Position    -10       CSG
+     XmNsashShadowThickness   XmCShadowThickness   Dimension   dynamic   CSG
+     XmNsashWidth              XmCSashWidth        Dimension   10        CSG
+     XmNseparatorOn           XmCSeparatorOn       Boolean     True      CSG
+     XmNspacing               XmCSpacing           Dimension   8         CSG
+
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the distance between the top and bottom edges
+               of the PanedWindow and its children.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the distance between the left and right edges
+               of the PanedWindow and its children.
+
+          XXXXmmmmNNNNrrrreeeeffffiiiigggguuuurrrreeeeMMMMooooddddeeee
+               Determines whether the panes' positions are recomputed
+               and repositioned when programmatic changes are being
+               made to the PanedWindow.  Setting this resource to True
+               resets the children to their appropriate positions.
+
+          XXXXmmmmNNNNssssaaaasssshhhhHHHHeeeeiiiigggghhhhtttt
+               Specifies the height of the sash.
+
+          XXXXmmmmNNNNssssaaaasssshhhhIIIInnnnddddeeeennnntttt
+               Specifies the horizontal placement of the sash along
+               each pane.  A positive value causes the sash to be
+               offset from the near (left) side of the PanedWindow,
+               and a negative value causes the sash to be offset from
+               the far (right) side of the PanedWindow.  If the offset
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+               is greater than the width of the PanedWindow minus the
+               width of the sash, the sash is placed flush against the
+               near side of the PanedWindow.
+
+               Whether the placement actually corresponds to the left
+               or right side of the PanedWindow may depend on the
+               value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn resource.
+
+          XXXXmmmmNNNNssssaaaasssshhhhSSSShhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss
+               Specifies the thickness of the shadows of the sashes.
+
+          XXXXmmmmNNNNssssaaaasssshhhhWWWWiiiiddddtttthhhh
+               Specifies the width of the sash.
+
+          XXXXmmmmNNNNsssseeeeppppaaaarrrraaaattttoooorrrrOOOOnnnn
+               Determines whether a separator is created between each
+               of the panes.  Setting this resource to True creates a
+               Separator at the midpoint between each of the panes.
+
+          XXXXmmmmNNNNssssppppaaaacccciiiinnnngggg
+               Specifies the distance between each child pane.
+
+                       XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+           NNNNaaaammmmeeee             CCCCllllaaaassssssss            TTTTyyyyppppeeee        DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+           ______________________________________________________________
+           XmNallowResize   XmCBoolean       Boolean     False     CSG
+           XmNpaneMaximum   XmCPaneMaximum   Dimension   1000      CSG
+           XmNpaneMinimum   XmCPaneMinimum   Dimension   1         CSG
+           XmNskipAdjust    XmCBoolean       Boolean     False     CSG
+
+
+          XXXXmmmmNNNNaaaalllllllloooowwwwRRRReeeessssiiiizzzzeeee
+               Allows an application to specify whether the
+               PanedWindow should allow a pane to request to be
+               resized.  This flag has an effect only after the
+               PanedWindow and its children have been realized. If
+               this flag is set to True, the PanedWindow tries to
+               honor requests to alter the height of the pane. If
+               False, it always denies pane requests to resize.
+
+          XXXXmmmmNNNNppppaaaannnneeeeMMMMaaaaxxxxiiiimmmmuuuummmm
+               Allows an application to specify the maximum size to
+               which a pane may be resized.  This value must be
+               greater than the specified minimum.
+
+          XXXXmmmmNNNNppppaaaannnneeeeMMMMiiiinnnniiiimmmmuuuummmm
+               Allows an application to specify the minimum size to
+               which a pane may be resized.  This value must be
+               greater than 0.
+
+          XXXXmmmmNNNNsssskkkkiiiippppAAAAddddjjjjuuuusssstttt
+               When set to True, this Boolean resource allows an
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+               application to specify that the PanedWindow should not
+               automatically resize this pane.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          PanedWindow inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    XmTAB_GROUP            CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           2                      CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+                                 CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt             AAAAcccccccceeeessssssss
+     _______________________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL                G
+     XmNinsertPosition   XmCInsertPosition   (*)()        default procedure   CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0                   G
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmPanedWindow inherits translations from XmManager.
+
+          The translations for sashes within the PanedWindow are
+          listed below.  These translations may not directly
+          correspond to a translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((SSSSttttaaaarrrrtttt))))
+          BBBBSSSSeeeelllleeeecccctttt MMMMoooottttiiiioooonnnn::::SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((MMMMoooovvvveeee))))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((CCCCoooommmmmmmmiiiitttt))))
+
+          BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss::::   SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((SSSSttttaaaarrrrtttt))))
+          BBBBDDDDrrrraaaagggg MMMMoooottttiiiioooonnnn::::  SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((MMMMoooovvvveeee))))
+          BBBBDDDDrrrraaaagggg RRRReeeelllleeeeaaaasssseeee:::: SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((CCCCoooommmmmmmmiiiitttt))))
+
+          KKKKUUUUpppp::::           SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((KKKKeeeeyyyy,,,,DDDDeeeeffffaaaauuuullllttttIIIInnnnccccrrrr,,,,UUUUpppp))))
+          MMMMCCCCttttrrrrllll KKKKUUUUpppp::::     SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((KKKKeeeeyyyy,,,,LLLLaaaarrrrggggeeeeIIIInnnnccccrrrr,,,,UUUUpppp))))
+
+          KKKKDDDDoooowwwwnnnn::::         SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((KKKKeeeeyyyy,,,,DDDDeeeeffffaaaauuuullllttttIIIInnnnccccrrrr,,,,DDDDoooowwwwnnnn))))
+          MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn::::   SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((KKKKeeeeyyyy,,,,LLLLaaaarrrrggggeeeeIIIInnnnccccrrrr,,,,DDDDoooowwwwnnnn))))
+
+          KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd::::    NNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+          KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd::::    PPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((())))
+
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmPanedWindow action routines are described below:
+
+          HHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          NNNNeeeexxxxttttTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Moves the keyboard focus to the next tab group.  By
+               default each pane and sash is a tab group.
+
+          PPPPrrrreeeevvvvTTTTaaaabbbbGGGGrrrroooouuuupppp(((()))):
+               Moves the keyboard focus to the previous tab group.  By
+               default each pane and sash is a tab group.
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))   OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn    XXXXmmmmPPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX))))
+
+
+
+          SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((_a_c_t_i_o_n)))) or SSSSaaaasssshhhhAAAAccccttttiiiioooonnnn((((KKKKeeeeyyyy,,,,_i_n_c_r_e_m_e_n_t,,,,_d_i_r_e_c_t_i_o_n)))):
+               The SSSSttttaaaarrrrtttt action activates the interactive placement of
+               the pane's borders.  The MMMMoooovvvveeee action causes the sash to
+               track the position of the pointer.  If one of the panes
+               reaches its minimum or maximum size, adjustment
+               continues with the next adjustable pane.  The CCCCoooommmmmmmmiiiitttt
+               action ends sash motion.
+
+               When sash action is caused by a keyboard event, the
+               sash with the keyboard focus is moved according to the
+               _i_n_c_r_e_m_e_n_t and _d_i_r_e_c_t_i_o_n specified.  DDDDeeeeffffaaaauuuullllttttIIIInnnnccccrrrr adjusts
+               the sash by one line.  LLLLaaaarrrrggggeeeeIIIInnnnccccrrrr adjusts the sash by
+               one view region.  The _d_i_r_e_c_t_i_o_n is specified as either
+               UUUUpppp or DDDDoooowwwwnnnn.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          This widget has the additional behavior described below:
+
+          <<<<FFFFooooccccuuuussssIIIInnnn>>>>:
+               Moves the keyboard focus to the sash and highlights it.
+
+          <<<<FFFFooooccccuuuussssOOOOuuuutttt>>>>:
+               Unsets the keyboard focus in the sash and unhighlights
+               it.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPaaaannnneeeeddddWWWWiiiinnnnddddoooowwww((((3333XXXX)))), and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+

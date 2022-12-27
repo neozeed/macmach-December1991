@@ -1,0 +1,484 @@
+	MicroEMACS 3.10 Release Notes		March 19, 1989
+
+	(C)opyright 1988, 1989 by Daniel M. Lawrence
+	MicroEMACS 3.10 can be copied and distributed freely for any
+	non-commercial purposes. MicroEMACS 3.10 can only be incorporated
+	into commercial software with the permission of the current author.
+
+**********************************************************************
+
+	MicroEMACS 3.10 is available in a couple of different ways. 
+First, it is available via my bulletin board system..... 
+
+	The Programmer's Room
+	FIDO 201/10
+	(317) 742-5533
+	24 hours  300/1200/2400 baud
+
+	There it is arranged as five MSDOS .ARC (SEA format) files,
+UE310DOC.ARC which contains the documentation files, UE310C.ARC which
+contains the C sources, UE310H.ARC which contains the header files and
+assembly sources, UE310MAK.ARC which contains various files to help
+make EMACS, and UE310CMD.ARC which contains startup and command files. 
+All the various executables are available individually.
+
+UE310DOC.ARC includes the files:
+
+	README		This file
+	EMACS.HLP	Online help file
+	EMACS.MSS	MicroSCRIBE format of EMACS.TXT
+	EMACS.TXT       EMACS BEGINNER'S/REFERENCE MANUAL
+	EMACS.TUT	old tutorial for learning MicroEMACS
+	MOUSE.DOC	very PRELIMINARY documents on mouse usage
+
+UE310MAK.ARC includes the files:
+
+	CMDFIX.LNK	MSDOS link file for CMDFIX
+	DESCRIP.MMS	VMS description file
+	EMACS.AML	Link file for the AMIGA
+	EMACS.LNK	Microsoft link file for MSDOS
+	EMACS.OPT	VMS options file
+	MAKEFILE.AMI	makefile for the AMIGA
+	MAKEFILE.DTL	makefile for Data Light C
+	MAKEFILE.MPC	makefile for Mark Williams C on the IBM-PC
+	MAKEFILE.MSC	makefile for Microsoft C 5.1 on the IBM-PC
+	MAKEFILE.MWC	makefile for Mark Williams C on the 1040ST
+	MAKEFILE.TUR	makefile for Turbo C 2.0 on the IBM-PC
+	MAKEFILE.UNX	makefile for unix
+	MESHAR.OPT	option file for VMS
+	SMG.MAR		another VMS option file
+	EMACS.LNK	Turbo C/Microsoft link command file
+
+UE310CMD.ARC includes the files:
+
+	AZBMAP.CMD	Translate Large model AZTEC.SYM file to .map
+	AZMAP.CMD	Translate AZTEC.SYM files to .MAP
+	BPAGE.CMD	Block and box manipulation page
+	BUFDEL.CMD	Select and delete multiple buffers
+	CPAGE.CMD	A not yet complete C language page
+	EMACS.RC	Standard startup file
+	ENCODE.CMD	Demonstration of the &xlate function
+	EPAGE.CMD	Emacs macro debugging page
+	EPSON.CMD	How to use macroes to insert printer controls
+	ERROR.CMD	Mark Williams C error parsing file
+	FINDCOM.CMD	Find mismatched C comments
+	FORTRAN.RC	Fortran editing startup file
+	FUNC.CMD	Allow function keys on systems with none (like UNIX)
+	IWRAP.CMD	Allows wrapping of indented text
+	MENU.CMD	Sample Menu system
+	MENU1		   datafile for menu system
+	NEWPAGE.CMD	Shifted Function key Pager
+	OPAGE.CMD	Cobol Language page (not finished)
+	POS.CMD		Display current line and column constantly
+	PPAGE.CMD	Pascal language page
+	SENTENCE.CMD	Sentence operations
+	SHELL.CMD	Sample interactive MSDOS shell
+	SMOOTH.CMD	smooth scrolling control macro
+	TABLE.CMD	Creates a table of bound function keys
+	WPAGE.CMD	Word processing page
+
+UE310H.ARC includes the files:
+
+	DUTCH.H		DUTCH text header file
+	EBIND.H		binding list
+	EDEF.H		global variable declarations
+	EFUNC.H		function name list
+	ELANG.H		Text header control file
+	ENGLISH.H	ENGLISH text header file
+	EPATH.H		default path settings
+	ESTRUCT.H	configuration and structure definitions
+	ETYPE.H		function prototype header file
+	EVAR.H		EMACS macro variable declarations
+	EXECPR.ASM	MSDOS 4Bh interupt driver
+	FRENCH.H	FRENCH text header file
+	GERMAN.H	GERMAN text header file
+	PLATIN.H	PIG LATIN text header file
+	SPANISH.H	SPANISH text header file
+	STMOUSE.S	Some Atari 1040ST mouse assembly code
+
+
+UE310C.ARC includes the files:
+
+	AMIGADOS.C	Amiga system I/O functions
+	ANSI.C		ANSI screen driver
+	AOSVS.C		Data General Mainframe driver
+	ATARI.C		Atari 520/1040ST I/O functions
+	BASIC.C		basic cursor movement
+	BIND.C		key binding commands
+	BUFFER.C	buffer manipulation commands
+	CHAR.C		character set mapping and manipulation functions
+	CMDFIX.C	old to new .CMD file translation program
+	CRYPT.C		encryption functions
+	DG10.C		Data General 10 screen driver
+	DISPLAY.C	main display driver
+	DOLOCK.C	file locking stub routines
+	EVAL.C		expression evaluator
+	EXEC.C		macro execution functions
+	FILE.C		user file functions
+	FILEIO.C	low level file I/O driver
+	HISTORY.C	MicroEMACS edit history
+	HP110.C		HP110 screen driver
+	HP150.C		HP150(A or C) screen driver
+	IBMPC.C		IBM-PC CGA and MONOCHROME driver
+	INPUT.C		low level user input driver
+	ISEARCH.C	incremental search functions
+	LINE.C		text line manipulation functions
+	LOCK.C		file locking functions
+	MAIN.C		argument parsing and command loop
+	MOUSE.C		mouse handling user level functions
+	MSDOS.C		MS/PCDOS I/O functions
+	RANDOM.C	other random user functions
+	REGION.C	region cut & paste functions
+	SEARCH.C	search and replace functions
+	ST520.C		ATARI ST1040 screen driver
+	TCAP.C		Termcap screen driver
+	TIPC.C		TI-PC screen driver
+	UNIX.C		UNIX I/O functions
+	VMS.C		VMS functions I/O driver
+	VMSVT.C		VMS screen driver
+	VT52.C		VT52 screen driver
+	WINDOW.C	window manipulation functions
+	WMCS.C		WICAT system I/O functions
+	WORD.C		word manipulation functions
+	Z309.C		Zenith 100 PC series terminal driver
+
+Various Executables available include:
+
+	CMDFIX.EXE	Fixes old command files (MSDOS)
+	ME110.EXE	HP110 portable version
+	ME150.EXE	HP150 version
+	ME520.PRG	Atari 520/1040ST version
+	MEAMIGA.	Amiga 500/1000/2000 version
+	MEANSI.EXE	MSDOS ANSI graphics version
+	MEDG10.EXE	Data General 10 PC version
+	MEIBM.EXE	IBM-PC CGA/MONO/EGA version
+	METIPC.EXE	TI Professional version
+	MEZ309.EXE	Zenith 100 PC series version
+
+	MicroSPELL 1.0 is also available.  This program allows you to
+spell check text files and uses MicroEMACS to scan the file, doing
+various corrections. 
+
+	MicroSCRIBE, a fairly SCRIBE compatible text formatter to go
+along with these programs will probably be available for BETA testing
+sometime in 1989.  This program is turning out to be a lot more complex
+than I thought it would be, and is taking more time to get out.
+
+	As before, I will continue to support these programs, and
+encourage everyone to spread them around as much as they can.  If you
+make what you think are changes that are useful to many, send me the
+updates, and as time permits, I will incorporate the ones I understand,
+and agree with into the master sources.
+
+	MicroEMACS is available on disk directly from my by sending me
+$25 per order and a note specifying the disk format and the product
+that you need.  I can fill orders for IBM-PC high/low density 5 1/4 and
+3 1/5, ATARI ST single and double density, and AMIGA disks. (You do not
+need to send disks or mailers, I will provide these.)  The distribution
+set includes on disk all docs, executables and sources.  Also I will
+register you and you will receive automatic notices of new versions of
+all the programs I am releasing.
+
+	Commercial licences to allow MicroEMACS to be incorporated into
+other software packages are also available at a reasonable per package
+price. Also I am available to do customization of MicroEMACS at an
+hourly rate. Send all requests to the address below:
+
+	USmail:	Daniel Lawrence
+		617 New York St
+		Lafayette, IN 47901
+
+	ARPA:	nwd@j.cc.purdue.edu
+	FIDO:	The Programmer's Room 201/10
+		(317) 742-5533
+	Voice:	(317) 742-5153 evenings and weekends
+
+		IMPORTANT NOTE
+		==============
+
+	On the Atari ST, be sure that MicroEMACS is installed as a GEM
+application from the GEM desktop.  If this is not done, MicroEMACS will
+grow confused about the state of the mouse, and ring the bell alot to
+alert the user to the problem.  (Mouse handling on the Atari is both
+complex and tripled layered....).
+
+		New Features since version 3.9
+		==============================
+
+***	Multiple Marks now supported
+
+	The commands set-mark (M-<space>) and exchange-point-and-mark 
+(^X^X) both now accept a numeric argument from 0 to 9 allowing up to 10
+marks to be set in a buffer.  All region commands still work with mark 0
+but the other marks can be used to make navigating around a complex
+buffer simpler.  Also the goto-mark (M-^G) command allows you to go
+to one of these marks.
+
+***	More function key support
+
+	Under UNIX BSD4.3, V7 SUN, XENIX and some other V5 systems
+MicroEMACS can now use the TERMCAP entry of the current terminal and
+decode it's function keys.  Also all function key bindings have been
+renamed to make them machine independant.  The CMDFIX program/source
+distributed along with MicroEMACS will allow you to automaticaly
+translate old command files to the new bindings.
+
+***	Crypt algorithm much better
+
+	Yes, we found a really bad problem in the security of the
+encryption algorithm.  This has been fixed.  Set the environment variable
+$oldcrypt to TRUE to read in your old encrypted file, and set it to
+FALSE to write it out again with the new algorithm.
+
+***	End-of-word
+
+	Bending to popular demand, I added an end-of-word command which
+advances to the end of the current word rather than the beginning of the
+next word (as with next-word).
+
+***	Command line switch to initialize variables
+
+	The -i switch on the command line allows you to give environment
+variables a value on the way into EMACS. For example:
+
+	emacs -i$sres VGA <file>
+
+	edits <file> in VGA mode on a properly equipped IBM-PC.
+
+***	New Hooks
+
+	added $writehook to execute macroes when writing files.
+	added $exbhook to execute macro when exiting an old buffer.
+	added $bufhook to execute macro when entering a new buffer.
+
+***	Trim whitespace function
+
+	The &trim function strips the trailing whitespace off of a user
+expression.
+
+***	Changed trim/entab/detab commands
+
+	Now trim-line(^X^T), entab-line(^X^E), and detab-line(^X^D)
+work on the current region if they have no arguments.  These commands
+are now also called trim-region, entab-region and detab-region.  The
+old names will hang about for a version, then disappear.
+
+***	Foreign language text constants
+
+	MicroEMACS may now be compiled with its internal messages in
+ENGLISH, GERMAN, DUTCH, PIGLATIN, SPANISH, and FRENCH.  The $language
+variable contains the name of the language of the current version.  All
+command names are still in english to allow macros to be used between
+versions.  Notice that the standard startup files and command files have
+not been translated, thus the function key window is in english.  Only
+the text messages generated by EMACS itself are translated.
+
+***	Upper/Lower case mapping
+
+	Users can now arbitrarily reset the upper/lower case mapping
+tables using the &slow and &supper functions.  For example:
+
+	&slow "e" "E"
+
+	causes a lower case "e" to translate to an "E" when upper
+cased.  This is fairly useful in various foreign languages with
+unusual and magical casing rules.
+
+***	MicroSoft mouse support
+
+	The MicroSOFT and compatible mice are now supported on the
+IBM-PC.  Mousing commands have changed considerably and are consistent
+across all supported environments.  See the reference manual's new
+chapter on mousing.
+
+***	New user input function
+
+	&gtc allows a macro to get an EMACS command key sequence from
+the user.  the resulting string is suitable for binding commands.
+
+***	Tab variables
+
+	$softtab can be used to cause EMACS to use spaces to tab to
+multiples of $softtab using spaces.  If this is zero, EMACS will use
+hard tabs.  $hardtab specifies how many columns between hard tabs.  The
+default value is 8, but may be changed by the user.
+
+***	New "safe" file saving
+
+	Now MicroEMACS write all its output files to a temporary file,
+then deletes the original, then renames the temp file as the original. 
+This makes system crashes a lot easier to live with. (This behavior can
+be toggles with the $ssave variable).  Notice that $ssave turned on
+under UNIX will cause your file privledges to be reset to your current
+umask.
+
+***	Horizontal window scrolling
+
+	Now, by default, when you go beyond the 80th column of the
+screen, the entire current window scrolls to the left.  This makes
+editing wide tables much more pleasant.  $hscroll toggles between this
+and the old (single line scroll) behavior.  $fcol sets what text column
+is in the first column of the screen. $hjump determines how many
+characters the screen scrolls right or left.
+
+***	More Debugging features
+
+	The ^XG (display) command prompts the user for a variable name
+and displays its value (as opposed to execute-command write-message
+$var). The describe-variables command lists all the current environmental
+and user variables and their contents in a buffer.
+
+***	Named macroes are now bindable
+
+	The macro-to-key (^X^K) command allows you to bind a keystroke
+to a named function.  Very usefull, this lifts the limit of 40 macroes
+tied to keys.  The older "execute-macro-n" functions will dissapear some
+day, so please move to this!  The describe-bindings function now will
+list the defined macroes after the built-in functions along with their
+bindings.
+
+***	Hidden modelines???
+
+	If you are writing an emacs macro you can hide the emacs
+modelines by setting $modeflag to FALSE.
+
+***	Smooth scrolling
+
+	If you are of the school that prefers the screen to ride up a
+line at a time instead of by half windows (I am not BTW), set $sscroll
+to TRUE.
+
+***	Recall last printed statement
+
+	The last text printed by emacs on the command line can be
+recalled by querying $lastmesg.  Look near the end of the new emacs.rc
+file to see how this works.
+
+***	VGA support
+
+	IBM's VGA display adapter in 50 line mode is now supported.
+
+***	Optimizations!
+
+	Some internal optimizations have cause a speed increase of apx
+30% to the speed of macro execution under all environments.
+
+	Calling a different level of I/O functions has speed up disk I/O
+by apx 30% on the IBM-PC and under UNIX.
+
+***	CMODE improved
+
+	CMODE now trims trailing whitespace when the enter key is used,
+and copies its indentation from the last non-blank line.  Blank lines in
+the middle of a function will no longer cause emacs to forget its
+indentation level.
+
+***	Query-replace bug fixed
+
+	A rather long standing bug which caused emacs to lock up when
+aborting a query-replace with the '.' character has been eliminated.
+
+***	New Search Algorithm
+
+	A new search algorithm, written by Geoff Gibbs, implementing
+the Boyer/Moore search algorithm has speed up all non-MAGIC searches by
+over 30 TIMES! 
+
+***	Partial Mouse support added
+
+	The Atari 512/1040ST, the DEC VAX system under VMS, the
+IBM-PC with a Microsoft compatible mouse, and the Commodore AMIGA now
+support mouse usage. Text can be cut and pasted from one buffer to
+another.  Window sizes can be adjusted easily.  Mouse support for other
+operating systems will be forthcoming. New environment variables added
+for mice include:
+
+	$xpos	Cursor column of last mouse button click
+	$ypos	Cursor row of last mouse button click
+
+***	Microsoft C Fixes
+
+	Various fixes have made MicroEMACS compile well under Microsoft C
+	version 5.0
+
+***	New computers supported
+
+	The WICAT computer is now supported under the MSC operating
+system.  Also the Data General mainframe computers are supported.
+
+***	New Compilers supported
+
+	Mark Williams C on MSDOS is supported. Datalight C under MSDOS
+is now fully supported as well.
+
+***	Rewritten fill-paragraph
+
+	Fill-paragraph has been rewritten. It is now generally four
+times faster, and its speed is now related to the size of the
+paragraph, rather then the square of the size of the largest line, as
+previously.
+
+***	-e switch changed
+
+	The -e "EDIT" command line switch has been changed to -c
+"changeable" to allow the -e to be used to automatically execute
+error.cmd from the command line.  This is very useful from Mark
+Williams C for error parsing.
+
+***	New mechanism for hooks
+
+	Hooks are ways of attaching macroes to MicroEMACS as it is doing
+specific actions. In the past these were bound to illegal keystrokes.
+This mechanism is now that there is an environment variable for each of
+these "hooks" that contains the name of a macro to execute at hook time.
+These must be one of the built in functions (including execute-macro-<n>)
+for now. Hooks include:
+
+	$readhook	executes immediately before reading a file,
+			after it's buffer has been created.
+
+	$wraphook	executes when it is time to do a word wrap. This
+			is set to wrap-word by default.
+
+	$cmdhook	executed immediately before MicroEMACS waits for a
+			command from the user.
+
+***	select-buffer upgraded
+
+	A numeric argument to select-buffer causes the target buffer to
+become "invisible"... ie not listed in the buffer list. Also, when
+typing in a buffer name interactivly, the space bar will attempt to
+complete the name from the available buffer list.
+
+***	Prefix keys upgraded.
+
+	More than one key can now be bound to meta-prefix and
+ctrlx-prefix.  Also the terminating character for search and replace
+strings defaults to the last thing bound to the meta-prefix, and can be
+reset by setting the $sterm variable.
+
+***	Completion routines rewritten
+
+	Command names, buffer names and file names under some operating
+systems now share a common completion routines.  Typing in a portion of
+a name and hitting the space bar, meta key or tab key will cause
+MicroEMACS to attempt to complete the name for you.
+
+***	AMIGA INTUITION support
+
+	The mouse, window resizing and close gadgets are no properly
+supported on the Commodore Amiga.
+
+
+THINGS TO COME:
+===============
+
+	For the next version, I will be concentrating on: (No promises
+on the time, I will be concentrating on some other programs for a while)
+
+1)	Macintosh support
+
+2)	Adding a compiler to the execution language
+
+3)	Support for a speaking EMACS to allow sightless people to
+	edit text (AMIGA first)

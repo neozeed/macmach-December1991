@@ -1,0 +1,42 @@
+#include <Server.tmpl>
+IMAKE_DEFINES = $(EXT_DEFINES)
+
+#ifdef XINPUT
+#define IHaveSubdirs
+#endif
+
+#ifdef SHAPE
+  SHAPESRCS = shape.c
+  SHAPEOBJS = shape.o
+#else
+  SHAPESRCS = /* nothing */
+  SHAPEOBJS = /* nothing */
+#endif
+#ifdef MITSHM
+  SHMSRCS = shm.c
+  SHMOBJS = shm.o
+#else
+  SHMSRCS = /* nothing */
+  SHMOBJS = /* nothing */
+#endif
+       SRCS = $(SHAPESRCS) $(SHMSRCS) multibuf.c mitmisc.c xtest1di.c xtest1dd.c
+       OBJS = $(SHAPEOBJS) $(SHMOBJS) multibuf.o mitmisc.o xtest1di.o xtest1dd.o
+   INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+   LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+        SUBDIRS = xinput
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(ext,$(OBJS))
+LintLibraryTarget(ext,$(SRCS))
+NormalLintTarget($(SRCS))
+#ifdef XINPUT
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+#endif
+
+#if HasSaberC
+saber_src:
+	/**/#load $(CFLAGS) $(SRCS)
+#endif
+
+DependTarget()

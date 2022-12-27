@@ -1,0 +1,59 @@
+.\"
+.\" $Id: fgetpass.3,v 1.3 89/12/26 11:16:47 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	fgetpass.3,v $
+.\" Revision 1.3  89/12/26  11:16:47  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 07-Oct-81  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH FGETPASS 3 10/7/81
+.CM 3
+.SH "NAME"
+fgetpass \- read a password from stream
+.SH "SYNOPSIS"
+.nf
+.B #include <stdio.h>
+.sp
+.B char *fgetpass(prompt, stream)
+.B char *prompt;
+.B FILE *stream;
+.fi
+.SH "DESCRIPTION"
+.I Fgetpass
+reads a password from the named input stream.
+The password is terminated by a newline character,
+which is not retained.
+.sp
+If the input stream corresponds to a terminal,
+then echoing is temporarily disabled and
+the null-terminated string
+.I prompt
+is displayed before
+reading the password.
+In this case, interrupt and quit signals are also temporarily
+caught for the duration of the read,
+and the terminal echo mode is restored
+to its original state before such signals
+are processed.
+.sp
+A pointer is returned to a null-terminated string
+of at most 8 characters.
+.sp
+Unlike
+.IR getpass (3),
+.I fgetpass
+does not flush the terminal input buffer when
+changing echo states.
+.SH "SEE ALSO"
+.IR getpass (3), 
+.IR crypt (3)
+.SH "BUGS"
+The return value points to static data
+whose content is overwritten by each call.

@@ -1,0 +1,191 @@
+.TH ARCHIE 1 "20 August 1991" "Archie (Prospero)"
+.SH NAME
+archie \- query archie anonymous ftp databases using Prospero
+.SH SYNOPSIS
+.in +\w'\fBarchie \fR'u
+.ti -\w'\fBarchie \fR'u
+.B archie\
+\ [\ \fB\-cers\fR\ ]\
+\ [\ \fB\-l\fR\ ]\ [\ \fB\-t\fR\ ]\
+\ [\ \fB\-m\fR\ \fI#\fR\ ]\ [\ \fB\-N\fR\ \fI#\fR\ ]\
+\ [\ \fB\-h\fR\ \fIhost\fR\ ]\ \fIstring\fR
+.SH DESCRIPTION
+.B archie
+queries an archie anonymous ftp database looking for the specified
+.I string
+using the
+.B Prospero
+protocol.  This client is based on
+.B Prospero
+version
+.BR Beta.4.2 .
+
+The general method of use is
+
+.RS
+%
+.B archie string
+.RE
+.PP
+
+For example,
+
+.RS
+%
+.B archie emacs
+.RE
+.PP
+
+will find all anonymous FTP sites in the archie database that have the
+word
+.B emacs
+included in filenames in their system's FTP area.  Regular
+expressions, such as
+
+.RS
+%
+.B archie -r '[xX][lL]isp'
+.RE
+.PP
+
+may also be used for searches.  (See the manual of a reasonably good
+editor, like GNU Emacs or vi, for more information on using regular
+expressions.)
+
+.SH OPTIONS
+The options currently available to this
+.B archie
+client are:
+
+.PD 0
+.TP 12
+.BR \-c
+Search substrings paying attention to upper & lower case.
+.TP
+.BR \-e
+Exact string match.  (This is the default.)
+.TP
+.BR \-r
+Search using a regular expression.
+.TP
+.BR \-s
+Search substrings ignoring the case of the letters.
+.TP
+.BR \-l
+Output results in a form suitable for parsing by programs.
+.TP
+.BR \-t
+Sort the results inverted by date.
+.TP
+.BI \-m\ number
+Specifies the maximum \fInumber\fP of hits (matches) to return.  By
+default, this value is 95.
+.TP
+.BI -N #
+Sets the "niceness" of a query; by default, it's set to 0.
+Without an argument, \fB\-N\fR defaults to 35765.  If you use
+\fB\-N\fR with an argument between 0 and 35765, it'll adjust itself
+accordingly.
+.TP
+.BI \-h\ host
+Tells the client to query the Archie server named \fIhost\fP.
+
+.SH QUERY PRIORITY
+Please use the \fB\-N\fR option whenever you don't demand immediacy, or
+when you're requesting things that could generate large responses.
+Even when using the nice option, you should still try to avoid big
+jobs during busy periods.  Here is a list of what we consider to be
+nice values that accurately reflect the priority of a job to the server.
+
+.RS
+.TP 20
+.B Normal
+0
+.TP
+.B Nice
+500
+.TP
+.B Nicer
+1000
+.TP
+.B Very Nice
+5000
+.TP
+.B Extremely Nice
+10000
+.TP
+.B Nicest
+32765
+.RE
+
+The last priority, \fBNicest\fR, would be used when a job should wait until
+the queue is essentially empty before running.  You should pick one of
+these values to use, possibly modifying it slightly depending on where
+you think your priority should land.  For example, 32760 would mean
+wait until the queue is empty, but jump ahead of other jobs that have
+selected \fBNicest\fR.
+
+There are certain types of things that we suggest using \fBNicest\fR
+for, irregardless.  In particular, any searches for which you would
+have a hard time justifying the use of anything but extra resources.
+(We all know what those searches would be for.)
+
+.SH NOTES
+The three search-modifying arguments (\fB\-c\fR, \fB\-r\fB, and \fB\-s\fR)
+are all mutually exclusive; only the last one counts.  If you specify
+\fB\-e\fR with any of \fB\-c\fR, \fB\-r\fB, or \fB\-s\fR,
+the server will first check for an exact match, then fall back to the
+case-sensitive, case-insensitive, or regular expression search.  This is
+so if there are matches that are particularly obvious, it will take a
+minimal amount of time to satisfy your request.
+
+If you list a single `\-' by itself, any further arguments will be
+taken as part of the search string.  This is intended to enable
+searching for strings that begin with a `\-'; for example:
+
+.RS
+%
+.B archie \-s \- \-old
+.RE
+
+will search for all filenames that contain the string `\-old' in them.
+
+.SH RESPONSE
+Archie servers are set up to respond to a number of requests in a
+queued fashion.  That is, smaller requests get served much more
+quickly than do large requests.  As a result, the more often you query
+the Archie server, or the larger your requests, the longer the queue
+will become, resulting in a longer waiting period for everyone's
+requests.  Please be frugal when possible, for your benefit as well as
+for the other users.
+
+.SH SEE ALSO
+For more information on regular expressions, see the man[ual] pages on:
+
+.BR regex (3) ,
+.BR ed (1)
+
+.SH AUTHORS
+The 
+.B archie
+service was conceived and implemented by Alan Emtage
+(bajan@cs.mcgill.ca) and Peter Deutsch (peterd@cs.mcgill.ca).  The
+entire Internet is in their debt.
+
+The
+.BR Prospero
+system was created by Clifford Neuman (bcn@isi.edu); write to 
+.BR info-prospero@isi.edu
+for more information on the protocol and its use.
+
+This stripped client was put together by Brendan Kehoe
+.BR (brendan@cs.widener.edu) ,
+with modifications by Clifford Neuman and George Ferguson
+.BR (ferguson@cs.rochester.edu).
+
+The man page was originally written by Jeff Kellem
+.BR (composer@chem.bu.edu),
+and later modified by Brendan Kehoe.
+
+.SH BUGS
+Fewer than last time.

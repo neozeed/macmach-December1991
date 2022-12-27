@@ -1,0 +1,288 @@
+.\"
+.\" $Id: parsedate.3,v 1.3 89/12/26 11:20:35 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	parsedate.3,v $
+.\" Revision 1.3  89/12/26  11:20:35  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 31-May-86  Rudy Nedved (ern) at Carnegie-Mellon University
+.\"	Updated for 4.2BSD.
+.\"
+.\" 2-Jan-85   Leonard Hamey (lgh) at Carnegie-Mellon University
+.\"	Introduced months, years and ago constructs. (e.g. a month ago).
+.\"
+.\" 3-Feb-84   Leonard Hamey (lgh) at Carnegie-Mellon University
+.\"	Now handles military time.
+.\"
+.\" 24-Jan-84  Leonard Hamey (lgh) at Carnegie-Mellon University
+.\"	Introduced natural language processing and more flexible syntaxes.
+.\"	Introduced parsedate() procedure with more arguments than pdate().
+.\"	The year day and week day fields are now set.
+.\"	Changed string limit to 80 characters.
+.\"
+.\" 21-Feb-80  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Changed date string limit from 25 to 50 characters.  
+.\"
+.\" 03-Jan-80  Mike Accetta (mja) at Carnegie-Mellon University
+.\"	Created pdate().
+.\"
+.TH PARSEDATE 3 5/31/86
+.CM 4
+.SH NAME
+parsedate \- parse date specification
+.SH SYNOPSIS
+.B 
+#include <sys/types.h> 
+.br
+.B
+#include <sys/time.h> 
+.sp
+.B
+parsedate(datestr,tm,currtm,past,error)
+.sp
+.B
+char *datestr;
+.br
+.B
+struct tm *tm;
+.br 
+.B 
+bool currtm, past, error; 
+.SH DESCRIPTION
+.I 
+Parsedate
+parses a date string
+specification and fills in the appropriate fields of the supplied 
+.I tm
+structure
+(only the first eight fields are set). The string may contain a
+date and/or time in either order. The time fields may be returned containing
+\-1 if the time was not specified.
+
+The boolean
+.I 
+currtm
+controls whether the date is parsed relative to the current date and time
+(true) or relative to the date and time present in the 
+.I tm 
+structure
+(false). This allows "now" to be given any desired meaning.
+
+The boolean
+.I 
+past
+controls whether the date is assumed to be in the past (true) or future
+(false). This only affects incomplete specifications such as
+.B 
+Jan 1st
+or
+.B 
+Thursday.
+
+The boolean
+.I 
+error
+controls whether an unrecognizable token is taken as an error (true) or
+simply terminates the parse (false).
+.SH SYNTAX
+The date may be specified in one of
+several standard syntaxes or by using a limited range of natural language
+constructs. 
+
+The standard syntaxes are as follows: 
+
+	<monthnum>/<day>/<year> 
+.br
+.br
+.br
+.br
+
+Months should be either spelled out or specified
+numerically as indicated above.  Years may be specified in either two or
+four digit style, or may be omitted.  Commas, spaces, tabs and newlines
+may be used interchangeably to delimit fields according to individual
+taste.  Case is ignored in recognizing all words. Month and day names may
+be abbreviated to three characters, but other words must be spelled out in
+full.  
+
+For compatibility with the 
+.IR ctime (3)
+subroutines, dates of the form 
+
+	<weekday> <monthname> <day> <time> <year> 
+
+are also accepted.  
+
+Dates need not be completely specified. Many reasonable partial constructs
+are accepted. The meaning of these may depend on
+.I 
+past.
+If
+.I 
+past
+is true, then the date will be completed so that it is no later than the
+current date (or the date already in
+.I tm
+). If
+.I 
+past
+is false, then the date will be no earlier than the current date.
+
+.B 
+Next wednesday
+is the Wednesday after
+.B 
+this Wednesday.
+Similarly,
+.B 
+next Christmas
+is the Christmas after 
+.B 
+this Christmas.
+.B 
+Last Thursday
+is the Thursday before today.
+
+The time may be indicated in military notation, 24 hour, am/pm or
+unqualified 12 hour notation. The last is taken to be a time no earlier
+than 8am. Thus,
+.B 
+8
+means 8am but
+.B 
+7
+means 7pm. Military time is always four digits, such as
+.B 
+0300.
+24 hour time always has
+two digits for the hour.  Thus
+.B 
+03:00
+is 3am (24 hour time) but
+.B 
+3:00
+is 3pm (12 hour time). Natural language may also be used to qualify the
+meaning of times, as in
+.B 
+3 in the morning.
+
+If the time is specified but the date is not, then the current date will be
+assumed.
+.SH EXAMPLES
+The following examples illustrate the
+use of standard syntaxes and also some of the natural language constructs.
+.sp 
+.B 
+	Tue Jan 1 11:56 1980 
+.br
+	3-December-80,14:23:00 
+.br
+	March 4, 1984 11:01 
+.br
+	12/22/79 
+.br
+	12:00
+.br
+	today 7pm 
+.br
+	this morning at 5 
+.br
+	Thursday at 3 
+.br
+	three weeks before christmas 
+.br
+	four weeks from today 
+.br
+	next Wednesday 17:00 
+.br
+	10th 
+.br
+	ten days after 25th June 03:00 
+.br
+	friday 13th at 1530
+.br
+	the second friday after christmas
+.br
+	three days ago
+.br
+	a month ago
+.br
+	two years from today
+.br
+	now
+.br
+	11
+
+.B 
+10th
+means the future (or past) 10th day of some month. For instance, if the
+current date is June 20, then
+10th will indicate July 10 if
+.I 
+past
+is false, and June 10 if
+.I 
+past
+is true. Of course, on June 10,
+.B 
+10th
+would indicate June 10.
+
+.B 
+ten days after 25th June 03:00.
+Here the partial date is
+.B 
+25th June.
+The date indicated is ten days after whatever
+.B 
+25th June
+is taken as. On 20th June 1984, that would be 1984 or
+1983 depending on
+.I 
+past.
+
+.B 
+a month ago
+means exactly one month before the current date
+(not
+30 days ago). On 15th March 1984, that would be 15th February 1984.
+
+.B 
+now
+means the date and time already in the 
+.I tm 
+structure (or the current date and
+time if
+.I 
+currtm
+is true).
+
+.B 
+11
+means 11am
+on the current date.
+.SH "SEE ALSO"
+.IR whenis (1), 
+.IR time (2), 
+.IR atot (3), 
+.IR ctime (3), 
+.IR gtime (3), 
+.IR localtime (3)
+.SH DIAGNOSTICS
+Returns 0 if date is parsed successfully.  Returns \-1 on error with
+the contents of the 
+.I tm 
+structure
+undefined.  
+.SH BUGS
+The grammar is incomplete and always will be.
+
+The length of the date string is limited to 80 characters.  
+
+Dates before 1900 can be parsed, however the Gregorian Calendar is
+always used, even for dates before it came into effect.

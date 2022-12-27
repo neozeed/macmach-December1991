@@ -1,0 +1,87 @@
+.\"
+.\" $Id: filecopy.3,v 1.3 89/12/26 11:16:55 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	filecopy.3,v $
+.\" Revision 1.3  89/12/26  11:16:55  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH FILECOPY 3 12/5/79
+.CM 1
+.SH "NAME"
+filecopy, ffilecopy \- copy an open file
+.SH "SYNOPSIS"
+.B
+int filecopy (here,there);
+.br
+.B
+int here,there;
+.sp
+.B
+#include <stdio.h>
+.br
+.B
+int ffilecopy (here,there);
+.br
+.B
+FILE *here,*there;
+.SH "DESCRIPTION"
+.I
+Filecopy
+copies the open input file
+.I
+here
+to the open output file
+.I
+there.
+The input data from the current file pointer of
+.I
+here
+until EOF are appended after the current file pointer of
+.I
+there.
+.sp
+.I
+Ffilecopy
+copies the open buffered input file
+.I
+here
+to the open buffered output file
+.I
+there.
+The input data from the current file pointer of
+.I
+here
+until EOF are appended after the current file pointer
+of
+.I
+there.
+The data currently in both buffers is correctly handled, and
+both buffers are left in an appropriate state.
+After
+.I
+ffilecopy,
+.I
+feof(here)
+will be true.
+.sp
+These routines are probably faster than you would care to code
+for yourself, although they are quite simple.
+.SH "DIAGNOSTICS"
+.I
+Filecopy
+and
+.I
+ffilecopy
+return 0 normally, \-1 on error.
+If an error occurs, the file
+copying operation may be incomplete.
+.SH "SEE ALSO"
+.IR rename (3)

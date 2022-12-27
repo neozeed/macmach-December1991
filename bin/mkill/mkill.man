@@ -1,0 +1,77 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	mkill.man,v $
+.\" Revision 2.3  91/03/19  12:31:32  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/09/12  16:32:35  rpd
+.\" 	Created.
+.\" 	[90/06/18            rpd]
+.\" 
+.TH MKILL 1 6/18/90
+.CM 4
+.SH NAME
+mkill \- terminate, suspend, or resume a task or thread
+.SH SYNOPSIS
+\fBmkill\fP [\fB-host\fP machine] [\fB-KILL\fP|\fB-STOP\fP|\fB-CONT\fP|\fB-ABORT\fP] ids...
+.SH DESCRIPTION
+\fImkill(1)\fR operates on objects, typically tasks and threads.
+A list of MachIDs specifies the objects, which may be
+of different types.
+.PP
+Given the MachID of a processor set name port, \fImkill\fR will
+attempt to convert to the MachID of the corresponding processor
+set port.
+.PP
+\fImkill\fR must run as root or a member of group kmem
+to gain access to the target objects.
+.PP
+\fImkill\fP interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-KILL
+Terminates tasks and threads.  Destroys processor sets.
+For tasks, threads, and processor sets, this is the default operation.
+.TP 8
+.B \-STOP
+Suspends tasks and threads.  Stops processors.
+For processors, this is the default operation.
+.TP 8
+.B \-CONT
+Resumes tasks and threads.  Starts processors.
+.TP 8
+.B \-ABORT
+Aborts a thread's Mach system call, page fault,
+or priority depression.
+.SH "SEE ALSO"
+ms(1), mnice(1), machid(1), task_terminate(2), thread_terminate(2),
+processor_set_destroy(2), task_suspend(2), thread_suspend(2),
+task_resume(2), thread_resume(2), processor_exit(2), processor_start(2),
+thread_abort(2).

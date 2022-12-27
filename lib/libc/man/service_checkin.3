@@ -1,0 +1,107 @@
+.\"
+.\" $Id: service_checkin.3,v 1.2 89/12/29 20:49:45 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	service_checkin.3,v $
+.\" Revision 1.2  89/12/29  20:49:45  bww
+.\" 	Minor edits.
+.\" 	[89/12/29            bww]
+.\" 
+.\" Revision 1.1  89/12/28  14:40:06  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 19-Nov-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH SERVICE_CHECKIN 3 1/21/87
+.SH NAME
+.nf
+init_service 	 \- inititalize interface to service server
+service_checkin  \- get receive rights to a standard server port
+.SH SYNOPSIS
+.nf
+#include <servers/service.h>
+
+void	init_service(reply_port);
+		port_t	reply_port;
+
+kern_return_t service_checkin(ServicePort, service_desired,
+				service_granted);
+		port_t	ServicePort;
+		port_t	service_desired;
+		port_t	*service_granted;
+
+.SH ARGUMENTS
+.TP 15
+.B reply_port
+port that 
+.I service_checkin 
+will reply on. If set to 
+.I PORT_NULL
+a new port will be allocated.
+.TP 15
+.B ServicePort
+port to the Service server. 
+.I service_port
+exported by 
+.I mach_init
+should be used.
+.TP 15
+.B service_desired
+the port defined by 
+.I mach_init
+for the service that this server wishes to provide.
+.TP 15
+.B service_granted
+if 
+.I service_checkin 
+succeeded this will be the same port as 
+.I service_desired
+but with receive rights.
+.i0
+.DT
+.SH DESCRIPTION	
+The Service server is started early in system initialization and allocates
+service ports for the standard system servers. So far these are the
+Environment Manager and the Network Name Server.  Send rights to these
+ports are passed to all subsequently spawned tasks via the
+.I mach_init_ports
+array.
+
+When the Environment Manager and the Network Name Server tasks are
+created, they need to get receive rights to their respective service
+ports in order to provide their services. The
+.I service_checkin
+call provides this function. It can only grant receive rights once,
+so the first task that asks for the rights gets them. Since the
+standard servers are started before any user processes, this should
+not be a problem.
+
+If one of the standard servers should die, the receive rights will
+return to the Service server, which will then be able to grant 
+these rights to a new instantiation of a standard server. A user of these
+servers will be able to continue to use the same port to talk to
+the new server as it used for the old server. For a stateless server,
+such as the Network Name Server,
+the user will see nothing but a temporary loss of response. In the
+case of the Environment Manager, the client's state will be lost
+when the server crashes, so the restarting of a new server cannot
+be transparent.
+.SH RESULTS
+.TP 15
+.B KERN_SUCCESS
+the 
+.I service_desired
+port is returned with receive rights.
+.TP 15
+.B KERN_FAILURE
+the Service server didn't have receive rights to the
+.I service_desired
+port.
+
+.SH FILES
+/usr/include/servers/service.h
+
+.SH SEE ALSO
+mach_init(3)

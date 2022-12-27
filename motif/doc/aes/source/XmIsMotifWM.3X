@@ -1,0 +1,51 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmIsMotifWMRunning 3X "" "" "" ""
+.SH NAME
+\fBXmIsMotifWMRunning \(em a function that specifies if the window
+manager is running.\fP
+.iX "XmIsMotifWMRunning"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH "HISTORY/DIRECTION"
+This include file for this function has changed from \fBX11/Shell.h\fP
+to \fBXm/Xm.h\fP.  Since all motif applications must include
+\fBXm/Xm.h\fP this change requires no change to existing applications.
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmIsMotifWMRunning (\fIshell\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIshell\fP;
+.fi
+\fP
+.br
+.ne 7
+.SH DESCRIPTION
+\fBXmIsMotifWMRunning\fP lets a user know
+if the Motif Window Manager is
+running on a screen that contains a specific widget hierarchy. 
+This
+function first sees whether the \fB_MOTIF_WM_INFO\fP property is present on
+the root window of the shell's screen. If it is, its window
+field is used to query for the presence of the specified window as a
+child of root. 
+.sp 1
+.IP "\fIshell\fP" .75i
+Specifies the shell whose screen will be tested for \fBmwm\fP's presence.
+.sp 1
+.SH RETURN VALUE
+Returns True if MWM is running.
+.sp 1

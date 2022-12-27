@@ -1,0 +1,129 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreateOptionMenu 3X "" "" "" ""
+.SH NAME
+\fBXmCreateOptionMenu \(em a RowColumn widget convenience creation function.\fP
+.iX "XmCreateOptionMenu"
+.iX "creation functions" "XmCreateOptionMenu"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmCreateOptionMenu (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreateOptionMenu\fP creates an instance of a 
+RowColumn widget of type \fBXmMENU_OPTION\fP 
+and returns the associated widget ID.
+.PP
+It is provided as a convenience function for creating a RowColumn
+widget configured to operate as an OptionMenu and is not implemented as a 
+separate widget class. 
+.PP
+The OptionMenu widget is a specialized RowColumn manager composed of a
+label, a selection area, and a 
+single Pulldown MenuPane.  When an application creates
+an OptionMenu widget, it supplies the label string and the Pulldown MenuPane.
+In order to succeed, there must be a valid \fBXmNsubMenuId\fP resource set
+when calling this function.
+When the OptionMenu is created, the Pulldown MenuPane must have been 
+created as a child of the OptionMenu's parent and must be
+specified. 
+The LabelGadget and the selection area (a CascadeButtonGadget) are created
+by the OptionMenu.
+.PP
+The OptionMenu's Pulldown MenuPane must not contain any ToggleButtons or
+ToggleButtonGadgets.
+The results of including CascadeButtons or CascadeButtonGadgets in the
+OptionMenu's Pulldown MenuPane are undefined.
+.PP
+An OptionMenu is laid out with the label displayed on one side of
+the widget and the selection area on the other side.
+The selection area has a dual purpose; it displays the label of the last
+item selected from the associated Pulldown MenuPane, and it provides
+the means for posting the Pulldown MenuPane.
+.PP
+The OptionMenu typically does not display any 3-D visuals around
+itself or the internal LabelGadget.  By default, the internal 
+CascadeButtonGadget has a visible 3-D shadow.
+The application may change this 
+by getting the CascadeButtonGadget ID using \fBXmOptionButtonGadget\fP, and then 
+calling \fBXtSetValues\fP using the standard visual-related resources.
+.PP
+The Pulldown MenuPane is posted by moving the mouse pointer over the
+selection area and pressing a mouse button defined by OptionMenu's
+RowColumn parent.
+The Pulldown MenuPane is posted
+and positioned so that the last selected item is directly over
+the selection area.  The mouse is then used to arm the desired menu
+item.  When the mouse button is released, the armed menu item is selected
+and the label within the selection area is changed to match that of
+the selected item.  By default, \fBBSelect\fP is used to interact with an 
+OptionMenu.
+The default can be changed via the RowColumn resource
+\fBXmNmenuPost\fP.
+.PP
+The OptionMenu also operates by using the keyboard interface mechanism.
+If the application has established a mnemonic with the OptionMenu, 
+typing Alt with the mnemonic causes the Pulldown MenuPane to be posted with
+traversal enabled. 
+The standard traversal keys can then be used to
+move within the MenuPane.  Selection can occur as the result of pressing 
+the Return key or typing a mnemonic or accelerator for one of the
+menu items.
+.PP
+An application may use the \fBXmNmenuHistory\fP resource to 
+indicate which item in the Pulldown MenuPane should be treated as the current
+choice and have its label displayed in the selection area.  By default,
+the first item in the Pulldown MenuPane is used.
+.br
+.ne 4
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCascadeButtonGadget(3X)\fP,
+\fBXmCreatePulldownMenu(3X)\fP,
+\fBXmCreateSimpleOptionMenu(3X)\fP,
+\fBXmLabelGadget(3X)\fP,
+\fBXmOptionButtonGadget(3X)\fP,
+\fBXmOptionLabelGadget(3X)\fP,
+\fBXmRowColumn(3X)\fP, and
+\fBXmVaCreateSimpleOptionMenu(3X)\fP.
+.sp 1
+.ad

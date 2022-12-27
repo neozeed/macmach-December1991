@@ -1,0 +1,132 @@
+
+
+
+     MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnMMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss - Fetches the values to be set from
+          literals stored in UID files.
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<MMMMrrrrmmmm////MMMMrrrrmmmmPPPPuuuubbbblllliiiicccc....hhhh>>>>
+          CCCCaaaarrrrddddiiiinnnnaaaallll MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss((((_h_i_e_r_a_r_c_h_y__i_d,,,, _w_i_d_g_e_t,,,, _a_r_g_s,,,,
+          _n_u_m__a_r_g_s))))
+               MMMMrrrrmmmmHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy _h_i_e_r_a_r_c_h_y__i_d;;;;
+               WWWWiiiiddddggggeeeetttt _w_i_d_g_e_t;;;;
+               AAAArrrrggggLLLLiiiisssstttt _a_r_g_s;;;;
+               CCCCaaaarrrrddddiiiinnnnaaaallll _n_u_m__a_r_g_s;;;;
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss function is similar to XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss,
+          except that the values to be set are defined by the UIL
+          named values that are stored in the UID hierarchy.
+          MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss fetches the values to be set from literals
+          stored in UID files.
+
+          _h_i_e_r_a_r_c_h_y__i_d   Specifies the ID of the UID hierarchy that
+                         contains the specified literal. The
+                         _h_i_e_r_a_r_c_h_y__i_d was returned in a previous call
+                         to MMMMrrrrmmmmOOOOppppeeeennnnHHHHiiiieeeerrrraaaarrrrcccchhhhyyyy.
+
+          _w_i_d_g_e_t         Specifies the widget that is modified.
+
+          _a_r_g_s           Specifies an argument list that identifies
+                         the widget arguments to be modified as well
+                         as the index (UIL name) of the literal that
+                         defines the value for that argument.  The
+                         name part of each argument (args[n].name)
+                         must begin with the string XXXXmmmmNNNN followed by
+                         the name that uniquely identifies this
+                         attribute tag.  For example, XXXXmmmmNNNNwwwwiiiiddddtttthhhh is the
+                         attribute name associated with the core
+                         argument _w_i_d_t_h.  The value part
+                         (args[n].value) must be a string that gives
+                         the index (UIL name) of the literal.  You
+                         must define all literals in UIL as exported
+                         values.
+
+          _n_u_m__a_r_g_s       Specifies the number of entries in _a_r_g_s.
+
+          This function sets the values on a widget, evaluating the
+          values as public literal resource references resolvable from
+          a UID hierarchy. Each literal is fetched from the hierarchy,
+          and its value is modified and converted as required. This
+          value is then placed in the argument list and used as the
+          actual value for an XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss call. MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss
+          allows a widget to be modified after creation using UID file
+          values exactly as is done for creation values in
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     MMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnMMMMrrrrmmmmFFFFeeeettttcccchhhhSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX))))
+
+
+
+          MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt.
+
+          As in MMMMrrrrmmmmFFFFeeeettttcccchhhhWWWWiiiiddddggggeeeetttt, each argument whose value can be
+          evaluated from the UID hierarchy is set in the widget.
+          Values that are not found or values in which conversion
+          errors occur are not modified.
+
+          Each entry in the argument list identifies an argument to be
+          modified in the widget. The name part identifies the tag,
+          which begins with XXXXmmmmNNNN.  The value part must be a string
+          whose value is the index of the literal. Thus, the following
+          code would modify the label resource of the widget to have
+          the value of the literal accessed by the index
+          OK_button_label in the hierarchy:  args[n].name = XmNlabel;
+          args[n].value = "OK_button_label";
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          This function returns one of these status return constants:
+
+          MMMMrrrrmmmmSSSSUUUUCCCCCCCCEEEESSSSSSSS     The function executed successfully.
+
+          MMMMrrrrmmmmPPPPAAAARRRRTTTTIIIIAAAALLLL____SSSSUUUUCCCCCCCCEEEESSSSSSSS
+                         At least one literal was successfully
+                         fetched.
+
+          MMMMrrrrmmmmBBBBAAAADDDD____HHHHIIIIEEEERRRRAAAARRRRCCCCHHHHYYYY
+                         The hierarchy ID was invalid.
+
+          MMMMrrrrmmmmFFFFAAAAIIIILLLLUUUURRRREEEE     The function failed.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss((((3333XXXX))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+

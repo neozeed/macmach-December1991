@@ -1,0 +1,133 @@
+.\"
+.\" $Id: abspath.3,v 1.3 89/12/26 11:14:43 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	abspath.3,v $
+.\" Revision 1.3  89/12/26  11:14:43  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 16-Nov-82  Tom Rodeheffer (tlr) at Carnegie-Mellon University
+.\"	Spruced-up revision of a routine of the same name
+.\"	written by James Gosling sometime around 1980.
+.\"	Added the ability to flush the saved name of the
+.\"	current working directory.
+.\"
+.TH ABSPATH 3 11/16/82
+.CM 3
+.SH "NAME"
+abspath \- determine absolute pathname
+.SH "SYNOPSIS"
+.B
+abspath (name,result)
+.br
+.B
+char *name;
+.br
+.B
+char *result;
+.SH "DESCRIPTION"
+.I Abspath
+places the absolute pathname of the string
+.I name
+into the string
+.IR result .
+.sp
+.I Abspath
+converts the pathname in the string
+.I name
+to an absolute pathname by
+prepending the name of the current working directory if necessary.
+Then the absolute pathname is compacted by removing and resolving
+superfluous steps.
+.sp
+Null components, and components of "." are removed
+because they have no effect on the meaning of the pathname.
+.sp
+Components of ".." are resolved by removing them together with the
+preceeding step.  However, there are certain situations in which
+the preceeding step cannot be removed (for example, if there
+is no preceeding step) and in these cases the ".." will remain.
+.sp
+.I Abspath
+never returns an absolute pathname containing a trailing slash
+except for the case "/".
+.sp
+.I Abspath
+calls
+.I getwd
+to obtain the name of the current working directory when needed.
+To improve performance, the result from
+.I getwd
+is saved so that
+.I getwd
+need not be invoked again during subsequent calls on
+.IR abspath .
+.sp
+The special invocation
+.IR abspath (0,0)
+tells
+.I abspath
+to forget its saved name of the current working directory.
+.I Abspath
+has no way of knowing if the name of the current directory has changed,
+so if you care about these things you must tell it.
+Otherwise,
+.I abspath
+will continue to use its saved result from
+.I getwd
+and this will most likely cause it to produce erroneous results.
+.sp
+.SH "SEE ALSO"
+.IR pwd (1), 
+.IR chdir (2), 
+.IR getwd (3), 
+.IR path (3), 
+.IR expand (3)
+.SH "DIAGNOSTICS"
+Returns \-1 on error (failure in
+.IR getwd );
+0 otherwise.
+.SH "BUGS"
+The string
+.I result
+is assumed to be large enough.
+Intermediate calculations place a string in
+.I result
+that at most consists of
+the name of the current working directory
+concatenated with the string
+.I name
+plus two more characters.
+.sp
+If
+.I getwd
+fails,
+.I abspath
+gives up and returns \-1.
+Generally, failures in
+.I getwd
+are pretty catastrophic.
+.sp
+If you call
+.I chdir
+or if the name of the current directory changes for some other reason,
+.I abspath
+will most likely produce incorrect results for relative path names
+until you call 
+.IR abspath (0,0).
+.sp
+Should
+.I getwd
+return a name for the current working directory
+that does not begin with a slash,
+.I abspath
+will produce a result pathname string
+that it considers to be a reasonable interpretation
+of the situation.
+This is not expected to happen, but
+.I abspath
+is prepared.

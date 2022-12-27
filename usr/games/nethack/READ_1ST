@@ -1,0 +1,22 @@
+The files on this disk are all compressed tar files. This was the easiest way
+for me to do it. In each directory is a file that contains the files that
+should be in that directory. The easiest way to extract everything is:
+(from csh)
+	% zcat top_t.Z | tar xvf -
+	% foreach i (amiga auxil include mac others src vms)
+	? echo unpacking $i
+	? cd $i
+	? zcat * | tar xvf -
+	? cd ..
+	? end
+	% 
+In case you don't have compress/uncompress, I've included a copy of it (uncompressed
+of course) on this disk, too. To extract it, just type: "sh <compress.shr".
+
+This is all assuming you've copied the files off of the floppy and onto the
+SparcStation. The files were copied onto the disk using the 'mtools' package,
+so it should be in MS-DOS format.
+
+	-Bill Randle
+	Tektronix, Inc.
+	billr@saab.CNA.TEK.COM

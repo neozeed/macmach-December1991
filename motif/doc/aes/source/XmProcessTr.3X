@@ -1,0 +1,116 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmProcessTraversal 3X "" "" "" ""
+.SH NAME
+\fBXmProcessTraversal \(em a function that determines which component
+receives keyboard events when a widget has the focus.\fP
+.iX "XmProcessTraversal"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmProcessTraversal (\fIwidget, direction\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	int	\fIdirection\fP;
+.fi
+\fP
+.br
+.ne 11
+.SH DESCRIPTION
+\fBXmProcessTraversal\fP determines which component of a hierarchy
+receives keyboard events when the hierarchy that contains the given
+widget has keyboard focus.  
+It is not possible to use \fBXmProcessTraversal\fP to traverse to
+MenuBars, Pulldown MenuPanes, or Popup MenuPanes.
+.sp 1
+.IP "\fIwidget\fP" 1.2i
+Specifies the widget ID of the widget whose hierarchy is to be traversed
+.IP "\fIdirection\fP" 1.2i
+Specifies the direction of traversal
+.PP
+The \fIdirection\fP parameter can have the following values, which cause
+the routine to take the corresponding actions:
+.IP \(bu 3
+\fBXmTRAVERSE_CURRENT\fP \(em
+Finds the hierarchy and the tab group that contain \fIwidget\fP.
+If this tab group is not the active tab group, makes it the active tab
+group.
+If \fIwidget\fP is an item in the active tab group, makes it the active
+item.
+If \fIwidget\fP is the active tab group, makes the first traversable
+item in the tab group the active item.
+.IP \(bu 3
+\fBXmTRAVERSE_DOWN\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the item below
+it the active item.
+If there is no item below, wraps.
+.IP \(bu 3
+\fBXmTRAVERSE_HOME\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the first
+traversable item in the tab group the active item.
+.IP \(bu 3
+\fBXmTRAVERSE_LEFT\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the item to the
+left the active item.
+If there is no item to the left, wraps.
+.IP \(bu 3
+\fBXmTRAVERSE_NEXT\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the next item
+the active item.
+.IP \(bu 3
+\fBXmTRAVERSE_NEXT_TAB_GROUP\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active tab group (if any) and makes the next tab group the
+active tab group in the hierarchy.
+.br
+.ne 4
+.IP \(bu 3
+\fBXmTRAVERSE_PREV\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the previous
+item the active item.
+.IP \(bu 3
+\fBXmTRAVERSE_PREV_TAB_GROUP\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active tab group (if any) and makes the previous tab group the
+active tab group in the hierarchy.
+.IP \(bu 3
+\fBXmTRAVERSE_RIGHT\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the item to the
+right the active item.
+If there is no item to the right, wraps.
+.IP \(bu 3
+\fBXmTRAVERSE_UP\fP \(em
+Finds the hierarchy that contains \fIwidget\fP.
+Finds the active item in the active tab group and makes the item above
+it the active item.
+If there is no item above, wraps.
+.sp 1
+.SH RETURN VALUE
+Returns True if the setting succeeded.
+Returns False if the keyboard focus policy is not \fBXmEXPLICIT\fP, if
+there are no traversable items, or if the call to the routine has
+invalid parameters.
+.\".sp 1
+.\".SH RELATED INFORMATION
+.sp 1

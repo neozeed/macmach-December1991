@@ -1,0 +1,356 @@
+Summary of C-Kermit changes from 4E(072) to 5A(172)
+
+Last update: Tue Sep 24 18:25:54 1991
+
+This is a very brief overview of the new features of C-Kermit 5A, over
+two years in the making.
+
+Systems Supported:
+  Most known post-V6 variations of UNIX on all platforms (but with some 
+    features removed on systems with small address spaces or limited 
+    compilers/linkers).
+  Full support for VAX/VMS including a completely new RMS interface.
+  Commodore Amiga.
+  Full ANSI C and/or POSIX compliance can be selected.
+
+Network Support:
+  SET HOST command replaces telnet and other network virtual terminal 
+  programs; files can be transferred in the normal Kermit way.  Using Kermit
+  on a network gives features otherwise unavailable: such as unattended 
+  operation via script language procedures, character set translation, etc:
+
+  On 4.x BSD-based UNIX systems, support for TCP/IP connections:
+    4.2BSD or later, Ultrix, NeXT, SUNOS, Olivetti, many more...
+  TCP/IP support on other UNIX systems with Berkeley sockets library:
+    Apple A/UX, AIX,  HP-UX, SCO Xenix with Excelan or Racal/Interlan TCP/IP.
+  On SUNs with SunLink X.25, support for X.25 network connections, with
+    commands to control operation at both the X.25 and X.3 level.
+  On VAX/VMS systems with TGV MultiNet, support for TCP/IP connections.
+
+Kermit Protocol Features:
+  Performance improvements (see below)
+  Transfer of files with international character set translation (see below)
+  Sending and recognition of file attribute (A) packets:
+    File size, creation date, file type, character set, system ID.
+    Control of use of individual attributes via SET ATTRIBUTES.
+  Automatic entry into binary or text mode when receiving files that specify
+    the file type in the attribute packet.
+  New MSEND command to send a list of files ("msend foo.* dir/*.c aaa bbb")
+  New MAIL and REMOTE PRINT commands (work in both directions).
+  REMOTE SET commands are now supported in both directions.
+  GET, BYE, FINISH, REMOTE commands now work in both local & remote modes.
+  SET ATTRIBUTES ON/OFF can be used to enable/disable attribute packets.
+  DISABLE and ENABLE commands to control client access to server functions.
+
+International Character Sets
+  Conversion among all major Roman- and Cyrillic-based character sets
+    during file transfer.
+  Special language-specific transliteration rules.
+  SET FILE CHARACTER-SET <name>.  Supported file character sets include:
+    CP866 Cyrillic, Apple Quickraw, ASCII, British NRC, IBM Code Pages
+    437 and 850, DEC Multinational, Dutch NRC, Finnish NRC, French and French
+    Canadian NRCs, German NRC, Italian NRC, Old KOI-8 Cyrillic, ISO Latin-1,
+    ISO Latin-Cyrillic, the NeXT character set, Norwegian/Danish NRC, and
+    the Portuguese, Spanish, Swedish, and Swiss NRcs.
+  SET TRANSFER CHARACTER-SET { TRANSPARENT, LATIN1, CYRILLIC, ASCII }
+  SET TRANSFER LOCKING-SHIFT { ON, OFF, FORCED }
+    for Shift-In/Shift-Out during file transfer.
+  SET LANGUAGE { Italian, Norwegian, Portuguese, German, Russian, etc. }
+    to enable language-specific transliterations, like umlaut-u to ue, when
+    transfer or file character set is ASCII.
+  Character set information is conveyed in attribute packets.
+  Automatic recognition and translation of character set of incoming file
+    when reported properly in attribute packet.
+  SET TERMINAL CHARACTER SET for character set translation during CONNECT.
+  SET SHIFT-IN/OUT { ON, OFF } for using Shift-In/Shift-Out during CONNECT.
+  TRANSLATE local files from one character set to another.
+  SET COMMAND BYTESIZE { 7,8 } to allow 8-bit characters in commands/filenames.
+  Correct operation in "8-bit clean" Unix and VMS environments.
+
+File Transfer Improvements:
+  Sliding windows, up to 31 window slots. 
+  Maximum packet size increased to 9024 (less on some systems).
+  Sliding windows and long packets can be used together.
+  Locking-shift protocol for efficient 8-bit transfers on 7-bit connections.
+  Packet buffers allocated dynamically, overall size specifiable by user.
+  Low-level packet readers and writers recoded for increased efficiency.
+  Dynamic sizing of packets based on error history.
+  Automatic parity detection during packet operations.
+  Ability to run external protocols.
+  Increased maximum number of files that can be sent in a single operation.
+
+Command parser:
+  Expansion of variables and functions in commands (see below).
+  Parial completion of filenames.
+  Improved error and help messages.
+  Commands in progress can be interrupted, and return to prompt.
+
+Macros and variables:
+  DEFINE macros and variables.
+  ASSIGN variable's current value to another variable.
+  INCREMENT and DECREMENT numeric variables by 1 (or any other number).
+  Execute macros using DO or just by giving their name.
+  Execute built-in string and arithmetic functions.
+  Define your own functions.
+  Arguments are passed as parameters \%1..\%9
+  Global variables \%a..\%z (and others).
+  Arrays \&a[]..\&z[].
+  Access to environment variables via \$(name).
+  Access to builtin Kermit named variables via \v(name), e.g. \v(date).
+  Long variable names: \m(name).
+  Backslash notation for numbers and characters as in MS-DOS Kermit.
+  Dynamically allocated space for macro names and definitions.
+  Variables and backslash codes in all commands are fully expanded.
+
+Script programming language:
+  INPUT, OUTPUT, REINPUT, PAUSE, GOTO, IF, ASK, ASKQ, ECHO, STOP, END,
+  GETOK, and other new commands.
+  INPUT, PAUSE, and WAIT interruptible from keyboard.
+  SET INPUT, SET TAKE, SET MACRO commands to control echoing, error handling.
+  WRITE <log> <string>.
+  OPEN, READ, WRITE, and CLOSE local files.
+  FOR and WHILE loops, which may be nested.
+  BREAK and CONTINUE allowed in FOR and WHILE loops.
+  Trailing comments ; like this one, allowed in all contexts.
+  Command line continuation using hyphen (-) or backslash (\).
+  Relaxed prefixing rules; backslashes no longer doubled.
+  Conditional branching or execution of commands via IF; the IF command:
+    May have an ELSE part.
+    IF NOT can be used to reverse the truth of the following condition.
+    IF <, IF =, IF > for numeric variables.
+    IF EQUAL, LLT, LGT for string comparison.
+    IF NUMERIC for checking numbers.
+    IF COUNT for looping.
+    IF EXIST for files.
+    IF DEFINED for variable and macro names.
+    IF SUCCESS, IF FAILURE based on success of previous command.
+  Extended IF statement (XIF) allows nested, compound parts.
+
+  C-Kermit's script language is in most ways a proper superset of the script
+  language of MS-DOS Kermit 3.0.
+
+Other:
+  Ability to use flow control on most connections.
+  SET FILE COLLISION { APPEND, BACKUP, DISCARD, OVERWRITE, RENAME, UPDATE }
+  Many file-format-related options for VMS.
+  Tilde-expansion in local UNIX filenames (~ = home directory).
+  Ability to ask shell to expand wildcards ("send ck[cuw]*.{[cwh],{doc,ps}}").
+  Alternative initialization filename specifiable on command line with -y.
+  Kermit "application files" start Kermit automatically (UNIX only).
+  New TYPE command, interruptible by Ctrl-C.
+  New DELETE command.
+  New RENAME command.
+  New TRANSMIT command, interruptible by Ctrl-C, plus SET/SHOW TRANSMIT.
+  Command synonyms added for compatibility with MS-DOS Kermit: RUN, PUSH, etc.
+  And with UNIX: RM, LS, etc.
+  And with VMS: SET/SHOW DEFAULT, SPAWN, etc
+  SHOW command divided into SHOW FILE, SHOW PROTOCOL, SHOW COMMUNICATIONS, etc.
+  SET SPEED no longer required with SET LINE - current speed used by default.
+  75/1200 Split-speed communication supported in some implementations.
+  Terminal interrupt (Ctrl-C) now returns to prompt rather than exiting.
+  Correct handling of Suspend interrupt (Ctrl-Z) in UNIXes with job control.
+  Improved control and monitoring of modem signals.
+  Improved interaction with Hayes modems.
+  Support for speed-matching modems.
+  Support for many new modem types including Telebit, Microcom.
+  New DIAL command controls: HANGUP, TIMEOUT, INIT-STRING, DISPLAY, etc.
+  New REDIAL command.
+  Compatibility with new and distributed (struct dirent) file systems.
+  Improved flow control during packet operations.
+  Improved use of UUCP lockfiles.
+  Improved operation and security when run setuid/setgid on UNIX.
+  Improved handling of disk-full and disk-write errors.
+  More detailed statistics reporting.
+  New debugging display available during CONNECT.
+  Text and binary mode options for session log.
+  Append mode available for all logs.
+  Under UNIX, Kermit no longer appears "idle" while transferring files.
+  Program exit status code now reflects protocol success/failure.
+  EXIT n explicitly sets program's exit status code to n.
+  Many new additions and improvements to UNIX makefile.
+  Simplification and expansion of makefile configuration options.
+  New documentation - user manual, man page, improved built-in help text.
+  Many bugs fixed.
+
+Incompatibilities with MS-DOS Kermit 3.10:
+  Macro definitions can be longer (1024 vs 255).
+  If a variable is given as part of a command, only the first word is used.
+  INPUT and REINPUT require a timeout parameter.
+  REINPUT does not use (or need) its timeout.
+  SET INPUT DEFAULT-TIMEOUT has no effect.
+  PAUSE and WAIT only take arguments in seconds, not hh:mm:ss.
+  WAIT command does not test for modem signals.
+  No IF ALARM or IF ERRORLEVEL.
+  No specific terminal emulation, SET KEY, SET TERMINAL (except BYTESIZE), etc,
+    except in OS/2 and Macintosh versions.
+  No \Kverbs.
+  Macro and TAKE-file echo and error action are separately controllable.
+  Trailing comments are allowed on interactive commands and within macros.
+  Syntax of WRITE command is different (simpler).
+
+Tested on:
+  Alliant FX/8 Concentrix
+  Amdahl UTSV
+  Apollo SR10
+  Apple Macintosh A/UX
+  AT&T 3B2 Series
+  AT&T 6300, 6386
+  AT&T 7300 UNIX PC, 3B1
+  AT&T System III, System V R2 and earlier, many platforms
+  AT&T System V R3 and later, many platforms
+  Berkeley UNIX 4.1, 4.2, 4.3, many platforms
+  Convex C1
+  Cray X/MP, Y/MP, Unicos
+  Data General Aviion
+  DEC VAX (various models, Ultrix 2.x, 3.x, 4.x)
+  DEC VAX with 4.1, 4.2, 4.3 BSD, AT&T System V R2
+  DECstation 3100, 5810, Ultrix 4.x
+  DIAB DS90 68010 / DNIX 5.2 and 5.3
+  Encore 310, 510 (UMAX 4.2, 4.3)
+  FPS 500, FPX 4.1
+  HP-9000 HP-UX
+  IBM 370-series mainframe, AIX/370 3.0
+  IBM PC/XT/AT & compatibles with various versions of Xenix, Minix
+  IBM PS/2 AIX 1.0, 3.0
+  IBM RT PC AIX 2.2.1, ACIS 4.x
+  Intel 302, Bell Tech Sys V/386 R3.2
+  Interactive 386
+  Masscomp/Concurrent RTU 4.x
+  MIPS Sys V R3
+  NCR Tower 32, OS 1.x, 2.x
+  NCR Tower 1632, System V
+  NeXT, Mach 1.0
+  PFU Compact A
+  Pyramid
+  SCO Xenix/286
+  SCO UNIX/386 
+  SCO Xenix/386
+  Sequent Balance and Symmetry
+  Silicon Graphics Iris
+  Solbourne OS/MP 4
+  Sony NEWS, 4.3 BSD
+  SUN-4 with SUN OS 4.0, 4.1 (both BSD and System V R3 environments)
+  Tandy 16/6000, Microsoft Xenix 68000 3.02
+  Tektronix 4336 Utek
+
+Other systems:
+  VAX/VMS.  Ready for testing.
+  Commodore Amiga:  Ready for testing.
+  Apple Macintosh, MAC OS.  In progress.
+  IBM OS/2 (includes VT100 and Tektronix terminal emulation).  Partly done.
+  Data General AOS/VS:  Volunteers needed!
+  Apollo Aegis:  Volunteers needed!
+
+Needs testing on:
+  Many, many, many...
+
+(*** skip the rest in the announcement ***)
+
+BACKSLASH NOTATION
+
+\ (backslash) in any command means what follows is not ordinary text, but
+rather a code, variable, or function whose value is to be substituted into the
+command at that point.
+
+The character after the backslash identifies which kind of quantity this is:
+  % - a user-defined simple (scalar) variable
+  & - an array reference
+  $ - an environment variable
+  v - (or V) a built-in variable
+  f - (or F) a function
+  d - (or D) a decimal number
+  o - (or O) an octal number
+  x - (or X) a hexadecimal number
+  \ - the backslash character itself
+  b - (or B) the BREAK signal (OUTPUT command only)
+  a decimal digit - a 1-3 digit decimal number.
+
+Numbers:
+  \{...} A grouped number, braces discarded, e.g. \{17}5 != \175
+  \nnn (1-3 decimal digits) replaced by binary number 0-255, e.g. \13 = CR.
+  \dnnn or \Dnnn - Same as above
+  \onnn or \Onnn (1-3 octal digits) replaced by binary number 0-255.
+  \xnn or \Xnn (2 hexadecimal digits) replaced by binary number 0-255.
+
+Variables:
+
+All variables have character string values.  When used in a numeric sense
+(as in the IF <, IF =, IF >, INCREMENT, and DECREMENT commands), they are
+automatically converted to numbers.
+
+User-defined variables have names \%a, \%b, ... \%z.  Case is insigificant
+(\%a is the same variable as \%A).  These variables are set via the DEFINE,
+ASSIGN, or ASK commands, and are global, i.e. available at all times from
+within any macro or command file, after they are defined.
+
+Macro parameters are assigned automatically upon macro invocation.  They are
+\%0, \%1, ... \%9.  \%0 is the macro name, \%1 is the first parameter, etc.
+Parameters are individual words or series of words grouped by braces.
+Variables that do not have corresponding parameters are undefined (empty).  
+Macro parameters are local to the macro they are passed to.
+
+Arrays must be declared before use: DECLARE \&X[20] declares an array called
+\&x (case doesn't matter) with 20 elements.  Arrays are global, and their
+elements are referred to with a subscript, as \&x[12] or \&x[\%i].  The array
+\&@[] is preloaded with the program's argument vector.
+
+Built-in variables are read-only, you cannot change them.  They are:
+  \v(date): current date in dd mmm yyyy format (e.g. 8 Feb 1991 or 10 Nov 1991)
+  \v(ndate): numeric date (19910208)
+  \v(time): current time in hh:mm:ss 24-hour clock format (e.g. 13:45:23).
+  \v(ntime): seconds since midnight.
+  \v(argc): number of arguments passed to currently active macro.
+  \v(args): number of command-line arguments to program.
+  \v(count): current value of COUNT (loop control via SET COUNT, IF COUNT).
+  \v(filespec): most recent file transfer filespec.
+  \v(directory): current directory.
+  \v(home): home (login) directory.
+  \v(host): network host name.
+  \v(input): current INPUT buffer contents.
+  \v(line): current communication device or network host.
+  \v(return): return value of user-defined function.
+  \v(version): numeric version number of C-Kermit.
+  \v(status): 0 or 1 depending on success or failure of previous command.
+  \v(system): operating system name (UNIX, VMS, etc)
+  \v(program): "C-Kermit"
+  \v(platform): like "SUNOS_4.1" or "NeXT_Mach_1.0"
+  \v(speed): communication line speed.
+
+Built-in functions are of the form \fname(args).  The F and the name can be
+upper or lower case.  The args are a comma-separated list of arguments.  The
+function reference replaced by its value.  For example:
+
+  define \%a ABC123XYZ
+  define \%b ...\Flower(\%a)...
+
+Results in a value of ...abc123xyz... for \%b.  Functions include:
+
+String functions that return a string:
+ \Fliteral(arg1)       - Copies its argument literally, without any evaluation.
+ \Fsubstr(arg1,arg2,arg3) - Substring of arg1 starting at arg2, length arg3.
+ \Flower(arg1)         - Converts arg1 to lowercase.
+ \Fupper(arg1)         - Converts arg1 to uppercase.
+ \Freverse(arg1)       - Reverses the string argument.
+ \Frepeat(arg1,arg2)   - Repeats arg1 arg2 times.
+ \Fexecute(macro args) - Execute a macro, return its RETURN value if any.
+ \Fcontents(variable)  - Returns the definition (contents) of a variable.
+ \Fdefinition(macro)   - Returns the definition of the named macro.
+
+String functions that return a number:
+ \Flength(arg1)     - Returns the length of the string arg1.
+ \Findex(arg1,arg2,arg3) - Returns the position of string arg2 in string arg1.
+
+Integer arithmetic functions:
+ \Fmax(arg1,arg2)   - Returns the maximum of its two numeric arguments.
+ \Fmin(arg1,arg2)   - Returns the minimum of its two numeric arguments.
+ \Feval(arg1)       - Evaluates the enclosed arithmetic expression.
+ \Flpad(string,n,c) - Left-pads a string out to length n with character c.
+ \Frpad(string,n,c) - Right-pads a string out to length n with character c.
+
+File functions:
+ \Ffiles(filespec)  - Returns the number of files that match the specification.
+ \Fnextfile()       - Returns the next filename that matches the \Ffiles()
+                      file specification.
+
+The names of built-in functions and variables can be abbreviated to their
+minimum unique length, for example \feval(1+1), \v(dir), etc.

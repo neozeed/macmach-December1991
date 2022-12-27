@@ -1,0 +1,50 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextSetMaxLength 3X "" "" "" ""
+.SH NAME
+\fBXmTextSetMaxLength \(em a Text function that sets the value of the
+current maximum allowable length of a text string entered from the keyboard.\fP
+.iX "XmTextSetMaxLength"
+.iX "Text functions" "XmTextSetMaxLength"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+void XmTextSetMaxLength (\fIwidget, max_length\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	int	\fImax_length\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextSetMaxLength\fP sets the value of the current maximum allowable
+length of the text string in the Text widget.  The maximum allowable length
+prevents the user from entering a text string from the keyboard
+that is larger than this limit.  Strings that are entered using the
+\fBXmNvalue\fP resource or the \fBXmTextSetString\fP function ignore this
+resource.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fImax_length\fP" .75i
+Specifies the maximum allowable length of the text string
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP and \fBXmTextSetString(3X)\fP.
+.sp 1

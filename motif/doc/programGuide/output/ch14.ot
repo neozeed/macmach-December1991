@@ -1,0 +1,3509 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       14.  MMMMaaaannnnaaaaggggiiiinnnngggg MMMMeeeennnnuuuussss,,,, MMMMoooouuuusssseeee BBBBuuuuttttttttoooonnnnssss,,,, aaaannnndddd KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnnggggssss
+
+       This chapter presents information users need if they want to
+       customize or create window menus, button bindings, and key
+       bindings.  As an applications programmer, you can also cus-   |
+       tomize and create menus and bindings.  However, be aware      |
+       that users can modify your configurations.
+
+       This chapter discusses the following topics:                  |
+
+          +o The MWM resource description file                        |
+
+          +o Modifying menus and default menus                        |
+
+          +o Making new menus: item strings, mnemonics, accelera-     |
+            tors, and MWM functions
+
+          +o Changing the menu associated with the window menu but-   |
+            ton
+
+          +o Mouse button bindings                                    |
+
+          +o Keyboard bindings                                        |
+
+       14.1  MMMMWWWWMMMM RRRReeeessssoooouuuurrrrcccceeee DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn FFFFiiiilllleeee
+
+       The MWM resource description file is a supplementary          |
+       resource file that contains resource descriptions that are
+       referred to by entries in the defaults files (such as ....XXXXddddeeee----   |
+       ffffaaaauuuullllttttssss and ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////aaaapppppppp----ddddeeeeffffaaaauuuullllttttssss////MMMMwwwwmmmm).
+
+       The following types of resources can be described in the MWM
+       Resource Description File:                                    |
+
+       Buttons Window manager functions can be bound (associated)
+               with button press events.                             |
+
+       Keys    Window manager functions can be bound (associated)
+               with key press events.                                |
+
+       Menus   Menus can be posted using key and button bindings.    |
+
+       ccccoooonnnnffffiiiiggggFFFFiiiilllleeee....  A specific MWM resource description file can be  |
+       selected using the configFile resource.  The value for this
+
+
+                                                               14-1
+
+
+
+
+
+
+
+
+
+
+
+
+       resource is the pathname for an MWM resource description
+       file.                                                         *
+
+       If the pathname begins with ~/ (tilde followed by slash),     |
+       MWM considers it to be relative to the user's home directory  |
+       (as specified by the HOME environment variable).  If the      |
+       LANG environment variable is set, MWM looks for               |
+       $$$$HHHHOOOOMMMMEEEE////$$$$LLLLAAAANNNNGGGG////_c_o_n_f_i_g_F_i_l_e.  If that file does not exist or if    |
+       LANG is not set, MWM looks for $$$$HHHHOOOOMMMMEEEE////_c_o_n_f_i_g_F_i_l_e.              |
+
+       If the _c_o_n_f_i_g_F_i_l_e pathname does not begin with ~/ (tilde      |
+       followed by slash) MWM considers it to be relative to the     |
+       current working directory.                                    |
+
+       If no value for the resource is specified or if the speci-    |
+       fied file does not exist, MWM uses several default paths to   |
+       find a configuration file.  If the LANG environment variable  |
+       is set, MWM looks for the configuration file first in         |
+       $$$$HHHHOOOOMMMMEEEE////$$$$LLLLAAAANNNNGGGG////....mmmmwwwwmmmmrrrrcccc.  If that file does not exist or if LANG   |
+       is not set, MWM looks for $$$$HHHHOOOOMMMMEEEE////....mmmmwwwwmmmmrrrrcccc.  If that file does    |
+       not exist and if LANG is set, MWM next looks for              |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////$$$$LLLLAAAANNNNGGGG////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc.  If that file does not       |
+       exist or if LANG is not set, MWM looks for                    |
+       ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc.                                    |
+
+       An MWM resource description file is a standard text file
+       containing items of information separated by blanks, tabs,    |
+       and newline characters.  Blank lines are ignored.  Items or
+       characters can be quoted to avoid special interpretation      |
+       (for example, the comment character can be quoted to prevent  |
+       it from being interpreted as the comment character).  A       |
+       quoted item can be contained in " (double quotation marks).   |
+       Single characters can be quoted by preceding them with        |
+       \ (the backslash character).  All text from an unquoted #     |
+       (comment) character to the end of the line is regarded as a
+       comment and is not interpreted as part of a resource
+       description.  If an ! (exclamation poin) is the first char-   |
+       acter of a line, the line is regarded as a comment.
+
+       bbbbiiiittttmmmmaaaappppDDDDiiiirrrreeeeccccttttoooorrrryyyy....  You can also, using the bitmapDirectory     |
+       resource, direct the window manager to search a specified
+       directory for bitmaps.  The bitmapDirectory resource causes
+       the window manager to search the specified directory when-
+       ever a bitmap is named with no complete path.  The default
+       value for bitmapDirectory is ////uuuussssrrrr////iiiinnnncccclllluuuuddddeeee////XXXX11111111////bbbbiiiittttmmmmaaaappppssss.        |
+
+
+
+
+
+
+
+
+       14-2
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       14.2  MMMMooooddddiiiiffffyyyyiiiinnnngggg MMMMeeeennnnuuuussss aaaannnndddd DDDDeeeeffffaaaauuuulllltttt MMMMeeeennnnuuuussss
+
+       All window manager menus, regardless of the mechanism that
+       calls them to the screen, have the same syntax:               *
+
+       MMMMeeeennnnuuuu    _m_e_n_u__n_a_m_e                                             |
+       {
+       _i_t_e_m_1   [_m_n_e_m_o_n_i_c]   [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+       _i_t_e_m_2   [_m_n_e_m_o_n_i_c]   [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+          .
+          .
+       _i_t_e_m#   [_m_n_e_m_o_n_i_c]   [_a_c_c_e_l_e_r_a_t_o_r]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+       }
+
+       The menu is given a name, and then each iiiitttteeeemmmm to be listed in  *
+       the menu is given a name or graphic representation (bitmap).
+       The item is followed by an optional mnemonic and/or
+       accelerator, and then by a ffffuuuunnnnccccttttiiiioooonnnn from Table 14-1.  The     |
+       function is the action the window manager takes when that     |
+       menu item is selected.  Some functions require an argument.   |
+       To illustrate menu syntax, the following default window menu  |
+       is presented as it appears in ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc and   |
+       in the home directory in ....mmmmwwwwmmmmrrrrcccc.  The default window menu
+       illustrates the default OSF/Motif behavior.
+
+       Menu DefaultWindowMenu
+       {
+       Restore             _R   Meta<Key>F5    f.normalize
+       Move                _M   Meta<Key>F7    f.move
+       Size                _S   Meta<Key>F8    f.resize
+       Minimize            _n   Meta<Key>F9    f.minimize
+       Maximize            _x   Meta<Key>F10   f.maximize
+       Lower               _L   Meta<Key>F3    f.lower               |
+       no-label                                f.separator
+       Close               _C   Meta<Key>F4    f.kill
+       }
+
+       You might want to create a workspace menu that gives some     |
+       control over the entire workspace (screen area).  A sample
+       workspace menu is illustrated below:
+
+       Menu RootMenu
+       {
+       "Root Menu"      f.title
+       "New Window"     f.exec "mterm"
+       "Shuffle Up"     f.circle_up
+       "Shuffle Down"   f.circle_down
+
+
+
+
+
+
+                                                               14-3
+
+
+
+
+
+
+
+
+
+
+
+
+       Refresh          f.refresh
+       no-label         f.separator
+       Restart          f.restart
+       }
+
+       You can modify either menu to suit the specific needs of
+       your application.  However, for the sake of consistency in    |
+       window operation, it's usually better to modify the
+       workspace menu and keep the window menu the same.  (See       |
+       _MOTIF_WM_MENU in Section 12.3.1.5 for instructions on modi-
+       fying the window menu.)
+
+       14.3  MMMMaaaakkkkiiiinnnngggg NNNNeeeewwww MMMMeeeennnnuuuussss
+
+       You may modify the window and workspace menus, but you also   |
+       have another option.  You can make a completely new menu,
+       calling it to the screen by a mouse button press, by a key    |
+       press, or by selecting it from an existing menu.
+
+       To create a completely new menu, use the general menu syntax
+       as a model to do the following:
+
+         1.  Fill in a menu name                                     |
+
+         2.  Make up item names                                      |
+
+         3.  Choose a mnemonic and accelerator  (optional)           |
+
+         4.  Give each item a function to perform from Table 14-1    |
+
+       14.3.1  MMMMeeeennnnuuuu TTTTiiiittttlllleeeessss
+
+       A menu title is created with the ffff....ttttiiiittttlllleeee function.  The       |
+       ffff....ttttiiiittttlllleeee function automatically places separators above and
+       below the title.
+
+       14.3.2  MMMMeeeennnnuuuu IIIItttteeeemmmmssss
+
+       An item may be either a character string or a graphic
+       representation (bitmap).
+
+       A character string for items must be compatible with the
+       menu font that is used.  Character strings must be typed
+       precisely, using one of the following styles:                 |
+
+          +o Any character string containing a space must be          |
+            enclosed in " (double quotation marks), for example,     |
+            "Menu name."
+
+          +o Single-word strings do not have to be enclosed, but it   |
+            is probably a good idea for the sake of consistency,     |
+
+
+       14-4
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+            for example, Menuname.
+
+          +o An alternate method of dealing with 2-word selection     |
+            names is to use an underbar in place of the space, for   |
+            example, Menu_name.
+
+       A bitmap for an item can be created using the bbbbiiiittttmmmmaaaapppp client.  |
+       Using the @/ (at sign and slash) in the menu syntax tells     |
+       the window manager that what follows is the full path to a
+       bitmap file:
+
+            @/_b_i_t_m_a_p_f_i_l_e   _f_u_n_c_t_i_o_n [_a_r_g_u_m_e_n_t]
+
+       Here is an example of a user-made menu.  The menu is named
+       "Graphics Projects."  The menu items are all bitmaps symbol-
+       izing different graphics projects.  The bitmaps are kept in   |
+       the directory ////uuuusssseeeerrrrssss////ppppaaaatttt////bbbbiiiittttssss.  When the user, Pat, selects
+       a symbol, the graphics program starts and opens the
+       appropriate graphics file.                                    |
+
+       Menu "Graphics Projects"                                      |
+       {
+       "Graphics Projects"           f.title
+       @/users/pat/bits/fusel.bits   f.exec "cad /spacestar/fusel.e12
+       @/users/pat/bits/lwing.bits   f.exec "cad /spacestar/lwing.s05
+       @/users/pat/bits/rwing.bits   f.exec "cad /spacestar/rwing.s04
+       @/users/pat/bits/nose.bits    f.exec "cad /spacestar/nose.e17
+       }
+
+       Another method for specifying the path is to replace          |
+       ////uuuusssseeeerrrrssss////ppppaaaatttt//// with the ~/ (tilde and slash) characters.  The    |
+       ~/ specifies the user's home directory.  Yet another method
+       is to use the bitmapDirectory resource, described in Section  |
+       14.1, "MWM Resource Description File."  If the bbbbiiiittttmmmmaaaappppDDDDiiiirrrreeeecccc----   |
+       ttttoooorrrryyyy is set to ////uuuusssseeeerrrrssss////ppppaaaatttt////bbbbiiiittttssss, then the bitmap file could
+       be specified as:
+
+       @fusel.bits   f.exec "cad /spacestar/fusel.e12
+
+       14.3.3  MMMMnnnneeeemmmmoooonnnniiiiccccssss aaaannnndddd AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+
+       You can use mnemonics and keyboard accelerators.  Mnemonics   |
+       are functional only when the menu is posted.  Accelerators
+       are functional whether or not the menu is posted.  A          |
+       mnemonic specification has the following syntax:
+
+          mmmmnnnneeeemmmmoooonnnniiiicccc ====   __c_h_a_r_a_c_t_e_r                                    |
+
+       _T_h_e _ (_u_n_d_e_r_b_a_r) _i_s _p_l_a_c_e_d _u_n_d_e_r _t_h_e _f_i_r_s_t _m_a_t_c_h_i_n_g _c_h_a_r_a_c_-   _|
+       _t_e_r in the label.  If there is no matching _c_h_a_r_a_c_t_e_r in the   _|
+       label, no mnemonic is registered with the window manager for
+
+
+                                                               14-5
+
+
+
+
+
+
+
+
+
+
+
+
+       that label.  The accelerator specification is a key action    |
+       with the same syntax as is used for binding keys to window    |
+       manager functions:                                            |
+
+          _k_e_y  _c_o_n_t_e_x_t  _f_u_n_c_t_i_o_n  [_a_r_g_u_m_e_n_t]
+
+       When choosing accelerators, be careful not to use key         |
+       actions that are already used in key bindings.  (Keyboard     |
+       bindings are discussed in greater detail in Section 14.6.)
+
+       The following line from the Default Window Menu illustrates
+       mnemonic and accelerator syntax:
+
+          Restore  _R  Meta<Key>F5  f.normalize
+
+       14.3.4  MMMMWWWWMMMM FFFFuuuunnnnccccttttiiiioooonnnnssss
+
+       Each MWM function operates in one or more of the following
+       contexts:
+
+                Operates the function when the                       |
+                workspace or "root window" is                        |
+                selected.                                            |
+777       rrrrooooooootttt                                                          |
+
+
+                Operates the function when a client                  |
+                window is selected.  All sub-parts of                |
+                a window are considered as "windows"                 |
+                for function contexts.  Note that                    |
+                some functions operate only when the                 |
+                window is in its normalized state      |             |
+                (f.maximize), or its maximized or      |             |
+                iconified state (f.normalize).                       |
+77777777       wwwwiiiinnnnddddoooowwww                                                        |
+
+
+
+
+
+
+
+                Operates the function when an icon is                |
+                selected.                                            |
+77       iiiiccccoooonnnn                                                          |
+
+
+       Additionally, each function is operated by one or more of     |
+       the following devices:                                        |
+
+          +o Mouse button                                             |
+
+          +o Keyboard key                                             |
+
+          +o Menu item                                                |
+
+       Any selection that uses an invalid context, an invalid func-  |
+       tion, or a function that does not apply to the current con-   |
+       text is grayed out.  This is the case with the Restore        |
+       selection of a terminal window's window menu or the Minimize  |
+       selection of an icon's menu.  Also, menu items are grayed
+       out if they do the ffff....nnnnoooopppp (no operation performed) function.   |
+
+
+
+
+       14-6
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       All window manager functions are available for use in a
+       menu, except ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu.  MWM can be configured to disal-   |
+       low the use of five of the functions: ffff....rrrreeeessssiiiizzzzeeee, ffff....mmmmoooovvvveeee,       |
+       ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee, ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee, and ffff....kkkkiiiillllllll....  You (the programmer)     |
+       indicate disallowed functions with the _MOTIF_WM_HINTS        |
+       client window property (see Chapter 12).  The user indicates
+       disallowed functions with the clientFunctions resource, or
+       the transientFunctions resource if the window is transient    |
+       (see "Functions and Clients," which appears later).
+
+       The following table lists the valid functions for MWM.        |
+       Items followed by an asterisk are described in more detail    |
+       following the table. Under the heading Contexts, R stands     |
+       for Root, I stands for Icon, and W stands for Window.  Under  |
+       the heading Devices, MO stands for Mouse, K stands for Key,   |
+       and ME stands for Menu.
+
+               TTTTAAAABBBBLLLLEEEE 11114444----1111....  Valid Window Manager Functions
+
+                           FFFFuuuunnnnccccttttiiiioooonnnnssss                        CCCCoooonnnntttteeeexxxxttttssss     DDDDeeeevvvviiiicccceeeessss
+       ___________________________________________________________________________
+       NNNNaaaammmmeeee                    DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                 RRRR   IIII   WWWW   MMMMOOOO   KKKK   MMMMEEEE|
+       ___________________________________________________________________________|
+7                            |7|7|
+
+                                                        |7|7|7|
+
+
+                                                            |7|7|
+
+                                                                |7|7|
+
+                                                                    |7|7|7|
+
+
+                                                                         |7|7|
+
+                                                                             |7|7|
+
+
+       ___________________________________________________________________________|
+                               Causes a beep to sound.    |          |
+7       ffff....bbbbeeeeeeeepppp                                              x   x   x   x    x   x |
+       ___________________________________________________________________________|
+       ffff....cccciiiirrrrcccclllleeee____ddddoooowwwwnnnn           Puts window on              x   x   x   x    x   x |
+       [icon | window]         bottom                                             |
+       of stack.*                                                                 |
+       ___________________________________________________________________________
+       ffff....cccciiiirrrrcccclllleeee____uuuupppp             Puts window on top          x   x   x   x    x   x |
+       [icon | window]         of stack.*
+       ___________________________________________________________________________
+       ffff....eeeexxxxeeeecccc (or) !           Uses ////bbbbiiiinnnn////sssshhhh to exe-        x   x   x   x    x   x |
+       command                 cute a command.                                    |
+       ___________________________________________________________________________
+                               Sets colormap focus when              |
+                               colormap focus policy is              |
+                               explicit.*                            |
+777       ffff....ffffooooccccuuuussss____ccccoooolllloooorrrr                                       x   x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+                               Sets keyboard input focus             |
+                               when keyboard focus pol-              |
+                               icy is explicit.*                     |
+777       ffff....ffffooooccccuuuussss____kkkkeeeeyyyy                                         x   x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+                               Terminates a client.*                 |
+7       ffff....kkkkiiiillllllll                                                  x   x   x    x   x |
+       ___________________________________________________________________________|
+       ffff....lllloooowwwweeeerrrr                 Lowers a window to bot-     x   x   x   x    x   x |
+         [-_c_l_i_e_n_t]             tom of stack.                                      |
+       ___________________________________________________________________________
+7                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+
+
+7                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+
+
+                                                               14-7
+
+
+
+
+
+
+
+
+
+
+
+
+                           FFFFuuuunnnnccccttttiiiioooonnnnssss                        CCCCoooonnnntttteeeexxxxttttssss     DDDDeeeevvvviiiicccceeeessss  |
+       ___________________________________________________________________________|
+       NNNNaaaammmmeeee                    DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                 RRRR   IIII   WWWW   MMMMOOOO   KKKK   MMMMEEEE||
+       ___________________________________________________________________________||
+7                            |7|7|
+
+                                                                                  |
+7                                                        |7|7|7|
+
+
+                                                                                  |
+7                                                            |7|7|
+
+                                                                                  |
+7                                                                |7|7|
+
+                                                                                  |
+7                                                                    |7|7|7|
+
+
+                                                                                  |
+7                                                                         |7|7|
+
+                                                                                  |
+7                                                                             |7|7|
+
+                                                                                  |
+                               Enlarges a window to its              |
+                               maximum size.                         |
+77       ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee                                              x   x   x    x   x |
+
+       ___________________________________________________________________________|
+       ffff....mmmmeeeennnnuuuu                  Associates a menu with a    x   x   x   x    x   x |
+       _m_e_n_u__n_a_m_e               selection or binding.                              |
+       ___________________________________________________________________________
+                               Changes a window into an              |
+                               icon.                                 |
+77       ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee                                                  x   x    x   x |
+
+       ___________________________________________________________________________|
+                               Enables the interactive               |
+                               moving of a window.                   |
+77       ffff....mmmmoooovvvveeee                                                  x   x   x    x   x |
+
+       ___________________________________________________________________________|
+                               Installs the next color-              |
+                               map in the window with                |
+                               the colormap focus.                   |
+777       ffff....nnnneeeexxxxtttt____ccccmmmmaaaapppp                                         x   x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+       ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy              Sets keyboard focus to      x   x   x   x    x   x |
+       [icon | window          the next window/icon
+         | transient]          in the stack.
+       ___________________________________________________________________________
+                               No operation performed.               |
+7       ffff....nnnnoooopppp                                               x   x   x   x    x   x |
+       ___________________________________________________________________________|
+                               Displays a window in nor-             |
+                               mal size.                             |
+77       ffff....nnnnoooorrrrmmmmaaaalllliiiizzzzeeee                                             x   x   x    x   x |
+
+       ___________________________________________________________________________|
+                               Displays a window in nor-             |
+                               mal size and raises it to             |
+                               the top of the stack.                 |
+777       ffff....nnnnoooorrrrmmmmaaaalllliiiizzzzeeee____aaaannnndddd____rrrraaaaiiiisssseeee                                   x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+       ffff....ppppaaaacccckkkk____iiiiccccoooonnnnssss            Tidies up icon rows on      x   x   x   x    x   x |
+                               the root window or in
+                               the icon box
+       ___________________________________________________________________________
+       ffff....ppppaaaassssssss____kkkkeeeeyyyyssss             Toggles between enabling    x   x   x   x    x   x |
+                               and disabling the pro-
+                               cessing of key bindings.
+       ___________________________________________________________________________
+                               Posts the window menu.                |
+7       ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu                                        x   x   x   x    x     |
+       ___________________________________________________________________________|
+                               Installs the previous                 |
+                               colormap in the window                |
+                               with the colormap focus.              |
+777       ffff....pppprrrreeeevvvv____ccccmmmmaaaapppp                                         x   x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+7                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+
+
+
+
+7                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+
+
+       14-8
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+                           FFFFuuuunnnnccccttttiiiioooonnnnssss                        CCCCoooonnnntttteeeexxxxttttssss     DDDDeeeevvvviiiicccceeeessss  |
+       ___________________________________________________________________________|
+       NNNNaaaammmmeeee                    DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                 RRRR   IIII   WWWW   MMMMOOOO   KKKK   MMMMEEEE||
+       ___________________________________________________________________________||
+7                            |7|7|
+
+                                                                                  |
+7                                                        |7|7|7|
+
+
+                                                                                  |
+7                                                            |7|7|
+
+                                                                                  |
+7                                                                |7|7|
+
+                                                                                  |
+7                                                                    |7|7|7|
+
+
+                                                                                  |
+7                                                                         |7|7|
+
+                                                                                  |
+7                                                                             |7|7|
+
+                                                                                  |
+       ffff....pppprrrreeeevvvv____kkkkeeeeyyyy              Sets the keyboard input     x   x   x   x    x   x |
+       [icon | window          focus to the previous
+         | transient]          window/icon in the stack.
+       ___________________________________________________________________________
+                               Terminates OSF/Motif Win-             |
+                               dow Manager.                          |
+77       ffff....qqqquuuuiiiitttt____mmmmwwwwmmmm                                          x           x    x   x |
+
+       ___________________________________________________________________________|
+                               Lifts a window to top of              |
+                               stack.                                |
+77       ffff....rrrraaaaiiiisssseeee [-_c_l_i_e_n_t]                                   x   x   x   x    x   x |
+
+       ___________________________________________________________________________|
+                               Raises a partially con-               |
+                               cealed window; lowers an              |
+                               unconcealed window.                   |
+777       ffff....rrrraaaaiiiisssseeee____lllloooowwwweeeerrrr                                           x   x   x    x   x |
+
+
+       ___________________________________________________________________________|
+                               Redraws all windows.                  |
+7       ffff....rrrreeeeffffrrrreeeesssshhhh                                           x   x   x   x    x   x |
+       ___________________________________________________________________________|
+                               Redraws a client window.              |
+7       ffff....rrrreeeeffffrrrreeeesssshhhh____wwwwiiiinnnn                                               x   x    x   x |
+       ___________________________________________________________________________|
+                               Enables interactive                   |
+                               resizing of windows.                  |
+77       ffff....rrrreeeessssiiiizzzzeeee                                                    x   x    x   x |
+
+       ___________________________________________________________________________|
+                               Restarts the OSF/Motif                |
+                               Window Manager.                       |
+77       ffff....rrrreeeessssttttaaaarrrrtttt                                           x           x    x   x |
+
+       ___________________________________________________________________________|
+       ffff....sssseeeennnndddd____mmmmssssgggg              Sends a client message.*        x   x   x    x   x |
+       _m_e_s_s_a_g_e__n_a_m_e                                                               |
+       ___________________________________________________________________________
+                               Draws a line between menu             |
+                               selections.                           |
+77       ffff....sssseeeeppppaaaarrrraaaattttoooorrrr                                         x   x   x            x |
+
+       ___________________________________________________________________________|
+       ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr          Restarts MWM with           x   x   x   x    x   x |
+                               default or custom
+                               behavior.*
+       ___________________________________________________________________________
+                               Inserts a title into a                |
+                               menu at the position                  |
+                               specified.                            |
+777       ffff....ttttiiiittttlllleeee                                             x   x   x            x |
+
+
+7                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                            |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                    |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                         |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+7                                                                             |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  |
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               14-9
+
+
+
+
+
+
+
+
+
+
+
+
+       ffff....cccciiiirrrrcccclllleeee----ddddoooowwwwnnnn [[[[iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww]]]] This function causes the win-   |
+       dow or icon that is on the top of the window stack to be put  |
+       on the bottom of the window stack, so that it is no longer    |
+       obscuring any other window or icon.  This function affects    |
+       only those windows and icons that are obscuring other win-    |
+       dows and icons or that are themselves obscured.  Secondary    |
+       windows (transients) are restacked with their associated      |
+       primary window.  Secondary windows always stay on top of the  |
+       associated primary window and there can be no other primary   |
+       windows between the secondary windows and their primary win-  |
+       dow.                                                          |
+
+       If an icon function argument is specified, the function       |
+       applies only to icons.  If a window function argument is      |
+       specified, the function applies only to windows.
+
+       ffff....cccciiiirrrrcccclllleeee____uuuupppp [[[[iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww]]]] This function raises the window   |
+       or icon on the bottom of the window stack so that it is not   |
+       obscured by any other windows.  It affects only those win-    |
+       dows and icons that are obscuring other windows and icons or  |
+       that are themselves obscured.  Secondary windows (tran-       |
+       sients) are restacked with their associated primary window.
+
+       If an icon function argument is specified, the function       |
+       applies only to icons.  If a window function argument is      |
+       specified, the function applies only to windows.
+
+       ffff....ffffooooccccuuuussss____ccccoooolllloooorrrr  This function sets the colormap focus to a
+       client window or icon (for icons, the default colormap for    |
+       the screen is installed).  If this function is done in a      |
+       root context, the default colormap (set by the X Window Sys-  |
+       tem for the screen where MWM is running) is installed and     |
+       there is no specific client window colormap focus.  This
+       function is ignored if ccccoooolllloooorrrrmmmmaaaappppFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy is not "expli-     |
+       cit."
+
+       ffff....ffffooooccccuuuussss____kkkkeeeeyyyy  This function sets the keyboard input focus to   |
+       a client window or icon and is ignored if kkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooollll----   |
+       iiiiccccyyyy is not "explicit."  See also the description of the       |
+       focusAutoRaise resource in Section 13.4, "Setting Focus Pol-  |
+       icies for Active Windows."  A button binding for this func-
+       tion can be set up with a window context without the side-
+       effect of having the button made unavailable to the client
+       window.
+
+       ffff....kkkkiiiillllllll  This function sends a client message event to a
+       client indicating that the client window should be deleted.   |
+       This occurs only if the WM_DELETE_WINDOW protocol is set up.
+       If the WM_SAVE_YOURSELF protocol is set up and the            |
+       WM_DELETE_WINDOW protocol is not set up, the client is sent   |
+       a client message event, indicating that the client needs to   |
+
+
+       14-10
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       prepare to be terminated.  If the client has neither the
+       WM_DELETE_WINDOW nor WM_SAVE_YOURSELF protocol set up,        |
+       ffff....kkkkiiiillllllll causes a client's X connection to be terminated (usu-
+       ally resulting in termination of the client and possibly
+       resulting in a loss of data).  Refer to the description of    |
+       the quitTimeout resource in Section 13.5, "Managing           |
+       Clients," and the WM_PROTOCOLS property in Section 12.2,      |
+       "Inter-Client Communications Conventions."                    |
+
+       ffff....sssseeeennnndddd____mmmmssssgggg _m_e_s_s_a_g_e__n_a_m_e  This function sends a client mes-
+       sage of the type WM_PROTOCOLS with the protocols type indi-
+       cated by the _m_e_s_s_a_g_e__n_a_m_e function argument.  The client      |
+       message is sent only if _m_e_s_s_a_g_e__n_a_m_e is included in the       |
+       client's WM_PROTOCOLS property.  A menu item label is         |
+       grayed-out if the menu item wants to send a message that is
+       not included in the client's WM_PROTOCOLS property.
+
+       ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr  This function causes MWM to restart with the  |
+       default OSF/Motif behavior (if a custom behavior is config-
+       ured) or a custom behavior (if an OSF/Motif default behavior
+       is configured).
+
+       A key binding for doing the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr function is        |
+       included in the built-in default set of key bindings for
+       MWM.  If the user specifies a custom set of key bindings to
+       replace the default set, then the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr key binding  |
+       is added automatically to the custom set (and is always pro-
+       cessed first).  The following table shows the key binding     |
+       for ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr.                                           |
+
+               TTTTAAAABBBBLLLLEEEE 11114444----2222....  Key Binding for f.set_behavior           |
+
+            KKKKeeeeyyyy AAAAccccttttiiiioooonnnn               FFFFuuuunnnnccccttttiiiioooonnnn DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+            __________________________________________________
+                                     Switch (toggle) between         |
+                                     the default and custom          |
+                                     behaviors                       |
+777            <<<<MMMMeeeettttaaaa>>>><<<<SSSShhhhiiiifffftttt>>>><<<<CCCCttttrrrrllll>>>><<<<!!!!>>>>                                   |
+
+
+
+       When the user switches to the default OSF/Motif behavior, a
+       number of MWM resources assume their default values and MWM
+       restarts.  When the user switches back to the custom
+       behavior, the resource values that were changed to default
+       values are reset with the custom values and MWM restarts.     |
+
+       When an ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr function is done, the following user   |
+       interaction occurs:
+
+         1.  A system modal dialog box appears asking the user for
+             confirmation of the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr action.  The user    |
+             may cancel the action at this point.
+
+
+
+                                                              14-11
+
+
+
+
+
+
+
+
+
+
+
+
+         2.  The window manager restarts.                            |
+
+         3.  The window manager applies the new (custom or default)
+             configuration values.
+
+         4.  Window manager components are mapped.
+
+       When the default OSF/Motif behavior is being set, default     |
+       resource values are applied, and client properties that con-  |
+       trol window manager behavior are applied if specified.  This
+       includes the _MOTIF_WM_HINTS and _MOTIF_WM_MENU properties.
+       These properties may alter default OSF/Motif behavior, but
+       in a way that is consistent for all users.
+
+       14.3.4.1  FFFFuuuunnnnccccttttiiiioooonnnnssss aaaannnndddd CCCClllliiiieeeennnnttttssss
+
+       cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss....  This resource is used to indicate which
+       window management functions are allowed or not allowed.  The
+       resource value is a list of items, with each item preceded    |
+       by a + (plus) or - (minus) sign.  The sign of the first item  |
+       in the list determines the initial functionality.  If the
+       sign of the first item is minus, then MWM starts with all
+       functions and subtracts from that set.  If the sign of the
+       first item is plus (or not specified), then MWM starts with
+       no functions and builds up a list from the resource.  The     |
+       following table lists the name and description for each       |
+       client function.                                              |
+
+                      TTTTAAAABBBBLLLLEEEE 11114444----3333....  Client Functions                  |
+
+             NNNNaaaammmmeeee       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+             ________________________________________________
+             all        Include all functions (Default value)
+             none       Include no functions
+             resize     ffff....rrrreeeessssiiiizzzzeeee                                     |
+             move       ffff....mmmmoooovvvveeee                                       |
+             minimize   ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee                                   |
+             maximize   ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee                                   |
+             close      ffff....kkkkiiiillllllll                                       |
+7                     |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       Note that the five functions listed in the previous table     |
+       are the only functions that can be individually specified.    |
+
+       ttttrrrraaaannnnssssiiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss....  This resource is used to indicate which
+       window management functions are allowed or not allowed with
+       respect to transient windows.  The function specification is
+       exactly the same as for the cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss resource.  The
+       default value for this resource is "-minimize -maximize."
+
+
+
+
+
+       14-12
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       14.3.5  SSSSiiiizzzzeeee ooooffff MMMMeeeennnnuuuu WWWWiiiinnnnddddoooowwww
+
+       The size of the menu window is affected not only by the
+       number of items in the menu, but also by the font you use.
+       The size and resolution of the display determine the default  |
+       value MWM uses.                                               |
+
+       14.3.6  BBBBiiiinnnnddddiiiinnnngggg aaaa MMMMeeeennnnuuuu ttttoooo aaaa MMMMoooouuuusssseeee BBBBuuuuttttttttoooonnnn oooorrrr KKKKeeeeyyyy
+
+       If you want your new menu to appear whenever a certain mouse  |
+       button or keyboard key is pressed, follow these steps:
+
+         1.  Choose the mouse button or keyboard key that you want
+             to use.
+
+         2.  Choose the action on the button or key that causes the  |
+             menu to appear.
+
+         3.  Use the ffff....mmmmeeeennnnuuuu function with the new menu's name as an  |
+             argument to bind the menu to the button or key.
+
+       For more information on mouse button and keyboard bindings,
+       including examples, see the Section 14.5, "Mouse Button       |
+       Bindings," and Section 14.6, "Keyboard Bindings."
+
+       14.4  CCCChhhhaaaannnnggggiiiinnnngggg tttthhhheeee MMMMeeeennnnuuuu AAAAssssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh tttthhhheeee WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu BBBBuuuutttt----
+             ttttoooonnnn
+
+       wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu....  The windowMenu resource enables you (and the     |
+       stack to be put on the bottom of the window stack, so that    |
+       it is no longer obscuring any other window or icon.  This     |
+       function affects only those windows and icons that are        |
+       obscuring other windows and icons or that are themselves      |
+       obscured.  Secondary windows (transients) are restacked with  |
+       their associated primary window.  Secondary windows always    |
+       stay on top of the associated primary window and there can    |
+       be no other primary windows between the secondary windows     |
+       and their primary window.                                     |
+
+       If an icon function argument is specified, the function       |
+       applies only to icons.  If a window function argument is      |
+       specified, the function applies only to windows.              |
+
+       ffff....cccciiiirrrrcccclllleeee____uuuupppp [[[[iiiiccccoooonnnn |||| wwwwiiiinnnnddddoooowwww]]]] This function raises the window   |
+       or icon on the bottom of the window stack so that it is not   |
+       obscured by any other windows.  It affects only those win-    |
+       dows and icons that are obscuring other windows and icons or  |
+       that are themselves obscured.  Secondary windows (tran-       |
+       sients) are restacked with their associated primary window.   |
+
+
+
+
+                                                              14-13
+
+
+
+
+
+
+
+
+
+
+
+
+       If an icon function argument is specified, the function       |
+       applies only to icons.  If a window function argument is      |
+       specified, the function applies only to windows.              |
+
+       ffff....ffffooooccccuuuussss____ccccoooolllloooorrrr  This function sets the colormap focus to a     |
+       client window or icon (for icons, the default colormap for    |
+       the screen is installed).  If this function is done in a      |
+       root context, the default colormap (set by the X Window Sys-  |
+       tem for the screen where MWM is running) is installed and     |
+       there is no specific client window colormap focus.  This      |
+       function is ignored if ccccoooolllloooorrrrmmmmaaaappppFFFFooooccccuuuussssPPPPoooolllliiiiccccyyyy is not "expli-     |
+       cit."                                                         |
+
+       ffff....ffffooooccccuuuussss____kkkkeeeeyyyy  This function sets the keyboard input focus to   |
+       a client window or icon and is ignored if kkkkeeeeyyyybbbbooooaaaarrrrddddFFFFooooccccuuuussssPPPPoooollll----   |
+       iiiiccccyyyy is not "explicit."  See also the description of the       |
+       focusAutoRaise resource in Section 13.4, "Setting Focus Pol-  |
+       icies for Active Windows."  A button binding for this func-   |
+       tion can be set up with a window context without the side-    |
+       effect of having the button made unavailable to the client    |
+       window.                                                       |
+
+       ffff....kkkkiiiillllllll  This function sends a client message event to a       |
+       client indicating that the client window should be deleted.   |
+       This occurs only if the WM_DELETE_WINDOW protocol is set up.  |
+       If the WM_SAVE_YOURSELF protocol is set up and the            |
+       WM_DELETE_WINDOW protocol is not set up, the client is sent   |
+       a client message event, indicating that the client needs to   |
+       prepare to be terminated.  If the client has neither the      |
+       WM_DELETE_WINDOW nor WM_SAVE_YOURSELF protocol set up,        |
+       ffff....kkkkiiiillllllll causes a client's X connection to be terminated (usu-  |
+       ally resulting in termination of the client and possibly      |
+       resulting in a loss of data).  Refer to the description of    |
+       the quitTimeout resource in Section 13.5, "Managing           |
+       Clients," and the WM_PROTOCOLS property in Section 12.2,      |
+       "Inter-Client Communications Conventions."                    |
+
+       ffff....sssseeeennnndddd____mmmmssssgggg _m_e_s_s_a_g_e__n_a_m_e  This function sends a client mes-    |
+       sage of the type WM_PROTOCOLS with the protocols type indi-   |
+       cated by the _m_e_s_s_a_g_e__n_a_m_e function argument.  The client      |
+       message is sent only if _m_e_s_s_a_g_e__n_a_m_e is included in the       |
+       client's WM_PROTOCOLS property.  A menu item label is         |
+       grayed-out if the menu item wants to send a message that is   |
+       not included in the client's WM_PROTOCOLS property.           |
+
+       ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr  This function causes MWM to restart with the  |
+       default OSF/Motif behavior (if a custom behavior is config-   |
+       ured) or a custom behavior (if an OSF/Motif default behavior  |
+       is configured).                                               |
+
+
+
+
+       14-14
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       A key binding for doing the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr function is        |
+       included in the built-in default set of key bindings for      |
+       MWM.  If the user specifies a custom set of key bindings to   |
+       replace the default set, then the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr key binding  |
+       is added automatically to the custom set (and is always pro-  |
+       cessed first).  The following table shows the key binding     |
+       for ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr.                                           |
+
+               TTTTAAAABBBBLLLLEEEE 11114444----4444....  Key Binding for f.set_behavior           |
+
+            KKKKeeeeyyyy AAAAccccttttiiiioooonnnn               FFFFuuuunnnnccccttttiiiioooonnnn DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn            |
+            __________________________________________________       |
+                                     Switch (toggle) between    |    |
+                                     the default and custom     |    |
+                                     behaviors                  |    |
+777            <<<<MMMMeeeettttaaaa>>>><<<<SSSShhhhiiiifffftttt>>>><<<<CCCCttttrrrrllll>>>><<<<!!!!>>>>                                   |
+
+
+
+       When the user switches to the default OSF/Motif behavior, a   |
+       number of MWM resources assume their default values and MWM   |
+       restarts.  When the user switches back to the custom          |
+       behavior, the resource values that were changed to default    |
+       values are reset with the custom values and MWM restarts.     |
+
+       When an ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr function is done, the following user   |
+       interaction occurs:                                           |
+
+         1.  A system modal dialog box appears asking the user for   |
+             confirmation of the ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr action.  The user    |
+             may cancel the action at this point.                    |
+
+         2.  The window manager restarts.                            |
+
+         3.  The window manager applies the new (custom or default)  |
+             configuration values.                                   |
+
+         4.  Window manager components are mapped.                   |
+
+       When the default OSF/Motif behavior is being set, default     |
+       resource values are applied, and client properties that con-  |
+       trol window manager behavior are applied if specified.  This  |
+       includes the _MOTIF_WM_HINTS and _MOTIF_WM_MENU properties.   |
+       These properties may alter default OSF/Motif behavior, but    |
+       in a way that is consistent for all users.                    |
+
+       14.4.0.1  FFFFuuuunnnnccccttttiiiioooonnnnssss aaaannnndddd CCCClllliiiieeeennnnttttssss                               |
+
+       cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss....  This resource is used to indicate which     |
+       window management functions are allowed or not allowed.  The  |
+       resource value is a list of items, with each item preceded    |
+       by a + (plus) or - (minus) sign.  The sign of the first item  |
+       in the list determines the initial functionality.  If the     |
+       sign of the first item is minus, then MWM starts with all     |
+
+
+                                                              14-15
+
+
+
+
+
+
+
+
+
+
+
+
+       functions and subtracts from that set.  If the sign of the    |
+       first item is plus (or not specified), then MWM starts with   |
+       no functions and builds up a list from the resource.  The     |
+       following table lists the name and description for each       |
+       client function.                                              |
+
+                      TTTTAAAABBBBLLLLEEEE 11114444----5555....  Client Functions                  |
+
+             NNNNaaaammmmeeee       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn                                  |
+             ________________________________________________        |
+             all        Include all functions (Default value)        |
+             none       Include no functions                         |
+             resize     ffff....rrrreeeessssiiiizzzzeeee                                     |
+             move       ffff....mmmmoooovvvveeee                                       |
+             minimize   ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee                                   |
+             maximize   ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee                                   |
+             close      ffff....kkkkiiiillllllll                                       |
+7                     |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+                                                                     |
+
+       Note that the five functions listed in the previous table     |
+       are the only functions that can be individually specified.    |
+
+       ttttrrrraaaannnnssssiiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss....  This resource is used to indicate which  |
+       window management functions are allowed or not allowed with   |
+       respect to transient windows.  The function specification is  |
+       exactly the same as for the cccclllliiiieeeennnnttttFFFFuuuunnnnccccttttiiiioooonnnnssss resource.  The    |
+       default value for this resource is "-minimize -maximize."     |
+
+       14.4.1  SSSSiiiizzzzeeee ooooffff MMMMeeeennnnuuuu WWWWiiiinnnnddddoooowwww                                   |
+
+       The size of the menu window is affected not only by the       |
+       number of items in the menu, but also by the font you use.    |
+       The size and resolution of the display determine the default  |
+       value MWM uses.                                               |
+
+       14.4.2  BBBBiiiinnnnddddiiiinnnngggg aaaa MMMMeeeennnnuuuu ttttoooo aaaa MMMMoooouuuusssseeee BBBBuuuuttttttttoooonnnn oooorrrr KKKKeeeeyyyy               |
+
+       If you want your new menu to appear whenever a certain mouse  |
+       button or keyboard key is pressed, follow these steps:        |
+
+         1.  Choose the mouse button or keyboard key that you want   |
+             to use.                                                 |
+
+         2.  Choose the action on the button or key that causes the  |
+             menu to appear.                                         |
+
+         3.  Use the ffff....mmmmeeeennnnuuuu function with the new menu's name as an  |
+             argument to bind the menu to the button or key.         |
+
+       For more information on mouse button and keyboard bindings,   |
+       including examples, see the Section 14.5, "Mouse Button       |
+       Bindings," and Section 14.6, "Keyboard Bindings."             |
+
+
+       14-16
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       14.5  CCCChhhhaaaannnnggggiiiinnnngggg tttthhhheeee MMMMeeeennnnuuuu AAAAssssssssoooocccciiiiaaaatttteeeedddd wwwwiiiitttthhhh tttthhhheeee WWWWiiiinnnnddddoooowwww MMMMeeeennnnuuuu BBBBuuuutttt----  |
+             ttttoooonnnn                                                     |
+
+       wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu....  The windowMenu resource enables you (and the
+       user) to change the menu that appears when the user presses
+       the mouse Select button on the window frame's window menu     |
+       button.  This allows you to display a menu of your choice
+       from the window menu button without having to extensively     |
+       remodel the window menu to do it.  All you need do is make a
+       new menu, then use the windowMenu resource to associate this
+       new menu with the window menu button.
+
+       The windowMenu resource has three syntaxes.  Which one you
+       use depends on the situation.
+
+         1.  To specify the menu for all classes of clients, the     |
+             syntax is
+
+                 MMMMwwwwmmmm****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu:   _M_e_n_u_N_a_m_e                          |
+
+
+             For example, if you want to associate a special CCCCAAAADDDD----    |
+             CCCCAAAAMMMMMMMMeeeennnnuuuu menu with the window menu button, you add the   |
+             following line to your ....XXXXddddeeeeffffaaaauuuullllttttssss file:
+
+                 MMMMwwwwmmmm****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu:   _C_A_D_C_A_M_M_e_n_u                        |
+
+         2.  To specify the menu for a specific class of clients,    |
+             the syntax is
+
+                 MMMMwwwwmmmm****_c_l_i_e_n_t_c_l_a_s_s....wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu:   _M_e_n_u_N_a_m_e              |
+
+
+             For example, you may want to associate a particular     |
+             EEEEddddiiiittttoooorrrrMMMMeeeennnnuuuu of your own creation with a terminal emula-  |
+             tor window called mmmmtttteeeerrrrmmmm:
+
+                 MMMMwwwwmmmm****MMMMtttteeeerrrrmmmm....wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu:   _E_d_i_t_o_r_M_e_n_u                  |
+
+         3.  To specify a menu for any client whose class is         |
+             unknown, the syntax is
+
+                 MMMMwwwwmmmm****ddddeeeeffffaaaauuuullllttttssss****wwwwiiiinnnnddddoooowwwwMMMMeeeennnnuuuu:   _M_e_n_u_N_a_m_e                 |
+
+       The default is DefaultWindowMenu.                             |
+
+       There are two resources involving the window menu button:     |
+       wwwwMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk and wwwwMMMMeeeennnnuuuuBBBBuuuuttttttttoooonnnnCCCClllliiiicccckkkk2222.
+
+       The wMenuButtonClick resource indicates whether a click of    |
+       the mouse when the pointer is over the window menu button     |
+
+
+                                                              14-17
+
+
+
+
+
+
+
+
+
+
+
+
+       posts and leaves posted the window menu.  The default value   |
+       of True posts and leaves posted the menu.  A value of False   |
+       disables this action.                                         |
+
+       The wMenuButtonClick2 resource indicates whether the window   |
+       menu button double-click action is to do an ffff....kkkkiiiillllllll function.  |
+       The default value of True causes an ffff....kkkkiiiillllllll action.  A value   |
+       of False disables this action.                                |
+
+       14.6  MMMMoooouuuusssseeee BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnnggggssss
+
+       The mouse offers a quick way to make things happen in the     |
+       user's window environment without the time-consuming process  |
+       of typing commands on the keyboard (and retyping misspelled
+       commands).  The window manager recognizes the following but-
+       ton actions:                                                  |
+
+       PPPPrrrreeeessssssss Holding down a mouse button                             |
+       RRRReeeelllleeeeaaaasssseeee Releasing a pressed mouse button                      |
+       CCCClllliiiicccckkkk Pressing and releasing a mouse button                   |
+       DDDDoooouuuubbbblllleeee----cccclllliiiicccckkkk Pressing and releasing a mouse button twice in   |
+                  rapid succession                                   |
+       DDDDrrrraaaagggg Pressing a mouse button and moving the pointer/mouse     |
+                  device                                             |
+
+       You can associate a mouse button action with a window         *
+       management function by using a bbbbuuuuttttttttoooonnnn bbbbiiiinnnnddddiiiinnnngggg.  A button
+       binding is a command line you put in the ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc or      |
+       ....mmmmwwwwmmmmrrrrcccc file that associates a button action with a window
+       manager function.
+
+       User defined button bindings are added to built-in button
+       bindings and are always done first.
+
+       14.6.1  DDDDeeeeffffaaaauuuulllltttt BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnnggggssss
+
+       MWM has built-in default button bindings.  These button
+       bindings define the functions of the window frame com-
+       ponents.  The user-specified button bindings that are
+       defined with the bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss resource are added to the
+       built-in button bindings.  The default value for this         |
+       resource is DefaultButtonBindings.  The built-in button       |
+       bindings are described by the button bindings specifications  |
+       shown in the following table.
+
+
+
+
+
+
+
+
+
+       14-18
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+                   TTTTAAAABBBBLLLLEEEE 11114444----6666....  Default Button Bindings
+
+                BBBBuuuuttttttttoooonnnn AAAAccccttttiiiioooonnnn   CCCCoooonnnntttteeeexxxxtttt****      FFFFuuuunnnnccccttttiiiioooonnnn
+                __________________________________________
+                <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      menu          ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu           |
+                <<<<BBBBttttnnnn1111CCCClllliiiicccckkkk2222>>>>    menu          ffff....kkkkiiiillllllll                 |
+                <<<<BBBBttttnnnn1111CCCClllliiiicccckkkk>>>>     minimize      ffff....mmmmiiiinnnniiiimmmmiiiizzzzeeee             |
+                <<<<BBBBttttnnnn1111CCCClllliiiicccckkkk>>>>     maximize      ffff....mmmmaaaaxxxxiiiimmmmiiiizzzzeeee             |
+                <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      title         ffff....mmmmoooovvvveeee                 |
+                <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      window|icon   ffff....ffffooooccccuuuussss____kkkkeeeeyyyy            |
+                <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      border        ffff....rrrreeeessssiiiizzzzeeee               |
+                <<<<BBBBttttnnnn1111CCCClllliiiicccckkkk>>>>     icon          ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu           |
+                <<<<BBBBttttnnnn1111CCCClllliiiicccckkkk2222>>>>    icon          ffff....nnnnoooorrrrmmmmaaaalllliiiizzzzeeee            |
+                <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      icon          ffff....mmmmoooovvvveeee                 |
+
+       *Context is explained in the next section.                    *
+
+       The following special handling applies to the built-in but-   |
+       ton bindings.
+
+          +o The menu, minimize, maximize, and border contexts are
+            internal-only MWM contexts.
+
+          +o The window menu is posted just below the window menu
+            button and not at the pointer position.  When the win-   |
+            dow menu is posted with a Button 1 press and the Button  |
+            1 release is done with the pointer on the window menu
+            button, then the window menu remains posted and can be
+            traversed from the keyboard.
+
+          +o The ffff....rrrreeeessssiiiizzzzeeee function for the resize frame handles has   |
+            a behavior that is specific to the resize handle con-
+            texts.
+
+       The default button binding shown in the following table is    |
+       built into MWM, but can be replaced by user specified button
+       bindings:                                                     |
+
+             TTTTAAAABBBBLLLLEEEE 11114444----7777....  Replaceable Default Button Binding
+
+                  BBBBuuuuttttttttoooonnnn AAAAccccttttiiiioooonnnn   CCCCoooonnnntttteeeexxxxtttt      FFFFuuuunnnnccccttttiiiioooonnnn
+                  _____________________________________
+                  <<<<BBBBttttnnnn1111DDDDoooowwwwnnnn>>>>      icon|frame   ffff....rrrraaaaiiiisssseeee               |
+
+       14.6.2  BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnngggg SSSSyyyynnnnttttaaaaxxxx aaaannnndddd MMMMooooddddiiiiffffyyyyiiiinnnngggg BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnnggggssss
+
+       The syntax for button bindings is as follows:
+
+
+
+
+
+
+                                                              14-19
+
+
+
+
+
+
+
+
+
+
+
+
+       BBBBuuuuttttttttoooonnnnssss     _B_u_t_t_o_n_B_i_n_d_i_n_g_S_e_t_N_a_m_e                              |
+       {
+       _b_u_t_t_o_n   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]          |
+       _b_u_t_t_o_n   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]          |
+           .
+           .
+       _b_u_t_t_o_n   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]          |
+       }
+
+       Each line identifies a certain mouse button action, followed
+       by the context in which the button action is valid, followed
+       by the function to be done.  Some functions require an argu-  |
+       ment.
+
+       To modify the default button bindings, you need to edit       |
+       either ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc (to make system-wide changes) or ....mmmmwwwwmmmmrrrrcccc   |
+       (to make changes to the local environment).  The easiest way
+       to modify button bindings is to change the default bindings
+       or to insert extra lines in the DefaultButtonBindings sec-    |
+       tion.
+
+       When modifying or creating a button binding, you need to
+       first decide which mouse button to use and which action is    |
+       performed on the button.  Make sure you do not use button-
+       action combinations already used by OSF/Motif.  You might
+       want to require a simultaneous key press with the mouse but-  |
+       ton action.  This is called modifying the button action.      |
+       MMMMooooddddiiiiffffiiiieeeerrrrssss increase the number of possible button bindings     |
+       you can make.  The follwoing table shows the available
+       modifier keys and their abbreviations (for use in the button
+       binding command line).
+
+                TTTTAAAABBBBLLLLEEEE 11114444----8888....  Button Binding Modifier Keys
+
+                         MMMMooooddddiiiiffffiiiieeeerrrr   DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                         _______________________                     |
+                         CCCCttttrrrrllll       Control Key                      |
+                         SSSShhhhiiiifffftttt      Shift Key                        |
+                         MMMMeeeettttaaaa       Meta/Alt Key                     |
+                         LLLLoooocccckkkk       Lock Key                         |
+                         MMMMoooodddd1111       Modifier1                        |
+                         MMMMoooodddd2222       Modifier2                        |
+                         MMMMoooodddd3333       Modifier3                        |
+                         MMMMoooodddd4444       Modifier4                        |
+                         MMMMoooodddd5555       Modifier5                        |
+7                                 |7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+       You can bind up to five buttons if you have a 3-button        |
+       mouse.  Button 4 is the simultaneous press of Buttons 1 and   |
+       2.  Button 5 is the simultaneous press of Buttons 2 and 3.    |
+       Each button can be bound with one of four actions.  The fol-  |
+       lowing table describes the button actions and their           |
+
+
+       14-20
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       abbreviations.                                                |
+
+             TTTTAAAABBBBLLLLEEEE 11114444----9999....  Button Actions for Button Bindings         *
+
+                 BBBBuuuuttttttttoooonnnn       DDDDeeeessssccccrrrriiiippppttttiiiioooonnnn
+                 _______________________________________             *
+                 BBBBttttnnnn1111DDDDoooowwwwnnnn     Button 1 Press                         |
+                 BBBBttttnnnn1111UUUUpppp       Button 1 Release                       |
+                 BBBBttttnnnn1111CCCClllliiiicccckkkk    Button 1 Press and Release             |
+                 BBBBttttnnnn1111CCCClllliiiicccckkkk2222   Button 1 Double-Click                  |
+                 _______________________________________
+                 BBBBttttnnnn2222DDDDoooowwwwnnnn     Button 2 Press                         |
+                 BBBBttttnnnn2222UUUUpppp       Button 2 Release                       |
+                 BBBBttttnnnn2222CCCClllliiiicccckkkk    Button 2 Press and Release             |
+                 BBBBttttnnnn2222CCCClllliiiicccckkkk2222   Button 2 Double-Click                  |
+                 _______________________________________
+                 BBBBttttnnnn3333DDDDoooowwwwnnnn     Button 3 Press                         |
+                 BBBBttttnnnn3333UUUUpppp       Button 3 Release                       |
+                 BBBBttttnnnn3333CCCClllliiiicccckkkk    Button 3 Press and Release             |
+                 BBBBttttnnnn3333CCCClllliiiicccckkkk2222   Button 3 Double-Click                  |
+7                           |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       After choosing the optional modifier and the mouse button
+       action, you must decide under which context(s) the binding    |
+       works.  The following table lists the button-binding con-     |
+       texts that are recognized by the window manager.              |
+
+             TTTTAAAABBBBLLLLEEEE 11114444----11110000....  Contexts for Mouse Button Bindings
+
+                           FFFFoooorrrr mmmmoooouuuusssseeee aaaaccccttttiiiioooonnnn aaaatttt tttthhhhiiiissss
+         TTTThhhhiiiissss ccccoooonnnntttteeeexxxxtttt............   ppppooooiiiinnnntttteeeerrrr ppppoooossssiiiittttiiiioooonnnn............
+         _______________________________________________________     |
+         root              Workspace (root window)
+         _______________________________________________________
+         window            Client window
+         _______________________________________________________
+         frame             Window frame
+         _______________________________________________________
+         icon              Icon
+         _______________________________________________________
+         title             Title bar
+         _______________________________________________________
+         border            Frame minus title bar
+         _______________________________________________________
+         app               Application window (inside the frame)
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The context indicates where the pointer must be for the but-
+       ton binding to be effective.  For example, a context of _w_i_n_-
+       _d_o_w indicates that the pointer must be over a client window
+       or window frame for the button binding to be effective.  The
+       _f_r_a_m_e context is for the window frame around a client window
+       (including the border and title bar), the _b_o_r_d_e_r context is
+
+
+                                                              14-21
+
+
+
+
+
+
+
+
+
+
+
+
+       for the border part of the window frame (not including the
+       title bar), the _t_i_t_l_e context is for the title bar of the
+       window frame, and the _a_p_p context is for the application
+       window or client area (not including the window frame).       |
+
+       Here is an example of a button binding.  Pat, the user who    |
+       created his own Graphics Projects menu, can display the menu  |
+       with a button action.  Pat chooses MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>> as a modifier,   |
+       and mouse custom-button press, BBBBttttnnnn3333DDDDoooowwwwnnnn, as the button        |
+       action.  He decides the pointer must be on the workspace.     |
+       The function name for posting a special menu is ffff....mmmmeeeennnnuuuu, and   |
+       the argument is the menu name Graphics Projects.   He needs   |
+       only to insert one line into his ....mmmmwwwwmmmmrrrrcccc file to make this     |
+       happen.  The DefaultButtonBindings section of his ....mmmmwwwwmmmmrrrrcccc      |
+       file then looks like the following:
+
+       Buttons    DefaultButtonBindings                              *
+       {
+       <Btn3Down>     root  f.menu  "DefaultRootMenu"
+       <Btn3Down>     frame f.post_wmenu
+       Meta<Btn3Down>     root  f.menu  "Graphics Projects"
+       }
+
+       14.6.3  MMMMaaaakkkkiiiinnnngggg aaaa NNNNeeeewwww BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnngggg SSSSeeeetttt
+
+       Perhaps inserting a new button binding into the DefaultBut-   |
+       tonBindings set is not enough.  You might need to make a
+       complete new set of button bindings.  To do this, use the     |
+       DefaultButtonBindings section of the ....mmmmwwwwmmmmrrrrcccc file as a model.  |
+       After you have created the new button binding set, use the    |
+       buttonBindings resource to tell the window manager about it.
+
+       bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss....  The buttonBindings resource is used to       |
+       specify a button binding set.  The default is DefaultButton-  |
+       Bindings.  The syntax of the added ....XXXXddddeeeeffffaaaauuuullllttttssss line is as
+       follows:
+
+       MMMMwwwwmmmm****bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss::::   NewButtonBindingSetName                 |
+
+       This line directs the window manager to use NewButtonBin-     |
+       dingSetName as the source of its button binding information.
+       The button bindings are assumed to exist in the file named    |
+       by the MMMMwwwwmmmm****ccccoooonnnnffffiiiiggggFFFFiiiilllleeee::::  resource, the default being ....mmmmwwwwmmmmrrrrcccc.   |
+
+       For example, suppose Pat, our graphics user, wants to
+       specify a completely new button binding set instead of
+       inserting a line in the existing DefaultButtonBindings set.   |
+       He needs to create a new button binding set, such as the
+       following, modeled after the default set:
+
+
+
+
+       14-22
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       Buttons      GraphicsButtonBindings                           *
+       {
+       <Btn3Down>   root  f.menu  "Graphics Projects"
+       }
+
+       In his ....XXXXddddeeeeffffaaaauuuullllttttssss file, Pat then inserts the following line:  |
+
+       MMMMwwwwmmmm****bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss::::   GGGGrrrraaaapppphhhhiiiiccccssssBBBBuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss                  |
+
+       To display his graphics menu, Pat needs only to press button
+       3 on the mouse when the pointer is on the workspace.
+
+       14.6.4  MMMMooooddddiiiiffffyyyyiiiinnnngggg BBBBuuuuttttttttoooonnnn CCCClllliiiicccckkkk TTTTiiiimmmmiiiinnnngggg
+
+       ddddoooouuuubbbblllleeeeCCCClllliiiicccckkkkTTTTiiiimmmmeeee....  This is another MWM resource for control-   |
+       ling mouse button behavior.  The doubleClickTime resource
+       sets the maximum time (in milliseconds) that can elapse
+       between button clicks before a double-click becomes just two  |
+       clicks in a row.  The default value is the display's multi-   |
+       click time.
+
+       14.7  KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnnggggssss
+
+       In a manner similar to mouse button bindings, you (or the
+       user) can bind (associate) window manager functions to keys   |
+       on the keyboard using keyboard bindings.
+
+       14.7.1  DDDDeeeeffffaaaauuuulllltttt KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnnggggssss
+
+       OSF/Motif has default key bindings.  These key bindings are   |
+       replaced with user-specified key bindings specified with the
+       keyBindings resource.  The following table lists the default  |
+       key binding specifications.
+
+                 TTTTAAAABBBBLLLLEEEE 11114444----11111111....  Default Keyboard Bindings
+
+       KKKKeeeeyyyyssss                         CCCCoooonnnntttteeeexxxxtttt            FFFFuuuunnnnccccttttiiiioooonnnn
+       ____________________________________________________________________
+       SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee             window|icon        ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu        |
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>SSSSppppaaaacccceeee               window|icon        ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu        |
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb                 root|icon|window   ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy          |
+       MMMMeeeettttaaaa SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb           root|icon|window   ffff....pppprrrreeeevvvv____kkkkeeeeyyyy          |
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee              root|icon|window   ffff....cccciiiirrrrcccclllleeee____ddddoooowwwwnnnn       |
+       MMMMeeeettttaaaa SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee        root|icon|window   ffff....cccciiiirrrrcccclllleeee____uuuupppp         |
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>FFFF6666                  window             ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy ttttrrrraaaannnnssssiiiieeeennnntttt|
+       MMMMeeeettttaaaa CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEExxxxccccllllaaaammmm   root|icon|window   ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr      |
+
+
+
+
+
+
+
+                                                              14-23
+
+
+
+
+
+
+
+
+
+
+
+
+       14.7.2  KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnngggg SSSSyyyynnnnttttaaaaxxxx aaaannnndddd MMMMooooddddiiiiffffyyyyiiiinnnngggg KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnndddd----
+               iiiinnnnggggssss
+
+       The syntax for keyboard bindings is as follows:
+
+       KKKKeeeeyyyyssss _K_e_y_B_i_n_d_i_n_g_S_e_t_N_a_m_e                                        |
+       {
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]             |
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]             |
+              .
+              .
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]             |
+       }
+
+       Each line identifies a unique key press sequence, followed
+       by the context in which that sequence is valid, followed by
+       the  function to be done.  Some functions require an argu-    |
+       ment.  Context refers to the location of the keyboard input
+       focus when the keys are pressed: window, icon, or root
+       (workspace).
+
+       To modify the default keyboard bindings, you need to edit
+       either ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc (to make system-wide changes) or ....mmmmwwwwmmmmrrrrcccc   |
+       (to make changes to the local environment).  The easiest way
+       is to change the default bindings or to insert extra lines
+       in the DefaultKeyBindings section.                            |
+
+       Next, decide which key you want to bind.  Then choose the
+       context in which the key binding is to work.  The following   |
+       table shows the contexts for key bindings.                    |
+
+                 TTTTAAAABBBBLLLLEEEE 11114444----11112222....  Contexts for Key Bindings
+
+         UUUUsssseeee tttthhhhiiiissss ccccoooonnnntttteeeexxxxtttt............   WWWWhhhheeeennnn tttthhhheeee kkkkeeeeyyyybbbbooooaaaarrrrdddd ffffooooccccuuuussss iiiissss hhhheeeerrrreeee............    |
+         ________________________________________________________    |
+         root                  Workspace (root window)
+         ________________________________________________________
+         window, frame,        |
+         border, title, or     |
+         application           |
+777                               Client window (includes frame,      |
+                               title, border, and application      |
+                               window)                             |
+777
+
+
+         ________________________________________________________
+         icon                  Icon
+7                            |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       Note that if ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu or ffff....mmmmeeeennnnuuuu is bound to a key, MWM
+       automatically uses the same key for removing the menu from
+       the screen after it has been popped up.
+
+       To illustrate key bindings, suppose Pat, the user who
+       created his own "Graphics Projects" menu, kept pressing the
+       <<<<SSSShhhhiiiifffftttt>>>> <<<<EEEEsssscccc>>>> sequence and accidentally displaying the win-
+       dow menu.  He might decide that he is better off without
+
+
+       14-24
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       that particular keyboard binding.  To disable it, he must
+       delete (or comment out) the proper line in his ....mmmmwwwwmmmmrrrrcccc file.
+       The "DefaultKeyBindings" section of his ....mmmmwwwwmmmmrrrrcccc file might
+       then look like the following:
+
+
+       Keys    DefaultKeyBindings
+       {
+       #Shift<Key>Escape   icon|window  f.post_wmenu
+       Meta<Key>Tab        window f.next_key
+       BBBBttttnnnn2222CCCClllliiiicccckkkk           Button 2 Press and Release
+       BBBBttttnnnn2222CCCClllliiiicccckkkk2222          Button 2 Double-Click
+       _________________________________________________
+       BBBBttttnnnn3333DDDDoooowwwwnnnn            Button 3 Press
+       BBBBttttnnnn3333UUUUpppp              Button 3 Release
+       BBBBttttnnnn3333CCCClllliiiicccckkkk           Button 3 Press and Release
+       BBBBttttnnnn3333CCCClllliiiicccckkkk2222          Button 3 Double-Click
+
+       After choosing the optional modifier and the mouse button
+       action, you must decide under which context(s) the binding
+       works.  The following table lists the button-binding con-
+       texts that are recognized by the window manager.
+
+             TTTTAAAABBBBLLLLEEEE 11114444----11113333....  Contexts for Mouse Button Bindings
+
+                           FFFFoooorrrr mmmmoooouuuusssseeee aaaaccccttttiiiioooonnnn aaaatttt tttthhhhiiiissss
+         TTTThhhhiiiissss ccccoooonnnntttteeeexxxxtttt............   ppppooooiiiinnnntttteeeerrrr ppppoooossssiiiittttiiiioooonnnn............
+         _______________________________________________________
+         root              Workspace (root window)
+         _______________________________________________________
+         window            Client window
+         _______________________________________________________
+         frame             Window frame
+         _______________________________________________________
+         icon              Icon
+         _______________________________________________________
+         title             Title bar
+         _______________________________________________________
+         border            Frame minus title bar
+         _______________________________________________________
+         app               Application window (inside the frame)
+7                        |7|7|7|7|7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       The context indicates where the pointer must be for the but-
+       ton binding to be effective.  For example, a context of _w_i_n_-
+       _d_o_w indicates that the pointer must be over a client window
+       or window frame for the button binding to be effective.  The
+       _f_r_a_m_e context is for the window frame around a client window
+       (including the border and title bar), the _b_o_r_d_e_r context is
+       for the border part of the window frame (not including the
+       title bar), the _t_i_t_l_e context is for the title bar of the
+       window frame, and the _a_p_p context is for the application
+
+
+                                                              14-25
+
+
+
+
+
+
+
+
+
+
+
+
+       window or client area (not including the window frame).
+
+       Here is an example of a button binding.  Pat, the user who
+       created his own Graphics Projects menu, can display the menu
+       with a button action.  Pat chooses MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>> as a modifier,
+       and mouse custom-button press, BBBBttttnnnn3333DDDDoooowwwwnnnn, as the button
+       action.  He decides the pointer must be on the workspace.
+       The function name for posting a special menu is ffff....mmmmeeeennnnuuuu, and
+       the argument is the menu name Graphics Projects.   He needs
+       only to insert one line into his ....mmmmwwwwmmmmrrrrcccc file to make this
+       happen.  The DefaultButtonBindings section of his ....mmmmwwwwmmmmrrrrcccc
+       file then looks like the following:
+
+       Buttons    DefaultButtonBindings
+       {
+       <Btn3Down>     root  f.menu  "DefaultRootMenu"
+       <Btn3Down>     frame f.post_wmenu
+       Meta<Btn3Down>     root  f.menu  "Graphics Projects"
+       }
+
+       14.7.3  MMMMaaaakkkkiiiinnnngggg aaaa NNNNeeeewwww BBBBuuuuttttttttoooonnnn BBBBiiiinnnnddddiiiinnnngggg SSSSeeeetttt
+
+       Perhaps inserting a new button binding into the DefaultBut-
+       tonBindings set is not enough.  You might need to make a
+       complete new set of button bindings.  To do this, use the
+       DefaultButtonBindings section of the ....mmmmwwwwmmmmrrrrcccc file as a model.
+       After you have created the new button binding set, use the
+       buttonBindings resource to tell the window manager about it.
+
+       bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss....  The buttonBindings resource is used to
+       specify a button binding set.  The default is DefaultButton-
+       Bindings.  The syntax of the added ....XXXXddddeeeeffffaaaauuuullllttttssss line is as
+       follows:
+
+       MMMMwwwwmmmm****bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss::::   NewButtonBindingSetName
+
+       This line directs the window manager to use NewButtonBin-
+       dingSetName as the source of its button binding information.
+       The button bindings are assumed to exist in the file named
+       by the MMMMwwwwmmmm****ccccoooonnnnffffiiiiggggFFFFiiiilllleeee::::  resource, the default being ....mmmmwwwwmmmmrrrrcccc.
+
+       For example, suppose Pat, our graphics user, wants to
+       specify a completely new button binding set instead of
+       inserting a line in the existing DefaultButtonBindings set.
+       He needs to create a new button binding set, such as the
+       following, modeled after the default set:
+
+
+
+
+
+
+
+       14-26
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       Buttons      GraphicsButtonBindings
+       {
+       <Btn3Down>   root  f.menu  "Graphics Projects"
+       }
+
+       In his ....XXXXddddeeeeffffaaaauuuullllttttssss file, Pat then inserts the following line:
+
+       MMMMwwwwmmmm****bbbbuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss::::   GGGGrrrraaaapppphhhhiiiiccccssssBBBBuuuuttttttttoooonnnnBBBBiiiinnnnddddiiiinnnnggggssss
+
+       To display his graphics menu, Pat needs only to press button
+       3 on the mouse when the pointer is on the workspace.
+
+       14.7.4  MMMMooooddddiiiiffffyyyyiiiinnnngggg BBBBuuuuttttttttoooonnnn CCCClllliiiicccckkkk TTTTiiiimmmmiiiinnnngggg
+
+       ddddoooouuuubbbblllleeeeCCCClllliiiicccckkkkTTTTiiiimmmmeeee....  This is another MWM resource for control-
+       ling mouse button behavior.  The doubleClickTime resource
+       sets the maximum time (in milliseconds) that can elapse
+       between button clicks before a double-click becomes just two
+       clicks in a row.  The default value is the display's multi-
+       click time.
+
+       14.8  KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnnggggssss
+
+       In a manner similar to mouse button bindings, you (or the
+       user) can bind (associate) window manager functions to keys
+       on the keyboard using keyboard bindings.
+
+       14.8.1  DDDDeeeeffffaaaauuuulllltttt KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnnggggssss
+
+       OSF/Motif has default key bindings.  These key bindings are
+       replaced with user-specified key bindings specified with the
+       keyBindings resource.  The following table lists the default
+       key binding specifications.
+
+                 TTTTAAAABBBBLLLLEEEE 11114444----11114444....  Default Keyboard Bindings
+
+       KKKKeeeeyyyyssss                         CCCCoooonnnntttteeeexxxxtttt            FFFFuuuunnnnccccttttiiiioooonnnn
+       ____________________________________________________________________
+       SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee             window|icon        ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>SSSSppppaaaacccceeee               window|icon        ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb                 root|icon|window   ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy
+       MMMMeeeettttaaaa SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>TTTTaaaabbbb           root|icon|window   ffff....pppprrrreeeevvvv____kkkkeeeeyyyy
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee              root|icon|window   ffff....cccciiiirrrrcccclllleeee____ddddoooowwwwnnnn
+       MMMMeeeettttaaaa SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEEssssccccaaaappppeeee        root|icon|window   ffff....cccciiiirrrrcccclllleeee____uuuupppp
+       MMMMeeeettttaaaa<<<<KKKKeeeeyyyy>>>>FFFF6666                  window             ffff....nnnneeeexxxxtttt____kkkkeeeeyyyy ttttrrrraaaannnnssssiiiieeeennnntttt
+       MMMMeeeettttaaaa CCCCttttrrrrllll SSSShhhhiiiifffftttt<<<<KKKKeeeeyyyy>>>>EEEExxxxccccllllaaaammmm   root|icon|window   ffff....sssseeeetttt____bbbbeeeehhhhaaaavvvviiiioooorrrr
+
+
+
+
+
+
+
+                                                              14-27
+
+
+
+
+
+
+
+
+
+
+
+
+       14.8.2  KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnngggg SSSSyyyynnnnttttaaaaxxxx aaaannnndddd MMMMooooddddiiiiffffyyyyiiiinnnngggg KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnndddd----
+               iiiinnnnggggssss
+
+       The syntax for keyboard bindings is as follows:
+
+       KKKKeeeeyyyyssss _K_e_y_B_i_n_d_i_n_g_S_e_t_N_a_m_e
+       {
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+              .
+              .
+       _k_e_y   _c_o_n_t_e_x_t [| _c_o_n_t_e_x_t]   _f_u_n_c_t_i_o_n   [_a_r_g_u_m_e_n_t]
+       }
+
+       Each line identifies a unique key press sequence, followed
+       by the context in which that sequence is valid, followed by
+       the  function to be done.  Some functions require an argu-
+       ment.  Context refers to the location of the keyboard input
+       focus when the keys are pressed: window, icon, or root
+       (workspace).
+
+       To modify the default keyboard bindings, you need to edit
+       either ssssyyyysssstttteeeemmmm....mmmmwwwwmmmmrrrrcccc (to make system-wide changes) or ....mmmmwwwwmmmmrrrrcccc
+       (to make changes to the local environment).  The easiest way
+       is to change the default bindings or to insert extra lines
+       in the DefaultKeyBindings section.
+
+       Next, decide which key you want to bind.  Then choose the
+       context in which the key binding is to work.  The following
+       table shows the contexts for key bindings.
+
+                 TTTTAAAABBBBLLLLEEEE 11114444----11115555....  Contexts for Key Bindings
+
+         UUUUsssseeee tttthhhhiiiissss ccccoooonnnntttteeeexxxxtttt............   WWWWhhhheeeennnn tttthhhheeee kkkkeeeeyyyybbbbooooaaaarrrrdddd ffffooooccccuuuussss iiiissss hhhheeeerrrreeee............
+         ________________________________________________________
+         root                  Workspace (root window)
+         ________________________________________________________
+         window, frame,
+         border, title, or
+         application
+777                               Client window (includes frame,
+                               title, border, and application
+                               window)
+777
+
+
+         ________________________________________________________
+         icon                  Icon
+7                            |7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+       Note that if ffff....ppppoooosssstttt____wwwwmmmmeeeennnnuuuu or ffff....mmmmeeeennnnuuuu is bound to a key, MWM    |
+       automatically uses the same key for removing the menu from    |
+       the screen after it has been popped up.
+
+       To illustrate key bindings, suppose Pat, the user who
+       created his own "Graphics Projects" menu, kept pressing the   |
+       <<<<SSSShhhhiiiifffftttt>>>> <<<<EEEEsssscccc>>>> sequence and accidentally displaying the win-
+       dow menu.  He might decide that he is better off without      |
+
+
+       14-28
+
+
+
+
+
+
+
+
+
+               Managing Menus, Mouse Buttons, and Keyboard Bindings
+
+
+       that particular keyboard binding.  To disable it, he must     |
+       delete (or comment out) the proper line in his ....mmmmwwwwmmmmrrrrcccc file.   |
+       The "DefaultKeyBindings" section of his ....mmmmwwwwmmmmrrrrcccc file might
+       then look like the following:
+
+
+       Keys    DefaultKeyBindings
+       {
+       #Shift<Key>Escape   icon|window  f.post_wmenu
+       Meta<Key>Tab        window f.next_key
+       }
+
+       Pat has chosen simply to comment out the line by placing a #  |
+       (comment) character in the left margin of the line.
+
+       14.8.3  MMMMaaaakkkkiiiinnnngggg aaaa NNNNeeeewwww KKKKeeeeyyyybbbbooooaaaarrrrdddd BBBBiiiinnnnddddiiiinnnngggg SSSSeeeetttt
+
+       With keyboard bindings, as with button bindings, you have
+       the option of creating a whole new binding set.  To do so,
+       you can use the DefaultKeyBindings section of your ....mmmmwwwwmmmmrrrrcccc as  |
+       a model.  After you have created the new keyboard binding
+       set, use the keyBindings resource to explain your modifica-
+       tion to the window manager.
+
+       kkkkeeeeyyyyBBBBiiiinnnnddddiiiinnnnggggssss....  This resource is used to specify a key binding
+       set.  The default is DefaultKeyBindings.  The syntax of the   |
+       ....XXXXddddeeeeffffaaaauuuullllttttssss line is as follows:
+
+       MMMMwwwwmmmm****kkkkeeeeyyyyBBBBiiiinnnnddddiiiinnnnggggssss::::   _N_e_w_K_e_y_b_o_a_r_d_B_i_n_d_i_n_g_S_e_t_N_a_m_e                  |
+
+       This line directs the window manager to get its keyboard
+       binding information from the _N_e_w_K_e_y_b_o_a_r_d_B_i_n_d_i_n_g_S_e_t_N_a_m_e sec-   |
+       tion of the ....mmmmwwwwmmmmrrrrcccc file.  You can have the window manager
+       look in any file if you specify the path and filename with    |
+       the MMMMwwwwmmmm****ccccoooonnnnffffiiiiggggFFFFiiiilllleeee:::: resource in the ....XXXXddddeeeeffffaaaauuuullllttttssss file.          |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              14-29
+
+
+
+
+

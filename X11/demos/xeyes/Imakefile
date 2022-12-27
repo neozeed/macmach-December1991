@@ -1,0 +1,14 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+DEFINES = -DSHAPE
+INCLUDES = -I$(TOP) -I$(TOP)/X11
+SYS_LIBRARIES = -lm
+        DEPLIBS = $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPEXTENSIONLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XMULIB) $(XTOOLLIB) $(EXTENSIONLIB) $(XLIB)
+
+SRCS = xeyes.c Eyes.c transform.c
+OBJS = xeyes.o Eyes.o transform.o
+
+ComplexProgramTarget(xeyes)

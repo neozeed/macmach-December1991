@@ -1,0 +1,108 @@
+!************************************************************
+!*                                                         **
+!*                                                         **
+!*   (c) Copyright, 1989 Open Software Foundation, Inc.    **
+!*   All Rights Reserved                                   **
+!*                                                         **
+!*                                                         **
+!***********************************************************/
+module MotifBurger_japanese_literals
+        version = 'v1.1'
+        names = case_sensitive
+	character_set = jis_kanji
+
+value
+        k_motifburger_title		: exported 'MOTIFburger Order-Entry Box';
+	k_nyi_label_text		: exported compound_string("この機能はまだ使えません");
+	k_file_label_text               : exported compound_string("ファイル");
+	  k_quit_label_text		: exported compound_string("終了");
+	k_edit_label_text               : exported compound_string("編集");
+	  k_cut_dot_label_text		: exported compound_string("カット");
+	  k_copy_dot_label_text		: exported compound_string("コピー");
+	  k_paste_dot_label_text	: exported compound_string("ペースト");
+	  k_clear_dot_label_text	: exported compound_string("消去");
+	  k_select_all_label_text	: exported compound_string("すべて選択");
+	k_order_label_text              : exported compound_string("注文");
+!	  k_show_controls_label_text	: exported "制御" & '...';
+	  k_show_controls_label_text	: exported compound_string("制御");
+	  k_cancel_order_label_text	: exported compound_string("注文取消");
+	  k_submit_order_label_text	: exported compound_string("注文発行");
+          k_create_order_label_text     : exported compound_string("注文表を表示");
+          k_dismiss_order_label_text	: exported compound_string("注文表を消す");
+!          k_create_order_label_text     : exported compound_string("注文表を表示...");
+!          k_dismiss_order_label_text	: exported compound_string("注文表を消す...");
+	k_hamburgers_label_text         : exported compound_string("ハンバーガー");
+	  k_rare_label_text		: exported compound_string("レア");
+	  k_medium_label_text		: exported compound_string("ミディアム");
+	  k_well_done_label_text	: exported compound_string("ウェルダン");
+	  k_ketchup_label_text		: exported compound_string("ケチャップ");
+	  k_mustard_label_text		: exported compound_string("マスタード");
+	  k_onion_label_text		: exported compound_string("オニオン");
+	  k_mayonnaise_label_text	: exported compound_string("マヨネーズ");
+	  k_pickle_label_text		: exported compound_string("ピクルス");
+	  k_quantity_label_text		: exported compound_string("数量");
+	k_fries_label_text              : exported compound_string("フライ");
+	  k_size_label_text		: exported compound_string("大きさ");
+	  k_tiny_label_text		: exported compound_string("ミニ");
+	  k_small_label_text		: exported compound_string("小");
+	  k_medium_fries_label_text	: exported compound_string("中");
+	  k_large_label_text		: exported compound_string("大");
+	  k_huge_label_text		: exported compound_string("特大");
+	k_drinks_label_text             : exported compound_string("ドリンク");
+	  k_0_label_text		: exported '0';
+	  k_drink_list_text		: exported 
+		  string_table ("アップルジュース", "オレンジジュース", 
+				"グレープジュース", "コーラ", "パンチ",
+				"ルートビア", "水", "ジンジャーエール",
+				"ミルク", "コーヒー", "紅茶");
+	  k_drink_list_select		: exported string_table("アップルジュース");
+	  k_u_label_text		: exported compound_string("上");
+	  k_d_label_text		: exported compound_string("下");
+	k_apply_label_text              : exported compound_string("適用");
+	k_reset_label_text              : exported compound_string("リセット");
+	k_cancel_label_text             : exported compound_string("取消");
+	k_dismiss_label_text            : exported compound_string("終了");
+	k_quit_accelerator_text		: exported compound_string("Ctrl/z");
+	k_ketchup_accelerator_text	: exported compound_string("Ctrl/k");
+
+! string direction value required since the Hebrew font is not left to right
+value
+    k_string_direction	: exported XmSTRING_DIRECTION_L_TO_R;
+
+! scroll bar placement value required for compatability with right to left apps
+value
+    k_scroll_bar_placement : exported XmBOTTOM_RIGHT;
+
+! substitute another font name if this font is not available on your system
+value
+  k_ascii_font: font('-ADOBE-Times-Medium-R-Normal--12-120-75-75-P-64-ISO8859-1');
+  k_roman_font : font (
+	'-romankana14-screen-medium-r-normal--14-140-75-75-m-70-jisx0201.1976-0');
+  k_kanji_font : font (
+	'-k14-screen-medium-r-normal--14-140-75-75-m-140-jisx0208.1983-1', 
+	character_set = jis_kanji);
+
+  k_font_table : exported font_table (iso_latin1 = k_ascii_font,
+				 jis_katakana = k_roman_font,
+				 k_kanji_font);
+  k_button_font_table : exported font_table (iso_latin1 = k_ascii_font,
+				 jis_katakana = k_roman_font,
+				 k_kanji_font);
+  k_mnemonic_charset : exported 'JISX201.1976';
+
+!value
+!
+! These values are wrong and just here for compatability only.
+! This will be addressed in Motif 1.2
+!
+!	menonic name			ASCII		Keyboard Symbol
+!	----------------------		-------		---------------
+	k_file_mnemonic			: exported keysym("F"); 	! "F"
+	k_quit_mnemonic			: exported keysym("Q"); 	! "Q"
+	k_edit_mnemonic			: exported keysym("E"); 	! "E"
+	k_order_mnemonic		: exported keysym("O");	! "O"
+	k_rare_mnemonic			: exported keysym("R");	! "R"
+	k_medium_mnemonic		: exported keysym("M");	! "M" 
+	k_ketchup_mnemonic		: exported keysym("K");	! "K"
+
+end module;

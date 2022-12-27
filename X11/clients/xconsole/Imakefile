@@ -1,0 +1,13 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+        DEFINES = -DXAW_BC
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+           SRCS = console.c main.c
+           OBJS = console.o main.o
+
+ComplexProgramTarget(xconsole)
+
+InstallAppDefaults(XConsole)

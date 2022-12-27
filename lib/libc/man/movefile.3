@@ -1,0 +1,86 @@
+.\"
+.\" $Id: movefile.3,v 1.3 89/12/26 11:19:31 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	movefile.3,v $
+.\" Revision 1.3  89/12/26  11:19:31  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 10-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH MOVEFILE 3 12/10/79
+.CM 1
+.SH "NAME"
+movefile \- change name of a file
+.SH "SYNOPSIS"
+.B
+int movefile (from,to);
+.br
+.B
+char *from,*to;
+.SH "DESCRIPTION"
+.I
+Movefile
+attempts to change the name of the file
+.I
+from
+to
+.I
+to.
+.I
+Movefile
+uses
+.IR link (2)
+and
+.IR unlink (2)
+if possible, since this is the fastest way to change
+the name of a file.
+Under certain circumstances (i.e.
+if
+.I
+from
+and
+.I
+to
+specify different mounted devices), this may fail; in
+such a case,
+.I
+movefile
+will
+.IR creat (2)
+the result file and use
+.IR filecopy (3)
+to copy the data.
+.sp
+If
+.I
+movefile
+is successful, then
+.I
+from
+will be deleted and
+.I
+movefile
+will return a 0.
+If unsuccessful,
+.I
+to
+will be deleted (if any file already has this name),
+and \-1 will be returned.
+.SH "SEE ALSO"
+.IR mv (1), 
+.IR link (2), 
+.IR unlink (2), 
+.IR creat (2), 
+.IR filecopy (3)
+.SH "DIAGNOSTICS"
+Returns 0 normally; \-1 on error.
+If an error occurs,
+.I
+from
+still exists.

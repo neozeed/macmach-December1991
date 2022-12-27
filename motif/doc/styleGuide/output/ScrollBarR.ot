@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+       A ScrollBar should be used to scroll the visible area of
+       another component.  A ScrollBar should be composed of a
+       slider, moving within an element that indicates the full
+       size of the scrolled component, and two buttons with arrow
+       graphics for moving the slider.  The slider indicates the
+       relative position and size of the visible area of the
+       scrolled component.
+
+
+
+       The following text describes the operations of this com-
+       ponent.
+
+       BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:
+                 In an arrow button, this action must move the
+                 slider one increment in the direction of the side
+                 of the slider on which the button was pressed, and
+                 autorepeat until the button is released.
+
+                 In the trough, this action must move the slider
+                 one page in the direction of the side of the
+                 slider on which the trough was pressed, and
+                 autorepeat until the button is released.  It can
+                 stop when the slider reaches the position of the
+                 pointer.
+
+       BBBBSSSSeeeelllleeeecccctttt DDDDrrrraaaagggg:
+                 Must cause the slider to track the position of the
+                 pointer.  In a vertical ScrollBar, the slider must
+                 track the vertical position of the pointer.  In a
+                 horizontal ScrollBar, the slider must track the
+                 horizontal position of the pointer.
+
+       MMMMCCCCttttrrrrllll BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:
+                 In the slider trough or an arrow button, this
+                 action must move the slider to the end of the
+                 ScrollBar on which the button was pressed.
+
+       MMMMSSSShhhhiiiifffftttt BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:
+                 Can scroll the view so that the cursor within that
+                 view is positioned at the edge of the view region
+                 on the side of the ScrollBar on which the button
+                 was pressed.
+
+       BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss:
+                 In the trough, this action can directly position
+                 the slider to the position of the button press.
+
+       BBBBDDDDrrrraaaagggg DDDDrrrraaaagggg:
+                 Must cause the slider to track the position of the
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 pointer.  In a vertical ScrollBar, the slider must
+                 track the vertical position of the pointer.  In a
+                 horizontal ScrollBar, the slider must track the
+                 horizontal position of the pointer.
+
+                 In the trough, this action can directly position
+                 the slider to the position of the button press,
+                 and then cause the slider to track the position of
+                 the pointer.
+
+       KKKKDDDDoooowwwwnnnn:    For vertical ScrollBars, this action must move the
+                 slider one increment down.
+
+       KKKKUUUUpppp:      For vertical ScrollBars, this action must move the
+                 slider one increment up.
+
+       KKKKLLLLeeeefffftttt:    For horizontal ScrollBars, this action must move
+                 the slider one increment left.
+
+       KKKKRRRRiiiigggghhhhtttt:   For horizontal ScrollBars, this action must move
+                 the slider one increment right.
+
+       MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn:
+                 For vertical ScrollBars, this action must move the
+                 slider one large increment down.
+
+       MMMMCCCCttttrrrrllll KKKKUUUUpppp:
+                 For vertical ScrollBars, this action must move the
+                 slider one large increment up.
+
+       MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt:
+                 For horizontal ScrollBars, this action must move
+                 the slider one large increment left.
+
+       MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt:
+                 For horizontal ScrollBars, this action must move
+                 the slider one large increment right.
+
+       KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn:
+                 For vertical ScrollBars, this action must move the
+                 slider one page down.
+
+       KKKKPPPPaaaaggggeeeeUUUUpppp:  For vertical ScrollBars, this action must move the
+                 slider one page up.
+
+       KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt: For horizontal ScrollBars, this action must move
+                 the slider one page left.
+
+       KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt:
+                 For horizontal ScrollBars, this action must move
+                 the slider one page right.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee or KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa:
+                 Must move the slider to the minimum value.
+
+       KKKKEEEEnnnnddddLLLLiiiinnnneeee or KKKKEEEEnnnnddddDDDDaaaattttaaaa:
+                 Must move the slider to the maximum value.
+
+       KKKKHHHHeeeellllpppp:    Must provide any available help for the ScrollBar.
+
+       _________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyyssss   DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss|
+      |_________________________________|
+      | BBBBSSSSeeeelllleeeecccctttt        <<<<BBBBttttnnnn1111>>>>          |
+      | BBBBDDDDrrrraaaagggg          <<<<BBBBttttnnnn2222>>>>          |
+      | KKKKDDDDoooowwwwnnnn          <<<<|vv|||vv>>>>             |
+      | KKKKLLLLeeeefffftttt          <<<<<<<<---->>>>            |
+      | KKKKRRRRiiiigggghhhhtttt         <<<<---->>>>>>>>            |
+      | KKKKUUUUpppp            <<<<|^^|||^^>>>>             |
+      | KKKKPPPPaaaaggggeeeeUUUUpppp        <<<<PPPPaaaaggggeeeeUUUUpppp>>>>        |
+      | KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn      <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>>      |
+      | KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt      MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeUUUUpppp>>>>  |
+      | KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt     MMMMCCCCttttrrrrllll <<<<PPPPaaaaggggeeeeDDDDoooowwwwnnnn>>>>|
+      | KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee     <<<<BBBBeeeeggggiiiinnnn>>>>         |
+      |                <<<<HHHHoooommmmeeee>>>>          |
+      | KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa     MMMMCCCCttttrrrrllll <<<<BBBBeeeeggggiiiinnnn>>>>   |
+      |                MMMMCCCCttttrrrrllll <<<<HHHHoooommmmeeee>>>>    |
+      | KKKKEEEEnnnnddddLLLLiiiinnnneeee       <<<<EEEEnnnndddd>>>>           |
+      | KKKKEEEEnnnnddddDDDDaaaattttaaaa       MMMMCCCCttttrrrrllll <<<<EEEEnnnndddd>>>>     |
+      | KKKKHHHHeeeellllpppp          <<<<HHHHeeeellllpppp>>>>          |
+      |                <<<<FFFF1111>>>>            |
+      |_________________________________|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

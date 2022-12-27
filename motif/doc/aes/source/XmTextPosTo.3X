@@ -1,0 +1,69 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextPosToXY 3X "" "" "" ""
+.SH NAME
+\fBXmTextPosToXY \(em a Text function that accesses the x and y
+position of a character position\fP
+.iX "XmTextPosToXY"
+.iX "Text functions" "XmTextPosToXY"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+Boolean XmTextPosToXY (\fIwidget, position, x, y\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.br
+	Position	\fI*x\fP;
+.br
+	Position	\fI*y\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextPosToXY\fP accesses the x and y position, relative to the upper
+left corner of the Text widget, of a given character position in the
+text buffer.
+.sp 1
+.ne 2i
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.IP "\fIposition\fP" .75i
+Specifies the character position in the text for which the x and y
+position is accessed.  This is an integer number of characters
+from the beginning of the buffer.  The first character position is 0.
+.IP "\fIx\fP" .75i
+Specifies the pointer in which the x position, relative to the upper
+left corner of the widget, is returned.  This value is meaningful only
+if the function returns True.
+.IP "\fIy\fP" .75i
+Specifies the pointer in which the y position, relative to the upper
+left corner of the widget, is returned.  This value is meaningful only
+if the function returns True.
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+This function returns True if the character position is displayed in the
+Text widget; otherwise, it returns False, and no \fIx\fP or \fIy\fP
+value is returned.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

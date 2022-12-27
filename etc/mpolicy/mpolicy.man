@@ -1,0 +1,83 @@
+.\"
+.\" Mach Operating System
+.\" Copyright (c) 1991,1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\" 
+.\" CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+.\" CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+.\" ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+.\" 
+.\" Carnegie Mellon requests users of this software to return to
+.\" 
+.\"  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+.\"  School of Computer Science
+.\"  Carnegie Mellon University
+.\"  Pittsburgh PA 15213-3890
+.\" 
+.\" any improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" HISTORY
+.\" $Log:	mpolicy.man,v $
+.\" Revision 2.3  91/03/19  12:31:48  mrt
+.\" 	Changed to new copyright
+.\" 
+.\" Revision 2.2  90/10/08  13:15:54  rpd
+.\" 	Created.
+.\" 	[90/10/08  13:12:53  rpd]
+.\" 
+.TH MPOLICY 1 6/18/90
+.CM 4
+.SH NAME
+mpolicy \- change scheduling policies
+.SH SYNOPSIS
+\fBmpolicy\fP [\fB-host\fP machine] [\fB-policy\fP policy data|\fB-enable\fP policy|\fB-disable\fP policy] [\fB-threads\fP] ids...
+.SH DESCRIPTION
+\fImpolicy(1)\fR may be used to change the scheduling policy of threads
+and enable or disable scheduling policies for processor sets.
+set.  The following scheduling policies are understood:
+.TP 8
+.B tshare
+The time-sharing scheduling policy.  Recent CPU usage lowers the
+priority of a thread.  The scheduling data is ignored.
+.TP 8
+.B fixpri
+The fixed-priority scheduling policy.  CPU usage does not change
+the priority of a thread.  The scheduling data is the quantum,
+in milliseconds, for the thread.
+.PP
+\fImpolicy\fR must run as root or a member of group kmem
+to gain access to the target objects.
+.PP
+\fImpolicy\fR interprets the following options:
+.TP 8
+.B \-host \fImachine\fR
+Directs the inquiry to the \fImachid(1)\fR server running
+on the specified machine.
+.TP 8
+.B \-policy \fIpolicy\fR \fIdata\fR
+Specifies the new scheduling policy and policy data for
+the listed threads.  If other objects, like tasks, processor sets,
+or hosts are listed, then \fImpolicy\fR changes the policy
+of every thread in the listed objects.
+.TP 8
+.B \-enable \fIpolicy\fR
+Enables the specified scheduling policy for the listed processor sets.
+.TP 8
+.B \-disable \fIpolicy\fR
+Disables the specified scheduling policy for the listed processor sets.
+The time-sharing policy may not be disabled.
+.TP 8
+.B \-threads
+When disabling a scheduling policy, specifies that the processor
+sets's threads which are using the disabled policy should be changed
+to the time-sharing policy.
+.SH "SEE ALSO"
+ms(1), mcreate(1), machid(1), thread_policy(2),
+processor_set_policy_enable(2), processor_set_policy_disable(2).

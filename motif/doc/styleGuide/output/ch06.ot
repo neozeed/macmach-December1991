@@ -1,0 +1,594 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1.  DDDDeeeessssiiiiggggnnnniiiinnnngggg ffffoooorrrr IIIInnnntttteeeerrrrnnnnaaaattttiiiioooonnnnaaaallll MMMMaaaarrrrkkkkeeeettttssss
+
+       This chapter provides basic guidelines for producing appli-
+       cations for international markets.  Internationalization is
+       the process of generalizing programs or systems so that they
+       can handle a variety of languages, character sets, and
+       national customs.  Localization is the process of providing
+       language- or country-specific information or support for
+       programs.
+
+       In general, internationalization issues are handled by tools
+       available to programmers on their system.  For example, ANSI
+       C standard (ANS X3.159-1989) and POSIX 1003.1 have defined
+       internationalization in terms of locale.  The locale can
+       then be set as part of the user's environment, allowing the
+       program to access locale-specific information, such as data
+       formats, collating sequences, and system messages, from
+       system- or application-specific databases.  You should use
+       any internationalization tools available on your system to
+       support internationalization in your application.
+
+       Following are some of the issues that are handled by an
+       internationalized application.  Note that your application
+       generally does not need to directly deal with these issues.
+       In most cases, they should be addressed by the internation-
+       alization tools available on your system.  They are provided
+       here primarily to increase your awareness of issues that can
+       affect your programming.  In a few cases you may need to
+       adjust your program to allow for size and layout changes of
+       data in different locales.
+
+          +o Collating sequences
+
+          +o Country-specific data formats
+
+          +o Icons, symbols and pointer shapes
+
+          +o Scanning direction
+
+          +o Modularized software
+
+          +o Translation of screen text
+
+
+
+
+                                                                1-1
+
+
+
+
+
+
+
+
+
+
+
+
+       1.1  CCCCoooollllllllaaaattttiiiinnnngggg SSSSeeeeqqqquuuueeeennnncccceeeessss
+
+       To produce an alphanumeric list, printable characters are
+       sorted according to a collating sequence.  Printable charac-
+       ters include letters possibly with accents, numbers, punc-
+       tuation characters, and other symbols such as * (asterisk)
+       or & (ampersand).  The collating sequence defines the value
+       and position of a character relative to the other charac-
+       ters.
+
+       Many applications make frequent use of collating sequences
+       to produce alphanumeric lists.  Examples of alphanumeric
+       lists include the following:
+
+          +o A directory listing of filenames
+
+          +o The output from a sorting utility
+
+          +o An index produced by a text-processing application
+
+          +o The lists produced by a database application, such as
+            lists of names or addresses
+
+       1.2  CCCCoooouuuunnnnttttrrrryyyy----SSSSppppeeeecccciiiiffffiiiicccc DDDDaaaattttaaaa FFFFoooorrrrmmmmaaaattttssss
+
+       Country-specific data formats include the following:
+
+          +o Thousands separators
+
+          +o Decimal separators (or, radix characters)
+
+          +o Grouping separators
+
+          +o Positive and negative values
+
+          +o Currency
+
+          +o Date formats
+
+          +o Time formats
+
+          +o Time zones
+
+          +o Telephone numbers
+
+          +o Proper names and addresses
+
+
+
+
+
+
+
+       1-2
+
+
+
+
+
+
+
+
+
+                                Designing for International Markets
+
+
+       1.2.1  TTTThhhhoooouuuussssaaaannnnddddssss SSSSeeeeppppaaaarrrraaaattttoooorrrrssss
+
+       The comma, period, space, and apostrophe are examples of
+       valid separators for units of thousands as shown in the fol-
+       lowing examples:
+
+       1234567
+       1 234 567
+       1.234.567
+       1'234'567
+       1,234,567
+
+       1.2.2  DDDDeeeecccciiiimmmmaaaallll SSSSeeeeppppaaaarrrraaaattttoooorrrrssss
+
+       The period, comma, and the center dot are examples of valid
+       separators for decimal fractions as shown in the following
+       examples:
+
+       5
+       5,324
+       5.324
+       5 324
+       5.324
+
+       1.2.3  GGGGrrrroooouuuuppppiiiinnnngggg SSSSeeeeppppaaaarrrraaaattttoooorrrrssss
+
+       Grouping may not be restricted to thousands separators as
+       shown in the following examples:
+
+       400,001.00
+       40,0001,00
+
+       1.2.4  PPPPoooossssiiiittttiiiivvvveeee aaaannnndddd NNNNeeeeggggaaaattttiiiivvvveeee VVVVaaaalllluuuueeeessss
+
+       Various countries indicate positive and negative values dif-
+       ferently. The symbols + and - may appear either before or
+       after the number.  Negative numbers may be enclosed in
+       parentheses in applications such as a spreadsheet.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                1-3
+
+
+
+
+
+
+
+
+
+
+
+
+       1.2.5  CCCCuuuurrrrrrrreeeennnnccccyyyy
+
+       Currency formats differ among various countries.  The comma,
+       period, and colon are examples of valid separators for
+       currency. There may be one or no space between the currency
+       symbol and the amount. The currency symbol may be up to four
+       characters.  The following example shows valid currency
+       values:
+
+       Sch3.50
+       SFr. 5.-
+       3.50FIM
+       25 c
+       3F50
+       760 Ptas
+       Esc. 3.50
+       kr. 3,50
+
+       1.2.6  DDDDaaaatttteeee FFFFoooorrrrmmmmaaaattttssss
+
+       Most countries use the Gregorian calendar, but some do not.
+       Dates can be formatted differently based on the locale.
+       Separators can be different in different locales or left out
+       altogether.  The hyphen, comma, period, space, and slash are
+       all examples of valid separators for the day, month, and
+       year.  In numeric date formats the month and day fields can
+       be reversed, and in some cases, the year field can come
+       first.  For example, the 4th of August 1990 can be written
+       as either 4/8/90 or 8/4/90 depending on locale.  In addi-
+       tion, users in Sweden sometimes place the year first, so
+       June 11, 1990 could be 900611 or 901106.
+
+       1.2.7  TTTTiiiimmmmeeee FFFFoooorrrrmmmmaaaattttssss
+
+       Time formats can change based on locale.  The colon, period,
+       and space are examples of valid separators for hours,
+       minutes, and seconds. The letter hhhh can separate hours and
+       minutes.  There is both 12- or 24-hour notation. For 12-hour
+       notation, a.m. or p.m. can appear after the time, separated
+       by a space.  The following example shows a number of valid
+       time formats:
+
+       1830
+       18:30
+       04 56
+       08h15
+       11.45 a.m.
+       11.45 p.m.
+       13:07:31.30
+       13:07:31
+
+
+
+       1-4
+
+
+
+
+
+
+
+
+
+                                Designing for International Markets
+
+
+       1.2.8  TTTTeeeelllleeeepppphhhhoooonnnneeee NNNNuuuummmmbbbbeeeerrrrssss
+
+       Telephone numbers can contain blanks, commas, hyphens,
+       periods, and square brackets as valid separators, for exam-
+       ple.  Telephone numbers can be displayed in local, national,
+       and international formats.  Local formats vary widely.
+       National formats may have an area code in parentheses, while
+       the international format may drop the parentheses, but add a
+       plus sign at the  beginning of the number to indicate the
+       country code.  The following examples show valid telephone
+       number formats:
+
+       (038) 473589
+       +44 (038) 473549
+       617.555.2199
+       (617) 555-2199
+       1 (617) 555-5525
+       (1) 617 555 5525
+       911
+       1-800-ORDERME
+
+       1.2.9  PPPPrrrrooooppppeeeerrrr NNNNaaaammmmeeeessss aaaannnndddd AAAAddddddddrrrreeeesssssssseeeessss
+
+       Addresses may vary from two to six lines long, and can
+       include any character used in the locale's character set.
+       The post code (zip code) can be in various positions in the
+       address, and can include alphabetic characters and separa-
+       tors as well as numbers.
+
+       1.3  IIIIccccoooonnnnssss,,,, SSSSyyyymmmmbbbboooollllssss,,,, aaaannnndddd PPPPooooiiiinnnntttteeeerrrr SSSShhhhaaaappppeeeessss
+
+       It may not always be possible to design an icon, pointer
+       shape, or other graphical symbol that adequately represents
+       the same object or function in different countries.  Culture
+       is inherent even in seemingly universal symbols.  For exam-
+       ple, sending and receiving mail is a commonly understood
+       function, but representing that function with an icon of a
+       mail box may be inappropriate because the appearance of mail
+       boxes varies widely among countries.  Therefore, an envelope
+       may be a more appropriate icon.  You should make sure that
+       graphical symbols are localizable.
+
+       When used correctly, graphical symbols offer the following
+       advantages:
+
+          +o They are language independent and do not need to be
+            translated.  In some cases, you may not be able to
+            avoid changing an icon or symbol for a culture that is
+            vastly different.  However, design icons and symbols
+            with the entire user population in mind so that you can
+            try to avoid redesigning.
+
+
+                                                                1-5
+
+
+
+
+
+
+
+
+
+
+
+
+          +o They can be used instead of computer terms that have no
+            national-language equivalent.
+
+          +o They may have more impact when used with text as warn-
+            ings than the text alone.
+
+       Here are a few guidelines to follow when creating icons,
+       symbols, or pointer shapes:
+
+          +o Use an already existing international icon, if possi-
+            ble.
+
+          +o Make your icons, symbols, or pointer shapes represent
+            basic, concrete concepts.  The more abstract the icon,
+            the more explanatory documentation is needed.
+
+          +o Check your icons and symbols for conflicts with exist-
+            ing icons or symbols for that function.
+
+          +o Do not incorporate text in icons because the text will
+            need to be translated.  Translated text expands, and
+            might no longer fit the icon.
+
+          +o Test and retest your symbols and icons in context with
+            real users.
+
+       1.4  SSSSccccaaaannnnnnnniiiinnnngggg DDDDiiiirrrreeeeccccttttiiiioooonnnn
+
+       Readers of Western languages scan from left to right across
+       the page (or display screen) and from top to bottom.  In
+       other languages, particularly Eastern ones such as Hebrew
+       and Arabic, this is not the case; readers scan from right to
+       left. The scanning direction of the country of localization
+       may have an impact on the location of components in dialog
+       boxes, the order of selections in menus, and other areas.
+
+       If your application will be used in environments other than
+       those that scan from left to right, remember that the the
+       scanning direction should match the input direction.
+
+       1.5  DDDDeeeessssiiiiggggnnnniiiinnnngggg MMMMoooodddduuuullllaaaarrrriiiizzzzeeeedddd SSSSooooffffttttwwwwaaaarrrreeee
+
+       Modularizing software allows for easier localization; that
+       is, a properly modularized application requires that fewer
+       files be modified to localize the application.  Guidelines
+       for designing modularized software are as follows:
+
+          +o Create separate modules for text, code, and
+            input/output components that need to be changed to
+            accommodate different markets.
+
+
+
+       1-6
+
+
+
+
+
+
+
+
+
+                                Designing for International Markets
+
+
+          +o Separate all user interface text from the code that
+            presents it.
+
+          +o Use standard (registered) data formats, such as ISO and
+            IEEE.
+
+          +o Use standard processing algorithms for all processing,
+            storage, and interchange.
+
+       In general, you should modularize your application so that
+       elements that need to be translated to different languages
+       are in separate files, and that those files are the only
+       files that will need changes for localization. Furthermore,
+       you should have a different set of language dependent text
+       files for each locale that are read in at run time using the
+       internationalization tools available on your system.  In
+       this way you can support multiple locales simultaneously.
+
+       1.6  TTTTrrrraaaannnnssssllllaaaattttiiiinnnngggg SSSSccccrrrreeeeeeeennnn TTTTeeeexxxxtttt
+
+       Well-written screen text makes an application easier for
+       users to understand.  It also makes translation easier.
+
+       Use the following guidelines to write screen text for trans-
+       lation:
+
+          +o Write brief and simple sentences; they are easy to
+            understand and translate.
+
+          +o Write affirmative statements; they  are easier to
+            understand than negative statements.  For example, use
+            "Would you like to continue?"  rather than "Wouldn't
+            you like to continue?"
+
+          +o Use active voice; it is easier for both application
+            users and application translators to understand.  For
+            example, use "Press the Help button."  rather than "The
+            Help button should be pressed."
+
+          +o Use prepositions to clarify the relationship of nouns;
+            avoid stringing three or more nouns together.
+
+          +o Use simple vocabulary; avoid using jargon unless it is
+            a part of your audience's working vocabulary.
+
+          +o Allow space for text expansion. Text translated from
+            English is likely to expand 30% to 50%, or even more.
+
+
+
+
+
+
+                                                                1-7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       1-8
+
+
+
+
+

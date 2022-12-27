@@ -1,0 +1,113 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchIconLiteral 3X
+.SH NAME
+\fBMrmFetchIconLiteral\fP \- Fetches an icon literal from a hierarchy.
+.iX "MrmFetchIconLiteral"
+.iX "uil functions" "MrmFetchIconLiteral"
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchIconLiteral"
+.NX R "MrmFetchIconLiteral" "definition"
+.BI "int MrmFetchIconLiteral(" "hierarchy_id" ","
+.IB "index" ","
+.IB "screen" ","
+.IB "display" ","
+.IB "fgpix" ","
+.IB "bgpix" ","
+.IB "pixmap" ")"
+.in +5n
+.br
+.BI "MrmHierarchy " "hierarchy_id" ";"
+.br
+.BI "String " "index" ";"
+.br
+.BI "Screen *" "screen" ";"
+.br
+.BI "Display *" "display" ";"
+.br
+.BI "Pixel " "fgpix" ";"
+.br
+.BI "Pixel " "bgpix" ";"
+.br
+.BI "Pixmap *" "pixmap" ";"
+.SH DESCRIPTION
+The
+\fBMrmFetchIconLiteral\fP
+function
+.NX R "MrmFetchIconLiteral" "description"
+fetches an icon literal from an MRM hierarchy, and converts the
+icon literal to an X pixmap.
+.sp
+.ne 2i
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the UID hierarchy that contains the
+specified icon literal. 
+The
+\fIhierarchy_id\fP
+was returned in a previous call to
+\fBMrmOpenHierarchy\fP.
+.IP \fIindex\fP 1.5i
+Specifies the UIL name of the icon literal to fetch. 
+.IP \fIscreen\fP 1.5i
+Specifies the screen used for the pixmap.
+The
+\fIscreen\fP
+argument specifies a pointer to the
+Xlib structure
+\fBScreen\fP
+which contains the information about that screen and is linked to the
+\fBDisplay\fP
+structure.
+For more information on the
+\fBDisplay\fP 
+and
+\fBScreen\fP
+structures, see the Xlib function
+\fBXOpenDisplay\fP
+and the associated screen information macros.
+.IP \fIdisplay\fP 1.5i
+Specifies the display used for the pixmap.
+The
+\fIdisplay\fP 
+argument specifies the connection to the X server. 
+For more information on the
+\fBDisplay\fP structure, see the Xlib function
+\fBXOpenDisplay\fP.
+.IP \fIfgpix\fP 1.5i 
+Specifies the foreground color for the pixmap.
+.IP \fIbgpix\fP 1.5i 
+Specifies the background color for the pixmap.
+.IP \fIpixmap\fP 1.5i 
+Returns the resulting X pixmap value.
+.SH RETURN VALUE
+.NX R "MrmSUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmNOT_FOUND"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 2.0i
+The function executed successfully.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmNOT_FOUND\fP
+The icon literal was not found in the hierarchy.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+\fBMrmFetchLiteral(3X)\fP,
+\fBMrmFetchColorLiteral(3X)\fP,
+\fBXOpenDisplay(3X)\fP

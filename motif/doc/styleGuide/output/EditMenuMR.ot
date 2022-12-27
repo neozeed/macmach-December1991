@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+       The common Edit Menu contents are described as follows.
+       Note that you should only include those functions actually
+       supported by your application.  The illustration on this
+       reference page shows an Edit Menu.
+
+       U____UUUnnnnddddoooo   AAAAlllltttt++++BBBBaaaacccckkkkssssppppaaaacccceeee Must reverse the most recently executed
+                        action.  To provide a visual cue to the
+                        user, the UUUUnnnnddddoooo selection title should be
+                        dynamically modified to indicate what is
+                        being undone.  For example, if the most
+                        recently executed action were a paste, the
+                        action name would be UUUUnnnnddddoooo ppppaaaasssstttteeee.  Your
+                        application should be able to undo all of
+                        the actions in the EEEEddddiiiitttt Menu. This action
+                        must have the mnemonic UUUU.  If this action
+                        has an accelerator, it must override the
+                        standard undo action for a specific com-
+                        ponent, and must be MMMMAAAAlllltttt KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee.
+
+       CCCCuuuut____ttt   SSSShhhhiiiifffftttt++++DDDDeeeellll  Must remove the selected portion of data
+                        from the client area to the clipboard
+                        buffer.  Your application can determine
+                        whether the area that was occupied by the
+                        removed data is left blank or whether the
+                        remaining data is compressed to fill in the
+                        space.  Usually, graphics applications
+                        leave the space blank while text applica-
+                        tions compress the remaining text to fill
+                        in the space.  This action must have the
+                        mnemonic TTTT.  If this action has an
+                        accelerator, it must override the standard
+                        cut action for a specific component, and
+                        both MMMMSSSShhhhiiiifffftttt KKKKDDDDeeeelllleeeetttteeee and KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt should
+                        be supported.
+
+       C____CCCooooppppyyyy   CCCCttttrrrrllll++++IIIInnnnssss  Must copy the selected portion of data to
+                        the clipboard buffer without removing the
+                        original data from the client area.  This
+                        action must have the mnemonic CCCC.  If this
+                        action has an accelerator, it must override
+                        the standard copy action for a specific
+                        component, and both MMMMCCCCttttrrrrllll KKKKIIIInnnnsssseeeerrrrtttt and KKKKPPPPrrrriiii----
+                        mmmmaaaarrrryyyyCCCCooooppppyyyy should be supported.
+
+       P____PPPaaaasssstttteeee   SSSShhhhiiiifffftttt++++IIIInnnnssssMust paste the contents of the clipboard
+                        buffer into a client area. When there is
+                        one main editing area, the application can
+                        force the paste to occur in that area.
+                        When an accelerator is used and the focus
+                        is in an editable component the paste
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        should go to that editable component.  When
+                        the focus policy is explicit, and when
+                        there are multiple possible destinations
+                        for the paste, the paste should go to the
+                        last editable component with the input
+                        focus.  When the focus policy is implicit,
+                        and when there are multiple possible desti-
+                        nations for the paste, the paste should go
+                        to the component with the destination cur-
+                        sor, as described in Section 3.2.3.
+
+                        Your application can determine whether the
+                        pasted data is reformatted to fit in the
+                        client area and whether existing data moves
+                        to create room for the pasted data.  Text
+                        applications usually reformat the pasted
+                        text to fit into the margins of the text
+                        field, and they will move the existing text
+                        to make room for the new text.  Graphics
+                        applications usually do neither.  This
+                        action must have the mnemonic PPPP.  If this
+                        action has an accelerator, it must override
+                        the standard paste action for a specific
+                        component, and both MMMMSSSShhhhiiiifffftttt KKKKIIIInnnnsssseeeerrrrtttt and
+                        KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee should be supported.
+
+       CCCClllle____eeeaaaarrrr            Must remove a selected portion of data from
+                        the client area without copying it to a
+                        clipboard buffer.  The remaining data is
+                        not compressed to fill the space that was
+                        occupied by the cleared data.  This action
+                        must have the mnemonic EEEE.
+
+       D____DDDeeeelllleeeetttteeee           Must remove a selected portion of data from
+                        the client area without copying it to a
+                        clipboard buffer. The remaining data is
+                        compressed to fill the space that was occu-
+                        pied by the deleted data.  This action must
+                        have the mnemonic DDDD.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       See Chapter 4 for more information on the MenuBar system,
+       and for general information about Menu design.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

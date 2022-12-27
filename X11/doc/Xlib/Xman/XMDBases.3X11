@@ -1,0 +1,186 @@
+.ds xT X Toolkit Intrinsics \- C Language Interface
+.ds xW Athena X Widgets \- C Language X Toolkit Interface
+.ds xL Xlib \- C Language X Interface
+.ds xC Inter-Client Communication Conventions Manual
+.na
+.de Ds
+.nf
+.\\$1D \\$2 \\$1
+.ft 1
+.\".ps \\n(PS
+.\".if \\n(VS>=40 .vs \\n(VSu
+.\".if \\n(VS<=39 .vs \\n(VSp
+..
+.de De
+.ce 0
+.if \\n(BD .DF
+.nr BD 0
+.in \\n(OIu
+.if \\n(TM .ls 2
+.sp \\n(DDu
+.fi
+..
+.de FD
+.LP
+.KS
+.TA .5i 3i
+.ta .5i 3i
+.nf
+..
+.de FN
+.fi
+.KE
+.LP
+..
+.de IN		\" send an index entry to the stderr
+.tm \\n%:\\$1:\\$2:\\$3
+..
+.de C{
+.KS
+.nf
+.D
+.\"
+.\"	choose appropriate monospace font
+.\"	the imagen conditional, 480,
+.\"	may be changed to L if LB is too
+.\"	heavy for your eyes...
+.\"
+.ie "\\*(.T"480" .ft L
+.el .ie "\\*(.T"300" .ft L
+.el .ie "\\*(.T"202" .ft PO
+.el .ie "\\*(.T"aps" .ft CW
+.el .ft R
+.ps \\n(PS
+.ie \\n(VS>40 .vs \\n(VSu
+.el .vs \\n(VSp
+..
+.de C}
+.DE
+.R
+..
+.de Pn
+.ie t \\$1\fB\^\\$2\^\fR\\$3
+.el \\$1\fI\^\\$2\^\fP\\$3
+..
+.de PN
+.ie t \fB\^\\$1\^\fR\\$2
+.el \fI\^\\$1\^\fP\\$2
+..
+.de NT
+.ne 7
+.ds NO Note
+.if \\n(.$>$1 .if !'\\$2'C' .ds NO \\$2
+.if \\n(.$ .if !'\\$1'C' .ds NO \\$1
+.ie n .sp
+.el .sp 10p
+.TB
+.ce
+\\*(NO
+.ie n .sp
+.el .sp 5p
+.if '\\$1'C' .ce 99
+.if '\\$2'C' .ce 99
+.in +5n
+.ll -5n
+.R
+..
+.		\" Note End -- doug kraft 3/85
+.de NE
+.ce 0
+.in -5n
+.ll +5n
+.ie n .sp
+.el .sp 10p
+..
+.ny0
+.TH XrmMergeDatabases 3X11 "Release 4" "X Version 11" 
+.SH NAME
+XrmMergeDatabases, XrmGetFileDatabase, XrmPutFileDatabase, 
+XrmGetStringDatabase, XrmDestroyDatabase \- manipulate resource databases
+.SH SYNTAX
+void XrmMergeDatabases(\^\fIsource_db\fP, \fItarget_db\fP\^)
+.br
+      XrmDatabase \fIsource_db\fP, *\fItarget_db\fP\^;
+.LP
+XrmDatabase XrmGetFileDatabase\^(\^\fIfilename\fP\^)
+.br
+     char *\fIfilename\fP\^;
+.LP
+void XrmPutFileDatabase\^(\^\fIdatabase\fP, \fIstored_db\fP\^)
+.br
+     XrmDatabase \fIdatabase\fP\^;
+.br
+     char *\fIstored_db\fP\^;
+.LP
+XrmDatabase XrmGetStringDatabase\^(\^\fIdata\fP\^)
+.br
+     char *\fIdata\fP\^;
+.LP
+void XrmDestroyDatabase\^(\^\fIdatabase\fP\^)
+.br
+      XrmDatabase \fIdatabase\fP\^;
+.SH ARGUMENTS
+.IP \fIdata\fP 1i
+Specifies the database contents using a string.
+.IP \fIdatabase\fP 1i
+Specifies the database that is to be used.
+.IP \fIfilename\fP 1i
+Specifies the resource database file name.
+.IP \fIsource_db\fP 1i
+Specifies the resource database that is to be merged into the target database.
+.IP \fIstored_db\fP 1i
+Specifies the file name for the stored database.
+.IP \fItarget_db\fP 1i
+Specifies a pointer to the resource database into which the source 
+database is to be merged.
+.SH DESCRIPTION
+.\" $Header: XrmMDBase.d,v 1.2 88/06/11 07:54:46 mento Exp $
+The
+.PN XrmMergeDatabases
+function merges the contents of one database into another.
+It may overwrite entries in the destination database.
+This function is used to combine databases
+(for example, an application specific database of
+defaults and a database of user preferences).
+The merge is destructive; that is, the source database is destroyed.
+.LP
+The
+.PN XrmGetFileDatabase
+function opens the specified file,
+creates a new resource database, and loads it with the specifications
+read in from the specified file.
+The specified file must contain lines in the format accepted by
+.PN XrmPutLineResource .
+If it cannot open the specified file,
+.PN XrmGetFileDatabase
+returns NULL.
+.LP
+The
+.PN XrmPutFileDatabase
+function stores a copy of the specified database in the specified file.
+The file is an ASCII text file that contains lines in the format that is
+accepted by
+.PN XrmPutLineResource .
+.LP
+The
+.PN XrmGetStringDatabase
+function creates a new database and stores the resources specified
+in the specified null-terminated string.
+.PN XrmGetStringDatabase
+is similar to
+.PN XrmGetFileDatabase
+except that it reads the information out of a string instead of out of a file.
+Each line is separated by a new-line character in the format
+accepted by
+.PN XrmPutLineResource .
+.LP
+If database is NULL,
+.PN XrmDestroyDatabase
+returns immediately.
+.SH "SEE ALSO"
+XrmGetResource(3X11),
+XrmInitialize(3X11),
+XrmPutResource(3X11),
+XrmUniqueQuark(3X11)
+.br
+\fI\*(xL\fP

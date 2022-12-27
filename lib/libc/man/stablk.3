@@ -1,0 +1,94 @@
+.\"
+.\" $Id: stablk.3,v 1.3 89/12/26 11:22:20 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	stablk.3,v $
+.\" Revision 1.3  89/12/26  11:22:20  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 22-May-80  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Added check for exact match if more than one string matches
+.\"	by stablk.
+.\"
+.\" 16-Apr-80  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Stablk now lists strings in multiple columns when possible.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH STABLK 3 5/22/80
+.CM 2
+.SH "NAME"
+stablk \- string table lookup
+.SH "SYNOPSIS"
+.B
+int stablk (string,table,quiet);
+.br
+.B
+char *string,**table;
+.br
+.B
+int quiet;
+.SH "DESCRIPTION"
+.I
+Stablk
+searches in the string table
+.IR table ,
+looking for a string whose initial characters match
+.I
+string.
+If exactly one such string is found, then the index
+of that string is returned.
+If no such strings are found,
+or if more than one string matches, then an error indication
+is returned.
+.sp
+If no strings match
+.I
+string,
+then \-1 will be returned.
+Before returning, if
+.I
+quiet
+is FALSE, then the user will be asked if he wants a list
+of the strings in the table; if he says "yes", then a
+list is printed.
+.sp
+If several strings match but one is an exact match while
+the others are prefix matches, the index of the exact match
+is returned.
+Otherwise, when several strings match, \-2 will be returned.
+Before
+returning, if
+.I
+quiet
+is FALSE, then the user will be asked if he wants a list
+of matching strings; if he says "yes", then a list is printed.
+.sp
+The string 
+.I table 
+may be declared like this:
+.sp
+.nf
+.RS
+char *stable[] = {
+	"first string",
+	"second string",
+	...
+	"n-th string",
+	0};
+.RE
+.fi
+.sp
+Note that the last entry of the table must be a zero.
+.SH "SEE ALSO"
+.IR stlmatch (3)
+.SH "DIAGNOSTICS"
+If nothing matches, \-1 is returned; if more than one string
+matches, then \-2 is returned.
+.SH "BUGS"
+A maximum of 500 strings are allowed in the table.

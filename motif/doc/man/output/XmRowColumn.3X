@@ -1,0 +1,1320 @@
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn ---- tttthhhheeee RRRRoooowwwwCCCCoooolllluuuummmmnnnn wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////RRRRoooowwwwCCCCoooolllluuuummmmnnnn....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          The RowColumn widget is a general purpose RowColumn manager
+          capable of containing any widget type as a child. In
+          general, it requires no special knowledge about how its
+          children function and provides nothing beyond support for
+          several different layout styles.  However, it can be
+          configured as a menu, in which case, it expects only certain
+          children, and it configures to a particular layout.  The
+          menus supported are:  MenuBar, Pulldown or Popup MenuPanes,
+          and OptionMenu.
+
+          The type of layout performed is controlled by how the
+          application has set the various layout resources.  It can be
+          configured to lay out its children in either rows or
+          columns.  In addition, the application can specify how the
+          children are laid out, as follows:
+
+          +o  the children are packed tightly together into either rows
+             or columns
+
+          +o  each child is placed in an identically sized box
+             (producing a symmetrical look)
+
+          +o  a specific layout (the current _x and _y positions of the
+             children control their location)
+
+          In addition, the application has control over both the
+          spacing that occurs between each row and column and the
+          margin spacing present between the edges of the RowColumn
+          widget and any children that are placed against it.
+
+          In a MenuBar, Pulldown MenuPane, or Popup MenuPane the
+          default for the XXXXmmmmNNNNsssshhhhaaaaddddoooowwwwTTTThhhhiiiicccckkkknnnneeeessssssss resource is 2.  In an
+          OptionMenu or a WorkArea (such as a RadioBox or CheckBox)
+          this resource is not applicable and its use is undefined.
+          If an application wishes to place a 3-D shadow around an
+          OptionMenu or WorkArea, it can create the RowColumn as a
+          child of a Frame widget.
+
+          In a MenuBar, Pulldown MenuPane, or Popup MenuPane the
+          XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee resource is not applicable and its use is
+          undefined.  In a WorkArea the default for XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee
+          is XXXXmmmmTTTTAAAABBBB____GGGGRRRROOOOUUUUPPPP.  In an OptionMenu the default for
+          XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee is XXXXmmmmNNNNOOOONNNNEEEE.
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          In a MenuBar, Pulldown MenuPane, or Popup MenuPane the
+          XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn resource is not applicable and its use is
+          undefined.  In an OptionMenu or WorkArea the default for
+          XXXXmmmmNNNNttttrrrraaaavvvveeeerrrrssssaaaallllOOOOnnnn is True.
+
+          If the parent of the RowColumn is a MenuShell, the
+          XXXXmmmmNNNNmmmmaaaappppppppeeeeddddWWWWhhhheeeennnnMMMMaaaannnnaaaaggggeeeedddd resource is forced to False when the
+          widget is realized.
+
+
+        CCCCllllaaaasssssssseeeessss
+          RowColumn inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, and XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr classes.
+
+          The class pointer is xxxxmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                 CCCCllllaaaassssssss                TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                 AAAAcccccccceeeessssssss
+     _________________________________________________________________________________________
+     XmNadjustLast        XmCAdjustLast        Boolean          True                    CSG
+     XmNadjustMargin      XmCAdjustMargin      Boolean          True                    CSG
+     XmNentryAlignment    XmCAlignment         unsigned char    XmALIGNMENT_BEGINNING   CSG
+     XmNentryBorder       XmCEntryBorder       Dimension        0                       CSG
+     XmNentryCallback     XtCCallback          XtCallbackList   NULL                    C
+     XmNentryClass        XmCEntryClass        WidgetClass      dynamic                 CSG
+     XmNisAligned         XmCIsAligned         Boolean          True                    CSG
+     XmNisHomogeneous     XmCIsHomogeneous     Boolean          dynamic                 CG
+     XmNlabelString       XmCXmString          XmString         NULL                    C
+     XmNmapCallback       XmCCallback          XtCallbackList   NULL                    C
+     XmNmarginHeight      XmCMarginHeight      Dimension        dynamic                 CSG
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+     XmNmarginWidth       XmCMarginWidth       Dimension        dynamic                 CSG
+     XmNmenuAccelerator   XmCAccelerators      String           dynamic                 CSG
+     XmNmenuHelpWidget    XmCMenuWidget        Widget           NULL                    CSG
+     XmNmenuHistory       XmCMenuWidget        Widget           NULL                    CSG
+     XmNmenuPost          XmCMenuPost          String           NULL                    CSG
+     XmNmnemonic          XmCMnemonic          KeySym           NULL                    CSG
+     XmNmnemonicCharSet   XmCMnemonicCharSet   String           dynamic                 CSG
+     XmNnumColumns        XmCNumColumns        short            1                       CSG
+     XmNorientation       XmCOrientation       unsigned char    dynamic                 CSG
+     XmNpacking           XmCPacking           unsigned char    dynamic                 CSG
+     XmNpopupEnabled      XmCPopupEnabled      Boolean          True                    CSG
+     XmNradioAlwaysOne    XmCRadioAlwaysOne    Boolean          True                    CSG
+     XmNradioBehavior     XmCRadioBehavior     Boolean          False                   CSG
+     XmNresizeHeight      XmCResizeHeight      Boolean          True                    CSG
+     XmNresizeWidth       XmCResizeWidth       Boolean          True                    CSG
+     XmNrowColumnType     XmCRowColumnType     unsigned char    XmWORK_AREA             CG
+     XmNspacing           XmCSpacing           Dimension        dynamic                 CSG
+     XmNsubMenuId         XmCMenuWidget        Widget           NULL                    CSG
+     XmNunmapCallback     XmCCallback          XtCallbackList   NULL                    C
+     XmNwhichButton       XmCWhichButton       unsigned int     dynamic                 CSG
+
+
+          XXXXmmmmNNNNaaaaddddjjjjuuuussssttttLLLLaaaasssstttt
+               Extends the last row of children to the bottom edge of
+               RowColumn (when XXXXmmmmOOOOrrrriiiieeeennnnttttaaaattttiiiioooonnnn is XXXXmmmmHHHHOOOORRRRIIIIZZZZOOOONNNNTTTTAAAALLLL) or
+               extends the last column to the right edge of RowColumn
+               (when XXXXmmmmOOOOrrrriiiieeeennnnttttaaaattttiiiioooonnnn is XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL).  This feature is
+               disabled by setting XXXXmmmmNNNNaaaaddddjjjjuuuussssttttLLLLaaaasssstttt to False.
+
+          XXXXmmmmNNNNaaaaddddjjjjuuuussssttttMMMMaaaarrrrggggiiiinnnn
+               Specifies whether the inner minor margins of all items
+               contained within the RowColumn widget are forced to the
+               same value.  The inner minor margin corresponds to the
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt, XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp, and
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm resources supported by XXXXmmmmLLLLaaaabbbbeeeellll and
+               XXXXmmmmLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt.
+
+               A horizontal orientation causes XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnTTTToooopppp and
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnBBBBoooottttttttoooommmm for all items in a particular row to be
+               forced to the same value; the value is the largest
+               margin specified for one of the Label items.
+
+               A vertical orientation causes XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnLLLLeeeefffftttt and
+               XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnRRRRiiiigggghhhhtttt for all items in a particular column to
+               be forced to the same value; the value is the largest
+               margin specified for one of the Label items.
+
+               This keeps all text within each row or column lined up
+               with all other text in its row or column.  If the
+               XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is either XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP or
+               XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN and this resource is True, only button
+               children have their margins adjusted.
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNeeeennnnttttrrrryyyyAAAAlllliiiiggggnnnnmmmmeeeennnntttt
+               Specifies the alignment type for children that are
+               subclasses of XXXXmmmmLLLLaaaabbbbeeeellll or XXXXmmmmLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt when
+               XXXXmmmmNNNNiiiissssAAAAlllliiiiggggnnnneeeedddd is enabled.  The following are textual
+               alignment types:
+
+               XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____BBBBEEEEGGGGIIIINNNNNNNNIIIINNNNGGGG - the default
+
+               XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____CCCCEEEENNNNTTTTEEEERRRR
+
+               XXXXmmmmAAAALLLLIIIIGGGGNNNNMMMMEEEENNNNTTTT____EEEENNNNDDDD
+
+               See the description of XXXXmmmmNNNNaaaalllliiiiggggnnnnmmmmeeeennnntttt in the XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX))))
+               man page for an explanation of these actions.
+
+          XXXXmmmmNNNNeeeennnnttttrrrryyyyBBBBoooorrrrddddeeeerrrr
+               Imposes a uniform border width upon all RowColumn's
+               children.  The default value is 0, which disables the
+               feature.
+
+          XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Disables the XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk and
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk callbacks for all
+               CascadeButton, DrawnButton, PushButton, and
+               ToggleButton widgets and gadgets contained within the
+               RowColumn widget.  If the application supplies this
+               resource, the XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk and
+               XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk callbacks are then revectored
+               to the XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  This allows an
+               application to supply a single callback routine for
+               handling all items contained in a RowColumn widget.
+               The callback reason is XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE.  If the
+               application does not supply this resource, the
+               XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk and XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks for each item in the RowColumn widget work as
+               normal.
+
+               The application must supply this resource when this
+               widget is created.  Changing this resource using the
+               XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss is not supported.
+
+          XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCllllaaaassssssss
+               Specifies the only widget class that can be added to
+               the RowColumn widget; this resource is meaningful only
+               when the XXXXmmmmNNNNiiiissssHHHHoooommmmooooggggeeeennnneeeeoooouuuussss resource is set to True.
+               Both widget and gadget variants of the specified class
+               may be added to the widget.
+
+               When XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA and
+               XXXXmmmmNNNNrrrraaaaddddiiiiooooBBBBeeeehhhhaaaavvvviiiioooorrrr is True, the default value for
+               XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCllllaaaassssssss is xxxxmmmmTTTToooogggggggglllleeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeettttCCCCllllaaaassssssss. When
+               XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR, the value of
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCllllaaaassssssss is forced to xxxxmmmmCCCCaaaassssccccaaaaddddeeeeBBBBuuuuttttttttoooonnnnWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          XXXXmmmmNNNNiiiissssAAAAlllliiiiggggnnnneeeedddd
+               Specifies text alignment for each item within the
+               RowColumn widget; this applies only to items that are
+               subclasses of XXXXmmmmLLLLaaaabbbbeeeellll or XXXXmmmmLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt.  However, if
+               the item is a Label widget or gadget and its parent is
+               either a Popup MenuPane or a Pulldown MenuPane,
+               alignment is not performed; the Label is treated as the
+               title within the MenuPane, and the alignment set by the
+               application is not overridden.  XXXXmmmmNNNNeeeennnnttttrrrryyyyAAAAlllliiiiggggnnnnmmmmeeeennnntttt
+               controls the type of textual alignment.
+
+          XXXXmmmmNNNNiiiissssHHHHoooommmmooooggggeeeennnneeeeoooouuuussss
+               Indicates if the RowColumn widget should enforce exact
+               homogeneity among the items it contains; if True, only
+               the widgets that are of the class indicated by
+               XXXXmmmmNNNNeeeennnnttttrrrryyyyCCCCllllaaaassssssss are allowed as children of the RowColumn
+               widget.  This is most often used when creating a
+               MenuBar or a RadioBox widget.
+
+               Attempting to insert a child that is not a member of
+               the specified class generates a warning message.  The
+               default value is False, except when creating a MenuBar
+               or a RadioBox, when the value is forced to True.  The
+               value is forced to False in an OptionMenu.
+
+          XXXXmmmmNNNNllllaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Points to a text string, which displays the label to
+               one side of the selection area when XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is
+               set to XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN.  This resource is not meaningful
+               for all other RowColumn types.  If the application
+               wishes to change the label after creation, it must get
+               the LabelGadget ID (XXXXmmmmOOOOppppttttiiiioooonnnnLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt) and call
+               XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss on the LabelGadget directly.  The default
+               value is no label.
+
+          XXXXmmmmNNNNmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a widget-specific callback function that is
+               invoked when the window associated with the RowColumn
+               widget is about to be mapped.  The callback reason is
+               XXXXmmmmCCCCRRRR____MMMMAAAAPPPP.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the amount of blank space between the top
+               edge of the RowColumn widget and the first item in each
+               column, and the bottom edge of the RowColumn widget and
+               the last item in each column.  The default value is 0
+               for Pulldown and Popup MenuPanes, and three pixels for
+               other RowColumn types.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               Specifies the amount of blank space between the left
+               edge of the RowColumn widget and the first item in each
+               row, and the right edge of the RowColumn widget and the
+               last item in each row. The default value is 0 for
+               Pulldown and Popup MenuPanes, and three pixels for
+               other RowColumn types.
+
+          XXXXmmmmNNNNmmmmeeeennnnuuuuAAAAcccccccceeeelllleeeerrrraaaattttoooorrrr
+               This resource is useful only when the RowColumn widget
+               has been configured to operate as a Popup MenuPane or a
+               MenuBar.  The format of this resource is similar to the
+               left side specification of a translation string, with
+               the limitation that it must specify a key event.  For a
+               Popup MenuPane, when the accelerator is typed by the
+               user, the Popup MenuPane is posted.  For a MenuBar,
+               when the accelerator is typed by the user, the first
+               item in the MenuBar is highlighted, and traversal is
+               enabled in the MenuBar.  The default for a Popup
+               MenuPane is KKKKMMMMeeeennnnuuuu.  The default for a MenuBar is
+               KKKKMMMMeeeennnnuuuuBBBBaaaarrrr.  The accelerator can be disabled by setting
+               the XXXXmmmmNNNNppppooooppppuuuuppppEEEEnnnnaaaabbbblllleeeedddd resource to False.
+
+          XXXXmmmmNNNNmmmmeeeennnnuuuuHHHHeeeellllppppWWWWiiiiddddggggeeeetttt
+               Specifies the widget ID for the CascadeButton, which is
+               treated as the Help widget if XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set
+               to XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR.  The MenuBar always places the Help
+               widget at a lower corner of the menu.  If the RowColumn
+               widget is any type other than XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR, this resource
+               is not meaningful.
+
+          XXXXmmmmNNNNmmmmeeeennnnuuuuHHHHiiiissssttttoooorrrryyyy
+               Specifies the widget ID of the last menu entry to be
+               activated.  It is also useful for specifying the
+               current selection for an OptionMenu.  If
+               XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN, the specified
+               menu item is positioned under the cursor when the menu
+               is displayed.
+
+               If the RowColumn widget has the XXXXmmmmNNNNrrrraaaaddddiiiiooooBBBBeeeehhhhaaaavvvviiiioooorrrr
+               resource set to True, the widget field associated with
+               this resource contains the widget ID of the last
+               ToggleButton or ToggleButtonGadget to change from
+               unselected to selected.  The default value is the
+               widget ID of the first child in the widget.
+
+          XXXXmmmmNNNNmmmmeeeennnnuuuuPPPPoooosssstttt
+               Specifies an X event description indicating an event
+               that posts a menu system.  The default for XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP
+               is BBBBMMMMeeeennnnuuuu PPPPrrrreeeessssssss.  The default for XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN,
+               XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR, and XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA is BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss.  This
+               resource is not useful for RowColumn widgets of type
+               XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN.
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiicccc
+               This resource is useful only when XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is
+               set to XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN. Specifies a keysym for a key
+               that, when pressed by the user along with the MMMMAAAAlllltttt
+               modifier, posts the associated Pulldown MenuPane.  The
+               first character in the OptionMenu label string that
+               exactly matches the mnemonic in the character set
+               specified in XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiiccccCCCChhhhaaaarrrrSSSSeeeetttt is underlined.  The
+               user can post the menu by pressing either the shifted
+               or the unshifted mnemonic key.  The default is no
+               mnemonic.
+
+          XXXXmmmmNNNNmmmmnnnneeeemmmmoooonnnniiiiccccCCCChhhhaaaarrrrSSSSeeeetttt
+               Specifies the character set of the mnemonic for an
+               OptionMenu.  The default is determined dynamically
+               depending on the current language environment.
+
+          XXXXmmmmNNNNnnnnuuuummmmCCCCoooolllluuuummmmnnnnssss
+               Specifies the number of minor dimension extensions that
+               are made to accommodate the entries; this attribute is
+               meaningful only when XXXXmmmmNNNNppppaaaacccckkkkiiiinnnngggg is set to
+               XXXXmmmmPPPPAAAACCCCKKKK____CCCCOOOOLLLLUUUUMMMMNNNN.
+
+               For vertically oriented RowColumn widgets, this
+               attribute indicates how many columns are built; the
+               number of entries per column is adjusted to maintain
+               this number of columns, if possible.
+
+               For horizontally oriented RowColumn widgets, this
+               attribute indicates how many rows are built.
+
+               The default value is 1.  In an OptionMenu the value is
+               initialized to 1.  The value must be greater than 0.
+
+          XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn
+               Determines whether RowColumn layouts are row-major or
+               column-major. In a column-major layout, the children of
+               the RowColumn are laid out in columns top to bottom
+               within the widget.  In a row-major layout the children
+               of the RowColumn are laid out in rows.  XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL
+               resource value selects a column-major layout.
+               XXXXmmmmHHHHOOOORRRRIIIIZZZZOOOONNNNTTTTAAAALLLL resource value selects a row-major layout.
+
+               When creating a MenuBar or an OptionMenu, the default
+               is XXXXmmmmHHHHOOOORRRRIIIIZZZZOOOONNNNTTTTAAAALLLL.  Otherwise, the default value is
+               XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL.  The results of specifying a value of
+               XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL for a MenuBar are undefined.
+
+          XXXXmmmmNNNNppppaaaacccckkkkiiiinnnngggg
+               Specifies how to pack the items contained within a
+               RowColumn widget.  This can be set to XXXXmmmmPPPPAAAACCCCKKKK____TTTTIIIIGGGGHHHHTTTT,,,,
+               XXXXmmmmPPPPAAAACCCCKKKK____CCCCOOOOLLLLUUUUMMMMNNNN or XXXXmmmmPPPPAAAACCCCKKKK____NNNNOOOONNNNEEEE.  When a RowColumn widget
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               packs the items it contains, it determines its major
+               dimension using the value of the XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn
+               resource.
+
+               XXXXmmmmPPPPAAAACCCCKKKK____TTTTIIIIGGGGHHHHTTTT indicates that given the current major
+               dimension (for example, vertical if XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn is
+               XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL), entries are placed one after the other
+               until the RowColumn widget must wrap.  RowColumn wraps
+               when there is no room left for a complete child in that
+               dimension.  Wrapping occurs by beginning a new row or
+               column in the next available space.  Wrapping
+               continues, as often as necessary, until all of the
+               children are laid out. In the vertical dimension
+               (columns), boxes are set to the same width; in the
+               horizontal dimension (rows), boxes are set to the same
+               depth.  Each entry's position in the major dimension is
+               left unaltered (for example, XXXXmmmmNNNNyyyy is left unchanged
+               when XXXXmmmmNNNNoooorrrriiiieeeennnnttttaaaattttiiiioooonnnn is XXXXmmmmVVVVEEEERRRRTTTTIIIICCCCAAAALLLL); its position in the
+               minor dimension is set to the same value as the
+               greatest entry in that particular row or column.  The
+               position in the minor dimension of any particular row
+               or column is independent of all other rows or columns.
+
+               XXXXmmmmPPPPAAAACCCCKKKK____CCCCOOOOLLLLUUUUMMMMNNNN indicates that all entries are placed in
+               identically sized boxes.  The box is based on the
+               largest height and width values of all the children
+               widgets.  The value of the XXXXmmmmNNNNnnnnuuuummmmCCCCoooolllluuuummmmnnnnssss resource
+               determines how many boxes are placed in the major
+               dimension, before extending in the minor dimension.
+
+               XXXXmmmmPPPPAAAACCCCKKKK____NNNNOOOONNNNEEEE indicates that no packing is performed.
+               The x and y attributes of each entry are left alone,
+               and the RowColumn widget attempts to become large
+               enough to enclose all entries.
+
+               The default value is XXXXmmmmPPPPAAAACCCCKKKK____TTTTIIIIGGGGHHHHTTTT except when building
+               a RadioBox, when the default is XXXXmmmmPPPPAAAACCCCKKKK____CCCCOOOOLLLLUUUUMMMMNNNN.  In an
+               OptionMenu the value is initialized to XXXXmmmmPPPPAAAACCCCKKKK____TTTTIIIIGGGGHHHHTTTT.
+
+          XXXXmmmmNNNNppppooooppppuuuuppppEEEEnnnnaaaabbbblllleeeedddd
+               Allows the menu system to enable keyboard input
+               (accelerators and mnemonics) defined for the Popup
+               MenuPane and any of its submenus.  The Popup MenuPane
+               needs to be informed whenever its accessibility to the
+               user changes because posting of the Popup MenuPane is
+               controlled by the application. The default value for
+               this resource is True (keyboard input - accelerators
+               and mnemonics - defined for the Popup MenuPane and any
+               of its submenus is enabled).
+
+          XXXXmmmmNNNNrrrraaaaddddiiiiooooAAAAllllwwwwaaaayyyyssssOOOOnnnneeee
+               If True, forces the active ToggleButton or
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               ToggleButtonGadget to be automatically selected after
+               having been unselected (if no other toggle was
+               activated).  If False, the active toggle may be
+               unselected.  The default value is True.  This resource
+               is important only when XXXXmmmmNNNNrrrraaaaddddiiiiooooBBBBeeeehhhhaaaavvvviiiioooorrrr is True.
+
+               The application can always add and subtract toggles
+               from RowColumn regardless of the selected/unselected
+               state of the toggle.  The application can also manage
+               and unmanage toggle children of RowColumn at any time
+               regardless of state.  Therefore, the application can
+               sometimes create a RowColumn that has XXXXmmmmNNNNrrrraaaaddddiiiiooooAAAAllllwwwwaaaayyyyssssOOOOnnnneeee
+               set to True and none of the toggle children selected.
+               The result is undefined if the value of this resource
+               is True and the application sets more than one
+               ToggleButton at a time.
+
+          XXXXmmmmNNNNrrrraaaaddddiiiiooooBBBBeeeehhhhaaaavvvviiiioooorrrr
+               Specifies a Boolean value that when True, indicates
+               that the RowColumn widget should enforce a RadioBox-
+               type behavior on all of its children that are
+               ToggleButtons or ToggleButtonGadgets.
+
+               When the value of this resource is True, the defaults
+               for two resources for ToggleButton and
+               ToggleButtonGadget children change:  XXXXmmmmNNNNiiiinnnnddddiiiiccccaaaattttoooorrrrTTTTyyyyppppeeee
+               defaults to XXXXmmmmOOOONNNNEEEE____OOOOFFFF____MMMMAAAANNNNYYYY and XXXXmmmmNNNNvvvviiiissssiiiibbbblllleeeeWWWWhhhheeeennnnOOOOffffffff
+               defaults to True.
+
+               RadioBox behavior dictates that when one toggle is
+               selected and the user selects another toggle, the first
+               toggle is unselected automatically.  The RowColumn
+               usually does not enforce this behavior if the
+               application, rather than the user, changes the state of
+               a toggle.  The RowColumn does enforce this behavior if
+               a toggle child is selected using XXXXmmmmTTTToooogggggggglllleeeeBBBBuuuuttttttttoooonnnnSSSSeeeettttSSSSttttaaaatttteeee
+               or XXXXmmmmTTTToooogggggggglllleeeeBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeettttSSSSeeeettttSSSSttttaaaatttteeee with a _n_o_t_i_f_y argument
+               of True.
+
+               The default value is False, except that
+               XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRaaaaddddiiiiooooBBBBooooxxxx sets it to true.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeHHHHeeeeiiiigggghhhhtttt
+               Requests a new height if necessary, when set to True.
+               When set to False, the widget does not request a new
+               height regardless of any changes to the widget or its
+               children.
+
+
+
+
+
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeWWWWiiiiddddtttthhhh
+               Requests a new width if necessary, when set to True.
+               When set to False, the widget does not request a new
+               width regardless of any changes to the widget or its
+               children.
+
+          XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee
+               Specifies the type of RowColumn widget to be created.
+               It is a non-standard resource that cannot be changed
+               after it is set.  If an application uses any of the
+               convenience routines, except XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRoooowwwwCCCCoooolllluuuummmmnnnn, this
+               resource is automatically forced to the appropriate
+               value by the convenience routine.  If an application
+               uses the Xt Intrinsics API to create its RowColumn
+               widgets, it must specify this resource itself.  The set
+               of possible settings for this resource are:
+
+               XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA - the default
+
+               XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR
+
+               XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN
+
+               XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP
+
+               XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN
+
+               This resource cannot be changed after the RowColumn
+               widget is created.  Any changes attempted through
+               XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss are ignored.
+
+               The value of this resource is used to determine the
+               value of a number of other resources.  The descriptions
+               of RowColumn resources explain this when it is the
+               case.  The resource XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee, inherited from
+               XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, is changed to XXXXmmmmNNNNOOOONNNNEEEE if XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is
+               XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN.
+
+          XXXXmmmmNNNNssssppppaaaacccciiiinnnngggg
+               Specifies the horizontal and vertical spacing between
+               items contained within the RowColumn widget.  The
+               default value is three pixels for XXXXmmmmOOOOPPPPTTTTIIIIOOOONNNN____MMMMEEEENNNNUUUU and
+               XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA and 0 for other RowColumn types.
+
+          XXXXmmmmNNNNssssuuuubbbbMMMMeeeennnnuuuuIIIIdddd
+               Specifies the widget ID for the Pulldown MenuPane to be
+               associated with an OptionMenu.  This resource is useful
+               only when XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN.
+               The default value is NULL.
+
+          XXXXmmmmNNNNuuuunnnnmmmmaaaappppCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies a list of callbacks that is called after the
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               window associated with the RowColumn widget has been
+               unmapped.  The callback reason is XXXXmmmmCCCCRRRR____UUUUNNNNMMMMAAAAPPPP.  The
+               default value is NULL.
+
+          XXXXmmmmNNNNwwwwhhhhiiiicccchhhhBBBBuuuuttttttttoooonnnn
+               Specifies the mouse button to which a menu system is
+               sensitive.  The default for XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP is BBBBMMMMeeeennnnuuuu.  The
+               default for XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN, XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR, and XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA
+               is BBBBSSSSeeeelllleeeecccctttt.  This resource is not useful for RowColumn
+               widgets of type XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN.  This resource is
+               obsolete; it has been replaced by XXXXmmmmNNNNmmmmeeeennnnuuuuPPPPoooosssstttt and is
+               present for compatibility with older releases of
+               OSF/Motif.
+
+                                    SSSSiiiimmmmpppplllleeee MMMMeeeennnnuuuu CCCCrrrreeeeaaaattttiiiioooonnnn RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                        CCCCllllaaaassssssss                       TTTTyyyyppppeeee                   DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________
+     XmNbuttonAccelerators       XmCButtonAccelerators       StringTable            NULL      C
+     XmNbuttonAcceleratorText    XmCButtonAcceleratorText    XmStringTable          NULL      C
+     XmNbuttonCount              XmCButtonCount              int                    0         C
+     XmNbuttonMnemonicCharSets   XmCButtonMnemonicCharSets   XmStringCharSetTable   NULL      C
+     XmNbuttonMnemonics          XmCButtonMnemonics          XmKeySymTable          NULL      C
+     XmNbuttons                  XmCButtons                  XmStringTable          NULL      C
+     XmNbuttonSet                XmCButtonSet                int                    -1        C
+     XmNbuttonType               XmCButtonType               XmButtonTypeTable      NULL      C
+     XmNoptionLabel              XmCOptionLabel              XmString               NULL      C
+     XmNoptionMnemonic           XmCOptionMnemonic           KeySym                 NULL      C
+     XmNpostFromButton           XmCPostFromButton           int                    -1        C
+     XmNsimpleCallback           XmCCallback                 XtCallbackProc         NULL      C
+
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+               This resource is for use with the simple menu creation
+               routines.  It specifies a list of accelerators for the
+               buttons created.  The list contains one element for
+               each button, separator, and title created.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrTTTTeeeexxxxtttt
+               This resource is for use with the simple menu creation
+               routines.  It specifies a list of compound strings to
+               display for the accelerators for the buttons created.
+               The list contains one element for each button,
+               separator, and title created.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnCCCCoooouuuunnnntttt
+               This resource is for use with the simple menu creation
+               routines.  It specifies the total number of menu
+               buttons, separators, and titles to create.  The value
+               must not be negative.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnMMMMnnnneeeemmmmoooonnnniiiiccccCCCChhhhaaaarrrrSSSSeeeettttssss
+               This resource is for use with the simple menu creation
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               routines.  It specifies a list of character sets with
+               which button mnemonics are to be displayed.  The list
+               contains one element for each button, separator, and
+               title created.  The default is determined dynamically
+               depending on the locale of the widget.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnMMMMnnnneeeemmmmoooonnnniiiiccccssss
+               This resource is for use with the simple menu creation
+               routines.  It specifies a list of mnemonics for the
+               buttons created.  The list contains one element for
+               each button, separator, and title created.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnssss
+               This resource is for use with the simple menu creation
+               routines.  It specifies a list of compound strings to
+               use as labels for the buttons created.  The list
+               contains one element for each button, separator, and
+               title created.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnSSSSeeeetttt
+               This resource is for use with the simple menu creation
+               routines.  It specifies which button of a RadioBox or
+               OptionMenu Pulldown submenu is initially set.  The
+               value is an integer _n indicating the _nth
+               ToggleButtonGadget specified for a RadioBox or the _nth
+               PushButtonGadget specified for an OptionMenu Pulldown
+               submenu.  The first button specified is number 0.  The
+               value must not be negative.
+
+          XXXXmmmmNNNNbbbbuuuuttttttttoooonnnnTTTTyyyyppppeeee
+               This resource is for use with the simple menu creation
+               routines.  It specifies a list of button types
+               associated with the buttons to be created.  The list
+               contains one element for each button, separator, and
+               title created.  If this resource is not specified, each
+               button in a MenuBar is a CascadeButtonGadget; each
+               button in any other type of RowColumn widget is a
+               PushButtonGadget.  Each button type is of type
+               XXXXmmmmBBBBuuuuttttttttoooonnnnTTTTyyyyppppeeee, an enumeration with the following
+               possible values:
+
+               XXXXmmmmCCCCAAAASSSSCCCCAAAADDDDEEEEBBBBUUUUTTTTTTTTOOOONNNN - Specifies a CascadeButtonGadget for a
+               MenuBar, Popup MenuPane, or Pulldown MenuPane.
+
+               XXXXmmmmCCCCHHHHEEEECCCCKKKKBBBBUUUUTTTTTTTTOOOONNNN - Specifies a ToggleButtonGadget for a
+               CheckBox, Popup MenuPane, or Pulldown MenuPane.
+
+               XXXXmmmmDDDDOOOOUUUUBBBBLLLLEEEE____SSSSEEEEPPPPAAAARRRRAAAATTTTOOOORRRR - Specifies a SeparatorGadget for a
+               Popup MenuPane, Pulldown MenuPane, or OptionMenu
+               Pulldown submenu.  The separator type is XXXXmmmmDDDDOOOOUUUUBBBBLLLLEEEE____LLLLIIIINNNNEEEE.
+
+               XXXXmmmmPPPPUUUUSSSSHHHHBBBBUUUUTTTTTTTTOOOONNNN - Specifies a PushButtonGadget for a Popup
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               MenuPane, Pulldown MenuPane, or OptionMenu Pulldown
+               submenu.
+
+               XXXXmmmmRRRRAAAADDDDIIIIOOOOBBBBUUUUTTTTTTTTOOOONNNN - Specifies a ToggleButtonGadget for a
+               RadioBox, Popup MenuPane, or Pulldown MenuPane.
+
+               XXXXmmmmSSSSEEEEPPPPAAAARRRRAAAATTTTOOOORRRR - Specifies a SeparatorGadget for a Popup
+               MenuPane, Pulldown MenuPane, or OptionMenu Pulldown
+               submenu.
+
+               XXXXmmmmTTTTIIIITTTTLLLLEEEE - Specifies a LabelGadget used as a title for a
+               Popup MenuPane or Pulldown MenuPane.
+
+          XXXXmmmmNNNNooooppppttttiiiioooonnnnLLLLaaaabbbbeeeellll
+               This resource is for use with the simple menu creation
+               routines.  It specifies a compound string for the label
+               string to be used on the left side of an OptionMenu.
+
+          XXXXmmmmNNNNooooppppttttiiiioooonnnnMMMMnnnneeeemmmmoooonnnniiiicccc
+               This resource is for use with the simple menu creation
+               routines.  It specifies a keysym for a key that, when
+               pressed by the user along with the MMMMAAAAlllltttt modifier, posts
+               the associated Pulldown MenuPane for an OptionMenu.
+
+          XXXXmmmmNNNNppppoooossssttttFFFFrrrroooommmmBBBBuuuuttttttttoooonnnn
+               This resource is for use with the simple menu creation
+               routines.  For a Pulldown MenuPane, it specifies the
+               button in the parent to which the submenu is attached.
+               The menu is then posted from this button.  The value is
+               an integer _n indicating the _nth CascadeButton or
+               CascadeButtonGadget specified for the parent of the
+               Pulldown MenuPane.  The first button specified is
+               number 0.  The value must not be negative.
+
+          XXXXmmmmNNNNssssiiiimmmmpppplllleeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               This resource is for use with the simple menu creation
+               routines.  It specifies a callback procedure to be
+               called when a button is activated or when its value
+               changes.  This callback function is added to each
+               button after creation.  For a CascadeButtonGadget or a
+               PushButtonGadget, the callback is added as the button's
+               XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk, and it is called when the button
+               is activated.  For a ToggleButtonGadget, the callback
+               is added as the button's XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk, and
+               it is called when the button's value changes.  The
+               button number is passed in the _c_l_i_e_n_t__d_a_t_a field.
+
+                                  DDDDiiiissssppppllllaaaayyyy RRRReeeessssoooouuuurrrrcccceeee
+
+
+
+
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+                NNNNaaaammmmeeee            CCCCllllaaaassssssss       TTTTyyyyppppeeee     DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+                _____________________________________________________
+                XmNmenuCursor   XmCCursor   String   arrow     C
+
+
+          XXXXmmmmNNNNmmmmeeeennnnuuuuCCCCuuuurrrrssssoooorrrr
+               Sets a variable that controls the cursor used whenever
+               this application posts a menu.  This resource can be
+               specified only once at application startup time, either
+               by placing it within a defaults file or by using the
+               ----xxxxrrrrmmmm command line argument.
+
+               EEEExxxxaaaammmmpppplllleeee:  myProg -xrm "*menuCursor: arrow"
+
+               The menu cursor can also be selected programmatically
+               by using the function XXXXmmmmSSSSeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr.  The following
+               is a list of acceptable cursor names.  If the
+               application does not specify a cursor or if an invalid
+               name is supplied, the default cursor (an arrow pointing
+               up and to the right) is used.
+
+     X_cursor              dotbox         man                 sizing
+     arrow                 double_arrow   middlebutton        spider
+     based_arrow_down      draft_large    mouse               spraycan
+     based_arrow_up        draft_small    pencil              star
+     boat                  draped_box     pirate              target
+     bogosity              exchange       plus                tcross
+     bottom_left_corner    fleur          question_arrow      top_left_arrow
+     bottom_right_corner   gobbler        right_ptr           top_left_corner
+     bottom_side           gumby          right_side          top_right_corner
+     bottom_tee            hand1          right_tee           top_side
+     box_spiral            hand2          rightbutton         top_tee
+     center_ptr            heart          rtl_logo            trek
+     circle                icon           sailboat            ul_angle
+     clock                 iron_cross     sb_down_arrow       umbrella
+     coffee_mug            left_ptr       sb_h_double_arrow   ur_angle
+     cross                 left_side      sb_left_arrow       watch
+     cross_reverse         left_tee       sb_right_arrow      xterm
+     crosshair             leftbutton     sb_up_arrow
+     diamond_cross         ll_angle       sb_v_double_arrow
+     dot                   lr_angle       shuttle
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          RowColumn inherits behavior and resources from the following
+          named superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+
+
+
+
+
+
+
+     Page 14                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    dynamic                CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             dynamic                CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+
+
+     Page 15                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;
+            WWWWiiiiddddggggeeeetttt   _w_i_d_g_e_t;
+            cccchhhhaaaarrrr     * _d_a_t_a;
+            cccchhhhaaaarrrr     * _c_a_l_l_b_a_c_k_s_t_r_u_c_t;
+          } XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnnCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n    Indicates why the callback was invoked
+
+          _e_v_e_n_t     Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback
+
+
+          The following fields apply only when the callback reason is
+          XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE; for all other callback reasons, these fields
+          are set to NULL.  The XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE callback reason is
+          generated only when the application has supplied an entry
+          callback, which overrides any activation callbacks
+          registered with the individual RowColumn items.
+
+          _w_i_d_g_e_t    Is set to the widget ID of the RowColumn item that
+                    has been activated
+
+          _d_a_t_a      Contains the client-data value supplied by the
+                    application when the RowColumn item's activation
+                    callback was registered
+
+          _c_a_l_l_b_a_c_k_s_t_r_u_c_t
+                    Points to the callback structure generated by the
+                    RowColumn item's activation callback
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmRowColumn translations depend on the value of the
+          XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee resource.
+
+          If XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmWWWWOOOORRRRKKKK____AAAARRRREEEEAAAA, XmRowColumn
+          inherits traversal translations from XmManager.
+
+          If XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set to XXXXmmmmMMMMEEEENNNNUUUU____OOOOPPPPTTTTIIIIOOOONNNN, XmRowColumn
+          inherits traversal translations from XmManager and has the
+          additional translations listed below.  These translations
+          may not directly correspond to a translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: MMMMeeeennnnuuuuBBBBttttnnnnDDDDoooowwwwnnnn(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::MMMMeeeennnnuuuuBBBBttttnnnnUUUUpppp(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+
+
+
+
+     Page 16                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          The translations for XmRowColumn if XXXXmmmmNNNNrrrroooowwwwCCCCoooolllluuuummmmnnnnTTTTyyyyppppeeee is set
+          to XXXXmmmmMMMMEEEENNNNUUUU____BBBBAAAARRRR XXXXmmmmMMMMEEEENNNNUUUU____PPPPUUUULLLLLLLLDDDDOOOOWWWWNNNN, or XXXXmmmmMMMMEEEENNNNUUUU____PPPPOOOOPPPPUUUUPPPP are listed
+          below.  In a Popup menu system, BBBBMMMMeeeennnnuuuu also performs the
+          BBBBSSSSeeeelllleeeecccctttt actions.  These translations may not directly
+          correspond to a translation table.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: MMMMeeeennnnuuuuBBBBttttnnnnDDDDoooowwwwnnnn(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::MMMMeeeennnnuuuuBBBBttttnnnnUUUUpppp(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((())))
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttEEEEssssccccaaaappppeeee(((())))
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+          KKKKLLLLeeeefffftttt::::         MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((())))
+          KKKKRRRRiiiigggghhhhtttt::::        MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((())))
+          KKKKUUUUpppp::::           MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((())))
+          KKKKDDDDoooowwwwnnnn::::         MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmRowColumn action routines are described below:
+
+          HHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          MMMMaaaannnnaaaaggggeeeerrrrGGGGaaaaddddggggeeeettttSSSSeeeelllleeeecccctttt(((()))):
+               When a gadget child of the menu has the focus, invokes
+               the gadget child's behavior associated with KKKKAAAAccccttttiiiivvvvaaaatttteeee
+               or KKKKSSSSeeeelllleeeecccctttt.  This generally has the effect of unposting
+               the menu hierarchy and arming and activating the
+               gadget, except that for a CascadeButtonGadget with a
+               submenu, it posts the submenu.
+
+          MMMMeeeennnnuuuuBBBBttttnnnnDDDDoooowwwwnnnn(((()))):
+               When a gadget child of the menu has the focus, invokes
+               the gadget child's behavior associated with BBBBSSSSeeeelllleeeecccctttt
+               PPPPrrrreeeessssssss.  This generally has the effect of unposting any
+               menus posted by the parent menu, enabling mouse
+               traversal in the menu, and arming the gadget.  For a
+               CascadeButtonGadget with a submenu, it also posts the
+               associated submenu.
+
+          MMMMeeeennnnuuuuBBBBttttnnnnUUUUpppp(((()))):
+               When a gadget child of the menu has the focus, invokes
+               the gadget child's behavior associated with BBBBSSSSeeeelllleeeecccctttt
+               RRRReeeelllleeeeaaaasssseeee.  This generally has the effect of unposting
+
+
+
+
+
+
+     Page 17                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               the menu hierarchy and activating the gadget, except
+               that for a CascadeButtonGadget with a submenu, it posts
+               the submenu and enables keyboard traversal in the menu.
+
+          MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttEEEEssssccccaaaappppeeee(((()))):
+               In a toplevel Pulldown MenuPane from a MenuBar, unposts
+               the menu, disarms the MenuBar CascadeButton and the
+               MenuBar, and, when the shell's keyboard focus policy is
+               XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores keyboard focus to the tab group
+               that had the focus before the MenuBar was entered.  In
+               other Pulldown MenuPanes, unposts the menu.
+
+               In a Popup MenuPane, unposts the menu and, when the
+               shell's keyboard focus policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores
+               keyboard focus to the widget from which the menu was
+               posted.
+
+          MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeDDDDoooowwwwnnnn(((()))):
+               In a vertical menu, disarms the current menu entry and
+               arms the entry just below it in the MenuPane.  This
+               action wraps within the MenuPane.
+
+               In a horizontal menu, if the menu entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  Otherwise, this
+               action searches for an ancestor menu that is vertical.
+               If it finds one, it unposts the cascade from the
+               vertical menu and traverses to the next entry toward
+               the bottom in the vertical menu.  If this entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the Cascadeutton.  This action wraps
+               within the vertical menu.
+
+          MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeLLLLeeeefffftttt(((()))):
+               In a vertical menu, if the menu's parent is a
+               horizontal menu, this action unposts the current
+               MenuPane and traverses to the next entry to the left in
+               the parent menu.  If this entry is a CascadeButton with
+               a submenu, posts the MenuPane associated with the
+               CascadeButton.  This action wraps within the horizontal
+               menu.  If the menu's parent is a vertical menu, this
+               action unposts the current MenuPane.
+
+               In a horizontal menu, disarms the current menu entry
+               and arms the entry just to the left of it in the menu.
+               This action wraps within the menu.
+
+          MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeRRRRiiiigggghhhhtttt(((()))):
+               In a vertical menu, if the menu entry is a
+               CascadeButton with a submenu, posts the MenuPane
+               associated with the CascadeButton.  Otherwise, this
+               action searches for an ancestor menu that is
+
+
+
+     Page 18                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+               horizontal.  If it finds one, it unposts the cascade
+               from the horizontal menu and traverses to the next
+               entry to the right in the horizontal menu.  If this
+               entry is a CascadeButton with a submenu, posts the
+               MenuPane associated with the CascadeButton.  This
+               action wraps within the horizontal menu.
+
+               In a horizontal menu, disarms the current menu entry
+               and arms the entry just to the right of it in the menu.
+               This action wraps within the menu.
+
+          MMMMeeeennnnuuuuGGGGaaaaddddggggeeeettttTTTTrrrraaaavvvveeeerrrrsssseeeeUUUUpppp(((()))):
+               In a vertical menu, disarms the current menu entry and
+               arms the entry just above it in the MenuPane.  This
+               action wraps within the MenuPane.
+
+               In a horizontal menu, if the menu's parent is a
+               vertical menu, this action unposts the current MenuPane
+               and traverses to the next entry toward the top in the
+               parent menu.  If this entry is a CascadeButton with a
+               submenu, posts the MenuPane associated with the
+               CascadeButton.  This action wraps within the vertical
+               menu.  If the menu's parent is a horizontal menu, this
+               action unposts the current MenuPane.
+
+
+        RRRReeeellllaaaatttteeeedddd BBBBeeeehhhhaaaavvvviiiioooorrrr
+          The following menu functions are available.
+
+          KKKKMMMMeeeennnnuuuuBBBBaaaarrrr:
+               In any non-popup descendant of a MenuBar's parent,
+               excluding the MenuBar itself, this action enables
+               keyboard traversal and moves keyboard focus to the
+               first item in the MenuBar.In the MenuBar or any menu
+               cascaded from it, this action unposts the menu
+               hierarchy and, when the shell's keyboard focus policy
+               is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT, restores focus to the tab group that had
+               the focus when the menu system was entered.
+
+          KKKKMMMMeeeennnnuuuu:
+               Pops up the menu associated with the control that has
+               the keyboard focus.  Enables keyboard traversal in the
+               menu.  In the Popup menu system or any menu cascaded
+               from it, this action unposts the menu hierarchy and,
+               when the shell's keyboard focus policy is XXXXmmmmEEEEXXXXPPPPLLLLIIIICCCCIIIITTTT,
+               restores focus to the tab group that had the focus when
+               the menu system was entered.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+
+
+
+     Page 19                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))     OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn      XXXXmmmmRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX))))
+
+
+
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeMMMMeeeennnnuuuuBBBBaaaarrrr((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRaaaaddddiiiiooooBBBBooooxxxx((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeRRRRoooowwwwCCCCoooolllluuuummmmnnnn((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeCCCChhhheeeecccckkkkBBBBooooxxxx((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuuBBBBaaaarrrr((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeRRRRaaaaddddiiiiooooBBBBooooxxxx((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeWWWWoooorrrrkkkkAAAArrrreeeeaaaa((((3333XXXX)))), XXXXmmmmGGGGeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr((((3333XXXX)))),
+          XXXXmmmmGGGGeeeettttPPPPoooosssstttteeeeddddFFFFrrrroooommmmWWWWiiiiddddggggeeeetttt((((3333XXXX)))), XXXXmmmmLLLLaaaabbbbeeeellll((((3333XXXX)))), XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))),
+          XXXXmmmmMMMMeeeennnnuuuuPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))), XXXXmmmmOOOOppppttttiiiioooonnnnBBBBuuuuttttttttoooonnnnGGGGaaaaddddggggeeeetttt((((3333XXXX)))),
+          XXXXmmmmOOOOppppttttiiiioooonnnnLLLLaaaabbbbeeeellllGGGGaaaaddddggggeeeetttt((((3333XXXX)))), XXXXmmmmSSSSeeeettttMMMMeeeennnnuuuuCCCCuuuurrrrssssoooorrrr((((3333XXXX)))),
+          XXXXmmmmUUUUppppddddaaaatttteeeeDDDDiiiissssppppllllaaaayyyy((((3333XXXX)))), XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeCCCChhhheeeecccckkkkBBBBooooxxxx((((3333XXXX)))),
+          XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeMMMMeeeennnnuuuuBBBBaaaarrrr((((3333XXXX)))), XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeOOOOppppttttiiiioooonnnnMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPooooppppuuuuppppMMMMeeeennnnuuuu((((3333XXXX)))),
+          XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeePPPPuuuullllllllddddoooowwwwnnnnMMMMeeeennnnuuuu((((3333XXXX)))), and
+          XXXXmmmmVVVVaaaaCCCCrrrreeeeaaaatttteeeeSSSSiiiimmmmpppplllleeeeRRRRaaaaddddiiiiooooBBBBooooxxxx((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 20                                          (printed 1/9/91)
+
+
+

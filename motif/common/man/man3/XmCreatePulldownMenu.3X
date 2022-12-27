@@ -1,0 +1,115 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmCreatePulldownMenu 3X "" "" "" ""
+.SH NAME
+\fBXmCreatePulldownMenu \(em a RowColumn widget convenience creation function.\fP
+.iX "XmCreatePulldownMenu"
+.iX "creation functions" "XmCreatePulldownMenu"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmCreatePulldownMenu (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmCreatePulldownMenu\fP creates an instance of a 
+RowColumn widget of type \fBXmMENU_PULLDOWN\fP and returns 
+the associated widget ID.  When using this function to create the Pulldown
+MenuPane, a MenuShell widget is automatically created as the parent of the
+MenuPane. If the widget specified  
+by the \fIparent\fP parameter is a 
+Popup or a Pulldown MenuPane, the MenuShell
+widget is created as a child of the \fIparent\fP's MenuShell; otherwise, it
+is created as a child of the specified \fIparent\fP widget.
+.PP
+\fBXmCreatePulldownMenu\fP is 
+provided as a convenience function for creating RowColumn
+widgets configured to operate as Pulldown MenuPanes and is not implemented as
+a separate widget class.  
+.PP
+A Pulldown MenuPane displays a 
+3-D shadow, unless the feature is disabled by the application.
+The shadow appears around the edge of the MenuPane.
+.PP
+A Pulldown MenuPane is used when creating submenus that are to be
+attached to a CascadeButton or a
+CascadeButtonGadget.  This is the case for all MenuPanes
+that are part of a PulldownMenu system (a MenuBar), the MenuPane
+associated with an OptionMenu, and any MenuPanes that cascade from
+a Popup MenuPane.  Pulldown MenuPanes that are to be associated with an
+OptionMenu must be created before the OptionMenu is created.
+.PP
+The Pulldown MenuPane must be attached to a CascadeButton or CascadeButtonGadget
+that resides in a MenuBar, a Popup MenuPane, a Pulldown MenuPane, or an
+OptionMenu.  This is done by using the button resource \fBXmNsubMenuId\fP.
+.PP
+A MenuShell widget is required between the Pulldown MenuPane and its
+parent.
+If the application uses this convenience function for creating a
+Pulldown MenuPane, the MenuShell is automatically created as the real
+parent of the MenuPane; otherwise, 
+it is the application's responsibility to create 
+the MenuShell widget.  
+.PP
+To function correctly when incorporated into a menu, the Pulldown MenuPane's
+hierarchy must be considered; this hierarchy depends on the 
+type of menu system that is being built as follows:
+.IP \(bu 3
+If the Pulldown MenuPane is to be pulled down from a MenuBar, its \fIparent\fP
+must be the MenuBar.
+.IP \(bu 3
+If the Pulldown MenuPane is to be pulled down from a Popup or another
+Pulldown MenuPane, its \fIparent\fP must be that Popup or Pulldown MenuPane.
+.IP \(bu 3
+If the Pulldown MenuPane is to be pulled down from an OptionMenu, its
+\fIparent\fP must be the same as the OptionMenu parent.
+.sp 1
+.IP "\fIparent\fP" .75i
+Specifies the parent widget ID
+.IP "\fIname\fP" .75i
+Specifies the name of the created widget
+.IP "\fIarglist\fP" .75i
+Specifies the argument list
+.IP "\fIargcount\fP" .75i
+Specifies the number of attribute/value pairs in the argument list
+(\fIarglist\fP)
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the RowColumn widget ID.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmCascadeButton(3X)\fP,
+\fBXmCascadeButtonGadget(3X)\fP,
+\fBXmCreateOptionMenu(3X)\fP,
+\fBXmCreatePopupMenu(3X)\fP,
+\fBXmCreateSimplePulldownMenu(3X)\fP,
+\fBXmMenuShell(3X)\fP,
+\fBXmRowColumn(3X)\fP, and
+\fBXmVaCreateSimplePulldownMenu(3X)\fP.
+.sp 1
+.ad

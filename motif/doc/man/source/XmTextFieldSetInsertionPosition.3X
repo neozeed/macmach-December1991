@@ -1,0 +1,46 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldSetInsertionPosition 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldSetInsertionPosition \(em a TextField function that sets the
+position of the insertion cursor\fP
+.iX "XmTextFieldSetInsertionPosition"
+.iX "TextField functions" "XmTextFieldSetInsertionPosition"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldSetInsertionPosition (\fIwidget, position\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	XmTextPosition	\fIposition\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldSetInsertionPosition\fP sets the insertion cursor position
+of the TextField widget.
+This routine also calls the widget's \fBXmNmotionVerifyCallback\fP
+callbacks if the insertion cursor position changes.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP "\fIposition\fP" .75i
+Specifies the position of the insert cursor.  This is an integer number
+of characters from the beginning of the text buffer.  The first
+character position is 0.
+.PP
+.ne 12
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

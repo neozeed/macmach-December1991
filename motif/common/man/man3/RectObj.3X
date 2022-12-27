@@ -1,0 +1,126 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH RectObj 3X "" "" "" ""
+.SH NAME
+\fBRectObj \(em The RectObj widget class.\fP
+.iX "RectObj"
+.iX "widget class" "RectObj"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.fP
+.sp 1
+.SH DESCRIPTION
+RectObj is never instantiated. 
+Its sole purpose is as a supporting superclass for other
+widget classes.
+.sp 1
+.SS "Classes"
+RectObj inherits behavior and a resource from \fBObject\fP.
+.PP
+The class pointer is \fBrectObjClass\fP.
+.PP
+The class name is \fBRectObj\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+RectObj Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNborderWidth	XmCBorderWidth	Dimension	1	CSG
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.sp 1
+.ne 2i
+.IP "\fBXmNancestorSensitive\fP"
+Specifies whether the immediate parent of the
+gadget receives input events.
+Use the function \fBXtSetSensitive\fP if you are changing the
+argument to preserve data integrity (see \fBXmNsensitive\fP below). 
+The default is the bitwise AND of the parent's
+\fBXmNsensitive\fP and \fBXmNancestorSensitive\fP resources.
+.IP "\fBXmNborderWidth\fP"
+Specifies the width of the border placed around the RectObj's rectangular
+display area.
+.IP "\fBXmNheight\fP"
+Specifies the inside height (excluding the border) of the RectObj's
+rectangular display area.
+.IP "\fBXmNsensitive\fP"
+Determines whether a RectObj receives input
+events.
+If a RectObj is sensitive, the parent dispatches to the
+gadget all keyboard, mouse button, motion, window enter/leave,
+and focus events.
+Insensitive gadgets do not receive these events.
+Use the function \fBXtSetSensitive\fP to change the sensitivity argument.
+Using \fBXtSetSensitive\fP ensures that if a parent widget has
+\fBXmNsensitive\fP set to False, the ancestor-sensitive flag of all its children
+is appropriately set.
+.IP "\fBXmNwidth\fP"
+Specifies the inside width (excluding the border) of the RectObj's
+rectangular display area.
+.IP "\fBXmNx\fP"
+Specifies the x-coordinate of the upper left outside corner of the
+RectObj's rectangular display area.
+The value is relative to the upper left inside corner of the parent
+window.
+.IP "\fBXmNy\fP"
+Specifies the y-coordinate of the upper left outside corner of the
+RectObj's rectangular display area.
+The value is relative to the upper left inside corner of the parent
+window.
+.sp 1
+.ne 3i
+.SS "Inherited Resources"
+RectObj inherits behavior and a resource from \fBObject\fP.  For
+a description of this resource, refer to the \fBObject\fP man page.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Object Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.br
+.ne 10
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+There are no translations for RectObj.
+.SH RELATED INFORMATION
+\fBObject(3X)\fP.

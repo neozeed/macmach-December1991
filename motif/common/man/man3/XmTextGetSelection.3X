@@ -1,0 +1,49 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextGetSelection 3X "" "" "" ""
+.SH NAME
+\fBXmTextGetSelection \(em a Text function that retrieves the value of the
+primary selection.\fP
+.iX "XmTextGetSelection"
+.iX "Text functions" "XmTextGetSelection"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Text.h>
+.sp 1
+char * XmTextGetSelection (\fIwidget\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextGetSelection\fP 
+retrieves the value of the primary selection.  It returns
+a NULL pointer if no text is selected in the widget.  The application is
+responsible for freeing the storage associated with the string by calling
+\fBXtFree\fP.
+.sp 1
+.IP "\fIwidget\fP" .75i
+Specifies the Text widget ID
+.sp 1
+.PP
+For a complete definition of Text and its associated resources, see
+\fBXmText(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns a character pointer to the string that is associated with the 
+primary selection.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmText(3X)\fP.
+.sp 1

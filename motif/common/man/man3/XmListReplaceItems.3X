@@ -1,0 +1,56 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmListReplaceItems 3X "" "" "" ""
+.SH NAME
+\fBXmListReplaceItems \(em a List function that replaces the specified
+elements in the list.\fP
+.iX "XmListReplaceItems"
+.iX "List functions" "XmListReplaceItems"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/List.h>
+.sp 1
+void XmListReplaceItems (\fIwidget, old_items, item_count, new_items\fP)
+.br
+.ta .5i 1.5i
+.br
+	Widget	\fIwidget\fP;
+.br
+	XmString	*\fIold_items\fP;
+.br
+	int	\fIitem_count\fP;
+.br
+	XmString	*\fInew_items\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmListReplaceItems\fP replaces each specified item of the list
+with a corresponding new item.
+.IP "\fIwidget\fP" .75i
+Specifies the ID of the List widget
+.IP "\fIold_items\fP" .75i
+Specifies the items to be replaced
+.IP "\fIitem_count\fP" .75i
+Specifies the number of items in \fIold_items\fP and \fInew_items\fP
+.IP "\fInew_items\fP" .75i
+Specifies the replacement items
+.PP
+Every occurrence of each element of \fIold_items\fP is replaced with
+the corresponding element from \fInew_items\fP.
+That is, the first element of \fIold_items\fP is replaced with the first
+element of \fInew_items\fP.  The second element of \fIold_items\fP is replaced
+with the second element of \fInew_items\fP, and so on until \fIitem_count\fP
+is reached.
+.PP
+For a complete definition of List and its associated resources, see
+\fBXmList(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmList(3X)\fP.
+.sp 1

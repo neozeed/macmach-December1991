@@ -1,0 +1,46 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextFieldSetString 3X "" "" "" ""
+.SH NAME
+\fBXmTextFieldSetString \(em a TextField function that sets the string value.\fP
+.iX "XmTextFieldSetString"
+.iX "TextField functions" "XmTextFieldSetString"
+.SH SYNOPSIS
+\fB
+\&#include <Xm/TextF.h>
+.sp 1
+void XmTextFieldSetString (\fIwidget, value\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	char	\fI* value\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmTextFieldSetString\fP sets the string value of the TextField widget.
+This routine calls the widget's \fBXmNmodifyVerifyCallback\fP and
+\fBXmNvalueChangedCallback\fP callbacks.
+It also sets the insertion cursor position to the beginning of the
+string and calls the widget's \fBXmNmotionVerifyCallback\fP callbacks.
+.IP "\fIwidget\fP" .75i
+Specifies the TextField widget ID
+.IP	"\fIvalue\fP"	.75i
+Specifies the character pointer to the string value and places 
+the string into the text edit window
+.PP
+For a complete definition of TextField and its associated resources, see
+\fBXmTextField(3X)\fP.
+.br
+.ne 8
+.SH RELATED INFORMATION
+\fBXmTextField(3X)\fP.

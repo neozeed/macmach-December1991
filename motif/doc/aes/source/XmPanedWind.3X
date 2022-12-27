@@ -1,0 +1,304 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1988 by Massachusetts Institute of Technology
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmPanedWindow 3X "" "" "" ""
+.SH NAME
+\fBXmPanedWindow \(em the PanedWindow widget class.\fP
+.iX "XmPanedWindow"
+.iX "widget class" "PanedWindow"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/PanedW.h>\fP
+.sp 1
+.SH DESCRIPTION
+PanedWindow is a composite widget that lays out children in a
+vertically tiled format.  Children appear in top-to-bottom fashion, with
+the first child inserted appearing at the top of the PanedWindow and the
+last child inserted appearing at the bottom.  The
+PanedWindow grows to match the width of its widest child and all
+other children are forced to this width. The height of the PanedWindow 
+is equal to the sum of the heights of all its children, the spacing
+between them, and the size of the top and bottom margins.
+.PP
+The user can also adjust the size of the panes.  To
+facilitate this adjustment, a pane control sash is created for most
+children.  The sash appears as a square box positioned on the bottom of
+the pane that it controls.  The user can adjust the size of
+a pane by using the mouse or keyboard.
+.PP
+The PanedWindow is also a constraint widget, which means that it
+creates and manages a set of constraints for each child.  You can 
+specify a minimum and maximum size for each pane.  The PanedWindow 
+does not allow a pane to be resized below its minimum size or beyond its
+maximum size.  Also, when the minimum size of a pane is equal to its maximum
+size, no control sash is presented for that pane or 
+for the lowest pane.
+.PP
+The default \fBXmNinsertPosition\fP procedure for PanedWindow causes
+sashes to be inserted at the end of the list of children and causes
+non-sash widgets to be inserted after other non-sash children but before
+any sashes.
+.sp 1
+.SS "Classes"
+PanedWindow inherits behavior and resources from the 
+\fBCore\fP, \fBComposite\fP, \fBConstraint\fP, and \fBXmManager\fP classes. 
+.PP
+The class pointer is \fBxmPanedWindowWidgetClass\fP.
+.PP
+The class name is \fBXmPanedWindow\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmPanedWindow Resource Set
+Name	Class	Type	Default	Access
+_
+XmNmarginHeight	XmCMarginHeight	Dimension	3	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	3	CSG
+XmNrefigureMode	XmCBoolean	Boolean	True	CSG
+XmNsashHeight	 XmCSashHeight	Dimension	10	CSG
+XmNsashIndent	XmCSashIndent	Position	-10	CSG
+XmNsashShadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNsashWidth	 XmCSashWidth	Dimension	10	CSG
+XmNseparatorOn	XmCSeparatorOn	Boolean	True	CSG
+XmNspacing	XmCSpacing	Dimension	8	CSG
+.TE
+.sp 1
+.IP \fBXmNmarginHeight\fP
+Specifies the distance between the top and bottom edges of the PanedWindow 
+and its children.
+.IP \fBXmNmarginWidth\fP
+Specifies the distance between the left and right edges of the PanedWindow 
+and its children.
+.IP \fBXmNrefigureMode\fP
+Determines whether the panes' positions are recomputed and repositioned
+when programmatic changes are being made to the PanedWindow.
+Setting this resource to True resets the children to their appropriate
+positions.
+.IP \fBXmNsashHeight\fP
+Specifies the height of the sash.
+.IP \fBXmNsashIndent\fP
+Specifies the horizontal placement of the sash along each pane.  A positive
+value causes the sash to be offset from the near (left) side of the PanedWindow, 
+and a negative value causes the sash to be offset from the far (right)
+side of the PanedWindow.  If the offset is greater than the width of the
+PanedWindow minus the width of the sash, the sash is placed flush
+against the near side of the PanedWindow.
+.IP
+Whether the placement actually corresponds to the left or right side of
+the PanedWindow may depend on the value of the \fBXmNstringDirection\fP
+resource.
+.IP \fBXmNsashShadowThickness\fP
+Specifies the thickness of the shadows of the sashes.
+.IP \fBXmNsashWidth\fP
+Specifies the width of the sash.
+.IP \fBXmNseparatorOn\fP
+Determines whether a separator is created between each of the panes.
+Setting this resource to True creates a Separator at the
+midpoint between each of the panes.
+.IP \fBXmNspacing\fP
+Specifies the distance between each child pane.
+.ne 1.75i
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmPanedWindow Constraint Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowResize	XmCBoolean	Boolean	False	CSG
+XmNpaneMaximum	XmCPaneMaximum	Dimension	1000	CSG
+XmNpaneMinimum	XmCPaneMinimum	Dimension	1	CSG
+XmNskipAdjust	XmCBoolean	Boolean	False	CSG
+.TE
+.sp 1
+.IP \fBXmNallowResize\fP
+Allows an application to specify whether the PanedWindow 
+should allow a pane to request to be resized.  This flag has an 
+effect only after the PanedWindow and its children have been realized.  
+If this flag is set to True, the PanedWindow tries to honor requests 
+to alter the height of the pane. If False, it always denies pane 
+requests to resize.
+.IP \fBXmNpaneMaximum\fP
+Allows an application to specify the maximum size to which a pane 
+may be resized.  This value must be greater than the specified minimum.
+.IP \fBXmNpaneMinimum\fP
+Allows an application to specify the minimum size to which a pane 
+may be resized.  This value must be greater than 0.
+.IP \fBXmNskipAdjust\fP
+When set to True, this Boolean resource allows an application to specify 
+that the PanedWindow should not automatically resize this pane.
+.sp 1
+.SS "Inherited Resources"
+PanedWindow inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	default procedure	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmPanedWindow inherits translations from XmManager.
+.P
+The translations for sashes within the PanedWindow are listed below.
+These translations may not directly correspond to a
+translation table.
+\fB
+.nf
+.ta 1.5i
+.sp .5
+BSelect Press:	SashAction(Start)
+BSelect Motion:	SashAction(Move)
+BSelect Release:	SashAction(Commit)
+.sp 1
+BDrag Press:	SashAction(Start)
+BDrag Motion:	SashAction(Move)
+BDrag Release:	SashAction(Commit)
+.sp 1
+KUp:	SashAction(Key,DefaultIncr,Up)
+MCtrl KUp:	SashAction(Key,LargeIncr,Up)
+.sp 1
+KDown:	SashAction(Key,DefaultIncr,Down)
+MCtrl KDown:	SashAction(Key,LargeIncr,Down)
+.sp 1
+KNextField:	NextTabGroup()
+KPrevField:	PrevTabGroup()
+.sp 1
+KHelp:	Help()
+.fi
+\fP
+.sp 1 \"Adds space before the SS
+.SS "Action Routines"
+The XmPanedWindow action routines are described below:
+.IP "\fBHelp()\fP:"
+Calls the callbacks for \fBXmNhelpCallback\fP if any exist.  If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+.IP "\fBNextTabGroup()\fP:"
+Moves the keyboard focus to the next tab group.
+By default each pane and sash is a tab group.
+.IP "\fBPrevTabGroup()\fP:"
+Moves the keyboard focus to the previous tab group.
+By default each pane and sash is a tab group.
+.IP "\fBSashAction(\fP\fIaction\fP\fB)\fP or \fBSashAction(Key,\fP\fIincrement\fP\fB,\fP\fIdirection\fP\fB)\fP:"
+The \fBStart\fP action activates the interactive placement of the pane's borders.
+The \fBMove\fP action causes the sash to track the position of the pointer.
+If one of the panes reaches its minimum or maximum size, adjustment
+continues with the next adjustable pane.
+The \fBCommit\fP action ends sash motion.
+.IP
+When sash action is caused by a keyboard event, the sash with the keyboard
+focus is moved according to the \fIincrement\fP and \fIdirection\fP
+specified.  \fBDefaultIncr\fP adjusts the sash by one line.
+\fBLargeIncr\fP adjusts the sash by one view region.  The \fIdirection\fP
+is specified as either \fBUp\fP or \fBDown\fP.
+.sp 1 \"Adds space before the SS
+.SS "Additional Behavior"
+This widget has the additional behavior described below:
+.IP "\fB<FocusIn>\fP:"
+Moves the keyboard focus to the sash and highlights it.
+.IP "\fB<FocusOut>\fP:"
+Unsets the keyboard focus in the sash and unhighlights it.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP,
+\fBCore(3X)\fP, \fBXmCreatePanedWindow(3X)\fP, and \fBXmManager(3X)\fP.

@@ -1,0 +1,101 @@
+.\" Copyright (c) 1990 Carnegie Mellon University
+.\" All Rights Reserved.
+.\" 
+.\" Permission to use, copy, modify and distribute this software and its
+.\" documentation is hereby granted, provided that both the copyright
+.\" notice and this permission notice appear in all copies of the
+.\" software, derivative works or modified versions, and any portions
+.\" thereof, and that both notices appear in supporting documentation.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND CARNEGIE MELLON UNIVERSITY
+.\" DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.  IN NO EVENT
+.\" SHALL CARNEGIE MELLON UNIVERSITY BE LIABLE FOR ANY SPECIAL, DIRECT,
+.\" INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+.\" RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+.\" CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+.\" CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Users of this software agree to return to Carnegie Mellon any
+.\" improvements or extensions that they make and grant Carnegie the
+.\" rights to redistribute these changes.
+.\"
+.\" Export of this software is permitted only after complying with the
+.\" regulations of the U.S. Deptartment of Commerce relating to the
+.\" Export of Technical Data.
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" HISTORY
+.\" $Log:	getname.man,v $
+.\" Revision 2.2  91/04/11  11:11:07  mrt
+.\" 	Copied from libcs
+.\" 
+.\" Revision 1.2  90/12/12  15:51:31  mja
+.\" 	Add copyright/disclaimer for distribution.
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\" 	Revised for 4.3.
+.\" 
+.\" 27-Oct-84  Rudy Nedved (ern) at Carnegie-Mellon University
+.\" 	Add SEE ALSO section and made a few modifications.
+.\" 
+.\" 12-Feb-84  Lori Garrett at Carnegie-Mellon University
+.\" 	Created.
+.\" 
+.TH GETNAME 3 10/27/84
+.CM 4
+.SH "NAME"
+getname \- returns the string login id of the entry in the password file whose numerical user id matches
+.I
+userid.
+.SH "SYNOPSIS"
+.B
+char *getname(userid)
+.br
+.B
+int userid;
+.SH "DESCRIPTION"
+.I
+getname
+searches through the password file for an entry whose numerical user id
+matches the parameter 
+.I
+userid.
+.sp
+.I
+getname 
+continues searching until a match or the end of the password file
+has been reached, building its own structure, 
+.I
+names, 
+for storing the entries
+of the password file that were examined.
+.sp
+If 
+.I
+getname
+is called repeatedly, 
+.I
+names
+is checked first for an entry matching
+.I
+userid. 
+If none is found, entries from the password file are entered 
+.I
+names
+as before. 
+.sp
+When the entire password file has been stored, only 
+.I
+names
+will be checked
+for an entry matching 
+.I
+userid.
+.SH "FILES"
+.nf
+/etc/passwd             The password file.
+.SH "SEE ALSO"
+passwd(5), getpwent(3), login(1), crypt(3), group(5)
+.SH "DIAGNOSTICS"
+getname returns the pointer NULL when there is no entry in the password
+file corresponding to userid.

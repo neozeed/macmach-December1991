@@ -1,0 +1,273 @@
+# Network services, Internet style
+#
+echo		7/tcp
+echo		7/udp
+discard		9/tcp		sink null
+discard		9/udp		sink null
+systat		11/tcp
+daytime		13/tcp
+daytime		13/udp
+netstat		15/tcp
+qotd		17/tcp		quote
+chargen		19/tcp		ttytst source
+chargen		19/udp		ttytst source
+ftp		21/tcp
+telnet		23/tcp
+smtp		25/tcp		mail
+time		37/tcp		timserver
+time		37/udp		timserver
+rlp		39/udp		resource	# resource location
+#nameserver	42/tcp		name		# IEN 116
+name		42/udp		nameserver
+whois		43/tcp		nicname
+#domain		53/tcp		nameserver	# name-domain server
+#domain		53/udp		nameserver
+mtp		57/tcp				# deprecated
+bootps		67/udp
+bootpc		68/udp
+tftp		69/udp
+rje		77/tcp		netrjs
+finger		79/tcp
+link		87/tcp		ttylink
+supdup		95/tcp
+hostnames	101/tcp		hostname	# usually from sri-nic
+pop		109/tcp		postoffice
+sunrpc		111/tcp
+sunrpc		111/udp
+auth		113/tcp		authentication
+sftp		115/tcp
+uucp-path	117/tcp
+nntp		119/tcp		readnews untp	# USENET News Transfer Protocol
+
+erpc 		121/udp		erpc listener	# for annex boxes
+ntp		123/tcp
+ntp		123/udp
+#
+# Simple Gateway Monitoring Protocol.
+#
+sgmp		153/udp
+snmp		161/udp
+snmptrap 	162/udp
+#
+# UNIX specific services
+#
+exec		512/tcp
+biff		512/udp		comsat
+login		513/tcp
+who		513/udp		whod
+shell		514/tcp		cmd		# no passwords used
+syslog		514/udp
+printer		515/tcp				# experimental
+talk		517/udp
+ntalk		518/udp
+efs		520/tcp				# for LucasFilm
+route		520/udp		router routed	# 521 also
+timed		525/udp		timeserver
+tempo		526/tcp		newdate
+courier		530/tcp		rpc		# experimental
+conference	531/tcp		chat
+netnews		532/tcp		readnews
+netwall		533/udp				# -for emergency broadcasts
+uucp		540/tcp				# uucp daemon
+new-rwho	550/udp		new-who		# experimental
+#remotefs	556/tcp		rfs_server rfs	# Brunhoff remote filesystem
+rmonitor	560/udp		rmonitord	# experimental
+monitor		561/udp				# experimental
+#
+# Vice Authenticated services
+#
+vexec		712/tcp		vice-exec
+vlogin		713/tcp		vice-login
+vshell		714/tcp		vice-shell
+#
+################
+# CSD Services #
+################
+
+rfs		771/tcp		# remote file system
+rfsdbg	1027/tcp	# remote file system 
+
+# Host specific functions
+#
+ingreslock	1524/tcp
+
+################
+# ITC Services #
+################
+
+# Window Manager
+wm		2000/tcp
+
+# File Server			Subsys 01
+fsrpc		2001/tcp
+fsbulk		2002/tcp
+
+# Authentication Server 	Subsys 02
+auth2		2101/tcp
+authrpc		2003/tcp
+authbulk	2004/tcp
+
+# Lock Server  			Subsys 03
+lsrpc		2005/tcp
+lsbulk		2006/tcp
+
+# InterCluster File Server	Subsys 04
+fscrpc		2007/tcp
+fscbulk		2008/tcp
+
+# Dummy server for rpgen	Subsys 05
+dummyrpc	2009/tcp
+dummybulk	2010/tcp
+
+# Protection Subsystem		Subsys 06
+prsrpc		2011/tcp
+prsbulk		2012/tcp
+
+# File System Control Panel	Subsys 07
+fscprpc		2013/tcp
+fscpbulk	2014/tcp
+
+# Emacs share-filter
+emacs		2015/tcp
+
+# Help service for nsb
+help		2016/tcp
+
+# Console message logging server
+clog		2017/tcp
+console            2018/udp
+
+# Experimental RPC datagram sockets for Satya
+dummy1          2019/tcp
+dummy2          2020/tcp
+
+# For Tom Peter's menagerie:
+readnews		2021/tcp
+sendnews		2022/tcp
+male		2023/tcp
+sendmail		2023/tcp
+female		2024/tcp
+readmail		2024/tcp
+
+# For PcServer -- indirect IBM pc attachment to Vice (rpc Subsys 8)
+pcserverrpc	2025/tcp
+pcserverbulk	2026/tcp
+
+
+# For Russell Yount
+coop		2027/udp
+coop		2027/tcp
+
+# For the Mail group
+mail.logger	2029/udp
+
+# For file server backup and migration
+client		2030/tcp
+
+# For the edittool.
+edittool	2100/tcp
+
+# For the Venus process.
+venus.itc	2106/tcp
+venus		2108/udp
+venus.mon	2110/udp
+
+filesrv	2001/tcp
+fsbulk	2002/tcp
+updclnt	2113/tcp
+updsrv	2114/tcp
+opcons	2115/tcp
+updsrv1	2112/tcp
+updsrv2	2116/tcp
+updsrv3	2117/tcp
+updsrv4	2118/tcp
+updsrv5	2119/tcp
+
+# For Aaron Wohl
+snap.guardian	2120/udp
+snap.guardian01	2121/udp
+snap.guardian02	2122/udp
+snap.guardian03	2123/udp
+snap.guardiant	2124/tcp
+snap.guardiant01	2125/udp
+snap.guardiant02	2126/udp
+snap.guardiant03	2127/udp
+
+# For vice.pdb updates in ViceI
+vpdupd		2150/tcp
+
+# For UDP ping.  nichols
+uping		2151/udp
+upingd		2152/udp
+
+################
+# ITC Clients' Services #
+################
+
+# EPP demos project
+demos		2200/tcp
+giraffe               2201/tcp
+
+# Computer Club passwd server
+cl0xpw		2205/tcp
+
+# Nichols' Butler for spare cycles
+butlertest		2300/tcp
+butlertest1	2301/tcp
+butler		2302/tcp
+butlertest2	2303/tcp
+
+# Services needed for the conversion to r
+rauth2		2001/udp
+rfilebulk		2002/udp
+rfilesrv		2003/udp
+ropcons		2115/udp
+# The following are assigned in pairs and the bulk must be the srv +1
+rupdsrv		2131/udp
+rupdbulk		2132/udp
+rupdsrv1		2133/udp
+rupdbulk1		2134/udp
+rupdsrv2		2135/udp
+rupdbulk2		2136/udp
+rupdsrv3		2137/udp
+rupdbulk3		2138/udp
+rupdsrv4		2139/udp
+rupdbulk4		2140/udp
+rupdsrv5		2141/udp
+rupdbulk5		2142/udp
+rupdsrv6		2143/udp
+rupdbulk6		2144/udp
+rupdsrv7              2145/udp
+rupdbulk7             2146/udp
+
+# Informix servers for Satya and Brad White
+informix1		2170/udp
+informix2		2171/udp
+informix3		2172/udp
+informix4		2173/udp
+informix5		2174/udp
+informix6		2175/udp
+informix7		2176/udp
+informix8		2177/udp
+informix9		2178/udp
+informix10	2179/udp
+informix11	2180/udp
+informix12	2181/udp
+informix13	2182/udp
+informix14	2183/udp
+informix15	2184/udp
+informix16	2185/udp
+informix17	2186/udp
+informix18	2187/udp
+informix19	2188/udp
+informix20	2189/udp
+
+# for Aaron Wohl
+loadserv		2200/udp
+loadserv.01	2201/udp
+
+# for MIT Zephyr project
+zephyr-clt	2103/udp
+zephyr-hm	2104/udp
+
+# ports 2400-2408 are tenatively allocated to the cs dept

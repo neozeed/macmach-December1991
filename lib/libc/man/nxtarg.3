@@ -1,0 +1,112 @@
+.\"
+.\" $Id: nxtarg.3,v 1.3 89/12/26 11:19:39 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	nxtarg.3,v $
+.\" Revision 1.3  89/12/26  11:19:39  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 31-May-86  Rudy Nedved (ern) at Carnegie-Mellon University
+.\"	Updated for 4.2BSD.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH NXTARG 3 5/31/86
+.CM 4
+.SH NAME
+nxtarg \- parse arguments from a string
+.SH SYNOPSIS
+.B 
+extern char _argbreak;
+.sp
+.B 
+char *nxtarg (p,brk);
+.br
+.B
+char **p,*brk;
+.SH DESCRIPTION
+.I 
+Nxtarg
+is used to parse a string, picking off one argument
+with each call of
+.I 
+nxtarg.
+The arguments are separated by some special "break"
+characters, and may additionally be surrounded by
+leading and trailing blanks and tabs.
+
+When you have a string which you wish to parse, you should
+declare a pointer and point to the start of the string:
+.nf
+
+.RS
+.ta \w'char string[100];        'u
+char string[100];	/* the arg list */
+char *pointer;	/* a pointer */
+char *argument;	/* one argument */
+.li
+...
+pointer = string;	/* start of arg list */
+.DT
+.RE
+.fi
+
+Then, each call to
+.I 
+nxtarg
+will fetch the next argument:
+
+.RS
+argument = nxtarg (&pointer,"delimiters");
+.RE
+
+Each call to 
+.I nxtarg 
+will space the pointer up to one of the
+delimiters or the end of the string, whichever comes first.
+Then, the string will be chopped into two pieces: the part
+containing the argument just parsed, and the rest of the string.
+The address of the first part will be returned; the pointer
+will be left pointing to the second part, all ready for the
+next call to 
+.IR nxtarg .
+Note that the pointer must not be in a register, since it
+is passed by address.
+
+The delimiter character (or null character at the end of the string)
+encountered is placed into the external variable called,
+.I 
+_argbreak.
+You may look at this value to see what delimiter was encountered.
+If no delimiters were encountered before the end of the string,
+then the null character will be placed into
+.I 
+_argbreak.
+
+If
+.I 
+brk,
+the list of break characters, is 0, then the space character will
+be used as the only delimiter.
+.SH "SEE ALSO"
+.IR scanf (3), 
+.IR boolarg (3), 
+.IR intarg (3), 
+.IR stabarg (3), 
+.IR strarg (3), 
+etc.
+.SH DIAGNOSTICS
+If the argument points to the null string,
+or the end of the string is reached,
+then a pointer to the null string will be returned.
+At the
+end of the string, 
+.IR nxtarg () 
+may be repeated any number of
+times -- it will continue to leave the pointer unchanged,
+and return a pointer to the null string.

@@ -1,0 +1,111 @@
+.TH msg_rpc 2 1/13/87
+.CM 4
+.SH NAME
+.nf
+msg_rpc  \-  hybrid call of message send and message receive
+.SH SYNOPSIS
+.nf
+.ft B
+#include <mach/message.h>
+#include <mach/port.h>
+.nf
+.ft B
+msg_return_t msg_rpc(header, option, rcv_size,
+			send_timeout, rcv_timeout)
+	msg_header_t	*header;	/* in/out */
+	msg_option_t	option;
+	msg_size_t	rcv_size;
+	msg_timeout_t	send_timeout;
+	msg_timeout_t	rcv_timeout;
+
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+header
+Address of a message buffer which will be used for both 
+.B msg_send
+and
+.B msg_receive.
+This buffer contains a message header followed by the
+data for the message to be sent.  The 
+.B msg_remote_port
+field specifies the
+port to which the message is to be sent.  The 
+.B msg_local_port
+field
+specifies the port on which a message is then to be received;
+if this port is the special value 
+.B PORT_DEFAULT
+, it will
+be replaced by the value 
+.B PORT_NULL
+for the purposes of the
+.B msg_send
+operation.
+.TP 15
+.B
+option
+A union of the 
+.B option
+parameters for the component operations.
+(see 
+.B msg_send
+and 
+.B msg_receive
+)
+.TP 15
+.B
+rcv_size
+The maximum size allowed for the received message; this
+must be less than or equal to the size of the message buffer.
+The 
+.B msg_size
+field in the header specifies the
+size of the message to be sent.
+.TP 15
+.B
+send_timeout;rcv_timeout
+The timeout values to be applied to the 
+component operations. These are only used if the options 
+.B SEND_TIMEOUT
+and/or 
+.B RCV_TIMEOUT
+are specified.  
+
+.SH DESCRIPTION
+.B msg_rpc
+is a hybrid call which performs a
+.B msg_send
+followed by a 
+.B msg_receive
+, using the
+same message buffer.
+
+
+.SH DIAGNOSTICS
+.TP 25
+RPC_SUCCESS
+message was successfully sent and a reply was
+recived.
+.TP 25
+FAILURES
+are the same as those for 
+.B msg_send
+and 
+.B msg_receive
+;
+any error during the 
+.B msg_send
+portion will terminate the call.
+
+.SH FILES
+/usr/mach/include/mach/message.h
+/usr/mach/include/mach/port.h
+/usr/mach/include/mach/notify.h
+
+.SH SEE ALSO
+.B msg_receive, msg_send
+

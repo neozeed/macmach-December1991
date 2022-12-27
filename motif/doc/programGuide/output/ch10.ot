@@ -1,0 +1,267 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       10.  IIIInnnnttttrrrroooodddduuuuccccttttiiiioooonnnn ttttoooo tttthhhheeee OOOOSSSSFFFF////MMMMoooottttiiiiffff WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr             |
+
+       The next seven chapters provide information for application   |
+       developers about the OSF/Motif Window Manager.  The           |
+       OSF/Motif Window Manager (MWM) provides window management     |
+       facilities within the framework of the OSF/Motif environ-
+       ment.  MWM provides you with an industry standard user
+       interface, a high degree of flexibility, and a pleasing
+       visual interface.
+
+       MWM facilitates user-computer communications in the follow-
+       ing areas:
+
+          +o MWM provides for direct manipulation of graphic objects
+            using an object-action model.  A user controls the
+            operation of an application program by selecting a win-
+            dow, menu, icon, or other graphic object and then indi-
+            cating an action to be done to that object.              |
+
+          +o MWM uses several configuration files, including ....XXXXddddeeee----    |
+            ffffaaaauuuullllttttssss, ....mmmmwwwwmmmmrrrrcccc, and ....mmmmoooottttiiiiffffbbbbiiiinnnndddd.  By editing these        |
+            files, users can customize the appearance and behavior   |
+            of MWM.
+
+          +o MWM provides keyboard access to window management func-  |
+            tionality in cases where a mouse is not available or     |
+            the user prefers keyboard access.
+
+          +o MWM provides consistent appearance and behavior using    |
+            the OSF/Motif widgets as specified in the _O_S_F/_M_o_t_i_f      |
+            _S_t_y_l_e _G_u_i_d_e.
+
+       10.1  CCCCoooonnnnvvvveeeennnnttttiiiioooonnnnssss
+
+       The OSF/Motif Window Manager can be operated with either a    |
+       2-button or a 3-button mouse by observing the conventions     |
+       shown in Figure 10-1.  With a 2-button mouse, you can obtain  |
+       a third button by pressing buttons 1 and 2 simultaneously.    |
+       You can obtain five buttons from a 3-button mouse by press-   |
+       ing buttons 1 and 2 for a fourth button and buttons 2         |
+        and 3 for a fifth button.
+
+
+
+
+
+                                                               10-1
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     |
+                 FFFFiiiigggguuuurrrreeee 11110000----1111....  Two- and Three-Button Mice            |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     *
+             FFFFiiiigggguuuurrrreeee 11110000----2222....  Mouse Buttons and Their Locations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       When using a keyboard instead of a mouse, follow the          |
+       instructions in "Using a Keyboard" under the section "Get-    |
+       ting User Input" in Chapter 11.                               |
+
+       10.2  SSSSoooommmmeeee WWWWiiiinnnnddddoooowwww MMMMaaaannnnaaaaggggeeeerrrr PPPPrrrreeeeccccaaaauuuuttttiiiioooonnnnssss                         |
+
+       If you are new to window manager configuring, you should be   |
+       aware of the following conventions:
+
+          +o File and resource names used by MWM are case sensitive.  |
+            Use uppercase letters where indicated and only where     |
+            indicated.  A file named ....xxxxddddeeeeffffaaaauuuullllttttssss is not the same      |
+            file as ....XXXXddddeeeeffffaaaauuuullllttttssss.
+
+          +o Do not confuse the number "1" (one) with the lowercase   |
+            "l" (el).  If you are changing to the ////uuuussssrrrr////lllliiiibbbb////XXXX11111111       |
+
+
+       10-2
+
+
+
+
+
+
+
+
+
+                       Introduction to the OSF/Motif Window Manager
+
+
+            directory, you need to type "X one one" and not "X el
+            el."
+
+          +o Do not confuse the number "0" (zero) with the uppercase  |
+            "O" (oh) for the same reason.
+
+          +o When typing a command, use the spacing indicated in the
+            example. Although adding an extra space usually does     |
+            n't cause problems, omitting a space definitely brings   |
+            your command to a halt.
+
+          +o Some keys may have a different label on your keyboard.
+            The <AAAAlllltttt> key is sometimes labeled <EEEExxxxtttteeeennnndddd> or <MMMMeeeettttaaaa>.   |
+            "Meta" is used when setting button and key bindings.
+            Some keys may not appear on your keyboard.  When possi-
+            ble use the recommended substitute given in the follow-
+            ing table:
+
+        TTTTAAAABBBBLLLLEEEE 11110000----1111....  Special Purpose Keys and Their Substitutions.   |
+
+                         KKKKeeeeyyyy               SSSSuuuubbbbssssttttiiiittttuuuuttttiiiioooonnnn
+                   _________________________________________
+                       <SSSSeeeelllleeeecccctttt>       <SSSSppppaaaacccceeee BBBBaaaarrrr> or <EEEEnnnntttteeeerrrr>         |
+                        <MMMMeeeennnnuuuu>                 <FFFF4444>                  |
+                        <HHHHeeeellllpppp>                 <FFFF1111>                  |
+                        <AAAAlllltttt>           <MMMMeeeettttaaaa> or <EEEExxxxtttteeeennnndddd>           |
+                      <PPPPaaaaggggeeee uuuupppp>                <FFFF7777>                  |
+                     <PPPPaaaaggggeeee ddddoooowwwwnnnn>               <FFFF8888>                  |
+                        <EEEEsssscccc>                 <FFFF11112222>                  |
+                                      <TTTTaaaabbbb> or <CCCCttttrrrrllll>+<TTTTaaaabbbb>          |
+7                    <NNNNeeeexxxxtttt FFFFiiiieeeelllldddd>                                     |
+                                      <SSSShhhhiiiifffftttt>+<TTTTaaaabbbb> or               |
+                                      <CCCCttttrrrrllll>+<SSSShhhhiiiifffftttt>+<TTTTaaaabbbb>           |
+77                  <PPPPrrrreeeevvvviiiioooouuuussss FFFFiiiieeeelllldddd>                                   |
+
+                      <EEEEnnnntttteeeerrrr>               <RRRReeeettttuuuurrrrnnnn>                 |
+
+
+                                                                     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               10-3
+
+
+
+
+

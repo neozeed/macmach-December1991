@@ -1,0 +1,173 @@
+.\"
+.\" $Id: netname.3,v 1.2 90/01/09 17:18:47 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	netname.3,v $
+.\" Revision 1.2  90/01/09  17:18:47  bww
+.\" 	Canonicalized NAME section.
+.\" 	[90/01/09  17:17:59  bww]
+.\" 
+.\" Revision 1.1  89/12/28  14:39:56  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 22-Oct-86  Robert Sansom (rds) at Carnegie-Mellon University
+.\"	Updated for new host-directed name service.
+.\"
+.\" 29-Sep-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created man page.  Server written by Dan Julin, Ed Zayas
+.\"	and Robert Sansom.
+.\"
+.TH NETNAME 3 7/20/88
+.CM 4
+.SH NAME
+.nf
+netname_check_in \- check in a name into the local name-space
+netname_check_out \- check out a name from the local name-space
+netname_look_up \- look up a name on a specific host
+netname_version \- get the version of the network name server
+.SH SYNOPSIS
+.nf
+#include <servers/netname.h>
+
+void init_netname(ReplyPort)
+	port_t	ReplyPort;
+
+kern_return_t netname_check_in(ServPort,port_name,signature,port_id)
+	port_t			ServPort;
+	netname_name_t	port_name;
+	port_t			signature;
+	port_t			port_id;
+
+kern_return_t netname_look_up(ServPort,host_name,port_name,port_id)
+	port_t			ServPort;
+	netname_name_t	host_name;
+	netname_name_t	port_name;
+	port_t			*port_id;
+
+kern_return_t netname_check_out(ServPort,port_name,signature)
+	port_t			ServPort;
+	netname_name_t	port_name;
+	port_t			signature;
+
+kern_return_t netname_version(ServPort,version)
+	port_t			ServPort;
+	netname_name_t	version;
+
+.SH ARGUMENTS
+
+.TP 15
+.B ReplyPort
+Port on which the interface will receive replies.
+.TP 15
+.B ServPort
+port to the Network Name Server.
+.TP 15
+.B port_name
+name of port to be looked up, checked in, or checked out.
+.TP 15
+.B signature
+port that is used to protect the right to remove a name.
+.TP 15
+.B port_id
+port that was looked up or is to be checked in or checked out.
+.TP 15
+.B version
+version of the Network Name Server that is currently running.
+
+.SH DESCRIPTION
+
+.I netname_check_in
+enters a port with the name 
+.I port_name 
+into the name-space of the local network server.
+.I Signature 
+is a port which is used to protect this name.
+This same port must be presented on a
+.I netname_check_out
+call for that call to be able to remove the name from the name-space.
+.I netname_check_in
+may be called to check in a new port with the same name. In this case
+the association with the old port will be lost and if a 
+.I signature
+was used on the original check_in the same signature must be used here.
+
+.I netname_look_up
+returns the value of the port named by 
+.I port_name
+by questioning the host named by the
+.I host_name
+argument.  Thus this call is a directed name look up.
+The 
+.I host_name
+may be any of the host's official nick-names.
+If it is null, then the local host is assumed.
+If it is equal to "*", then a broadcast look up is performed.
+
+.I netname_check_out
+removes a port with the name 
+.I port_name 
+from the name-space of the local network server.
+.I Signature 
+must be the same port as the signature port presented to
+.I netname_check_in
+when this name was checked in.
+
+.I netname_version
+returns a string containing the version number of the
+.I Network Name Server
+that is running.
+
+Note that the
+.I ServPort
+parameter to all the name service calls should be set to
+.I name_server_port
+in order to use the system
+.I Network Name Server.
+ 
+.SH FILES
+<servers/netname.h>, <servers/netname_defs.h>
+
+.SH DIAGNOSTICS
+.TP 25
+.B NETNAME_SUCCESS
+operation succeeded.
+.TP 25
+.B NETNAME_NOT_YOURS
+the 
+.I signature 
+given to 
+.I netname_check_out 
+or to a second
+.I netname_check_in
+of the same name did not match the 
+.I signature
+with which the port was checked in.
+.TP 25
+.B NETNAME_NOT_CHECKED_IN
+.I netname_look_up 
+could not find the name at the given host.
+.TP 25
+.B NETNAME_NO_SUCH_HOST
+the
+.I host_name
+argument to
+.I netname_look_up
+does not name a valid host.
+.TP 25
+.B NETNAME_HOST_NOT_FOUND
+.I netname_look_up
+could not reach the host named by
+.I host_name
+(for instance because it is down).
+.TP 25
+.B NETNAME_INVALID_PORT
+.I  netname_check_in
+found that the port you were trying to check in was PORT_NULL.
+This can happen if the port died before it got checked in.
+
+.SH SEE ALSO
+.I  mach_init(3)
+
+.SH BUGS
+The version number is not always current.

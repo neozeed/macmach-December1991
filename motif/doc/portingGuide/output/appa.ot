@@ -1,0 +1,528 @@
+
+
+
+                                  - 1 -
+
+
+
+       AAAAppppppppeeeennnnddddiiiixxxx AAAA ---- NNNNaaaammmmeeee CCCChhhhaaaannnnggggeeee EEEExxxxcccceeeeppppttttiiiioooonnnnssss
+
+       The following sections describe name changes that do not
+       follow the rules outlined in the porting document.
+
+       WWWWiiiiddddggggeeeetttt hhhhiiiieeeerrrraaaarrrrcccchhhhyyyy ddddiiiiffffffffeeeerrrreeeennnncccceeeessss bbbbyyyy ccccllllaaaassssssss
+
+       The following list outlines the changes to the XUI widget
+       hierarchy to comply with OSF/Motif.  The XUI widget classes
+       are listed alphabetically with their Motif equivalents.
+       Functionality changes and name changes within each class
+       appear in the body of the porting document.
+
+         DwtAttachedDB         XmForm
+
+         DwtCommandWindow      XmCommand
+
+         DwtCommon             Approximately equivalent to a combi-
+                                nation of XmPrimitive and XmManager
+
+         DwtDialogBox          XmBulletinBoard
+
+         DwtFileSelection      XmFileSelectionBox
+
+         DwtHelp               Not provided in Motif
+
+         DwtLabel              XmLabel
+
+         DwtListBox            XmList
+
+         DwtMainWindow         XmMainWindow
+
+         DwtMenu               XmRowColumn
+
+         DwtMessageBox         XmMessageBox
+
+         DwtPullDownMenuEntry  XmCascadeButton
+
+         DwtPushButton         XmPushButton
+
+         DwtScale              XmScale
+
+         DwtScrollBar          XmScrollBar
+
+         DwtScrollWindow       XmScrolledWindow
+
+         DwtSelection          XmSelectionBox
+
+         DwtSeparator          XmSeparator
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 2 -
+
+
+
+         DwtSText              XmText
+
+         DwtToggleButton       XmToggleButton
+
+         DwtWindow             XmDrawingArea
+
+       FFFFuuuunnnnccccttttiiiioooonnnn nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       You must change all create function names from Dwt*Create to
+       XmCreate*.  Changes to create function names may also
+       require the changes to widget class names specified in the
+       previous section.
+
+         - DwtAttachedDBCreate XmCreateForm
+
+         - DwtAttachedDBPopupCreate XmCreateFormDialog
+
+         - DwtCautionBoxCreate XmCreateWarningDialog
+                                or XmCreateMessageDialog
+                                or XmCreateErrorDialog
+                                or XmCreateQuestionDialog|-
+
+         - DwtCommandWindowCreate XmCreateCommand
+
+         - DwtDialogBoxCreate  XmCreateBulletinBoard
+
+         - DwtDialogBoxPopupCreate XmCreateBulletinBoardDialog
+
+         - DwtFileSelectionCreate XmCreateFileSelectionDialog
+
+         - DwtListBoxCreate    XmCreateList
+
+         - DwtMenuCreate       XmCreateRowColumn
+
+         - DwtMenuPopupCreate  XmCreatePopupMenu
+
+         - DwtMenuPulldownCreate XmCreatePulldownMenu
+
+         - DwtMessageBoxCreate XmCreateInformationDialog|-
+
+         - DwtPullDownMenuEntryCreate XmCreateCascadeButton
+
+         - DwtScrollWindowCreate XmCreateScrolledWindow
+
+         - DwtSelectionCreate  XmCreateSelectionBox
+
+         - DwtSTextCreate      XmCreateText
+
+         - DwtWindowCreate     XmCreateDrawingArea
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 3 -
+
+
+
+         - DwtWorkBoxCreate    XmCreateWorkingDialog|-
+
+       Make these other function name changes:
+         - DwtCommandAppend    XmCommandAppendValue
+
+         - DwtCommandErrorMessage XmCommandError
+
+         - DwtCommandSet       XmCommandSetValue
+
+         - DwtScaleGetSlider   XmScaleGetValue
+
+         - DwtScaleSetSlider   XmScaleSetValue
+
+         - DwtScrollBarGetSlider XmScrollBarGetValues
+
+         - DwtScrollBarSetSlider XmScrollBarSetValues
+       |- These functions (or groups of functions) instantiate an
+        XmMessageBox widget inside an XmDialogShell widget.  To
+        instantiate just the XmMessageBox widget, use XmCreateMes-
+        sageBox.
+
+       RRRReeeessssoooouuuurrrrcccceeee nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Change resource names from DwtN* to XmN* and DwtNadb* to
+       XmN* with the following exceptions:
+
+         - DwtNautoShowInsertPoint XmNautoShowCursorPosition
+
+         - DwtNcancelLabel     XmNcancelLabelString
+
+         - DwtNcols            XmNcolumns
+
+         - DwtNdefaultPushbutton XmNdefaultButtonType
+
+         - DwtNfilterLabel     XmNfilterLabelString
+
+         - DwtNhelpLabel       XmNhelpLabelString
+
+         - DwtNhorizontal      XmNhorizontalSpacing
+
+         - DwtNinc             XmNincrement
+
+         - DwtNindicator       XmNindicatorOn
+
+         - DwtNmenuIsHomogeneous XmNisHomogeneous
+
+         - DwtNmenuNumColumns  XmNnumColumns
+
+         - DwtNmenuPacking     XmNpacking
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 4 -
+
+
+
+         - DwtNinc             XmNincrement
+
+         - DwtNokLabel         XmNokLabelString
+
+         - DwtNpageDecCallback XmNpageDecrementCallback
+
+         - DwtNpageInc         XmNpageIncrement
+
+         - DwtNpageIncCallback XmNpageIncrementCallback
+
+         - DwtNprompt          XmNpromptString
+
+         - DwtNselectionLabel  XmNselectionLabelString
+
+         - DwtNshape           XmNindicatorType
+
+         - DwtNstyle           XmNdialogStyle
+
+         - DwtNtitleLabel      XmNtitleString
+
+         - DwtNunitDecCallback XmNdecrementCallback
+
+         - DwtNunitIncCallback XmNincrementCallback
+
+       EEEEnnnnuuuummmmeeeerrrraaaattttiiiioooonnnn lllliiiitttteeeerrrraaaallll nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Change the enumeration literals of the form DwtAaaaAaaa to
+       the form XmAAAA_AAAA with the following exceptions:
+
+         - DwtAttachAdb        XmATTACH_FORM
+
+         - DwtAttachOppAdb     XmATTACH_OPPOSITE_FORM
+
+         - DwtAttachOppWidget  XmATTACH_OPPOSITE_WIDGET
+
+         - DwtCancelButton     XmDIALOG_CANCEL_BUTTON
+
+         - DwtMenuWorkArea     XmWORK_AREA
+
+         - DwtModal            XmDIALOG_APPLICATION_MODAL
+
+         - DwtModal            XmDIALOG_SYSTEM_MODAL
+
+         - DwtModeless         XmDIALOG_MODELESS
+
+         - DwtOrientationHorizontal XmHORIZONTAL
+
+         - DwtOrientationVertical XmVERTICAL
+
+         - DwtOval             XmONE_OF_MANY
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 5 -
+
+
+
+         - DwtRectangular      XmN_OR_MANY
+
+         - DwtResizeFixed      XmRESIZE_NONE
+
+         - DwtResizeGrowOnly   XmRESIZE_GROW
+
+         - DwtResizeShrinkWrap XmRESIZE_ANY
+
+         - DwtWorkArea         XmDIALOG_WORK_AREA
+
+       CCCCaaaallllllllbbbbaaaacccckkkk rrrreeeeaaaassssoooonnnn nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Change callback reasons from DwtCRAaaaAaaa to XmCR_AAAA_AAAA
+       with the following exceptions:
+
+         - DwtCRPageDec        XmCR_PAGE_DECREMENT
+
+         - DwtCRPageInc        XmCR_PAGE_INCREMENT
+
+         - DwtCRUnitDec        XmCR_DECREMENT
+
+         - DwtCRUnitInc        XmCR_INCREMENT
+
+       CCCCoooommmmppppoooouuuunnnndddd ssssttttrrrriiiinnnngggg nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       The compound string functionality supported in XUI has been
+       altered in Motif to present a more vendor neutral naming
+       scheme, as well as expanded application functionality.
+
+       The table below suggests the Motif functions that should be
+       used to replace the corresponding Dwt functions. In most
+       cases, these are simply name changes. In the case of certain
+       functions, argument order may have changed, or arguments may
+       be missing.
+
+       The Motif functions corresponding to DwtLatin1String,
+       DwtCSString, and DwtString are suggested replacements.
+
+       Note that DwtDisplayCSMessage and DwtDisplayVMSMessage are
+       not part of the Motif toolkit.
+
+         - DwtCSbytecmp        XmStringByteCompare
+
+         - DwtCSempty          XmStringEmpty
+
+         - DwtCSString         XmStringSegmentCreate
+
+         - DwtCStrcat          XmStringConcat
+
+         - DwtCStrcpy          XmStringCopy
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 6 -
+
+
+
+         - DwtCStringDirection XmStringDirection
+
+         - DwtCStrlen          XmStringLength
+
+         - DwtCStrncat         XmStringNConcat
+
+         - DwtCStrncpy         XmStringNCopy
+
+         - DwtGetNextSegment   XmStringGetNextSegment
+
+         - DwtInitGetSegment   XmStringInitContext
+
+         - DwtLatin1String     XmStringCreateLtoR
+
+         - DwtString           XmStringSegmentCreate
+
+       Also change the type DwtCompString to XmString.
+
+       FFFFoooonnnnttttLLLLiiiisssstttt nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Make the following FontList name changes:
+
+         - DwtAddFontList      XmFontListAdd
+
+         - DwtCreateFontList   XmFontListCreate
+
+         - DwtFreeFontList     XmFontListFree
+
+       CCCClllliiiippppbbbbooooaaaarrrrdddd nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Make the following Clipboard name changes:
+
+         - DwtBeginCopyFromClipboard XmClipboardStartRetrieve
+
+         - DwtBeginCopyToClipboard XmClipboardStartCopy
+
+         - DwtCancelCopyFormat XmClipboardWithdrawFormat
+
+         - DwtCancelCopyToClipboard XmClipboardCancelCopy
+
+         - DwtCopyFromClipboardXmClipboardRetrieve
+
+         - DwtCopyToClipboard  XmClipboardCopy
+
+         - DwtEndCopyFromClipboard XmClipboardEndRetrieve
+
+         - DwtEndCopyToClipboard XmClipboardEndCopy
+
+         - DwtInquireNextPasteCount XmClipboardInquireCount
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 7 -
+
+
+
+         - DwtInquireNextPasteFormat XmClipboardInquireFormat
+
+         - DwtInquireNextPasteLength XmClipboardInquireLength
+
+         - DwtListPendingItems XmClipboardInquirePendingItems
+
+         - DwtReCopyToClipboardXmClipboardCopyByName
+
+         - DwtUndoCopyToClipboard XmClipboardUndoCopy
+
+       RRRReeeessssoooouuuurrrrcccceeee MMMMaaaannnnaaaaggggeeeerrrr nnnnaaaammmmeeee cccchhhhaaaannnnggggeeeessss
+
+       Make the following name changes:
+
+         - DwtCloseHierarchy   MrmCloseHierarchy
+
+         - DwtFetchColorLiteralMrmFetchColorLiteral
+
+         - DwtFetchIconLiteral MrmFetchIconLiteral
+
+         - DwtFetchInterfaceModule MrmFetchInterfaceModule
+
+         - DwtFetchLiteral     MrmFetchLiteral
+
+         - DwtFetchSetValues   MrmFetchSetValues
+
+         - DwtFetchWidget      MrmFetchWidget
+
+         - DwtFetchWidgetOverride MrmFetchWidgetOverride
+
+         - DwtInitializeDRM    MrmInitialize
+
+         - DwtOpenHierarchy    MrmOpenHierarchy
+
+         - DwtRegisterClass    MrmRegisterClass
+
+         - DwtRegisterDRMNames MrmRegisterNames
+
+       The following function names have also changed, but the use
+       of these functions is deprecated.  The functions MrmFetchLi-
+       teral, MrmFetchIconLiteral, and MrmFetchColorLiteral should
+       be used instead.
+
+         - DwtDrmFreeResourceContext MrmFreeResourceContext
+
+         - DwtDrmGetResourceContext MrmGetResourceContext
+
+         - DwtDrmHGetIndexedLiteral MrmGetLiteral
+
+         - DwtDrmRCBuffer      MrmRCBuffer
+
+
+
+
+
+
+
+
+
+
+
+
+                                  - 8 -
+
+
+
+         - DwtDrmRCSetType     MrmRCSetType
+
+         - DwtDrmRCSize        MrmRCSize
+
+         - DwtDrmRCType        MrmRCType
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

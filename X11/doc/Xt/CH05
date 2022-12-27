@@ -1,0 +1,707 @@
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 5\fP\s-1
+
+\s+1\fBPop-Up Widgets\fP\s-1
+.sp 2
+.nr H1 5
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.LP
+.XS
+Chapter 5 \- Pop-Up Widgets
+.XE
+Pop-up widgets are used to create windows that are outside of the
+window hierarchy defined by the widget tree.
+Each pop-up child has a window that is a descendant of the root window
+so that the pop-up window is not clipped by the pop-up widget's parent window.
+.\"One thing that all pop-ups in common is that they break 
+.\"the widget/window hierarchy.
+.\"Pop-ups windows are not geometry constrained by their parent widget.
+.\"Instead, they are window children of the root.
+Therefore, pop-ups are created and attached differently to their widget parent 
+than from normal widget children.
+.LP
+A parent of a pop-up widget does not actively manage its pop-up children;
+in fact, it usually never notices them or operates upon them.
+The popup_list field in the
+.PN CorePart
+structure contains the list of its pop-up children.
+This pop-up list exists mainly to provide the proper place in the widget
+hierarchy for the pop-up to get resources and to provide a place for
+.PN XtDestroyWidget
+to look for all extant children.
+.LP
+A 
+.PN Composite 
+widget can have both normal and pop-up children.
+A pop-up can be popped up from almost anywhere, not just by its parent.
+A child always refers to a normal, geometry-managed child on the children list,
+and a pop-up child always refers to a child on the pop-up list.
+.IN "pop-up" "" "@DEF@"
+.IN "pop-up" "list"
+.IN "pop-up" "child"
+.NH 2
+Pop-Up Widget Types
+.LP
+.XS
+\*(SN Pop-Up Widget Types
+.XE
+There are three kinds of pop-up widgets:
+.IP \(bu 5
+Modeless pop-ups
+.IP
+A modeless pop-up (for example, a modeless dialog box)
+is usually visible to the window manager
+and looks like any other application from the
+user's point of view.
+(The application itself is a special form of a modeless pop-up.)
+.IP \(bu 5
+Modal pop-ups
+.IP
+A modal pop-up (for example, a modal dialog box)
+may or may not be visible to the window manager
+and, except for events that occur in the dialog box,
+disables user-event processing by the application.
+.IP \(bu 5
+Spring-loaded pop-ups
+.IP
+A spring-loaded pop-up (for example, a menu)
+is usually not visible to the window manager
+and, except for events that occur in the pop-up or its descendants,
+disables user-event processing by all applications.
+.LP
+Modal pop-ups and spring-loaded pop-ups are very similar and should be coded as
+if they are the same.
+In fact, the same widget (for example, a ButtonBox or Menu) can be used both
+as a modal pop-up and as a spring-loaded pop-up within the same application.
+The main difference is that spring-loaded pop-ups are brought up
+with the pointer and, because of the grab that the pointer button causes,
+require different processing by the \*(xI.
+Further, all user input remap events occurring outside the spring-loaded
+pop-up (e.g. in a descendant) are also delivered to the spring-loaded
+popup after they have been dispatched to the appropriate descendant so
+that, for example, button up can take down a spring-loaded pop-up no
+matter where the
+button up occurs.
+.LP
+Any kind of pop-up, in turn, can pop up other widgets.
+Modal and spring-loaded pop-ups can constrain user events to
+the most recent such pop-up or to any of the modal/spring-loaded pop-ups
+currently mapped.
+.LP
+Regardless of their type,
+all pop-up widget classes are responsible for communicating with the
+X window manager and, therefore, are subclasses of
+.PN Shell .
+.NH 2
+Creating a Pop-Up Shell
+.XS
+\fB\*(SN Creating a Pop-Up Shell\fP
+.XE
+.LP
+.IN "pop-up" "shell"
+.IN "pop-up" "child"
+For a widget to pop up,
+it must be the child of a pop-up widget shell.
+None of the \*(xI-supplied pop-shells will
+simultaneously manage more than one child.
+Both the shell and child taken together are referred to as the pop-up.
+When you need to use a pop-up,
+you always refer to the pop-up by the pop-up shell,
+not the child.
+.sp
+.LP
+To create a pop-up shell, use
+.PN XtCreatePopupShell .
+.IN "XtCreatePopupShell" "" "@DEF@"
+.FD 0
+Widget XtCreatePopupShell(\fIname\fP, \fIwidget_class\fP, \fIparent\fP, \
+\fIargs\fP, \fInum_args\fP)
+.br
+      String \fIname\fP;
+.br
+      WidgetClass \fIwidget_class\fP;
+.br
+      Widget \fIparent\fP;
+.br
+      ArgList \fIargs\fP;
+.br
+      Cardinal \fInum_args\fP;
+.FN
+.IP \fIname\fP 1i
+Specifies the text name for the created shell widget.
+.IP \fIwidget_class\fP 1i
+Specifies the widget class pointer for the created shell widget.
+.IP \fIparent\fP 1i
+Specifies the parent widget.
+.IP \fIargs\fP 1i
+Specifies the argument list to override any other resource specifications.
+.IP \fInum_args\fP 1i
+Specifies the number of arguments in the argument list.
+.LP
+The
+.PN XtCreatePopupShell
+function ensures that the specified class is a subclass of
+.PN Shell
+and, rather than using insert_child to attach the widget to the parent's
+.IN "insert_child procedure"
+children list, attaches the shell to the parent's pop-ups list directly.
+.LP
+A spring-loaded pop-up invoked from a translation table already must exist
+at the time that the translation is invoked, 
+so the translation manager can find the shell by name.
+Pop-ups invoked in other ways can be created ``on-the-fly'' when
+the pop-up actually is needed.
+This delayed creation of the shell is particularly useful when you pop up
+an unspecified number of pop-ups.
+You can look to see if an appropriate unused shell (that is, not
+currently popped up) exists and create a new shell if needed.
+.sp
+.LP
+To create a pop-up shell using varargs lists, use
+.PN XtVaCreatePopupShell .
+.IN "XtVaCreatePopupShell" "" "@DEF@"
+.FD 0
+Widget XtVaCreatePopupShell(\fIname\fP, \fIwidget_class\fP, \fIparent\fP, ...)
+.br
+      String \fIname\fP;
+.br
+      WidgetClass \fIwidget_class\fP;
+.br
+      Widget \fIparent\fP;
+.FN
+.IP \fIname\fP 1i
+Specifies the text name for the created shell widget.
+.IP \fIwidget_class\fP 1i
+Specifies the widget class pointer for the created shell widget.
+.IP \fIparent\fP 1i
+Specifies the parent widget.
+.IP ... 1i
+Specifies the variable-length argument list to override any other
+resource specifications.
+.LP
+.PN XtVaCreatePopupShell
+is identical in function to
+.PN XtCreatePopupShell
+with the args and num_args parameters replaced by a varargs list as
+described in Section 2.4.1.
+
+.NH 2
+Creating Pop-Up Children
+.XS
+\fB\*(SN Creating Pop-Up Children\fP
+.XE
+.LP
+Once a pop-up shell is created,
+the single child of the pop-up shell can be created in one of two ways:
+.IP \(bu 5
+Static
+.IP \(bu 5
+Dynamic
+.LP
+At startup,
+an application can create the child of the pop-up shell,
+which is appropriate for pop-up children that are composed of a fixed set
+of widgets. 
+The application can change the state of the subparts of
+the pop-up child as the application state changes.
+For example, if an application creates a static menu,
+it can call
+.PN XtSetSensitive
+(or, in general,
+.PN XtSetValues )
+on any of the buttons that make up the menu.
+Creating the pop-up child early means that pop-up time is minimized,
+especially if the application calls
+.PN XtRealizeWidget
+on the pop-up shell at startup.
+When the menu is needed,
+all the widgets that make up the menu already exist and need only be mapped.
+The menu should pop up as quickly as the X server can respond.
+.LP
+Alternatively,
+an application can postpone the creation of the child until it is needed,
+which minimizes application startup time and allows the pop-up child to
+reconfigure itself each time it is popped up.
+In this case,
+the pop-up child creation routine should poll the application
+to find out if it should change the sensitivity of any of its subparts.
+.LP
+Pop-up child creation does not map the pop-up,
+even if you create the child and call
+.PN XtRealizeWidget
+on the pop-up shell.
+.LP
+All shells have pop-up and pop-down callbacks,
+which provide the opportunity either to make last-minute changes to a
+pop-up child before it is popped up or to change it after it is popped down.
+Note that excessive use of pop-up callbacks can make
+popping up occur more slowly.
+.NH 2
+Mapping a Pop-Up Widget
+.XS
+\fB\*(SN Mapping a Pop-Up Widget\fP
+.XE
+.LP
+Pop-ups can be popped up through several mechanisms:
+.IP \(bu 5
+A call to
+.PN XtPopup 
+.IP \(bu 5
+One of the supplied callback procedures (for example,
+.PN XtCallbackNone ,
+.PN XtCallbackNonexclusive ,
+or
+.PN XtCallbackExclusive )
+.IP \(bu 5
+The standard translation action
+.PN XtMenuPopup 
+.LP
+Some of these routines take an argument of type
+.PN XtGrabKind ,
+which is defined as:
+.sp
+.Ds 0
+typedef enum {XtGrabNone, XtGrabNonexclusive, XtGrabExclusive} XtGrabKind;
+.De
+.sp
+.IN "XtCreatePopupChildProc" "" "@DEF@"
+.FD 0
+typedef void (*XtCreatePopupChildProc)(Widget \fIw\fP)
+.FN
+.IP \fIw\fP 1i
+Specifies the shell widget being popped-up.
+.sp
+.LP
+To map a pop-up from within an application, use
+.PN XtPopup .
+.IN "XtPopup" "" "@DEF@"
+.FD 0
+void XtPopup(\fIpopup_shell\fP, \fIgrab_kind\fP)
+.br
+      Widget \fIpopup_shell\fP;
+.br
+      XtGrabKind \fIgrab_kind\fP;
+.FN
+.IP \fIpopup_shell\fP 1i
+Specifies the shell widget.
+.IP \fIgrab_kind\fP 1i
+Specifies the way in which user events should be constrained.
+.LP
+The
+.PN XtPopup
+function performs the following:
+.IP \(bu 5
+Calls
+.PN XtCheckSubclass
+.\".PN XtCheckSubclass(popup_shell, popupShellWidgetClass)
+to ensure popup_shell is a subclass of
+.PN Shell .
+.IP \(bu 5
+Returns if the shell's popped_up field is already 
+.PN True .
+.IP \(bu 5
+Calls the callback procedures on the shell's popup_callback list.
+.IP \(bu 5
+Sets the shell popped_up field to 
+.PN True ,
+the shell spring_loaded field to 
+.PN False ,
+and the shell grab_kind field from grab_kind.
+.IP \(bu 5
+If the shell's create_popup_child field is non-NULL,
+.PN XtPopup
+calls it with popup_shell as the parameter.
+.IP \(bu 5
+If grab_kind is either
+.PN XtGrabNonexclusive
+or
+.PN XtGrabExclusive ,
+it calls:
+.LP
+.Ds
+XtAddGrab(popup_shell, (grab_kind == XtGrabExclusive), False)
+.De
+.IP \(bu 5
+Calls
+.PN XtRealizeWidget 
+with popup_shell specified.
+.IP \(bu 5
+Calls
+.PN XMapRaised
+with the window of popup_shell.
+.sp
+.LP
+To map a spring-loaded pop-up from within an application, use
+.PN XtPopupSpringLoaded .
+.IN "XtPopupSpringLoaded" "" @DEF@"
+.FD 0
+void XtPopupSpringLoaded(\fIpopup_shell\fP)
+.br
+      Widget \fIpopup_shell\fP;
+.FN
+.IP \fIpopup_shell\fP 1i
+Specifies the shell widget to be popped up.
+.LP
+The
+.PN XtPopupSpringLoaded
+function performs exactly as
+.PN XtPopup
+except that it sets the shell spring_loaded field to
+.PN True
+and always calls
+.PN XtAddGrab
+with exclusive
+.PN True
+and spring-loaded
+.PN True .
+.sp
+.LP
+To map a pop-up from a given widget's callback list,
+you also can use the
+.PN XtCallbackNone ,
+.PN XtCallbackNonexclusive ,
+or
+.PN XtCallbackExclusive
+convenience routines.
+.IN "XtCallbackNone" "" "@DEF@"
+.FD 0
+void XtCallbackNone(\fIw\fP, \fIclient_data\fP, \fIcall_data\fP)
+.br
+      Widget \fIw\fP;
+.br
+      XtPointer \fIclient_data\fP;
+.br
+      XtPointer \fIcall_data\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the widget.
+.IP \fIclient_data\fP 1i
+Specifies the pop-up shell.
+.IP \fIcall_data\fP 1i
+Specifies the callback data,
+which is not used by this procedure.
+.sp
+.LP
+.IN "XtCallbackNonexclusive" "" "@DEF@"
+.FD 0
+void XtCallbackNonexclusive(\fIw\fP, \fIclient_data\fP, \fIcall_data\fP)
+.br
+      Widget \fIw\fP;
+.br
+      XtPointer \fIclient_data\fP;
+.br
+      XtPointer \fIcall_data\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the widget.
+.IP \fIclient_data\fP 1i
+Specifies the pop-up shell.
+.IP \fIcall_data\fP 1i
+Specifies the callback data,
+which is not used by this procedure.
+.sp
+.LP
+.IN "XtCallbackExclusive" "" "@DEF@"
+.FD 0
+void XtCallbackExclusive(\fIw\fP, \fIclient_data\fP, \fIcall_data\fP)
+.br
+      Widget \fIw\fP;
+.br
+      XtPointer \fIclient_data\fP;
+.br
+      XtPointer \fIcall_data\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the widget.
+.IP \fIclient_data\fP 1i
+Specifies the pop-up shell.
+.IP \fIcall_data\fP 1i
+Specifies the callback data,
+which is not used by this procedure.
+.LP
+The
+.PN XtCallbackNone ,
+.PN XtCallbackNonexclusive ,
+and
+.PN XtCallbackExclusive
+functions call
+.PN XtPopup
+with the shell specified by the client data argument
+and grab_kind set as the name specifies.
+.PN XtCallbackNone ,
+.PN XtCallbackNonexclusive ,
+and
+.PN XtCallbackExclusive
+specify
+.PN XtGrabNone ,
+.PN XtGrabNonexclusive ,
+and
+.PN XtGrabExclusive ,
+respectively.
+Each function then sets the widget that executed the callback list 
+to be insensitive by using
+.PN XtSetSensitive .
+Using these functions in callbacks is not required.
+In particular,
+an application must provide customized code for
+callbacks that create pop-up shells dynamically or that must do more than
+desensitizing the button.
+.sp
+.LP
+To pop up a menu when a pointer button is pressed or when the pointer
+is moved into a widget, use
+.PN XtMenuPopup ,
+or its synonym,
+.PN MenuPopup .
+From a translation writer's point of view,
+the definition for this translation action is:
+.IN "MenuPopup" "" "@DEF@"
+.IN "XtMenuPopup" "" "@DEF@"
+.FD 0
+void XtMenuPopup(\fIshell_name\fP)
+.br
+      String \fIshell_name\fP;
+.FN
+.ds Sn up
+.IP \fIshell_name\fP 1i
+Specifies the name of the widget shell to pop \*(Sn.
+.LP
+.PN XtMenuPopup
+is known to the translation manager,
+which registers the corresponding built-in action procedure
+.PN XtMenuPopupAction
+using
+.PN XtRegisterGrabAction
+specifying owner_events
+.PN True ,
+event_mask
+.PN ButtonPressMask
+\fB|\fP
+.PN ButtonReleaseMask ,
+and pointer_mode and keyboard_mode
+.PN GrabModeAsync .
+.LP
+If
+.PN XtMenuPopup
+is invoked on
+.PN ButtonPress ,
+it calls
+.PN XtPopupSpringLoaded
+on the specified shell widget.
+If
+.PN XtMenuPopup
+is invoked on
+.PN KeyPress
+or
+.PN EnterWindow ,
+it calls
+.PN XtPopup
+on the specified shell widget with grab_kind set to
+.PN XtGrabNonexclusive .
+Otherwise, the translation manager generates a
+warning message and ignores the action.
+When the widget is popped up,
+the following actions occur:
+.IP \(bu 5
+Calls
+.PN XtCheckSubclass
+.\".PN XtCheckSubclass(popup_shell, popupShellWidgetClass)
+to ensure popup_shell is a subclass of
+.PN Shell .
+.IP \(bu 5
+Returns if the shell's popped_up field is already 
+.PN True .
+.IP \(bu 5
+Calls the callback procedures on the shell's popup_callback list.
+.IP \(bu 5
+Sets the shell popped_up field to 
+.PN True
+and the shell grab_kind and spring_loaded fields appropriately.
+.IP \(bu 5
+If the shell's create_popup_child field is non-NULL,
+it is called with popup_shell as the parameter.
+.IP \(bu 5
+Calls:
+.LP
+.Ds
+XtAddGrab(popup_shell, (grab_kind == XtGrabExclusive), spring_loaded)
+.De
+.IP \(bu 5
+Calls
+.PN XtRealizeWidget 
+with popup_shell specified.
+.IP \(bu 5
+Calls
+.PN XMapRaised
+with the window of popup_shell.
+.LP
+(Note that these actions are the same as those for
+.PN XtPopup .)
+.PN XtMenuPopup
+tries to find the shell by searching the widget tree starting at
+the widget in which it is invoked.
+If it finds a shell with the specified name in the pop-up children of
+that widget, it pops up the shell with the appropriate parameters.
+Otherwise, it moves up the parent chain to find a popup child with the
+specified name.
+If
+.PN XtMenuPopup
+gets to the application top-level shell widget and has not
+found a matching shell, it generates a warning and returns immediately.
+.NH 2
+Unmapping a Pop-Up Widget
+.XS
+\fB\*(SN Unmapping a Pop-Up Widget\fP
+.XE
+.LP
+Pop-ups can be popped down through several mechanisms:
+.IP \(bu 5
+A call to
+.PN XtPopdown 
+.IP \(bu 5
+The supplied callback procedure
+.PN XtCallbackPopdown 
+.IP \(bu 5
+The standard translation action
+.PN XtMenuPopdown 
+.sp
+.LP
+To unmap a pop-up from within an application, use
+.PN XtPopdown .
+.IN "XtPopdown" "" "@DEF@"
+.FD 0
+void XtPopdown(\fIpopup_shell\fP)
+.br
+      Widget \fIpopup_shell\fP;
+.FN
+.IP \fIpopup_shell\fP 1i
+Specifies the shell widget to pop down.
+.LP
+The
+.PN XtPopdown
+function performs the following:
+.IP \(bu 5
+Calls
+.PN XtCheckSubclass
+.\".PN XtCheckSubclass(popup_shell, popupShellWidgetClass)
+to ensure popup_shell is a subclass of
+.PN Shell .
+.IP \(bu 5
+Checks that the popped_up field of popup_shell is
+.PN True ;
+otherwise, it returns immediately.
+.IP \(bu 5
+Unmaps popup_shell's window and, if override_redirect is
+.PN False ,
+sends a synthetic
+.PN UnmapNotify
+event as specified by the \fI\*(xC\fP.
+.IP \(bu 5
+If popup_shell's grab_kind is either
+.PN XtGrabNonexclusive
+or
+.PN XtGrabExclusive ,
+it calls
+.PN XtRemoveGrab .
+.\".PN XtRemoveGrab(popup_shell)
+.IP \(bu 5
+Sets pop-up shell's popped_up field to 
+.PN False .
+.IP \(bu 5
+Calls the callback procedures on the shell's popdown_callback list.
+.sp
+.LP
+To pop down a pop-up that has been popped up with one of the callback routines 
+.Pn ( XtCallbackNone ,
+.PN XtCallbackNonexclusive ,
+.PN XtCallbackExclusive ),
+use the callback 
+.PN XtCallbackPopdown .
+.IN "XtCallbackPopdown" "" "@DEF@"
+.FD 0
+void XtCallbackPopdown(\fIw\fP, \fIclient_data\fP, \fIcall_data\fP)
+.br
+      Widget \fIw\fP;
+.br
+      XtPointer \fIclient_data\fP;
+.br
+      XtPointer \fIcall_data\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the widget.
+.IP \fIclient_data\fP 1i
+Specifies a pointer to the
+.PN XtPopdownID
+structure.
+.IP \fIcall_data\fP 1i
+Specifies the callback data,
+which is not used by this procedure.
+.LP
+The
+.PN XtCallbackPopdown
+function casts the client data parameter to an
+.PN XtPopdownID
+pointer:
+.LP
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	Widget shell_widget;
+	Widget enable_widget;
+} XtPopdownIDRec, *XtPopdownID;
+.De
+The shell_widget is the pop-up shell to pop down,
+and the enable_widget is the widget that was used to pop it up.
+.LP
+.PN XtCallbackPopdown
+calls
+.PN XtPopdown
+with the specified shell_widget 
+and then calls
+.PN XtSetSensitive
+to resensitize the enable_widget.
+.sp
+.LP
+To pop down a spring-loaded menu when a pointer button is released or when the
+pointer is moved into a widget, use
+.PN XtMenuPopdown
+or its synonym,
+.PN MenuPopdown .
+From a translation writer's point of view,
+the definition for this translation action is:
+.IN "XtMenuPopdown" "" "@DEF@"
+.IN "MenuPopdown" "" "@DEF@"
+.FD 0
+void XtMenuPopdown(\fIshell_name\fP)
+.br
+      String \fIshell_name\fP;
+.FN
+.ds Sn down
+.IP \fIshell_name\fP 1i
+Specifies the name of the widget shell to pop \*(Sn.
+.LP
+If a shell name is not given,
+.PN XtMenuPopdown
+calls
+.PN XtPopdown
+with the widget for which the translation is specified.
+If a shell_name is specified in the translation table,
+.PN XtMenuPopdown
+tries to find the shell by looking up the widget tree starting at the
+widget in which it is invoked.
+If it finds a shell with the specified name in the pop-up children 
+of that widget, it pops down the shell;
+otherwise, it moves up the parent chain to find a popup child with the
+specified name.
+If 
+.PN XtMenuPopdown 
+gets to the application top-level shell widget 
+and cannot find a matching shell, 
+it generates a warning and returns immediately.
+.bp

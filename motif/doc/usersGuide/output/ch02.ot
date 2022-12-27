@@ -1,0 +1,1519 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2.  UUUUssssiiiinnnngggg aaaa MMMMoooottttiiiiffff AAAApppppppplllliiiiccccaaaattttiiiioooonnnn
+
+       Application programs written for Motif are intended to fol-
+       low a particular style of appearance and behavior.  This
+       common style is designed to directly benefit you so that
+       your interaction with all applications is the same and you
+       don't have to learn new techniques before putting a new
+       application program to work.
+
+       In this chapter you will use the Motif Resource Editor pro-
+       gram (mmmmrrrreeee) to change some of the colors and fonts displayed
+       on your screen.  In doing so, you will learn the following
+       techniques for using a Motif application:
+
+          +o Using a list box with scroll bars
+
+          +o Using pull-down menus (including some shortcuts)
+
+          +o Entering text into an input box
+
+          +o Using push buttons
+
+          +o Reacting to dialogs
+
+          +o Using check boxes and radio buttons
+
+       The examples in this chapter use mmmmrrrreeee to demonstrate general
+       techniques for using a Motif application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-1
+
+
+
+
+
+
+
+
+
+
+
+
+       2.1  GGGGeeeettttttttiiiinnnngggg RRRReeeeaaaaddddyyyy
+
+       Before working the examples in this chapter, you must start
+       the X Window System and the Motif Window Manager just as you
+       did in Chapter 1.
+
+       2.1.1  CCCCooooppppyyyyiiiinnnngggg ssssyyyyssss....XXXXddddeeeeffffaaaauuuullllttttssss IIIInnnnttttoooo YYYYoooouuuurrrr HHHHoooommmmeeee DDDDiiiirrrreeeeccccttttoooorrrryyyy
+
+       The file ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyyssss....XXXXddddeeeeffffaaaauuuullllttttssss is read each time you
+       start a program written for X.  In this chapter you will
+       work on a copy of this file (named ....XXXXddddeeeeffffaaaauuuullllttttssss) in your home
+       directory.
+
+       To copy ssssyyyyssss....XXXXddddeeeeffffaaaauuuullllttttssss into your home directory, renaming it
+       to ....XXXXddddeeeeffffaaaauuuullllttttssss, execute these commands:
+
+       ccccdddd <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       ccccpppp ////uuuussssrrrr////lllliiiibbbb////XXXX11111111////ssssyyyyssss....XXXXddddeeeeffffaaaauuuullllttttssss ....XXXXddddeeeeffffaaaauuuullllttttssss <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       2.1.2  SSSSttttaaaarrrrttttiiiinnnngggg tttthhhheeee MMMMoooottttiiiiffff RRRReeeessssoooouuuurrrrcccceeee EEEEddddiiiittttoooorrrr PPPPrrrrooooggggrrrraaaammmm
+
+       Next, start the mmmmrrrreeee program.  Point to the terminal window
+       and click the select button (to make the window active).
+       Then type this command:
+
+       mmmmrrrreeee &&&& <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       If you have correctly entered the command, a few moments
+       later you will see the application's window appear on the
+       screen.
+
+       If you have trouble starting mmmmrrrreeee, check to see that you
+       entered the command properly.  Remember, if the terminal
+       window is not the active window, everything you type is
+       lost.  If you are still having problems, consult your system
+       administrator to be sure everything has been installed prop-
+       erly (including the mmmmrrrreeee program).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-2
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.1.3  RRRReeeeccccooooggggnnnniiiizzzziiiinnnngggg CCCCoooommmmmmmmoooonnnn CCCCoooonnnnttttrrrroooollllssss
+
+       The mmmmrrrreeee program has many of the controls that you might use
+       in other Motif applications as shown in Figure 2-1.
+
+        FFFFiiiigggguuuurrrreeee 2222----1111....  Typical Controls Used by a Motif Application
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       As you work through the examples in the rest of this
+       chapter, you will learn how to use each of these controls.
+       After completing this chapter, you should be able to immedi-
+       ately use another Motif application quickly and easily.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-3
+
+
+
+
+
+
+
+
+
+
+
+
+       2.2  UUUUssssiiiinnnngggg aaaa LLLLiiiisssstttt
+
+       The list box near the center of the mmmmrrrreeee window contains all
+       the resources specified in your ....XXXXddddeeeeffffaaaauuuullllttttssss file.  (The mmmmrrrreeee
+       program may be used to work with other resource files; ....XXXXddddeeee----
+       ffffaaaauuuullllttttssss was loaded by default because you didn't specify a
+       file.)
+
+       2.2.1  SSSSccccrrrroooolllllllliiiinnnngggg tttthhhheeee LLLLiiiisssstttt
+
+       Whenever the list of resources is larger than the list box,
+       mmmmrrrreeee displays scroll bars along the right and bottom edges of
+       the box.  A scroll bar is a control that allows you to con-
+       trol what portion of a larger object is displayed within the
+       box.
+
+       Scroll bars have an arrow at each end and a rectangular
+       slider in the middle.  The slider represents the current
+       relative position in the list.  There are two ways to move a
+       slider:
+
+          +o Using the arrow buttons
+
+          +o Dragging the slider
+
+       2.2.1.1  UUUUssssiiiinnnngggg tttthhhheeee AAAArrrrrrrroooowwww BBBBuuuuttttttttoooonnnnssss
+
+       Point to the down arrow (|v) in the vertical scroll bar.
+       Press and hold the select button until the list stops
+       scrolling--it may take a moment to get to the end of the
+       list--then release the button.
+
+                    FFFFiiiigggguuuurrrreeee 2222----2222....  Using an Arrow Button
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-4
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.2.1.2  UUUUssssiiiinnnngggg tttthhhheeee SSSSlllliiiiddddeeeerrrr
+
+       Now, point to the slider (which should now be at the bottom
+       of the scroll bar), press and hold the select button to grab
+       the slider as shown in Figure 2-3. While still holding the
+       button, move the pointer up and down and watch the list
+       scroll to keep up with your movements.
+
+                       FFFFiiiigggguuuurrrreeee 2222----3333....  Using a Slider
+
+
+
+
+
+
+
+       On your own, play with the scroll bar controls until you
+       feel comfortable with moving the list up and down.  If the
+       list has any long lines, mmmmrrrreeee displays a horizontal scroll
+       bar for scrolling side-to-side.  Try that one too.
+
+       2.2.2  SSSSeeeelllleeeeccccttttiiiinnnngggg aaaannnn IIIItttteeeemmmm iiiinnnn tttthhhheeee LLLLiiiisssstttt
+
+       When a list item is selected, it is highlighted (displayed
+       in inverse video) and shows up in the Selection box just
+       below the list.  There are two ways to select an item in the
+       list:
+
+          +o Point to the item you want to select and click the
+            select button.
+
+          +o Or, use the <|^> and <|v> keys to move the highlight to
+            the item you want.
+
+       In the next section, you will use the second method to
+       select a particular resource.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-5
+
+
+
+
+
+
+
+
+
+
+
+
+       2.3  UUUUssssiiiinnnngggg PPPPuuuusssshhhh BBBBuuuuttttttttoooonnnnssss
+
+       A push button is a control that causes an immediate action.
+       To press a push button, point to it and then click the
+       select button.
+
+       2.3.1  PPPPrrrreeeessssssssiiiinnnngggg aaaa PPPPuuuusssshhhh BBBBuuuuttttttttoooonnnn
+
+       When you first start mmmmrrrreeee, the list box contains all of the
+       resources in your ....XXXXddddeeeeffffaaaauuuullllttttssss file.  The push buttons to the
+       left of the list box allow you to quickly redisplay the list
+       of resources showing only a particular type of resource.
+
+       To display only the resources associated with color, click
+       the push button that looks like a painter's palette.  See
+       Figure 2-4.
+
+       FFFFiiiigggguuuurrrreeee 2222----4444....  Press the Palette Button to Display Color
+                    Resources Only
+
+
+
+
+
+       The resource list is redisplayed, this time showing only
+       color resources.  (The other resources have not been
+       deleted, mmmmrrrreeee is simply not showing them.)
+
+       Use the <|^> and <|v> keys on your keyboard to move up and
+       down the list of resources until this line is highlighted:
+
+       xxxxtttteeeerrrrmmmm****bbbbaaaacccckkkkggggrrrroooouuuunnnndddd::::   wwwwhhhhiiiitttteeee
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-6
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.3.2  UUUUssssiiiinnnngggg tttthhhheeee <<<<RRRReeeettttuuuurrrrnnnn>>>> KKKKeeeeyyyy:::: AAAA SSSShhhhoooorrrrtttt CCCCuuuutttt ttttoooo tttthhhheeee DDDDeeeeffffaaaauuuulllltttt
+              PPPPuuuusssshhhh BBBBuuuuttttttttoooonnnn
+
+       The frame around the Edit push button means that pressing
+       <Return> is equivalent to clicking Edit. Often, the most
+       frequently used push button has a frame like this, indicat-
+       ing that it is the default selection.
+
+       Press <Return> now to edit the color resource that you
+       selected above (xxxxtttteeeerrrrmmmm****bbbbaaaacccckkkkggggrrrroooouuuunnnndddd).  The mmmmrrrreeee program displays
+       a new window specifically for editing a color resource.
+
+       In the next section, Entering Text into an Input Field, you
+       will select a new color for this resource.
+
+       2.3.3  DDDDoooouuuubbbblllleeee----CCCClllliiiicccckkkkiiiinnnngggg:::: AAAAnnnnooootttthhhheeeerrrr SSSShhhhoooorrrrtttt CCCCuuuutttt ttttoooo tttthhhheeee DDDDeeeeffffaaaauuuulllltttt
+              PPPPuuuusssshhhh BBBBuuuuttttttttoooonnnn
+
+       Double-clicking on an item in a list is even faster than
+       using <Return> or clicking Edit.  Remember, in order to
+       double-click, first point to the item, then rapidly press
+       and release the select button twice.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-7
+
+
+
+
+
+
+
+
+
+
+
+
+       2.4  EEEEnnnntttteeeerrrriiiinnnngggg TTTTeeeexxxxtttt IIIInnnnttttoooo aaaannnn IIIInnnnppppuuuutttt FFFFiiiieeeelllldddd
+
+       So far, most of your interaction with the mmmmrrrreeee program has
+       been with the mouse.  In this section, you will use your
+       keyboard to enter some text (a color name) into an input
+       field.
+
+       SSSStttteeeepppp 1111:::: SSSSeeeelllleeeeccccttttiiiinnnngggg tttthhhheeee IIIInnnnppppuuuutttt FFFFiiiieeeelllldddd
+
+       Since some application may display more than one input field
+       at a time, you may have to select the field you want to type
+       into.  To select the input field, point to it and then click
+       the select button.
+
+       For this example, point to the box just above the push but-
+       tons in the Color Selection Window and click.  An I-shaped
+       cursor begins blinking in the box.  This cursor marks your
+       typing position.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-8
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       SSSStttteeeepppp 2222:::: TTTTyyyyppppiiiinnnngggg tttthhhheeee TTTTeeeexxxxtttt
+
+       Use <Backspace> and <Del> to delete unwanted characters,
+       then type oooorrrraaaannnnggggeeee into the field as shown in Figure 2-5.  Use
+       the <<-> and <->> keys to move the cursor left and right.
+
+             FFFFiiiigggguuuurrrreeee 2222----5555....  The I Cursor is a Cue to Type Text
+
+
+
+
+
+
+
+
+       SSSStttteeeepppp 3333:::: AAAAcccccccceeeeppppttttiiiinnnngggg YYYYoooouuuurrrr IIIInnnnppppuuuutttt
+
+       When you are happy with the text you have entered, click the
+       OK button.  This action accepts the text you entered and
+       closes the Color Selection window.  Notice that the resource
+       you changed is now displayed as xxxxtttteeeerrrrmmmm****bbbbaaaacccckkkkggggrrrroooouuuunnnndddd::::oooorrrraaaannnnggggeeee in
+       the list.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2-9
+
+
+
+
+
+
+
+
+
+
+
+
+       2.5  EEEExxxxpppplllloooorrrriiiinnnngggg PPPPuuuullllllll----DDDDoooowwwwnnnn MMMMeeeennnnuuuussss
+
+       Most Motif applications have a menu bar across the top of
+       the window (just below the title bar) as shown in Figure 2-
+       6.  Each word in the menu bar represents a pull-down menu,
+       which is displayed by pulling down on the menu bar with the
+       mouse.
+
+                     FFFFiiiigggguuuurrrreeee 2222----6666....  A Typical Menu Bar
+
+
+
+
+
+
+
+       There are two ways to choose a function from a pull-down
+       menu using the mouse:
+
+          +o _D_r_a_g _m_e_t_h_o_d: Point to the menu you want to display,
+            press and hold the select button, drag the pointer to
+            highlight the desired function, and then release the
+            button.
+
+          +o _C_l_i_c_k _m_e_t_h_o_d: Point to the menu you want to display,
+            click the select button once to display the menu, point
+            to the desired function, and then click again.
+
+       If you decide you don't want to execute a function after the
+       menu is displayed, point away from the menu (so that no
+       function is highlighted), and then release or click the but-
+       ton.
+
+       The menu bar is the primary way to access an application's
+       functions.  Therefore, browsing through the menus and their
+       functions often serves as an excellent overview of a
+       program's features.
+
+       The File menu typically contains functions for opening,
+       closing, deleting, and printing files as shown in Figure 2-
+       7.  To display the File menu, point to FFFFiiiilllleeee in the menu bar,
+       and then press and hold the select button.
+
+
+
+
+
+
+
+
+
+
+
+       2-10
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+
+                  FFFFiiiigggguuuurrrreeee 2222----7777....  Displaying the File Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       While still holding the button down, drag the pointer down
+       the File menu.  Notice that each function is highlighted as
+       the pointer passes over it.  Don't let go of the button yet.
+
+       Now point to EEEEddddiiiitttt in the menu bar as shown in Figure 2-8.
+       The File menu disappears and the Edit menu appears.
+
+                  FFFFiiiigggguuuurrrreeee 2222----8888....  Displaying the Edit Menu
+
+
+
+
+
+
+
+
+
+
+
+       On your own--while still holding the button down--explore
+       each of the pull-down menus in the mmmmrrrreeee menu bar.  When you
+       are done, move the mouse completely away from the menu (so
+       that no menu function is highlighted) before releasing the
+       button.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-11
+
+
+
+
+
+
+
+
+
+
+
+
+       2.6  UUUUssssiiiinnnngggg aaaa CCCCaaaassssccccaaaaddddeeee MMMMeeeennnnuuuu
+
+       Earlier you used the palette button to cause mmmmrrrreeee to display
+       only color resources.  In this section you will choose a
+       function from a cascade menu that will resort the color
+       resources.
+
+       SSSStttteeeepppp 1111:::: DDDDiiiissssppppllllaaaayyyyiiiinnnngggg tttthhhheeee MMMMeeeennnnuuuu
+
+       Display the View menu by pointing to View in the menu bar
+       and holding down the select button.  There are two distin-
+       guishing features of the View menu that you may not have
+       seen before:
+
+          +o Cascade menus (also called submenus), which are indi-
+            cated with an arrow next to the function name.  Cascade
+            menus are used to group similar functions together.
+
+          +o Check boxes that represent a group of settings that may
+            be set in any combination.  Check boxes, which are fre-
+            quently used outside of menus too, are demonstrated in
+            the next section.
+
+       SSSStttteeeepppp 2222:::: DDDDiiiissssppppllllaaaayyyyiiiinnnngggg aaaa CCCCaaaassssccccaaaaddddeeee MMMMeeeennnnuuuu
+
+       While still holding the select button, drag the pointer
+       slowly down the menu stopping briefly on each of the selec-
+       tions that has an arrow next to it.  Notice that each one
+       has a cascade menu that appears as you point to it.  The
+       cascade menus in the View menu all contain the same two
+       functions:  ascending and descending as shown in Figure 2-9.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-12
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+
+                  FFFFiiiigggguuuurrrreeee 2222----9999....  Displaying a Cascade Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       SSSStttteeeepppp 3333:::: CCCChhhhoooooooossssiiiinnnngggg aaaa FFFFuuuunnnnccccttttiiiioooonnnn FFFFrrrroooommmm aaaa CCCCaaaassssccccaaaaddddeeee MMMMeeeennnnuuuu
+
+       While pointing to the By Resource menu item, carefully move
+       the pointer to the right until ascending is also
+       highlighted.  Then release the button.  This action, which
+       might be read as view by resource in ascending order, causes
+       the resources in the list to be sorted and redisplayed in
+       ascending (alphabetical) order according to their resource
+       names.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-13
+
+
+
+
+
+
+
+
+
+
+
+
+       2.7  UUUUssssiiiinnnngggg CCCChhhheeeecccckkkk BBBBooooxxxxeeeessss aaaannnndddd RRRRaaaaddddiiiioooo BBBBuuuuttttttttoooonnnnssss
+
+       When an application has a finite list of options or set-
+       tings, they are often presented as a list of toggle buttons.
+       Like a light switch, a toggle button can be on or off.
+       There are two ways that a group of toggle buttons may be
+       presented:
+
+          +o Check boxes are used for a group of settings that can
+            be set in any combination.  Check boxes are usually
+            displayed as small square buttons.
+
+          +o Radio buttons are used to group related settings that
+            allow only one selection at a time.  Radio buttons are
+            usually displayed as small diamond-shaped buttons.
+
+       2.7.1  UUUUssssiiiinnnngggg CCCChhhheeeecccckkkk BBBBooooxxxxeeeessss
+
+       The mmmmrrrreeee program's View By Resource menu contains a set of
+       check boxes; one for each type of resource.  When you first
+       start mmmmrrrreeee all the boxes are selected (on), so that all
+       resources are displayed.
+
+       The three push buttons along the left edge of the mmmmrrrreeee window
+       are provided as shortcuts that unselect all but one type of
+       resource (colors, fonts, and true/false types, respec-
+       tively).  Since the resource button you pressed most
+       recently was the palette button, mmmmrrrreeee is currently displaying
+       only color resources.  To also display the font and file
+       resources, follow these two steps:
+
+         1.  Choose SSSShhhhoooowwww ffffoooonnnntttt rrrreeeessssoooouuuurrrrcccceeeessss from the View menu.
+
+         2.  Choose SSSShhhhoooowwww ffffiiiilllleeee rrrreeeessssoooouuuurrrrcccceeeessss from the View menu.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-14
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.7.2  UUUUssssiiiinnnngggg RRRRaaaaddddiiiioooo BBBBuuuuttttttttoooonnnnssss
+
+       The mmmmrrrreeee program uses radio buttons to let you specify font
+       characteristics.  To see how they work, create a new entry
+       for your xxxxtttteeeerrrrmmmm font and open the Font Selection window by
+       typing this into the Selection box of the mmmmrrrreeee main window:
+
+       xxxxtttteeeerrrrmmmm****ffffoooonnnntttt:::: <<<<RRRReeeettttuuuurrrrnnnn>>>>
+
+       At the top of the Font Selection window, there are four sets
+       of radio buttons as shown in Figure 2-10.  Initially, none
+       of the buttons is selected. Click one button under each of
+       the four categories.  Now go through and click a different
+       button in each category.  Notice that only one button at a
+       time can be selected in each group.
+
+       FFFFiiiigggguuuurrrreeee 2222----11110000....  Radio Buttons List Your Options and Current
+                     Selections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Now click the FFFFiiiilllltttteeeerrrr ttttoooo ccccrrrriiiitttteeeerrrriiiiaaaa button to list the fonts on
+       your system that match the criteria you have just set with
+       the radio buttons.
+
+       Using the DDDDiiiissssppppllllaaaayyyy aaaallllllll mmmmaaaattttcccchhhheeeessss and DDDDiiiissssppppllllaaaayyyy sssseeeelllleeeeccccttttiiiioooonnnn push
+       buttons, you can display samples of the fonts.  When you
+       find a font that you like, select it (by clicking its name
+       in the list) and then click OK.  If your system does not
+       support this method of specifying fonts, you may have to
+       type a font name into the Selection window (just above the
+       push buttons).  If you are really stuck, the font named
+       ffffiiiixxxxeeeedddd is available on most systems.
+
+
+
+
+
+
+
+
+
+                                                               2-15
+
+
+
+
+
+
+
+
+
+
+
+
+       2.8  SSSSaaaavvvviiiinnnngggg aaaa FFFFiiiilllleeee
+
+       There are two functions in the File menu for saving your
+       file.  The Save function simply saves the current file using
+       the same name.  The Save As function allows you to enter or
+       select a different file name.
+
+       Throughout this chapter, you have been working on the ....XXXXddddeeee----
+       ffffaaaauuuullllttttssss file in your home directory.  If you want to
+       overwrite your ....XXXXddddeeeeffffaaaauuuullllttttssss file, then work through "Saving
+       the Current File" below.  If you want to save your work
+       under a different file name, work through "Saving as Another
+       File" in Section 2.8.2.
+
+       2.8.1  SSSSaaaavvvviiiinnnngggg tttthhhheeee CCCCuuuurrrrrrrreeeennnntttt FFFFiiiilllleeee
+
+       If you want to overwrite your current ....XXXXddddeeeeffffaaaauuuullllttttssss file with
+       the changes you've made in this chapter, use one of the fol-
+       lowing methods to choose Save from the File menu:
+
+          +o Use the mouse
+
+          +o Use the accelerator key:  <CTRL> <S>
+
+          +o Use the mnemonics: <Alt> <F> <S>
+
+       Accelerators and mnemonics are explained later in this
+       chapter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-16
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.8.2  SSSSaaaavvvviiiinnnngggg aaaassss AAAAnnnnooootttthhhheeeerrrr FFFFiiiilllleeee
+
+       If you do not want to overwrite your current ....XXXXddddeeeeffffaaaauuuullllttttssss file
+       with the changes you've made in this chapter, follow these
+       steps to create a new file:
+
+         1.  Choose Save As from the File menu.
+
+         2.  Type a new file name into the Selection box of the
+             SSSSaaaavvvveeee ffffiiiilllleeee aaaassss ............  window.  Be sure to pick a name that
+             you have not already used for something else.
+
+         3.  Click OK or press <Return>.
+
+       2.8.3  VVVViiiieeeewwwwiiiinnnngggg tttthhhheeee RRRReeeessssuuuullllttttssss
+
+       Whenever you change your ....XXXXddddeeeeffffaaaauuuullllttttssss file (or any other con-
+       figuration file), the changes are not read until you restart
+       the programs that are affected by the changes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-17
+
+
+
+
+
+
+
+
+
+
+
+
+       2.9  RRRReeeeaaaaccccttttiiiinnnngggg ttttoooo MMMMeeeessssssssaaaaggggeeeessss
+
+       Motif applications are designed to display helpful messages
+       to alert you to important conditions or errors.
+
+       2.9.1  CCCCrrrreeeeaaaattttiiiinnnngggg aaaannnn EEEErrrrrrrroooorrrr
+
+       In this example, you will purposely cause an error by
+       attempting to load a file that doesn't exist.  To create the
+       error, follow these steps:
+
+         1.  Choose Open... from the File menu.
+
+         2.  Type bbbboooogggguuuussss into the Selection box in the Open File
+             window.
+
+         3.  Press <Return> (or click on the OK button).
+
+       Since the file you specified doesn't exist, mmmmrrrreeee is confused
+       and displays the message shown in Figure 2-11.
+
+                  FFFFiiiigggguuuurrrreeee 2222----11111111....  A Typical Error Message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-18
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.9.2  AAAAcccckkkknnnnoooowwwwlllleeeeddddggggiiiinnnngggg tttthhhheeee EEEErrrrrrrroooorrrr
+
+       Many applications require you to acknowledge a message
+       before the program will continue to run.  If the message is
+       confusing, a Help button is often included to provide you
+       with more information about the message.
+
+       To acknowledge the error, click the OK button.  The dialog
+       box disappears and you may continue working.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-19
+
+
+
+
+
+
+
+
+
+
+
+
+       2.10  TTTTaaaakkkkiiiinnnngggg SSSShhhhoooorrrrtttt CCCCuuuuttttssss WWWWiiiitttthhhh MMMMeeeennnnuuuussss
+
+       Earlier in this chapter you learned how to choose menu func-
+       tions using the mouse.  Two additional features allow you to
+       quickly execute a function in a menu without using the
+       mouse.
+
+          +o An accelerator key is a key on your keyboard that the
+            application has assigned to directly execute a function
+            in a menu.  Accelerators are listed in the menu next to
+            the function names.
+
+          +o A mnemonic provides a similar capability by allowing
+            you to select from a menu by typing significant letters
+            within the menu.  Mnemonics are indicated as underlined
+            characters in the menu.
+
+         FFFFiiiigggguuuurrrreeee 2222----11112222....  Many Menus Have Accelerators and Mnemonics
+
+
+
+
+
+
+
+
+
+       The important difference is that accelerator keys allow you
+       to immediately execute a function without displaying the
+       menu.  Mnemonics, on the other hand, are simply a way to
+       display menus and choose functions without using the mouse.
+
+       2.10.1  UUUUssssiiiinnnngggg aaaannnn AAAAcccccccceeeelllleeeerrrraaaattttoooorrrr KKKKeeeeyyyy
+
+       Notice that the Help menu has an accelerator listed in the
+       menu bar.  At any time while you are using mmmmrrrreeee, you can get
+       help by pressing <F1>.  Try it.
+
+       When you are done with the Help information, click OK in the
+       Help window.
+
+
+
+
+
+
+
+
+
+
+
+
+
+       2-20
+
+
+
+
+
+
+
+
+
+                                          Using a Motif Application
+
+
+       2.10.2  DDDDiiiissssppppllllaaaayyyyiiiinnnngggg aaaa MMMMeeeennnnuuuu UUUUssssiiiinnnngggg IIIIttttssss MMMMnnnneeeemmmmoooonnnniiiicccc
+
+       To use a mnemonic to display a menu, hold down the <Alt> key
+       and then press the letter that is underlined in the menu's
+       name.
+
+       Try this:  Display the Help menu by typing <Alt> <H>
+       (because the H is underlined).
+
+       2.10.3  CCCChhhhoooooooossssiiiinnnngggg aaaa FFFFuuuunnnnccccttttiiiioooonnnn UUUUssssiiiinnnngggg IIIIttttssss MMMMnnnneeeemmmmoooonnnniiiicccc
+
+       Once a menu is displayed, you can use its mnemonic to exe-
+       cute a function by typing the letter that is underlined in
+       the function's name.
+
+       If the Help menu is still displayed, press <C> to display
+       helpful information about colors.
+
+       2.10.4  NNNNaaaavvvviiiiggggaaaattttiiiinnnngggg TTTThhhhrrrroooouuuugggghhhh MMMMeeeennnnuuuussss WWWWiiiitttthhhh tttthhhheeee CCCCuuuurrrrssssoooorrrr KKKKeeeeyyyyssss
+
+       After displaying a menu by clicking the mouse or using a
+       mnemonic, you can use the cursor keys (<<->, <->>, <|^>, and
+       <|v>) to move the highlight.
+
+       When the function you want to execute is highlighted, press
+       <Return>.  To cancel the menu without choosing a function,
+       press <ESC>.
+
+       Try this:  Display the Help menu again by pressing <Alt>
+       <H>.  Now use the <|^> and <|v> keys to move the highlight.
+       When the Fonts selection is highlighted, press <Return>.
+       Just as before, when you are done reading the Help informa-
+       tion, click OK.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               2-21
+
+
+
+
+
+
+
+
+
+
+
+
+       2.11  AAAA SSSSuuuummmmmmmmaaaarrrryyyy ooooffff MMMMeeeennnnuuuu SSSShhhhoooorrrrtttt CCCCuuuuttttssss
+
+7
+       2.11.1  DDDDiiiissssppppllllaaaayyyyiiiinnnngggg aaaa MMMMeeeennnnuuuu
+
+       As you've seen, there are two general ways to display a
+       pull-down menu:
+
+          +o Using the mouse, point to the menu name in the menu bar
+            and then ...
+
+               - Click the select button
+
+               - Or, press and hold the select button
+
+          +o Using the menu's mnemonic (press <Alt> plus the under-
+            lined character).  For example, press <Alt> <F> to
+            display the File menu.
+
+       2.11.2  CCCChhhhoooooooossssiiiinnnngggg aaaa MMMMeeeennnnuuuu FFFFuuuunnnnccccttttiiiioooonnnn
+
+       Once a menu is displayed, you can choose a function like
+       this:
+
+          +o If you are still holding the mouse button, drag the
+            pointer down the menu until the desired function is
+            highlighted, then release the button.
+
+          +o If you clicked the select button or used the menu's
+            mnemonic, you can choose a function using any of these
+            techniques:
+
+               - Point to the desired function and click the select
+                 button
+
+               - Type the function's mnemonic (underlined charac-
+                 ter)
+
+               - Use the cursor keys (<|^>, <|v>, <<->, and <->>) to
+                 move the highlight to the desired function, and
+                 then press <Return>
+
+       You can also use accelerators to execute menu functions
+       without displaying the menu.  For example, the Cut function
+       in the Edit menu can be executed by typing <Shift> <Del>.
+
+
+
+
+
+
+
+
+
+       2-22
+
+
+
+
+

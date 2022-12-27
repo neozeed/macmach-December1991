@@ -1,0 +1,429 @@
+#include <Library.tmpl>
+
+#if HasDESLibrary
+        DESDEFS = -DHASDES
+        DESOBJS = Encrypt.o
+        DESSRCS = Encrypt.c
+#else
+        DESDEFS =
+        DESOBJS =
+        DESSRCS =
+#endif
+       INCLUDES = -I. -I$(TOP) -I$(INCLUDESRC)
+   CONN_DEFINES = ConnectionFlags
+     EDB_DEFINES = -DERRORDB=\"$(LIBDIR)/XErrorDB\"
+     KDB_DEFINES = -DKEYSYMDB=\"$(LIBDIR)/XKeysymDB\"
+   INSTALLFLAGS = $(INSTINCFLAGS)
+#if BandAidLibraryNeeded
+        AIDSRCS = BandAidLibrarySources
+        AIDOBJS = BandAidLibraryObjects
+#endif
+       AUTHOBJS = AuDispose.o AuGetAddr.o AuFileName.o AuRead.o 
+       AUTHSRCS = AuDispose.c AuGetAddr.c AuFileName.c AuRead.c 
+           SRCS = *.c $(AIDSRCS)
+        HEADERS = Xlib.h Xresource.h Xutil.h cursorfont.h Xlibint.h Xlibos.h \
+			Xstreams.h
+       LINTLIBS =
+
+OBJS1 =\
+	Context.o \
+	Depths.o \
+	ParseCmd.o \
+	Quarks.o \
+	XAllCells.o \
+	XAllPlanes.o \
+	XAllowEv.o \
+	XAutoRep.o \
+	XBackgnd.o \
+	XBdrWidth.o \
+	XBell.o \
+	XBorder.o \
+	XChAccCon.o \
+	XChClMode.o \
+	XChActPGb.o \
+	XChCmap.o \
+	XChGC.o \
+	XChKeyCon.o \
+	XChPntCon.o \
+	XChProp.o \
+	XChSaveSet.o \
+	XChWAttrs.o \
+	XChWindow.o \
+	XChkIfEv.o \
+	XChkMaskEv.o \
+	XChkWinEv.o \
+	XChkTypEv.o \
+	XChkTypWEv.o \
+	XCirWin.o \
+	XCirWinDn.o \
+	XCirWinUp.o \
+	XClDisplay.o \
+	XClear.o \
+	XClearArea.o \
+	XConfWind.o \
+	XConnDis.o \
+	XConvSel.o \
+	XCopyArea.o \
+	XCopyCmap.o \
+	XCopyGC.o \
+	XCopyPlane.o \
+	XCrBFData.o \
+	XCrCmap.o \
+	XCrCursor.o \
+	XCrGC.o \
+	XCrGlCur.o \
+	XCrPFBData.o \
+	XCrPixmap.o \
+	XCrWindow.o \
+	XCursor.o \
+	XDefCursor.o \
+	XDelProp.o \
+	XDestSubs.o \
+	XDestWind.o \
+	XDisName.o \
+	XDrArc.o \
+	XDrArcs.o \
+	XDrLine.o \
+	XDrLines.o \
+	XDrPoint.o \
+	XDrPoints.o \
+	XDrRect.o \
+	XDrRects.o \
+	XDrSegs.o \
+	XErrDes.o \
+	XErrHndlr.o \
+	XEvToWire.o \
+	XFetchName.o \
+	XFillArc.o \
+	XFillArcs.o \
+	XFillPoly.o \
+	XFillRect.o \
+	XFillRects.o \
+	XFlush.o \
+	XFont.o \
+	XFontNames.o \
+	XFontInfo.o \
+	XFreeCmap.o \
+	XFreeCols.o \
+	XFreeCurs.o \
+	XFreeEData.o \
+	XFreeGC.o \
+	XFreePix.o \
+	XFSSaver.o \
+	XGCMisc.o \
+	XGeom.o \
+	XGetAtomNm.o \
+	XGetColor.o \
+	XGetDflt.o \
+	XGetFPath.o \
+	XGetFProp.o \
+	XGetGeom.o \
+	XGetHColor.o \
+	XGetHints.o \
+	XGetIFocus.o \
+	XGetImage.o \
+	XGetKCnt.o \
+	XGetMoEv.o \
+	XGetPCnt.o \
+	XGetPntMap.o \
+	XGetProp.o \
+	XGetSOwner.o \
+	XGetSSaver.o \
+	XGetStCmap.o \
+	XGetWAttrs.o \
+	XGrButton.o \
+	XGrKey.o \
+	XGrKeybd.o \
+	XGrPointer.o \
+	XGrServer.o \
+	XHost.o \
+	XIfEvent.o \
+	XImUtil.o \
+	XImText.o \
+	XImText16.o \
+	XInitExt.o \
+	XInsCmap.o \
+	XIntAtom.o \
+	XKeyBind.o \
+	XKillCl.o \
+	XLiHosts.o \
+	XLiICmaps.o \
+	XLiProps.o \
+	XListExt.o \
+	XLoadFont.o \
+	XLookupCol.o \
+	XLowerWin.o 
+
+OBJS2 =\
+	XMacros.o \
+	XMapRaised.o \
+	XMapSubs.o \
+	XMapWindow.o \
+	XMaskEvent.o \
+	XMisc.o \
+	XModMap.o \
+	XMoveWin.o \
+	XNextEvent.o \
+	XOpenDis.o \
+	XParseCol.o \
+	XParseGeom.o \
+	XPeekEvent.o \
+	XPeekIfEv.o \
+	XPending.o \
+	XPmapBgnd.o \
+	XPmapBord.o \
+	XPolyReg.o \
+	XPolyTxt.o \
+	XPolyTxt16.o \
+	XPutBEvent.o \
+	XPutImage.o \
+	XQuBest.o \
+	XQuColor.o \
+	XQuColors.o \
+	XQuCurShp.o \
+	XQuExt.o \
+	XQuKeybd.o \
+	XQuPntr.o \
+	XQuStipShp.o \
+	XQuTextE16.o \
+	XQuTextExt.o \
+	XQuTileShp.o \
+	XQuTree.o \
+	XRaiseWin.o \
+	XRdBitF.o \
+	XRecolorC.o \
+	XReconfWin.o \
+	XRegion.o \
+	XRepWindow.o \
+	XRestackWs.o \
+	XRotProp.o \
+	XSelInput.o \
+	XSendEvent.o \
+	XSetBack.o \
+	XSetCRects.o \
+	XSetClMask.o \
+	XSetClOrig.o \
+	XSetDashes.o \
+	XSetFPath.o \
+	XSetFont.o \
+	XSetFore.o \
+	XSetFunc.o \
+	XSetHints.o \
+	XSetIFocus.o \
+	XSetLStyle.o \
+	XSetPMask.o \
+	XSetPntMap.o \
+	XSetSOwner.o \
+	XSetSSaver.o \
+	XSetState.o \
+	XSetStip.o \
+	XSetStCmap.o \
+	XSetTile.o \
+	XSetTSOrig.o\
+	XStBytes.o \
+	XStColor.o \
+	XStColors.o \
+	XStNColor.o \
+	XStName.o \
+	XStrKeysym.o \
+	XSync.o \
+	XSynchro.o \
+	XText.o \
+	XText16.o \
+	XTextExt.o \
+	XTextExt16.o \
+	XTrCoords.o \
+	XUndefCurs.o \
+	XUngrabBut.o \
+	XUngrabKbd.o \
+	XUngrabKey.o \
+	XUngrabPtr.o \
+	XUngrabSvr.o \
+	XUninsCmap.o \
+	XUnldFont.o \
+	XUnmapSubs.o \
+	XUnmapWin.o \
+	XVisUtil.o \
+	XWarpPtr.o \
+	XWinEvent.o \
+	XWindow.o \
+	XWrBitF.o \
+	XlibInt.o \
+	Xrm.o \
+	Xstreams.o \
+	evtomask.o \
+	globals.o \
+	GetGCVals.o \
+	GetNrmHint.o \
+	GetRGBCMap.o \
+	GetTxtProp.o \
+	GetWMCMapW.o \
+	GetWMProto.o \
+	Iconify.o \
+	PixFormats.o \
+	PropAlloc.o \
+	ReconfWM.o \
+	SetNrmHint.o \
+	SetRGBCMap.o \
+	SetTxtProp.o \
+	SetWMCMapW.o \
+	SetWMProps.o \
+	SetWMProto.o \
+	StrToText.o \
+	TextToStr.o \
+	WMGeom.o \
+	Withdraw.o \
+	$(AIDOBJS) \
+	$(AUTHOBJS) $(DESOBJS)
+
+OBJS =\
+	$(OBJS1) $(OBJS2)
+
+all::
+
+#if SharedLibX
+# if DebugLibX
+SharedAndDebuggedLibraryObjectRule()
+SpecialSharedAndDebuggedObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialSharedAndDebuggedObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialSharedAndDebuggedObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedAndDebuggedObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialSharedAndDebuggedObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialSharedAndDebuggedObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedAndDebuggedObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedAndDebuggedObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+# else
+SharedLibraryObjectRule()
+SpecialSharedObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialSharedObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialSharedObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialSharedObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialSharedObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialSharedObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+# endif
+#else
+# if DebugLibX && ProfileLibX
+DebuggedAndProfiledLibraryObjectRule()
+SpecialDebuggedAndProfiledObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialDebuggedAndProfiledObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialDebuggedAndProfiledObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedAndProfiledObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+# else
+#  if DebugLibX
+DebuggedLibraryObjectRule()
+SpecialDebuggedObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialDebuggedObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialDebuggedObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialDebuggedObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialDebuggedObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialDebuggedObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+#  else
+#   if ProfileLibX
+ProfiledLibraryObjectRule()
+SpecialProfiledObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialProfiledObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialProfiledObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialProfiledObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialProfiledObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialProfiledObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialProfiledObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialProfiledObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+#   else
+NormalLibraryObjectRule()
+SpecialObjectRule(XErrDes.o,$(ICONFIGFILES),$(EDB_DEFINES))
+SpecialObjectRule(XStrKeysym.o,$(ICONFIGFILES),$(KDB_DEFINES))
+SpecialObjectRule(XConnDis.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialObjectRule(XOpenDis.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialObjectRule(Encrypt.o,$(ICONFIGFILES),$(DESDEFS))
+SpecialObjectRule(Xstreams.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialObjectRule(XlibInt.o,$(ICONFIGFILES),$(CONN_DEFINES))
+SpecialObjectRule(globals.o,$(ICONFIGFILES),$(CONN_DEFINES))
+#   endif
+#  endif
+# endif
+#endif
+
+/*
+ * always generate unshared library too
+ */
+#if SharedLibX
+NormalSharedLibraryTarget(X11,$(SOXLIBREV),$(OBJS))
+InstallSharedLibrary(X11,$(SOXLIBREV),$(USRLIBDIR))
+#endif
+NormalLibraryTarget2(X11,$(OBJS1),$(OBJS2))
+InstallLibrary(X11,$(USRLIBDIR))
+
+
+LintLibraryTarget(X11,*.c)
+
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(INCDIR))
+InstallNonExec(XErrorDB,$(LIBDIR))
+/*
+ * Uncomment the following two lines if you need compatibility for
+ * ancient Makefiles (that refer to libX.a or -lX instead of -lX11)
+ *
+ * AliasedLibraryTarget(X11,X)
+ * InstallLibraryAlias(X11,X,$(USRLIBDIR))
+ */
+InstallLintLibrary(X11,$(LINTLIBDIR))
+
+
+#if ProfileLibX && ProfileLibXArchive
+ProfiledLibraryTarget(X11,$(OBJS))
+AliasedLibraryTarget(X11_p,X_p)
+InstallLibrary(X_p,$(USRLIBDIR))
+InstallLibraryAlias(X11_p,X_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibX && DebugLibXArchive
+DebuggedLibraryTarget(X11,$(OBJS))
+AliasedLibraryTarget(X11_d,X_d)
+#endif
+
+#if BandAidLibraryNeeded
+BandAidLibraryMake()
+depend::  BandAidLibrarySources
+#endif
+
+AuDispose.c:  $(XAUTHSRC)/AuDispose.c
+	$(RM) $@
+	$(LN) $? $@
+
+AuGetAddr.c:  $(XAUTHSRC)/AuGetAddr.c
+	$(RM) $@
+	$(LN) $? $@
+
+AuFileName.c:  $(XAUTHSRC)/AuFileName.c
+	$(RM) $@
+	$(LN) $? $@
+
+AuRead.c:  $(XAUTHSRC)/AuRead.c
+	$(RM) $@
+	$(LN) $? $@
+
+Encrypt.c:  $(XDMCPLIBSRC)/Encrypt.c
+	$(RM) $@
+	$(LN) $? $@
+
+clean::
+	$(RM) $(AUTHSRCS) $(DESSRCS)
+
+depend:: $(AUTHSRCS) $(DESSRCS)
+
+DependTarget()
+
+
+/**/# structure alignment errors can safely be ignored.
+/**/# complaints about qevent can be ignored too.
+
+NormalLintTarget(*.c)

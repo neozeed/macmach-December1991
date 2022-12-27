@@ -1,0 +1,51 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmGetPostedFromWidget 3X "" "" "" ""
+.SH NAME
+\fBXmGetPostedFromWidget \(em a RowColumn function that returns the
+widget from which a menu was posted.\fP
+.iX "XmGetPostedFromWidget"
+.iX "RowColumn functions" "XmGetPostedFromWidget"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/RowColumn.h>
+.sp 1
+Widget XmGetPostedFromWidget (\fImenu\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fImenu\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmGetPostedFromWidget\fP returns the widget from which a menu was
+posted.
+An application can use this routine during the activate callback to
+determine the context in which the menu callback should be interpreted.
+.sp 1
+.IP "\fImenu\fP" .75i
+Specifies the widget ID of the menu
+.sp 1
+.PP
+For a complete definition of RowColumn and its associated resources, see
+\fBXmRowColumn(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID of the widget from which the menu was posted.
+If the menu is a Popup Menu, the returned widget is the widget from
+which the menu was popped up.
+If the menu is a Pulldown Menu, the returned widget is the MenuBar or
+OptionMenu from which the widget was pulled down.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmRowColumn(3X)\fP.
+.sp 1

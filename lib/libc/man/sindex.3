@@ -1,0 +1,47 @@
+.\"
+.\" $Id: sindex.3,v 1.3 89/12/26 11:21:55 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	sindex.3,v $
+.\" Revision 1.3  89/12/26  11:21:55  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH SINDEX 3 12/5/79
+.CM 1
+.SH "NAME"
+sindex \- find instance of substring within a string
+.SH "SYNOPSIS"
+.B
+char *sindex (big,small);
+.br
+.B
+char *big,*small;
+.SH "DESCRIPTION"
+.I
+Sindex
+returns a pointer to the first occurence of the string
+.I
+small
+within the string
+.I
+big.
+If there is no such substring of
+.I
+big,
+then 0 is returned.
+.SH "SEE ALSO"
+.IR index (3)
+.SH "DIAGNOSTICS"
+Returns 0 if no matching substring found.
+.SH "BUGS"
+If
+.I
+small
+is the null string, 0 is always returned.

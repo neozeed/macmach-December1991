@@ -1,0 +1,57 @@
+.\"
+.\" $Id: getchr.3,v 1.3 89/12/26 11:17:32 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	getchr.3,v $
+.\" Revision 1.3  89/12/26  11:17:32  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 23-Oct-82  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Error or EOF on standard input now causes default value to be used.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH GETCHR 3 10/23/82
+.CM 3
+.SH "NAME"
+getchr \- ask user to type a character
+.SH "SYNOPSIS"
+.B
+#include <stdio.h>
+.sp
+.B
+int getchr (prompt,legals,defalt);
+.br
+.B
+char *prompt,*legals,defalt;
+.SH "DESCRIPTION"
+.I
+Getchr
+will print its prompt and ask the user for a single character.
+If that
+charactter is in the string of legal response characters
+.RI ( legals ),
+then its index is returned.
+If a null string is typed (just a
+carriage return), then the default character
+.RI ( defalt )
+will be assumed and its index returned.
+If a character is typed
+which is not in the string of legal responses, then an error message
+is printed and the prompt-and-response cycle is repeated.
+.SH "SEE ALSO"
+.IR getbool (3), 
+.IR getstr (3), 
+.IR getstab (3), 
+etc.
+.br
+.IR chrarg (3)
+.SH "BUGS"
+There is no provision for an escape response (e.g.
+"I don't like any
+of these choices").

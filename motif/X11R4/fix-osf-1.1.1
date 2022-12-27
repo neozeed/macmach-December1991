@@ -1,0 +1,25 @@
+*** osfpatch/lib/Xt/Selection.c.orig	Sat Jan 12 11:31:46 1991
+--- osfpatch/lib/Xt/Selection.c	Sat Jan 12 11:31:59 1991
+***************
+*** 732,735 ****
+--- 732,737 ----
+  		    replacement = TRUE;
+  		}
++ 		oldctx = *ctx;
++ 		old_context = TRUE;
+  		ctx->free_when_done = TRUE;
+  		ctx = NewContext(XtDisplay(widget), selection);
+***************
+*** 745,749 ****
+  	    XtAddCallback(widget, XtNdestroyCallback,
+  			  WidgetDestroyed, (XtPointer)ctx);
+! 	    if (ctx->widget && !ctx->was_disowned && !replacement) {
+  		oldctx = *ctx;
+  		old_context = TRUE;
+--- 747,752 ----
+  	    XtAddCallback(widget, XtNdestroyCallback,
+  			  WidgetDestroyed, (XtPointer)ctx);
+! 	    if (!old_context && ctx->widget &&
+! 		!ctx->was_disowned && !replacement) {
+  		oldctx = *ctx;
+  		old_context = TRUE;

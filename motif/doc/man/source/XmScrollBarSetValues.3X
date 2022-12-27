@@ -1,0 +1,82 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmScrollBarSetValues 3X "" "" "" ""
+.SH NAME
+\fB
+XmScrollBarSetValues \(em a ScrollBar function that changes ScrollBar's
+increment values and the slider's size and position.\fP
+.iX "XmScrollBarSetValues"
+.iX "ScrollBar functions" "XmScrollBarSetValues"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/ScrollBar.h>
+.sp 1
+void \fBXmScrollBarSetValues\fP (\fIwidget, value, 
+slider_size, increment, page_increment, notify\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	int	\fIvalue\fP;
+.br
+	int	\fIslider_size\fP;
+.br
+	int	\fIincrement\fP;
+.br
+	int	\fIpage_increment\fP;
+.br
+	Boolean	\fInotify\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmSetScrollBarValues\fP changes the ScrollBar's increment values and the
+slider's size and position.
+The scroll region is overlaid with a 
+slider bar that is adjusted in size and position using the main ScrollBar or
+set slider function attributes.
+.sp 1
+.IP "\fIwidget\fP" 1.2i
+Specifies the ScrollBar widget ID.
+.IP "\fIvalue\fP" 1.2i
+Specifies the ScrollBar's slider position between 
+\fBXmNminimum\fP and \fBXmNmaximum\fP.  The resource name associated with
+this argument is \fBXmNvalue\fP.
+.IP "\fIslider_size\fP" 1.2i
+Specifies the size of the slider as a value between zero and the absolute
+value of \fBXmNmaximum\fP minus \fBXmNminimum\fP.  The size of the slider
+varies, depending on how much of the slider scroll area it represents.
+This sets the \fBXmNsliderSize\fP resource associated with ScrollBar.
+.IP "\fIincrement\fP" 1.2i
+Specifies the amount of button increment and decrement.  If this
+argument is not zero, the ScrollBar widget automatically adjusts the
+slider when an increment or decrement action occurs.  This sets the
+\fBXmNincrement\fP resource associated with ScrollBar.
+.IP "\fIpage_increment\fP" 1.2i
+Specifies the amount of page increment and decrement.  If this
+argument is not zero, the ScrollBar widget automatically adjusts the
+slider when an increment or decrement action occurs.  This sets the
+\fBXmNpageIncrement\fP resource associated with ScrollBar.
+.IP "\fInotify\fP" 1.2i
+Specifies a Boolean value that when True, indicates a change in
+the ScrollBar value and also specifies that the ScrollBar widget automatically activates
+the \fBXmNvalueChangedCallback\fP with the recent change.  If False,
+no change has occurred in the ScrollBar's value, and 
+\fBXmNvalueChangedCallback\fP is not activated.
+.sp 1
+.PP
+For a complete definition of ScrollBar and its associated resources, see
+\fBXmScrollBar(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmScrollBar(3X)\fP.
+.sp 1

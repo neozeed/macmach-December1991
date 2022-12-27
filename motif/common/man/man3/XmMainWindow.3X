@@ -1,0 +1,232 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmMainWindow 3X "" "" "" ""
+.SH NAME
+\fBXmMainWindow \(em the MainWindow widget class.\fP
+.iX "XmMainWindow"
+.iX "widget class" "MainWindow"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/MainW.h>\fP
+.sp 1
+.SH DESCRIPTION
+MainWindow provides a standard layout for the primary window of an 
+application.  This layout includes a MenuBar, a CommandWindow, a work 
+region, a MessageWindow, and ScrollBars.  Any or all of these areas are optional.  The
+work region and ScrollBars in the MainWindow behave identically to the work 
+region and ScrollBars in the ScrolledWindow widget.  The user can think of 
+the MainWindow as an extended ScrolledWindow with an optional MenuBar and 
+optional CommandWindow and MessageWindow.
+.PP
+In a fully-loaded MainWindow, the MenuBar spans the top of the window 
+horizontally.  The CommandWindow spans the MainWindow horizontally just below 
+the MenuBar, and the work region lies below the CommandWindow.  
+The MessageWindow is is below the work region.
+Any space remaining below the 
+MessageWindow is managed in a manner identical to ScrolledWindow.  
+The behavior of ScrolledWindow can be controlled by the ScrolledWindow 
+resources.
+To create a MainWindow, first create the
+work region elements, a MenuBar, a CommandWindow, a MessageWindow, a
+horizontal
+ScrollBar, and a vertical ScrollBar widget, and then 
+call \fBXmMainWindowSetAreas\fP with those widget IDs. 
+.PP
+MainWindow 
+can also create three Separator widgets that provide a visual separation of 
+MainWindow's four components.  
+.sp 1
+.SS "Classes"
+MainWindow inherits behavior and resources from \fBCore\fP, 
+\fBComposite\fP, \fBConstraint\fP, \fBXmManager\fP, 
+and \fBScrolledWindow\fP classes.
+.PP
+The class pointer is \fBxmMainWindowWidgetClass.
+.PP
+The class name is \fBXmMainWindow\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.br
+.ne 2i
+.sp 1
+.in -.5i
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmMainWindow Resource Set
+Name	Class	Type	Default	Access
+_
+XmNcommandWindow	XmCCommandWindow	Widget	NULL	CSG
+XmNcommandWindowLocation	XmCCommandWindowLocation	unsigned char	ABOVE (SeeDesc.)	CG
+XmNmainWindowMarginHeight	XmCMainWindowMarginHeight	Dimension	0	CSG
+XmNmainWindowMarginWidth	XmCMainWindowMarginWidth	Dimension	0	CSG
+XmNmenuBar	XmCMenuBar	Widget	NULL	CSG
+XmNmessageWindow	XmCMessageWindow	Widget	NULL	CSG
+XmNshowSeparator	XmCShowSeparator	Boolean	False	CSG
+.TE
+.in
+.sp 1
+.IP "\fBXmNcommandWindow\fP"
+Specifies the widget to be laid out as the CommandWindow.  This widget 
+must have been previously created and managed as a child of MainWindow.
+.IP "\fBXmNcommandWindowLocation\fP"
+Controls the position of the command window.  \fBXmCOMMAND_ABOVE_WORKSPACE\fP
+locates the command window between the menu bar and the work window.
+\fBXmCOMMAND_BELOW_WORKSPACE\fP locates the command window between the
+work window and the message window.
+.br
+.ne 10
+.IP "\fBXmNmainWindowMarginHeight\fP"
+Specifies the margin height on the top and bottom of MainWindow.  This 
+resource overrides any setting of the 
+.na
+ScrolledWindow resource 
+.ad
+\fBXmNscrolledWindowMarginHeight\fP.
+.IP "\fBXmNmainWindowMarginWidth\fP"
+Specifies the margin width on the right and left sides of MainWindow.  This 
+resource overrides any setting of the ScrolledWindow resource 
+\fBXmNscrolledWindowMarginWidth\fP.
+.IP "\fBXmNmenuBar\fP"
+Specifies the widget to be laid out as the MenuBar.  This widget must 
+have been previously created and managed as a child of MainWindow.
+.IP "\fBXmNmessageWindow\fP"
+Specifies the widget to be laid out as the MessageWindow.  This widget 
+must have been previously created and managed as a child of MainWindow.
+The MessageWindow is positioned at the bottom of the MainWindow.
+If this value is NULL, no message window is included in the MainWindow.
+.IP "\fBXmNshowSeparator\fP"
+Displays separators between the components of the MainWindow when set
+to True.  If set to False, no separators are displayed.
+.sp 1
+.SS "Inherited Resources"
+MainWindow inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmScrolledWindow Resource Set
+Name	Class	Type	Default	Access
+_
+XmNclipWindow	XmCClipWindow	Widget	dynamic	G
+XmNhorizontalScrollBar	XmCHorizontalScrollBar	Widget	dynamic	CSG
+XmNscrollBarDisplayPolicy	XmCScrollBarDisplayPolicy	unsigned char	dynamic	CSG
+XmNscrollBarPlacement	XmCScrollBarPlacement	unsigned char	XmBOTTOM_RIGHT	CSG
+XmNscrolledWindowMarginHeight	XmCScrolledWindowMarginHeight	Dimension	0	N/A
+XmNscrolledWindowMarginWidth	XmCScrolledWindowMarginWidth	Dimension	0	N/A
+XmNscrollingPolicy	XmCScrollingPolicy	unsigned char	XmAPPLICATION_DEFINED	CG
+XmNspacing	XmCSpacing	Dimension	4	CSG
+XmNverticalScrollBar	XmCVerticalScrollBar	Widget	dynamic	CSG
+XmNvisualPolicy	XmCVisualPolicy	unsigned char	dynamic	CG
+XmNworkWindow	XmCWorkWindow	Widget	NULL    	CSG
+.TE
+.in
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	0	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+MainWindow inherits translations from ScrolledWindow.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, \fBCore(3X)\fP,
+\fBXmCreateMainWindow(3X)\fP, 
+\fBXmMainWindowSep1(3X)\fP, \fBXmMainWindowSep2(3X)\fP,
+\fBXmMainWindowSep3(3X)\fP,
+\fBXmMainWindowSetAreas(3X)\fP,
+\fBXmManager(3X)\fP, and \fBXmScrolledWindow(3X)\fP

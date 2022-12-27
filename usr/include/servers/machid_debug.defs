@@ -1,0 +1,117 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1991,1990 Carnegie Mellon University
+ * All Rights Reserved.
+ * 
+ * Permission to use, copy, modify and distribute this software and its
+ * documentation is hereby granted, provided that both the copyright
+ * notice and this permission notice appear in all copies of the
+ * software, derivative works or modified versions, and any portions
+ * thereof, and that both notices appear in supporting documentation.
+ * 
+ * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS 
+ * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+ * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Carnegie Mellon requests users of this software to return to
+ * 
+ *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+ *  School of Computer Science
+ *  Carnegie Mellon University
+ *  Pittsburgh PA 15213-3890
+ * 
+ * any improvements or extensions that they make and grant Carnegie the
+ * rights to redistribute these changes.
+ */
+/*
+ * HISTORY
+ * $Log:	machid_debug.defs,v $
+ * Revision 2.2  91/08/29  18:11:23  rpd
+ * 	Moved to the include directory.
+ * 	[91/08/29            rpd]
+ * 
+ * Revision 2.5  91/03/19  12:30:22  mrt
+ * 	Changed to new copyright
+ * 
+ * Revision 2.4  91/03/10  13:41:09  rpd
+ * 	Added host_zone_info.
+ * 	[91/01/14            rpd]
+ * 
+ * Revision 2.3  90/11/05  23:33:51  rpd
+ * 	Added host_stack_usage, processor_set_stack_usage.
+ * 	[90/10/29            rpd]
+ * 
+ * Revision 2.2  90/09/12  16:31:35  rpd
+ * 	Created.
+ * 	[90/06/18            rpd]
+ * 
+ */
+
+subsystem machid_debug 2398925;
+
+userprefix machid_;
+serverprefix do_;
+
+#include <mach/std_types.defs>
+#include <mach/mach_types.defs>
+#include <mach_debug/mach_debug_types.defs>
+#include <servers/machid_types.defs>
+
+routine port_get_srights(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		task		: mtask_t;
+		name		: mach_port_name_t;
+	out	srights		: mach_port_rights_t);
+
+routine port_space_info(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		task		: mtask_t;
+	out	info		: ipc_info_space_t;
+	out	table_info	: ipc_info_name_array_t, dealloc;
+	out	tree_info	: ipc_info_tree_name_array_t, dealloc);
+
+routine port_dnrequest_info(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		task		: mtask_t;
+		name		: mach_port_name_t;
+	out	total		: unsigned;
+	out	used		: unsigned);
+
+routine vm_region_info(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		task		: mtask_t;
+		addr		: vm_offset_t;
+	out	region		: vm_info_region_t;
+	out	objects		: vm_info_object_array_t, dealloc);
+
+routine host_stack_usage(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		host		: mhost_t;
+	out	reserved	: vm_size_t;
+	out	total		: unsigned;
+	out	space		: vm_size_t;
+	out	resident	: vm_size_t;
+	out	maxusage	: vm_size_t;
+	out	maxstack	: vm_offset_t);
+
+routine processor_set_stack_usage(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		pset		: mprocessor_set_t;
+	out	total		: unsigned;
+	out	space		: vm_size_t;
+	out	resident	: vm_size_t;
+	out	maxusage	: vm_size_t;
+	out	maxstack	: vm_offset_t);
+
+routine host_zone_info(
+		server		: mach_port_t;
+		auth		: mach_port_t;
+		host		: mhost_t;
+	out	names		: zone_name_array_t;
+	out	info		: zone_info_array_t);

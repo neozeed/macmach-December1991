@@ -1,0 +1,10 @@
+     MAKEDEV = /usr/local/obj/ditroff/troff/makedev
+   FONTFILES = R I B F C CB CF CO H HB HF HO N NB NF NI A AI AB AF S
+
+all::	DESC.out
+
+DESC.out: DESC $(FONTFILES)
+	$(MAKEDEV) DESC
+
+depend:
+	@echo "skipping make depend in clients/xditview/devX75"

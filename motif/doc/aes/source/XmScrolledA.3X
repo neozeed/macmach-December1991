@@ -1,0 +1,400 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmScrolledWindow 3X "" "" "" ""
+.SH NAME
+\fBXmScrolledWindow \(em the ScrolledWindow widget class.\fP
+.iX "XmScrolledWindow"
+.iX "widget class" "ScrolledWindow"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/ScrolledW.h>\fP
+.sp 1
+.SH DESCRIPTION
+The ScrolledWindow widget combines one or two ScrollBar widgets and a
+viewing area to implement a visible window onto some other (usually larger)
+data display.  The visible part of the window can be scrolled through the
+larger display by the use of ScrollBars.
+.PP
+To use ScrolledWindow, an application first creates a ScrolledWindow
+widget, any needed ScrollBar widgets, and a widget capable of displaying
+any desired data as the work area of ScrolledWindow.  ScrolledWindow
+positions the work area widget and display the ScrollBars if so
+requested.  When the user performs some action on the ScrollBar, the
+application is notified through the normal ScrollBar callback
+interface.  
+.PP
+.ne 2i
+ScrolledWindow can be configured to operate automatically so 
+that it performs all scrolling and display actions with no need for application
+program involvement.  It can also be configured to provide a minimal support 
+framework in which the application is responsible for processing all user input
+and making all visual changes to the displayed data in response to that input.
+.PP
+When ScrolledWindow is performing automatic scrolling it creates a
+clipping window.  Conceptually, this window becomes the viewport through which
+the user examines the larger underlying data area.  The application simply 
+creates the desired data, then makes that data the work area of the
+ScrolledWindow.
+When the user moves the slider to change the displayed data, the 
+workspace is moved under the viewing area so that a new portion of the data
+becomes visible.
+.PP
+Sometimes it is impractical for an application to create a 
+large data space and simply display it through a small clipping window.  For
+example, in a text editor, creating a single data area that consisted of a 
+large file would involve an undesirable amount of overhead.  
+The application needs to use a ScrolledWindow
+(a small viewport onto some larger data), but needs to be notified 
+when the user scrolled the viewport so it could bring in more data from
+storage and update the display area.  For these cases the ScrolledWindow can be 
+configured so that it provides only visual layout support.  No clipping window
+is created, and the application must maintain the data displayed in the 
+work area, as well as respond to user input on the ScrollBars.
+.sp 1
+.SS "Classes"
+ScrolledWindow inherits behavior and 
+resources from \fBCore\fP, \fBComposite\fP, 
+\fBConstraint\fP, and \fBXmManager\fP Classes.
+.PP
+The class pointer is \fBxmScrolledWindowWidgetClass\fP.
+.PP
+The class name is \fBXmScrolledWindow\fP.
+.sp 1
+.ne 3i
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmScrolledWindow Resource Set
+Name	Class	Type	Default	Access
+_
+XmNclipWindow	XmCClipWindow	Widget	dynamic	G
+XmNhorizontalScrollBar	XmCHorizontalScrollBar	Widget	dynamic	CSG
+XmNscrollBarDisplayPolicy	XmCScrollBarDisplayPolicy	unsigned char	dynamic	CSG
+XmNscrollBarPlacement	XmCScrollBarPlacement	unsigned char	XmBOTTOM_RIGHT	CSG
+XmNscrolledWindowMarginHeight	XmCScrolledWindowMarginHeight	Dimension	0	CSG
+XmNscrolledWindowMarginWidth	XmCScrolledWindowMarginWidth	Dimension	0	CSG
+XmNscrollingPolicy	XmCScrollingPolicy	unsigned char	XmAPPLICATION_DEFINED	CG
+XmNspacing	XmCSpacing	Dimension	4	CSG
+XmNverticalScrollBar	XmCVerticalScrollBar	Widget	dynamic	CSG
+XmNvisualPolicy	XmCVisualPolicy	unsigned char	dynamic	CG
+XmNworkWindow	XmCWorkWindow	Widget	NULL    	CSG
+.TE
+.in
+.sp 1
+.IP "\fBXmNclipWindow\fP"
+Specifies the widget ID of the clipping area.  This
+is automatically created by 
+ScrolledWindow when the \fBXmNvisualPolicy\fP resource is set to
+\fBXmCONSTANT\fP and
+can only be read by the application.  Any attempt to set this resource to a
+new value causes a warning message to be printed by the scrolled
+window.  If the \fBXmNvisualPolicy\fP resource is set to \fBXmVARIABLE\fP, this
+resource is set to NULL, and no clipping window is created.
+.IP "\fBXmNhorizontalScrollBar\fP"
+Specifies the widget ID of the horizontal ScrollBar.
+This is automatically created by ScrolledWindow when the
+\fBXmNscrollingPolicy\fP is initialized to \fBXmAUTOMATIC\fP; otherwise,
+the default is NULL.
+.IP "\fBXmNscrollBarDisplayPolicy\fP"
+Controls the automatic placement of the ScrollBars.  If 
+it is set to \fBXmAS_NEEDED\fP and if \fBXmNscrollingPolicy\fP is
+set to \fBXmAUTOMATIC\fP, ScrollBars are displayed only if the 
+workspace exceeds the clip area in one or both dimensions.  A resource value
+of \fBXmSTATIC\fP causes the ScrolledWindow
+to display the ScrollBars whenever
+they are managed, regardless of the relationship between the clip window 
+and the work area.  This resource must be \fBXmSTATIC\fP when 
+\fBXmNscrollingPolicy\fP is \fBXmAPPLICATION_DEFINED\fP.
+The default is \fBXmAS_NEEDED\fP when \fBXmNscrollingPolicy\fP is
+\fBXmAUTOMATIC\fP, and \fBXmSTATIC\fP otherwise.
+.IP "\fBXmNscrollBarPlacement\fP"
+Specifies the positioning of the ScrollBars
+in relation to the work window.  The following are the values:
+.RS
+.IP \(bu 3
+\fBXmTOP_LEFT\fP \(em
+The horizontal ScrollBar is placed above the 
+work window; the vertical ScrollBar to 
+the left.
+.IP \(bu 3
+\fBXmBOTTOM_LEFT\fP \(em
+The horizontal ScrollBar is placed below the 
+work window; the vertical ScrollBar to 
+the left.
+.IP \(bu 3
+\fBXmTOP_RIGHT\fP \(em
+The horizontal ScrollBar is placed above the 
+work window; the vertical ScrollBar to 
+the right.
+.IP \(bu 3
+\fBXmBOTTOM_RIGHT\fP \(em
+The horizontal ScrollBar is placed below the 
+work window; the vertical ScrollBar to 
+the right.
+.RE
+.IP
+The default value may depend on the value of the
+\fBXmNstringDirection\fP resource.
+.IP "\fBXmNscrolledWindowMarginHeight\fP"
+Specifies the margin height on the top and bottom of the 
+ScrolledWindow.
+.IP "\fBXmNscrolledWindowMarginWidth\fP"
+Specifies the margin width on the right and left sides of the 
+ScrolledWindow.
+.IP "\fBXmNscrollingPolicy\fP"
+Performs automatic scrolling of the
+work area with no application interaction.  If the value of this resource
+is \fBXmAUTOMATIC\fP, ScrolledWindow automatically creates the
+ScrollBars; attaches callbacks to the
+ScrollBars; sets the visual policy to \fBXmCONSTANT\fP; 
+and automatically moves the
+work area through the clip window in response to any user interaction with
+the ScrollBars.  An application can also add its own callbacks to the
+ScrollBars.  This allows the application to be notified of a scroll event
+without having to perform any layout procedures.
+.IP
+\fBNOTE\fP:  Since the
+ScrolledWindow adds callbacks to the ScrollBars, an application should not
+perform an \fBXtRemoveAllCallbacks\fP on any of the ScrollBar widgets.
+.IP
+When \fBXmNscrollingPolicy\fP is set to
+\fBXmAPPLICATION_DEFINED\fP, the application 
+is responsible for all aspects of scrolling.  The ScrollBars must be created
+by the application, and it is responsible for performing any visual changes
+in the work area in response to user input.
+.IP
+This resource must be set to the desired policy at the time the 
+ScrolledWindow is created.  It cannot be changed through \fBSetValues\fP.
+.IP "\fBXmNspacing\fP"
+Specifies the distance that separates the ScrollBars from the 
+work window.
+.IP "\fBXmNverticalScrollBar\fP"
+Specifies the widget ID of the vertical ScrollBar.
+This is automatically created by ScrolledWindow when the
+\fBXmNscrollingPolicy\fP is initialized to \fBXmAUTOMATIC\fP; otherwise,
+the default is NULL.
+.br
+.ne 6
+.IP "\fBXmNvisualPolicy\fP"
+Grows the ScrolledWindow to match the size of the work area, or it can 
+be used as a static viewport onto a larger data space.  If the visual policy
+is \fBXmVARIABLE\fP, the ScrolledWindow forces the ScrollBar display
+policy to \fBXmSTATIC\fP and
+allow the work area to grow or shrink
+at any time and adjusts its layout to accommodate the new size.  When
+the policy is \fBXmCONSTANT\fP, the work area grows or shrinks
+as requested, but a clipping window forces the size of the visible
+portion to remain constant.  The only time the viewing area can grow is
+in response
+to a resize from the ScrolledWindow's parent.
+The default is \fBXmCONSTANT\fP when \fBXmNscrollingPolicy\fP is
+\fBXmAUTOMATIC\fP, and \fBXmVARIABLE\fP otherwise.
+.IP
+\fBNOTE\fP:  This resource must be set to the desired policy at the time the 
+ScrolledWindow is created.  It cannot be changed through \fBSetValues\fP.
+.IP "\fBXmNworkWindow\fP"
+Specifies the widget ID of the viewing area.
+.sp 1
+.SS "Inherited Resources"
+ScrolledWindow inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.br
+.ne 3i
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+ScrolledWindow defines no new callback structures.  The application must
+use the ScrollBar callbacks to be notified of user input.
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmScrolledWindow includes the translations from XmManager.
+.sp 1 \"Adds space before the SS
+.sp
+.ne 6i
+.SS "Additional Behavior"
+This widget has the additional behavior described below:
+.IP "\fBKPageUp\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window up the height of the viewport.
+The distance scrolled my be reduced to provide some overlap.
+The actual distance scrolled depends on the
+\fBXmNpageIncrement\fP resource of the vertical ScrollBar.
+.IP "\fBKPageDown\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window down the height of the viewport.
+The distance scrolled my be reduced to provide some overlap.
+The actual distance scrolled depends on the
+\fBXmNpageIncrement\fP resource of the vertical ScrollBar.
+.IP "\fBKPageLeft\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window left the width of the viewport.
+The distance scrolled my be reduced to provide some overlap.
+The actual distance scrolled depends on the
+\fBXmNpageIncrement\fP resource of the horizontal ScrollBar.
+.IP "\fBKPageRight\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window right the width of the viewport.
+The distance scrolled my be reduced to provide some overlap.
+The actual distance scrolled depends on the
+\fBXmNpageIncrement\fP resource of the horizontal ScrollBar.
+.IP "\fBKBeginLine\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window horizontally to the edge corresponding to the
+horizontal ScrollBar's minimum value.
+.IP "\fBKEndLine\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window horizontally to the edge corresponding to the
+horizontal ScrollBar's maximum value.
+.sp
+.ne 6i
+.IP "\fBKBeginData\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window vertically to the edge corresponding to the
+vertical ScrollBar's minimum value.
+.IP "\fBKEndData\fP:"
+If \fBXmNscrollingPolicy\fP is \fBXmAUTOMATIC\fP,
+scrolls the window vertically to the edge corresponding to the
+vertical ScrollBar's maximum value.
+.ig ZZ
+.sp 1
+.SS "Geometry Management"
+ScrolledWindow makes extensive use of the \fBXtQueryGeometry\fP
+functionality to facilitate geometry communication between
+application levels.  In the \fBXmAPPLICATION_DEFINED\fP scrolling
+policy, the WorkWindow's query procedure is called by the
+ScrolledWindow whenever the ScrolledWindow is going to change
+its size.  The widget calculates the largest possible
+workspace area and passes this size to the WorkWindow widget's
+query procedure.  The query procedure can then examine this new
+size and determine if any changes, such as
+managing or unmanaging a ScrollBar, are necessary.  The query procedure
+performs whatever actions it needs and then returns to the
+ScrolledWindow.  The ScrolledWindow then examines the
+ScrollBars to see which (if any) are managed, allocates a
+portion of the visible space for them, and resizes the
+WorkWindow to fit in the rest of the space.
+.PP
+When the scrolling policy is \fBXmCONSTANT\fP, the ScrolledWindow can
+be queried to return the optimal size for a given dimension.
+The optimal size is defined to be the size that just
+encloses the WorkWindow.  By using this mechanism, an application
+can size the ScrolledWindow so that it needs to display a
+ScrollBar only for one dimension.  When the ScrolledWindow's query
+procedure is called via \fBXtQueryGeometry\fP, the request is examined
+to see if the width or height has been specified.  If so, the
+routine uses the given dimension as the basis for its
+calculations.  It determines the minimum value for the other
+dimension that just encloses the WorkWindow, fills in the
+appropriate elements in the reply structure, and returns to the
+calling program.  Occasionally, using the specified width or
+height and the other minimum dimension results in neither
+ScrollBar appearing.  When this happens, the query procedure
+sets both the width and height fields, indicating that in
+this situation the ideal size causes a change in both
+dimensions.  If the calling application sets both the width and
+height fields, the ScrolledWindow determines the minimum
+size for both dimensions and return those values in the reply
+structure.
+.ZZ
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, \fBCore(3X)\fP,
+\fBXmCreateScrolledWindow(3X)\fP, 
+\fBXmManager(3X)\fP, and \fBXmScrolledWindowSetAreas(3X)\fP.

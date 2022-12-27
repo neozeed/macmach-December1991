@@ -1,0 +1,29 @@
+      DEPLIBS = 
+      DEFINES = NdbmDefines
+     INCLUDES = -I$(TOP) -I$(SERVERSRC)/include
+ INSTALLFLAGS = $(INSTLIBFLAGS)
+        SRCS1 = rgb.c
+        OBJS1 = rgb.o
+        SRCS2 = showrgb.c
+        OBJS2 = showrgb.o
+         SRCS = $(SRCS1) $(SRCS2)
+         OBJS = $(OBJS1) $(OBJS2)
+     PROGRAMS = rgb showrgb
+    DATAFILES = rgb.pag rgb.dir
+      DATADEP = rgb.dir		/* just want one run of rgb */
+
+all:: $(PROGRAMS) $(DATADEP)
+
+SingleProgramTarget(rgb,$(OBJS1),/**/,-ldbm)
+SingleProgramTarget(showrgb,$(OBJS2),/**/,-ldbm)
+InstallMultiple($(DATAFILES) rgb.txt,$(LIBDIR))
+InstallProgramWithFlags(showrgb,$(BINDIR),)
+
+$(DATADEP):  rgb rgb.txt
+	$(RM) $(DATAFILES)
+	./rgb rgb < rgb.txt
+
+clean::
+	$(RM) $(DATAFILES)
+
+DependTarget()

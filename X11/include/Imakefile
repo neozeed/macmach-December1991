@@ -1,0 +1,80 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /**/
+
+INSTALLFLAGS = $(INSTINCFLAGS)
+SUBDIRS = bitmaps
+
+HEADERS = DECkeysym.h \
+	X.h \
+	XWDFile.h \
+	Xatom.h \
+	Xmd.h \
+	Xos.h \
+	Xproto.h \
+	Xprotostr.h \
+	ap_keysym.h \
+	copyright.h \
+	keysym.h \
+	keysymdef.h 
+
+all::
+
+BuildIncludes($(HEADERS),.,.)
+
+#if InstallOldHeaderFiles
+XAWDUMMIES = \
+	AsciiText.h \
+	AsciiTextP.h \
+	Box.h \
+	BoxP.h \
+	Cardinals.h \
+	Clock.h \
+	ClockP.h \
+	Command.h \
+	CommandP.h \
+	Dialog.h \
+	DialogP.h \
+	Form.h \
+	FormP.h \
+	Grip.h \
+	GripP.h \
+	Label.h \
+	LabelP.h \
+	List.h \
+	ListP.h \
+	Load.h \
+	LoadP.h \
+	Logo.h \
+	LogoP.h \
+	Mailbox.h \
+	MailboxP.h \
+	Scroll.h \
+	Simple.h \
+	SimpleP.h \
+	Text.h \
+	TextP.h \
+	TextSrcP.h \
+	VPaned.h \
+	Viewport.h \
+	ViewportP.h
+
+XMUDUMMIES = Xmu.h
+
+includes::
+	@echo "+ Adding backwards compatibility links for Xaw and Xmu headers."
+	@-(list=`echo $(XAWDUMMIES) | sed -e 's/[^ ]*\///g'`; set -x; \
+		$(RM) $$list; cd $(BUILDINCDIR); for i in $$list; do $(LN) Xaw/$$i .; done)
+	@-(list=`echo $(XMUDUMMIES) | sed -e 's/[^ ]*\///g'`; set -x; \
+		$(RM) $$list; cd $(BUILDINCDIR); for i in $$list; do $(LN) Xmu/$$i . ; done)
+	@-(cd $(BUIlDINCDIR); set -x; \
+		$(RM) XawMisc.h; $(LN) Xmu/Misc.h XawMisc.h)
+#endif
+
+
+MakeDirectories(install,$(INCDIR))
+InstallMultiple($(HEADERS),$(INCDIR))
+MakeSubdirs($(SUBDIRS))
+
+depend::
+
+clean::

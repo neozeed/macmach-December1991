@@ -1,0 +1,63 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFontListGetNextFont 3X "" "" "" ""
+.SH NAME
+\fBXmFontListGetNextFont \(em a compound string function that allows 
+applications to access the fonts and character sets in a font list.\fP
+.iX "XmFontListGetNextFont"
+.iX "compound string functions" "XmFontListGetNextFont"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmFontListGetNextFont (\fIcontext, charset, font\fP)
+.br
+.ta .5i 1.75i
+.br
+	XmFontContext	\fIcontext\fP;
+.br
+	XmStringCharSet	\fI* charset\fP;
+.br
+	XFontStruct	\fI** font\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmFontListGetNextFont\fP 
+accesses the character set and font for the next entry of the fontlist.
+The application first uses the \fBXmFontListInitFontContext\fP routine
+to create a font list context.
+The application then calls \fBXmFontListGetNextFont\fP repeatedly with
+the same context.
+Each succeeding call accesses the next element of the fontlist.
+When finished, the application calls \fBXmFontListFreeFontContext\fP to
+free the allocated font list context.
+.PP
+This routine allocates memory for the character set string that must be
+freed by the application.
+.sp 1
+.IP "\fIcontext\fP" .75i 
+Specifies the font list context
+.IP "\fIcharset\fP" .75i
+Specifies a pointer to a character set string; the routine returns the
+character set for the current font list element
+.IP "\fIfont\fP" .75i
+Specifies a pointer to a pointer to a font structure; the routine
+returns the font for the current font list element
+.sp 1
+.SH RETURN VALUE
+Returns True if the returned values are valid; otherwise, returns False.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmFontListFreeFontContext(3X)\fP and
+\fBXmFontListInitFontContext(3X)\fP.
+.sp 1

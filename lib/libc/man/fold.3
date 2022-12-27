@@ -1,0 +1,71 @@
+.\"
+.\" $Id: fold.3,v 1.3 89/12/26 11:17:07 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	fold.3,v $
+.\" Revision 1.3  89/12/26  11:17:07  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 05-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH FOLD 3 12/5/79
+.CM 1
+.SH "NAME"
+foldup, folddown \- perform case-folding on strings
+.SH "SYNOPSIS"
+.B
+char *foldup (out,in);
+.br
+.B
+char *folddown (out,in);
+.br
+.B
+char *out,*in;
+.SH "DESCRIPTION"
+.I
+Foldup
+and
+.I
+folddown
+perform case-folding (to upper or lower case, respectively)
+on strings.
+The string at
+.I
+in
+is copied to the buffer at
+.I
+out,
+changing letters as appropriate.
+Only letters are affected.
+.sp
+It is
+.I
+specifically allowed
+for
+.I
+out
+and
+.I
+in
+to specify the same string; in this manner, in-place case folding
+is possible.
+Both folding routines return
+.I
+out
+as their value, for convenience.
+.SH "BUGS"
+No "inversion" mode is provided.
+In-place case folding is accomplished
+by specifying
+.I
+out
+and
+.I
+in
+as the same string; this is a rather cumbersome way to specify the most
+common manner of case-folding.

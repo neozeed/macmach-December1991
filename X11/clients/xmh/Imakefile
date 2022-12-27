@@ -1,0 +1,18 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+       INCLUDES = -I$(TOP) -I$(AWIDGETSRC) -I$(TOOLKITSRC)
+        DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+           SRCS = bbox.c command.c compfuncs.c folder.c icon.c init.c \
+                  main.c menu.c mlist.c msg.c pick.c popup.c screen.c \
+                  toc.c tocfuncs.c tocutil.c tsource.c util.c viewfuncs.c
+           OBJS = bbox.o command.o compfuncs.o folder.o icon.o init.o \
+                  main.o menu.o mlist.o msg.o pick.o popup.o screen.o \
+                  toc.o tocfuncs.o tocutil.o tsource.o util.o viewfuncs.o
+
+
+ComplexProgramTarget(xmh)
+InstallAppDefaults(Xmh)

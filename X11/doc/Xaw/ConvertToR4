@@ -1,0 +1,118 @@
+\&
+.sp 1
+.ce 1
+\s+1\fBConverting R3 Athena Widget Applications to R4\fP\s-1
+.sp 2
+.nr H1 0
+The Athena widget set has gone through many changes since R3, new widgets
+have been added, and many of the existing widgets have be rewritten to
+be have more features and be more robust.  While much thought has gone into
+making the widget set compatible with earlier versions, there have been
+some changes made that will effect application code written against
+the R3 Athena widget set.
+.LP
+This document describes how to get your R3 applications running under
+the new Athena widget set, as well as how to convert your code to not
+depend upon pieces of the widget set that are no longer supported, and
+have only been preserved for compatibility.
+.LP
+.NH 1
+Getting R3 Clients to Run with the R4 Athena Widgets
+.LP
+While many changes have been made to the Athena widget set, most of
+the R3 client code will build and run if the widget library and the
+application are built with the \fBXAW_BC\fP flag set.  
+.NH 1
+Incompatible Changes
+.LP
+There were only two incompatible changes made to the Athena widget set
+in this release.
+.IP 1) 4n
+The List widget's ListReturnStruct had a member called \fIindex\fP in
+R3.  Since some operating systems had a global symbol that collided
+with this name it had been change to \fIlist_index\fP.
+.IP 2) 4n
+The Scrollbar had a resource named \fBtop\fP.  This resource collided
+with one of the Form widget's constraint resources, to prevent this
+problem the name of the scrollbars \fBtop\fP resource has been changes
+to \fBtopOfThumb\fP.
+.NH 1
+Removing R3 dependencies from Client Applications.
+.LP
+Although the \fBXAW_BC\fP flag will allow your client to build,
+features that are only active when this flag is set will be removed
+from future releases of the widget set.  To get your client to build
+``Cleanly'' under the Release 4 Athena widget set you must do the following.
+.IP "Change Header Files" 1.5i
+All header files in the Athena widget set have been moved from
+\fB<X11>\fP to \fB<X11/Xaw>\fP.  For example the Label widget's header
+file will now be found in \fB<X11/Xaw/Label.h>\fP.
+.IP "Change \fBXt\fP to \fBXaw\fP"
+All Convenience routines and most of the other symbols provided by
+the Athena widget set now start with the letters \fBXaw\fP instead of
+\fBXt\fP.  This helps distinguish those things that are part of the
+Athena widget set, from those are in the Intrinsics.  When is doubt
+about whether or not the name has changed see the \fIAthena Widget Set
+- C Language Interface\fP.
+.LP
+.sp
+In addition, some of the old widgets have had their interface slightly
+modified.
+.sp
+.IP \fBBox\fP
+No changes will be necessary.
+.IP \fBCommand\fP 1i
+No changes will be necessary.
+.IP \fBDialog\fP
+No changes will be necessary.
+.IP \fBForm\fP
+No changes will be necessary.
+.IP \fBGrip\fP
+No changes will be necessary.
+.IP \fBLabel\fP
+No changes will be necessary.
+.IP \fBList\fP
+The \fBXawListReturnStruct\fP member \fIindex\fP is now called
+\fIlist_index\fP. 
+.IP \fBScrollbar\fP
+.RS
+.IP \(bu 5
+The \fBthumbProc\fP is no longer supported use \fBjumpProc\fP instead.
+.IP \(bu 5
+Change the \fBtop\fP resource to \fBtopOfThumb\fP.
+.RE
+.IP \fBText\fP
+.RS
+.IP \(bu 5
+AsciiString and AsciiDisk widgets have been replaced with the
+AsciiText widget.  This widget supports editable disk sources and
+memory management.  If you want your string to be used in place (R3
+Style) set the \fBuseStringInPlace\fP resource.  See \fIAthena
+Widget Set - C Language Interface\fP.  This change of class means that
+the following changes will be necessary.
+.RS
+.IP \(bu 5
+Class symbol used in \fBXtCreateWidget\fP is now \fBasciiTextWidgetClass\fP.
+.IP \(bu 5
+header files are now \fBAsciiText.h\fP and \fBAsciiTextP.h\fP.
+.RE
+.IP \(bu 5
+The \fBtextOptions\fP are no longer supported.  These features have been
+broken up into separate resources so that string converters could be
+registered on these options.
+.RE
+.IP \fBViewport\fP
+No changes will be necessary.
+.IP \fBVPaned\fP
+This widget has been renamed Paned, since it now supports horizontal
+scrolling.  This change of class means that the following changes will
+be necessary.
+.RS
+.IP \(bu 5
+Class resource name is \fBPaned\fP.
+.IP \(bu 5
+Class symbol used in \fBXtCreateWidget\fP is now \fBpanedWidgetClass\fP.
+.IP \(bu 5
+header files are now \fBPaned.h\fP and \fBPanedP.h\fP.
+.RE
+

@@ -1,0 +1,178 @@
+#
+# Make file for MicroEmacs using DATALIGHT OPTIMUM-C v3.12.
+
+# NOTE:
+#	Optimizer passes are commented out in this file.
+#	I suggest that you be careful about which files
+#	you do choose to optimize, as some files get their
+#	functionallity optimized right out.
+#	In particular, DO NOT optimize msdos.c and input.c.
+#
+
+#
+# Set up the source, includes, and object files directories.
+#
+SRC=	SRC/
+INC=	
+OBJ=	DTLO/
+
+CC1=	DLC1
+CC2=	DLG 
+CC3=	DLC2
+
+C1FLAGS=	-mL
+C2FLAGS=	+space
+C3FLAGS=
+
+OFILES=	$(OBJ)ansi.obj $(OBJ)basic.obj $(OBJ)bind.obj $(OBJ)buffer.obj !
+	$(OBJ)crypt.obj $(OBJ)dg10.obj $(OBJ)display.obj $(OBJ)eval.obj !
+	$(OBJ)exec.obj $(OBJ)file.obj $(OBJ)fileio.obj $(OBJ)hp110.obj !
+	$(OBJ)hp150.obj $(OBJ)ibmpc.obj $(OBJ)input.obj $(OBJ)isearch.obj !
+	$(OBJ)line.obj $(OBJ)lock.obj $(OBJ)main.obj $(OBJ)mouse.obj !
+	$(OBJ)msdos.obj $(OBJ)random.obj $(OBJ)region.obj $(OBJ)search.obj !
+	$(OBJ)tipc.obj $(OBJ)window.obj $(OBJ)word.obj $(OBJ)z309.obj
+
+HFILES=	$(INC)estruct.h $(INC)edef.h $(INC)efunc.h $(INC)epath.h $(INC)ebind.h $(INC)evar.h
+
+emacs.exe: $(OFILES)
+	link @dlmacs.lnk
+
+$(OBJ)ansi.obj: $(SRC)ansi.c $(HFILES)
+	$(CC1) $(SRC)ansi $(C1FLAGS)
+#	$(CC2) $(SRC)ansi $(C2FLAGS)
+	$(CC3) $(SRC)ansi -o$(OBJ)ansi $(C3FLAGS)
+
+$(OBJ)basic.obj: $(SRC)basic.c $(HFILES)
+	$(CC1) $(SRC)basic $(C1FLAGS)
+#	$(CC2) $(SRC)basic $(C2FLAGS)
+	$(CC3) $(SRC)basic -o$(OBJ)basic $(C3FLAGS)
+
+$(OBJ)bind.obj: $(SRC)bind.c $(HFILES)
+	$(CC1) $(SRC)bind $(C1FLAGS)
+#	$(CC2) $(SRC)bind $(C2FLAGS)
+	$(CC3) $(SRC)bind -o$(OBJ)bind $(C3FLAGS)
+
+$(OBJ)buffer.obj: $(SRC)buffer.c $(HFILES)
+	$(CC1) $(SRC)buffer $(C1FLAGS)
+#	$(CC2) $(SRC)buffer $(C2FLAGS)
+	$(CC3) $(SRC)buffer -o$(OBJ)buffer $(C3FLAGS)
+
+$(OBJ)crypt.obj: $(SRC)crypt.c $(HFILES)
+	$(CC1) $(SRC)crypt $(C1FLAGS)
+#	$(CC2) $(SRC)crypt $(C2FLAGS)
+	$(CC3) $(SRC)crypt -o$(OBJ)crypt $(C3FLAGS)
+
+$(OBJ)dg10.obj: $(SRC)dg10.c $(HFILES)
+	$(CC1) $(SRC)dg10 $(C1FLAGS)
+#	$(CC2) $(SRC)dg10 $(C2FLAGS)
+	$(CC3) $(SRC)dg10 -o$(OBJ)dg10 $(C3FLAGS)
+
+$(OBJ)display.obj: $(SRC)display.c $(HFILES)
+	$(CC1) $(SRC)display $(C1FLAGS)
+#	$(CC2) $(SRC)display $(C2FLAGS)
+	$(CC3) $(SRC)display -o$(OBJ)display $(C3FLAGS)
+
+$(OBJ)eval.obj: $(SRC)eval.c $(HFILES)
+	$(CC1) $(SRC)eval $(C1FLAGS)
+#	$(CC2) $(SRC)eval $(C2FLAGS)
+	$(CC3) $(SRC)eval -o$(OBJ)eval $(C3FLAGS)
+
+$(OBJ)exec.obj: $(SRC)exec.c $(HFILES)
+	$(CC1) $(SRC)exec $(C1FLAGS)
+#	$(CC2) $(SRC)exec $(C2FLAGS)
+	$(CC3) $(SRC)exec -o$(OBJ)exec $(C3FLAGS)
+
+$(OBJ)file.obj: $(SRC)file.c $(HFILES)
+	$(CC1) $(SRC)file $(C1FLAGS)
+#	$(CC2) $(SRC)file $(C2FLAGS)
+	$(CC3) $(SRC)file -o$(OBJ)file $(C3FLAGS)
+
+$(OBJ)fileio.obj: $(SRC)fileio.c $(HFILES)
+	$(CC1) $(SRC)fileio $(C1FLAGS)
+#	$(CC2) $(SRC)fileio $(C2FLAGS)
+	$(CC3) $(SRC)fileio -o$(OBJ)fileio $(C3FLAGS)
+
+$(OBJ)hp110.obj: $(SRC)hp110.c $(HFILES)
+	$(CC1) $(SRC)hp110 $(C1FLAGS)
+#	$(CC2) $(SRC)hp110 $(C2FLAGS)
+	$(CC3) $(SRC)hp110 -o$(OBJ)hp110 $(C3FLAGS)
+
+$(OBJ)hp150.obj: $(SRC)hp150.c $(HFILES)
+	$(CC1) $(SRC)hp150 $(C1FLAGS)
+#	$(CC2) $(SRC)hp150 $(C2FLAGS)
+	$(CC3) $(SRC)hp150 -o$(OBJ)hp150 $(C3FLAGS)
+
+$(OBJ)ibmpc.obj: $(SRC)ibmpc.c $(HFILES)
+	$(CC1) $(SRC)ibmpc $(C1FLAGS)
+#	$(CC2) $(SRC)ibmpc $(C2FLAGS)
+	$(CC3) $(SRC)ibmpc -o$(OBJ)ibmpc $(C3FLAGS)
+
+$(OBJ)input.obj: $(SRC)input.c $(HFILES)
+	$(CC1) $(SRC)input $(C1FLAGS)
+##	$(CC2) $(SRC)input $(C2FLAGS)
+	$(CC3) $(SRC)input -o$(OBJ)input $(C3FLAGS)
+
+$(OBJ)isearch.obj: $(SRC)isearch.c $(HFILES)
+	$(CC1) $(SRC)isearch $(C1FLAGS)
+#	$(CC2) $(SRC)isearch $(C2FLAGS)
+	$(CC3) $(SRC)isearch -o$(OBJ)isearch $(C3FLAGS)
+
+$(OBJ)line.obj: $(SRC)line.c $(HFILES)
+	$(CC1) $(SRC)line $(C1FLAGS)
+#	$(CC2) $(SRC)line $(C2FLAGS)
+	$(CC3) $(SRC)line -o$(OBJ)line $(C3FLAGS)
+
+$(OBJ)lock.obj: $(SRC)lock.c $(HFILES)
+	$(CC1) $(SRC)lock $(C1FLAGS)
+#	$(CC2) $(SRC)lock $(C2FLAGS)
+	$(CC3) $(SRC)lock -o$(OBJ)lock $(C3FLAGS)
+
+$(OBJ)main.obj: $(SRC)main.c $(HFILES)
+	$(CC1) $(SRC)main $(C1FLAGS)
+#	$(CC2) $(SRC)main $(C2FLAGS)
+	$(CC3) $(SRC)main -o$(OBJ)main $(C3FLAGS)
+
+$(OBJ)mouse.obj: $(SRC)mouse.c $(HFILES)
+	$(CC1) $(SRC)mouse $(C1FLAGS)
+#	$(CC2) $(SRC)mouse $(C2FLAGS)
+	$(CC3) $(SRC)mouse -o$(OBJ)mouse $(C3FLAGS)
+
+$(OBJ)msdos.obj: $(SRC)msdos.c $(HFILES)
+	$(CC1) $(SRC)msdos $(C1FLAGS)
+##	$(CC2) $(SRC)msdos $(C2FLAGS)
+	$(CC3) $(SRC)msdos -o$(OBJ)msdos $(C3FLAGS)
+
+$(OBJ)random.obj: $(SRC)random.c $(HFILES)
+	$(CC1) $(SRC)random $(C1FLAGS)
+#	$(CC2) $(SRC)random $(C2FLAGS)
+	$(CC3) $(SRC)random -o$(OBJ)random $(C3FLAGS)
+
+$(OBJ)region.obj: $(SRC)region.c $(HFILES)
+	$(CC1) $(SRC)region $(C1FLAGS)
+#	$(CC2) $(SRC)region $(C2FLAGS)
+	$(CC3) $(SRC)region -o$(OBJ)region $(C3FLAGS)
+
+$(OBJ)search.obj: $(SRC)search.c $(HFILES)
+	$(CC1) $(SRC)search $(C1FLAGS)
+#	$(CC2) $(SRC)search $(C2FLAGS)
+	$(CC3) $(SRC)search -o$(OBJ)search $(C3FLAGS)
+
+$(OBJ)tipc.obj: $(SRC)tipc.c $(HFILES)
+	$(CC1) $(SRC)tipc $(C1FLAGS)
+#	$(CC2) $(SRC)tipc $(C2FLAGS)
+	$(CC3) $(SRC)tipc -o$(OBJ)tipc $(C3FLAGS)
+
+$(OBJ)word.obj: $(SRC)word.c $(HFILES)
+	$(CC1) $(SRC)word $(C1FLAGS)
+#	$(CC2) $(SRC)word $(C2FLAGS)
+	$(CC3) $(SRC)word -o$(OBJ)word $(C3FLAGS)
+
+$(OBJ)window.obj: $(SRC)window.c $(HFILES)
+	$(CC1) $(SRC)window $(C1FLAGS)
+#	$(CC2) $(SRC)window $(C2FLAGS)
+	$(CC3) $(SRC)window -o$(OBJ)window $(C3FLAGS)
+
+$(OBJ)z309.obj: $(SRC)z309.c $(HFILES)
+	$(CC1) $(SRC)z309 $(C1FLAGS)
+#	$(CC2) $(SRC)z309 $(C2FLAGS)
+	$(CC3) $(SRC)z309 -o$(OBJ)z309 $(C3FLAGS)

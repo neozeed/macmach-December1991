@@ -1,0 +1,340 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmMessageBox 3X "" "" "" ""
+.SH NAME
+\fBXmMessageBox \(em the MessageBox widget class.\fP
+.iX "XmMessageBox"
+.iX "widget class" "MessageBox"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB#include <Xm/MessageB.h>\fP
+.sp 1
+.SH DESCRIPTION
+MessageBox is a dialog class used for creating simple message dialogs.
+Convenience dialogs based on MessageBox are provided for several common
+interaction tasks, which include giving information, asking questions, and
+reporting errors.
+.PP
+A MessageBox dialog is typically transient in nature, displayed for the 
+duration of a single interaction.
+MessageBox is a subclass of XmBulletinBoard and
+depends on it for much of its general dialog behavior.
+.PP
+A MessageBox can contain a message symbol, a message, and up to 
+three standard default PushButtons:  \fBOK, Cancel\fP, and \fBHelp\fP.  
+It is laid out with the symbol and message
+on top and the PushButtons on the bottom.
+The help button is positioned to the side of the other push buttons.
+You can localize the default symbols and button labels for MessageBox 
+convenience dialogs.
+.PP
+At initialization, MessageBox looks for the following bitmap files:
+.RS
+.IP \(bu 3
+xm_error
+.IP \(bu 3
+xm_information
+.IP \(bu 3
+xm_question
+.IP \(bu 3
+xm_working
+.IP \(bu 3
+xm_warning
+.RE
+.PP
+See \fBXmGetPixmap(3X)\fP for a list of the paths that are searched for
+these files.
+.sp 1
+.SS "Classes"
+MessageBox inherits behavior and resources from \fBCore\fP, 
+\fBComposite\fP, \fBConstraint\fP, 
+\fBXmManager\fP, and \fBXmBulletinBoard\fP.
+.PP
+The class pointer is \fBxmMessageBoxWidgetClass\fP.
+.PP
+The class name is \fBXmMessageBox\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmMessageBox Resource Set
+Name	Class	Type	Default	Access
+_
+XmNcancelCallback	XmCCallback	XtCallbackList	NULL	C
+XmNcancelLabelString	XmCCancelLabelString	XmString	"Cancel"	CSG
+XmNdefaultButtonType	XmCDefaultButtonType	unsigned char	XmDIALOG_OK_BUTTON	CSG
+XmNdialogType	XmCDialogType	unsigned char	XmDIALOG_MESSAGE	CSG
+XmNhelpLabelString	XmCHelpLabelString	XmString	"Help"	CSG
+XmNmessageAlignment	XmCAlignment	unsigned char	XmALIGNMENT_BEGINNING	CSG
+XmNmessageString	XmCMessageString	XmString	""	CSG
+XmNminimizeButtons	XmCMinimizeButtons	Boolean	False	CSG
+XmNokCallback	XmCCallback	XtCallbackList	NULL	C
+XmNokLabelString	XmCOkLabelString	XmString	"OK"	CSG
+XmNsymbolPixmap	XmCPixmap	Pixmap	dynamic	CSG
+.TE
+.sp 1
+.br
+.ne 20
+.IP "\fBXmNcancelCallback\fP"
+Specifies the list of callbacks that is called when
+the user clicks on the cancel button.
+The reason sent by the callback is \fBXmCR_CANCEL\fP.
+.IP "\fBXmNcancelLabelString\fP"
+Specifies the string label for the cancel button.
+.IP "\fBXmNdefaultButtonType\fP"
+Specifies the default PushButton.  The following are valid types:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_CANCEL_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_OK_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_HELP_BUTTON\fP
+.RE
+.IP "\fBXmNdialogType\fP"
+Specifies the type of MessageBox dialog, which determines
+the default message symbol.
+The following are the possible values for this resource:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_ERROR\fP \(em indicates an ErrorDialog
+.IP \(bu 3
+\fBXmDIALOG_INFORMATION\fP \(em indicates an InformationDialog
+.IP \(bu 3
+\fBXmDIALOG_MESSAGE\fP \(em indicates a MessageDialog.
+This is the default MessageBox dialog type.
+The default message symbol is NULL.
+.IP \(bu 3
+\fBXmDIALOG_QUESTION\fP \(em indicates a QuestionDialog
+.IP \(bu 3
+\fBXmDIALOG_WARNING\fP \(em indicates a WarningDialog
+.IP \(bu 3
+\fBXmDIALOG_WORKING\fP \(em indicates a WorkingDialog
+.RE
+.IP
+If this resource is changed via \fBXtSetValues\fP, the symbol bitmap is
+modified to the new \fBXmdialogType\fP bitmap unless \fBXmNsymbolPixmap\fP
+is also being set in \fBXtSetValues\fP.
+.br
+.IP "\fBXmNhelpLabelString\fP"
+Specifies the string label for the help button.
+.br
+.ne 12
+.IP "\fBXmNmessageAlignment\fP"
+Controls the alignment of the message Label.
+Possible values include the following:
+.RS
+.IP \(bu 3
+\fBXmALIGNMENT_BEGINNING\fP \(em the default
+.IP \(bu 3
+\fBXmALIGNMENT_CENTER\fP
+.IP \(bu 3
+\fBXmALIGNMENT_END\fP
+.RE
+.IP "\fBXmNmessageString\fP"
+Specifies the string to be used as the message.
+.IP "\fBXmNminimizeButtons\fP"
+Sets the buttons to the width of the widest button and height of the
+tallest button if False.  If True, button width and height are 
+set to the preferred size of each button.
+.IP "\fBXmNokCallback\fP"
+Specifies the list of callbacks that is called when
+the user clicks on the OK button.
+The reason sent by the callback is \fBXmCR_OK\fP.
+.IP "\fBXmNokLabelString\fP"
+Specifies the string label for the OK button.
+.IP "\fBXmNsymbolPixmap\fP"
+Specifies the pixmap label to be used as the message symbol.
+.sp 1
+.SS "Inherited Resources"
+MessageBox inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmBulletinBoard Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowOverlap	XmCAllowOverlap	Boolean	True	CSG
+XmNautoUnmanage	XmCAutoUnmanage	Boolean	True	CG
+XmNbuttonFontList	XmCButtonFontList	XmFontList	dynamic	CSG
+XmNcancelButton	XmCWidget	Widget	Cancel button	SG
+XmNdefaultButton	XmCWidget	Widget	dynamic	SG
+XmNdefaultPosition	XmCDefaultPosition	Boolean	True	CSG
+XmNdialogStyle	XmCDialogStyle	unsigned char	dynamic	CSG
+XmNdialogTitle	XmCDialogTitle	XmString	NULL	CSG
+XmNfocusCallback	XmCCallback	XtCallbackList	NULL	C
+XmNlabelFontList	XmCLabelFontList	XmFontList	dynamic	CSG
+XmNmapCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmarginHeight	XmCMarginHeight	Dimension	10	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	10 	CSG
+XmNnoResize	XmCNoResize	Boolean	False	CSG
+.tH
+XmNresizePolicy	XmCResizePolicy	unsigned char	XmRESIZE_ANY	CSG
+XmNshadowType	XmCShadowType	unsigned char	XmSHADOW_OUT	CSG
+XmNtextFontList	XmCTextFontList	XmFontList	dynamic	CSG
+XmNtextTranslations	XmCTranslations	XtTranslations	NULL	C
+XmNunmapCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	dynamic	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	N/A
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.50i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent	\fI* event\fP;
+} \fBXmAnyCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback
+.br
+.ne 20
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmMessageBox includes the translations from XmManager.
+.sp 1 \"Adds space before the SS
+.SS "Additional Behavior"
+The XmMessageBox widget has the additional behavior described below:
+.IP "\fBMAny KCancel\fP:"
+Calls the activate callbacks for the cancel button if it is sensitive.
+.IP "\fBKActivate\fP:"
+Calls the activate callbacks for the button with the keyboard focus.
+If no button has the keyboard focus, calls the activate callbacks
+for the default button if it is sensitive.
+.IP "\fB<Ok Button Activated>\fP:"
+Calls the callbacks for \fBXmNokCallback\fP.
+.IP "\fB<Cancel Button Activated>\fP:"
+Calls the callbacks for \fBXmNcancelCallback\fP.
+.IP "\fB<Help Button Activated>\fP:"
+Calls the callbacks for \fBXmNhelpCallback\fP.
+.IP "\fB<FocusIn>\fP:"
+Calls the callbacks for \fBXmNfocusCallback\fP.
+.IP "\fB<Map>\fP:"
+Calls the callbacks for \fBXmNmapCallback\fP if the parent is a
+DialogShell.
+.IP "\fB<Unmap>\fP:"
+Calls the callbacks for \fBXmNunmapCallback\fP if the parent is a
+DialogShell.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+.br
+.ne 20
+.SH RELATED INFORMATION
+.na
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP, \fBCore(3X)\fP,
+\fBXmBulletinBoard(3X)\fP, 
+\fBXmCreateErrorDialog(3X)\fP, \fBXmCreateInformationDialog(3X)\fP,
+\fBXmCreateMessageBox(3X)\fP, \fBXmCreateMessageDialog(3X)\fP, 
+\fBXmCreateQuestionDialog(3X)\fP, \fBXmCreateWarningDialog(3X)\fP, 
+\fBXmCreateWorkingDialog(3X)\fP, 
+\fBXmManager(3X)\fP, and \fBXmMessageBoxGetChild(3X)\fP.
+.ad

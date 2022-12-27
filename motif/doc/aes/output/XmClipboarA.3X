@@ -1,0 +1,132 @@
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy ---- AAAA cccclllliiiippppbbbbooooaaaarrrrdddd ffffuuuunnnnccccttttiiiioooonnnn tttthhhhaaaatttt ccccaaaannnncccceeeellllssss aaaa
+          ccccooooppppyyyy ttttoooo tttthhhheeee cccclllliiiippppbbbbooooaaaarrrrdddd....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////XXXXmmmm....hhhh>>>>
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////CCCCuuuuttttPPPPaaaasssstttteeee....hhhh>>>>
+
+          iiiinnnntttt XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy ((((_d_i_s_p_l_a_y, _w_i_n_d_o_w, _i_t_e_m__i_d))))
+               DDDDiiiissssppppllllaaaayyyy   * _d_i_s_p_l_a_y;;;;
+               WWWWiiiinnnnddddoooowwww    _w_i_n_d_o_w;;;;
+               lllloooonnnngggg      _i_t_e_m__i_d;;;;
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy cancels the copy to clipboard that is
+          in progress and frees up temporary storage. When a copy is
+          to be performed, XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy allocates temporary
+          storage for the clipboard data.  XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCooooppppyyyy copies the
+          appropriate data into the the temporary storage.
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy copies the data to the clipboard
+          structure and frees up the temporary storage structures.  If
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy is called, the XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy
+          function does not have to be called.  A call to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy is valid only after a call to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy and before a call to
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy.
+
+
+          _d_i_s_p_l_a_ySpecifies a pointer to the DDDDiiiissssppppllllaaaayyyy structure that was
+                 returned in a previous call to XXXXOOOOppppeeeennnnDDDDiiiissssppppllllaaaayyyy or
+                 XXXXttttDDDDiiiissssppppllllaaaayyyy.
+
+          _w_i_n_d_o_w Specifies a widget's window ID that relates the
+                 application window to the clipboard.  The widget's
+                 window ID can be obtained by using XXXXttttWWWWiiiinnnnddddoooowwww.  The
+                 same application instance should pass the same window
+                 ID to each of the clipboard functions that it calls.
+
+          _i_t_e_m__i_dSpecifies the number assigned to this data item.
+                 This number was returned by a previous call to
+                 XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy.
+
+
+     RRRREEEETTTTUUUURRRRNNNN VVVVAAAALLLLUUUUEEEE
+          CCCClllliiiippppbbbbooooaaaarrrrddddSSSSuuuucccccccceeeessssssss
+                      The function is successful.
+
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCaaaannnncccceeeellllCCCCooooppppyyyy((((3333XXXX))))
+
+
+
+          CCCClllliiiippppbbbbooooaaaarrrrddddLLLLoooocccckkkkeeeedddd
+                      The function failed because the clipboard was
+                      locked by another application.  The application
+                      can continue to call the function again with the
+                      same parameters until the lock goes away.  This
+                      gives the application the opportunity to ask if
+                      the user wants to keep trying or to give up on
+                      the operation.
+
+          CCCClllliiiippppbbbbooooaaaarrrrddddFFFFaaaaiiiillll
+                      The function failed because XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy
+                      was not called or because the data item contains
+                      too many formats.
+
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddCCCCooooppppyyyy((((3333XXXX)))), XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddEEEEnnnnddddCCCCooooppppyyyy((((3333XXXX)))), and
+          XXXXmmmmCCCClllliiiippppbbbbooooaaaarrrrddddSSSSttttaaaarrrrttttCCCCooooppppyyyy((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+

@@ -1,0 +1,1802 @@
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmTTTTeeeexxxxtttt ---- tttthhhheeee TTTTeeeexxxxtttt wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     AAAAEEEESSSS SSSSUUUUPPPPPPPPOOOORRRRTTTT LLLLEEEEVVVVEEEELLLL
+          Full-use
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////TTTTeeeexxxxtttt....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          Text provides a single-line and multiline text editor for
+          customizing both user and programmatic interfaces.  It can
+          be used for single-line string entry, forms entry with
+          verification procedures, and full-window editing. It
+          provides an application with a consistent editing system for
+          textual data.  The screen's textual data adjusts to the
+          application writer's needs.
+
+          Text provides separate callback lists to verify movement of
+          the insert cursor, modification of the text, and changes in
+          input focus.  Each of these callbacks provides the
+          verification function with the widget instance, the event
+          that caused the callback, and a data structure specific to
+          the verification type.  From this information the function
+          can verify if the application considers this to be a
+          legitimate state change and can signal the widget whether to
+          continue with the action.
+
+          The user interface tailors a new set of translations.  The
+          default translations provide key bindings for insert cursor
+          movement, deletion, insertion, and selection of text.
+
+          Text allows the user to select regions of text.  Selection
+          is based on the model specified in the _I_n_t_e_r-_C_l_i_e_n_t
+          _C_o_m_m_u_n_i_c_a_t_i_o_n _C_o_n_v_e_n_t_i_o_n_s _M_a_n_u_a_l (ICCCM).  Text supports
+          primary and secondary selection.
+
+
+        MMMMoooouuuusssseeee SSSSeeeelllleeeeccccttttiiiioooonnnn
+          The Text widget allows text to be edited, inserted, and
+          selected.  The user can cut, copy, and paste text using the
+          clipboard, primary transfer, or secondary transfer.
+
+          The insertion cursor, displayed as an I-beam, shows where
+          input is inserted.  Clicking BBBBSSSSeeeelllleeeecccctttt moves the insertion
+          cursor and deselects the current selection if it is in the
+          Text widget.  Clicking BBBBTTTToooogggggggglllleeee moves the insertion cursor
+          but does not change the current selection.
+
+          The Text widget allows the user to select a range of text.
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          Pressing BBBBSSSSeeeelllleeeecccctttt starts a new primary selection.  Dragging
+          BBBBSSSSeeeelllleeeecccctttt selects all text between the position of the pointer
+          and the position where BBBBSSSSeeeelllleeeecccctttt was pressed.
+
+          BBBBEEEExxxxtttteeeennnndddd extends a selection using the balance-beam method.
+          When the user presses BBBBEEEExxxxtttteeeennnndddd, the selection becomes
+          anchored at the edge of the selection farthest from the
+          pointer position.  When the user releases BBBBEEEExxxxtttteeeennnndddd, the
+          selection extends from the anchor to the position where
+          BBBBEEEExxxxtttteeeennnndddd is released, and any text outside that range is
+          deselected.
+
+          Clicking BBBBDDDDrrrraaaagggg copies the current selection to the insertion
+          cursor, whether the current selection is in the same widget
+          or a different widget.  Clicking MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg cuts the current
+          selection to the insertion cursor.
+
+          The destination cursor shows the last place that text was
+          inserted, edited, or selected.  When it is separate from the
+          insertion cursor, it is shown as a caret.  When the user
+          pastes data from the clipboard, the data go to the
+          destination cursor.  Clicking BBBBSSSSeeeelllleeeecccctttt moves the destination
+          cursor.  Clicking BBBBTTTToooogggggggglllleeee also moves the destination cursor,
+          but only if no text is selected in the widget.
+
+          Pressing BBBBDDDDrrrraaaagggg starts a new secondary selection.  Dragging
+          BBBBDDDDrrrraaaagggg makes a secondary selection consisting of all text
+          between the position of the pointer and the position where
+          BBBBDDDDrrrraaaagggg was pressed.  Releasing BBBBDDDDrrrraaaagggg copies the secondary
+          selection to the destination cursor, whether the destination
+          cursor is in the same widget or a different widget.
+          Dragging MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg also makes a secondary selection, and
+          releasing MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg cuts the secondary selection to the
+          destination cursor.
+
+
+        KKKKeeeeyyyybbbbooooaaaarrrrdddd SSSSeeeelllleeeeccccttttiiiioooonnnn
+          All selection operations available from the mouse are also
+          available from the keyboard.  Text has two keyboard
+          selection modes, Normal Mode and Add Mode.  In Normal Mode,
+          if text is selected, a navigation operation deselects the
+          selected text and moves the destination cursor to the
+          insertion cursor before navigating.  In Add Mode, navigation
+          operations have no effect other than navigation.  In both
+          modes, pressing KKKKSSSSeeeelllleeeecccctttt has the same effect as pressing
+          BBBBSSSSeeeelllleeeecccctttt at that position.
+
+          Pressing KKKKEEEExxxxtttteeeennnndddd extends the current selection to the
+          insertion cursor using the balance-beam method.  The current
+          selection becomes anchored at the edge of the selection
+          farthest from the insertion cursor.  The selection then
+          extends from the anchor to the insertion cursor, and any
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          text outside that range is deselected.  If no text is
+          selected, KKKKEEEExxxxtttteeeennnndddd selects the text between the destination
+          cursor and the insertion cursor.
+
+          Shifted navigation operations also extend a selection.  In
+          Normal Mode, if no text is selected or if the selection is
+          disjoint from the insertion cursor, a shifted navigation
+          operation selects the navigated text and deselects any text
+          outside that range.  In Add Mode, if no text is selected, a
+          shifted navigation operation first navigates and then
+          selects the text between the destination cursor and the
+          insertion cursor.
+
+          In the remaining cases - Normal Mode with the insertion
+          cursor at or inside a selection, and Add Mode with any
+          selection - a shifted navigation operation extends the
+          selection using the balance-beam method.  Before navigation,
+          the current selection becomes anchored at the edge of the
+          selection farthest from the insertion cursor.  After
+          navigation, the selection extends from the anchor to the
+          insertion cursor, and any text outside that range is
+          deselected.
+
+          KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy copies the current selection to the insertion
+          cursor.  KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt cuts the current selection to the
+          insertion cursor.
+
+          KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy and KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt start a secondary selection at the
+          insertion cursor.  Navigation operations extend the
+          secondary selection.  KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd then copies or cuts the
+          secondary selection to the destination cursor.
+
+
+        CCCCllllaaaasssssssseeeessss
+          Text inherits behavior and resources from CCCCoooorrrreeee and PPPPrrrriiiimmmmiiiittttiiiivvvveeee
+          classes.
+
+          The class pointer is xxxxmmmmTTTTeeeexxxxttttWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.
+
+          The class name is XXXXmmmmTTTTeeeexxxxtttt.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                             XXXXmmmmTTTTeeeexxxxtttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                        CCCCllllaaaassssssss                       TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt              AAAAcccccccceeeessssssss
+     ____________________________________________________________________________________________________
+     XmNactivateCallback         XmCCallback                 XtCallbackList   NULL                 C
+     XmNautoShowCursorPosition   XmCAutoShowCursorPosition   Boolean          True                 CSG
+     XmNcursorPosition           XmCCursorPosition           XmTextPosition   0                    CSG
+     XmNeditable                 XmCEditable                 Boolean          True                 CSG
+     XmNeditMode                 XmCEditMode                 int              XmSINGLE_LINE_EDIT   CSG
+     XmNfocusCallback            XmCCallback                 XtCallbackList   NULL                 C
+     XmNgainPrimaryCallback      XmCCallback                 XtCallbackList   NULL                 C
+     XmNlosePrimaryCallback      XmCCallback                 XtCallbackList   NULL                 C
+     XmNlosingFocusCallback      XmCCallback                 XtCallbackList   NULL                 C
+     XmNmarginHeight             XmCMarginHeight             Dimension        5                    CSG
+     XmNmarginWidth              XmCMarginWidth              Dimension        5                    CSG
+     XmNmaxLength                XmCMaxLength                int              largest integer      CSG
+     XmNmodifyVerifyCallback     XmCCallback                 XtCallbackList   NULL                 C
+     XmNmotionVerifyCallback     XmCCallback                 XtCallbackList   NULL                 C
+     XmNsource                   XmCSource                   XmTextSource     Default source       CSG
+     XmNtopCharacter             XmCTextPosition             XmTextPosition   0                    CSG
+     XmNvalue                    XmCValue                    String           ""                   CSG
+     XmNvalueChangedCallback     XmCCallback                 XtCallbackList   NULL                 C
+     XmNverifyBell               XmCVerifyBell               Boolean          True                 CSG
+
+
+          XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks that is called when the
+               user invokes an event that calls the AAAAccccttttiiiivvvvaaaatttteeee(((())))
+               function.  The type of the structure whose address is
+               passed to this callback is XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The
+               reason sent by the callback is XXXXmmmmCCCCRRRR____AAAACCCCTTTTIIIIVVVVAAAATTTTEEEE.
+
+          XXXXmmmmNNNNaaaauuuuttttooooSSSShhhhoooowwwwCCCCuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnn
+               Ensures that the visible text contains the insert
+               cursor when set to True.  If the insert cursor changes,
+               the contents of Text may scroll in order to bring the
+               insertion point into the window.
+
+          XXXXmmmmNNNNccccuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnn
+               Indicates the position in the text where the current
+               insert cursor is to be located.  Position is determined
+               by the number of characters from the beginning of the
+               text.  The first character position is 0.
+
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNeeeeddddiiiittttaaaabbbblllleeee
+               Indicates that the user can edit the text string when
+               set to True.  Prohibits the user from editing the text
+               when set to False.
+
+          XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee
+               Specifies the set of keyboard bindings used in Text.
+               The default keyboard bindings (XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT)
+               provides the set of key bindings to be used in editing
+               single-line text.  The multiline bindings
+               (XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT) provides the set of key bindings to
+               be used in editing multiline text.
+
+               The results of placing a Text widget inside a
+               ScrolledWindow when the Text's XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is
+               XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT are undefined.
+
+          XXXXmmmmNNNNffffooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called before Text has
+               accepted input focus.  The type of the structure whose
+               address is passed to this callback is
+               XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by the callback
+               is XXXXmmmmCCCCRRRR____FFFFOOOOCCCCUUUUSSSS.
+
+          XXXXmmmmNNNNggggaaaaiiiinnnnPPPPrrrriiiimmmmaaaarrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when an event
+               causes the Text widget to gain ownership of the primary
+               selection.  The reason sent by the callback is
+               XXXXmmmmCCCCRRRR____GGGGAAAAIIIINNNN____PPPPRRRRIIIIMMMMAAAARRRRYYYY.
+
+          XXXXmmmmNNNNlllloooosssseeeePPPPrrrriiiimmmmaaaarrrryyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called when an event
+               causes the Text widget to lose ownership of the primary
+               selection.  The reason sent by the callback is
+               XXXXmmmmCCCCRRRR____LLLLOOOOSSSSEEEE____PPPPRRRRIIIIMMMMAAAARRRRYYYY.
+
+          XXXXmmmmNNNNlllloooossssiiiinnnnggggFFFFooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called before Text
+               loses input focus.  The type of the structure whose
+               address is passed to this callback is
+               XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____LLLLOOOOSSSSIIIINNNNGGGG____FFFFOOOOCCCCUUUUSSSS.
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnHHHHeeeeiiiigggghhhhtttt
+               Specifies the distance between the top edge of the
+               widget window and the text, and between the bottom edge
+               of the widget window and the text.
+
+
+
+
+
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNmmmmaaaarrrrggggiiiinnnnWWWWiiiiddddtttthhhh
+               Specifies the distance between the left edge of the
+               widget window and the text, and between the right edge
+               of the widget window and the text.
+
+          XXXXmmmmNNNNmmmmaaaaxxxxLLLLeeeennnnggggtttthhhh
+               Specifies the maximum length of the text string that
+               can be entered into text from the keyboard.  Strings
+               that are entered using the XXXXmmmmNNNNvvvvaaaalllluuuueeee resource or the
+               XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSttttrrrriiiinnnngggg function ignore this resource.
+
+          XXXXmmmmNNNNmmmmooooddddiiiiffffyyyyVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called before text is
+               deleted from or inserted into Text. The type of the
+               structure whose address is passed to this callback is
+               XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by the
+               callback is XXXXmmmmCCCCRRRR____MMMMOOOODDDDIIIIFFFFYYYYIIIINNNNGGGG____TTTTEEEEXXXXTTTT____VVVVAAAALLLLUUUUEEEE.
+
+          XXXXmmmmNNNNmmmmoooottttiiiioooonnnnVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called before the
+               insert cursor is moved to a new position. The type of
+               the structure whose address is passed to this callback
+               is XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt. The reason sent  by the
+               callback is XXXXmmmmCCCCRRRR____MMMMOOOOVVVVIIIINNNNGGGG____IIIINNNNSSSSEEEERRRRTTTT____CCCCUUUURRRRSSSSOOOORRRR.
+
+          XXXXmmmmNNNNssssoooouuuurrrrcccceeee
+               Specifies the source with which the widget displays
+               text.  If no source is specified, the widget creates a
+               default string source.  This resource can be used to
+               share text sources between Text widgets.
+
+          XXXXmmmmNNNNttttooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr
+               Displays the position of text at the top of the window.
+               Position is determined by the number of characters from
+               the beginning of the text.  The first character
+               position is 0.
+
+               If the XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, the line of
+               text that contains the top character is displayed at
+               the top of the widget without shifting the text left or
+               right.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for XXXXmmmmNNNNttttooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr returns the
+               position of the first character in the line that is
+               displayed at the top of the widget.
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeee
+               Displays the string value.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss returns the
+               value of the internal buffer and XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss copies the
+               string values into the internal buffer.
+
+          XXXXmmmmNNNNvvvvaaaalllluuuueeeeCCCChhhhaaaannnnggggeeeeddddCCCCaaaallllllllbbbbaaaacccckkkk
+               Specifies the list of callbacks called after text is
+               deleted from or inserted into Text. The type of the
+               structure whose address is passed to this callback is
+               XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt.  The reason sent by the callback
+               is XXXXmmmmCCCCRRRR____VVVVAAAALLLLUUUUEEEE____CCCCHHHHAAAANNNNGGGGEEEEDDDD.
+
+          XXXXmmmmNNNNvvvveeeerrrriiiiffffyyyyBBBBeeeellllllll
+               Specifies whether the bell should sound when the
+               verification returns without continuing the action.
+               The default is True, indicating that the bell should
+               sound.
+
+                                 XXXXmmmmTTTTeeeexxxxtttt IIIInnnnppppuuuutttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                     CCCCllllaaaassssssss                    TTTTyyyyppppeeee      DDDDeeeeffffaaaauuuulllltttt         AAAAcccccccceeeessssssss
+     __________________________________________________________________________________
+     XmNpendingDelete         XmCPendingDelete         Boolean   True            CSG
+     XmNselectionArray        XmCSelectionArray        Pointer   default array   CSG
+     XmNselectionArrayCount   XmCSelectionArrayCount   int       4               CSG
+     XmNselectThreshold       XmCSelectThreshold       int       5               CSG
+
+
+          XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee
+               Indicates that pending delete mode is on when the
+               Boolean value is True.  Pending deletion is defined as
+               deletion of the selected text when an insertion is
+               made.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy
+               Defines the actions for multiple mouse clicks.  The
+               value of the resource is an array of XXXXmmmmTTTTeeeexxxxttttSSSSccccaaaannnnTTTTyyyyppppeeee
+               elements.  XXXXmmmmTTTTeeeexxxxttttSSSSccccaaaannnnTTTTyyyyppppeeee is an enumeration indicating
+               possible actions.  Each mouse click performed within
+               half a second of the previous mouse click increments
+               the index into this array and performs the defined
+               action for that index.  The possible actions in the
+               order they occur in the default array are:
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____PPPPOOOOSSSSIIIITTTTIIIIOOOONNNN - resets the insert cursor
+                  position
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____WWWWOOOORRRRDDDD - selects a word
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____LLLLIIIINNNNEEEE - selects a line of text
+
+               +o  XXXXmmmmSSSSEEEELLLLEEEECCCCTTTT____AAAALLLLLLLL - selects all of the text
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyyCCCCoooouuuunnnntttt
+               Indicates the number of elements in the
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy resource.  The value must not be
+               negative.
+
+          XXXXmmmmNNNNsssseeeelllleeeeccccttttTTTThhhhrrrreeeesssshhhhoooolllldddd
+               Specifies the number of pixels of motion that is
+               required to select the next character when selection is
+               performed using the click-drag mode of selection.  The
+               value must not be negative.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+                                 XXXXmmmmTTTTeeeexxxxtttt OOOOuuuuttttppppuuuutttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                       CCCCllllaaaassssssss                      TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     ___________________________________________________________________________________
+     XmNblinkRate               XmCBlinkRate               int          500       CSG
+     XmNcolumns                 XmCColumns                 short        dynamic   CSG
+     XmNcursorPositionVisible   XmCCursorPositionVisible   Boolean      True      CSG
+     XmNfontList                XmCFontList                XmFontList   dynamic   CSG
+     XmNresizeHeight            XmCResizeHeight            Boolean      False     CSG
+     XmNresizeWidth             XmCResizeWidth             Boolean      False     CSG
+     XmNrows                    XmCRows                    short        dynamic   CSG
+     XmNwordWrap                XmCWordWrap                Boolean      False     CSG
+
+
+          XXXXmmmmNNNNbbbblllliiiinnnnkkkkRRRRaaaatttteeee
+               Specifies the blink rate of the text cursor in
+               milliseconds.  The time indicated in the blink rate
+               relates to the time the cursor is visible and the time
+               the cursor is invisible (that is, the time it takes to
+               blink the insertion cursor on and off is twice the
+               blink rate).  The cursor does not blink when the blink
+               rate is set to zero.  The value must not be negative.
+
+          XXXXmmmmNNNNccccoooolllluuuummmmnnnnssss
+               Specifies the initial width of the text window measured
+               in character spaces.  The value must be greater than 0.
+               The default value depends on the value of the XXXXmmmmNNNNwwwwiiiiddddtttthhhh
+               resource.  If no width is specified the default is 20.
+
+          XXXXmmmmNNNNccccuuuurrrrssssoooorrrrPPPPoooossssiiiittttiiiioooonnnnVVVViiiissssiiiibbbblllleeee
+               Indicates that the insert cursor position is marked by
+               a blinking text cursor when the Boolean value is True.
+
+          XXXXmmmmNNNNffffoooonnnnttttLLLLiiiisssstttt
+               Specifies the font list to be used for Text.  If this
+               value is NULL at initialization, it is initialized by
+               looking up the parent hierarchy of the widget for an
+               ancestor that is a subclass of the XmBulletinBoard,
+               VendorShell, or XmMenuShell widget class.  If such an
+               ancestor is found, the font list is initialized to the
+               appropriate default font list of the ancestor widget
+               (XmNdefaultFontList for VendorShell and XmMenuShell,
+               XmNtextFontList for XmBulletinBoard).  See
+               XXXXmmmmFFFFoooonnnnttttLLLLiiiissssttttCCCCrrrreeeeaaaatttteeee((((3333XXXX)))) to create a font list.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeHHHHeeeeiiiigggghhhhtttt
+               Indicates that Text attempts to resize its height to
+               accommodate all the text contained in the widget when
+               the Boolean value is True.  If the Boolean value is set
+               to True, the text is always displayed starting from the
+               first position in the source, even if instructed
+               otherwise.  This attribute is ignored when the
+               application uses a ScrolledText widget and when
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               XXXXmmmmNNNNssssccccrrrroooollllllllVVVVeeeerrrrttttiiiiccccaaaallll is True.
+
+          XXXXmmmmNNNNrrrreeeessssiiiizzzzeeeeWWWWiiiiddddtttthhhh
+               Indicates that Text attempts to resize its width to
+               accommodate all the text contained in the widget when
+               the Boolean value is True.  This attribute is ignored
+               if XXXXmmmmNNNNwwwwoooorrrrddddWWWWrrrraaaapppp is True.
+
+          XXXXmmmmNNNNrrrroooowwwwssss
+               Specifies the initial height of the text window
+               measured in character heights. This attribute is
+               ignored if the text widget resource XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is
+               XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.  The value must be greater than 0.
+               The default value depends on the value of the XXXXmmmmNNNNhhhheeeeiiiigggghhhhtttt
+               resource.  If no height is specified the default is 1.
+
+
+          XXXXmmmmNNNNwwwwoooorrrrddddWWWWrrrraaaapppp
+               Indicates that lines are to be broken at word breaks
+               (that is, the text does not go off the right edge of
+               the window) when the Boolean value is True.  Words are
+               defined as a sequence of characters separated by white
+               space.  White space is defined as a space, tab, or
+               newline.  This attribute is ignored if the text widget
+               resource XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.
+
+
+               The following resources are used only when text is
+               created in a ScrolledWindow.  See the man page for
+               XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddTTTTeeeexxxxtttt....
+
+                          XXXXmmmmTTTTeeeexxxxtttt SSSSccccrrrroooolllllllleeeeddddTTTTeeeexxxxtttt RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+          NNNNaaaammmmeeee                  CCCCllllaaaassssssss           TTTTyyyyppppeeee      DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+          ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+          XXXXmmmmNNNNssssccccrrrroooollllllllHHHHoooorrrriiiizzzzoooonnnnttttaaaallll   XXXXmmmmCCCCSSSSccccrrrroooollllllll       BBBBoooooooolllleeeeaaaannnn   TTTTrrrruuuueeee      CCCCGGGG
+          XXXXmmmmNNNNssssccccrrrroooollllllllLLLLeeeeffffttttSSSSiiiiddddeeee     XXXXmmmmCCCCSSSSccccrrrroooollllllllSSSSiiiiddddeeee   BBBBoooooooolllleeeeaaaannnn   ddddyyyynnnnaaaammmmiiiicccc   CCCCGGGG
+          XXXXmmmmNNNNssssccccrrrroooollllllllTTTTooooppppSSSSiiiiddddeeee      XXXXmmmmCCCCSSSSccccrrrroooollllllllSSSSiiiiddddeeee   BBBBoooooooolllleeeeaaaannnn   FFFFaaaallllsssseeee     CCCCGGGG
+          XXXXmmmmNNNNssssccccrrrroooollllllllVVVVeeeerrrrttttiiiiccccaaaallll     XXXXmmmmCCCCSSSSccccrrrroooollllllll       BBBBoooooooolllleeeeaaaannnn   TTTTrrrruuuueeee      CCCCGGGG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllHHHHoooorrrriiiizzzzoooonnnnttttaaaallll
+               Adds a ScrollBar that allows the user to scroll
+               horizontally through text when the Boolean value is
+               True. This attribute is ignored if the Text resource
+               XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.  This resource is
+               forced to False when the Text widget is placed in a
+               ScrolledWindow with XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy set to
+               XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllLLLLeeeeffffttttSSSSiiiiddddeeee
+               Indicates that the vertical ScrollBar should be placed
+               on the left side of the scrolled text window when the
+               Boolean value is True.  This attribute is ignored if
+               XXXXmmmmNNNNssssccccrrrroooollllllllVVVVeeeerrrrttttiiiiccccaaaallll is False or the Text resource
+               XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT.  The default value
+               may depend on the value of the XXXXmmmmNNNNssssttttrrrriiiinnnnggggDDDDiiiirrrreeeeccccttttiiiioooonnnn
+               resource.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllTTTTooooppppSSSSiiiiddddeeee
+               Indicates that the horizontal ScrollBar should be
+               placed on the top side of the scrolled text window when
+               the Boolean value is True.
+
+          XXXXmmmmNNNNssssccccrrrroooollllllllVVVVeeeerrrrttttiiiiccccaaaallll
+               Adds a ScrollBar that allows the user to scroll
+               vertically through text when the Boolean value is True.
+               This resource is forced to False when the Text widget
+               is placed in a ScrolledWindow with XXXXmmmmNNNNssssccccrrrroooolllllllliiiinnnnggggPPPPoooolllliiiiccccyyyy
+               set to XXXXmmmmAAAAUUUUTTTTOOOOMMMMAAAATTTTIIIICCCC.
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          Text inherits behavior and resources from the following
+          superclasses.  For a complete description of each resource,
+          refer to the man page for that superclass.
+
+                                         XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                   TTTTyyyyppppeeee               DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor    Pixel              dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap   Pixmap             XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground           Pixel              dynamic                CSG
+     XmNhelpCallback         XmCCallback             XtCallbackList     NULL                   C
+     XmNhighlightColor       XmCHighlightColor       Pixel              dynamic                CSG
+     XmNhighlightOnEnter     XmCHighlightOnEnter     Boolean            False                  CSG
+     XmNhighlightPixmap      XmCHighlightPixmap      Pixmap             dynamic                CSG
+     XmNhighlightThickness   XmCHighlightThickness   Dimension          2                      CSG
+     XmNnavigationType       XmCNavigationType       XmNavigationType   dynamic                CSG
+
+
+
+
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+     XmNshadowThickness      XmCShadowThickness      Dimension          2                      CSG
+     XmNtopShadowColor       XmCTopShadowColor       Pixel              dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap      Pixmap             dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn          Boolean            True                   CSG
+     XmNuserData             XmCUserData             Pointer            NULL                   CSG
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                CSG
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt          _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;
+          } XXXXmmmmAAAAnnnnyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback
+
+          The Text widget defines a new callback structure for use
+          with verification callbacks.  Note that not all fields are
+          relevant for every callback reason.  The application must
+          first look at the reason field and use only the structure
+          members that are valid for the particular reason.  A pointer
+          to the following structure is passed to callbacks for
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          XXXXmmmmNNNNlllloooossssiiiinnnnggggFFFFooooccccuuuussssCCCCaaaallllllllbbbbaaaacccckkkk, XXXXmmmmNNNNmmmmooooddddiiiiffffyyyyVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk, and
+          XXXXmmmmNNNNmmmmoooottttiiiioooonnnnVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+
+          {
+            iiiinnnntttt          _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt       * _e_v_e_n_t;
+            BBBBoooooooolllleeeeaaaannnn      _d_o_i_t;
+            XXXXmmmmTTTTeeeexxxxttttPPPPoooossssiiiittttiiiioooonnnn _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t;
+            XXXXmmmmTTTTeeeexxxxttttPPPPoooossssiiiittttiiiioooonnnn _s_t_a_r_t_P_o_s, _e_n_d_P_o_s;
+            XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkk  _t_e_x_t;
+          } XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt,,,, ****XXXXmmmmTTTTeeeexxxxttttVVVVeeeerrrriiiiffffyyyyPPPPttttrrrr;
+
+
+          _r_e_a_s_o_n Indicates why the callback was invoked.
+
+          _e_v_e_n_t  Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback.
+
+          _d_o_i_t   Indicates whether the action that invoked the
+                 callback is performed.  Setting _d_o_i_t to False negates
+                 the action.
+
+          _c_u_r_r_I_n_s_e_r_t
+                 Indicates the current position of the insert cursor.
+
+          _n_e_w_I_n_s_e_r_t
+                 Indicates the position at which the user attempts to
+                 position the insert cursor.
+
+          _s_t_a_r_t_P_o_s
+                 Indicates the starting position of the text to
+                 modify.  If the callback is not a modify verification
+                 callback, this value is the same as _c_u_r_r_I_n_s_e_r_t.
+
+          _e_n_d_P_o_s Indicates the ending position of the text to modify.
+                 If no text is replaced or deleted, the value is the
+                 same as _s_t_a_r_t_P_o_s.  If the callback is not a modify
+                 verification callback, this value is the same as
+                 _c_u_r_r_I_n_s_e_r_t.
+
+          _t_e_x_t   Points to a structure of type XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkkRRRReeeecccc.  This
+                 structure holds the textual information to be
+                 inserted.
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            cccchhhhaaaarrrr         * _p_t_r;
+            iiiinnnntttt          _l_e_n_g_t_h;
+            XXXXmmmmTTTTeeeexxxxttttFFFFoooorrrrmmmmaaaatttt _f_o_r_m_a_t;
+          } XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkkRRRReeeecccc,,,, ****XXXXmmmmTTTTeeeexxxxttttBBBBlllloooocccckkkk;
+
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          _p_t_r    Points to the text to be inserted.
+
+          _l_e_n_g_t_h Specifies the length of the text to be inserted.
+
+          _f_o_r_m_a_t Specifies the format of the text (for example,
+                 FFFFMMMMTTTT8888BBBBIIIITTTT).
+
+
+                 The following table describes the reasons why the
+                 individual verification callback structure fields are
+                 valid:
+
+         RRRReeeeaaaassssoooonnnn                      VVVVaaaalllliiiidddd FFFFiiiieeeellllddddssss
+         __________________________________________________
+                                     _r_e_a_s_o_n, _e_v_e_n_t, _d_o_i_t,
+                                     _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t,
+                                     _s_t_a_r_t_P_o_s, _e_n_d_P_o_s
+777         XXXXmmmmCCCCRRRR____LLLLOOOOSSSSIIIINNNNGGGG____FFFFOOOOCCCCUUUUSSSS
+
+
+
+                                     _r_e_a_s_o_n, _e_v_e_n_t, _d_o_i_t,
+                                     _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t,
+                                     _s_t_a_r_t_P_o_s, _e_n_d_P_o_s, _t_e_x_t
+777         XXXXmmmmCCCCRRRR____MMMMOOOODDDDIIIIFFFFYYYYIIIINNNNGGGG____TTTTEEEEXXXXTTTT____VVVVAAAALLLLUUUUEEEE
+
+
+
+                                     _r_e_a_s_o_n, _e_v_e_n_t, _d_o_i_t,
+                                     _c_u_r_r_I_n_s_e_r_t, _n_e_w_I_n_s_e_r_t
+77         XXXXmmmmCCCCRRRR____MMMMOOOOVVVVIIIINNNNGGGG____IIIINNNNSSSSEEEERRRRTTTT____CCCCUUUURRRRSSSSOOOORRRR
+
+7                                  |7|7|7|7|7|7|7|7|7|7|7|
+
+
+
+
+
+
+
+
+
+
+
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmText includes translations from XmPrimitive.  The XmText
+          translations are listed below.  These translations may not
+          directly correspond to a translation table.  The actions
+          represent the effective behavior of the associated events,
+          and they may differ in a right-to-left language environment.
+
+          BBBBSSSSeeeelllleeeecccctttt PPPPrrrreeeessssssss:::: ggggrrrraaaabbbb----ffffooooccccuuuussss(((())))
+          BBBBSSSSeeeelllleeeecccctttt MMMMoooottttiiiioooonnnn::::eeeexxxxtttteeeennnndddd----aaaaddddjjjjuuuusssstttt(((())))
+          BBBBSSSSeeeelllleeeecccctttt RRRReeeelllleeeeaaaasssseeee::::eeeexxxxtttteeeennnndddd----eeeennnndddd(((())))
+
+          BBBBEEEExxxxtttteeeennnndddd PPPPrrrreeeessssssss:::: eeeexxxxtttteeeennnndddd----ssssttttaaaarrrrtttt(((())))
+          BBBBEEEExxxxtttteeeennnndddd MMMMoooottttiiiioooonnnn::::eeeexxxxtttteeeennnndddd----aaaaddddjjjjuuuusssstttt(((())))
+          BBBBEEEExxxxtttteeeennnndddd RRRReeeelllleeeeaaaasssseeee::::eeeexxxxtttteeeennnndddd----eeeennnndddd(((())))
+
+          BBBBTTTToooogggggggglllleeee PPPPrrrreeeessssssss:::: mmmmoooovvvveeee----ddddeeeessssttttiiiinnnnaaaattttiiiioooonnnn(((())))
+
+          BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss::::   sssseeeeccccoooonnnnddddaaaarrrryyyy----ssssttttaaaarrrrtttt(((())))
+          BBBBDDDDrrrraaaagggg MMMMoooottttiiiioooonnnn::::  sssseeeeccccoooonnnnddddaaaarrrryyyy----aaaaddddjjjjuuuusssstttt(((())))
+          BBBBDDDDrrrraaaagggg RRRReeeelllleeeeaaaasssseeee:::: ccccooooppppyyyy----ttttoooo(((())))
+
+          MMMMCCCCttttrrrrllll BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss::::sssseeeeccccoooonnnnddddaaaarrrryyyy----ssssttttaaaarrrrtttt(((())))
+          MMMMCCCCttttrrrrllll BBBBDDDDrrrraaaagggg MMMMoooottttiiiioooonnnn::::sssseeeeccccoooonnnnddddaaaarrrryyyy----aaaaddddjjjjuuuusssstttt(((())))
+          MMMMCCCCttttrrrrllll BBBBDDDDrrrraaaagggg RRRReeeelllleeeeaaaasssseeee::::ccccooooppppyyyy----ttttoooo(((())))
+
+          MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg PPPPrrrreeeessssssss::::sssseeeeccccoooonnnnddddaaaarrrryyyy----ssssttttaaaarrrrtttt(((())))
+
+
+
+     Page 14                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg MMMMoooottttiiiioooonnnn::::sssseeeeccccoooonnnnddddaaaarrrryyyy----aaaaddddjjjjuuuusssstttt(((())))
+          MMMMAAAAlllltttt BBBBDDDDrrrraaaagggg RRRReeeelllleeeeaaaasssseeee::::mmmmoooovvvveeee----ttttoooo(((())))
+
+          KKKKUUUUpppp::::           pppprrrroooocccceeeessssssss----uuuupppp(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKUUUUpppp::::    pppprrrroooocccceeeessssssss----sssshhhhiiiifffftttt----uuuupppp(((())))
+          MMMMCCCCttttrrrrllll KKKKUUUUpppp::::     bbbbaaaacccckkkkwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh(((())))
+          MMMMSSSShhhhiiiifffftttt MMMMCCCCttttrrrrllll KKKKUUUUpppp::::bbbbaaaacccckkkkwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKDDDDoooowwwwnnnn::::         pppprrrroooocccceeeessssssss----ddddoooowwwwnnnn(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKDDDDoooowwwwnnnn::::  pppprrrroooocccceeeessssssss----sssshhhhiiiifffftttt----ddddoooowwwwnnnn(((())))
+          MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn::::   ffffoooorrrrwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh(((())))
+          MMMMSSSShhhhiiiifffftttt MMMMCCCCttttrrrrllll KKKKDDDDoooowwwwnnnn::::ffffoooorrrrwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKLLLLeeeefffftttt::::         bbbbaaaacccckkkkwwwwaaaarrrrdddd----cccchhhhaaaarrrraaaacccctttteeeerrrr(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKLLLLeeeefffftttt::::  kkkkeeeeyyyy----sssseeeelllleeeecccctttt((((lllleeeefffftttt))))
+          MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt::::   bbbbaaaacccckkkkwwwwaaaarrrrdddd----wwwwoooorrrrdddd(((())))
+          MMMMSSSShhhhiiiifffftttt MMMMCCCCttttrrrrllll KKKKLLLLeeeefffftttt::::bbbbaaaacccckkkkwwwwaaaarrrrdddd----wwwwoooorrrrdddd((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKRRRRiiiigggghhhhtttt::::        ffffoooorrrrwwwwaaaarrrrdddd----cccchhhhaaaarrrraaaacccctttteeeerrrr(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKRRRRiiiigggghhhhtttt:::: kkkkeeeeyyyy----sssseeeelllleeeecccctttt((((rrrriiiigggghhhhtttt))))
+          MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt::::  ffffoooorrrrwwwwaaaarrrrdddd----wwwwoooorrrrdddd(((())))
+          MMMMSSSShhhhiiiifffftttt MMMMCCCCttttrrrrllll KKKKRRRRiiiigggghhhhtttt::::ffffoooorrrrwwwwaaaarrrrdddd----wwwwoooorrrrdddd((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKPPPPaaaaggggeeeeUUUUpppp::::       pppprrrreeeevvvviiiioooouuuussss----ppppaaaaggggeeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKPPPPaaaaggggeeeeUUUUpppp::::pppprrrreeeevvvviiiioooouuuussss----ppppaaaaggggeeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn::::     nnnneeeexxxxtttt----ppppaaaaggggeeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKPPPPaaaaggggeeeeDDDDoooowwwwnnnn::::nnnneeeexxxxtttt----ppppaaaaggggeeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKPPPPaaaaggggeeeeLLLLeeeefffftttt::::     ppppaaaaggggeeee----lllleeeefffftttt(((())))
+          KKKKPPPPaaaaggggeeeeRRRRiiiigggghhhhtttt::::    ppppaaaaggggeeee----rrrriiiigggghhhhtttt(((())))
+
+          KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee::::    bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----lllliiiinnnneeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKBBBBeeeeggggiiiinnnnLLLLiiiinnnneeee::::bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----lllliiiinnnneeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKEEEEnnnnddddLLLLiiiinnnneeee::::      eeeennnndddd----ooooffff----lllliiiinnnneeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKEEEEnnnnddddLLLLiiiinnnneeee::::eeeennnndddd----ooooffff----lllliiiinnnneeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::    bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----ffffiiiilllleeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKBBBBeeeeggggiiiinnnnDDDDaaaattttaaaa::::bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----ffffiiiilllleeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKEEEEnnnnddddDDDDaaaattttaaaa::::      eeeennnndddd----ooooffff----ffffiiiilllleeee(((())))
+          MMMMSSSShhhhiiiifffftttt KKKKEEEEnnnnddddDDDDaaaattttaaaa::::eeeennnndddd----ooooffff----ffffiiiilllleeee((((eeeexxxxtttteeeennnndddd))))
+
+          KKKKTTTTaaaabbbb::::          pppprrrroooocccceeeessssssss----ttttaaaabbbb(((())))
+          KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd::::    nnnneeeexxxxtttt----ttttaaaabbbb----ggggrrrroooouuuupppp(((())))
+          KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd::::    pppprrrreeeevvvv----ttttaaaabbbb----ggggrrrroooouuuupppp(((())))
+
+          KKKKEEEEnnnntttteeeerrrr::::        pppprrrroooocccceeeessssssss----rrrreeeettttuuuurrrrnnnn(((())))
+          KKKKAAAAccccttttiiiivvvvaaaatttteeee::::     aaaaccccttttiiiivvvvaaaatttteeee(((())))
+
+          KKKKDDDDeeeelllleeeetttteeee::::       ddddeeeelllleeeetttteeee----nnnneeeexxxxtttt----cccchhhhaaaarrrraaaacccctttteeeerrrr(((())))
+
+
+
+     Page 15                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          KKKKBBBBaaaacccckkkkSSSSppppaaaacccceeee::::    ddddeeeelllleeeetttteeee----pppprrrreeeevvvviiiioooouuuussss----cccchhhhaaaarrrraaaacccctttteeeerrrr(((())))
+
+          KKKKAAAAddddddddMMMMooooddddeeee::::      ttttoooogggggggglllleeee----aaaadddddddd----mmmmooooddddeeee(((())))
+
+          KKKKSSSSppppaaaacccceeee::::        sssseeeellllffff----iiiinnnnsssseeeerrrrtttt(((())))
+          KKKKSSSSeeeelllleeeecccctttt::::       sssseeeetttt----aaaannnncccchhhhoooorrrr(((())))
+          KKKKEEEExxxxtttteeeennnndddd::::       kkkkeeeeyyyy----sssseeeelllleeeecccctttt(((())))
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll::::  pppprrrroooocccceeeessssssss----ccccaaaannnncccceeeellll(((())))
+          KKKKCCCClllleeeeaaaarrrr::::        cccclllleeeeaaaarrrr----sssseeeelllleeeeccccttttiiiioooonnnn(((())))
+          KKKKSSSSeeeelllleeeeccccttttAAAAllllllll::::    sssseeeelllleeeecccctttt----aaaallllllll(((())))
+          KKKKDDDDeeeesssseeeelllleeeeccccttttAAAAllllllll::::  ddddeeeesssseeeelllleeeecccctttt----aaaallllllll(((())))
+
+          KKKKCCCCuuuutttt::::          ccccuuuutttt----cccclllliiiippppbbbbooooaaaarrrrdddd(((())))
+          KKKKCCCCooooppppyyyy::::         ccccooooppppyyyy----cccclllliiiippppbbbbooooaaaarrrrdddd(((())))
+          KKKKPPPPaaaasssstttteeee::::        ppppaaaasssstttteeee----cccclllliiiippppbbbbooooaaaarrrrdddd(((())))
+
+          KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCuuuutttt::::   ccccuuuutttt----pppprrrriiiimmmmaaaarrrryyyy(((())))
+          KKKKPPPPrrrriiiimmmmaaaarrrryyyyCCCCooooppppyyyy::::  ccccooooppppyyyy----pppprrrriiiimmmmaaaarrrryyyy(((())))
+          KKKKPPPPrrrriiiimmmmaaaarrrryyyyPPPPaaaasssstttteeee:::: ccccooooppppyyyy----pppprrrriiiimmmmaaaarrrryyyy(((())))
+
+          KKKKQQQQuuuuiiiicccckkkkCCCCuuuutttt::::     qqqquuuuiiiicccckkkk----ccccuuuutttt----sssseeeetttt(((())))
+          KKKKQQQQuuuuiiiicccckkkkCCCCooooppppyyyy::::    qqqquuuuiiiicccckkkk----ccccooooppppyyyy----sssseeeetttt(((())))
+          KKKKQQQQuuuuiiiicccckkkkPPPPaaaasssstttteeee::::   qqqquuuuiiiicccckkkk----ccccooooppppyyyy----sssseeeetttt(((())))
+          KKKKQQQQuuuuiiiicccckkkkEEEExxxxtttteeeennnndddd::::  ddddoooo----qqqquuuuiiiicccckkkk----aaaaccccttttiiiioooonnnn(((())))
+
+          KKKKHHHHeeeellllpppp::::         HHHHeeeellllpppp(((())))
+
+          KKKKAAAAnnnnyyyy::::          sssseeeellllffff----iiiinnnnsssseeeerrrrtttt(((())))
+
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmText action routines are described below:
+
+          aaaaccccttttiiiivvvvaaaatttteeee(((()))):
+               Calls the callbacks for XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk.
+
+          bbbbaaaacccckkkkwwwwaaaarrrrdddd----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               Moves the insertion cursor one character to the left.
+               For other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.  This
+               action may have different behavior in a right-to-left
+               language environment.
+
+          bbbbaaaacccckkkkwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh((((_e_x_t_e_n_d)))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT and this action is
+               called with no argument, moves the insertion cursor to
+               the first non-whitespace character following the first
+               previous blank line or beginning of the text.  If the
+               insertion cursor is already at the beginning of a
+               paragraph, moves the insertion cursor to the beginning
+               of the previous paragraph.  For other effects, see the
+
+
+
+     Page 16                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               description of navigation operations in the "Keyboard
+               Selection" section.
+
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT and this action is
+               called with an argument of eeeexxxxtttteeeennnndddd, moves the insertion
+               cursor as in the case of no argument and extends the
+               selection.  For other effects, see the description of
+               shifted navigation operations in the "Keyboard
+               Selection" section.
+
+          bbbbaaaacccckkkkwwwwaaaarrrrdddd----wwwwoooorrrrdddd((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the first non-whitespace character
+               after the first whitespace character to the left or the
+               beginning of the line.  If the insertion cursor is
+               already at the beginning of a word, moves the insertion
+               cursor to the beginning of the previous word.  For
+               other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.  This
+               action may have different behavior in a right-to-left
+               language environment.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          bbbbeeeeeeeepppp(((()))):
+               Causes the terminal to beep.
+
+          bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----ffffiiiilllleeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the beginning of the text.  For
+               other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          bbbbeeeeggggiiiinnnnnnnniiiinnnngggg----ooooffff----lllliiiinnnneeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the beginning of the line.  For
+               other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+
+
+
+     Page 17                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          cccclllleeeeaaaarrrr----sssseeeelllleeeeccccttttiiiioooonnnn(((()))):
+               Clears the current selection by replacing each
+               character except <<<<RRRReeeettttuuuurrrrnnnn>>>> with a <<<<ssssppppaaaacccceeee>>>> character.
+
+          ccccooooppppyyyy----cccclllliiiippppbbbbooooaaaarrrrdddd(((()))):
+               Copies the current selection to the clipboard.
+
+          ccccooooppppyyyy----pppprrrriiiimmmmaaaarrrryyyy(((()))):
+               Copies the primary selection to the insertion cursor.
+
+          ccccooooppppyyyy----ttttoooo(((()))):
+               If a secondary selection exists, copies the secondary
+               selection to the insertion cursor.  If no secondary
+               selection exists, copies the primary selection to the
+               pointer location.
+
+          ccccuuuutttt----cccclllliiiippppbbbbooooaaaarrrrdddd(((()))):
+               Cuts the current selection to the clipboard.
+
+          ccccuuuutttt----pppprrrriiiimmmmaaaarrrryyyy(((()))):
+               Cuts the primary selection to the insertion cursor.
+
+          ddddeeeelllleeeetttteeee----nnnneeeexxxxtttt----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection; otherwise,
+               deletes the character following the insertion cursor.
+
+          ddddeeeelllleeeetttteeee----nnnneeeexxxxtttt----wwwwoooorrrrdddd(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection; otherwise,
+               deletes the characters following the insertion cursor
+               to the next space, tab or end of line character.
+
+          ddddeeeelllleeeetttteeee----pppprrrreeeevvvviiiioooouuuussss----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection; otherwise,
+               deletes the character of text immediately preceding the
+               insertion cursor.
+
+          ddddeeeelllleeeetttteeee----pppprrrreeeevvvviiiioooouuuussss----wwwwoooorrrrdddd(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection; otherwise,
+               deletes the characters preceding the insertion cursor
+               to the next space, tab or beginning of line character.
+
+          ddddeeeelllleeeetttteeee----sssseeeelllleeeeccccttttiiiioooonnnn(((()))):
+               Deletes the current selection.
+
+          ddddeeeelllleeeetttteeee----ttttoooo----eeeennnndddd----ooooffff----lllliiiinnnneeee(((()))):
+
+
+
+     Page 18                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               Deletes the characters following the insertion cursor
+               to the next end of line character.
+
+          ddddeeeelllleeeetttteeee----ttttoooo----ssssttttaaaarrrrtttt----ooooffff----lllliiiinnnneeee(((()))):
+               Deletes the characters preceding the insertion cursor
+               to the previous beginning of line character.
+
+          ddddeeeesssseeeelllleeeecccctttt----aaaallllllll(((()))):
+               Deselects the current selection.
+
+          ddddoooo----qqqquuuuiiiicccckkkk----aaaaccccttttiiiioooonnnn(((()))):
+               Marks the end of a secondary selection.  Performs the
+               quick action initiated by the qqqquuuuiiiicccckkkk----ccccooooppppyyyy----sssseeeetttt or qqqquuuuiiiicccckkkk----
+               ccccuuuutttt----sssseeeetttt action.
+
+          eeeennnndddd----ooooffff----ffffiiiilllleeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the end of the text.  For other
+               effects, see the description of navigation operations
+               in the "Keyboard Selection" section.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          eeeennnndddd----ooooffff----lllliiiinnnneeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the end of the line.  For other
+               effects, see the description of navigation operations
+               in the "Keyboard Selection" section.  If called with an
+               argument of eeeexxxxtttteeeennnndddd, moves the insertion cursor as in
+               the case of no argument and extends the selection.  For
+               other effects, see the description of shifted
+               navigation operations in the "Keyboard Selection"
+               section.
+
+          eeeexxxxtttteeeennnndddd----aaaaddddjjjjuuuusssstttt(((()))):
+               Selects text from the anchor to the pointer position
+               and deselects text outside that range.  Moving the
+               pointer over several lines selects text from the anchor
+               to the end of each line the pointer moves over and up
+               to the pointer position on the current line.
+
+          eeeexxxxtttteeeennnndddd----eeeennnndddd(((()))):
+               Moves the insertion cursor to the position of the
+               pointer.
+
+          eeeexxxxtttteeeennnndddd----ssssttttaaaarrrrtttt(((()))):
+               Adjusts the anchor using the balance-beam method.
+               Selects text from the anchor to the pointer position
+
+
+
+     Page 19                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               and deselects text outside that range.
+
+          ffffoooorrrrwwwwaaaarrrrdddd----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               Moves the insertion cursor one character to the right.
+               For other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.  This
+               action may have different behavior in a right-to-left
+               language environment.
+
+          ffffoooorrrrwwwwaaaarrrrdddd----ppppaaaarrrraaaaggggrrrraaaapppphhhh((((_e_x_t_e_n_d)))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, and this action is
+               called with no argument, moves the insertion cursor to
+               the first non-whitespace character following the next
+               blank line.  If the insertion cursor is already at the
+               beginning of a paragraph, moves the insertion cursor to
+               the beginning of the next paragraph.  For other
+               effects, see the description of navigation operations
+               in the "Keyboard Selection" section.
+
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT and this action is
+               called with an argument of eeeexxxxtttteeeennnndddd, moves the insertion
+               cursor as in the case of no argument and extends the
+               selection.  For other effects, see the description of
+               shifted navigation operations in the "Keyboard
+               Selection" section.
+
+          ffffoooorrrrwwwwaaaarrrrdddd----wwwwoooorrrrdddd((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor to the first whitespace character or
+               end of line following the next non-whitespace
+               character.  If the insertion cursor is already at the
+               end of a word, moves the insertion cursor to the end of
+               the next word.  For other effects, see the description
+               of navigation operations in the "Keyboard Selection"
+               section.  This action may have different behavior in a
+               right-to-left language environment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 20                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          ggggrrrraaaabbbb----ffffooooccccuuuussss(((()))):
+               This key binding performs the action defined in the
+               XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy, depending on the number of multiple
+               mouse clicks.  The default selection array ordering is
+               one click to move the insertion cursor to the pointer
+               position, two clicks to select a word, three clicks to
+               select a line of text, and four clicks to select all
+               text.  A single click also deselects any selected text
+               and sets the anchor at the pointer position.
+
+          HHHHeeeellllpppp(((()))):
+               Calls the callbacks for XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk if any exist.
+               If there are no help callbacks for this widget, this
+               action calls the help callbacks for the nearest
+               ancestor that has them.
+
+          iiiinnnnsssseeeerrrrtttt----ssssttttrrrriiiinnnngggg((((_s_t_r_i_n_g)))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.  Inserts
+               _s_t_r_i_n_g at the insertion cursor.
+
+          kkkkeeeeyyyy----sssseeeelllleeeecccctttt((((_d_i_r_e_c_t_i_o_n)))):
+               If called with an argument of rrrriiiigggghhhhtttt, moves the
+               insertion cursor one character to the right and extends
+               the selection.  If called with an argument of lllleeeefffftttt,
+               moves the insertion cursor one character to the left
+               and extends the selection.  If called with no argument,
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations and
+               KKKKEEEExxxxtttteeeennnndddd in the "Keyboard Selection" section.
+
+          kkkkiiiillllllll----nnnneeeexxxxtttt----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.
+               Otherwise, kills the character following the insertion
+               cursor and stores the character in the cut buffer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 21                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          kkkkiiiillllllll----nnnneeeexxxxtttt----wwwwoooorrrrdddd(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.
+               Otherwise, kills the characters following the insertion
+               cursor to the next space, tab or end of line character,
+               and stores the characters in the cut buffer.
+
+          kkkkiiiillllllll----pppprrrreeeevvvviiiioooouuuussss----cccchhhhaaaarrrraaaacccctttteeeerrrr(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.
+               Otherwise, kills the character of text immediately
+               preceding the insertion cursor and stores the character
+               in the cut buffer.
+
+          kkkkiiiillllllll----pppprrrreeeevvvviiiioooouuuussss----wwwwoooorrrrdddd(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.
+               Otherwise, kills the characters preceding the insertion
+               cursor to the next space, tab or beginning of line
+               character, and stores the characters in the cut buffer.
+
+          kkkkiiiillllllll----sssseeeelllleeeeccccttttiiiioooonnnn(((()))):
+               Kills the currently selected text and stores the text
+               in the cut buffer.
+
+          kkkkiiiillllllll----ttttoooo----eeeennnndddd----ooooffff----lllliiiinnnneeee(((()))):
+               Kills the characters following the insertion cursor to
+               the next end of line character and stores the
+               characters in the cut buffer.
+
+          kkkkiiiillllllll----ttttoooo----ssssttttaaaarrrrtttt----ooooffff----lllliiiinnnneeee(((()))):
+               Kills the characters preceding the insertion cursor to
+               the next beginning of line character and stores the
+               characters in the cut buffer.
+
+          mmmmoooovvvveeee----ddddeeeessssttttiiiinnnnaaaattttiiiioooonnnn(((()))):
+               Moves the insertion cursor to the pointer position
+               without changing any existing selection.  If no
+               selection exists, also moves the destination cursor to
+               the pointer position.
+
+          mmmmoooovvvveeee----ttttoooo(((()))):
+               If a secondary selection exists, cuts the secondary
+               selection to the insertion cursor.  If no secondary
+               selection exists, cuts the primary selection to the
+               pointer location.
+
+
+
+
+
+
+
+
+
+     Page 22                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          nnnneeeewwwwlllliiiinnnneeee(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.  Inserts a
+               newline at the insertion cursor.
+
+          nnnneeeewwwwlllliiiinnnneeee----aaaannnndddd----bbbbaaaacccckkkkuuuupppp(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.  Inserts a
+               newline and repositions the insertion cursor to the end
+               of the line before the newline.
+
+          nnnneeeewwwwlllliiiinnnneeee----aaaannnndddd----iiiinnnnddddeeeennnntttt(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.  Inserts a
+               newline and then the same number of whitespace
+               characters as at the beginning of the previous line.
+
+          nnnneeeexxxxtttt----lllliiiinnnneeee(((()))):
+               Moves the insertion cursor to the next line.  For other
+               effects, see the description of navigation operations
+               in the "Keyboard Selection" section.
+
+          nnnneeeexxxxtttt----ppppaaaaggggeeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor forward one page.  For other effects,
+               see the description of navigation operations in the
+               "Keyboard Selection" section.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          nnnneeeexxxxtttt----ttttaaaabbbb----ggggrrrroooouuuupppp(((()))):
+               Traverses to the next tab group.
+
+          ppppaaaaggggeeee----lllleeeefffftttt(((()))):
+               Scrolls the viewing window left one page of text.
+
+          ppppaaaaggggeeee----rrrriiiigggghhhhtttt(((()))):
+               Scrolls the viewing window right one page of text.
+
+          ppppaaaasssstttteeee----cccclllliiiippppbbbbooooaaaarrrrdddd(((()))):
+               Pastes the contents of the clipboard before the
+               insertion cursor.
+
+          pppprrrreeeevvvv----ttttaaaabbbb----ggggrrrroooouuuupppp(((()))):
+               Traverses to the previous tab group.
+
+
+
+
+
+
+     Page 23                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          pppprrrreeeevvvviiiioooouuuussss----lllliiiinnnneeee(((()))):
+               Moves the insertion cursor to the previous line.  For
+               other effects, see the description of navigation
+               operations in the "Keyboard Selection" section.
+
+          pppprrrreeeevvvviiiioooouuuussss----ppppaaaaggggeeee((((_e_x_t_e_n_d)))):
+               If this action is called with no argument, moves the
+               insertion cursor back one page.  For other effects, see
+               the description of navigation operations in the
+               "Keyboard Selection" section.
+
+               If called with an argument of eeeexxxxtttteeeennnndddd, moves the
+               insertion cursor as in the case of no argument and
+               extends the selection.  For other effects, see the
+               description of shifted navigation operations in the
+               "Keyboard Selection" section.
+
+          pppprrrroooocccceeeessssssss----ccccaaaannnncccceeeellll(((()))):
+               Cancels the current eeeexxxxtttteeeennnndddd----aaaaddddjjjjuuuusssstttt(((()))) or sssseeeeccccoooonnnnddddaaaarrrryyyy----
+               aaaaddddjjjjuuuusssstttt(((()))) operation and leaves the selection state as it
+               was before the operation.
+
+          pppprrrroooocccceeeessssssss----ddddoooowwwwnnnn(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT and
+               XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee is XXXXmmmmNNNNOOOONNNNEEEE, traverses to the widget
+               below the current one in the tab group.
+
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, moves the
+               insertion cursor down one line.  For other effects, see
+               the description of navigation operations in the
+               "Keyboard Selection" section.
+
+          pppprrrroooocccceeeessssssss----hhhhoooommmmeeee(((()))):
+               Moves the insertion cursor to the beginning of the
+               line.  For other effects, see the description of
+               navigation operations in the "Keyboard Selection"
+               section.
+
+          pppprrrroooocccceeeessssssss----rrrreeeettttuuuurrrrnnnn(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, calls the
+               callbacks for XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk.  If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is
+               XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, inserts a newline.
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 24                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          pppprrrroooocccceeeessssssss----sssshhhhiiiifffftttt----ddddoooowwwwnnnn(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, moves the
+               insertion cursor down one line.  For other effects, see
+               the description of navigation operations in the
+               "Keyboard Selection" section.
+
+          pppprrrroooocccceeeessssssss----sssshhhhiiiifffftttt----uuuupppp(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, moves the
+               insertion cursor up one line.  For other effects, see
+               the description of navigation operations in the
+               "Keyboard Selection" section.
+
+          pppprrrroooocccceeeessssssss----ttttaaaabbbb(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, traverses to the
+               next tab group.  If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT,
+               inserts a tab.
+
+          pppprrrroooocccceeeessssssss----uuuupppp(((()))):
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmSSSSIIIINNNNGGGGLLLLEEEE____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT and
+               XXXXmmmmNNNNnnnnaaaavvvviiiiggggaaaattttiiiioooonnnnTTTTyyyyppppeeee is XXXXmmmmNNNNOOOONNNNEEEE, traverses to the widget
+               above the current one in the tab group.
+
+               If XXXXmmmmNNNNeeeeddddiiiittttMMMMooooddddeeee is XXXXmmmmMMMMUUUULLLLTTTTIIII____LLLLIIIINNNNEEEE____EEEEDDDDIIIITTTT, moves the
+               insertion cursor up one line.  For other effects, see
+               the description of navigation operations in the
+               "Keyboard Selection" section.
+
+          qqqquuuuiiiicccckkkk----ccccooooppppyyyy----sssseeeetttt(((()))):
+               Marks the beginning of a secondary selection for use in
+               quick copy.
+
+          qqqquuuuiiiicccckkkk----ccccuuuutttt----sssseeeetttt(((()))):
+               Marks the beginning of a secondary selection for use in
+               quick cut.
+
+          rrrreeeeddddrrrraaaawwww----ddddiiiissssppppllllaaaayyyy(((()))):
+               Redraws the contents of the text window.
+
+          ssssccccrrrroooollllllll----oooonnnneeee----lllliiiinnnneeee----ddddoooowwwwnnnn(((()))):
+               Scrolls the text area down one line.
+
+          ssssccccrrrroooollllllll----oooonnnneeee----lllliiiinnnneeee----uuuupppp(((()))):
+               Scrolls the text area up one line.
+
+          sssseeeeccccoooonnnnddddaaaarrrryyyy----aaaaddddjjjjuuuusssstttt(((()))):
+               Extends the secondary selection to the pointer
+               position.
+
+
+
+
+
+
+
+
+     Page 25                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          sssseeeeccccoooonnnnddddaaaarrrryyyy----nnnnoooottttiiiiffffyyyy(((()))):
+               Copies the secondary selection to the destination
+               cursor.
+
+          sssseeeeccccoooonnnnddddaaaarrrryyyy----ssssttttaaaarrrrtttt(((()))):
+               Marks the beginning of a secondary selection.
+
+          sssseeeelllleeeecccctttt----aaaaddddjjjjuuuusssstttt(((()))):
+               Extends the selection.  The amount of text selected
+               depends on the number of mouse clicks, as specified by
+               the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy resource.
+
+          sssseeeelllleeeecccctttt----aaaallllllll(((()))):
+               Selects all text.
+
+          sssseeeelllleeeecccctttt----eeeennnndddd(((()))):
+               Extends the selection.  The amount of text selected
+               depends on the number of mouse clicks, as specified by
+               the XXXXmmmmNNNNsssseeeelllleeeeccccttttiiiioooonnnnAAAArrrrrrrraaaayyyy resource.
+
+          sssseeeelllleeeecccctttt----ssssttttaaaarrrrtttt(((()))):
+               Marks the beginning of a new selection region.
+
+          sssseeeellllffff----iiiinnnnsssseeeerrrrtttt(((()))):
+               If XXXXmmmmNNNNppppeeeennnnddddiiiinnnnggggDDDDeeeelllleeeetttteeee is True and the cursor is inside
+               the selection, deletes the entire selection.  Inserts
+               the character associated with the key pressed at the
+               insertion cursor.
+
+          sssseeeetttt----aaaannnncccchhhhoooorrrr(((()))):
+               Resets the anchor point for extended selections.
+               Resets the destination of secondary selection actions.
+
+          sssseeeetttt----iiiinnnnsssseeeerrrrttttiiiioooonnnn----ppppooooiiiinnnntttt(((()))):
+               Sets the insertion position.
+
+          sssseeeetttt----sssseeeelllleeeeccccttttiiiioooonnnn----hhhhiiiinnnntttt(((()))):
+               Sets the text source and location of the selection.
+
+          ttttoooogggggggglllleeee----aaaadddddddd----mmmmooooddddeeee(((()))):
+               Toggles the state of Add Mode.
+
+          ttttrrrraaaavvvveeeerrrrsssseeee----hhhhoooommmmeeee(((()))):
+               Traverses to the first widget in the tab group.
+
+          ttttrrrraaaavvvveeeerrrrsssseeee----nnnneeeexxxxtttt(((()))):
+               Traverses to the next widget in the tab group.
+
+
+
+
+
+
+
+
+     Page 26                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))          OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnn           XXXXmmmmTTTTeeeexxxxtttt((((3333XXXX))))
+
+
+
+          ttttrrrraaaavvvveeeerrrrsssseeee----pppprrrreeeevvvv(((()))):
+               Traverses to the previous widget in the tab group.
+
+          uuuunnnnkkkkiiiillllllll(((()))):
+               Restores last killed text to the position of the
+               insertion cursor.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          This widget has the additional behavior described below:
+
+          <<<<FFFFooooccccuuuussssIIIInnnn>>>>:
+               Draws the insertion cursor and starts blinking the
+               cursor.
+
+          <<<<FFFFooooccccuuuussssOOOOuuuutttt>>>>:
+               Stops blinking the cursor.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooorrrreeee((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeSSSSccccrrrroooolllllllleeeeddddTTTTeeeexxxxtttt((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeTTTTeeeexxxxtttt((((3333XXXX)))),
+          XXXXmmmmFFFFoooonnnnttttLLLLiiiissssttttCCCCrrrreeeeaaaatttteeee((((3333XXXX)))), XXXXmmmmPPPPrrrriiiimmmmiiiittttiiiivvvveeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttCCCClllleeeeaaaarrrrSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttCCCCooooppppyyyy((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttCCCCuuuutttt((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttFFFFiiiieeeelllldddd((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttBBBBaaaasssseeeelllliiiinnnneeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttEEEEddddiiiittttaaaabbbblllleeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttLLLLaaaassssttttPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSoooouuuurrrrcccceeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttSSSSttttrrrriiiinnnngggg((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttGGGGeeeettttTTTTooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttIIIInnnnsssseeeerrrrtttt((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttPPPPaaaasssstttteeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttPPPPoooossssTTTTooooXXXXYYYY((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttRRRReeeemmmmoooovvvveeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttRRRReeeeppppllllaaaacccceeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSSccccrrrroooollllllll((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttAAAAddddddddMMMMooooddddeeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttEEEEddddiiiittttaaaabbbblllleeee((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttHHHHiiiigggghhhhlllliiiigggghhhhtttt((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttIIIInnnnsssseeeerrrrttttiiiioooonnnnPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttMMMMaaaaxxxxLLLLeeeennnnggggtttthhhh((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSeeeelllleeeeccccttttiiiioooonnnn((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSoooouuuurrrrcccceeee((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttSSSSttttrrrriiiinnnngggg((((3333XXXX)))),
+          XXXXmmmmTTTTeeeexxxxttttSSSSeeeettttTTTTooooppppCCCChhhhaaaarrrraaaacccctttteeeerrrr((((3333XXXX)))), XXXXmmmmTTTTeeeexxxxttttSSSShhhhoooowwwwPPPPoooossssiiiittttiiiioooonnnn((((3333XXXX)))), and
+          XXXXmmmmTTTTeeeexxxxttttXXXXYYYYTTTTooooPPPPoooossss((((3333XXXX)))).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 27                                          (printed 1/9/91)
+
+
+

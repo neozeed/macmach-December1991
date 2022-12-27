@@ -1,0 +1,66 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1989 Carnegie-Mellon University
+ * Copyright (c) 1988 Carnegie-Mellon University
+ * Copyright (c) 1987 Carnegie-Mellon University
+ * All rights reserved.  The CMU software License Agreement specifies
+ * the terms and conditions for use and redistribution.
+ */
+/*
+ * HISTORY
+ * $Log:	netname.defs,v $
+ * Revision 2.1  90/10/27  20:45:07  dpj
+ * Moving under MACH3 source control
+ * 
+ * Revision 1.6  90/07/26  12:42:35  dpj
+ * 	Dummy checkin to integrate into US source tree.
+ * 	[90/07/24  21:39:34  dpj]
+ * 
+ * Revision 1.5  89/05/02  11:13:40  dpj
+ * 	Fixed all files to conform to standard copyright/log format
+ * 
+ * 30-May-87  Robert Sansom (rds) at Carnegie Mellon University
+ *	Changes for the new mig.
+ *
+ * 20-Oct-86  Robert Sansom (rds) at Carnegie Mellon University
+ *	New network name service interface.
+ *	Added a serverprefix.
+ */
+/*
+ * netname.defs
+ *
+ *
+ * $Header: /afs/cs.cmu.edu/project/mach-2/rcs/pkg/netmsg/server/netname.defs,v 2.1 90/10/27 20:45:07 dpj Exp $
+ *
+ */
+
+/*
+ * Mig definitions for Network Name Service.
+ */
+
+
+subsystem netname 1040;
+
+serverprefix _;
+
+type netname_name_t	= (MSG_TYPE_STRING,640);
+type port_t		= MSG_TYPE_PORT;
+
+import "netname_defs.h";
+
+routine netname_check_in(server_port	: port_t;
+			port_name	: netname_name_t;
+			signature	: port_t;
+			port_id		: port_t);
+
+routine netname_look_up(server_port	: port_t;
+			host_name	: netname_name_t;
+			port_name	: netname_name_t;
+		    out port_id		: port_t);
+
+routine netname_check_out(server_port	: port_t;
+			port_name	: netname_name_t;
+			signature	: port_t);
+
+routine netname_version(server_port	: port_t;
+		    out	version		: netname_name_t);

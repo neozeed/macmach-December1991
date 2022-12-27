@@ -1,0 +1,72 @@
+
+The patches shipped with this release of OSF/Motif include fix-patches 
+15 through 18.  The fix-patches are available from the MIT X Consortium.  
+An OSF patch, called fix-osf-1.1.1, is also included.  Since MIT is no 
+longer issuing R4 patches, this fix won't be available from the X
+Consortium.
+
+The fix-osf-1.1.1 patch fixes problems found at OSF dealing with cutting 
+a primary selection from one text widget and primary pasting that selection 
+to another text widget in the same client. When this was done, any other
+primary selection in the first text widget would leave multiple primary
+highlights and selections and further primary cuts and pastes would
+be corrupted. This problem was introduced in Patch 15 - 18 that was
+released by MIT.  Therefore this patch should be applied after the MIT
+patches.
+
+The patches which are relevant to Xlib (lib/X) and the Xt Intrinsics 
+(lib/Xt) must be applied to the X11 Release 4 source in order to build 
+and run OSF/Motif 1.1.1.  Note that you must back out fix-osf which
+was distributed with OSF/Motif 1.1 before you apply the MIT fixes 15
+through 18.  Instructions for doing this are given below.
+
+In order to apply the patches, you may want to use the patch tool
+that appears the the ./util/patch directory of the Motif release.
+This directory was copied unmodified from the MIT X11 Release 4
+distribution and is only provided here as a convenience to users.
+
+To use the patch program you must first build it by moving to the
+directory ./util/patch and following the instructions in the README
+file.  
+
+Once you have built the patch program for your system, you are ready
+back out the fix-osf distributed with the OSF/Motif 1.1 release and
+apply the new patches to your MIT X11R4 sources.  These patches are
+contained in the files ./X11R4/fix*.
+Change directory to the top of your X11R4 sources:
+
+        cd X11R4-source-top-level
+
+You should copy the fix-osf from the OSF/Motif 1.1 release into
+that directory and then use the patch program with the -R option
+to back out the patch:
+
+	cp Motif-1.1-source-top-level/X11R4/fix-osf .
+
+	patch -R -p1 < fix-osf
+
+
+Then copy the new patches to that directory:
+
+        cp Motif-1.1.1-source-top-level/X11R4/fix* .
+
+Run the patch program, applying the numbered patches in ascending numerical
+order, then apply the OSF patch.  Use the appropriate pathname strip count 
+to remove the correct number of leading directory names from the pathname in
+the patch.  For example, to apply all MIT patches 15 through 18 and strip
+the first directory name from the pathname in the patch (the patch
+file contains mit/lib/Xt and your files are in ./lib/Xt) you might
+use the following from the c-shell:
+
+	@ i=15
+	while ($i <= 18)
+	  patch -p1 < fix-$i
+	  @ i++
+	end
+
+You should then apply the OSF patch using the following command from
+the c-shell:
+
+	patch -p1 < fix-osf-1.1.1
+
+

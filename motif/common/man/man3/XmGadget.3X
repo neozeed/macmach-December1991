@@ -1,0 +1,246 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **
+.TH XmGadget 3X "" "" "" ""
+.SH NAME
+\fBXmGadget \(em the Gadget widget class.\fP
+.iX "XmGadget"
+.iX "widget class" "Gadget"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/Xm.h>\fP
+.sp 1
+.SH DESCRIPTION
+Gadget is a widget class used as 
+a supporting superclass for other
+gadget classes.  It handles shadow-border drawing and highlighting, traversal 
+activation and deactivation, and various callback lists needed by 
+gadgets.
+.PP
+The color and pixmap resources defined by XmManager are directly used by
+gadgets.  If \fBXtSetValues\fP is used 
+to change one of the resources for a manager
+widget, all of the gadget children within the manager also change.
+.sp 1
+.SS "Classes"
+Gadget inherits behavior and resources from \fBObject\fP and 
+\fBRectObj\fP classes.
+.IP
+The class pointer is \fBxmGadgetClass\fP.
+.IP
+The class name is \fBXmGadget\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmGadget Resource Set
+Name	Class	Type	Default	Access
+_
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	2	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmNONE	G
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.sp 1
+.br
+.ne 8
+.IP "\fBXmNhelpCallback\fP"
+Specifies the list of callbacks that is called when the help key sequence
+is pressed.  The reason sent by the callback is \fBXmCR_HELP\fP.
+.IP "\fBXmNhighlightOnEnter\fP"
+Specifies if the highlighting rectangle is drawn when the cursor moves
+into the widget.
+If the shell's focus policy is \fBXmEXPLICIT\fP, this resource is
+ignored, and the widget is highlighted when it has the focus.
+If the shell's focus policy is \fBXmPOINTER\fP and if this resource is
+True, the highlighting rectangle is drawn when the the cursor moves into
+the widget.
+If the shell's focus policy is \fBXmPOINTER\fP and if this resource is
+False, the highlighting rectangle is not drawn when the the cursor moves
+into the widget.
+The default is False.
+.IP "\fBXmNhighlightThickness\fP"
+Specifies the thickness of the highlighting rectangle.
+.IP "\fBXmNnavigationType\fP"
+Controls whether the Widget is a navigation group.
+.RS
+.IP \(bu 3
+\fBXmNONE\fP indicates that the Widget
+is not a navigation group.
+.IP \(bu 3
+\fBXmTAB_GROUP\fP indicates that the Widget
+is included automatically in keyboard navigation,
+unless \fBXmAddTabGroup\fP has been called.
+.IP \(bu 3
+\fBXmSTICKY_TAB_GROUP\fP indicates that the Widget
+is included automatically in keyboard navigation,
+even if \fBXmAddTabGroup\fP has been called.
+.IP \(bu 3
+\fBXmEXCLUSIVE_TAB_GROUP\fP indicates that the Widget
+is included explicitly in keyboard navigation by the application.
+With \fBXmEXCLUSIVE_TAB_GROUP\fP, traversal of widgets within the group
+is based on the order of children.
+.RE
+.IP
+If the gadget's parent is a shell, the default is \fBXmTAB_GROUP\fP;
+otherwise, the default is \fBXmNONE\fP.
+.br
+.ne 8
+.IP "\fBXmNshadowThickness\fP"
+Specifies the size of the drawn border shadow.
+.IP "\fBXmNtraversalOn\fP"
+Specifies traversal activation for this gadget.
+.IP "\fBXmNunitType\fP"
+Provides the basic support for resolution independence.
+It defines the type of units a widget uses with sizing and
+positioning resources.
+If the widget's parent is a subclass of \fBXmManager\fP and if the
+\fBXmNunitType\fP resource is not explicitly set, it defaults to the
+unit type of the parent widget.
+If the widget's parent is not a subclass of \fBXmManager\fP, the
+resource has a default unit type of \fBXmPIXELS\fP.
+.IP
+\fBXmNunitType\fP can have the following values:
+.RS
+.IP \(bu 3
+\fBXmPIXELS\fP \(em all values provided to the widget are treated as normal 
+pixel values.
+.IP \(bu 3
+\fBXm100TH_MILLIMETERS\fP \(em all values provided to the widget are treated 
+as 1/100 millimeter.
+.IP \(bu 3
+\fBXm1000TH_INCHES\fP \(em all values provided to the widget are treated as
+1/1000 inch.
+.IP \(bu 3
+\fBXm100TH_POINTS\fP \(em all values provided to the widget are treated as 
+1/100 point.  A point is a unit used in text processing 
+applications and is defined as 1/72 inch.
+.IP \(bu 3
+\fBXm100TH_FONT_UNITS\fP \(em all values provided to the widget are
+treated as 1/100 of a font unit.
+The value to be used for the font unit is determined in one of three
+ways:
+.RS
+.IP \(bu 3
+The application can use \fBXmSetFontUnits\fP to specify the font unit
+values.
+.IP \(bu 3
+If the application has not called \fBXmSetFontUnits\fP, the font units
+can be derived from a font.
+The user specifies this font by using the font resource in a
+defaults file or on the command line, or by using the standard command
+line options \fB\-fn\fP and \fB\-font\fP.
+.br
+.ne 8
+.IP \(bu 3
+If the application has not called \fBXmSetFontUnits\fP and the user has
+not specified a font resource, the horizontal and vertical font units
+default to 10.
+.RE
+.IP
+A horizontal font unit is derived from a font as follows:
+.RS
+.IP \(bu 3
+If the font has an \fBAVERAGE_WIDTH\fP property, the horizontal font
+unit is the \fBAVERAGE_WIDTH\fP property divided by 10.
+.IP \(bu 3
+If the font has no \fBAVERAGE_WIDTH\fP property but has a
+\fBQUAD_WIDTH\fP property, the horizontal font unit is the
+\fBQUAD_WIDTH\fP property.
+.IP \(bu 3
+If the font has no \fBAVERAGE_WIDTH\fP or \fBQUAD_WIDTH\fP property, the
+horizontal font unit is the sum of the font struct's min_bounds.width
+and max_bounds.width divided by 2.3.
+.RE
+.IP
+A vertical font unit is derived from a font as follows:
+.RS
+.IP \(bu 3
+If the font has a \fBPIXEL_SIZE\fP property, the vertical font unit is
+the \fBPIXEL_SIZE\fP property divided by 1.8.
+.IP \(bu 3
+If the font has no \fBPIXEL_SIZE\fP property but has \fBPOINT_SIZE\fP
+and \fBRESOLUTION_Y\fP properties, the vertical font unit is the product
+of the \fBPOINT_SIZE\fP and \fBRESOLUTION_Y\fP properties divided by
+1400.
+.IP \(bu 3
+If the font has no \fBPIXEL_SIZE\fP, \fBPOINT_SIZE\fP, or
+\fBRESOLUTION_Y\fP properties, the vertical font unit is the sum of the
+font struct's max_bounds.ascent and max_bounds.descent divided by 2.2.
+.RE
+.RE
+.IP "\fBXmNuserData\fP"
+Allows the application to attach any necessary specific data to the gadget.  
+This is an internally unused resource.  
+.sp 1
+.br
+.ne 10
+.SS "Inherited Resources"
+Gadget inherits the following resources from the named   
+superclass.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+RectObj Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Object Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.br
+.ne 12
+.sp 1 \"Adds space before the SS
+.SS "Behavior"
+Gadgets cannot have translations associated with them.  
+Because of this, a Gadget's behavior is determined by the Manager
+widget into which the Gadget is placed.  If focus is on a Gadget,
+events are passed to the Gadget by its Manager.
+.br
+.ne 4
+.SH RELATED INFORMATION
+\fBObject(3X)\fP, \fBRectObj(3X)\fP, and \fBXmManager(3X)\fP.

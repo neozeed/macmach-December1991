@@ -1,0 +1,990 @@
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     NNNNAAAAMMMMEEEE
+          XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx ---- tttthhhheeee FFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx wwwwiiiiddddggggeeeetttt ccccllllaaaassssssss....
+
+
+     SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+          ####iiiinnnncccclllluuuuddddeeee <<<<XXXXmmmm////FFFFiiiilllleeeeSSSSBBBB....hhhh>>>>
+
+
+     DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+          FileSelectionBox traverses through directories, views the
+          files and subdirectories in them, and then selects files.
+
+          A FileSelectionBox has five main areas:
+
+          +o  A text input field for displaying and editing a directory
+             mask used to select the files to be displayed
+
+          +o  A scrollable list of filenames
+
+          +o  A scrollable list of subdirectories
+
+          +o  A text input field for displaying and editing a filename
+
+          +o  A group of PushButtons, labeled OOOOKKKK, FFFFiiiilllltttteeeerrrr, CCCCaaaannnncccceeeellll, and
+             HHHHeeeellllpppp
+
+          One additional WWWWoooorrrrkkkkAAAArrrreeeeaaaa child may be added to the
+          FileSelectionBox after creation.  The list of filenames, the
+          list of subdirectories, or both can be removed from the
+          FileSelectionBox after creation by unmanaging the
+          appropriate widgets and their labels.  The list and label
+          widgets are obtained by calling the function
+          XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxGGGGeeeettttCCCChhhhiiiilllldddd.  To remove either the directory
+          list or the file list, unmanage the parent of the
+          appropriate list widget and unmanage the corresponding
+          label.
+
+          The directory mask is a string specifying the base directory
+          to be examined and a search pattern.  Ordinarily, the
+          directory list displays the subdirectories of the base
+          directory, as well as the base directory itself and its
+          parent directory.  The file list ordinarily displays all
+          files and/or subdirectories in the base directory that match
+          the search pattern.
+
+          A procedure specified by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc
+          resource extracts the base directory and search pattern from
+          the directory mask.  If the directory specification is
+          empty, the current working directory is used.  If the search
+          pattern is empty, a pattern that matches all files is used.
+
+          An application can supply its own XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc
+
+
+
+     Page 1                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+          as well as its own procedures to search for subdirectories
+          and files.  The default XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc works as
+          follows:  The directory mask is a pathname that can contain
+          zero or more _w_i_l_d_c_a_r_d characters in its directory portion,
+          its file portion, or both.  The directory components of the
+          directory mask up to, but not including, the first component
+          with a wildcard character specify the directory to be
+          searched, relative to the current working directory.  The
+          remaining components specify the search pattern.  If the
+          directory mask is empty or if its first component contains a
+          wildcard character, the current working directory is
+          searched.  If no component of the directory mask contains a
+          wildcard character, the entire directory mask is the
+          directory specification, and all files in that directory are
+          matched.
+
+          The user can select a new directory to examine by scrolling
+          through the list of directories and selecting the desired
+          directory or by editing the directory mask.  Selecting a new
+          directory from the directory list does not change the search
+          pattern.  A user can select a new search pattern by editing
+          the directory mask.  Double clicking or pressing KKKKAAAAccccttttiiiivvvvaaaatttteeee
+          on a directory in the directory list initiates a search for
+          files and subdirectories in the new directory, using the
+          current search pattern.
+
+          The user can select a file by scrolling through the list of
+          filenames and selecting the desired file or by entering the
+          filename directly into the text edit area.  Selecting a file
+          from the list causes that filename to appear in the file
+          selection text edit area.
+
+          The user may select a new file as many times as desired.
+          The application is not notified until the user takes one of
+          these actions:
+
+          +o  Selects the OOOOKKKK PushButton
+
+          +o  Presses KKKKAAAAccccttttiiiivvvvaaaatttteeee while the selection text edit area has
+             the keyboard focus.
+
+          +o  Double clicks or presses KKKKAAAAccccttttiiiivvvvaaaatttteeee on an item in the file
+             list
+
+          FileSelectionBox initiates a directory and file search when
+          any of the following occurs:
+
+          +o  The FileSelectionBox is initialized
+
+          +o  The function XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss is used to change XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk,
+             XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn, or XXXXmmmmNNNNffffiiiilllleeeeTTTTyyyyppppeeeeMMMMaaaasssskkkk
+
+
+
+
+     Page 2                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+          +o  The user activates the FFFFiiiilllltttteeeerrrr PushButton
+
+          +o  The user double clicks or presses KKKKAAAAccccttttiiiivvvvaaaatttteeee on an item in
+             the directory list
+
+          +o  The application calls XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDooooSSSSeeeeaaaarrrrcccchhhh
+
+          +o  The user presses KKKKAAAAccccttttiiiivvvvaaaatttteeee while the directory mask text
+             edit area has the keyboard focus
+
+          When a file search is initiated, the FileSelectionBox takes
+          the following actions:
+
+          +o  Constructs an XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt structure
+             with values appropriate for the action that initiated the
+             search
+
+          +o  Calls the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc with the callback
+             structure as the data input argument
+
+          +o  Sets XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd and XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to False
+
+          +o  Calls the XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc with the qualified data
+             returned by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc
+
+          If XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd is True, the FileSelectionBox takes
+          these additional actions:
+
+          +o  Sets XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to False
+
+          +o  Calls the XXXXmmmmNNNNffffiiiilllleeeeSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc with the qualified data
+             returned by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc (and possibly
+             modified by the XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc)
+
+          +o  If XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd is True and the file list is empty,
+             displays the XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhSSSSttttrrrriiiinnnngggg in the file list and clears
+             the selection text and XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc
+
+          +o  If XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd is True and the file list is not empty,
+             sets the selection text and XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc to the qualified
+             _d_i_r returned by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc (and
+             possibly modified by the XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc)
+
+          +o  Sets the directory mask text and XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk to the
+             qualified _m_a_s_k returned by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc
+             (and possibly modified by the XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc)
+
+          +o  Sets XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy to the qualified _d_i_r returned by the
+             XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc (and possibly modified by the
+             XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc)
+
+          +o  Sets XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn to the qualified _p_a_t_t_e_r_n returned by the
+
+
+
+     Page 3                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+             XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc (and possibly modified by the
+             XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc)
+
+
+        CCCCllllaaaasssssssseeeessss
+          FileSelectionBox inherits behavior and resources from CCCCoooorrrreeee,
+          CCCCoooommmmppppoooossssiiiitttteeee, CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt, XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr, XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd, and
+          XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx.
+
+          The class pointer is xxxxmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxWWWWiiiiddddggggeeeettttCCCCllllaaaassssssss.  The
+          class name is XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx.
+
+
+        NNNNeeeewwww RRRReeeessssoooouuuurrrrcccceeeessss
+          The following table defines a set of widget resources used
+          by the programmer to specify data.  The programmer can also
+          set the resource values for the inherited classes to set
+          attributes for this widget.  To reference a resource by name
+          or by class in a .Xdefaults file, remove the XXXXmmmmNNNN or XXXXmmmmCCCC
+          prefix and use the remaining letters.  To specify one of the
+          defined values for a resource in a .Xdefaults file, remove
+          the XXXXmmmm prefix and use the remaining letters (in either
+          lowercase or uppercase, but include any underscores between
+          words).  The codes in the access column indicate if the
+          given resource can be set at creation time (CCCC), set by using
+          XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss (SSSS), retrieved by using XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss (GGGG), or is
+          not applicable (NNNN////AAAA).
+
+                                     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                       CCCCllllaaaassssssss                      TTTTyyyyppppeeee            DDDDeeeeffffaaaauuuulllltttt             AAAAcccccccceeeessssssss
+     ________________________________________________________________________________________________
+     XmNdirectory               XmCDirectory               XmString        dynamic             CSG
+     XmNdirectoryValid          XmCDirectoryValid          Boolean         dynamic             SG
+     XmNdirListItems            XmCDirListItems            XmStringTable   dynamic             SG
+     XmNdirListItemCount        XmCDirListItemCount        int             dynamic             SG
+     XmNdirListLabelString      XmCDirListLabelString      XmString        "Directories"       CSG
+     XmNdirMask                 XmCDirMask                 XmString        dynamic             CSG
+     XmNdirSearchProc           XmCDirSearchProc           (*)()           default procedure   CSG
+     XmNdirSpec                 XmCDirSpec                 XmString        dynamic             CSG
+     XmNfileListItems           XmCItems                   XmStringTable   dynamic             SG
+     XmNfileListItemCount       XmCItemCount               int             dynamic             SG
+     XmNfileListLabelString     XmCFileListLabelString     XmString        "Files"             CSG
+     XmNfileSearchProc          XmCFileSearchProc          (*)()           default procedure   CSG
+     XmNfileTypeMask            XmCFileTypeMask            unsigned char   XmFILE_REGULAR      CSG
+     XmNfilterLabelString       XmCFilterLabelString       XmString        "Filter"            CSG
+     XmNlistUpdated             XmCListUpdated             Boolean         dynamic             SG
+     XmNnoMatchString           XmCNoMatchString           XmString        " [    ] "          CSG
+     XmNpattern                 XmCPattern                 XmString        dynamic             CSG
+
+
+
+
+
+
+
+     Page 4                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     XmNqualifySearchDataProc   XmCQualifySearchDataProc   (*)()           default procedure   CSG
+
+
+          XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy
+               Specifies the base directory used in combination with
+               XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn in determining the files and directories to
+               be displayed.  The default value is determined by the
+               XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc and depends on the initial
+               values of XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk, XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, and XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn.  If
+               the default is NULL or empty, the current working
+               directory is used.
+
+          XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd
+               Specifies an attribute that is set only by the
+               directory search procedure.  The value is set to True
+               if the directory passed to the directory search
+               procedure can actually be searched.  If this value is
+               False the file search procedure is not called, and
+               XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk, XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, and XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn are not
+               changed.
+
+          XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmssss
+               Specifies the items in the directory list.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss
+               for this resource returns the list items themselves,
+               not a copy of the list items.  The application must not
+               free the returned items.
+
+          XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items in the directory list.
+               The value must not be negative.
+
+          XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the label string of the directory list.
+
+          XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk
+               Specifies the directory mask used in determining the
+               files and directories to be displayed.  The default
+               value is determined by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc and
+               depends on the initial values of XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk,
+               XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, and XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn.
+
+          XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc
+               Specifies a directory search procedure to replace the
+               default directory-search procedure.  FileSelectionBox's
+               default directory-search procedure fulfills the needs
+               of most applications.  Because it is impossible to
+               cover the requirements of all applications, you can
+               replace the default search procedure.
+
+               The directory search procedure is called with two
+               arguments: the FileSelectionBox widget and a pointer to
+               an XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt structure.  The
+
+
+
+     Page 5                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               callback structure is generated by the
+               XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc and contains all information
+               required to conduct a directory search, including the
+               directory mask and a qualified base directory and
+               search pattern.  Once called, it is up to the search
+               routine to generate a new list of directories and
+               update the FileSelectionBox widget by using
+               XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+               The search procedure must set XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd and
+               XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd.  If it generates a new list of
+               directories, it must also set XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmssss and
+               XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt.
+
+               If the search procedure cannot search the specified
+               directory, it must warn the user and set
+               XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd and XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to False, unless
+               it prompts and subsequently obtains a valid directory.
+               If the directory is valid but is the same as the
+               current XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, the search procedure must set
+               XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd to True, but it may elect not to
+               generate a new list of directories.  In this case is
+               must set XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to False.
+
+               If the search procedure generates a new list of
+               directories, it must set XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmssss to the new
+               list of directories and XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt to the
+               number of items in the list.  If there are no
+               directories, it sets XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmssss to NULL and
+               XXXXmmmmNNNNddddiiiirrrrLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt to 0.  In either case it must set
+               XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyyVVVVaaaalllliiiidddd and XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to True.
+
+               The search procedure ordinarily should not change the
+               callback struct.  But if the original directory is not
+               valid, the search procedure may obtain a new directory
+               from the user.  In this case it should set the _d_i_r
+               member of the callback struct to the new directory,
+               call the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc with the callback
+               struct as the input argument, and copy the qualified
+               data returned by the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc into the
+               callback struct.
+
+          XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc
+               Specifies the full file path specification.  This is
+               the XXXXmmmmNNNNtttteeeexxxxttttSSSSttttrrrriiiinnnngggg resource in SelectionBox, renamed for
+               FileSelectionBox.  The default value is determined by
+               the FileSelectionBox after conducting the initial
+               directory and file search.
+
+          XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmssss
+               Specifies the items in the file list.  This is the
+               XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmssss resource in SelectionBox, renamed for
+
+
+
+     Page 6                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               FileSelectionBox.  XXXXttttGGGGeeeettttVVVVaaaalllluuuueeeessss for this resource
+               returns the list items themselves, not a copy of the
+               list items.  The application must not free the returned
+               items.
+
+          XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt
+               Specifies the number of items in the file list.  This
+               is the XXXXmmmmNNNNlllliiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt resource in SelectionBox,
+               renamed for FileSelectionBox.  The value must not be
+               negative.
+
+          XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the label string of the file list.  This is
+               the XXXXmmmmNNNNlllliiiissssttttLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg resource in SelectionBox,
+               renamed for FileSelectionBox.
+
+          XXXXmmmmNNNNffffiiiilllleeeeSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc
+               Specifies a file search procedure to replace the
+               default file-search procedure.  FileSelectionBox's
+               default file-search procedure fulfills the needs of
+               most applications.  Because it is impossible to cover
+               the requirements of all applications, you can replace
+               the default search procedure.
+
+               The file search procedure is called with two arguments:
+               the FileSelectionBox widget and a pointer to an
+               XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt structure.  The
+               callback structure is generated by the
+               XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc (and possibly modified by the
+               XXXXmmmmNNNNddddiiiirrrrSSSSeeeeaaaarrrrcccchhhhPPPPrrrroooocccc).  It contains all information
+               required to conduct a file search, including the
+               directory mask and a qualified base directory and
+               search pattern.  Once called, it is up to the search
+               routine to generate a new list of files and update the
+               FileSelectionBox widget by using XXXXttttSSSSeeeettttVVVVaaaalllluuuueeeessss.
+
+               The search procedure must set XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd.  If it
+               generates a new list of files, it must also set
+               XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmssss and XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt.
+
+               The search procedure is recommended always to generate
+               a new list of files.  If the _m_a_s_k member of the
+               callback struct is the same as the _m_a_s_k member of the
+               callback struct in the preceding call to the search
+               procedure, the procedure may elect not to generate a
+               new list of files.  In this case it must set
+               XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to False.
+
+               If the search procedure generates a new list of files,
+               it must set XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmssss to the new list of files
+               and XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt to the number of items in the
+               list.  If there are no files, it sets XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmssss
+
+
+
+     Page 7                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               to NULL and XXXXmmmmNNNNffffiiiilllleeeeLLLLiiiissssttttIIIItttteeeemmmmCCCCoooouuuunnnntttt to 0.  In either case
+               it must set XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd to True.
+
+               In constructing the list of files, the search procedure
+               should include only files of the types specified by the
+               widget's XXXXmmmmNNNNffffiiiilllleeeeTTTTyyyyppppeeeeMMMMaaaasssskkkk.
+
+               Setting XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc is optional, but recommended.  Set
+               this attribute to the full file specification of the
+               directory searched.  The directory specification is
+               displayed below the directory and file lists.
+
+          XXXXmmmmNNNNffffiiiilllleeeeTTTTyyyyppppeeeeMMMMaaaasssskkkk
+               Specifies the type of files listed in the file list.
+               Following are the possible values:
+
+               +o  XXXXmmmmFFFFIIIILLLLEEEE____RRRREEEEGGGGUUUULLLLAAAARRRR restricts the file list to contain
+                  only regular files.
+
+               +o  XXXXmmmmFFFFIIIILLLLEEEE____DDDDIIIIRRRREEEECCCCTTTTOOOORRRRYYYY restricts the file list to contain
+                  only directories.
+
+               +o  XXXXmmmmFFFFIIIILLLLEEEE____AAAANNNNYYYY____TTTTYYYYPPPPEEEE allows the list to contain all file
+                  types including directories.
+
+          XXXXmmmmNNNNffffiiiilllltttteeeerrrrLLLLaaaabbbbeeeellllSSSSttttrrrriiiinnnngggg
+               Specifies the label string for the text entry field for
+               the directory mask.
+
+          XXXXmmmmNNNNlllliiiissssttttUUUUppppddddaaaatttteeeedddd
+               Specifies an attribute that is set only by the
+               directory and file search procedures.  Set to True if
+               the search procedure updated the directory or file
+               list.
+
+          XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhSSSSttttrrrriiiinnnngggg
+               Specifies a string to be displayed in the file list if
+               the list of files is empty.
+
+          XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn
+               Specifies the search pattern used in combination with
+               XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy in determining the files and directories
+               to be displayed.  The default value is determined by
+               the XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc and depends on the initial
+               values of XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk, XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy, and XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn.  If
+               the default is NULL or empty, a pattern that matches
+               all files is used.
+
+          XXXXmmmmNNNNqqqquuuuaaaalllliiiiffffyyyySSSSeeeeaaaarrrrcccchhhhDDDDaaaattttaaaaPPPPrrrroooocccc
+               Specifies a search data qualification procedure to
+               replace the default data qualification procedure.
+               FileSelectionBox's default data qualification procedure
+
+
+
+     Page 8                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               fulfills the needs of most applications.  Because it is
+               impossible to cover the requirements of all
+               applications, you can replace the default procedure.
+
+               The data qualification procedure is called to generate
+               a qualified directory mask, base directory, and search
+               pattern for use by the directory and file search
+               procedures.  It is called with three arguments:  the
+               FileSelectionBox widget and pointers to two
+               XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt structures.  The first
+               callback struct contains the input data.  The second
+               callback struct contains the output data, to be filled
+               in by the data qualification procedure.
+
+               If the input _d_i_r and _p_a_t_t_e_r_n members are not NULL, the
+               procedure must copy them to the corresponding members
+               of the output callback struct.
+
+               If the input _d_i_r is NULL, the procedure constructs the
+               output _d_i_r as follows:  If the input _m_a_s_k member is
+               NULL, the procedure uses the widget's XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy as
+               the output _d_i_r; otherwise, it extracts the output _d_i_r
+               from the input _m_a_s_k.  If the resulting output _d_i_r is
+               empty, the procedure uses the current working directory
+               instead.
+
+               If the input _p_a_t_t_e_r_n is NULL, the procedure constructs
+               the output _p_a_t_t_e_r_n as follows:  If the input _m_a_s_k
+               member is NULL, the procedure uses the widget's
+               XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn as the output _p_a_t_t_e_r_n; otherwise, it
+               extracts the output _p_a_t_t_e_r_n from the input _m_a_s_k.  If
+               the resulting output _p_a_t_t_e_r_n is empty, the procedure
+               uses a pattern that matches all files instead.
+
+               The data qualification procedure constructs the output
+               _m_a_s_k from the output _d_i_r and _p_a_t_t_e_r_n.  The procedure
+               must ensure that the output _d_i_r, _p_a_t_t_e_r_n, and _m_a_s_k are
+               fully qualified.
+
+               If the input _v_a_l_u_e member is not NULL, the procedure
+               must copy it to the output _v_a_l_u_e member; otherwise, the
+               procedure must copy the widget's XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc to the
+               output _v_a_l_u_e.
+
+               The data qualification procedure must calculate the
+               lengths of the output _v_a_l_u_e, _m_a_s_k, _d_i_r, and _p_a_t_t_e_r_n
+               members and must fill in the corresponding length
+               members of the output callback struct.
+
+               The data qualification procedure must copy the input
+               _r_e_a_s_o_n and _e_v_e_n_t members to the corresponding output
+               members.
+
+
+
+     Page 9                                           (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+        IIIInnnnhhhheeeerrrriiiitttteeeedddd RRRReeeessssoooouuuurrrrcccceeeessss
+          FileSelectionBox inherits behavior and resources from the
+          following superclasses.  For a complete description of each
+          resource, refer to the man page for that superclass.
+
+                                          XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                      CCCCllllaaaassssssss                     TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                    AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________
+     XmNapplyCallback          XmCCallback               XtCallbackList   NULL                       C
+     XmNapplyLabelString       XmCApplyLabelString       XmString         "Filter"                   CSG
+     XmNcancelCallback         XmCCallback               XtCallbackList   NULL                       C
+     XmNcancelLabelString      XmCCancelLabelString      XmString         "Cancel"                   CSG
+     XmNdialogType             XmCDialogType             unsigned char    XmDIALOG_FILE_SELECTION    G
+     XmNhelpLabelString        XmCHelpLabelString        XmString         "Help"                     CSG
+     XmNlistItemCount          XmCItemCount              int              dynamic                    CSG
+     XmNlistItems              XmCItems                  XmStringTable    dynamic                    CSG
+     XmNlistLabelString        XmCListLabelString        XmString         "Files"                    CSG
+     XmNlistVisibleItemCount   XmCVisibleItemCount       int              dynamic                    CSG
+     XmNminimizeButtons        XmCMinimizeButtons        Boolean          False                      CSG
+     XmNmustMatch              XmCMustMatch              Boolean          False                      CSG
+     XmNnoMatchCallback        XmCCallback               XtCallbackList   NULL                       C
+     XmNokCallback             XmCCallback               XtCallbackList   NULL                       C
+     XmNokLabelString          XmCOkLabelString          XmString         "OK"                       CSG
+     XmNselectionLabelString   XmCSelectionLabelString   XmString         "Selection"                CSG
+     XmNtextAccelerators       XmCTextAccelerators       XtAccelerators   default                    C
+     XmNtextColumns            XmCColumns                short            dynamic                    CSG
+     XmNtextString             XmCTextString             XmString         dynamic                    CSG
+
+                                XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                  CCCCllllaaaassssssss                TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt         AAAAcccccccceeeessssssss
+     __________________________________________________________________________________
+     XmNallowOverlap       XmCAllowOverlap      Boolean          True            CSG
+     XmNautoUnmanage       XmCAutoUnmanage      Boolean          False           CG
+     XmNbuttonFontList     XmCButtonFontList    XmFontList       dynamic         CSG
+     XmNcancelButton       XmCWidget            Widget           Cancel button   SG
+     XmNdefaultButton      XmCWidget            Widget           OK button       SG
+     XmNdefaultPosition    XmCDefaultPosition   Boolean          True            CSG
+     XmNdialogStyle        XmCDialogStyle       unsigned char    dynamic         CSG
+     XmNdialogTitle        XmCDialogTitle       XmString         NULL            CSG
+     XmNfocusCallback      XmCCallback          XtCallbackList   NULL            C
+     XmNlabelFontList      XmCLabelFontList     XmFontList       dynamic         CSG
+     XmNmapCallback        XmCCallback          XtCallbackList   NULL            C
+     XmNmarginHeight       XmCMarginHeight      Dimension        10              CSG
+     XmNmarginWidth        XmCMarginWidth       Dimension        10              CSG
+     XmNnoResize           XmCNoResize          Boolean          False           CSG
+     XmNresizePolicy       XmCResizePolicy      unsigned char    XmRESIZE_ANY    CSG
+     XmNshadowType         XmCShadowType        unsigned char    XmSHADOW_OUT    CSG
+     XmNtextFontList       XmCTextFontList      XmFontList       dynamic         CSG
+
+
+
+
+
+
+
+     Page 10                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     XmNtextTranslations   XmCTranslations      XtTranslations   NULL            C
+     XmNunmapCallback      XmCCallback          XtCallbackList   NULL            C
+
+                                             XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                    CCCCllllaaaassssssss                         TTTTyyyyppppeeee                DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     _______________________________________________________________________________________________________
+     XmNbottomShadowColor    XmCBottomShadowColor          Pixel               dynamic                CSG
+     XmNbottomShadowPixmap   XmCBottomShadowPixmap         Pixmap              XmUNSPECIFIED_PIXMAP   CSG
+     XmNforeground           XmCForeground                 Pixel               dynamic                CSG
+     XmNhelpCallback         XmCCallback                   XtCallbackList      NULL                   C
+     XmNhighlightColor       XmCHighlightColor             Pixel               dynamic                CSG
+     XmNhighlightPixmap      XmCHighlightPixmap            Pixmap              dynamic                CSG
+     XmNnavigationType       XmCNavigationType             XmNavigationType    dynamic                CSG
+     XmNshadowThickness      XmCShadowThickness            Dimension           dynamic                CSG
+     XmNstringDirection      XmCStringDirection            XmStringDirection   dynamic                CG
+     XmNtopShadowColor       XmCBackgroundTopShadowColor   Pixel               dynamic                CSG
+     XmNtopShadowPixmap      XmCTopShadowPixmap            Pixmap              dynamic                CSG
+     XmNtraversalOn          XmCTraversalOn                Boolean             True                   CSG
+     XmNunitType             XmCUnitType                   unsigned char       dynamic                CSG
+     XmNuserData             XmCUserData                   Pointer             NULL                   CSG
+
+                            CCCCoooommmmppppoooossssiiiitttteeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                CCCCllllaaaassssssss               TTTTyyyyppppeeee         DDDDeeeeffffaaaauuuulllltttt   AAAAcccccccceeeessssssss
+     _____________________________________________________________________
+     XmNchildren         XmCReadOnly         WidgetList   NULL      G
+     XmNinsertPosition   XmCInsertPosition   (*)()        NULL      CSG
+     XmNnumChildren      XmCReadOnly         Cardinal     0         G
+
+                                                   CCCCoooorrrreeee RRRReeeessssoooouuuurrrrcccceeee SSSSeeeetttt
+     NNNNaaaammmmeeee                            CCCCllllaaaassssssss                           TTTTyyyyppppeeee             DDDDeeeeffffaaaauuuulllltttt                AAAAcccccccceeeessssssss
+     ______________________________________________________________________________________________________________
+     XmNaccelerators                 XmCAccelerators                 XtAccelerators   dynamic                N/A
+     XmNancestorSensitive            XmCSensitive                    Boolean          dynamic                G
+     XmNbackground                   XmCBackground                   Pixel            dynamic                CSG
+     XmNbackgroundPixmap             XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderColor                  XmCBorderColor                  Pixel            XtDefaultForeground    CSG
+     XmNborderPixmap                 XmCPixmap                       Pixmap           XmUNSPECIFIED_PIXMAP   CSG
+     XmNborderWidth                  XmCBorderWidth                  Dimension        0                      CSG
+     XmNcolormap                     XmCColormap                     Colormap         dynamic                CG
+     XmNdepth                        XmCDepth                        int              dynamic                CG
+     XmNdestroyCallback              XmCCallback                     XtCallbackList   NULL                   C
+     XmNheight                       XmCHeight                       Dimension        dynamic                CSG
+     XmNinitialResourcesPersistent   XmCInitialResourcesPersistent   Boolean          True                   C
+     XmNmappedWhenManaged            XmCMappedWhenManaged            Boolean          True                   CSG
+     XmNscreen                       XmCScreen                       Screen *         dynamic                CG
+     XmNsensitive                    XmCSensitive                    Boolean          True                   CSG
+     XmNtranslations                 XmCTranslations                 XtTranslations   dynamic                CSG
+     XmNwidth                        XmCWidth                        Dimension        dynamic                CSG
+
+
+
+
+
+
+
+     Page 11                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+     XmNx                            XmCPosition                     Position         0                      CSG
+     XmNy                            XmCPosition                     Position         0                      CSG
+
+
+
+        CCCCaaaallllllllbbbbaaaacccckkkk IIIInnnnffffoooorrrrmmmmaaaattttiiiioooonnnn
+          A pointer to the following structure is passed to each
+          callback:
+
+          ttttyyyyppppeeeeddddeeeeffff ssssttttrrrruuuucccctttt
+          {
+            iiiinnnntttt      _r_e_a_s_o_n;
+            XXXXEEEEvvvveeeennnntttt   * _e_v_e_n_t;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg _v_a_l_u_e;;;;
+            iiiinnnntttt      _l_e_n_g_t_h;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg _m_a_s_k;;;;
+            iiiinnnntttt      _m_a_s_k__l_e_n_g_t_h;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg _d_i_r;;;;
+            iiiinnnntttt      _d_i_r__l_e_n_g_t_h;;;;
+            XXXXmmmmSSSSttttrrrriiiinnnngggg _p_a_t_t_e_r_n;;;;
+            iiiinnnntttt      _p_a_t_t_e_r_n__l_e_n_g_t_h;;;;
+          }}}} XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxCCCCaaaallllllllbbbbaaaacccckkkkSSSSttttrrrruuuucccctttt;;;;
+
+
+          _r_e_a_s_o_n    Indicates why the callback was invoked
+
+          _e_v_e_n_t     Points to the XXXXEEEEvvvveeeennnntttt that triggered the callback
+
+          _v_a_l_u_e     Specifies the current value of XXXXmmmmNNNNddddiiiirrrrSSSSppppeeeecccc
+
+          _l_e_n_g_t_h    Specifies the number of bytes in _v_a_l_u_e
+
+          _m_a_s_k      Specifies the current value of XXXXmmmmNNNNddddiiiirrrrMMMMaaaasssskkkk
+
+          _m_a_s_k__l_e_n_g_t_h
+                    Specifies the number of bytes in _m_a_s_k
+
+          _d_i_r       Specifies the current base directory
+
+          _d_i_r__l_e_n_g_t_h
+                    Specifies the number of bytes in _d_i_r
+
+          _p_a_t_t_e_r_n   Specifies the current search pattern
+
+          _p_a_t_t_e_r_n__l_e_n_g_t_h
+                    Specifies the number of bytes in _p_a_t_t_e_r_n
+
+
+        TTTTrrrraaaannnnssssllllaaaattttiiiioooonnnnssss
+          XmFileSelectionBox inherits translations from
+          XmSelectionBox.
+
+
+
+
+     Page 12                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+        AAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss
+          The XXXXmmmmNNNNtttteeeexxxxttttAAAAcccccccceeeelllleeeerrrraaaattttoooorrrrssss from XmSelectionBox are added to the
+          selection and directory mask (filter) Text descendants of
+          XmFileSelectionBox.
+
+
+        AAAAccccttttiiiioooonnnn RRRRoooouuuuttttiiiinnnneeeessss
+          The XmFileSelectionBox action routines are described below:
+
+          SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxUUUUppppOOOOrrrrDDDDoooowwwwnnnn((((0000||||1111||||2222||||3333)))):
+               If neither the selection text nor the directory mask
+               (filter) text has the focus, this action does nothing.
+
+               If the selection text has the focus, the term _l_i_s_t in
+               the following description refers to the file list, and
+               the term _t_e_x_t refers to the selection text.  If the
+               directory mask text has the focus, _l_i_s_t refers to the
+               directory list, and _t_e_x_t refers to the directory mask
+               text.
+
+               When called with a 0 argument, selects the previous
+               item in the list and replaces the text with that item.
+
+               When called with a 1 argument, selects the next item in
+               the list and replaces the text with that item.
+
+               When called with a 2 argument, selects the first item
+               in the list and replaces the text with that item.
+
+               When called with a 3 argument, selects the last item in
+               the list and replaces the text with that item.
+
+          SSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxRRRReeeessssttttoooorrrreeee(((()))):
+               If neither the selection text nor the directory mask
+               (filter) text has the focus, this action does nothing.
+
+               If the selection text has the focus, replaces the
+               selection text with the selected item in the file list.
+               If no item in the file list is selected, clears the
+               selection text.
+
+               If the directory mask text has the focus, replaces the
+               directory mask text with a new directory mask
+               constructed from the XXXXmmmmNNNNddddiiiirrrreeeeccccttttoooorrrryyyy and XXXXmmmmNNNNppppaaaatttttttteeeerrrrnnnn
+               resources.
+
+
+        AAAAddddddddiiiittttiiiioooonnnnaaaallll BBBBeeeehhhhaaaavvvviiiioooorrrr
+          The FileSelectionBox widget has the additional behavior
+          described below:
+
+          MMMMAAAAnnnnyyyy KKKKCCCCaaaannnncccceeeellll:
+
+
+
+     Page 13                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               Calls the activate callbacks for the cancel button if
+               it is sensitive.
+
+          <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in Selection Text:
+               Calls the selection text widget's XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.  If XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True and the selection
+               text does not match an item in the file list, calls the
+               XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason XXXXmmmmCCCCRRRR____NNNNOOOO____MMMMAAAATTTTCCCCHHHH.
+               Otherwise, calls the XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk callbacks with
+               reason XXXXmmmmCCCCRRRR____OOOOKKKK.
+
+          <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in Directory Mask Text:
+               Calls the directory mask text widget's
+               XXXXmmmmNNNNaaaaccccttttiiiivvvvaaaatttteeeeCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  Initiates a directory
+               and file search.  Calls the XXXXmmmmNNNNaaaappppppppllllyyyyCCCCaaaallllllllbbbbaaaacccckkkk callbacks
+               with reason XXXXmmmmCCCCRRRR____AAAAPPPPPPPPLLLLYYYY.
+
+          <<<<DDDDoooouuuubbbblllleeeeCCCClllliiiicccckkkk>>>> or <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in Directory List:
+               Calls the directory list widget's
+               XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk callbacks.  Initiates a
+               directory and file search.  Calls the XXXXmmmmNNNNaaaappppppppllllyyyyCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks with reason XXXXmmmmCCCCRRRR____AAAAPPPPPPPPLLLLYYYY.
+
+          <<<<DDDDoooouuuubbbblllleeeeCCCClllliiiicccckkkk>>>> or <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>> in File List:
+               Calls the file list widget's XXXXmmmmNNNNddddeeeeffffaaaauuuullllttttAAAAccccttttiiiioooonnnnCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks.  Calls the XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk callbacks with
+               reason XXXXmmmmCCCCRRRR____OOOOKKKK.
+
+          <<<<SSSSiiiinnnngggglllleeee SSSSeeeelllleeeecccctttt>>>> or <<<<BBBBrrrroooowwwwsssseeee SSSSeeeelllleeeecccctttt>>>> in Directory List:
+               Generates a new directory mask, using the selected list
+               item as the directory and the pattern extracted from
+               the current directory mask text as the search pattern.
+               If the search pattern is empty, uses a pattern that
+               matches all files in the directory.  Replaces the
+               directory mask text with the new directory mask.
+
+          <<<<SSSSiiiinnnngggglllleeee SSSSeeeelllleeeecccctttt>>>> or <<<<BBBBrrrroooowwwwsssseeee SSSSeeeelllleeeecccctttt>>>> in File List:
+               Replaces the selection text with the selected list
+               item.
+
+          <<<<AAAAppppppppllllyyyy BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               Initiates a directory and file search.  Calls the
+               XXXXmmmmNNNNaaaappppppppllllyyyyCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason XXXXmmmmCCCCRRRR____AAAAPPPPPPPPLLLLYYYY.
+
+          <<<<OOOOKKKK BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               If XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True and the selection text does not
+               match an item in the file list, calls the
+               XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason XXXXmmmmCCCCRRRR____NNNNOOOO____MMMMAAAATTTTCCCCHHHH.
+               Otherwise, calls the XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk callbacks with
+               reason XXXXmmmmCCCCRRRR____OOOOKKKK.
+
+          <<<<CCCCaaaannnncccceeeellll BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+
+
+
+     Page 14                                          (printed 1/9/91)
+
+
+
+
+
+
+     XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))OOOOppppeeeennnn SSSSooooffffttttwwwwaaaarrrreeee FFFFoooouuuunnnnddddaaaattttiiiioooonnnnXXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX))))
+
+
+
+               Calls the XXXXmmmmNNNNccccaaaannnncccceeeellllCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____CCCCAAAANNNNCCCCEEEELLLL.
+
+          <<<<HHHHeeeellllpppp BBBBuuuuttttttttoooonnnn AAAAccccttttiiiivvvvaaaatttteeeedddd>>>>:
+               Calls the XXXXmmmmNNNNhhhheeeellllppppCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____HHHHEEEELLLLPPPP.
+
+          <<<<KKKKAAAAccccttttiiiivvvvaaaatttteeee>>>>:
+               If no button, list widget, or text widget has the
+               keyboard focus:  If XXXXmmmmNNNNmmmmuuuussssttttMMMMaaaattttcccchhhh is True and the
+               selection text does not match an item in the file list,
+               calls the XXXXmmmmNNNNnnnnooooMMMMaaaattttcccchhhhCCCCaaaallllllllbbbbaaaacccckkkk callbacks with reason
+               XXXXmmmmCCCCRRRR____NNNNOOOO____MMMMAAAATTTTCCCCHHHH.  Otherwise, calls the XXXXmmmmNNNNooookkkkCCCCaaaallllllllbbbbaaaacccckkkk
+               callbacks with reason XXXXmmmmCCCCRRRR____OOOOKKKK.
+
+
+        VVVViiiirrrrttttuuuuaaaallll BBBBiiiinnnnddddiiiinnnnggggssss
+          The bindings for virtual keys are vendor specific.  For
+          information about bindings for virtual buttons and keys, see
+          VVVViiiirrrrttttuuuuaaaallllBBBBiiiinnnnddddiiiinnnnggggssss((((3333XXXX)))).
+
+     RRRREEEELLLLAAAATTTTEEEEDDDD IIIINNNNFFFFOOOORRRRMMMMAAAATTTTIIIIOOOONNNN
+          CCCCoooommmmppppoooossssiiiitttteeee((((3333XXXX)))), CCCCoooonnnnssssttttrrrraaaaiiiinnnntttt((((3333XXXX)))), CCCCoooorrrreeee((((3333XXXX)))),
+          XXXXmmmmBBBBuuuulllllllleeeettttiiiinnnnBBBBooooaaaarrrrdddd((((3333XXXX)))), XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX)))),
+          XXXXmmmmCCCCrrrreeeeaaaatttteeeeFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDiiiiaaaalllloooogggg((((3333XXXX)))),
+          XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxxGGGGeeeettttCCCChhhhiiiilllldddd((((3333XXXX)))), XXXXmmmmFFFFiiiilllleeeeSSSSeeeelllleeeeccccttttiiiioooonnnnDDDDooooSSSSeeeeaaaarrrrcccchhhh((((3333XXXX)))),
+          XXXXmmmmMMMMaaaannnnaaaaggggeeeerrrr((((3333XXXX)))), and XXXXmmmmSSSSeeeelllleeeeccccttttiiiioooonnnnBBBBooooxxxx((((3333XXXX)))),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Page 15                                          (printed 1/9/91)
+
+
+

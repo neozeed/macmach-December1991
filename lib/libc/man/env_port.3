@@ -1,0 +1,111 @@
+.\"
+.\" $Id: env_port.3,v 1.1 89/12/28 14:39:23 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	env_port.3,v $
+.\" Revision 1.1  89/12/28  14:39:23  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.\" 12-Nov-86  Mary Thompson (mrt) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH ENV_PORT 3 1/12/86
+.CM 4
+.SH NAME
+.nf
+env_get_port  \-  return the value of a port environment variable
+env_set_port  \-  delete a port environment variable
+env_del_port  \-  delete a port environment variable
+.SH SYNOPSIS
+.nf
+.ft B
+#include <servers/env_mgr.h>
+
+.nf
+.ft B
+kern_return_t env_get_port(env_port,env_name,env_val)
+    port_t		env_port;
+    env_name_t		env_name;
+    port_t		*env_val;
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_set_port(env_port,env_name,env_val)
+    port_t		env_port;
+    env_name_t		env_name;
+    port_t		env_val;
+
+.fi
+.ft P
+.nf
+.ft B
+kern_return_t env_del_port(env_port,env_name)
+    port_t		env_port;
+    env_name_t		env_name;
+
+.fi
+.ft P
+.SH ARGUMENTS
+.TP 15
+.B
+env_port
+port identifying environment
+.TP 15
+.B
+env_name
+name of port to be found | set | deleted
+.TP 15
+.B
+env_val
+returned pointing to value of port
+
+.SH DESCRIPTION
+.B env_get_port
+returns the value of the port variable with the name 
+.B env_name
+.
+
+.B env_set_port
+sets the value of the port variable, 
+.B env_name
+to
+.B env_val
+.
+
+.B env_del_port
+deletes the port 
+.B env_name
+;
+.SH DIAGNOSTICS
+.TP 25
+KERN_SUCCESS
+variable found
+.TP 25
+ENV_UNKNOWN_PORT
+.B ENV_PORT
+does not reference a known environment
+.TP 25
+ENV_VAR_NOT_FOUND
+name does not exist.
+.TP 25
+ENV_WRONG_VAR_TYPE
+names exists, but is a string variable
+.TP 25
+ENV_READ_ONLY
+.B env_port
+only allows read access to the 
+environment. ( 
+.B env_set_port
+and 
+.B env_del_port
+)
+
+.SH FILES
+/usr/include/servers/env_mgr.h,
+/usr/include/servers/emdefs.h
+
+.SH SEE ALSO
+.B env_string(3), env_conn(3), env_list(3)

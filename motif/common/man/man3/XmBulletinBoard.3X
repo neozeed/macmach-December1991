@@ -1,0 +1,412 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmBulletinBoard 3X "" "" "" ""
+.SH NAME
+\fBXmBulletinBoard \(em The BulletinBoard widget class.\fP
+.iX "XmBulletinBoard"
+.iX "widget class" "BulletinBoard"
+.sp 1
+.SH SYNOPSIS
+\fB#include <Xm/BulletinB.h>\fP
+.sp 1
+.SH DESCRIPTION
+BulletinBoard is a composite widget that provides simple geometry
+management for children widgets.
+It does not force positioning on its children, but can be set to reject
+geometry requests that result in overlapping children.
+BulletinBoard is the base widget for most dialog widgets and is also used
+as a general container widget.
+.PP
+Modal and modeless dialogs are implemented as collections of widgets that
+include a DialogShell, a BulletinBoard (or subclass) child of the shell,
+and various dialog components (buttons, labels, etc.) that are children
+of BulletinBoard.
+BulletinBoard defines callbacks useful for dialogs (focus, map, unmap),
+which are available for application use.
+If its parent is a DialogShell, BulletinBoard passes title and input mode
+(based on dialog style)
+information to the parent, which is responsible for appropriate communication
+with the window manager.
+.sp 1
+.SS "Classes"
+BulletinBoard inherits behavior and resources 
+from \fBCore\fP, \fBComposite\fP, \fBConstraint\fP, 
+and \fBXmManager\fP classes.
+.PP
+The class pointer is \fBxmBulletinBoardWidgetClass\fP.
+.PP
+The class name is \fBXmBulletinBoard\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmBulletinBoard Resource Set
+Name	Class	Type	Default	Access
+_
+XmNallowOverlap	XmCAllowOverlap	Boolean	True	CSG
+XmNautoUnmanage	XmCAutoUnmanage	Boolean	True	CG
+XmNbuttonFontList	XmCButtonFontList	XmFontList	dynamic	CSG
+XmNcancelButton	XmCWidget	Widget	NULL	SG
+XmNdefaultButton	XmCWidget	Widget	NULL	SG
+XmNdefaultPosition	XmCDefaultPosition	Boolean	True	CSG
+XmNdialogStyle	XmCDialogStyle	unsigned char	dynamic	CSG
+XmNdialogTitle	XmCDialogTitle	XmString	NULL	CSG
+XmNfocusCallback	XmCCallback	XtCallbackList	NULL	C
+XmNlabelFontList	XmCLabelFontList	XmFontList	dynamic	CSG
+XmNmapCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmarginHeight	XmCMarginHeight	Dimension	10	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	10 	CSG
+XmNnoResize	XmCNoResize	Boolean	False	CSG
+.tH
+XmNresizePolicy	XmCResizePolicy	unsigned char	XmRESIZE_ANY	CSG
+XmNshadowType	XmCShadowType	unsigned char	XmSHADOW_OUT	CSG
+XmNtextFontList	XmCTextFontList	XmFontList	dynamic	CSG
+XmNtextTranslations	XmCTranslations	XtTranslations	NULL	C
+XmNunmapCallback	XmCCallback	XtCallbackList	NULL	C
+.TE
+.sp 1
+.IP "\fBXmNallowOverlap\fP"
+Controls the policy for overlapping children widgets.
+If True, BulletinBoard allows geometry requests that result
+in overlapping children.
+.IP "\fBXmNautoUnmanage\fP"
+Controls whether or not BulletinBoard is automatically unmanaged after a
+button is activated.
+If this resource is True on initialization and if the BulletinBoard's
+parent is a DialogShell, BulletinBoard adds a callback to button
+children (PushButtons, PushButtonGadgets, and DrawnButtons) that
+unmanages the BulletinBoard when a button is activated.
+If this resource is False on initialization or if the BulletinBoard's
+parent is not a DialogShell, the 
+BulletinBoard is not automatically unmanaged.
+For BulletinBoard subclasses with Apply or Help buttons, activating
+those buttons does not automatically unmanage the BulletinBoard.
+.IP "\fBXmNbuttonFontList\fP"
+Specifies the font list used for BulletinBoard's button children (PushButtons,
+PushButtonGadgets, ToggleButtons, and ToggleButtonGadgets).
+If this value is NULL at initialization, it is initialized by
+looking up the parent hierarchy of the widget for an ancestor that is a
+subclass of the XmBulletinBoard, VendorShell, or XmMenuShell widget class.
+If such an ancestor is found, the font list is initialized to the appropriate
+default font list of the ancestor widget (XmNdefaultFontList for VendorShell
+and XmMenuShell, XmNbuttonFontList for XmBulletinBoard).
+.IP "\fBXmNcancelButton\fP"
+Specifies the widget ID of the \fBCancel\fP button.  BulletinBoard's 
+subclasses, which define a \fBCancel\fP button, 
+set this resource.  BulletinBoard does not directly provide any behavior for
+that button.
+.IP "\fBXmNdefaultButton\fP"
+Specifies the widget ID of the default button. 
+Some BulletinBoard subclasses, which define a default button,
+set this resource.  BulletinBoard defines translations and installs
+accelerators that activate that button when \fBKActivate\fP is pressed
+and the keyboard focus is not in another button.
+.IP "\fBXmNdefaultPosition\fP"
+Controls whether or not the BulletinBoard is automatically positioned by its
+parent.  If True, and the parent of the BulletinBoard is a DialogShell,
+the BulletinBoard is centered within or around the parent of the
+DialogShell when the BulletinBoard is mapped and managed.  If False, the
+BulletinBoard is not automatically positioned.
+.IP "\fBXmNdialogStyle\fP"
+Indicates the dialog style associated with BulletinBoard.
+If the parent of BulletinBoard is a DialogShell, the parent is
+configured according to this resource and DialogShell sets the
+\fBXmNinputMode\fP of VendorShell accordingly.  
+This resource can be set only if the BulletinBoard is unmanaged.
+Possible values for this resource include the following:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_SYSTEM_MODAL\fP \(em used for dialogs that
+must be responded to before
+any other interaction in any application
+.IP \(bu 3
+\fBXmDIALOG_PRIMARY_APPLICATION_MODAL\fP \(em 
+used for dialogs that must be responded to before some other interactions in
+ancestors of the widget
+.br
+.ne 15
+.IP \(bu 3
+\fBXmDIALOG_APPLICATION_MODAL\fP \(em 
+used for dialogs that must be responded to before some other interactions in
+ancestors of the widget.  This value is the same as
+\fBXmDIALOG_PRIMARY_APPLICATION_MODAL\fP, and remains for compatibility.
+.IP \(bu 3
+\fBXmDIALOG_FULL_APPLICATION_MODAL\fP \(em 
+used for dialogs that must be responded to before some other interactions in
+the same application
+.IP \(bu 3
+\fBXmDIALOG_MODELESS\fP \(em used for dialogs that do not interrupt interaction
+of any application.
+This is the default when the parent of the BulletinBoard is a DialogShell.
+.IP \(bu 3
+\fBXmDIALOG_WORK_AREA\fP \(em used for BulletinBoard widgets whose
+parents are not DialogShells.
+\fBXmNdialogStyle\fP is forced to have this value when the parent of the
+BulletinBoard is not a DialogShell.
+.RE
+.IP "\fBXmNdialogTitle\fP"
+Specifies the dialog title.  If this resource is not NULL, and the parent
+of the BulletinBoard is a subclass of WMShell, BulletinBoard sets the
+\fBXmNtitle\fP and \fBXmNnameEncoding\fP of its parent.
+If the only character set in \fBXmNdialogTitle\fP is ISO8859-1,
+\fBXmNtitle\fP is set to the string of the title, and
+\fBXmNnameEncoding\fP is set to \fBSTRING\fP.
+If \fBXmNdialogTitle\fP contains character sets other than ISO8859-1,
+\fBXmNtitle\fP is set to the string of the title converted to a compound
+text string, and \fBXmNnameEncoding\fP is set to \fBCOMPOUND_TEXT\fP.
+.IP "\fBXmNfocusCallback\fP"
+Specifies the list of callbacks that is called
+when the BulletinBoard widget or one of its
+descendants accepts the input focus.
+The callback reason is \fBXmCR_FOCUS\fP.
+.br
+.ne 15
+.IP "\fBXmNlabelFontList\fP"
+Specifies the font list used for BulletinBoard's 
+Label children (Labels and LabelGadgets).
+If this value is NULL at initialization, it is initialized by
+looking up the parent hierarchy of the widget for an ancestor that is a
+subclass of the XmBulletinBoard, VendorShell, or XmMenuShell widget class.
+If such an ancestor is found, the font list is initialized to the appropriate
+default font list of the ancestor widget (XmNdefaultFontList for VendorShell
+and XmMenuShell, XmNlabelFontList for XmBulletinBoard).
+.IP "\fBXmNmapCallback\fP"
+Specifies the list of callbacks that is called
+only when the parent of the BulletinBoard is a DialogShell; in which case, 
+this callback list is invoked when the BulletinBoard widget is mapped.
+The callback reason is \fBXmCR_MAP\fP.
+.IP "\fBXmNmarginHeight\fP"
+Specifies the minimum spacing in pixels between the top or bottom edge
+of BulletinBoard and any child widget. 
+.IP "\fBXmNmarginWidth\fP"
+Specifies the minimum spacing in pixels between the left or right edge
+of BulletinBoard and any child widget.
+.IP "\fBXmNnoResize\fP"
+Controls whether or not resize controls are included in the window manager
+frame around the dialog.
+If set to True, the \fBmwm\fP does not include
+resize controls in the window manager frame containing the
+DialogShell or TopLevelShell parent of the BulletinBoard.
+If set to False, the window manager frame does include
+resize controls.  
+Other controls provided by \fBmwm\fP can be included or excluded through
+the \fBmwm\fP resources provided by VendorShell.
+.br
+.ne 15
+.IP "\fBXmNresizePolicy\fP"
+Controls the policy for resizing BulletinBoard widgets.
+Possible values include the following:
+.RS
+.IP \(bu 3
+\fBXmRESIZE_NONE\fP \(em fixed size
+.IP \(bu 3
+\fBXmRESIZE_ANY\fP \(em shrink or grow as needed
+.IP \(bu 3
+\fBXmRESIZE_GROW\fP \(em grow only
+.RE
+.IP "\fBXmNshadowType\fP"
+Describes the shadow
+drawing style for BulletinBoard.  This resource can have the
+following values:
+.RS
+.IP \(bu 3
+\fBXmSHADOW_IN\fP \(em draws the BulletinBoard shadow
+so that it appears inset.   
+This means that the bottom shadow visuals and top shadow visuals 
+are reversed.
+.IP \(bu 3
+\fBXmSHADOW_OUT\fP \(em draws the BulletinBoard shadow 
+so that it appears outset
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_IN\fP \(em draws the BulletinBoard shadow 
+using a double line giving the
+effect of a line etched into the window, similar to the Separator widget
+.IP \(bu 3
+\fBXmSHADOW_ETCHED_OUT\fP \(em draws the BulletinBoard shadow using a double 
+line giving the
+effect of a line coming out of the window, similar to the Separator widget
+.RE
+.IP
+BulletinBoard widgets draw shadows just within their borders if 
+\fBXmNshadowThickness\fP is greater than zero.  If the parent of a 
+BulletinBoard widget is a DialogShell, BulletinBoard dynamically changes the
+default for \fBXmNshadowThickness\fP from 0 to 1.
+.br
+.ne 25
+.IP "\fBXmNtextFontList\fP"
+Specifies the font list used for BulletinBoard's Text children.
+If this value is NULL at initialization, it is initialized by
+looking up the parent hierarchy of the widget for an ancestor that is a
+subclass of the XmBulletinBoard, VendorShell, or XmMenuShell widget class.
+If such an ancestor is found, the font list is initialized to the appropriate
+default font list of the ancestor widget (XmNdefaultFontList for VendorShell
+and XmMenuShell, XmNtextFontList for XmBulletinBoard).
+.IP "\fBXmNtextTranslations\fP"
+Adds translations to any Text widget or Text widget subclass that
+is added as a child of BulletinBoard.
+.IP "\fBXmNunmapCallback\fP"
+Specifies the list of callbacks that is called
+only when the parent of the BulletinBoard is a DialogShell; in which case,
+this callback list is invoked when the BulletinBoard widget is unmapped.
+The callback reason is \fBXmCR_UNMAP\fP.
+.sp 1
+.SS "Inherited Resources"
+BulletinBoard inherits behavior and resources from the following   
+superclasses.  For a complete description of each resource, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmManager Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	dynamic	CSG
+XmNstringDirection	XmCStringDirection	XmStringDirection	dynamic	CG
+XmNtopShadowColor	XmCBackgroundTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Composite Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNchildren	XmCReadOnly	WidgetList	NULL	G
+XmNinsertPosition	XmCInsertPosition	(*)()	NULL	CSG
+XmNnumChildren	XmCReadOnly	Cardinal	0	G
+.TE
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	N/A
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.SS "Callback Information"
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+} \fBXmAnyCallbackStruct;\fP
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked.
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback.
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+XmBulletinBoard includes the translations from XmManager.
+.sp 1 \"Adds space before the SS
+.br
+.ne 20
+.SS "Additional Behavior"
+The XmBulletinBoard widget has the additional behavior
+described below:
+.IP "\fBMAny KCancel\fP:"
+Calls the activate callbacks for the cancel button if it is sensitive.
+.IP "\fBKActivate\fP:"
+Calls the activate callbacks for the button with the keyboard focus.
+If no button has the keyboard focus, calls the activate callbacks
+for the default button if it is sensitive.
+In a List widget or single-line Text widget,
+the List or Text action associated with \fBKActivate\fP
+is called before the BulletinBoard actions associated with
+\fBKActivate\fP.
+In a multi-line Text widget, any \fBKActivate\fP
+event except \fBKEnter\fP calls
+the Text action associated with \fBKActivate\fP,
+then the BulletinBoard actions associated with \fBKActivate\fP.
+.IP "\fB<FocusIn>\fP:"
+Calls the callbacks for \fBXmNfocusCallback\fP.
+When the focus policy is \fBXmPOINTER\fP, this happens when the pointer
+enters the window.
+When the focus policy is \fBXmEXPLICIT\fP, this happens when the user
+traverses to the widget.
+.IP "\fB<Map>\fP:"
+Calls the callbacks for \fBXmNmapCallback\fP.
+.IP "\fB<Unmap>\fP:"
+Calls the callbacks for \fBXmNunmapCallback\fP.
+.sp 1 \"Adds space before the SS
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see \fBVirtualBindings(3X)\fP.
+.SH RELATED INFORMATION
+\fBComposite(3X)\fP, \fBConstraint(3X)\fP,
+\fBCore(3X)\fP, \fBXmCreateBulletinBoard(3X)\fP, 
+\fBXmCreateBulletinBoardDialog(3X)\fP,
+\fBXmDialogShell(3X),\fP and \fBXmManager(3X).

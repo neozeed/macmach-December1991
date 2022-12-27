@@ -1,0 +1,123 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH MrmFetchWidgetOverride 3X
+.SH NAME
+\fBMrmFetchWidgetOverride\fP \- Fetches any indexed 
+(UIL named) application widget. 
+It overrides the arguments specified for this application widget in
+UIL. 
+.iX "MrmFetchWidgetOverride"
+.iX "uil functions" "MrmFetchWidgetOverride"
+.SH SYNOPSIS
+.B #include <Mrm/MrmPublic.h>
+.br
+.NX R "MRM function" "MrmFetchWidgetOverride"
+.NX R "MrmFetchWidgetOverride" "definition"
+.BI "Cardinal MrmFetchWidgetOverride(" "hierarchy_id" ","
+.IB "index" ","
+.IB "parent_widget" ","
+.IB "override_name" ","
+.\".br
+.\".in +10n
+.IB "override_args" ","
+.IB "override_num_args" ","
+.IB "widget" ","
+.IB "class" ")"
+.\".in -10n
+.in +5n
+.br
+.BI "MrmHierarchy " "hierarchy_id" ";"
+.br
+.BI "String " "index" ";"
+.br
+.BI "Widget " "parent_widget" ";"
+.br
+.BI "String " "override_name" ";"
+.br
+.BI "ArgList " "override_args" ";"
+.br
+.BI "Cardinal " "override_num_args" ";"
+.br
+.BI "Widget *" "widget" ";"
+.br
+.BI "MrmType *" "class" ";"
+.in -5n
+.SH DESCRIPTION
+The \fBMrmFetchWidgetOverride\fP function
+.NX R "MrmFetchWidgetOverride" "description"
+is the extended version of \fBMrmFetchWidget\fP.
+It is identical to \fBMrmFetchWidget\fP, except that it
+allows the caller to override the widget's name and any
+arguments that \fBMrmFetchWidget\fP
+would otherwise retrieve from the UID file or
+one of the defaulting mechanisms.
+That is, the override argument list is not
+limited to those arguments in the UID file.
+.PP
+The override arguments apply only to the widget fetched and
+returned
+by this function. 
+Its children (subtree) do not receive any
+override
+parameters.
+.IP \fIhierarchy_id\fP 1.5i
+Specifies the ID of the UID hierarchy that contains 
+the interface definition.  The \fIhierarchy_id\fP
+was returned in a previous call to \fBMrmOpenHierarchy\fP.
+.IP \fIindex\fP
+Specifies the UIL name of the widget to fetch. 
+.IP \fIparent_widget\fP
+Specifies the parent widget ID.
+.IP \fIoverride_name\fP
+Specifies the name to override the widget name. 
+Use a NULL value if you do not want to override the widget name. 
+.IP \fIoverride_args\fP
+Specifies the override argument list, exactly as given to
+\fBXtCreateWidget\fP
+(conversion complete and so forth).
+Use a
+NULL value if you do not want to override the argument list.
+.IP \fIoverride_num_args\fP
+Specifies the number of arguments in
+\fIoverride_args\fP.
+.IP \fIwidget\fP
+Returns the widget ID of the created widget.
+If this is not NULL when
+you call
+\fBMrmFetchWidgetOverride\fP,
+MRM assumes that the widget has already been created
+and 
+\fBMrmFetchWidgetOverride\fP
+returns
+\fBMrmFAILURE\fP.
+.IP \fIclass\fP
+Returns the class code identifying MRM's widget class.
+Literals identifying MRM widget class codes are defined in
+the include file \fB<Mrm/MrmPublic.h>\fP.
+.br
+.ne 15
+.SH "RETURN VALUE"
+.NX R "MrmSUCCESS"
+.NX R "MrmBAD_HIERARCHY"
+.NX R "MrmNOT_FOUND"
+.NX R "MrmFAILURE"
+This function returns one of these status return constants: 
+.IP \fBMrmSUCCESS\fP 2.0i
+The function executed successfully.
+.IP \fBMrmBAD_HIERARCHY\fP
+The hierarchy ID was invalid.
+.IP \fBMrmNOT_FOUND\fP
+The widget was not found in UID hierarchy.
+.IP \fBMrmFAILURE\fP
+The function failed.
+.SH RELATED INFORMATION
+\fBMrmFetchWidget(3X)\fP

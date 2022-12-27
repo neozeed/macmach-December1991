@@ -1,0 +1,51 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmStringInitContext 3X "" "" "" ""
+.SH NAME
+\fBXmStringInitContext \(em a compound string function that allows 
+applications to read out the content segment by segment.\fP
+.iX "XmStringInitContext"
+.iX "compound string functions" "XmStringInitContext"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+Boolean XmStringInitContext (\fIcontext, string\fP)
+.br
+.ta .5i 1.75i
+.br
+	XmStringContext	\fI* context\fP;
+.br
+	XmString	\fIstring\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmStringInitContext\fP 
+maintains a context to allow applications to read out the
+contents of a compound string segment by segment.  This function establishes
+the context for this read out. This context is used when reading 
+subsequent segments out of the string.
+A Boolean status is returned to indicate if the
+input string could be parsed.
+.sp 1
+.IP "\fIcontext\fP" .75i 
+Specifies a pointer to the allocated context
+.IP "\fIstring\fP" .75i 
+Specifies the string.
+.sp 1
+.SH RETURN VALUE
+Returns True if the context was allocated
+.sp 1
+.SH RELATED INFORMATION
+\fBXmStringCreate(3X)\fP.
+.sp 1

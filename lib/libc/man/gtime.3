@@ -1,0 +1,49 @@
+.\"
+.\" $Id: gtime.3,v 1.3 89/12/26 11:18:39 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	gtime.3,v $
+.\" Revision 1.3  89/12/26  11:18:39  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/25            bww]
+.\" 
+.\" 13-Nov-86  Andi Swimmer (andi) at Carnegie-Mellon University
+.\"	Revised for 4.3.
+.\"
+.\" 06-Dec-79  Steven Shafer (sas) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH GTIME 3 12/6/79
+.CM 1
+.SH "NAME"
+gtime \- generate time from buffer
+.SH "SYNOPSIS"
+.B
+#include <sys/time.h>
+.br
+.B
+#include <sys/types.h>
+.sp
+.B
+long gtime (tm);
+.br
+.B
+struct tm *tm;
+.SH "DESCRIPTION"
+.I
+gtime
+reconstructs the long integer representation of the time from a
+buffer,
+.I
+tm,
+produced by the
+.IR localtime (3)
+routine.
+In fact,
+.I
+gtime
+is the inverse of
+.I
+localtime.
+.SH "SEE ALSO"
+.IR localtime (3)

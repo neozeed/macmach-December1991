@@ -1,0 +1,1 @@
+strcat.o: strcat.c 

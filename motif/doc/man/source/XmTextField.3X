@@ -1,0 +1,471 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmTextField 3X "" "" "" ""
+.SH NAME
+\fBXmTextField \(em the TextField class.\fP
+.sp 1
+.SH SYNOPSIS
+\fB\&#include <Xm/TextF.h>\fP
+.sp 1
+.SH DESCRIPTION
+TextField widget provides a single line text editor for customizing
+both user and programmatic interfaces.  It is used for single-line
+string entry, and forms entry with verification procedures.
+It provides an application with a consistent editing system for 
+textual data. 
+.PP
+TextField widget provides separate callback lists to verify
+movement of the insert cursor, modification of the text, and
+changes in input focus.  Each of
+these callbacks provides the verification function with the
+widget instance, the event that caused the callback, and a
+data structure specific to the verification type.  From this
+information the function can verify if the application considers
+this to be a legitimate state change and can signal the widget
+whether to continue with the action.
+.PP
+The user interface tailors a new set of actions.
+The key bindings have been added for insert cursor movement, deletion,
+insertion, and selection of text.
+.PP 
+TextField allows the user to select regions of text.
+Selection is based on the model specified in the \fIInter-Client
+Communication Conventions Manual\fP (ICCCM).
+TextField supports primary and secondary selection.
+.sp 1
+.IP "\fBClasses\fP" 5n
+TextField widget inherits behavior and resources from \fBCore\fP
+and \fBPrimitive\fP classes.
+.RS
+.PP
+The class pointer is \fBxmTextFieldWidgetClass\fP.
+.PP
+The class name is \fBXmTextField\fP.
+.RE
+.sp 1
+.IP "\fBNew Resources\fP" 5n
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBXmN\fP or
+\fBXmC\fP prefix and use the remaining letters.  To specify one of the defined 
+values for a resource in a .Xdefaults file, remove the \fBXm\fP prefix and use
+the remaining letters (in either lower case or upper case, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP),
+set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP),
+or is not applicable (\fBN/A\fP).
+.sp 1
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmTextFieldResource Set
+Name	Class	Type	Default	Access
+_
+XmNactivateCallback	XmCCallback	XtCallbackList	NULL	C
+XmNblinkRate	XmCBlinkRate	int	500	CSG
+XmNcolumns	XmCColumns	short	dynamic	CSG
+XmNcursorPosition	XmCCursorPosition	XmTextPosition	0	CSG
+XmNcursorPositionVisible	XmCCursorPositionVisible	Boolean	True	CSG
+XmNeditable	XmCEditable	Boolean	True	CSG
+XmNfontList	XmCFontList	XmFontList	dynamic	CSG
+XmNgainPrimaryCallback	XmCCallback	XtCallbackList	NULL	C
+XmNlosePrimaryCallback	XmCCallback	XtCallbackList	NULL	C
+XmNlosingFocusCallback	XmCCallback	XtCallbackList	NULL	C
+XmNmarginHeight	XmCMarginHeight	Dimension	5	CSG
+XmNmarginWidth	XmCMarginWidth	Dimension	5	CSG
+XmNmaxLength	XmCMaxLength	int	largest integer	CSG
+XmNmodifyVerifyCallback	XmCCallback	XtCallbackList	NULL	C
+.tH
+XmNmotionVerifyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNpendingDelete	XmCPendingDelete	Boolean	True	CSG
+XmNresizeWidth	XmCResizeWidth	Boolean	False	CSG
+XmNselectionArray	XmCSelectionArray	Pointer	default array	CSG
+XmNselectionArrayCount	XmCSelectionArrayCount	int	3	CSG
+XmNselectThreshold	XmCSelectThreshold	int	5	CSG
+XmNvalue	XmCValue	String	""	CSG
+XmNvalueChangedCallback	XmCCallback	XtCallbackList	NULL	C
+XmNverifyBell	XmCVerifyBell	Boolean	True	CSG
+.TE
+.sp 1
+.IP "\fBXmNactivateCallback\fP"
+Specifies the list of callbacks that is called when the user invokes an
+event that calls the \fBActivate()\fP function.
+The type of the structure whose address is passed to this callback is
+\fBXmAnyCallbackStruct\fP.
+The reason sent by the callback is \fBXmCR_ACTIVATE\fP.
+.IP "\fBXmNblinkRate\fP"
+Specifies the blink rate of the text cursor in milliseconds.
+The time indicated in the blink rate relates to the
+length of time the cursor is visible and the time the
+cursor is invisible (i.e., the time it will take to blink
+the insertion cursor on and off will be 2 times the blink
+rate).  The cursor will not blink when the blink rate
+is set to zero.
+The value must not be negative.
+.br
+.ne 6
+.IP "\fBXmNcolumns\fP"
+Specifies the initial width of the text window measured in character
+spaces.
+The value must be greater than 0.
+The default value depends on the value of the \fBXmNwidth\fP resource.
+If no width is specified the default is 20.
+.IP "\fBXmNcursorPosition\fP"
+Indicates the position in the text where the current insert cursor is to
+be located.  Position is determined by the number of characters from
+the beginning of the text.
+.IP "\fBXmNcursorPositionVisible\fP"
+Indicates that the insert cursor position is marked by a blinking text
+cursor when the Boolean is True.
+.IP "\fBXmNeditable\fP"
+Indicates that the user can edit the text string when set to
+True. 
+A false value will prohibit the user from editing the text.
+.IP "\fBXmNfontList\fP"
+Specifies the font list to be used for TextField.
+If this value is NULL at initialization, it is initialized by
+looking up the parent hierarchy of the widget for an ancestor that is a
+subclass of the XmBulletinBoard, VendorShell, or XmMenuShell widget class.
+If such an ancestor is found, the font list is initialized to the appropriate
+default font list of the ancestor widget (XmNdefaultFontList for VendorShell
+and XmMenuShell, XmNtextFontList for XmBulletinBoard).
+See \fBXmFontListCreate(3X)\fP
+to create a font list.
+.IP "\fBXmNgainPrimaryCallback\fP"
+Specifies the list of callbacks that are called when the user invokes
+an event that cause the text widget to gain ownership of the primary
+selection. The callback reason for this callback is XmCR_GAIN_PRIMARY.
+.IP "\fBXmNlosePrimaryCallback\fP"
+Specifies the list of callbacks that are called when the user invokes
+an event that cause the text widget to lose ownership of the primary
+selection. The callback reason for this callback is XmCR_LOSE_PRIMARY.
+.br
+.ne 12
+.IP "\fBXmNlosingFocusCallback\fP"
+Specifies the list of callbacks that is called
+before TextField widget loses input focus.
+The type of the structure whose address is passed to this callback is
+\fBXmTextVerifyCallbackStruct\fP.
+The reason sent by the callback is \fBXmCR_LOSING_FOCUS\fP.
+.IP "\fBXmNmarginHeight\fP"
+Specifies the distance between the top edge of the widget 
+window and the text, and the bottom edge of the widget
+window and the text.  
+.IP "\fBXmNmarginWidth\fP"
+Specifies the distance between the left edge of the widget 
+window and the text, and the right edge of the widget
+window and the text.
+.IP "\fBXmNmaxLength\fP"
+Specifies the maximum length of the text string that can be entered into
+text from the keyboard.
+Strings that are entered using the \fBXmNvalue\fP resource or the
+\fBXmTextFieldSetString\fP function are truncated by this resource.
+.IP "\fBXmNmodifyVerifyCallback\fP"
+Specifies the list of callbacks that is called
+before text is deleted from or inserted into
+TextField.  
+The type of the structure whose address is passed to this callback is
+\fBXmTextVerifyCallbackStruct\fP.
+The reason sent by the callback is \fBXmCR_MODIFYING_TEXT_VALUE\fP.
+.IP "\fBXmNmotionVerifyCallback\fP"
+Specifies the list of callbacks that is called
+before the insert cursor is moved to a new position.  
+The type of the structure whose address is passed to this callback is
+\fBXmTextVerifyCallbackStruct\fP.
+The reason sent  by the callback is \fBXmCR_MOVING_INSERT_CURSOR\fP.
+.IP "\fBXmNpendingDelete\fP"
+Indicates that pending delete mode is on when the Boolean is True.
+Pending deletion is defined as deletion
+of the selected text when an insertion is made.
+.IP "\fBXmNresizeWidth\fP"
+Indicates that TextField widget will attempt to resize its
+width to accommodate all
+the text contained in the widget when Boolean is True.
+.br
+.ne 18
+.IP "\fBXmNselectionArray\fP"
+Defines the actions for multiple-mouse
+clicks.  Each mouse click performed within a half of a second
+of the previous mouse click will increment the index into
+this array and perform the defined action for that index.
+The possible actions are:
+.RS
+.IP \(bu 3
+\fBXmSELECT_POSITIONS\fP \(em resets the insert cursor position.
+.IP \(bu 3
+\fBXmSELECT_WORD\fP \(em selects a word.
+.IP \(bu 3
+\fBXmSELECT_LINE\fP \(em selects a line of text.
+.RE
+.IP "\fBXmNselectionArrayCount\fP"
+Specifies the number of actions that are defined in the
+\fBXmNselectionArray\fP resource.
+The value must not be negative.
+.IP "\fBXmNselectThreshold\fP"
+Specifies the number of pixels of motion that is required to select the
+next character when selection is performed using the click-drag
+mode of selection.
+The value must not be negative.
+.IP "\fBXmNvalue\fP"
+Displays the string value.  \fBXtGetValues\fP returns the
+value of the internal buffer and \fBXtSetValues\fP copies the
+string values into the internal buffer.
+.IP "\fBXmNvalueChangedCallback\fP"
+Specifies the list of callbacks that is called
+after text is deleted from or inserted into
+TextField.  
+The type of the structure whose address is passed to this callback is
+\fBXmAnyCallbackStruct\fP.
+The reason sent by the callback is \fBXmCR_VALUE_CHANGED\fP.
+.IP "\fBXmNverifyBell\fP"
+Specifies whether a bell will sound when an action is reversed
+during a verification callback.
+.RE
+.sp 1
+.IP "\fBInherited Resources\fP" 5n
+TextField widget inherits behavior and resources from the following   
+superclasses.  For a complete description of these resources, refer to the
+man page for that superclass.
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+XmPrimitive Resource Set
+Name	Class	Type	Default	Access
+_
+XmNbottomShadowColor	XmCBottomShadowColor	Pixel	dynamic	CSG
+XmNbottomShadowPixmap	XmCBottomShadowPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNforeground	XmCForeground	Pixel	dynamic	CSG
+XmNhelpCallback	XmCCallback	XtCallbackList	NULL	C
+XmNhighlightColor	XmCHighlightColor	Pixel	dynamic	CSG
+XmNhighlightOnEnter	XmCHighlightOnEnter	Boolean	False	CSG
+XmNhighlightPixmap	XmCHighlightPixmap	Pixmap	dynamic	CSG
+XmNhighlightThickness	XmCHighlightThickness	Dimension	2	CSG
+.tH
+XmNnavigationType	XmCNavigationType	XmNavigationType	XmTAB_GROUP	CSG
+XmNshadowThickness	XmCShadowThickness	Dimension	2	CSG
+XmNtopShadowColor	XmCTopShadowColor	Pixel	dynamic	CSG
+XmNtopShadowPixmap	XmCTopShadowPixmap	Pixmap	dynamic	CSG
+XmNtraversalOn	XmCTraversalOn	Boolean	True	CSG
+XmNunitType	XmCUnitType	unsigned char	dynamic	CSG
+XmNuserData	XmCUserData	Pointer	NULL	CSG
+.TE
+.in
+.sp 1
+.in 0
+.TS
+center allbox;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XmNaccelerators	XmCAccelerators	XtAccelerators	dynamic	CSG
+XmNancestorSensitive	XmCSensitive	Boolean	dynamic	G
+XmNbackground	XmCBackground	Pixel	dynamic	CSG
+XmNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderColor	XmCBorderColor	Pixel	XtDefaultForeground	CSG
+XmNborderPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XmNborderWidth	XmCBorderWidth	Dimension	0	CSG
+XmNcolormap	XmCColormap	Colormap	dynamic	CG
+XmNdepth	XmCDepth	int	dynamic	CG
+XmNdestroyCallback	XmCCallback	XtCallbackList	NULL	C
+XmNheight	XmCHeight	Dimension	dynamic	CSG
+XmNinitialResourcesPersistent	XmCInitialResourcesPersistent	Boolean	True	C
+XmNmappedWhenManaged	XmCMappedWhenManaged	Boolean	True	CSG
+XmNscreen	XmCScreen	Screen *	dynamic	CG
+.tH
+XmNsensitive	XmCSensitive	Boolean	True	CSG
+XmNtranslations	XmCTranslations	XtTranslations	dynamic	CSG
+XmNwidth	XmCWidth	Dimension	dynamic	CSG
+XmNx	XmCPosition	Position	0	CSG
+XmNy	XmCPosition	Position	0	CSG
+.TE
+.in
+.sp 1
+.IP "\fBCallback Information\fP" 5n
+A pointer to the following structure is passed to each callback:
+.sp 1
+.nf
+.ta .25i 1.5i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+} \fBXmAnyCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.RS
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked.
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback.
+.RE
+.sp 1
+.IP
+The TextField widget defines a new callback structure
+for use with verification callbacks.  Note that
+not all of the fields are relevant for every
+callback reason.  The application must first
+look at the reason field and use only the structure
+members that are valid for the particular reason.
+A pointer to the following structure is passed to the 
+.na
+callbacks for
+\fBXmNlosingFocusCallback\fP, \fBXmNmodifyVerifyCallback\fP, and
+\fBXmNmotionVerifyCallback\fP.
+.ad
+.sp 1
+.ne 15
+.nf
+.ta .25i 1.5i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBXEvent\fP	\fI* event\fP;
+	\fBBoolean\fP	\fIdoit\fP;
+	\fBPosition\fP 	\fIcurrInsert, newInsert\fP;
+	\fBPosition\fP 	\fIstartPos, endPos\fP;
+	\fBXmTextBlock\fP 	\fItext\fP;
+} \fBXmTextVerifyCallbackStruct, *XmTextVerifyPtr\fP;
+.fi
+.fi
+.sp 1
+.RS
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked.
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback.
+.IP "\fIdoit\fP" .75i
+Indicates whether that action that invoked the callback will be performed.
+Setting \fIdoit\fP to False negates the action.
+.IP "\fIcurrInsert\fP" .75i
+Indicates the current position of the insert cursor.
+.IP "\fInewInsert\fP" .75i
+Indicates the position at which the user attempts to position the insert
+cursor.
+.IP "\fIstartPos\fP" .75i
+Indicates the starting position of the text to modify.  If the callback is
+not a modify verification callback, this value is the same as \fIcurrInsert\fP.
+.IP "\fIendPos\fP" .75i
+Indicates the ending position of the text to modify.  If no text is replaced or
+deleted, then the value is the same as \fIstartPos\fP.  If the callback is not 
+a modify verification callback, this value is the same as \fIcurrInsert\fP.
+.IP "\fItext\fP" .75i
+Points to a structure of type \fBXmTextBlockRec\fP.  This structure holds
+the textual information to be inserted.
+.RE
+.IP
+.nf
+.ta .25i 1.5i
+\fBtypedef struct\fP
+{
+	\fBchar\fP	\fI* ptr\fP;
+	\fBint\fP	\fIlength\fP;
+	\fBXmTextFormat\fP	\fIformat\fP
+} \fBXmTextBlockRec, *XmTextBlock\fP;
+.fi
+.fi
+.sp 1
+.ne 10
+.RS
+.IP "\fIptr\fP" .75i
+Is the text to be inserted.  \fIptr\fP points to a temporary
+storage space that is reused after the callback is finished. Therefore,
+is an application needs to save the text to be inserted, it should copy
+the text into its own data space.
+.IP "\fIlength\fP" .75i
+Specifies the length of the text to be inserted.
+.IP "\fIformat\fP" .75i
+Specifies the format of the text (e.g., \fBFMT8BIT\fP).
+.RE
+.sp 1
+.IP
+The following table describes the reasons for which the individual
+verification callback structure fields are valid:
+.sp 1
+.TS
+box, center, tab(;);
+cb | cb
+lfB | lfH .
+Reason;Valid Fields
+.sp .2
+_
+.sp .2
+XmCR_LOSING_FOCUS;T{
+\fIreason, event, doit\fP
+T}
+;;
+XmCR_MODIFYING_TEXT_VALUE;T{
+\fIreason, event, doit, currInsert, newInsert, startPos, endPos, text\fP
+T}
+;;
+XmCR_MOVING_TEXT_CURSOR;T{
+\fIreason, event, doit, currInsert, newInsert\fP
+T}
+.sp .2
+.TE
+.sp 1 \"Adds space before the SS
+.SS "Translations"
+The XmTextField translations are the same as those of XmText when
+\fBXmNeditMode\fP is set to \fBXmSINGLE_LINE_EDIT\fP.
+.sp 1 \"Adds space before the SS
+.SS "Action Routines"
+The XmTextField action routines are the same as those of XmText when
+\fBXmNeditMode\fP is set to \fBXmSINGLE_LINE_EDIT\fP.
+.sp 1 \"Adds space before the SS
+.ne 10
+.SS "Virtual Bindings"
+The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see \fBVirtualBindings(3X)\fP.
+.SH RELATED INFORMATION
+.na
+\fBCore(3X)\fP,
+\fBXmCreateTextField(3X)\fP,
+\fBXmFontListCreate(3X)\fP, 
+\fBXmPrimitive(3X)\fP,
+\fBXmTextFieldClearSelection(3X)\fP,
+\fBXmTextFieldCopy(3X)\fP,
+\fBXmTextFieldCut(3X)\fP,
+\fBXmTextFieldGetBaseline(3X)\fP, 
+\fBXmTextFieldGetEditable(3X)\fP,
+\fBXmTextFieldGetInsertionPosition(3X)\fP,
+\fBXmTextFieldGetLastPosition(3X)\fP,
+\fBXmTextFieldGetMaxLength(3X)\fP, 
+\fBXmTextFieldGetSelection(3X)\fP,
+\fBXmTextFieldGetSelectionPosition(3X)\fP,
+\fBXmTextFieldGetString(3X)\fP,
+\fBXmTextFieldInsert(3X)\fP,
+\fBXmTextFieldPaste(3X)\fP,
+\fBXmTextFieldPosToXY(3X)\fP,
+\fBXmTextFieldRemove(3X)\fP,
+\fBXmTextFieldReplace(3X)\fP,
+\fBXmTextFieldSetAddMode(3X)\fP,
+\fBXmTextFieldSetEditable(3X)\fP,
+\fBXmTextFieldSetHighlight(3X)\fP,
+\fBXmTextFieldSetInsertionPosition(3X)\fP,
+\fBXmTextFieldSetMaxLength(3X)\fP,
+\fBXmTextFieldSetSelection(3X)\fP,
+\fBXmTextFieldSetString(3X)\fP,
+\fBXmTextFieldShowPosition(3X)\fP, and
+\fBXmTextFieldXYToPos(3X)\fP.
+.ad

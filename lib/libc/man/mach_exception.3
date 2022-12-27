@@ -1,0 +1,70 @@
+.\"
+.\" $Id: mach_exception.3,v 1.1 89/12/28 14:39:43 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	mach_exception.3,v $
+.\" Revision 1.1  89/12/28  14:39:43  bww
+.\" 	Mach Release 2.5
+.\" 	[89/12/28  14:39:00  bww]
+.\" 
+.TH MACH_EXCEPTION 3 3/25/87
+.CM 4
+.SH NAME
+.nf
+mach_exception \- print the a mach exception message on stderr
+mach_sun3_exception \- print the a sun3 mach exception message on stderr
+mach_romp_exception \- print the a romp mach exception message on stderr
+mach_vax_exception \- print the a vax mach exception message on stderr
+mach_exception_string \- return a string corresponding to a Mach exception code
+mach_sun3_exception_string \- return a string corresponding to a sun3 Mach exception code
+mach_romp_exception_string \- return a string corresponding to a romp Mach exception code
+mach_vax_exception_string \- return a string corresponding to a vax Mach exception code
+.SH SYNOPSIS
+.nf
+#include <mach.h>
+
+void mach_exception(str, exception)
+	char	*str;
+	int	exception, code, subcode;
+
+char *mach_exception_string(exception)
+	int	exception;
+
+void mach_sun3_exception(str, exception, code, subcode)
+	char	*str;
+	int	exception, code, subcode;
+
+char *mach_sun3_exception_string(exception, code, subcode)
+	int	exception, code, subcode;
+
+void mach_romp_exception(str, exception, code, subcode)
+	char	*str;
+	int	exception, code, subcode;
+
+char *mach_romp_exception_string(exception, code, subcode)
+	int	exception, code, subcode;
+
+void mach_vax_exception(str, exception, code, subcode )
+	char	*str;
+	int	exception, code, subcode;
+
+char *mach_vax_exception_string(exception)
+	int	exception;
+
+.SH DESCRIPTION
+There are two levels of exceptions in Mach.  The first is
+the machine independent level, which is specified completely by the mach \fI
+exception \fR number.  The second is the machine dependent level, which
+requires the machine dependent \fI code \fR and \fI subcode, \fR as well as
+the \fI exception. \fR
+
+The \fI mach[,_sun3,_romp,_vax]_exception_string \fR library routines return
+a pointer to a human readable string corresponding to the specified Mach
+exception value.  These strings are statically allocated in the Mach
+library.
+
+The \fI mach[,_sun3,_romp,_vax]_exception \fR library routines use \fI
+mach[,_sun3,_romp,_vax]_exception_string \fR to print a message on stderr.
+The message is formatted by first printing the string specified by \fI str,
+\fR followed by the string returned by \fI
+mach[,_sun3,_romp,_vax]_exception_string. \fR

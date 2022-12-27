@@ -1,0 +1,68 @@
+/* 
+ * Mach Operating System
+ * Copyright (c) 1991,1990,1989 Carnegie Mellon University
+ * All Rights Reserved.
+ * 
+ * Permission to use, copy, modify and distribute this software and its
+ * documentation is hereby granted, provided that both the copyright
+ * notice and this permission notice appear in all copies of the
+ * software, derivative works or modified versions, and any portions
+ * thereof, and that both notices appear in supporting documentation.
+ * 
+ * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS"
+ * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
+ * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Carnegie Mellon requests users of this software to return to
+ * 
+ *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
+ *  School of Computer Science
+ *  Carnegie Mellon University
+ *  Pittsburgh PA 15213-3890
+ * 
+ * any improvements or extensions that they make and grant Carnegie Mellon
+ * the rights to redistribute these changes.
+ */
+/*
+ * HISTORY
+ * $Log:	default_pager_object.defs,v $
+ * Revision 2.6  91/08/28  11:15:01  jsb
+ * 	Added default_pager_info.
+ * 	[91/08/15            rpd]
+ * 
+ * Revision 2.5  91/05/14  16:51:18  mrt
+ * 	Correcting copyright
+ * 
+ * Revision 2.4  91/02/05  17:31:44  mrt
+ * 	Changed to new Mach copyright
+ * 	[91/02/01  17:16:43  mrt]
+ * 
+ * Revision 2.3  90/06/02  14:57:42  rpd
+ * 	Changed default_pager_object_create so the out argument
+ * 	is a poly send right.
+ * 	[90/05/03            rpd]
+ * 
+ * Revision 2.2  90/03/14  21:10:47  rwd
+ * 	Created
+ * 	[90/01/22            rwd]
+ * 
+ */
+/*
+ * File:	mach/default_pager_object.defs
+ *
+ */
+
+subsystem default_pager_object 2275;
+
+#include <mach/std_types.defs>
+#include <mach/mach_types.defs>
+
+routine	default_pager_object_create(
+		default_pager		: mach_port_t;
+	out	memory_object		: memory_object_t = mach_port_send_t;
+		object_size		: vm_size_t);
+
+routine default_pager_info(
+		default_pager		: mach_port_t;
+	out	total_space		: vm_size_t;
+	out	free_space		: vm_size_t);

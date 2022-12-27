@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+       Using a mouse, navigation is a simple matter of moving the
+       mouse pointer.  Using the keyboard, the following navigation
+       actions must be available.
+
+       KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd     Must move the location cursor forward through
+                      fields.  If the next field is a field con-
+                      trol, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must move the location cur-
+                      sor to it.  If the next field is a group,
+                      KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must move the location cursor to
+                      the first traversable component within the
+                      group, unless the field contains a default
+                      component.  If the field contains a default
+                      component, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd must move the location
+                      cursor to the default component instead of
+                      the first component.  If the next field con-
+                      tains no traversable components, KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd
+                      must skip the field.
+
+       KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd     Must move the location cursor backward
+                      through fields using the same rules as KKKKNNNNeeeexxxxtttt----
+                      FFFFiiiieeeelllldddd.
+
+       KKKKDDDDoooowwwwnnnn          In a left-to-right direction language
+                      environment, KKKKDDDDoooowwwwnnnn must move the location
+                      cursor through all traversable components in
+                      the group, starting at the upper-left com-
+                      ponent and ending at the lower-right com-
+                      ponent, then wrapping back up to the upper-
+                      left component.  In a right-to-left direction
+                      language environment, the location cursor can
+                      move, starting at the upper-right component
+                      and moving to the lower-left component.
+
+       KKKKUUUUpppp            Must move the location cursor through all
+                      traversable components in the opposite direc-
+                      tion of KKKKDDDDoooowwwwnnnn.
+
+       KKKKRRRRiiiigggghhhhtttt         Must move the location cursor through all
+                      traversable components in the group, starting
+                      at the upper-left component and ending at the
+                      lower-right component, then wrapping back up
+                      to the upper-left component.
+
+       KKKKLLLLeeeefffftttt          Must move the location cursor through all
+                      traversable components in the opposite direc-
+                      tion of KKKKRRRRiiiigggghhhhtttt.
+
+       KKKKMMMMeeeennnnuuuuBBBBaaaarrrr       If the MenuBar is inactive, KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must
+                      traverse to the MenuBar system.  The location
+                      cursor must be placed on the first
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      CascadeButton that accepts input in the Menu-
+                      Bar.  If there are no CascadeButtons that
+                      accept input in the MenuBar, KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must do
+                      nothing.  If the MenuBar system is active,
+                      KKKKMMMMeeeennnnuuuuBBBBaaaarrrr must unpost all Menus in the MenuBar
+                      system and return the location cursor to the
+                      component that previously had it, if the
+                      focus policy is explicit.
+
+       KKKKMMMMeeeennnnuuuu          If the keyboard focus is in an area with an
+                      inactive Popup Menu, KKKKMMMMeeeennnnuuuu must pop up the
+                      Menu.  The location cursor must be placed on
+                      the first traversable item in the Popup Menu.
+                      If there are no traversable items in the
+                      Popup Menu, this has no effect.  If there is
+                      an active Popup Menu, KKKKMMMMeeeennnnuuuu must unpost the
+                      Popup Menu system and return the location
+                      cursor to the component that previously had
+                      it, if the focus policy is explicit.
+
+       KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww
+                      Must move the focus to the next window in the
+                      window family.
+
+       KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww
+                      Must move the focus to the previous window in
+                      the window family.
+
+       KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww    Must move the focus to the last window that
+                      had the input focus in the next window family
+                      in the window hierarchy.
+
+       KKKKPPPPrrrreeeevvvvWWWWiiiinnnnddddoooowwww    Must move the focus to previous last window
+                      that had the input focus in the next window
+                      family in the window hierarchy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       ________________________________________
+      | VVVViiiirrrrttttuuuuaaaallll KKKKeeeeyyyy         DDDDeeeeffffaaaauuuulllltttt BBBBiiiinnnnddddiiiinnnnggggssss  |
+      |________________________________________|
+      | KKKKNNNNeeeexxxxttttFFFFiiiieeeelllldddd          <<<<TTTTaaaabbbb>>>>             |
+      |                     MMMMCCCCttttrrrrllll <<<<TTTTaaaabbbb>>>>       |
+      | KKKKPPPPrrrreeeevvvvFFFFiiiieeeelllldddd          MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>>      |
+      |                     MMMMCCCCttttrrrrllll MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>>|
+      | KKKKDDDDoooowwwwnnnn               <<<<|vv|||vv>>>>               |
+      | KKKKLLLLeeeefffftttt               <<<<<<<<---->>>>              |
+      | KKKKRRRRiiiigggghhhhtttt              <<<<---->>>>>>>>              |
+      | KKKKUUUUpppp                 <<<<|^^|||^^>>>>               |
+      | KKKKMMMMeeeennnnuuuuBBBBaaaarrrr            <<<<FFFF11110000>>>>             |
+      | KKKKMMMMeeeennnnuuuu               <<<<FFFF4444>>>>              |
+      | KKKKNNNNeeeexxxxttttFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMAAAAlllltttt <<<<FFFF6666>>>>         |
+      | KKKKPPPPrrrreeeevvvvFFFFaaaammmmiiiillllyyyyWWWWiiiinnnnddddoooowwww   MMMMSSSShhhhiiiifffftttt MMMMAAAAlllltttt <<<<FFFF6666>>>>  |
+      | KKKKNNNNeeeexxxxttttWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt <<<<TTTTaaaabbbb>>>>        |
+      | KKKKPPPPrrrreeeevvvvWWWWiiiinnnnddddoooowwww         MMMMAAAAlllltttt MMMMSSSShhhhiiiifffftttt <<<<TTTTaaaabbbb>>>> |
+      |________________________________________|
+
+       See Chapter 2 for more information about internal window
+       navigation.  See Chapter 5 for more information about navi-
+       gation among windows.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

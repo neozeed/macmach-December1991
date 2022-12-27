@@ -1,0 +1,74 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmMessageBoxGetChild 3X "" "" "" ""
+.SH NAME
+\fBXmMessageBoxGetChild \(em a MessageBox function that is used to access
+a component.\fP
+.iX "XmMessageBoxGetChild"
+.iX "MessageBox functions" "XmMessageBoxGetChild"
+.sp 1
+.SH "AES SUPPORT LEVEL"
+Full-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/MessageB.h>
+.sp 1
+Widget XmMessageBoxGetChild (\fIwidget, child\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIwidget\fP;
+.br
+	unsigned char	\fIchild\fP;
+.fi
+\fP
+.br
+.ne 5i
+.SH DESCRIPTION
+\fBXmMessageBoxGetChild\fP is used to access a component within a MessageBox.
+The parameters given to the function are the MessageBox widget and a value
+indicating which child to access.
+.sp 1
+.PP
+.IP "\fIwidget\fP" .75i
+Specifies the MessageBox widget ID.
+.IP "\fIchild\fP" .75i
+Specifies a component within the MessageBox.  The following are legal values
+for this parameter:
+.RS
+.IP \(bu 3
+\fBXmDIALOG_CANCEL_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_DEFAULT_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_HELP_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_MESSAGE_LABEL\fP
+.IP \(bu 3
+\fBXmDIALOG_OK_BUTTON\fP
+.IP \(bu 3
+\fBXmDIALOG_SEPARATOR\fP
+.IP \(bu 3
+\fBXmDIALOG_SYMBOL_LABEL\fP
+.RE
+.sp 1
+.PP 
+For a complete definition of MessageBox and its associated resources, see
+\fBXmMessageBox(3X)\fP.
+.sp 1
+.SH RETURN VALUE
+Returns the widget ID of the specified MessageBox child.
+An application should not assume that the returned widget will be of any
+particular class.
+.sp 1
+.SH RELATED INFORMATION
+\fBXmMessageBox(3X)\fP. 
+.sp 1

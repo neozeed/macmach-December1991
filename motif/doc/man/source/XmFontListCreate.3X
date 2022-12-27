@@ -1,0 +1,99 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmFontListCreate 3X "" "" "" ""
+.SH NAME
+\fBXmFontListCreate \(em a compound string function that creates a font list.\fP
+.iX "XmFontListCreate"
+.iX "compound string functions" "XmFontListCreate"
+.sp 1
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.sp 1
+XmFontList XmFontListCreate (\fIfont, charset\fP)
+.br
+.ta .5i 1.75i
+	XFontStruct	\fI* font\fP;
+.br
+	XmStringCharSet	\fIcharset\fP;
+.fi
+\fP
+.SH DESCRIPTION
+\fBXmFontListCreate\fP creates a new font list with a single element specified
+by the provided font and character set.  It also allocates the space for
+the font list.
+.sp 1
+.IP "\fIfont\fP" .75i
+Specifies a pointer to a font structure for which the new font list is
+generated.  This is the structure returned by the XLib \fBXLoadQueryFont\fP
+function.
+.br
+.ne 15
+.IP "\fIcharset\fP" .75i
+Specifies the character set identifier for the font.
+This can be \fBXmSTRING_DEFAULT_CHARSET\fP, but this value does not
+comply with the AES, and it may be removed in future versions of Motif.
+If the value 
+.ne 4
+is \fBXmSTRING_DEFAULT_CHARSET\fP, the routine derives the
+character set from the current language environment.
+.sp 1
+.SH RETURN VALUE
+Returns NULL if
+\fIfont\fP
+or
+\fIcharset\fP
+is NULL; otherwise, returns a new font list.
+.sp 1
+.na
+.SH RELATED INFORMATION
+\fBXmFontList(3X)\fP,
+\fBXmFontListAdd(3X)\fP,
+\fBXmFontListCopy(3X)\fP,
+\fBXmFontListFree(3X)\fP,
+\fBXmFontListFreeFontContext(3X)\fP,
+\fBXmFontListGetNextFont(3X)\fP,
+\fBXmFontListInitFontContext(3X)\fP,
+\fBXmString(3X)\fP,
+\fBXmStringBaseline(3X)\fP,
+\fBXmStringByteCompare(3X)\fP,
+\fBXmStringCompare(3X)\fP,
+\fBXmStringConcat(3X)\fP,
+\fBXmStringCopy(3X)\fP,
+\fBXmStringCreate(3X)\fP,
+\fBXmStringCreateLtoR(3X)\fP,
+\fBXmStringCreateSimple(3X)\fP,
+\fBXmStringDirectionCreate(3X)\fP,
+\fBXmStringDraw(3X)\fP,
+\fBXmStringDrawImage(3X)\fP,
+\fBXmStringDrawUnderline(3X)\fP,
+\fBXmStringEmpty(3X)\fP,
+\fBXmStringExtent(3X)\fP,
+\fBXmStringFree(3X)\fP,
+\fBXmStringFreeContext(3X)\fP,
+\fBXmStringGetLtoR(3X)\fP,
+\fBXmStringGetNextComponent(3X)\fP,
+\fBXmStringGetNextSegment(3X)\fP,
+\fBXmStringHasSubstring(3X)\fP,
+\fBXmStringHeight(3X)\fP,
+\fBXmStringInitContext(3X)\fP,
+\fBXmStringLength(3X)\fP,
+\fBXmStringLineCount(3X)\fP,
+\fBXmStringNConcat(3X)\fP,
+\fBXmStringNCopy(3X)\fP,
+\fBXmStringPeekNextComponent(3X)\fP,
+\fBXmStringSegmentCreate(3X)\fP,
+\fBXmStringSeparatorCreate(3X)\fP,
+\fBXmStringTable(3X)\fP, and
+\fBXmStringWidth(3X)\fP.
+.sp 1
+.ad

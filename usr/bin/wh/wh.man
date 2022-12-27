@@ -1,0 +1,230 @@
+.\"
+.\" $Id: wh.1,v 1.3 89/12/29 13:12:57 bww Exp $
+.\"
+.\" HISTORY
+.\" $Log:	wh.1,v $
+.\" Revision 1.3  89/12/29  13:12:57  bww
+.\" 	Revised for 2.6 MSD release.
+.\" 	[89/12/29            bww]
+.\" 
+.\" 06-Feb-86  Bob Fitzgerald (rpf) at Carnegie-Mellon University
+.\"	Added description of recursive directory search (-R).
+.\"
+.\" 29-Apr-82  Bob Fitzgerald (rpf) at Carnegie-Mellon University
+.\"	Improved command line parser.  Internal bulletproofing.
+.\"
+.\" 28-Mar-82  Bob Fitzgerald (rpf) at Carnegie-Mellon University
+.\"	Created.
+.\"
+.TH WH 1 3/5/86
+.CM 4
+.SH "NAME"
+wh \- search for files along a path
+.SH "SYNOPSIS"
+wh [-CLMP] [-p path] [-qRX] [--lsoptions] [-f name] [name]
+.SH "DESCRIPTION"
+.I 
+Wh
+is a program that looks down paths for instances of files whose
+names match specified patterns.
+For each pattern,
+.I 
+wh
+normally searches the entire path specified by PATH for matching files,
+using expand(3) to do wildcard expansion in each directory on the path
+and invoking ls(1) to display the names of the files found.
+.I 
+Wh
+is capable of searching down other paths,
+stopping the search for a name after finding files that match it,
+and of displaying the file names found in a format recognized by
+emacs(1) as error messages.
+
+The command line to
+.I 
+wh
+consists of file name patterns and options.
+.I 
+Wh
+processes its command line from left to right,
+so an option applies only to file names to the right of the option.
+Some options are recognized by
+.I 
+wh
+and modify its behavior.
+All others are passed as formatting options to ls(1).
+
+The options known to
+.I 
+wh
+are:
+.TP
+-C
+causes
+.I 
+wh
+to search down the path specified by 
+CPATH.
+.TP
+-L
+causes
+.I 
+wh
+to search down the path specified by 
+LPATH.
+.TP
+-M
+causes
+.I 
+wh
+to search down the path specified by 
+MPATH.
+.TP
+-P
+causes
+.I 
+wh
+to search down the path specified by 
+PATH.
+.TP
+-p path
+causes
+.I 
+wh
+to search down the path contained in the environment variable named
+.I 
+path.
+.TP
+-q
+causes
+.I 
+wh
+to stop searching after it finds the first file matching
+the name pattern.
+.TP
+-R
+causes
+.I 
+wh
+to search recursively through the directory trees rooted
+along the search path.
+.TP
+-X
+causes the file names to be shown in emacs(1) error messages.
+.TP
+--options
+causes
+.I 
+-options
+to be passed to ls(1) (in case
+.I 
+options
+contains switches such as 'C' that are interpreted by
+.I 
+wh.
+.TP
+-f name
+causes the current path to be searched for files named
+.I 
+name
+(in case
+.I 
+name
+begins with a '\-').
+.TP
+name
+.br
+causes the current path to be searched for files named
+.I 
+name.
+.i0
+.DT
+.PP
+.SH "ENVIRONMENT"
+.TP
+CPATH
+the path searched at compile time to find included files.
+.TP
+LPATH
+the path searched at link time to find loader libraries.
+.TP
+MPATH
+the path searched for entries in the UNIX online manual.
+.TP
+PATH
+.br
+the path searched for programs to execute.
+.i0
+.DT
+.PP
+.SH "SEE ALSO"
+ls(1)
+path(3)
+expand(3)
+sh(1)
+key(1)
+man(1)
+.SH "EXAMPLES"
+.TP
+wh ls
+searches along PATH for instances of
+.I 
+ls
+(the program for listing the contents of directories).
+.TP
+wh -qC stdio.h sys/enet.h sys/ioctl.h
+searches CPATH for the three files indicated, stopping at the
+first instance of each file found.
+.TP
+wh -lC '*.h'
+searches CPATH for all files with the extension ".h",
+displaying a long listing for each file found.
+.TP
+wh -RC types.h
+searches CPATH recursively for types.h
+(programs must #include <sys/types.h>).
+.TP
+wh --lC '*sh'
+searches PATH for all files whose names end with "sh",
+displaying a long, multi-column listing for each file found.
+.TP
+wh -MR 'foo.?'
+searches recursively along MPATH, presumably for entries on "foo"
+in the Unix on-line manual.
+.i0
+.DT
+.PP
+.SH "QUIRKS"
+The usual caveats about getting wildcards through the shell
+apply.  It may be necessary to quote file name patterns
+containing wildcards to prevent sh(1) from expanding them
+before passing them to
+.I 
+wh.
+
+.I 
+Wh
+searches only for file names, it ignores file modes
+(i.e. file protection bits).
+.I 
+Wh
+may therefore return the name of a file that cannot be used as intended.
+For instance, a search down PATH may find a file that is not executable
+or a search down CPATH may find a file that is not readable.
+It is currently advisable to check the file mode manually
+by passing the -l switch to ls(1).
+
+Some ls(1) formatting options (-qfC) collide with options recognized by
+.I 
+wh
+and are accessible only via the escape mechanism (--qfC).
+
+Searching down MPATH generally requires the -R option
+because most entries are in subdirectories of the roots listed in MPATH.
+Key(1) or man(1) are better ways to find entries in the Unix online manual.
+
+Quitting at the first find (-q) is not well-defined for recursive (-R)
+searches, as the order of traversing the directory tree is not predictable.
+
+The depth of recursive searches is bounded by the number of directory files
+that can be open simultaneously.

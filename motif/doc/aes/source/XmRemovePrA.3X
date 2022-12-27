@@ -1,0 +1,82 @@
+.\" **
+.\" **
+.\" **  (c) Copyright 1989, 1990, 1991 Open Software Foundation, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company
+.\" **
+.\" **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,
+.\" **      Maynard, MA.  All Rights Reserved.
+.\" **
+.\" **
+.TH XmRemoveProtocolCallback 3X "" "" "" ""
+.SH NAME
+\fBXmRemoveProtocolCallback \(em a VendorShell function that removes
+a callback from the internal list.\fP
+.iX "XmRemoveProtocolCallback"
+.iX "VendorShell functions" "XmRemoveProtocolCallback"
+.iX "protocols"
+.sp 1
+.sp .5
+.SH "AES SUPPORT LEVEL"
+Trial-use
+.SH SYNOPSIS
+\fB
+\&#include <Xm/Xm.h>
+.br
+\&#include <X11/Protocols.h>
+.sp 1
+void XmRemoveProtocolCallback (\fIshell, property, protocol, callback, closure\fP)
+.br
+.ta .5i 1.75i
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIproperty\fP;
+.br
+	Atom	\fIprotocol\fP;
+.br
+	XtCallbackProc	\fIcallback\fP;
+.br
+	caddr_t	\fIclosure\fP;
+.sp 1
+void XmRemoveWMProtocolCallback (\fIshell, protocol, callback, closure\fP)
+.br
+	Widget	\fIshell\fP;
+.br
+	Atom	\fIprotocol\fP;
+.br
+	XtCallbackProc	\fIcallback\fP;
+.br
+	caddr_t	\fIclosure\fP;
+.fi
+\fP
+.br
+.ne 8
+.SH DESCRIPTION
+\fBXmRemoveProtocolCallback\fP removes a callback from the internal list.  
+.PP
+\fBXmRemoveWMProtocolCallback\fP is a convenience interface.  
+It calls \fBXmRemoveProtocolCallback\fP 
+with the property value set to the atom returned by
+interning \fBWM_PROTOCOLS\fP.
+.sp 1
+.IP "\fIshell\fP" .75i
+Specifies the widget with which the protocol property is associated
+.IP "\fIproperty\fP" .75i
+Specifies the protocol property
+.IP "\fIprotocol\fP" .75i
+Specifies the protocol atom (or an int cast to Atom)
+.IP "\fIcallback\fP" .75i
+Specifies the procedure to call when a protocol message is received
+.IP "\fIclosure\fP" .75i
+Specifies the client data to be passed to the callback when it is invoked
+.sp 1
+.PP
+For a complete definition of VendorShell and its associated resources, see
+\fBVendorShell(3X)\fP.
+.sp 1
+.SH RELATED INFORMATION
+.na
+\fBVendorShell(3X)\fP,
+\fBXmInternAtom(3X)\fP, and \fBXmRemoveWMProtocolCallback(3X)\fP.
+.ad

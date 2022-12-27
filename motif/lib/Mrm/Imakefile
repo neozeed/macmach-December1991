@@ -1,0 +1,34 @@
+INSTALLFLAGS = $(INSTINCFLAGS)
+INCLUDES = -I. -I$(TOP) -I$(MTOOLKITSRC) -I$(LIBSRC)
+
+SRCS =	MrmIbuffer.c	MrmIentry.c	MrmIfile.c	MrmIheader.c \
+	MrmIindex.c	MrmIindexw.c	MrmIrid.c	MrmItop.c \
+	MrmItopw.c	Mrmappl.c \
+	Mrmcontext.c	Mrmerror.c	Mrmhier.c	Mrmicon.c \
+	Mrminit.c	Mrmlread.c	Mrmlwrite.c	Mrmmodule.c \
+	Mrmptrlist.c	Mrmtable.c	Mrmtime.c	Mrmvm.c \
+	Mrmwci.c	Mrmwcrw.c	Mrmwcrwr.c	Mrmwread.c \
+	Mrmwrefs.c	Mrmwvalues.c	Mrmwwrite.c
+
+OBJS =	MrmIbuffer.o	MrmIentry.o	MrmIfile.o	MrmIheader.o \
+	MrmIindex.o	MrmIindexw.o	MrmIrid.o	MrmItop.o \
+	MrmItopw.o	Mrmappl.o \
+	Mrmcontext.o	Mrmerror.o	Mrmhier.o	Mrmicon.o \
+	Mrminit.o	Mrmlread.o	Mrmlwrite.o	Mrmmodule.o \
+	Mrmptrlist.o	Mrmtable.o	Mrmtime.o	Mrmvm.o \
+	Mrmwci.o	Mrmwcrw.o	Mrmwcrwr.o	Mrmwread.o \
+	Mrmwrefs.o	Mrmwvalues.o	Mrmwwrite.o
+
+HEADERS = MrmDecls.h	MrmPublic.h	MrmAppl.h
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(Mrm,$(OBJS))
+LintLibraryTarget(Mrm,$(SRCS))
+
+install ::
+	-mkdir $(USRINCDIR)/Mrm
+
+InstallLibrary(Mrm,$(USRLIBDIR))
+InstallLintLibrary(Mrm,$(LINTLIBDIR))
+InstallMultiple($(HEADERS),$(USRINCDIR)/Mrm)
+DependTarget()
